@@ -38,7 +38,7 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 import javax.websocket.server.ServerContainer;
 
-import org.apache.commons.configuration.MapConfiguration;
+import org.apache.commons.configuration2.MapConfiguration;
 import org.owasp.encoder.Encode;
 
 import com.ibm.fhir.cache.CachingProxy;

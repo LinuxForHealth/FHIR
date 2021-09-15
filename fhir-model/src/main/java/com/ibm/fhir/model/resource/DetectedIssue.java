@@ -57,6 +57,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/detectedissue-category",
     expression = "code.exists() implies (code.memberOf('http://hl7.org/fhir/ValueSet/detectedissue-category', 'preferred'))",
+    source = "http://hl7.org/fhir/StructureDefinition/DetectedIssue",
     generated = true
 )
 @Constraint(
@@ -65,6 +66,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "mitigation.action",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/detectedissue-mitigation-action",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/detectedissue-mitigation-action', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/DetectedIssue",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

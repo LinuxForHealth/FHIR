@@ -35,7 +35,6 @@ import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.HTTPVerb;
-import com.ibm.fhir.server.test.SearchAllTest;
 
 /**
  * Tests the US Core 3.1.1 Profile with Practitioner and PractitionerRole
@@ -116,7 +115,7 @@ public class USCorePractitionerAndPractitionerRoleTest extends ProfilesTestBase 
         String method = "loadBundle1";
         if (DEBUG) {
             Bundle responseBundle = getEntityWithExtraWork(response, method);
-            SearchAllTest.generateOutput(responseBundle);
+            printOutResource(DEBUG, responseBundle);
         }
 
         response = target.path("Practitioner/" + practitionerId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();

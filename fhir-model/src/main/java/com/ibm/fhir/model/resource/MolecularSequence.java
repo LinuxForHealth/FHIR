@@ -58,21 +58,24 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "Only 0 and 1 are valid for coordinateSystem",
-    expression = "coordinateSystem = 1 or coordinateSystem = 0"
+    expression = "coordinateSystem = 1 or coordinateSystem = 0",
+    source = "http://hl7.org/fhir/StructureDefinition/MolecularSequence"
 )
 @Constraint(
     id = "msq-5",
     level = "Rule",
     location = "MolecularSequence.referenceSeq",
     description = "GenomeBuild and chromosome must be both contained if either one of them is contained",
-    expression = "(chromosome.empty() and genomeBuild.empty()) or (chromosome.exists() and genomeBuild.exists())"
+    expression = "(chromosome.empty() and genomeBuild.empty()) or (chromosome.exists() and genomeBuild.exists())",
+    source = "http://hl7.org/fhir/StructureDefinition/MolecularSequence"
 )
 @Constraint(
     id = "msq-6",
     level = "Rule",
     location = "MolecularSequence.referenceSeq",
     description = "Have and only have one of the following elements in referenceSeq : 1. genomeBuild ; 2 referenceSeqId; 3. referenceSeqPointer;  4. referenceSeqString;",
-    expression = "(genomeBuild.count()+referenceSeqId.count()+ referenceSeqPointer.count()+ referenceSeqString.count()) = 1"
+    expression = "(genomeBuild.count()+referenceSeqId.count()+ referenceSeqPointer.count()+ referenceSeqString.count()) = 1",
+    source = "http://hl7.org/fhir/StructureDefinition/MolecularSequence"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MolecularSequence extends DomainResource {

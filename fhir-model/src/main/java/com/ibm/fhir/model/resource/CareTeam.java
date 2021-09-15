@@ -53,7 +53,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "CareTeam.participant",
     description = "CareTeam.participant.onBehalfOf can only be populated when CareTeam.participant.member is a Practitioner",
-    expression = "onBehalfOf.exists() implies (member.resolve().iif(empty(), true, ofType(Practitioner).exists()))"
+    expression = "onBehalfOf.exists() implies (member.resolve().iif(empty(), true, ofType(Practitioner).exists()))",
+    source = "http://hl7.org/fhir/StructureDefinition/CareTeam"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class CareTeam extends DomainResource {

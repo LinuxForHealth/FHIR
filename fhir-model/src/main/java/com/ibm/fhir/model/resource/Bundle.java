@@ -52,77 +52,88 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "total only when a search or history",
-    expression = "total.empty() or (type = 'searchset') or (type = 'history')"
+    expression = "total.empty() or (type = 'searchset') or (type = 'history')",
+    source = "http://hl7.org/fhir/StructureDefinition/Bundle"
 )
 @Constraint(
     id = "bdl-2",
     level = "Rule",
     location = "(base)",
     description = "entry.search only when a search",
-    expression = "entry.search.empty() or (type = 'searchset')"
+    expression = "entry.search.empty() or (type = 'searchset')",
+    source = "http://hl7.org/fhir/StructureDefinition/Bundle"
 )
 @Constraint(
     id = "bdl-3",
     level = "Rule",
     location = "(base)",
     description = "entry.request mandatory for batch/transaction/history, otherwise prohibited",
-    expression = "entry.all(request.exists() = (%resource.type = 'batch' or %resource.type = 'transaction' or %resource.type = 'history'))"
+    expression = "entry.all(request.exists() = (%resource.type = 'batch' or %resource.type = 'transaction' or %resource.type = 'history'))",
+    source = "http://hl7.org/fhir/StructureDefinition/Bundle"
 )
 @Constraint(
     id = "bdl-4",
     level = "Rule",
     location = "(base)",
     description = "entry.response mandatory for batch-response/transaction-response/history, otherwise prohibited",
-    expression = "entry.all(response.exists() = (%resource.type = 'batch-response' or %resource.type = 'transaction-response' or %resource.type = 'history'))"
+    expression = "entry.all(response.exists() = (%resource.type = 'batch-response' or %resource.type = 'transaction-response' or %resource.type = 'history'))",
+    source = "http://hl7.org/fhir/StructureDefinition/Bundle"
 )
 @Constraint(
     id = "bdl-5",
     level = "Rule",
     location = "Bundle.entry",
     description = "must be a resource unless there's a request or response",
-    expression = "resource.exists() or request.exists() or response.exists()"
+    expression = "resource.exists() or request.exists() or response.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/Bundle"
 )
 @Constraint(
     id = "bdl-7",
     level = "Rule",
     location = "(base)",
     description = "FullUrl must be unique in a bundle, or else entries with the same fullUrl must have different meta.versionId (except in history bundles)",
-    expression = "(type = 'history') or entry.where(fullUrl.exists()).select(fullUrl&resource.meta.versionId).isDistinct()"
+    expression = "(type = 'history') or entry.where(fullUrl.exists()).select(fullUrl&resource.meta.versionId).isDistinct()",
+    source = "http://hl7.org/fhir/StructureDefinition/Bundle"
 )
 @Constraint(
     id = "bdl-8",
     level = "Rule",
     location = "Bundle.entry",
     description = "fullUrl cannot be a version specific reference",
-    expression = "fullUrl.contains('/_history/').not()"
+    expression = "fullUrl.contains('/_history/').not()",
+    source = "http://hl7.org/fhir/StructureDefinition/Bundle"
 )
 @Constraint(
     id = "bdl-9",
     level = "Rule",
     location = "(base)",
     description = "A document must have an identifier with a system and a value",
-    expression = "type = 'document' implies (identifier.system.exists() and identifier.value.exists())"
+    expression = "type = 'document' implies (identifier.system.exists() and identifier.value.exists())",
+    source = "http://hl7.org/fhir/StructureDefinition/Bundle"
 )
 @Constraint(
     id = "bdl-10",
     level = "Rule",
     location = "(base)",
     description = "A document must have a date",
-    expression = "type = 'document' implies (timestamp.hasValue())"
+    expression = "type = 'document' implies (timestamp.hasValue())",
+    source = "http://hl7.org/fhir/StructureDefinition/Bundle"
 )
 @Constraint(
     id = "bdl-11",
     level = "Rule",
     location = "(base)",
     description = "A document must have a Composition as the first resource",
-    expression = "type = 'document' implies entry.first().resource.is(Composition)"
+    expression = "type = 'document' implies entry.first().resource.is(Composition)",
+    source = "http://hl7.org/fhir/StructureDefinition/Bundle"
 )
 @Constraint(
     id = "bdl-12",
     level = "Rule",
     location = "(base)",
     description = "A message must have a MessageHeader as the first resource",
-    expression = "type = 'message' implies entry.first().resource.is(MessageHeader)"
+    expression = "type = 'message' implies entry.first().resource.is(MessageHeader)",
+    source = "http://hl7.org/fhir/StructureDefinition/Bundle"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Bundle extends Resource {

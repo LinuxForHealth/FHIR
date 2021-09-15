@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2021
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -36,13 +36,14 @@ public abstract class FHIRClientTestBase {
     protected FHIRClient clientOAuth2 = null;
 
     public FHIRClientTestBase() {
+        // No Operation
     }
 
     /**
      * Do one-time setup to enable tests to run.
      */
     @BeforeClass
-    public void setUp() throws Exception {
+    public void setup() throws Exception {
         testProperties = TestUtil.readTestProperties("test.properties");
         testPropertiesOAuth2 = TestUtil.readTestProperties("test.oauth2.properties");
     }

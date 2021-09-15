@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -40,6 +40,7 @@ import com.ibm.fhir.database.utils.model.IdentityDef;
 import com.ibm.fhir.database.utils.model.IntColumn;
 import com.ibm.fhir.database.utils.model.PrimaryKeyDef;
 import com.ibm.fhir.database.utils.model.Table;
+import com.ibm.fhir.database.utils.model.With;
 import com.ibm.fhir.database.utils.transaction.TransactionFactory;
 
 /**
@@ -69,7 +70,7 @@ public class Db2Adapter extends CommonDatabaseAdapter {
 
     @Override
     public void createTable(String schemaName, String name, String tenantColumnName, List<ColumnBase> columns, PrimaryKeyDef primaryKey,
-            IdentityDef identity, String tablespaceName) {
+            IdentityDef identity, String tablespaceName, List<With> withs) {
 
         // With DB2 we can implement support for multi-tenancy, which we do by injecting a MT_ID column
         // to the definition and partitioning on that column
@@ -93,7 +94,7 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         // Now append all the actual columns we want in the table
         cols.addAll(columns);
 
-        String ddl = buildCreateTableStatement(schemaName, name, cols, primaryKey, identity, tablespaceName);
+        String ddl = buildCreateTableStatement(schemaName, name, cols, primaryKey, identity, tablespaceName, With.EMPTY);
 
         // Our multi-tenant tables are range-partitioned as part of our data isolation strategy
         // We reserve partition 0. Real tenant partitions start at 1...

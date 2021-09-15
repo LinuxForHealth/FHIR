@@ -33,7 +33,6 @@ import com.ibm.fhir.client.FHIRParameters;
 import com.ibm.fhir.client.FHIRRequestHeader;
 import com.ibm.fhir.client.FHIRResponse;
 import com.ibm.fhir.core.FHIRMediaType;
-import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.resource.AllergyIntolerance;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Bundle.Entry;
@@ -62,11 +61,9 @@ import com.ibm.fhir.model.type.Quantity;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.AdministrativeGender;
-import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.util.FHIRUtil;
 
 public class SearchTest extends FHIRServerTestBase {
-
     private static final boolean DEBUG_SEARCH = false;
     private static final String PREFER_HEADER_RETURN_REPRESENTATION = "return=representation";
     private static final String PREFER_HEADER_NAME = "Prefer";
@@ -82,7 +79,7 @@ public class SearchTest extends FHIRServerTestBase {
     private String organizationId;
     private String carePlanId;
     private String conditionId;
-    private Patient patient4DuplicationTest = null;
+    private Patient patientForDuplicationTest = null;
     // Some of the tests run with tenant1 and datastore study1;
     // The others run with the default tenant and the default datastore.
     private final String tenantName = "tenant1";
@@ -105,7 +102,7 @@ public class SearchTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new Organization and then call the 'create' API.
-        Organization organization = TestUtil.getMinimalResource(ResourceType.ORGANIZATION, Format.JSON);
+        Organization organization = TestUtil.getMinimalResource(Organization.class);
 
         organization = organization.toBuilder().name(com.ibm.fhir.model.type.String.of("test")).build();
         Entity<Organization> entity =
@@ -686,9 +683,7 @@ public class SearchTest extends FHIRServerTestBase {
         Observation responseObservation =
                 response.readEntity(Observation.class);
 
-        if (DEBUG_SEARCH) {
-            SearchAllTest.generateOutput(responseObservation);
-        }
+        printOutResource(DEBUG_SEARCH, responseObservation);
 
         // use it for search
         observationId = responseObservation.getId();
@@ -843,13 +838,7 @@ public class SearchTest extends FHIRServerTestBase {
 
         boolean result = false;
         for (Bundle.Entry entry : bundle.getEntry()) {
-
-            if (DEBUG_SEARCH) {
-
-                SearchAllTest.generateOutput(entry.getResource());
-                System.out.println(result + " "
-                        + FHIRUtil.hasTag(entry.getResource(), subsettedTag));
-            }
+            printOutResource(DEBUG_SEARCH, entry.getResource());
 
             result = result
                     || FHIRUtil.hasTag(entry.getResource(), subsettedTag);
@@ -1156,17 +1145,17 @@ public class SearchTest extends FHIRServerTestBase {
     public void testSearchObservationCodeGTSystem() {
         WebTarget target = getWebTarget();
         Response response =
-                target.path("Observation").queryParam("component-value-quantity", "gt123.0||mmHg")
-                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
-                .header("X-FHIR-TENANT-ID", tenantName)
-                .header("X-FHIR-DSID", dataStoreId)
-                .get();
+                target.path("Observation")
+                        .queryParam("component-value-quantity", "gt123.0||mmHg")
+                        .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                        .header("X-FHIR-TENANT-ID", tenantName)
+                        .header("X-FHIR-DSID", dataStoreId)
+                        .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
-        if (DEBUG_SEARCH) {
-            SearchAllTest.generateOutput(bundle);
-        }
+        printOutResource(DEBUG_SEARCH, bundle);
+
         assertTrue(bundle.getEntry().size() >= 1);
         for (Entry entry : bundle.getEntry()) {
             Observation observation = ((Observation) entry.getResource());
@@ -1232,12 +1221,9 @@ public class SearchTest extends FHIRServerTestBase {
                 client._search("Observation", parameters, tenantHeader, dsHeader, preferStrictHeader);
         assertResponse(response.getResponse(), Response.Status.BAD_REQUEST.getStatusCode());
 
-        if (DEBUG_SEARCH) {
-            SearchAllTest.generateOutput(response.getResource(OperationOutcome.class));
-        }
-
-        assertExceptionOperationOutcome(response.getResource(OperationOutcome.class),
-                "Search parameter 'category' for resource type 'Observation' was not found.");
+        OperationOutcome oo = response.getResource(OperationOutcome.class);
+        printOutResource(DEBUG_SEARCH, oo);
+        assertExceptionOperationOutcome(oo, "Search parameter 'category' for resource type 'Observation' was not found.");
     }
 
     @Test(groups = { "server-search" }, dependsOnMethods = {"testCreateObservation" })
@@ -1364,6 +1350,25 @@ public class SearchTest extends FHIRServerTestBase {
         assertNotNull(bundle);
         assertNull(bundle.getTotal());
         assertTrue(bundle.getEntry().size() == 1);
+        assertNotNull(getSelfLink(bundle));
+        assertNull(getNextLink(bundle));
+    }
+
+    @Test(groups = { "server-search" }, dependsOnMethods = {"testCreatePractitioner" })
+    public void testSearchPractitioner_total_none_exact_count() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Practitioner").queryParam("_id", practitionerId)
+                .queryParam("_count", "1")
+                .queryParam("_total", "none")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertNull(bundle.getTotal());
+        assertTrue(bundle.getEntry().size() == 1);
+        assertNotNull(getSelfLink(bundle));
+        assertNotNull(getNextLink(bundle));
     }
 
     @Test(groups = { "server-search" }, dependsOnMethods = {"testCreatePractitioner" })
@@ -1398,13 +1403,14 @@ public class SearchTest extends FHIRServerTestBase {
     public void testSearchObservationWithSubjectIncluded_summary_text() {
         WebTarget target = getWebTarget();
         Response response =
-                target.path("Observation").queryParam("subject", "Patient/"+ patientId)
-                .queryParam("_include", "Observation:subject")
-                .queryParam("_summary", "text")
-                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
-                .header("X-FHIR-TENANT-ID", tenantName)
-                .header("X-FHIR-DSID", dataStoreId)
-                .get();
+                target.path("Observation")
+                        .queryParam("subject", "Patient/"+ patientId)
+                        .queryParam("_include", "Observation:subject")
+                        .queryParam("_summary", "text")
+                        .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                        .header("X-FHIR-TENANT-ID", tenantName)
+                        .header("X-FHIR-DSID", dataStoreId)
+                        .get();
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
         assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class),
                 "_include and _revinclude are not supported with '_summary=text'");
@@ -1464,14 +1470,13 @@ public class SearchTest extends FHIRServerTestBase {
                         .build())
                 .build();
 
-
         Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Patient").request()
                 .header(PREFER_HEADER_NAME, PREFER_HEADER_RETURN_REPRESENTATION)
                 .post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
-        patient4DuplicationTest = response.readEntity(Patient.class);
-        assertNotNull(patient4DuplicationTest);
+        patientForDuplicationTest = response.readEntity(Patient.class);
+        assertNotNull(patientForDuplicationTest);
 
     }
 
@@ -1504,7 +1509,7 @@ public class SearchTest extends FHIRServerTestBase {
             for (Bundle.Entry entry : bundle.getEntry()) {
                 lstRes.add(entry.getResource());
             }
-            assertTrue(isResourceInResponse(patient4DuplicationTest, lstRes));
+            assertTrue(isResourceInResponse(patientForDuplicationTest, lstRes));
         } else {
             // Just in case there are more than 1000 matches, then simply verify that there is
             // no duplicated resource in the search results, Just need to do the verification for the second run.
@@ -1544,7 +1549,7 @@ public class SearchTest extends FHIRServerTestBase {
             for (Bundle.Entry entry : bundle.getEntry()) {
                 lstRes.add(entry.getResource());
             }
-            assertTrue(isResourceInResponse(patient4DuplicationTest, lstRes));
+            assertTrue(isResourceInResponse(patientForDuplicationTest, lstRes));
         } else {
             // Just in case there are more than 1000 matches, then simply verify that there is
             // no duplicated resource in the search results, Just need to do the verification for the second run.
@@ -1583,7 +1588,7 @@ public class SearchTest extends FHIRServerTestBase {
             for (Bundle.Entry entry : bundle.getEntry()) {
                 lstRes.add(entry.getResource());
             }
-            assertTrue(isResourceInResponse(patient4DuplicationTest, lstRes));
+            assertTrue(isResourceInResponse(patientForDuplicationTest, lstRes));
         } else {
             // Just in case there are more than 1000 matches, then simply verify that there is
             // no duplicated resource in the search results, Just need to do the verification for the second run.
@@ -1622,7 +1627,7 @@ public class SearchTest extends FHIRServerTestBase {
             for (Bundle.Entry entry : bundle.getEntry()) {
                 lstRes.add(entry.getResource());
             }
-            assertTrue(isResourceInResponse(patient4DuplicationTest, lstRes));
+            assertTrue(isResourceInResponse(patientForDuplicationTest, lstRes));
         } else {
             // Just in case there are more than 1000 matches, then simply verify that there is
             // no duplicated resource in the search results, Just need to do the verification for the second run.
@@ -1667,9 +1672,7 @@ public class SearchTest extends FHIRServerTestBase {
         PractitionerRole responsePractitionerRole =
                 response.readEntity(PractitionerRole.class);
 
-        if (DEBUG_SEARCH) {
-            SearchAllTest.generateOutput(responsePractitionerRole);
-        }
+        printOutResource(DEBUG_SEARCH, responsePractitionerRole);
 
         // use it for search
         practitionerRoleId = responsePractitionerRole.getId();
@@ -1704,9 +1707,7 @@ public class SearchTest extends FHIRServerTestBase {
         Practitioner responsePractitioner =
                 response.readEntity(Practitioner.class);
 
-        if (DEBUG_SEARCH) {
-            SearchAllTest.generateOutput(responsePractitioner);
-        }
+        printOutResource(DEBUG_SEARCH, responsePractitioner);
 
         // use it for search
         practitionerId2 = responsePractitioner.getId();
@@ -1748,9 +1749,7 @@ public class SearchTest extends FHIRServerTestBase {
         AllergyIntolerance responseAllergyIntolerance =
                 response.readEntity(AllergyIntolerance.class);
 
-        if (DEBUG_SEARCH) {
-            SearchAllTest.generateOutput(responseAllergyIntolerance);
-        }
+        printOutResource(DEBUG_SEARCH, responseAllergyIntolerance);
 
         // use it for search
         allergyIntoleranceId = responseAllergyIntolerance.getId();
@@ -1790,9 +1789,7 @@ public class SearchTest extends FHIRServerTestBase {
         Provenance responseProvenance =
                 response.readEntity(Provenance.class);
 
-        if (DEBUG_SEARCH) {
-            SearchAllTest.generateOutput(responseProvenance);
-        }
+        printOutResource(DEBUG_SEARCH, responseProvenance);
 
         // use it for search
         provenanceId = responseProvenance.getId();
@@ -1804,13 +1801,13 @@ public class SearchTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         Response response =
                 target.path("AllergyIntolerance")
-                .queryParam("patient", "Patient/" + patientId)
-                .queryParam("_include", "AllergyIntolerance:*:Patient", "AllergyIntolerance:*:Practitioner", "AllergyIntolerance:*:PractitionerRole")
-                .queryParam("_revinclude", "Provenance:*")
-                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
-                .header("X-FHIR-TENANT-ID", tenantName)
-                .header("X-FHIR-DSID", dataStoreId)
-                .get();
+                        .queryParam("patient", "Patient/" + patientId)
+                        .queryParam("_include", "AllergyIntolerance:*:Patient", "AllergyIntolerance:*:Practitioner", "AllergyIntolerance:*:PractitionerRole")
+                        .queryParam("_revinclude", "Provenance:*")
+                        .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                        .header("X-FHIR-TENANT-ID", tenantName)
+                        .header("X-FHIR-DSID", dataStoreId)
+                        .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
@@ -2143,9 +2140,7 @@ public class SearchTest extends FHIRServerTestBase {
         Condition responseCondition =
                 response.readEntity(Condition.class);
 
-        if (DEBUG_SEARCH) {
-            SearchAllTest.generateOutput(responseCondition);
-        }
+        printOutResource(DEBUG_SEARCH, responseCondition);
 
         // use it for search
         conditionId = responseCondition.getId();
@@ -2164,9 +2159,7 @@ public class SearchTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
-        if (DEBUG_SEARCH) {
-            SearchAllTest.generateOutput(bundle);
-        }
+        printOutResource(DEBUG_SEARCH, bundle);
         assertTrue(bundle.getEntry().size() >= 1);
         for (Entry entry : bundle.getEntry()) {
             Condition condition = ((Condition) entry.getResource());
@@ -2196,9 +2189,7 @@ public class SearchTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
-        if (DEBUG_SEARCH) {
-            SearchAllTest.generateOutput(bundle);
-        }
+        printOutResource(DEBUG_SEARCH, bundle);
         assertTrue(bundle.getEntry().size() >= 1);
         for (Entry entry : bundle.getEntry()) {
             Condition condition = ((Condition) entry.getResource());
@@ -2231,9 +2222,7 @@ public class SearchTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
-        if (DEBUG_SEARCH) {
-            SearchAllTest.generateOutput(bundle);
-        }
+        printOutResource(DEBUG_SEARCH, bundle);
         assertEquals(bundle.getEntry().size(), 0);
     }
 
@@ -2251,9 +2240,7 @@ public class SearchTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
-        if (DEBUG_SEARCH) {
-            SearchAllTest.generateOutput(bundle);
-        }
+        printOutResource(DEBUG_SEARCH, bundle);
         assertEquals(bundle.getEntry().size(), 0);
     }
 
@@ -2270,9 +2257,7 @@ public class SearchTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
-        if (DEBUG_SEARCH) {
-            SearchAllTest.generateOutput(bundle);
-        }
+        printOutResource(DEBUG_SEARCH, bundle);
         assertTrue(bundle.getEntry().size() >= 1);
 
         response =
@@ -2285,9 +2270,7 @@ public class SearchTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
-        if (DEBUG_SEARCH) {
-            SearchAllTest.generateOutput(bundle);
-        }
+        printOutResource(DEBUG_SEARCH, bundle);
         assertTrue(bundle.getEntry().isEmpty());
 
         response =
@@ -2300,9 +2283,7 @@ public class SearchTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
-        if (DEBUG_SEARCH) {
-            SearchAllTest.generateOutput(bundle);
-        }
+        printOutResource(DEBUG_SEARCH, bundle);
         assertTrue(bundle.getEntry().size() >= 1);
 
         response =
@@ -2315,9 +2296,7 @@ public class SearchTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
-        if (DEBUG_SEARCH) {
-            SearchAllTest.generateOutput(bundle);
-        }
+        printOutResource(DEBUG_SEARCH, bundle);
         assertTrue(bundle.getEntry().isEmpty());
 
         response =
@@ -2330,9 +2309,7 @@ public class SearchTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
-        if (DEBUG_SEARCH) {
-            SearchAllTest.generateOutput(bundle);
-        }
+        printOutResource(DEBUG_SEARCH, bundle);
         assertTrue(bundle.getEntry().size() >= 1);
 
         response =
@@ -2345,9 +2322,7 @@ public class SearchTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
-        if (DEBUG_SEARCH) {
-            SearchAllTest.generateOutput(bundle);
-        }
+        printOutResource(DEBUG_SEARCH, bundle);
         assertTrue(bundle.getEntry().size() >= 1);
 
         response =
@@ -2360,9 +2335,7 @@ public class SearchTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
-        if (DEBUG_SEARCH) {
-            SearchAllTest.generateOutput(bundle);
-        }
+        printOutResource(DEBUG_SEARCH, bundle);
         assertTrue(bundle.getEntry().size() >= 1);
     }
 
@@ -2379,9 +2352,7 @@ public class SearchTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
-        if (DEBUG_SEARCH) {
-            SearchAllTest.generateOutput(bundle);
-        }
+        printOutResource(DEBUG_SEARCH, bundle);
         assertTrue(bundle.getEntry().size() >= 1);
 
         response =
@@ -2394,24 +2365,37 @@ public class SearchTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
-        if (DEBUG_SEARCH) {
-            SearchAllTest.generateOutput(bundle);
-        }
+        printOutResource(DEBUG_SEARCH, bundle);
         assertTrue(bundle.getEntry().size() >= 1);
 
         response =
                 target.path("Condition")
-                .queryParam("evidence", "http://terminology.hl7.org/CodeSystem/v3-ObservationValue|")
-                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
-                .header("X-FHIR-TENANT-ID", tenantName)
-                .header("X-FHIR-DSID", dataStoreId)
-                .get();
+                    .queryParam("evidence", "http://terminology.hl7.org/CodeSystem/v3-ObservationValue|")
+                    .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                    .header("X-FHIR-TENANT-ID", tenantName)
+                    .header("X-FHIR-DSID", dataStoreId)
+                    .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
-        if (DEBUG_SEARCH) {
-            SearchAllTest.generateOutput(bundle);
-        }
+        printOutResource(DEBUG_SEARCH, bundle);
         assertTrue(bundle.getEntry().size() >= 1);
+    }
+
+    @Test(groups = { "server-search" })
+    public void testSearchWithTenant2_OverrideUri() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Patient")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", "tenant1")
+                .header("X-FHIR-DSID", "profile")
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        this.printOutResource(true, bundle);
+        assertNotNull(bundle);
+        String selfLink = getSelfLink(bundle);
+        assertEquals(selfLink, "https://chocolate.fudge/Patient?_count=11&_page=1");
     }
 }

@@ -41,7 +41,6 @@ import com.ibm.fhir.persistence.jdbc.connection.QueryHints;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.persistence.jdbc.util.type.LastUpdatedParmBehaviorUtil;
-import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.parameters.SortParameter;
 import com.ibm.fhir.search.sort.Sort;
 
@@ -50,6 +49,7 @@ import com.ibm.fhir.search.sort.Sort;
  * QuerySegmentAggregator to build a FHIR Resource query
  * that produces sorted search results.
  */
+@Deprecated
 public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
     private static final String CLASSNAME = SortedQuerySegmentAggregator.class.getName();
     private static final Logger log = java.util.logging.Logger.getLogger(CLASSNAME);
@@ -211,7 +211,8 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
         StringBuilder expression = new StringBuilder();
         List<String> valueAttributeNames;
 
-        if (PROFILE.equals(sortParm.getCode()) || SECURITY.equals(sortParm.getCode()) || TAG.equals(sortParm.getCode())) {
+        if (!this.legacyWholeSystemSearchParamsEnabled &&
+                (PROFILE.equals(sortParm.getCode()) || SECURITY.equals(sortParm.getCode()) || TAG.equals(sortParm.getCode()))) {
             valueAttributeNames = Collections.singletonList(TOKEN_VALUE);
         } else {
             valueAttributeNames = this.getValueAttributeNames(sortParm);
@@ -316,7 +317,8 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
         int sortParmIndex = 1;
         for (SortParameter sortParm : this.sortParameters) {
             if (!LAST_UPDATED.equals(sortParm.getCode())) {
-                if (PROFILE.equals(sortParm.getCode()) || SECURITY.equals(sortParm.getCode()) || TAG.equals(sortParm.getCode())) {
+                if (!this.legacyWholeSystemSearchParamsEnabled &&
+                        (PROFILE.equals(sortParm.getCode()) || SECURITY.equals(sortParm.getCode()) || TAG.equals(sortParm.getCode()))) {
                     // For a sort by _tag or _profile or _security, we need to join the parameter-specific token
                     // table with the common token values table.
                     joinBuffer.append(" LEFT OUTER JOIN ").append(this.getSortParameterTableName(sortParm)).append(SPACE)
@@ -382,7 +384,7 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
         switch (sortParm.getType()) {
         case URI:
         case STRING:
-            if (PROFILE.equals(sortParm.getCode())) {
+            if (!this.legacyWholeSystemSearchParamsEnabled && PROFILE.equals(sortParm.getCode())) {
                 sortParameterTableName.append("PROFILES");
             } else {
                 sortParameterTableName.append("STR_VALUES");
@@ -393,9 +395,9 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
             break;
         case REFERENCE:
         case TOKEN:
-            if (TAG.equals(sortParm.getCode())) {
+            if (!this.legacyWholeSystemSearchParamsEnabled && TAG.equals(sortParm.getCode())) {
                 sortParameterTableName.append("TAGS");
-            } else if (SECURITY.equals(sortParm.getCode())) {
+            } else if (!this.legacyWholeSystemSearchParamsEnabled && SECURITY.equals(sortParm.getCode())) {
                 sortParameterTableName.append("SECURITY");
             } else {
                 sortParameterTableName.append("TOKEN_VALUES_V");

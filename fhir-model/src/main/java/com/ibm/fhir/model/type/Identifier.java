@@ -29,6 +29,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/identifier-type",
     expression = "type.exists() implies (type.memberOf('http://hl7.org/fhir/ValueSet/identifier-type', 'extensible'))",
+    source = "http://hl7.org/fhir/StructureDefinition/Identifier",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

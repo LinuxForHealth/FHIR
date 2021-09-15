@@ -44,15 +44,14 @@ import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.server.test.FHIRServerTestBase;
-import com.ibm.fhir.server.test.profiles.ProfilesTestBase;
 
 /**
  * Tests the Everything Operation
  */
 public class EverythingOperationTest extends FHIRServerTestBase {
 
-    private static final String CLASSNAME = ProfilesTestBase.class.getName();
-    private static final Logger logger = Logger.getLogger(CLASSNAME);
+    private static final String CLASSNAME = EverythingOperationTest.class.getName();
+    private static final Logger LOG = Logger.getLogger(CLASSNAME);
 
     public static final String EXPRESSION_OPERATION = "rest.resource.operation.name";
 
@@ -78,7 +77,7 @@ public class EverythingOperationTest extends FHIRServerTestBase {
             Collection<String> listOfOperations = tmpResults.stream().map(x -> x.getValue().asStringValue().string()).collect(Collectors.toList());
 
             if (!listOfOperations.contains("everything")) {
-                logger.warning("Operation $everything not found on server");
+                LOG.warning("Operation $everything not found on server, Skipping integration test for $everything");
                 SKIP = true;
             } else {
                 SKIP = false;
@@ -96,7 +95,6 @@ public class EverythingOperationTest extends FHIRServerTestBase {
     @Test(groups = { "fhir-operation" })
     public void testCreatePatientWithEverything() throws Exception {
         if (SKIP) {
-            logger.warning("Skipping integration test for $everything");
             return;
         }
         Bundle patientBundle = TestUtil.readLocalResource("everything-operation/Antonia30_Acosta403.json");
@@ -122,7 +120,6 @@ public class EverythingOperationTest extends FHIRServerTestBase {
     @Test(groups = { "fhir-operation" }, dependsOnMethods = { "testCreatePatientWithEverything" })
     public void testPatientEverything() {
         if (SKIP) {
-            logger.warning("Skipping integration test for $everything");
             return;
         }
         // Get the patient ID and invoke the $everything operation on it
@@ -180,7 +177,6 @@ public class EverythingOperationTest extends FHIRServerTestBase {
     @Test(groups = { "fhir-operation" }, dependsOnMethods = { "testPatientEverything" })
     public void testPatientEverythingWithCount() {
         if (SKIP) {
-            logger.warning("Skipping integration test for $everything");
             return;
         }
         Response response = getWebTarget().path("Patient/" + patientId + "/$everything").queryParam("_count", 1).request().get(Response.class);
@@ -195,7 +191,6 @@ public class EverythingOperationTest extends FHIRServerTestBase {
     @Test(groups = { "fhir-operation" })
     public void testPatientEverythingAtTypeLevel() {
         if (SKIP) {
-            logger.warning("Skipping integration test for $everything");
             return;
         }
         Response response = getWebTarget().path("Patient/$everything").queryParam("_count", 1).request().get(Response.class);
@@ -206,7 +201,6 @@ public class EverythingOperationTest extends FHIRServerTestBase {
     @Test(groups = { "fhir-operation" }, dependsOnMethods = { "testPatientEverything" })
     public void testPatientEverythingWithStartAndStop() {
         if (SKIP) {
-            logger.warning("Skipping integration test for $everything");
             return;
         }
         Response response = getWebTarget().path("Patient/" + patientId
@@ -222,7 +216,6 @@ public class EverythingOperationTest extends FHIRServerTestBase {
     @Test(groups = { "fhir-operation" }, dependsOnMethods = { "testPatientEverything" })
     public void testPatientEverythingWithTypes() {
         if (SKIP) {
-            logger.warning("Skipping integration test for $everything");
             return;
         }
         Response response = getWebTarget().path("Patient/" + patientId + "/$everything").queryParam("_type", "CareTeam,CarePlan").request().get(Response.class);
@@ -237,7 +230,6 @@ public class EverythingOperationTest extends FHIRServerTestBase {
     @Test(groups = { "fhir-operation" }, dependsOnMethods = { "testPatientEverything" })
     public void testPatientEverythingWithBadType() {
         if (SKIP) {
-            logger.warning("Skipping integration test for $everything");
             return;
         }
         Response response =
@@ -249,7 +241,6 @@ public class EverythingOperationTest extends FHIRServerTestBase {
     @Test(groups = { "fhir-operation" }, dependsOnMethods = { "testPatientEverything" })
     public void testPatientEverythingWithSince() {
         if (SKIP) {
-            logger.warning("Skipping integration test for $everything");
             return;
         }
         Response response = getWebTarget().path("Patient/" + patientId
@@ -265,7 +256,6 @@ public class EverythingOperationTest extends FHIRServerTestBase {
     @Test(groups = { "fhir-operation" }, dependsOnMethods = { "testPatientEverything" })
     public void testPatientEverythingWithFutureSince() {
         if (SKIP) {
-            logger.warning("Skipping integration test for $everything");
             return;
         }
         LocalDateTime today = LocalDateTime.of(LocalDate.now(), LocalTime.now());
@@ -283,7 +273,6 @@ public class EverythingOperationTest extends FHIRServerTestBase {
     @Test(groups = { "fhir-operation" })
     public void testPatientEverythingForNotExistingPatient() {
         if (SKIP) {
-            logger.warning("Skipping integration test for $everything");
             return;
         }
         Response response = getWebTarget().path("Patient/some-unknown-id/$everything").request().get(Response.class);
@@ -293,7 +282,6 @@ public class EverythingOperationTest extends FHIRServerTestBase {
     @Test(groups = { "fhir-operation" })
     public void testCreateAndDeletePatientVerifyDelete() throws Exception {
         if (SKIP) {
-            logger.warning("Skipping integration test for $everything");
             return;
         }
         WebTarget target = getWebTarget();

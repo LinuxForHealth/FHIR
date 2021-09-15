@@ -40,6 +40,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.core.FHIRMediaType;
+import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Observation.Component;
@@ -348,14 +349,7 @@ public class SortingTest extends FHIRServerTestBase {
 
         boolean result = false;
         for (Bundle.Entry entry : bundle.getEntry()) {
-
-            if (DEBUG_SEARCH) {
-
-                SearchAllTest.generateOutput(entry.getResource());
-                System.out.println(result + " "
-                        + FHIRUtil.hasTag(entry.getResource(), subsettedTag));
-            }
-
+            printOutResource(DEBUG_SEARCH, entry.getResource());
             result = result
                     || FHIRUtil.hasTag(entry.getResource(), subsettedTag);
         }
@@ -441,7 +435,7 @@ public class SortingTest extends FHIRServerTestBase {
     // Patient?gender=male&_sort=telecom
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreatePatient1",
             "testCreatePatient2", "testCreatePatient3", "testCreatePatient4", "testCreatePatient5" })
-    public void testSortTelecom() {
+    public void testSortTelecom() throws FHIRGeneratorException {
         WebTarget target = getWebTarget();
         Response response =
                 target.path("Patient").queryParam("gender", "male").queryParam("_count", "50")
@@ -455,10 +449,7 @@ public class SortingTest extends FHIRServerTestBase {
         for (Bundle.Entry entry : bundle.getEntry()) {
             Patient patient = (Patient) entry.getResource();
             if (patient.getTelecom() != null && patient.getTelecom().size() > 0) {
-
-                if (DEBUG_SEARCH) {
-                    SearchAllTest.generateOutput(patient);
-                }
+                printOutResource(DEBUG_SEARCH, patient);
 
                 if (patient.getTelecom().get(0).getValue() != null) {
                     list.add(patient.getTelecom().get(0).getValue().getValue());
@@ -499,7 +490,7 @@ public class SortingTest extends FHIRServerTestBase {
     // Patient?_count=50&_sort=-family,birthdate
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreatePatient1",
             "testCreatePatient2", "testCreatePatient3", "testCreatePatient4", "testCreatePatient5" })
-    public void testSortTwoParameters() {
+    public void testSortTwoParameters() throws FHIRGeneratorException {
         WebTarget target = getWebTarget();
         Response response =
                 target.path("Patient").queryParam("_count", "50")
@@ -533,9 +524,7 @@ public class SortingTest extends FHIRServerTestBase {
                         currentBirthDate = null;
                     }
 
-                    if (DEBUG_SEARCH) {
-                        SearchAllTest.generateOutput(patient);
-                    }
+                    printOutResource(DEBUG_SEARCH, patient);
                     if (previousFamily != null && previousFamily.equals(currentFamily)) {
                         assertTrue(previousBirthDate == null || currentBirthDate == null
                                 || (getInstantFromPartial(previousBirthDate.getValue())
@@ -645,22 +634,16 @@ public class SortingTest extends FHIRServerTestBase {
         for (HumanName patientName : patient.getName()) {
             if (patientName.getUse() != null
                     && patientName.getUse().getValue().compareTo("usual") == 0) {
-                if (DEBUG_SEARCH) {
-                    // Only output when DEBUG_SEARCHging.
-                    SearchAllTest.generateOutput(patient);
-                }
+                printOutResource(DEBUG_SEARCH, patient);
 
                 System.out.println("Skipping usual type as there is no family name ");
 
             } else {
-                if (DEBUG_SEARCH) {
-                    SearchAllTest.generateOutput(patient);
-                }
+                printOutResource(DEBUG_SEARCH, patient);
 
                 if (patientName.getFamily() != null) {
                     patientFamilyNameList.add(patientName.getFamily().getValue());
                 }
-
             }
         }
         Collections.sort(patientFamilyNameList);
@@ -846,13 +829,7 @@ public class SortingTest extends FHIRServerTestBase {
 
         boolean result = false;
         for (Bundle.Entry entry : bundle.getEntry()) {
-
-            if (DEBUG_SEARCH) {
-
-                SearchAllTest.generateOutput(entry.getResource());
-                System.out.println(result + " "
-                        + FHIRUtil.hasTag(entry.getResource(), subsettedTag));
-            }
+            printOutResource(DEBUG_SEARCH, entry.getResource());
 
             result = result
                     || FHIRUtil.hasTag(entry.getResource(), subsettedTag);
@@ -919,13 +896,7 @@ public class SortingTest extends FHIRServerTestBase {
 
         boolean result = false;
         for (Bundle.Entry entry : bundle.getEntry()) {
-
-            if (DEBUG_SEARCH) {
-
-                SearchAllTest.generateOutput(entry.getResource());
-                System.out.println(result + " "
-                        + FHIRUtil.hasTag(entry.getResource(), subsettedTag));
-            }
+            printOutResource(DEBUG_SEARCH, entry.getResource());
 
             result = result
                     || FHIRUtil.hasTag(entry.getResource(), subsettedTag);
@@ -1084,8 +1055,6 @@ public class SortingTest extends FHIRServerTestBase {
                 list.add(((Patient) bundle.getEntry().get(i).getResource()).getMeta().getLastUpdated().getValue().toInstant());
             }
         }
-
         assertTrueNaturalOrderingReverseInstant(list);
     }
-
 }

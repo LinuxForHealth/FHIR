@@ -16,6 +16,7 @@ import com.ibm.fhir.database.utils.model.OrderedColumnDef;
 import com.ibm.fhir.database.utils.model.PrimaryKeyDef;
 import com.ibm.fhir.database.utils.model.Privilege;
 import com.ibm.fhir.database.utils.model.Table;
+import com.ibm.fhir.database.utils.model.With;
 
 /**
  * Abstraction of the SQL to use for a given database. This allows us to hide as
@@ -74,9 +75,10 @@ public interface IDatabaseAdapter {
      * @param primaryKey
      * @param identity
      * @param tablespaceName
+     * @param withs
      */
     public void createTable(String schemaName, String name, String tenantColumnName, List<ColumnBase> columns,
-            PrimaryKeyDef primaryKey, IdentityDef identity, String tablespaceName);
+            PrimaryKeyDef primaryKey, IdentityDef identity, String tablespaceName, List<With> withs);
 
     /**
      * Add a new column to an existing table

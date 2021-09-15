@@ -54,21 +54,24 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "The organization SHALL at least have a name or an identifier, and possibly more than one",
-    expression = "(identifier.count() + name.count()) > 0"
+    expression = "(identifier.count() + name.count()) > 0",
+    source = "http://hl7.org/fhir/StructureDefinition/Organization"
 )
 @Constraint(
     id = "org-2",
     level = "Rule",
     location = "Organization.address",
     description = "An address of an organization can never be of use 'home'",
-    expression = "where(use = 'home').empty()"
+    expression = "where(use = 'home').empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/Organization"
 )
 @Constraint(
     id = "org-3",
     level = "Rule",
     location = "Organization.telecom",
     description = "The telecom of an organization can never be of use 'home'",
-    expression = "where(use = 'home').empty()"
+    expression = "where(use = 'home').empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/Organization"
 )
 @Constraint(
     id = "organization-4",
@@ -76,6 +79,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "contact.purpose",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/contactentity-type",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/contactentity-type', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/Organization",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

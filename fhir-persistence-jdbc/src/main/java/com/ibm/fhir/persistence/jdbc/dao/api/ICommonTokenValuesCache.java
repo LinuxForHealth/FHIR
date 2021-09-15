@@ -9,6 +9,7 @@ package com.ibm.fhir.persistence.jdbc.dao.api;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceProfileRec;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
@@ -36,7 +37,7 @@ public interface ICommonTokenValuesCache {
      * Lookup all the database values we have cached for the code-system names
      * in the given collection. Put any objects with cache misses into the corresponding
      * miss lists (so that we know which records we need to generate inserts for)
-     * @param xrefs
+     * @param tokenValues
      * @param misses the objects we couldn't find in the cache
      */
     void resolveCodeSystems(Collection<ResourceTokenValueRec> tokenValues,
@@ -115,6 +116,14 @@ public interface ICommonTokenValuesCache {
      * @return
      */
     Long getCommonTokenValueId(String codeSystem, String tokenValue);
+
+    /**
+     * Get the database common_token_value_ids for the given list of token values.
+     * @param tokenValues
+     * @param misses the set of the CommonTokenValue objects we couldn't find in the cache
+     * @return
+     */
+    Set<Long> resolveCommonTokenValueIds(Collection<CommonTokenValue> tokenValues, Set<CommonTokenValue> misses);
 
     /**
      * Get the cached database id for the given canonical url

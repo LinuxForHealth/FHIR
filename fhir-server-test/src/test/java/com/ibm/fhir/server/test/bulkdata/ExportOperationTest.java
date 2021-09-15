@@ -17,7 +17,6 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
-import java.io.StringWriter;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -25,6 +24,7 @@ import java.nio.file.Paths;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -33,11 +33,6 @@ import java.util.UUID;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import jakarta.json.Json;
-import jakarta.json.JsonArray;
-import jakarta.json.JsonObject;
-import jakarta.json.JsonReader;
-import jakarta.json.JsonReaderFactory;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
 import javax.ws.rs.client.Entity;
@@ -62,7 +57,6 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.format.Format;
-import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
 import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.parser.exception.FHIRParserException;
@@ -77,6 +71,12 @@ import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.server.test.FHIRServerTestBase;
+
+import jakarta.json.Json;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonReader;
+import jakarta.json.JsonReaderFactory;
 
 /**
  * These tests exercise the $export operation, a BulkData specification defined operation
@@ -133,6 +133,25 @@ public class ExportOperationTest extends FHIRServerTestBase {
          * isUseMinioInBuildPipeline =
          * Boolean.parseBoolean(testProperties.getProperty("test.bulkdata.useminio.inbuildpipeline", "false"));
          */
+    }
+
+    /**
+     * Deletes the given job at the given path.
+     * @param path
+     * @param mimeType
+     * @param provider
+     * @param outcome
+     * @return
+     */
+    public Response deleteJob(String path, String mimeType, String provider, String outcome) {
+        return getWebTarget()
+                     .path(path)
+                     .request(mimeType)
+                     .header("X-FHIR-TENANT-ID", tenantName)
+                     .header("X-FHIR-DSID", dataStoreId)
+                     .header("X-FHIR-BULKDATA-PROVIDER", provider)
+                     .header("X-FHIR-BULKDATA-PROVIDER-OUTCOME", outcome)
+                     .delete(Response.class);
     }
 
     public Response doPost(String path, String mimeType, String outputFormat, Instant since, List<String> types, List<String> typeFilters, String provider,
@@ -219,12 +238,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
         builder.parameter(parameters);
         Parameters ps = builder.build();
 
-        try (StringWriter writer = new StringWriter();) {
-            FHIRGenerator.generator(Format.JSON, true).generate(ps, writer);
-            if (DEBUG) {
-                System.out.println(writer.toString());
-            }
-        }
+        printOutResource(DEBUG, ps);
         return ps;
     }
 
@@ -362,7 +376,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
             SSLContext sslContext = sslContextBuilder.build();
 
             return new SSLConnectionSocketFactory(sslContext, verifier);
-        }catch(NoSuchAlgorithmException|KeyStoreException|KeyManagementException e){
+        }catch (NoSuchAlgorithmException|KeyStoreException|KeyManagementException e) {
             log.warning("Default Algorithm for Http Client not found " + e.getMessage());
         }
         return SSLConnectionSocketFactory.getSocketFactory();
@@ -539,7 +553,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Group responseGroup = response.readEntity(Group.class);
         assertNotNull(responseGroup);
-        assertTrue(responseGroup.getMember().size() == 4);
+        assertEquals(responseGroup.getMember().size(), 4);
 
         // (2) Build a new Group with patient2 and the above group only as members.
         ArrayList<Member> members = new ArrayList<>();
@@ -660,8 +674,6 @@ public class ExportOperationTest extends FHIRServerTestBase {
             assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
             exportStatusUrl = contentLocation;
             checkExportStatus(false, false, types);
-        } else {
-            System.out.println("Base Export Test Disabled, Skipping");
         }
     }
 
@@ -720,8 +732,6 @@ public class ExportOperationTest extends FHIRServerTestBase {
             assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
             exportStatusUrl = contentLocation;
             checkExportStatus(false, true, types);
-        } else {
-            System.out.println("Base Export Test Disabled, Skipping");
         }
     }
 
@@ -732,10 +742,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
             Response response =
                     doPost(BASE_VALID_URL, FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT_NDJSON, Instant.of("2019-01-01T08:21:26.94-04:00"), types, null, "idontexist", "idontexist2");
             assertEquals(response.getStatus(), Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
-        } else {
-            System.out.println("Export Tests are Disabled, Skipping");
         }
-
     }
 
     /**
@@ -753,8 +760,6 @@ public class ExportOperationTest extends FHIRServerTestBase {
                     "default",
                     "default");
             assertEquals(response.getStatus(), Response.Status.BAD_REQUEST.getStatusCode(), "Response status");
-        } else {
-            System.out.println("Base Export Test Disabled, Skipping");
         }
     }
 
@@ -785,8 +790,6 @@ public class ExportOperationTest extends FHIRServerTestBase {
             assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
             exportStatusUrl = contentLocation;
             checkExportStatus(false, false, types);
-        } else {
-            System.out.println("Base Export Test Disabled, Skipping");
         }
     }
 
@@ -813,8 +816,6 @@ public class ExportOperationTest extends FHIRServerTestBase {
             assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
             exportStatusUrl = contentLocation;
             checkExportStatus(true, false, types);
-        } else {
-            System.out.println("Patient Export Test Disabled, Skipping");
         }
     }
 
@@ -841,8 +842,6 @@ public class ExportOperationTest extends FHIRServerTestBase {
             assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
             exportStatusUrl = contentLocation;
             checkExportStatus(true, true, types);
-        } else {
-            System.out.println("Patient Export Test Disabled, Skipping");
         }
     }
 
@@ -873,8 +872,6 @@ public class ExportOperationTest extends FHIRServerTestBase {
             assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
             exportStatusUrl = contentLocation;
             checkExportStatus(true, false, types);
-        } else {
-            System.out.println("Patient Export Test Disabled, Skipping");
         }
     }
 
@@ -901,8 +898,6 @@ public class ExportOperationTest extends FHIRServerTestBase {
             assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
             exportStatusUrl = contentLocation;
             checkGroupExportStatus(false, types);
-        } else {
-            System.out.println("Group Export Test Disabled, Skipping");
         }
     }
 
@@ -929,8 +924,6 @@ public class ExportOperationTest extends FHIRServerTestBase {
             assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
             exportStatusUrl = contentLocation;
             checkGroupExportStatus(true, types);
-        } else {
-            System.out.println("Group Export Test Disabled, Skipping");
         }
     }
 
@@ -961,8 +954,6 @@ public class ExportOperationTest extends FHIRServerTestBase {
             assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
             exportStatusUrl = contentLocation;
             checkGroupExportStatus(false, types);
-        } else {
-            System.out.println("Group Export Test Disabled, Skipping");
         }
     }
 
@@ -984,5 +975,187 @@ public class ExportOperationTest extends FHIRServerTestBase {
         assertTrue(jsonObject.containsKey("output"));
 
         verifyUrl(body, s3, types);
+    }
+
+    @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = { "testGroup" })
+    public void testBaseExportWithTypeFilter() throws Exception {
+        if (ON) {
+            List<String> types = Arrays.asList("Coverage");
+            Response response = doPost(
+                    BASE_VALID_URL,
+                    FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT_NDJSON,
+                    Instant.of("2019-01-01T08:21:26.94-04:00"),
+                    types,
+                    Arrays.asList("Coverage%3Fstatus%3Dactive"),
+                    "default",
+                    "default");
+            assertEquals(response.getStatus(), Response.Status.ACCEPTED.getStatusCode());
+
+            // check the content-location that's returned.
+            String contentLocation = response.getHeaderString("Content-Location");
+            if (DEBUG) {
+                System.out.println("Content Location: " + contentLocation);
+            }
+
+            assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
+            exportStatusUrl = contentLocation;
+
+            do {
+                response = doGet(exportStatusUrl, FHIRMediaType.APPLICATION_FHIR_JSON, "default", "default");
+                // 202 accept means the request is still under processing
+                // 200 mean export is finished
+                assertEquals(Status.Family.familyOf(response.getStatus()), Status.Family.SUCCESSFUL);
+                Thread.sleep(1000);
+            } while (response.getStatus() == Response.Status.ACCEPTED.getStatusCode());
+
+            assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
+        }
+    }
+
+    @Test(groups = { TEST_GROUP_NAME })
+    public void testBaseExportWithNoResults() throws Exception {
+        if (ON) {
+            List<String> types = Arrays.asList("Coverage");
+            Response response = doPost(
+                    BASE_VALID_URL,
+                    FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT_NDJSON,
+                    Instant.of("2123-01-01T08:21:26.94-04:00"), // Date far in the future...
+                    types,
+                    null,
+                    "default",
+                    "default");
+            assertEquals(response.getStatus(), Response.Status.ACCEPTED.getStatusCode());
+
+            // check the content-location that's returned.
+            String contentLocation = response.getHeaderString("Content-Location");
+            if (DEBUG) {
+                System.out.println("Content Location: " + contentLocation);
+            }
+
+            assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
+            exportStatusUrl = contentLocation;
+
+            do {
+                response = doGet(exportStatusUrl, FHIRMediaType.APPLICATION_FHIR_JSON, "default", "default");
+                // 202 accept means the request is still under processing
+                // 200 mean export is finished
+                assertEquals(Status.Family.familyOf(response.getStatus()), Status.Family.SUCCESSFUL);
+                Thread.sleep(1000);
+            } while (response.getStatus() == Response.Status.ACCEPTED.getStatusCode());
+
+            assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
+            String body = response.readEntity(String.class);
+
+            JsonObject jsonObject = JSON_READER_FACTORY.createReader(new StringReader(body)).readObject();
+            assertTrue(jsonObject.containsKey("output"));
+
+            JsonArray arr = jsonObject.getJsonArray("output");
+            assertTrue(arr.isEmpty());
+
+            JsonObject obj = jsonObject.getJsonObject("extension");
+            assertTrue(obj.containsKey("outcome"));
+        }
+    }
+
+    @Test(groups = { TEST_GROUP_NAME })
+    public void testStopOfAnExportOfACompletedJob() throws Exception {
+        if (ON) {
+            List<String> types = Arrays.asList("Coverage");
+            Response response = doPost(
+                    BASE_VALID_URL,
+                    FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT_NDJSON,
+                    Instant.of("2123-01-01T08:21:26.94-04:00"), // Date far in the future... intentionally
+                    types,
+                    null,
+                    "default",
+                    "default");
+            assertEquals(response.getStatus(), Response.Status.ACCEPTED.getStatusCode());
+
+            // check the content-location that's returned.
+            String contentLocation = response.getHeaderString("Content-Location");
+            if (DEBUG) {
+                System.out.println("Content Location: " + contentLocation);
+            }
+
+            assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
+            exportStatusUrl = contentLocation;
+
+            // We're doing a tight loop here so we can then subsequently DELETE it.
+            ZonedDateTime startTime = ZonedDateTime.now();
+            do {
+                response = doGet(exportStatusUrl, FHIRMediaType.APPLICATION_FHIR_JSON, "default", "default");
+                // 202 accept means the request is still under processing
+                // 200 mean export is finished
+                assertEquals(Status.Family.familyOf(response.getStatus()), Status.Family.SUCCESSFUL);
+                waitForSetPeriodOfTime(startTime, 5, 1000);
+            } while (response.getStatus() == Response.Status.ACCEPTED.getStatusCode());
+            assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
+
+            startTime = ZonedDateTime.now();
+            do {
+                response = deleteJob(exportStatusUrl, FHIRMediaType.APPLICATION_FHIR_JSON, "default", "default");
+                // 202 accept means the request is still under processing
+                // 200 means deleted
+                waitForSetPeriodOfTime(startTime, 5, 1000);
+            } while (response.getStatus() == Response.Status.ACCEPTED.getStatusCode());
+            assertEquals(response.getStatus(), Response.Status.NOT_FOUND.getStatusCode());
+        }
+    }
+
+    @Test(groups = { TEST_GROUP_NAME })
+    public void testStopOfAnExportOfNotYetCompletedJob() throws Exception {
+        if (ON) {
+            List<String> types = Arrays.asList("Patient", "Coverage");
+            Response response = doPost(
+                    BASE_VALID_URL,
+                    FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT_NDJSON,
+                    Instant.of("1900-01-01T08:21:26.94-04:00"), // Date far in the past... intentionally
+                    types,
+                    null,
+                    "default",
+                    "default");
+            assertEquals(response.getStatus(), Response.Status.ACCEPTED.getStatusCode());
+
+            // check the content-location that's returned.
+            String contentLocation = response.getHeaderString("Content-Location");
+            if (DEBUG) {
+                System.out.println("Content Location: " + contentLocation);
+            }
+
+            assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
+            exportStatusUrl = contentLocation;
+
+            // We're doing a tight loop here so we can do an immediate DELETE it.
+            ZonedDateTime startTime = ZonedDateTime.now();
+            do {
+                response = deleteJob(exportStatusUrl, FHIRMediaType.APPLICATION_FHIR_JSON, "default", "default");
+                // 202 accept means the request is still under processing
+                // 200 means deleted
+                if (DEBUG) {
+                    System.out.println(response.getStatus());
+                }
+                waitForSetPeriodOfTime(startTime, 5, 1000);
+            } while (response.getStatus() == Response.Status.ACCEPTED.getStatusCode());
+            String body = response.readEntity(String.class);
+            if (DEBUG) {
+                System.out.println(body);
+            }
+            assertEquals(response.getStatus(), Response.Status.NOT_FOUND.getStatusCode());
+        }
+    }
+
+    /**
+     * convenience method for ending a test of the job framework.
+     * @param startTime
+     * @param maxMinutes
+     * @param waitTime
+     * @throws Exception
+     */
+    public void waitForSetPeriodOfTime(ZonedDateTime startTime, int maxMinutes, long waitTime) throws Exception {
+        if (ZonedDateTime.now().minusMinutes(maxMinutes).isAfter(startTime)) {
+            throw new Exception("Exceeded time alloted " + maxMinutes);
+        } else if (waitTime >= 0){
+            Thread.sleep(waitTime);
+        }
     }
 }

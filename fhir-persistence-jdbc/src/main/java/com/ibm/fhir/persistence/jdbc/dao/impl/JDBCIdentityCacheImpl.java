@@ -6,11 +6,15 @@
 
 package com.ibm.fhir.persistence.jdbc.dao.impl;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
@@ -161,12 +165,49 @@ public class JDBCIdentityCacheImpl implements JDBCIdentityCache {
     }
 
     @Override
+    public Set<Long> getCommonTokenValueIds(Collection<CommonTokenValue> tokenValues) {
+        Set<CommonTokenValue> misses = new HashSet<>();
+        Set<Long> result = cache.getResourceReferenceCache().resolveCommonTokenValueIds(tokenValues, misses);
+
+        if (misses.isEmpty()) {
+            return result;
+        }
+
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine("Cache miss. Fetching common_token_value_ids from database: " + misses);
+        }
+
+        Set<CommonTokenValueResult> readCommonTokenValueIds = resourceReferenceDAO.readCommonTokenValueIds(misses);
+        result.addAll(readCommonTokenValueIds.stream()
+            .map(r -> r.getCommonTokenValueId())
+            .collect(Collectors.toSet()));
+
+        for (CommonTokenValueResult dto : readCommonTokenValueIds) {
+            // Value exists in the database, so we can add this to our cache. Note that we still
+            // choose to add it to the thread-local cache - this avoids any locking. The values will
+            // be promoted to the shared cache at the end of the transaction. This avoids unnecessary
+            // contention.
+            if (logger.isLoggable(Level.FINE)) {
+                logger.fine("Adding common_token_value_id to cache: '" + dto.getCodeSystemId() + "|" + dto.getTokenValue() + "' = " + result);
+            }
+            cache.getResourceReferenceCache().addTokenValue(new CommonTokenValue(dto.getCodeSystemId(), dto.getTokenValue()), dto.getCommonTokenValueId());
+        }
+
+        return result;
+    }
+
+    @Override
     public List<Long> getCommonTokenValueIdList(String tokenValue) {
         return resourceReferenceDAO.readCommonTokenValueIdList(tokenValue);
     }
 
     @Override
-    public Set<String> getResourceTypeNames() throws FHIRPersistenceException {
-        return resourceDAO.readAllResourceTypeNames().keySet();
+    public List<String> getResourceTypeNames() throws FHIRPersistenceException {
+        return new ArrayList<>(cache.getResourceTypeNameCache().getAllNames());
+    }
+
+    @Override
+    public List<Integer> getResourceTypeIds() throws FHIRPersistenceException {
+        return new ArrayList<>(cache.getResourceTypeCache().getAllIds());
     }
 }

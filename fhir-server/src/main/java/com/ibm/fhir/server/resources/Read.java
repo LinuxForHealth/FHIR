@@ -60,6 +60,8 @@ public class Read extends FHIRResource {
 
         try {
             checkInitComplete();
+            checkType(type);
+
             MultivaluedMap<String, String> queryParameters = uriInfo.getQueryParameters();
             long modifiedSince = parseIfModifiedSince();
 

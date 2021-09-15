@@ -25,7 +25,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "Must have either extensions or value[x], not both",
-    expression = "extension.exists() != value.exists()"
+    expression = "extension.exists() != value.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/Extension"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Extension extends Element {

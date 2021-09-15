@@ -7,13 +7,18 @@
 package com.ibm.fhir.bucket.reindex;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -22,7 +27,6 @@ import org.apache.http.HttpStatus;
 import com.ibm.fhir.bucket.client.FHIRBucketClient;
 import com.ibm.fhir.bucket.client.FHIRBucketClientUtil;
 import com.ibm.fhir.bucket.client.FhirServerResponse;
-import com.ibm.fhir.database.utils.api.DataAccessException;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Parameters.Builder;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
@@ -42,12 +46,15 @@ public class ClientDrivenReindexOperation extends DriveReindexOperation {
     private static final int MAX_RETRIEVE_COUNT = 1000;
     private static final int OFFER_TIMEOUT_IN_SEC = 30;
     private static final int POLL_TIMEOUT_IN_SEC = 5;
+    private static final int MAX_RESTARTS = 10;
+    private static final int MAX_WAIT_TO_FINISH = 60;
     private static final String RETRIEVE_INDEX_URL = "$retrieve-index";
     private static final String REINDEX_URL = "$reindex";
 
     // Flags to indicate if we should be running
     private volatile boolean running = true;
     private volatile boolean active = false;
+    private volatile boolean successRetrieving = false;
     private volatile boolean doneRetrieving = false;
 
     // FHIR client
@@ -64,6 +71,9 @@ public class ClientDrivenReindexOperation extends DriveReindexOperation {
 
     // Queue for holding index IDs of resources to reindex
     private BlockingQueue<String> blockingQueue;
+
+    // Set for holding index IDs currently being processed
+    Set<String> inProgressIndexIds;
 
     // Last index ID found by monitor thread
     private String lastIndexId;
@@ -83,13 +93,19 @@ public class ClientDrivenReindexOperation extends DriveReindexOperation {
      * @param maxConcurrentRequests the number of threads to spin up
      * @param reindexTimestamp timestamp the reindex began
      * @param maxResourceCount resources processed per request per thread
+     * @param startWithIndexId index ID from which to start, or null
      */
-    public ClientDrivenReindexOperation(FHIRBucketClient fhirClient, int maxConcurrentRequests, String reindexTimestamp, int maxResourceCount) {
+    public ClientDrivenReindexOperation(FHIRBucketClient fhirClient, int maxConcurrentRequests, String reindexTimestamp, int maxResourceCount, String startWithIndexId) {
         this.fhirClient = fhirClient;
         this.maxConcurrentRequests = maxConcurrentRequests;
         this.reindexTimestamp = reindexTimestamp;
         this.maxResourceCount = maxResourceCount;
         this.blockingQueue = new LinkedBlockingDeque<>(MAX_RETRIEVE_COUNT + (maxResourceCount * maxConcurrentRequests));
+        this.inProgressIndexIds = Collections.newSetFromMap(new ConcurrentHashMap<String, Boolean>(maxResourceCount * maxConcurrentRequests));
+        if (startWithIndexId != null) {
+            // Subtract 1 since the $retrieve-index operation retrieves index IDs after a specified index ID
+            this.lastIndexId = String.valueOf(Long.parseLong(startWithIndexId) - 1);
+        }
     }
 
     /**
@@ -147,66 +163,142 @@ public class ClientDrivenReindexOperation extends DriveReindexOperation {
      * The main monitor loop.
      */
     public void monitorLoop() {
-        while (this.running) {
-            if (!this.active) {
-                // See if we can make one successful request before filling the pool
-                // with hundreds of parallel requests
-                int currentThreadCount = this.currentlyRunning.get();
-                if (currentThreadCount == 0) {
-                    // Nothing currently running, so make one test call to verify things are working
-                    doneRetrieving = doneRetrieving || !callRetrieveIndex();
-                    if (blockingQueue.isEmpty()) {
-                        // Do not even start the worker threads if nothing to do
-                        logger.info("Nothing to do, so do not even start the worker threads");
-                        this.running = false;
-                    } else {
-                        // Should be OK now to fill the pool with workers
-                        logger.info("Index IDs available for processing - filling worker pool");
-                        this.active = true;
-                    }
+        try {
+            int numRestarts = 0;
+            while (this.running && numRestarts < MAX_RESTARTS) {
+                if (!this.active) {
 
-                    for (int i=0; i<this.maxConcurrentRequests && this.active && this.running; i++) {
-                        this.currentlyRunning.addAndGet(1);
-                        pool.execute(() -> callReindexOperationInLoop());
+                    // See if we can make one successful request before filling the pool
+                    // with hundreds of parallel requests
+                    int currentThreadCount = this.currentlyRunning.get();
+                    if (currentThreadCount < 1) {
+                        // Before starting, ensure the last index IDs is reset so index IDs that were in progress are not skipped
+                        resetProgress();
+                        // Add limit to number of times this will attempt to restart due to errors
+                        numRestarts++;
 
-                        // Slow down the ramp-up so we don't hit a new server with
-                        // hundreds of requests in one go
-                        safeSleep(1000);
-                    }
+                        // Nothing currently running, so make one test call to verify things are working
+                        doneRetrieving = doneRetrieving || (!callRetrieveIndex() && successRetrieving);
+                        if (blockingQueue.isEmpty()) {
+                            // Do not even start the worker threads if nothing to do
+                            logger.info("Nothing to do, so do not even start the worker threads");
+                            this.running = false;
+                        } else {
+                            // Should be OK now to fill the pool with workers
+                            logger.info("Index IDs available for processing - filling worker pool");
+                            this.active = true;
+                        }
 
-                    // Keep attempting to retrieve index IDs if we need to
-                    while (this.active && this.running) {
-                        doneRetrieving = doneRetrieving || !callRetrieveIndex();
-                        if (doneRetrieving) {
-                            if (blockingQueue.isEmpty()) {
-                                // Tell all the running threads they can stop now
-                                logger.info("Nothing left to do, so tell all the worker threads to exit");
-                                this.running = false;
-                            } else {
-                                // Worker threads are still processing, so sleep for a bit before we check again
-                                safeSleep(1000);
+                        for (int i=0; i<this.maxConcurrentRequests && this.active && this.running; i++) {
+                            int threadCount = this.currentlyRunning.addAndGet(1);
+                            logger.fine("Worker thread starting; " + threadCount + " running");
+                            pool.execute(() -> callReindexOperationInLoop());
+
+                            // Slow down the ramp-up so we don't hit a new server with
+                            // hundreds of requests in one go
+                            safeSleep(1000);
+                        }
+
+                        // Keep attempting to retrieve index IDs if we need to
+                        while (this.active && this.running) {
+                            doneRetrieving = doneRetrieving || (!callRetrieveIndex() && successRetrieving);
+                            if (doneRetrieving) {
+                                if (blockingQueue.isEmpty()) {
+                                    // Tell all the running threads they can stop now
+                                    logger.info("Nothing left to do, so tell all the worker threads to exit");
+                                    this.running = false;
+                                } else {
+                                    // Worker threads are still processing, so sleep for a bit before we check again
+                                    safeSleep(5000);
+                                }
                             }
                         }
-                    }
 
-                } else {
-                    // Need to wait for all the existing threads to die off before we try to restart. This
-                    // could take a while because we have a long tx timeout in Liberty.
-                    logger.info("Waiting for current threads to complete before restart: " + currentThreadCount);
+                    } else {
+                        // Need to wait for all the existing threads to die off before we try to restart. This
+                        // could take a while because we have a long tx timeout in Liberty.
+                        String lastIndexIdProcessed = getLastIndexIdProcessed();
+                        logger.info("Waiting for " + currentThreadCount + " threads to complete, then will resume from index ID '" + lastIndexIdProcessed + "'");
+                        safeSleep(5000);
+                    }
+                } else { // active
+                    // Worker threads are active, so sleep for a bit before we check again
                     safeSleep(5000);
                 }
-            } else { // active
-                // Worker threads are active, so sleep for a bit before we check again
+            }
+        } finally {
+            // Wait for worker threads to end
+            int waitCount = 0;
+            while (waitCount++ < MAX_WAIT_TO_FINISH) {
+                int currentThreadCount = this.currentlyRunning.get();
+                if (currentThreadCount < 1) {
+                    break;
+                }
+                // Worker threads are still running, so sleep for a bit before we check again
+                logger.info("Waiting for " + currentThreadCount + " threads to complete before exiting");
                 safeSleep(5000);
+            }
+
+            // Check if there is any reindexing work left to do, and log an appropriate message based on the situation
+            if (!doneRetrieving || !inProgressIndexIds.isEmpty()) {
+                String lastIndexIdProcessed = getLastIndexIdProcessed();
+                if (lastIndexIdProcessed != null) {
+                    logger.severe("Reindexing was not fully completed, restart reindex from index ID '" + lastIndexIdProcessed + "' to resume");
+                } else {
+                    logger.severe("No reindexing was completed");
+                }
+            } else {
+                logger.info("Reindexing was completed");
             }
         }
     }
 
     /**
+     * If any index IDs were in progress of being reindexed, set the last index ID (which is used for $retrieve-index)
+     * back to before the first index ID that was in progress and clear the in progress list.
+     */
+    private void resetProgress() {
+        this.doneRetrieving = false;
+        this.lastIndexId = getLastIndexIdProcessed();
+        inProgressIndexIds.clear();
+        blockingQueue.clear();
+    }
+
+    /**
+     * Gets the last index ID processed.
+     * @return the last index ID processed
+     */
+    private String getLastIndexIdProcessed() {
+        Long firstInProgress = getFirstInProgressIndexId();
+        if (firstInProgress != null) {
+            return String.valueOf(firstInProgress - 1);
+        } else {
+            return this.lastIndexId;
+        }
+    }
+
+    /**
+     * Gets the earliest index ID that was in progress.
+     * @return the earliest index ID
+     */
+    private Long getFirstInProgressIndexId() {
+        Long firstInProgress = null;
+        for (String inProgressIndexId : inProgressIndexIds) {
+            Long indexIdAsLong = Long.valueOf(inProgressIndexId);
+            if (firstInProgress == null || firstInProgress > indexIdAsLong) {
+                firstInProgress = indexIdAsLong;
+            }
+        }
+        return firstInProgress;
+    }
+
+    /**
      * Call the FHIR server $retrieve-index operation.
+     * Sets successRetrieving to true only if the call was successful (200 OK).
      * @return true if the call was successful (200 OK) and index IDs were found, otherwise false
      */
     private boolean callRetrieveIndex() {
+        successRetrieving = false;
         boolean result = false;
 
         Builder builder = Parameters.builder();
@@ -224,7 +316,8 @@ public class ClientDrivenReindexOperation extends DriveReindexOperation {
         long end = System.nanoTime();
 
         double elapsed = (end - start) / 1e9;
-        logger.info(String.format("called $retrieve-index: %d %s [took %5.3f s]", response.getStatusCode(), response.getStatusMessage(), elapsed));
+        String afterIndexIdString = lastIndexId != null ? (" (" + AFTER_INDEX_ID_PARAM + "=" + lastIndexId + ")") : "";
+        logger.info(String.format("called $retrieve-index%s: %d %s [took %5.3f s]", afterIndexIdString, response.getStatusCode(), response.getStatusMessage(), elapsed));
 
         if (response.getStatusCode() == HttpStatus.SC_OK) {
             Resource resource = response.getResource();
@@ -235,6 +328,7 @@ public class ClientDrivenReindexOperation extends DriveReindexOperation {
                     if (!result) {
                         logger.info("No more index IDs to retrieve");
                     }
+                    successRetrieving = true;
                 } else {
                     logger.severe("FHIR Server retrieve-index response is not an Parameters: " + response.getStatusCode() + " " + response.getStatusMessage());
                     logger.severe("Actual response: " + FHIRBucketClientUtil.resourceToString(resource));
@@ -273,6 +367,7 @@ public class ClientDrivenReindexOperation extends DriveReindexOperation {
 
                             if (queued) {
                                 lastIndexId = indexId;
+                                inProgressIndexIds.add(indexId);
                             } else {
                                 logger.warning("Unable to add indexId '" + indexId + "' to queue");
                                 if (!this.active) {
@@ -299,15 +394,8 @@ public class ClientDrivenReindexOperation extends DriveReindexOperation {
                 boolean ok = false;
                 try {
                     ok = callReindexOperation(indexIds);
-                } catch (DataAccessException x) {
-                    // allow active be set to false.  This will notify monitorLoop something is wrong.
-                    // Probably all threads will encounter the same exception and monitorLoop will
-                    // try to refill the pool if all threads exit.
-                    logger.severe("DataAccessException caught when contacting FHIR server. FHIR client thread will exit." + x.toString() );
-                } catch (IllegalStateException x) {
-                    // Fail for this exception too. fhir-bucket fhir client suggests this exception results from config error.
-                    // So probably this will be caught first time monitorLoop calls callOnce and not here.
-                    logger.severe("IllegalStateException caught. FHIR client thread will exit." + x.toString() );
+                } catch (Throwable t) {
+                    logger.log(Level.SEVERE, "Throwable caught. FHIR client thread will exit.", t);
                 }
                 if (!ok) {
                     // stop everything on the first failure
@@ -315,8 +403,8 @@ public class ClientDrivenReindexOperation extends DriveReindexOperation {
                 }
             }
         }
-
-        this.currentlyRunning.decrementAndGet();
+        int threadCount = currentlyRunning.decrementAndGet();
+        logger.fine("Worker thread exited; " + threadCount + " remaining");
     }
 
     /**
@@ -338,12 +426,16 @@ public class ClientDrivenReindexOperation extends DriveReindexOperation {
         long end = System.nanoTime();
 
         double elapsed = (end - start) / 1e9;
-        logger.info(String.format("called $reindex: %d %s [took %5.3f s]", response.getStatusCode(), response.getStatusMessage(), elapsed));
+        int index = indexIds.indexOf(",");
+        String indexIdString = lastIndexId != null ? (" (" + INDEX_IDS_PARAM + "=" + (index > 0 ? (indexIds.substring(0, index + 1) + "...") : indexIds) + ")") : "";
+        logger.info(String.format("called $reindex%s: %d %s [took %5.3f s]", indexIdString, response.getStatusCode(), response.getStatusMessage(), elapsed));
 
         if (response.getStatusCode() != HttpStatus.SC_OK) {
             // Stop as soon as we hit an error
             logger.severe("FHIR Server reindex operation returned an error: " + response.getStatusCode() + " " + response.getStatusMessage());
             result = false;
+        } else {
+            inProgressIndexIds.removeAll(Arrays.asList(indexIds.split(",")));
         }
 
         return result;

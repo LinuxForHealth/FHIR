@@ -7,6 +7,7 @@
 package com.ibm.fhir.server.test;
 
 import static com.ibm.fhir.model.type.String.string;
+import static com.ibm.fhir.model.type.Uri.uri;
 import static org.testng.Assert.fail;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
@@ -21,6 +22,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -30,11 +33,13 @@ import javax.websocket.ClientEndpointConfig.Configurator;
 import javax.websocket.ContainerProvider;
 import javax.websocket.Session;
 import javax.websocket.WebSocketContainer;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
 import org.glassfish.tyrus.client.SslContextConfigurator;
 import org.glassfish.tyrus.client.SslEngineConfigurator;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
 import com.ibm.fhir.client.FHIRClient;
@@ -42,6 +47,9 @@ import com.ibm.fhir.client.FHIRClientFactory;
 import com.ibm.fhir.client.FHIRResponse;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.core.FHIRUtilities;
+import com.ibm.fhir.model.format.Format;
+import com.ibm.fhir.model.generator.FHIRGenerator;
+import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.CapabilityStatement;
 import com.ibm.fhir.model.resource.CapabilityStatement.Rest;
@@ -52,6 +60,8 @@ import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.test.TestUtil;
+import com.ibm.fhir.model.type.Code;
+import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.HumanName;
 import com.ibm.fhir.model.type.Reference;
@@ -95,6 +105,12 @@ public abstract class FHIRServerTestBase {
     // for secure WebSocket Client
     private static final String PROPNAME_SSL_ENGINE_CONFIGURATOR = "org.glassfish.tyrus.client.sslEngineConfigurator";
 
+    public static final Coding SUBSETTED_TAG =
+            Coding.builder().system(uri("http://terminology.hl7.org/CodeSystem/v3-ObservationValue"))
+            .code(Code.of("SUBSETTED"))
+            .display(string("subsetted"))
+            .build();
+
     // These are values of test-specific properties.
     private String restBaseUrl = null;
     private String websocketUrl = null;
@@ -115,6 +131,86 @@ public abstract class FHIRServerTestBase {
     protected static final String MEDIATYPE_XML_FHIR = FHIRMediaType.APPLICATION_FHIR_XML;
 
     private CapabilityStatement conformanceStmt = null;
+
+    private Map<String, HashSet<String>> resourceRegistry = new HashMap<String,HashSet<String>>();
+
+    /**
+     * creates the resource and returns the logical id
+     * it also registers the newly created resource in a registry, such that it is deleted at the end of the run.
+     * @param resourceType
+     * @param r
+     * @return
+     */
+    public String createResourceAndReturnTheLogicalId(String resourceType, Resource r) {
+        WebTarget target = getWebTarget();
+        Entity<? extends Resource> entity = Entity.entity(r, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response = target.path(resourceType).request().post(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+        String id = getLocationLogicalId(response);
+        response = target.path(resourceType).path(id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        addToResourceRegistry(resourceType, id);
+        return id;
+    }
+
+    /**
+     * add to resource registry, which is used to cleanup at the end of a run.
+     * @param resourceType
+     * @param logicalId
+     */
+    public void addToResourceRegistry(String resourceType, String logicalId) {
+        HashSet<String> ids = resourceRegistry.getOrDefault(resourceType, new HashSet<>());
+        ids.add(logicalId);
+        resourceRegistry.put(resourceType, ids);
+    }
+
+    /**
+     * should skip the cleanup
+     * @return
+     */
+    public boolean shouldSkipCleanup() {
+        return Boolean.FALSE;
+    }
+
+    @AfterClass
+    public void cleanup() {
+        cleanupResourcesUsingResourceRegistry(shouldSkipCleanup());
+    }
+
+    /**
+     * run at the end of the integration tests so we reset to the original state.
+     * @param skip
+     */
+    public void cleanupResourcesUsingResourceRegistry(boolean skip) {
+        if (!skip) {
+            for (Map.Entry<String, HashSet<String>> entry : resourceRegistry.entrySet()) {
+                String resourceType = entry.getKey();
+                HashSet<String> resourceIds = entry.getValue();
+                for (String resourceId : resourceIds) {
+                    Response response = getWebTarget().path(resourceType + "/" + resourceId).request().delete();
+                    if (response.getStatus() != Response.Status.OK.getStatusCode() && response.getStatus() != Response.Status.NOT_FOUND.getStatusCode()) {
+                        System.out.println("Could not delete test resource " + resourceType + "/" + resourceId + ": " + response.getStatus());
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * prints out the resources
+     * @param debug
+     * @param res
+     */
+    public void printOutResource(boolean debug, Resource res) {
+        if (debug) {
+            try {
+                FHIRGenerator.generator(Format.JSON, false).generate(res, System.out);
+            } catch (FHIRGeneratorException e) {
+                e.printStackTrace();
+                fail("unable to generate the fhir resource to JSON");
+            }
+        }
+    }
 
     protected String getRestBaseURL() {
         return restBaseUrl;
@@ -761,16 +857,37 @@ public abstract class FHIRServerTestBase {
         }
     }
 
+
     /**
      * Gets the self link of the bundle.
      * @param bundle the bundle
      * @return the self link, or null
      */
     protected String getSelfLink(Bundle bundle) {
+        return getLink(bundle, "self");
+    }
+
+
+    /**
+     * Gets the next link of the bundle.
+     * @param bundle the bundle
+     * @return the next link, or null
+     */
+    protected String getNextLink(Bundle bundle) {
+        return getLink(bundle, "next");
+    }
+
+    /**
+     * Gets the link with the specified relation type of the bundle.
+     * @param bundle the bundle
+     * @param relation the relation type
+     * @return the link, or null
+     */
+    private String getLink(Bundle bundle, String relation) {
         for (Bundle.Link link : bundle.getLink()) {
             String type = link.getRelation().getValue();
             String uri = link.getUrl().getValue();
-            if ("self".equals(type)) {
+            if (relation.equals(type)) {
                 return uri;
             }
         }

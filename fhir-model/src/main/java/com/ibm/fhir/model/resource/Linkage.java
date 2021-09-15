@@ -48,7 +48,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "Must have at least two items",
-    expression = "item.count()>1"
+    expression = "item.count()>1",
+    source = "http://hl7.org/fhir/StructureDefinition/Linkage"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Linkage extends DomainResource {

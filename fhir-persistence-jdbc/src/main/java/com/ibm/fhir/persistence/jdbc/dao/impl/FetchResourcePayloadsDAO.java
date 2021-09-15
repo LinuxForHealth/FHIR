@@ -27,6 +27,7 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.persistence.ResourcePayload;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
+import com.ibm.fhir.persistence.jdbc.util.CalendarHelper;
 
 /**
  * DAO to fetch resource ids using a time range and optional current resource id as a filter.
@@ -35,8 +36,6 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessExceptio
  */
 public class FetchResourcePayloadsDAO {
     private static final Logger logger = Logger.getLogger(FetchResourcePayloadsDAO.class.getName());
-
-    private static final Calendar UTC_CALENDAR = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 
     // The FHIR data schema name
     private final String schemaName;
@@ -118,19 +117,19 @@ public class FetchResourcePayloadsDAO {
 
             // Set the variables marking the start point of the scan
             if (this.fromLastUpdated != null) {
-                ps.setTimestamp(a++, Timestamp.from(this.fromLastUpdated), UTC_CALENDAR);
+                ps.setTimestamp(a++, Timestamp.from(this.fromLastUpdated), CalendarHelper.getCalendarForUTC());
             }
 
             // And where we want the scan to stop (e.g. exporting a limited time range)
             if (this.toLastUpdated != null) {
-                ps.setTimestamp(a++, Timestamp.from(this.toLastUpdated), UTC_CALENDAR);
+                ps.setTimestamp(a++, Timestamp.from(this.toLastUpdated), CalendarHelper.getCalendarForUTC());
             }
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 // make sure we get the timestamp as a UTC value
                 String logicalId = rs.getString(1);
-                Instant lastUpdated = rs.getTimestamp(2, UTC_CALENDAR).toInstant();
+                Instant lastUpdated = rs.getTimestamp(2, CalendarHelper.getCalendarForUTC()).toInstant();
                 long resourceId = rs.getLong(3);
                 InputStream is = new GZIPInputStream(rs.getBinaryStream(4));
                 result = new ResourcePayload(logicalId, lastUpdated, resourceId, is);
@@ -192,12 +191,12 @@ public class FetchResourcePayloadsDAO {
 
             // Set the variables marking the start point of the scan
             if (this.fromLastUpdated != null) {
-                ps.setTimestamp(a++, Timestamp.from(fromLastUpdated), UTC_CALENDAR);
+                ps.setTimestamp(a++, Timestamp.from(fromLastUpdated), CalendarHelper.getCalendarForUTC());
             }
 
             // And where we want the scan to stop (e.g. exporting a limited time range)
             if (this.toLastUpdated != null) {
-                ps.setTimestamp(a++, Timestamp.from(this.toLastUpdated), UTC_CALENDAR);
+                ps.setTimestamp(a++, Timestamp.from(this.toLastUpdated), CalendarHelper.getCalendarForUTC());
             }
 
             ResultSet rs = ps.executeQuery();

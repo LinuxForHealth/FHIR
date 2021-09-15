@@ -17,8 +17,10 @@ import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Quantity;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceProcessorException;
 
+@Deprecated
 public abstract class AbstractProcessor<T> implements Processor<T> {
-    
+
+    @Override
     @SuppressWarnings("unchecked")
     public T process(SearchParameter parameter, Object value) throws  FHIRPersistenceProcessorException {
         try {
@@ -32,7 +34,7 @@ public abstract class AbstractProcessor<T> implements Processor<T> {
             } else if (valueType == Extension.class) {
                 value = getValue((Extension) value);
                 valueType = value.getClass();
-            } else if ((valueType.getDeclaredFields().length == 0) || 
+            } else if ((valueType.getDeclaredFields().length == 0) ||
                     (valueType.getDeclaredFields().length == 1 && valueType.getDeclaredFields()[0].isSynthetic())) {
                 valueType = valueType.getSuperclass();
             }
@@ -42,7 +44,7 @@ public abstract class AbstractProcessor<T> implements Processor<T> {
         catch(NoSuchMethodException | IllegalAccessException e) {
             StringBuilder sb = new StringBuilder("Unexpected error while processing parameter");
             if (parameter != null) {
-                sb.append(' '); 
+                sb.append(' ');
                 sb.append(parameter.getCode().getValue());
             }
             throw new FHIRPersistenceProcessorException(sb.toString(), e);
@@ -91,6 +93,6 @@ public abstract class AbstractProcessor<T> implements Processor<T> {
 
     protected java.util.Date convertToDate(String str) throws ParseException {
         TimestampUtil timestampUtil = TimestampUtil.create();
-        return timestampUtil.getTimestamp(str); 
+        return timestampUtil.getTimestamp(str);
     }
 }

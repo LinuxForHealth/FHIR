@@ -73,12 +73,6 @@ public class RetrieveIndexOperation extends AbstractOperation {
             String logicalId, String versionId, Parameters parameters, FHIRResourceHelpers resourceHelper)
             throws FHIROperationException {
 
-        // Only POST is allowed
-        String method = (String) operationContext.getProperty(FHIROperationContext.PROPNAME_METHOD_TYPE);
-        if (!"POST".equalsIgnoreCase(method)) {
-            throw new FHIROperationException("HTTP method not supported: " + method);
-        }
-
         try {
             String indexIdsString = "";
             int count = MAX_COUNT;

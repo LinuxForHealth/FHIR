@@ -22,14 +22,13 @@ import java.util.logging.Logger;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
+import com.ibm.fhir.persistence.jdbc.util.CalendarHelper;
 
 /**
  * Simple DAO to retrieve index IDs (i.e. logical resource IDs) from the LOGICAL_RESOURCES table.
  */
 public class RetrieveIndexDAO {
     private static final Logger logger = Logger.getLogger(RetrieveIndexDAO.class.getName());
-    private static final Calendar UTC_CALENDAR = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-
     private final IDatabaseTranslator translator;
     private final String schemaName;
     private final String resourceTypeName;
@@ -109,7 +108,7 @@ public class RetrieveIndexDAO {
                 ps.setString(i++, resourceTypeName);
             }
             if (notModifiedAfter != null) {
-                ps.setTimestamp(i++, Timestamp.from(notModifiedAfter), UTC_CALENDAR);
+                ps.setTimestamp(i++, Timestamp.from(notModifiedAfter), CalendarHelper.getCalendarForUTC());
             }
             if (afterLogicalResourceId != null) {
                 ps.setLong(i++, afterLogicalResourceId);

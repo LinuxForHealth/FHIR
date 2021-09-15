@@ -57,7 +57,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "The organization SHALL at least have a name or an idendtifier, and possibly more than one",
-    expression = "(identifier.count() + name.count()) > 0"
+    expression = "(identifier.count() + name.count()) > 0",
+    source = "http://hl7.org/fhir/StructureDefinition/InsurancePlan"
 )
 @Constraint(
     id = "insurancePlan-2",
@@ -65,6 +66,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "contact.purpose",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/contactentity-type",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/contactentity-type', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/InsurancePlan",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

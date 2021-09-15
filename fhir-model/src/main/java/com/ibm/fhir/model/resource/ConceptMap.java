@@ -59,28 +59,32 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    source = "http://hl7.org/fhir/StructureDefinition/ConceptMap"
 )
 @Constraint(
     id = "cmd-1",
     level = "Rule",
     location = "ConceptMap.group.element.target",
     description = "If the map is narrower or inexact, there SHALL be some comments",
-    expression = "comment.exists() or equivalence.empty() or ((equivalence != 'narrower') and (equivalence != 'inexact'))"
+    expression = "comment.exists() or equivalence.empty() or ((equivalence != 'narrower') and (equivalence != 'inexact'))",
+    source = "http://hl7.org/fhir/StructureDefinition/ConceptMap"
 )
 @Constraint(
     id = "cmd-2",
     level = "Rule",
     location = "ConceptMap.group.unmapped",
     description = "If the mode is 'fixed', a code must be provided",
-    expression = "(mode = 'fixed') implies code.exists()"
+    expression = "(mode = 'fixed') implies code.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/ConceptMap"
 )
 @Constraint(
     id = "cmd-3",
     level = "Rule",
     location = "ConceptMap.group.unmapped",
     description = "If the mode is 'other-map', a url must be provided",
-    expression = "(mode = 'other-map') implies url.exists()"
+    expression = "(mode = 'other-map') implies url.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/ConceptMap"
 )
 @Constraint(
     id = "conceptMap-4",
@@ -88,6 +92,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
     expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/ConceptMap",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.persistence.jdbc.dao.api;
 
+import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -22,6 +23,12 @@ public interface IIdNameCache<T> {
      * @return
      */
     String getName(T id);
+    
+    /**
+     * Get all names in the cache
+     * @return
+     */
+    Collection<String> getAllNames();
     
     /**
      * Add the entry to the local cache

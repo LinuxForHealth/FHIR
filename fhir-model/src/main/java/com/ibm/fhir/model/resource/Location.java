@@ -60,6 +60,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHOULD contain a code from value set http://terminology.hl7.org/ValueSet/v2-0116",
     expression = "operationalStatus.exists() implies (operationalStatus.memberOf('http://terminology.hl7.org/ValueSet/v2-0116', 'preferred'))",
+    source = "http://hl7.org/fhir/StructureDefinition/Location",
     generated = true
 )
 @Constraint(
@@ -68,6 +69,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://terminology.hl7.org/ValueSet/v3-ServiceDeliveryLocationRoleType",
     expression = "type.exists() implies (type.all(memberOf('http://terminology.hl7.org/ValueSet/v3-ServiceDeliveryLocationRoleType', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/Location",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

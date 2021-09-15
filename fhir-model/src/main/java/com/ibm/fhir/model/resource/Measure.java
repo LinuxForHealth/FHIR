@@ -62,14 +62,16 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    source = "http://hl7.org/fhir/StructureDefinition/Measure"
 )
 @Constraint(
     id = "mea-1",
     level = "Rule",
     location = "(base)",
     description = "Stratifier SHALL be either a single criteria or a set of criteria components",
-    expression = "group.stratifier.all((code | description | criteria).exists() xor component.exists())"
+    expression = "group.stratifier.all((code | description | criteria).exists() xor component.exists())",
+    source = "http://hl7.org/fhir/StructureDefinition/Measure"
 )
 @Constraint(
     id = "measure-2",
@@ -77,6 +79,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/subject-type",
     expression = "subject.as(CodeableConcept).exists() implies (subject.as(CodeableConcept).memberOf('http://hl7.org/fhir/ValueSet/subject-type', 'extensible'))",
+    source = "http://hl7.org/fhir/StructureDefinition/Measure",
     generated = true
 )
 @Constraint(
@@ -85,6 +88,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
     expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/Measure",
     generated = true
 )
 @Constraint(
@@ -93,6 +97,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/measure-scoring",
     expression = "scoring.exists() implies (scoring.memberOf('http://hl7.org/fhir/ValueSet/measure-scoring', 'extensible'))",
+    source = "http://hl7.org/fhir/StructureDefinition/Measure",
     generated = true
 )
 @Constraint(
@@ -101,6 +106,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/composite-measure-scoring",
     expression = "compositeScoring.exists() implies (compositeScoring.memberOf('http://hl7.org/fhir/ValueSet/composite-measure-scoring', 'extensible'))",
+    source = "http://hl7.org/fhir/StructureDefinition/Measure",
     generated = true
 )
 @Constraint(
@@ -109,6 +115,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/measure-type",
     expression = "type.exists() implies (type.all(memberOf('http://hl7.org/fhir/ValueSet/measure-type', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/Measure",
     generated = true
 )
 @Constraint(
@@ -117,6 +124,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "group.population.code",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/measure-population",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/measure-population', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/Measure",
     generated = true
 )
 @Constraint(
@@ -125,6 +133,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "supplementalData.usage",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/measure-data-usage",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/measure-data-usage', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/Measure",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

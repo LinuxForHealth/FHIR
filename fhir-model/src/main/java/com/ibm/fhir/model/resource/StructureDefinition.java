@@ -62,168 +62,192 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
 )
 @Constraint(
     id = "sdf-1",
     level = "Rule",
     location = "(base)",
     description = "Element paths must be unique unless the structure is a constraint",
-    expression = "derivation = 'constraint' or snapshot.element.select(path).isDistinct()"
+    expression = "derivation = 'constraint' or snapshot.element.select(path).isDistinct()",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
 )
 @Constraint(
     id = "sdf-2",
     level = "Rule",
     location = "StructureDefinition.mapping",
     description = "Must have at least a name or a uri (or both)",
-    expression = "name.exists() or uri.exists()"
+    expression = "name.exists() or uri.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
 )
 @Constraint(
     id = "sdf-3",
     level = "Rule",
     location = "StructureDefinition.snapshot",
     description = "Each element definition in a snapshot must have a formal definition and cardinalities",
-    expression = "element.all(definition.exists() and min.exists() and max.exists())"
+    expression = "element.all(definition.exists() and min.exists() and max.exists())",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
 )
 @Constraint(
     id = "sdf-4",
     level = "Rule",
     location = "(base)",
     description = "If the structure is not abstract, then there SHALL be a baseDefinition",
-    expression = "abstract = true or baseDefinition.exists()"
+    expression = "abstract = true or baseDefinition.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
 )
 @Constraint(
     id = "sdf-5",
     level = "Rule",
     location = "(base)",
     description = "If the structure defines an extension then the structure must have context information",
-    expression = "type != 'Extension' or derivation = 'specialization' or (context.exists())"
+    expression = "type != 'Extension' or derivation = 'specialization' or (context.exists())",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
 )
 @Constraint(
     id = "sdf-6",
     level = "Rule",
     location = "(base)",
     description = "A structure must have either a differential, or a snapshot (or both)",
-    expression = "snapshot.exists() or differential.exists()"
+    expression = "snapshot.exists() or differential.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
 )
 @Constraint(
     id = "sdf-8",
     level = "Rule",
     location = "StructureDefinition.snapshot",
     description = "All snapshot elements must start with the StructureDefinition's specified type for non-logical models, or with the same type name for logical models",
-    expression = "(%resource.kind = 'logical' or element.first().path = %resource.type) and element.tail().all(path.startsWith(%resource.snapshot.element.first().path&'.'))"
+    expression = "(%resource.kind = 'logical' or element.first().path = %resource.type) and element.tail().all(path.startsWith(%resource.snapshot.element.first().path&'.'))",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
 )
 @Constraint(
     id = "sdf-8a",
     level = "Rule",
     location = "StructureDefinition.differential",
     description = "In any differential, all the elements must start with the StructureDefinition's specified type for non-logical models, or with the same type name for logical models",
-    expression = "(%resource.kind = 'logical' or element.first().path.startsWith(%resource.type)) and (element.tail().empty() or element.tail().all(path.startsWith(%resource.differential.element.first().path.replaceMatches('\\..*','')&'.')))"
+    expression = "(%resource.kind = 'logical' or element.first().path.startsWith(%resource.type)) and (element.tail().empty() or element.tail().all(path.startsWith(%resource.differential.element.first().path.replaceMatches('\\..*','')&'.')))",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
 )
 @Constraint(
     id = "sdf-8b",
     level = "Rule",
     location = "StructureDefinition.snapshot",
     description = "All snapshot elements must have a base definition",
-    expression = "element.all(base.exists())"
+    expression = "element.all(base.exists())",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
 )
 @Constraint(
     id = "sdf-9",
     level = "Rule",
     location = "(base)",
     description = "In any snapshot or differential, no label, code or requirements on an element without a \".\" in the path (e.g. the first element)",
-    expression = "children().element.where(path.contains('.').not()).label.empty() and children().element.where(path.contains('.').not()).code.empty() and children().element.where(path.contains('.').not()).requirements.empty()"
+    expression = "children().element.where(path.contains('.').not()).label.empty() and children().element.where(path.contains('.').not()).code.empty() and children().element.where(path.contains('.').not()).requirements.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
 )
 @Constraint(
     id = "sdf-10",
     level = "Rule",
     location = "StructureDefinition.snapshot.element",
     description = "provide either a binding reference or a description (or both)",
-    expression = "binding.empty() or binding.valueSet.exists() or binding.description.exists()"
+    expression = "binding.empty() or binding.valueSet.exists() or binding.description.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
 )
 @Constraint(
     id = "sdf-11",
     level = "Rule",
     location = "(base)",
     description = "If there's a type, its content must match the path name in the first element of a snapshot",
-    expression = "kind != 'logical' implies snapshot.empty() or snapshot.element.first().path = type"
+    expression = "kind != 'logical' implies snapshot.empty() or snapshot.element.first().path = type",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
 )
 @Constraint(
     id = "sdf-14",
     level = "Rule",
     location = "(base)",
     description = "All element definitions must have an id",
-    expression = "snapshot.element.all(id.exists()) and differential.element.all(id.exists())"
+    expression = "snapshot.element.all(id.exists()) and differential.element.all(id.exists())",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
 )
 @Constraint(
     id = "sdf-15",
     level = "Rule",
     location = "(base)",
     description = "The first element in a snapshot has no type unless model is a logical model.",
-    expression = "kind!='logical' implies snapshot.element.first().type.empty()"
+    expression = "kind!='logical' implies snapshot.element.first().type.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
 )
 @Constraint(
     id = "sdf-15a",
     level = "Rule",
     location = "(base)",
     description = "If the first element in a differential has no \".\" in the path and it's not a logical model, it has no type",
-    expression = "(kind!='logical'  and differential.element.first().path.contains('.').not()) implies differential.element.first().type.empty()"
+    expression = "(kind!='logical'  and differential.element.first().path.contains('.').not()) implies differential.element.first().type.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
 )
 @Constraint(
     id = "sdf-16",
     level = "Rule",
     location = "(base)",
     description = "All element definitions must have unique ids (snapshot)",
-    expression = "snapshot.element.all(id.exists()) and snapshot.element.id.trace('ids').isDistinct()"
+    expression = "snapshot.element.all(id.exists()) and snapshot.element.id.trace('ids').isDistinct()",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
 )
 @Constraint(
     id = "sdf-17",
     level = "Rule",
     location = "(base)",
     description = "All element definitions must have unique ids (diff)",
-    expression = "differential.element.all(id.exists()) and differential.element.id.trace('ids').isDistinct()"
+    expression = "differential.element.all(id.exists()) and differential.element.id.trace('ids').isDistinct()",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
 )
 @Constraint(
     id = "sdf-18",
     level = "Rule",
     location = "(base)",
     description = "Context Invariants can only be used for extensions",
-    expression = "contextInvariant.exists() implies type = 'Extension'"
+    expression = "contextInvariant.exists() implies type = 'Extension'",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
 )
 @Constraint(
     id = "sdf-19",
     level = "Rule",
     location = "(base)",
     description = "FHIR Specification models only use FHIR defined types",
-    expression = "url.startsWith('http://hl7.org/fhir/StructureDefinition') implies (differential.element.type.code.all(matches('^[a-zA-Z0-9]+$') or matches('^http:\\/\\/hl7\\.org\\/fhirpath\\/System\\.[A-Z][A-Za-z]+$')) and snapshot.element.type.code.all(matches('^[a-zA-Z0-9\\.]+$') or matches('^http:\\/\\/hl7\\.org\\/fhirpath\\/System\\.[A-Z][A-Za-z]+$')))"
+    expression = "url.startsWith('http://hl7.org/fhir/StructureDefinition') implies (differential.element.type.code.all(matches('^[a-zA-Z0-9]+$') or matches('^http:\\/\\/hl7\\.org\\/fhirpath\\/System\\.[A-Z][A-Za-z]+$')) and snapshot.element.type.code.all(matches('^[a-zA-Z0-9\\.]+$') or matches('^http:\\/\\/hl7\\.org\\/fhirpath\\/System\\.[A-Z][A-Za-z]+$')))",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
 )
 @Constraint(
     id = "sdf-20",
     level = "Rule",
     location = "StructureDefinition.differential",
     description = "No slicing on the root element",
-    expression = "element.where(path.contains('.').not()).slicing.empty()"
+    expression = "element.where(path.contains('.').not()).slicing.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
 )
 @Constraint(
     id = "sdf-21",
     level = "Rule",
     location = "(base)",
     description = "Default values can only be specified on specializations",
-    expression = "differential.element.defaultValue.exists() implies (derivation = 'specialization')"
+    expression = "differential.element.defaultValue.exists() implies (derivation = 'specialization')",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
 )
 @Constraint(
     id = "sdf-22",
     level = "Rule",
     location = "(base)",
     description = "FHIR Specification models never have default values",
-    expression = "url.startsWith('http://hl7.org/fhir/StructureDefinition') implies (snapshot.element.defaultValue.empty() and differential.element.defaultValue.empty())"
+    expression = "url.startsWith('http://hl7.org/fhir/StructureDefinition') implies (snapshot.element.defaultValue.empty() and differential.element.defaultValue.empty())",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
 )
 @Constraint(
     id = "sdf-23",
     level = "Rule",
     location = "(base)",
     description = "No slice name on root",
-    expression = "(snapshot | differential).element.all(path.contains('.').not() implies sliceName.empty())"
+    expression = "(snapshot | differential).element.all(path.contains('.').not() implies sliceName.empty())",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
 )
 @Constraint(
     id = "structureDefinition-24",
@@ -231,6 +255,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
     expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition",
     generated = true
 )
 @Constraint(
@@ -239,6 +264,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/definition-use",
     expression = "keyword.exists() implies (keyword.all(memberOf('http://hl7.org/fhir/ValueSet/definition-use', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition",
     generated = true
 )
 @Constraint(
@@ -247,6 +273,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/defined-types",
     expression = "type.exists() and type.memberOf('http://hl7.org/fhir/ValueSet/defined-types', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

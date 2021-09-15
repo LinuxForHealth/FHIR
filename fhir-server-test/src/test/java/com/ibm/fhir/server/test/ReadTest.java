@@ -6,8 +6,6 @@
 
 package com.ibm.fhir.server.test;
 
-import static com.ibm.fhir.model.type.String.string;
-import static com.ibm.fhir.model.type.Uri.uri;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
@@ -28,18 +26,11 @@ import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.test.TestUtil;
-import com.ibm.fhir.model.type.Code;
-import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.code.AdministrativeGender;
 import com.ibm.fhir.model.util.FHIRUtil;
 
 public class ReadTest extends FHIRServerTestBase {
     private String patientId;
-    private Coding subsettedTag =
-            Coding.builder().system(uri("http://terminology.hl7.org/CodeSystem/v3-ObservationValue"))
-            .code(Code.of("SUBSETTED"))
-            .display(string("subsetted"))
-            .build();
 
     @Test(groups = { "server-read" })
     public void testCreatePatient() throws Exception {
@@ -58,6 +49,7 @@ public class ReadTest extends FHIRServerTestBase {
 
         // Get the patient's logical id value.
         patientId = getLocationLogicalId(response);
+        addToResourceRegistry("Patient", patientId);
 
         // Next, call the 'read' API to retrieve the new patient and verify it.
         response = target.path("Patient/"
@@ -129,7 +121,7 @@ public class ReadTest extends FHIRServerTestBase {
      * @throws Exception an exception
      */
     private void checkSubsetted(Patient patient, List<String> methods) throws Exception {
-        assertTrue(FHIRUtil.hasTag(patient, subsettedTag));
+        assertTrue(FHIRUtil.hasTag(patient, SUBSETTED_TAG));
         // Verify that only the requested elements (and "mandatory elements") are
         // present in the returned Patient.
         Method[] patientMethods = Patient.class.getDeclaredMethods();

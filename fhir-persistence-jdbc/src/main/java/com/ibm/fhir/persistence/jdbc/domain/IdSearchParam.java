@@ -26,7 +26,7 @@ public class IdSearchParam extends SearchParam {
 
     @Override
     public <T> T visit(T queryData, SearchQueryVisitor<T> visitor) throws FHIRPersistenceException {
-        visitor.addFilter(queryData, getQueryParameter());
+        visitor.addFilter(queryData, getRootResourceType(), getQueryParameter());
         return queryData;
     }
 }

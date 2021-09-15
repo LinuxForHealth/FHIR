@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.persistence.jdbc.util;
 
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SEARCH_ENABLE_LEGACY_WHOLE_SYSTEM_SEARCH_PARAMS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.EQ;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LIKE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.modifierOperatorMap;
@@ -14,6 +15,7 @@ import static com.ibm.fhir.search.SearchConstants.LAST_UPDATED;
 import static com.ibm.fhir.search.SearchConstants.PROFILE;
 import static com.ibm.fhir.search.SearchConstants.SECURITY;
 import static com.ibm.fhir.search.SearchConstants.TAG;
+import static com.ibm.fhir.search.SearchConstants.URL;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -21,8 +23,10 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.database.utils.query.Select;
 import com.ibm.fhir.model.resource.Location;
 import com.ibm.fhir.model.resource.Resource;
@@ -117,7 +121,7 @@ import com.ibm.fhir.search.parameters.SortParameter;
  * </pre>
  */
 public class NewQueryBuilder {
-    private static final Logger log = java.util.logging.Logger.getLogger(JDBCQueryBuilder.class.getName());
+    private static final Logger log = java.util.logging.Logger.getLogger(NewQueryBuilder.class.getName());
     private static final String CLASSNAME = NewQueryBuilder.class.getName();
 
     // For id lookups
@@ -125,6 +129,9 @@ public class NewQueryBuilder {
 
     // Hints to use for certain queries
     private final QueryHints queryHints;
+
+    // Enable use of legacy whole-system search parameters for the search request
+    private final boolean legacyWholeSystemSearchParamsEnabled;
 
     /**
      * Public constructor
@@ -134,6 +141,8 @@ public class NewQueryBuilder {
     public NewQueryBuilder(QueryHints queryHints, JDBCIdentityCache identityCache) {
         this.queryHints = queryHints;
         this.identityCache = identityCache;
+        this.legacyWholeSystemSearchParamsEnabled =
+                FHIRConfigHelper.getBooleanProperty(PROPERTY_SEARCH_ENABLE_LEGACY_WHOLE_SYSTEM_SEARCH_PARAMS, false);
     }
 
     /**
@@ -178,7 +187,7 @@ public class NewQueryBuilder {
                 if (resourceTypes == null) {
                     // The _type parameter was not specified, so we need to generate a list
                     // of all supported resource types for our UNION query.
-                    resourceTypes = new ArrayList<>(this.identityCache.getResourceTypeNames());
+                    resourceTypes = this.identityCache.getResourceTypeNames();
                     resourceTypes.remove("Resource");
                     resourceTypes.remove("DomainResource");
                 }
@@ -250,7 +259,7 @@ public class NewQueryBuilder {
                 if (resourceTypes == null) {
                     // The _type parameter was not specified, so we need to generate a list
                     // of all supported resource types for our UNION query.
-                    resourceTypes = new ArrayList<>(this.identityCache.getResourceTypeNames());
+                    resourceTypes = this.identityCache.getResourceTypeNames();
                     resourceTypes.remove("Resource");
                     resourceTypes.remove("DomainResource");
                 }
@@ -302,7 +311,8 @@ public class NewQueryBuilder {
     public Select buildIncludeQuery(Class<?> resourceType, FHIRSearchContext searchContext,
             InclusionParameter inclusionParm, List<Long> logicalResourceIds, String inclusionType) throws Exception {
         final String METHODNAME = "buildIncludeQuery";
-        log.entering(CLASSNAME, METHODNAME);
+        log.entering(CLASSNAME, METHODNAME,
+            new Object[] { resourceType.getSimpleName(), inclusionParm });
 
         // Build the special "include" query to fetch additional resources
         // that need to be included with the main search result
@@ -461,7 +471,9 @@ public class NewQueryBuilder {
      */
     private void processQueryParameter(SearchQuery domainModel, Class<?> resourceType, QueryParameter queryParm) throws Exception {
         final String METHODNAME = "processQueryParameter";
-        log.entering(CLASSNAME, METHODNAME, queryParm.toString());
+        if (log.isLoggable(Level.FINER)) {
+            log.entering(CLASSNAME, METHODNAME, queryParm.toString());
+        }
 
         try {
             if (Modifier.MISSING.equals(queryParm.getModifier())) {
@@ -498,9 +510,9 @@ public class NewQueryBuilder {
                     domainModel.add(new DateSearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));
                     break;
                 case TOKEN:
-                    if (TAG.equals(queryParm.getCode())) {
+                    if (!this.legacyWholeSystemSearchParamsEnabled && TAG.equals(queryParm.getCode())) {
                         domainModel.add(new TagSearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));
-                    } else if (SECURITY.equals(queryParm.getCode())) {
+                    } else if (!this.legacyWholeSystemSearchParamsEnabled && SECURITY.equals(queryParm.getCode())) {
                         domainModel.add(new SecuritySearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));
                     } else {
                         domainModel.add(new TokenSearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));
@@ -513,7 +525,8 @@ public class NewQueryBuilder {
                     domainModel.add(new QuantitySearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));
                     break;
                 case URI:
-                    if (PROFILE.equals(queryParm.getCode())) {
+                    if ((!this.legacyWholeSystemSearchParamsEnabled && PROFILE.equals(queryParm.getCode()))
+                            || URL.equals(queryParm.getCode()) || queryParm.isCanonical()) {
                         domainModel.add(new CanonicalSearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));
                     } else {
                         domainModel.add(new StringSearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));
@@ -527,7 +540,9 @@ public class NewQueryBuilder {
                 }
             }
         } finally {
-            log.exiting(CLASSNAME, METHODNAME, new Object[] { queryParm });
+            if (log.isLoggable(Level.FINER)) {
+                log.exiting(CLASSNAME, METHODNAME, new Object[] { queryParm });
+            }
         }
     }
 
@@ -593,7 +608,7 @@ public class NewQueryBuilder {
         log.exiting(CLASSNAME, METHODNAME, operator);
         return operator;
     }
-    
+
     private boolean allSearchParmsAreGlobal(List<QueryParameter> queryParms) {
         for (QueryParameter queryParm : queryParms) {
             if (!SearchConstants.SYSTEM_LEVEL_GLOBAL_PARAMETER_NAMES.contains(queryParm.getCode())) {
@@ -602,7 +617,7 @@ public class NewQueryBuilder {
         }
         return true;
     }
-    
+
     private void addResourceTypeExtension(SearchQuery domainModel, List<String> resourceTypes) throws FHIRPersistenceException {
         List<Integer> resourceTypeIds = new ArrayList<>();
         for (String resourceType : resourceTypes) {
@@ -610,7 +625,7 @@ public class NewQueryBuilder {
         }
         domainModel.add(new WholeSystemResourceTypeExtension(resourceTypeIds));
     }
-    
+
     /**
      * Process DATE parameters. If there are multiple query parameters specified for a
      * single DATE search parameter, we will attempt to consolidate in two ways:
@@ -628,15 +643,15 @@ public class NewQueryBuilder {
      * We will not attempt to consolidate query parameters that have a modifier specified,
      * or that are chain or inclusion parameters, or that have multiple parameter values.
      * Those will be processed as normal DATE query parameters.
-     * 
+     *
      * @param domainModel
      * @param resourceType
      * @param searchParameters
-     * @throws Exception 
+     * @throws Exception
      */
     private void consolidateDateParms(SearchQuery domainModel, Class<?> resourceType, List<QueryParameter> searchParameters)
             throws Exception {
-        
+
         // We only need to attempt to consolidate if we have multiple query parameters for the
         // same search parameter name. Loop through the search parameters, mapping parameter name
         // to parameter(s) to determine if this is the case.
@@ -646,7 +661,7 @@ public class NewQueryBuilder {
                 consolidationMap.computeIfAbsent(searchParameter.getCode(), k -> new ArrayList<>()).add(searchParameter);
             }
         }
-        
+
         // Now loop through the map to find any cases of same parameter specified multiple times.
         // If found, we will attempt to consolidate. If not, we will simply process as a normal
         // date parameter.
@@ -667,7 +682,7 @@ public class NewQueryBuilder {
                     }
                 }
             }
-            
+
             if (eligibleToConsolidate) {
                 // Attempt to consolidate the upper and lower bound constraints
                 List<QueryParameter> consolidatedParms = new ArrayList<>();
@@ -691,31 +706,31 @@ public class NewQueryBuilder {
                             gteBoundParm = queryParm;
                         }
                         break;
-                    case GE: 
+                    case GE:
                         if (gteBound == null || valueLowerBound.isAfter(gteBound)) {
                             gteBound = valueLowerBound;
                             gteBoundParm = queryParm;
                         }
                         break;
-                    case SA: 
+                    case SA:
                         if (saBound == null || valueUpperBound.isAfter(saBound)) {
                             saBound = valueUpperBound;
                             saBoundParm = queryParm;
                         }
                         break;
-                    case LT: 
+                    case LT:
                         if (lteBound == null || valueLowerBound.isBefore(lteBound) || valueLowerBound.equals(lteBound)) {
                             lteBound = valueLowerBound;
                             lteBoundParm = queryParm;
                         }
                         break;
-                    case LE: 
+                    case LE:
                         if (lteBound == null || valueUpperBound.isBefore(lteBound)) {
                             lteBound = valueUpperBound;
                             lteBoundParm = queryParm;
                         }
                         break;
-                    case EB: 
+                    case EB:
                         if (ebBound == null || valueLowerBound.isBefore(ebBound)) {
                             ebBound = valueLowerBound;
                             ebBoundParm = queryParm;
@@ -726,7 +741,7 @@ public class NewQueryBuilder {
                         consolidatedParms.add(queryParm);
                     }
                 }
-                
+
                 // Add the consolidated parms
                 if (saBound != null) {
                     // Add the SA queryParm with the most restrictive bound
@@ -754,7 +769,7 @@ public class NewQueryBuilder {
                     // Add the LT/LE queryParm with the most restrictive bound
                     consolidatedParms.add(lteBoundParm);
                 }
-                
+
                 // Chain all the consolidated parms together - need to make copies since we're
                 // modifying by chaining.
                 QueryParameter consolidatedDateParm = null;
@@ -771,7 +786,7 @@ public class NewQueryBuilder {
                         }
                     }
                 }
-                
+
                 // Process new consolidated DATE parameter
                 domainModel.add(new DateSearchParam(
                     resourceType.getSimpleName(), consolidatedDateParm.getCode(), consolidatedDateParm));

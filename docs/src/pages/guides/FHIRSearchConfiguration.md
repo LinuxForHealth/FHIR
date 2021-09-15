@@ -284,7 +284,7 @@ The `$retrieve-index` operation is called to retrieve index IDs of resources ava
 
 |name|type|description|
 |----|----|-----------|
-|`_count`|string|The maximum number of index IDs to retrieve. This may not exceed 1000. If not specified, the maxinum number retrieved is 1000.|
+|`_count`|string|The maximum number of index IDs to retrieve. This may not exceed 1000. If not specified, the maximum number retrieved is 1000.|
 |`notModifiedAfter`|string|Only retrieve index IDs for resources not last updated after this timestamp. Format as a date YYYY-MM-DD or time YYYY-MM-DDTHH:MM:SSZ.|
 |`afterIndexId`|string|Retrieve index IDs starting with the first index ID after this index ID. If this parameter is not specified, the retrieved index IDs start with the first index ID.|
 

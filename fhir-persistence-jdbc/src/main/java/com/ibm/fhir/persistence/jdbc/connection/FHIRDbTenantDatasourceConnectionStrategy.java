@@ -149,6 +149,7 @@ public class FHIRDbTenantDatasourceConnectionStrategy extends FHIRDbConnectionSt
                 datasourceMap.put(jndiName, datasource);
             } catch (Throwable e) {
                 // don't emit secrets in exceptions
+                log.throwing(this.getClass().getSimpleName(), "getConnection", e);
                 FHIRPersistenceDBConnectException fx = new FHIRPersistenceDBConnectException("Failure acquiring datasource");
                 throw FHIRDbHelper.severe(log, fx, "Failure acquiring connection for datasource: " + jndiName, e);
             } finally {

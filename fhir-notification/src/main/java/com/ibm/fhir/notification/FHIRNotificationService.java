@@ -155,6 +155,13 @@ public class FHIRNotificationService implements FHIRPersistenceInterceptor {
         }
     }
 
+    @Override
+    public void afterPatch(FHIRPersistenceEvent pEvent) throws FHIRPersistenceInterceptorException {
+        if (shouldPublish(pEvent)) {
+            this.publish(buildNotificationEvent("patch", pEvent));
+        }
+    }
+
     /**
      * Returns true iff we should publish the specified persistence event as a notification event.
      */

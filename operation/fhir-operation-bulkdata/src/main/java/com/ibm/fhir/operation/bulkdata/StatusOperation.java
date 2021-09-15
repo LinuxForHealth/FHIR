@@ -76,4 +76,10 @@ public class StatusOperation extends AbstractOperation {
             throw buildExceptionWithIssue("Invalid call $bulkdata-status operation call", IssueType.INVALID);
         }
     }
+
+    @Override
+    protected boolean isAdditionalMethodAllowed(String method) {
+        return "DELETE".equalsIgnoreCase(method);
+    }
+
 }

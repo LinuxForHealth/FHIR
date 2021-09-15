@@ -35,6 +35,9 @@ public enum FhirSchemaVersion {
     ,V0014(14, "whole-system search and canonical references", true)
     ,V0015(15, "issue-2155 add parameter hash to bypass update during reindex", true)
     ,V0016(16, "issue-1921 add dedicated common_token_values mapping table for security", true)
+    ,V0017(17, "issue-1822 add initial vacuum settings", true)
+    ,V0018(18, "issue-1822 add optimized settings for postgres vacuum tables", true)
+    ,V0019(19, "issue-1822 changes per the IBM Cloud Database Team", true)
     ;
 
     // The version number recorded in the VERSION_HISTORY

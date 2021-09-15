@@ -42,6 +42,9 @@ public class FHIRConfiguration {
     public static final String PROPERTY_MAX_PAGE_INCLUDE_COUNT = "fhirServer/core/maxPageIncludeCount";
     public static final String PROPERTY_CAPABILITIES_URL = "fhirServer/core/capabilitiesUrl";
 
+    // Validation properties
+    public static final String PROPERTY_VALIDATION_FAIL_FAST = "fhirServer/validation/failFast";
+
     // Terminology service properties
     public static final String PROPERTY_TERM_SERVICE_CAPABILITIES_URL = "fhirServer/term/capabilitiesUrl";
     public static final String PROPERTY_GRAPH_TERM_SERVICE_PROVIDER_ENABLED = "fhirServer/term/graphTermServiceProvider/enabled";
@@ -58,8 +61,6 @@ public class FHIRConfiguration {
     public static final String PROPERTY_FIELD_RESOURCES_SEARCH_PARAMETER_COMBINATIONS = "searchParameterCombinations";
     public static final String PROPERTY_FIELD_RESOURCES_PROFILES = "profiles";
     public static final String PROPERTY_FIELD_RESOURCES_PROFILES_AT_LEAST_ONE = "atLeastOne";
-    public static final String PROPERTY_USE_STORED_COMPARTMENT_PARAM = "fhirServer/search/useStoredCompartmentParam";
-    public static final String PROPERTY_SEARCH_ENABLE_OPT_QUERY_BUILDER = "fhirServer/search/enableOptQueryBuilder";
 
     // Auth and security properties
     public static final String PROPERTY_SECURITY_CORS = "fhirServer/security/cors";
@@ -107,13 +108,12 @@ public class FHIRConfiguration {
     public static final String PROPERTY_UPDATE_CREATE_ENABLED = "fhirServer/persistence/common/updateCreateEnabled";
     public static final String PROPERTY_PERSISTENCE_FACTORY = "fhirServer/persistence/factoryClassname";
     public static final String PROPERTY_DATASOURCES = "fhirServer/persistence/datasources";
-    @Deprecated
-    public static final String PROPERTY_JDBC_DATASOURCE_JNDINAME = "fhirServer/persistence/jdbc/dataSourceJndiName";
-    @Deprecated
-    public static final String PROPERTY_JDBC_ENABLE_PROXY_DATASOURCE = "fhirServer/persistence/jdbc/enableProxyDatasource";
     public static final String PROPERTY_JDBC_ENABLE_READ_ONLY_REPLICAS = "fhirServer/persistence/jdbc/enableReadOnlyReplicas";
+    @Deprecated
     public static final String PROPERTY_JDBC_ENABLE_CODE_SYSTEMS_CACHE = "fhirServer/persistence/jdbc/enableCodeSystemsCache";
+    @Deprecated
     public static final String PROPERTY_JDBC_ENABLE_PARAMETER_NAMES_CACHE = "fhirServer/persistence/jdbc/enableParameterNamesCache";
+    @Deprecated
     public static final String PROPERTY_JDBC_ENABLE_RESOURCE_TYPES_CACHE = "fhirServer/persistence/jdbc/enableResourceTypesCache";
     public static final String PROPERTY_JDBC_EXTERNAL_REF_SYSTEM_CACHE_SIZE = "fhirServer/persistence/jdbc/externalRefSystemCacheSize";
     public static final String PROPERTY_JDBC_EXTERNAL_REF_VALUE_CACHE_SIZE = "fhirServer/persistence/jdbc/externalRefValueCacheSize";
@@ -121,8 +121,13 @@ public class FHIRConfiguration {
     // Optimizer options within a datasource definition
     public static final String PROPERTY_JDBC_SEARCH_OPTIMIZER_OPTIONS = "searchOptimizerOptions";
 
-    // fhir-search - Bounding area
+    // Search config properties
     public static final String PROPERTY_SEARCH_BOUNDING_AREA_RADIUS_TYPE = "fhirServer/search/useBoundingRadius";
+    public static final String PROPERTY_USE_STORED_COMPARTMENT_PARAM = "fhirServer/search/useStoredCompartmentParam";
+    @Deprecated
+    public static final String PROPERTY_SEARCH_ENABLE_OPT_QUERY_BUILDER = "fhirServer/search/enableOptQueryBuilder";
+
+    public static final String PROPERTY_SEARCH_ENABLE_LEGACY_WHOLE_SYSTEM_SEARCH_PARAMS = "fhirServer/search/enableLegacyWholeSystemSearchParams";
 
     // bulkdata
     // JavaBatch Job id encryption key

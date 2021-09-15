@@ -58,21 +58,24 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    source = "http://hl7.org/fhir/StructureDefinition/SearchParameter"
 )
 @Constraint(
     id = "spd-1",
     level = "Rule",
     location = "(base)",
     description = "If an xpath is present, there SHALL be an xpathUsage",
-    expression = "xpath.empty() or xpathUsage.exists()"
+    expression = "xpath.empty() or xpathUsage.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/SearchParameter"
 )
 @Constraint(
     id = "spd-2",
     level = "Rule",
     location = "(base)",
     description = "Search parameters can only have chain names when the search parameter type is 'reference'",
-    expression = "chain.empty() or type = 'reference'"
+    expression = "chain.empty() or type = 'reference'",
+    source = "http://hl7.org/fhir/StructureDefinition/SearchParameter"
 )
 @Constraint(
     id = "searchParameter-3",
@@ -80,6 +83,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
     expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/SearchParameter",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

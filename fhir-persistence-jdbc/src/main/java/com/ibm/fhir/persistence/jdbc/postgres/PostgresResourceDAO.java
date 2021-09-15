@@ -6,8 +6,6 @@
 
 package com.ibm.fhir.persistence.jdbc.postgres;
 
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.UTC;
-
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -40,6 +38,7 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
 import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
+import com.ibm.fhir.persistence.jdbc.util.CalendarHelper;
 import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
 
 /**
@@ -101,7 +100,7 @@ public class PostgresResourceDAO extends ResourceDAOImpl {
             stmt.setBinaryStream(3, resource.getDataStream().inputStream());
 
             lastUpdated = resource.getLastUpdated();
-            stmt.setTimestamp(4, lastUpdated, UTC);
+            stmt.setTimestamp(4, lastUpdated, CalendarHelper.getCalendarForUTC());
             stmt.setString(5, resource.isDeleted() ? "Y": "N");
             stmt.setString(6, UUID.randomUUID().toString());
             stmt.setInt(7, resource.getVersionId());

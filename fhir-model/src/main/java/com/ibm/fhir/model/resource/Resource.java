@@ -36,6 +36,7 @@ import com.ibm.fhir.model.visitor.AbstractVisitable;
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/languages",
     expression = "language.exists() implies (language.memberOf('http://hl7.org/fhir/ValueSet/languages', 'preferred'))",
+    source = "http://hl7.org/fhir/StructureDefinition/Resource",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

@@ -7,6 +7,7 @@
 package com.ibm.fhir.operation.bulkdata.client;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -16,6 +17,7 @@ import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64.Encoder;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
@@ -29,7 +31,6 @@ import javax.ws.rs.core.Response.Status;
 import org.apache.http.Consts;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
@@ -42,11 +43,15 @@ import org.apache.http.util.EntityUtils;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.exception.FHIROperationException;
+import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
+import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.code.IssueType;
+import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.operation.bulkdata.OperationConstants;
 import com.ibm.fhir.operation.bulkdata.OperationConstants.ExportType;
+import com.ibm.fhir.operation.bulkdata.client.action.batch.BatchCancelRequestAction;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
 import com.ibm.fhir.operation.bulkdata.model.JobExecutionResponse;
 import com.ibm.fhir.operation.bulkdata.model.JobInstanceRequest;
@@ -70,7 +75,7 @@ import com.ibm.fhir.search.compartment.CompartmentUtil;
 public class BulkDataClient {
 
     private static final String CLASSNAME = BulkDataClient.class.getName();
-    private static final Logger log = Logger.getLogger(CLASSNAME);
+    private static final Logger LOG = Logger.getLogger(CLASSNAME);
 
     private static final Encoder encoder = java.util.Base64.getUrlEncoder().withoutPadding();
 
@@ -228,8 +233,8 @@ public class BulkDataClient {
         }
 
         String entityStr = JobInstanceRequest.Writer.generate(builder.build(), true);
-        if (log.isLoggable(Level.FINE)) {
-            log.fine("Job instance request: " + entityStr);
+        if (LOG.isLoggable(Level.FINE)) {
+            LOG.fine("Job instance request: " + entityStr);
         }
 
         String baseUrl = adapter.getCoreApiBatchUrl() + "/jobinstances";
@@ -247,8 +252,8 @@ public class BulkDataClient {
             handleStandardResponseStatus(status);
 
             // Debug / Dev only
-            if (log.isLoggable(Level.FINE)) {
-                log.fine("$export response (HTTP " + status + ")");
+            if (LOG.isLoggable(Level.FINE)) {
+                LOG.fine("$export response (HTTP " + status + ")");
             }
 
             if (status != 201) {
@@ -273,18 +278,19 @@ public class BulkDataClient {
 
     /**
      * @param job
-     * @return
+     * @return a PollingLocationResponse or null if the job is still running
      * @throws Exception
      */
     public PollingLocationResponse status(String job) throws Exception {
+        PollingLocationResponse result = new PollingLocationResponse();
 
         // Example: https://localhost:9443/ibm/api/batch/jobinstances/9
         // Get the job instance status, we need it to get the current job execution id of the job instance.
         // It's highly unlikely at this point the job is any other job than the client's job.
-        String baseUrl = adapter.getCoreApiBatchUrl() + "/jobinstances/" + job;
+        String jobinstanceUrl = adapter.getCoreApiBatchUrl() + "/jobinstances/" + job;
 
         CloseableHttpClient cli = wrapper.getHttpClient(adapter.getCoreApiBatchUser(), adapter.getCoreApiBatchPassword());
-        HttpGet statusGet = new HttpGet(baseUrl);
+        HttpGet statusGet = new HttpGet(jobinstanceUrl);
         CloseableHttpResponse statusResponse = cli.execute(statusGet);
 
         JobInstanceResponse bulkExportJobInstanceResponse = null;
@@ -301,86 +307,166 @@ public class BulkDataClient {
             statusResponse.close();
         }
 
-        PollingLocationResponse result = null;
-        try {
-            // Example: https://localhost:9443/ibm/api/batch/jobinstances/9/jobexecutions/2
-            // Get the current job execution status of the job instance.
-            baseUrl = adapter.getCoreApiBatchUrl() + "/jobinstances/" + job +
-                    "/jobexecutions/" + bulkExportJobInstanceResponse.getExecutionId();
+        String batchStatus = bulkExportJobInstanceResponse.getBatchStatus();
+        if (batchStatus == null) {
+            throw export.buildOperationException("Error while reading the bulk export status", IssueType.EXCEPTION);
+        } else if (OperationConstants.RUNNING_STATUS.contains(batchStatus)) {
+            // Per this method's contract, we return null if the job is still running
+            return null;
+        } else if (OperationConstants.FAILED_STATUS.contains(batchStatus)) {
+            /*
+             * @implNote we should handle this in the Job not in the client.
+             * - In the case of partial success a useful response should be sent back.
+             * In the case of a partial success, the server SHALL use a 200 status code instead of 4XX or 5XX.
+             * The choice of when to determine that an export job has failed in its entirety (error status) vs
+             * returning a partial success (complete status) is left up to the implementer.
+             * XXX Can we do something better like return a 2XX response with a link to a file that explains the
+             * error?
+             * What if we couldn't connect with S3 / Cloud object store in the first place?
+             */
 
-            HttpGet executionStatusGet = new HttpGet(baseUrl);
-            CloseableHttpResponse executionStatusResponse = cli.execute(executionStatusGet);
+            List<OperationOutcome.Issue> issueList = new ArrayList<>();
+            for (int i = 0; i < bulkExportJobInstanceResponse.getExecutionId().size(); i++) {
+                // Example: https://localhost:9443/ibm/api/batch/jobinstances/9/jobexecutions/2
+                // Get the current job execution status of the job instance.
+                String jobexecutionUrl = adapter.getCoreApiBatchUrl() + "/jobinstances/" + job +
+                        "/jobexecutions/" + i;
 
-            JobExecutionResponse bulkExportJobExecutionResponse = null;
-            try {
-                handleStandardResponseStatus(executionStatusResponse.getStatusLine().getStatusCode());
-                HttpEntity entity = executionStatusResponse.getEntity();
+                HttpGet executionStatusGet = new HttpGet(jobexecutionUrl);
+                CloseableHttpResponse executionStatusResponse = cli.execute(executionStatusGet);
 
-                try (InputStream is = entity.getContent()) {
-                    bulkExportJobExecutionResponse = JobExecutionResponse.Parser.parse(is);
-                }
-                EntityUtils.consume(entity);
-            } finally {
-                executionStatusGet.releaseConnection();
-                executionStatusResponse.close();
-            }
-
-            verifyTenant(bulkExportJobExecutionResponse.getJobParameters());
-
-            if (log.isLoggable(Level.FINE)) {
-                log.warning("Logging the JobExecutionResponse Details -> \n"
-                        + JobExecutionResponse.Writer.generate(bulkExportJobExecutionResponse, false));
-            }
-
-            String batchStatus = bulkExportJobExecutionResponse.getBatchStatus();
-            if (batchStatus == null) {
-                throw export.buildOperationException("Error while reading the bulk export status", IssueType.INVALID);
-            } else if (OperationConstants.SUCCESS_STATUS.contains(batchStatus)) {
-                result = process(bulkExportJobExecutionResponse);
-            } else if (OperationConstants.FAILED_STATUS.contains(batchStatus)) {
-                /*
-                 * @implNote we should handle this in the Job not in the client.
-                 * - In the case of partial success a useful response should be sent back.
-                 * In the case of a partial success, the server SHALL use a 200 status code instead of 4XX or 5XX.
-                 * The choice of when to determine that an export job has failed in its entirety (error status) vs
-                 * returning a partial success (complete status) is left up to the implementer.
-                 * XXX Can we do something better like return a 2XX response with a link to a file that explains the
-                 * error?
-                 * What if we couldn't connect with S3 / Cloud object store in the first place?
-                 */
-                if (OperationConstants.FAILED_BAD_SOURCE.equals(bulkExportJobExecutionResponse.getExitStatus())) {
-                    throw export.buildOperationException("A bad source input was used during a call to $import", IssueType.INVALID);
-                } else {
-                    throw export.buildOperationException("The job has failed", IssueType.EXCEPTION);
-                }
-            } else if (OperationConstants.STOPPED_STATUS.contains(batchStatus)) {
-                // If the job is stopped, then restart the job.
-                baseUrl = adapter.getCoreApiBatchUrl() + "/jobinstances/" + job + "?action=restart&reusePreviousParams=true";
-
-                HttpPut restart = new HttpPut(baseUrl);
-                CloseableHttpResponse restartResponse = cli.execute(restart);
-
+                JobExecutionResponse executionResponse = null;
                 try {
-                    HttpEntity entity = restartResponse.getEntity();
+                    handleStandardResponseStatus(executionStatusResponse.getStatusLine().getStatusCode());
+                    HttpEntity entity = executionStatusResponse.getEntity();
 
-                    if (restartResponse.getStatusLine().getStatusCode() != Status.OK.getStatusCode()) {
-                        throw export.buildOperationException("The job has failed to restart", IssueType.EXCEPTION);
+                    try (InputStream is = entity.getContent()) {
+                        executionResponse = JobExecutionResponse.Parser.parse(is);
                     }
                     EntityUtils.consume(entity);
                 } finally {
-                    restart.releaseConnection();
-                    restartResponse.close();
+                    executionStatusGet.releaseConnection();
+                    executionStatusResponse.close();
+                }
+
+                verifyTenant(executionResponse.getJobParameters());
+
+                if (LOG.isLoggable(Level.FINE)) {
+                    LOG.fine("Logging the JobExecutionResponse Details -> \n"
+                            + JobExecutionResponse.Writer.generate(executionResponse, false));
+                }
+
+                if (OperationConstants.FAILED_STATUS.contains(executionResponse.getBatchStatus())) {
+                    if (OperationConstants.NO_SUCH_BUCKET.equals(executionResponse.getExitStatus())) {
+                        // it would be better if we could cover this case preflight (https://github.com/IBM/FHIR/issues/2709)
+                        throw export.buildOperationException("No such bucket exists for the storageProvider", IssueType.NO_STORE);
+                    } else if (OperationConstants.FAILED_BAD_SOURCE.equals(executionResponse.getExitStatus())) {
+                        // insert the BAD_SOURCE errors first so that the user is alerted that the request was invalid
+                        issueList.add(0, FHIRUtil.buildOperationOutcomeIssue("A bad source input was used during a call to $import",
+                                IssueType.INVALID));
+                    }
                 }
             }
 
-            // Finally close it out.
-            cli.close();
-        } catch (FHIROperationException fe) {
-            throw fe;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            throw export.buildOperationException("An unexpected error has ocurred while checking the status - "
-                    + ex.getMessage(), IssueType.TRANSIENT);
+            String msg = "The job has failed";
+            if (issueList.isEmpty()) {
+                issueList.add(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.EXCEPTION));
+            }
+            throw new FHIROperationException(msg).withIssue(issueList);
+        } else if (OperationConstants.STOPPED_STATUS.contains(batchStatus)) {
+            // If the job is stopped, then restart the job.
+            jobinstanceUrl = adapter.getCoreApiBatchUrl() + "/jobinstances/" + job + "?action=restart&reusePreviousParams=true";
+
+            HttpPut restart = new HttpPut(jobinstanceUrl);
+            CloseableHttpResponse restartResponse = cli.execute(restart);
+
+            try {
+                HttpEntity entity = restartResponse.getEntity();
+
+                if (restartResponse.getStatusLine().getStatusCode() != Status.OK.getStatusCode()) {
+                    throw export.buildOperationException("The job has failed to restart", IssueType.EXCEPTION);
+                }
+                EntityUtils.consume(entity);
+            } finally {
+                restart.releaseConnection();
+                restartResponse.close();
+            }
+        } else if (OperationConstants.SUCCESS_STATUS.contains(batchStatus)) {
+            // Job has a successful batch status, so go to work
+            try {
+                String source = null;
+                String baseUrl = null;
+                String cosBucketPathPrefix = null;
+
+                for (int i = 0; i < bulkExportJobInstanceResponse.getExecutionId().size(); i++) {
+                    // Example: https://localhost:9443/ibm/api/batch/jobinstances/9/jobexecutions/2
+                    // Get the current job execution status of the job instance.
+                    String jobexecutionUrl = adapter.getCoreApiBatchUrl() + "/jobinstances/" + job +
+                            "/jobexecutions/" + i;
+
+                    HttpGet executionStatusGet = new HttpGet(jobexecutionUrl);
+                    CloseableHttpResponse executionStatusResponse = cli.execute(executionStatusGet);
+
+                    JobExecutionResponse executionResponse = null;
+                    try {
+                        handleStandardResponseStatus(executionStatusResponse.getStatusLine().getStatusCode());
+                        HttpEntity entity = executionStatusResponse.getEntity();
+
+                        try (InputStream is = entity.getContent()) {
+                            executionResponse = JobExecutionResponse.Parser.parse(is);
+                        }
+                        EntityUtils.consume(entity);
+                    } finally {
+                        executionStatusGet.releaseConnection();
+                        executionStatusResponse.close();
+                    }
+
+                    // These properties should be the same on each execution, so only set them once
+                    if (i == 0) {
+                        // Override the source:
+                        source = executionResponse.getJobParameters().getSource();
+
+                        // Assemble the URL
+                        baseUrl = adapter.getStorageProviderEndpointExternal(source);
+                        cosBucketPathPrefix = executionResponse.getJobParameters().getCosBucketPathPrefix();
+
+                        String request = executionResponse.getJobParameters().getIncomingUrl();
+                        LOG.fine(executionResponse.getJobName());
+                        result.setRequest(request);
+
+                        // Per the storageProvider setting the output to indicate that the use of an access token is required.
+                        boolean requireAccessToken = adapter.getStorageProviderUsesRequestAccessToken(source);
+                        result.setRequiresAccessToken(requireAccessToken);
+
+                        if (!"bulkimportchunkjob".equals(executionResponse.getJobName())) {
+                            // Errors need to be added.
+                            result.setError(Collections.emptyList());
+                        }
+                    }
+
+                    verifyTenant(executionResponse.getJobParameters());
+
+                    if (LOG.isLoggable(Level.FINE)) {
+                        LOG.fine("Logging the JobExecutionResponse Details -> \n"
+                                + JobExecutionResponse.Writer.generate(executionResponse, false));
+                    }
+
+                    addExecutionResponse(result, source, baseUrl, cosBucketPathPrefix, executionResponse);
+                }
+
+                if (result.getOutput() == null || result.getOutput().isEmpty()) {
+                    result.setOutput(Collections.emptyList());
+                }
+
+            } catch (FHIROperationException fe) {
+                throw fe;
+            } catch (Exception ex) {
+                LOG.throwing(CLASSNAME, "status", ex);
+                throw export.buildOperationException("An unexpected error has occurred while checking the status - "
+                        + ex.getMessage(), IssueType.TRANSIENT, ex);
+            } finally {
+                cli.close();
+            }
         }
 
         return result;
@@ -410,240 +496,26 @@ public class BulkDataClient {
             throw export.buildOperationException("Server Side Error for Batch Framework", IssueType.EXCEPTION);
         }
 
-        if (httpStatus == 200 && log.isLoggable(Level.FINE)) {
-            log.fine("Successuflly accessed job");
+        if (httpStatus == 200 && LOG.isLoggable(Level.FINE)) {
+            LOG.fine("Successuflly accessed job");
         }
     }
 
     /**
+     * deletes the given job.
+     *
      * @param job
      * @return status code
-     * @throws Exception
+     * @throws FHIROperationException
      */
-    public Response.Status delete(String job) throws Exception {
-        // <b>Code Flow</b>
-        // 1 - Check if the Job Exists and is Valid
-        // 2 - Check if the Tenant is expected
-        // 3 - Try to immediately DELETE (Optimistic)
-        // A - SC_NO_CONTENT = SUCCESS GO_TO End
-        // B - !SC_INTERNAL_ERROR GO_TO STOP
-        // C - ERROR GO_TO Error
-        // 4 - Try to stop the PUT /ibm/api/batch/jobinstances/<job>?action=stop
-        // A - SC_CONTENT_REDIRECT (302) GO_TO Location to PUT
-        // - Stop requests sent to the batch REST API must be sent directly to the executor where the job is running.
-        // - Link -
-        // https://www.ibm.com/support/knowledgecenter/SSEQTP_liberty/com.ibm.websphere.wlp.doc/ae/rwlp_batch_rest_api.html#rwlp_batch_rest_api__STOP_requests
-        // B - SC_ACCEPTED (202) GO_TO ACCEPTED
-        // RETURN - ACCEPTED: SC_ACCEPTED - STILL PROCESSING
-        // RETURN - DONE: SC_OK - DONE DELETING
-
-        // 1 and 2 (We know it exists)
-        runVerificationOfTenantForJob(job);
-
-        // 3 optimistic delete (empty)
-        Response.Status status = runDeleteJobForTenant(job);
-
-        // Check 3 (B), else fall through (A).
-        // Default Response is Accepted (202)
-        // The Alternative Response is 200
-
-        // Check for a server-side error
-        if (Status.INTERNAL_SERVER_ERROR == status) {
-            // 3.C - ERROR Condition
-            // The Server hit an error
-            throw export.buildOperationException("Deleting the job has failed; the content is not abandonded", IssueType.EXCEPTION);
-        } else if (Status.NO_CONTENT != status) {
-            // The Delete was unsuccessful
-            // 3.B - STOP Condition and now step 4 in the flow.
-            status = runStopOfTenantJob(job);
-        }
-        return status;
-    }
-
-    /*
-     * stops the job (local or remote batch processor).
-     */
-    private Response.Status runStopOfTenantJob(String job) throws Exception {
-        // 4 - Check the State of the Job (batchStatus)
-        // - batchStatus - STARTING, STARTED, STOPPING, STOPPED, FAILED, COMPLETED, ABANDONED
-
-        // 4 - Try to stop the PUT /ibm/api/batch/jobinstances/<job>?action=stop
-        // A - SC_CONTENT_REDIRECT (302) GO_TO Location to PUT
-        // - Stop requests sent to the batch REST API must be sent directly to the executor where the job is running.
-        // - Link -
-        // https://www.ibm.com/support/knowledgecenter/SSEQTP_liberty/com.ibm.websphere.wlp.doc/ae/rwlp_batch_rest_api.html#rwlp_batch_rest_api__STOP_requests
-        // B - SC_ACCEPTED (202) GO_TO ACCEPTED
-        Response.Status status = Response.Status.NO_CONTENT;
-        try {
-            // NOT_LOCAL - follow location
-            String baseUrl = adapter.getCoreApiBatchUrl() + "/jobexecutions/" + job + "?action=stop";
-
-            // The documentation says this is a PUT and confirmed in the source code.
-            // @see
-            // https://www.ibm.com/support/knowledgecenter/SSEQTP_liberty/com.ibm.websphere.wlp.doc/ae/rwlp_batch_rest_api.html#rwlp_batch_rest_api__http_return_codes
-            // Intentionally setting a null on the put entity.
-            CloseableHttpClient cli = wrapper.getHttpClient(adapter.getCoreApiBatchUser(), adapter.getCoreApiBatchPassword());
-            HttpPut stop = new HttpPut(baseUrl);
-            CloseableHttpResponse stopResponse = cli.execute(stop);
-
-            int statusCode = stopResponse.getStatusLine().getStatusCode();
-            String responseString = null;
-            try {
-                HttpEntity entity = stop.getEntity();
-
-                if (statusCode != Status.OK.getStatusCode()) {
-                    throw export.buildOperationException("The job has failed to stop", IssueType.EXCEPTION);
-                }
-                responseString = new BasicResponseHandler().handleResponse(stopResponse);
-                EntityUtils.consume(entity);
-            } finally {
-                stop.releaseConnection();
-                stopResponse.close();
-            }
-
-            if (Status.FOUND.getStatusCode() == statusCode) {
-                // It's on a different server, and must be in the cluster.
-                // If not, we're going to connect to location, and try a put.
-                String location = stopResponse.getFirstHeader("location").getValue();
-                if (location != null) {
-                    // No matter what, tell people we accepted the call.
-                    baseUrl = location + "?action=stop";
-                    HttpPut stopAgain = new HttpPut(baseUrl);
-                    CloseableHttpResponse stopAgainResponse = cli.execute(stopAgain);
-
-                    try {
-                        // Skip consuming the body
-                        int statusCodeAgain = stopAgainResponse.getStatusLine().getStatusCode();
-                        if (log.isLoggable(Level.FINE)) {
-                            log.fine("status code for stop on location is '" + statusCodeAgain + "' at location '" + location + "'");
-                        }
-                    } finally {
-                        stop.releaseConnection();
-                        stopResponse.close();
-                    }
-                }
-                // Here, we could easily respond with an Exception/OperationOutcome, however An unexpected error has
-                // occurred while stopping/deleting the job on a batch cluster member
-                status = Response.Status.ACCEPTED;
-            } else if (Status.OK.getStatusCode() == statusCode) {
-                // Check if the Status is GOOD
-                JobExecutionResponse response = JobExecutionResponse.Parser.parse(responseString);
-                if (response.getBatchStatus().contains("STOPPING")) {
-                    // Signal that we're in a stopping condition.
-                    status = Response.Status.ACCEPTED;
-                }
-                // Don't Delete, let the client flow through again and DELETE.
-            } else if (Status.CONFLICT.getStatusCode() == statusCode) {
-                // SC_CONFLICT is used by the Open Liberty JBatch container to signal that the job is NOT RUNNING.
-                // This is generally due to a conflicting identical call, we're responding immediately
-                status = Response.Status.ACCEPTED;
-            } else {
-                // Error Condition (should be 400, but capturing here as a general error including Server Error).
-                throw export.buildOperationException("An unexpected error has ocurred while stopping/deleting the job", IssueType.TRANSIENT);
-            }
-            cli.close();
-        } catch (FHIROperationException ex) {
-            throw ex;
-        } catch (Exception ex) {
-            throw export.buildOperationException("An unexpected error has ocurred while deleting the job", IssueType.TRANSIENT);
-        }
-        return status;
-    }
-
-    /**
-     * deletes the job
-     */
-    private Response.Status runDeleteJobForTenant(String job) throws Exception {
-        Response.Status status = Response.Status.NO_CONTENT;
-
-        try {
-            // Example: https://localhost:9443/ibm/api/batch/jobexecutions/9
-            // We choose to purgeJobStoreOnly=false which is the default.
-            // The logs are purged when deleted.
-            // The tenant is known, and now we need to query to delete the Job.
-
-            HttpWrapper wrapper = new HttpWrapper();
-            CloseableHttpClient cli = wrapper.getHttpClient(adapter.getCoreApiBatchUser(), adapter.getCoreApiBatchPassword());
-
-            String baseUrl = adapter.getCoreApiBatchUrl() + "/jobexecutions/" + job;
-            HttpDelete delete = new HttpDelete(baseUrl);
-            CloseableHttpResponse deleteResponse = cli.execute(delete);
-
-            try {
-                HttpEntity entity = deleteResponse.getEntity();
-
-                // Debug Logging outputs the API response.
-                if (log.isLoggable(Level.FINE)) {
-                    String responseString = new BasicResponseHandler().handleResponse(deleteResponse);
-                    log.fine("Delete Job for Tenant Status " + deleteResponse.getStatusLine().getStatusCode());
-                    log.fine("The Response body is [" + responseString + "]");
-                }
-
-                if (Status.NO_CONTENT.getStatusCode() != deleteResponse.getStatusLine().getStatusCode()
-                        && Status.BAD_REQUEST.getStatusCode() != deleteResponse.getStatusLine().getStatusCode()) {
-                    status = Response.Status.fromStatusCode(deleteResponse.getStatusLine().getStatusCode());
-                }
-
-                if (deleteResponse.getStatusLine().getStatusCode() != Status.OK.getStatusCode()) {
-                    throw export.buildOperationException("The existing job has failed to delete", IssueType.EXCEPTION);
-                }
-                EntityUtils.consume(entity);
-            } finally {
-                delete.releaseConnection();
-                deleteResponse.close();
-            }
-        } catch (FHIROperationException ex) {
-            throw ex;
-        } catch (Exception ex) {
-            throw export.buildOperationException("An unexpected error has ocurred while deleting the job", IssueType.TRANSIENT);
-        }
-        return status;
-    }
-
-    /**
-     * checks the job is owned by the tenant.
-     */
-    private void runVerificationOfTenantForJob(String job) throws Exception {
-        String baseUrl = adapter.getCoreApiBatchUrl() + "/jobexecutions/" + job;
-
-        try {
-            JobExecutionResponse response = null;
-            HttpWrapper wrapper = new HttpWrapper();
-            CloseableHttpClient cli = wrapper.getHttpClient(adapter.getCoreApiBatchUser(), adapter.getCoreApiBatchPassword());
-
-            HttpGet get = new HttpGet(baseUrl);
-            CloseableHttpResponse getResponse = cli.execute(get);
-
-            try {
-                HttpEntity entity = getResponse.getEntity();
-
-                handleStandardResponseStatus(getResponse.getStatusLine().getStatusCode());
-
-                String responseString = new BasicResponseHandler().handleResponse(getResponse);
-                // Debug Logging outputs the API response.
-                if (log.isLoggable(Level.FINE)) {
-
-                    log.fine("Delete Job for Tenant Status " + getResponse.getStatusLine().getStatusCode());
-                    log.fine("The Response body is [" + responseString + "]");
-                }
-
-                if (responseString == null || responseString.isEmpty() || responseString.startsWith("Unexpected request/response.")) {
-                    throw export.buildOperationException("Invalid job id sent to $bulkdata-status", IssueType.INVALID);
-                }
-
-                response = JobExecutionResponse.Parser.parse(responseString);
-                verifyTenant(response.getJobParameters());
-
-                EntityUtils.consume(entity);
-            } finally {
-                get.releaseConnection();
-                getResponse.close();
-            }
-
-        } catch (FHIROperationException fe) {
-            throw fe;
-        } catch (Exception ex) {
-            throw export.buildOperationException("An unexpected error has ocurred while deleting the job", IssueType.EXCEPTION);
+    public Response.Status delete(String job) throws FHIROperationException {
+        try (BatchCancelRequestAction action = new BatchCancelRequestAction()) {
+            action.prepare(wrapper.getHttpClient(adapter.getCoreApiBatchUser(), adapter.getCoreApiBatchPassword()),
+                        adapter.getCoreApiBatchUrl(),
+                        adapter.getCoreApiBatchUser(),
+                        adapter.getCoreApiBatchPassword());
+            action.run(adapter.getTenant(), job);
+            return action.getResult();
         }
     }
 
@@ -657,44 +529,45 @@ public class BulkDataClient {
         String fhirTenant = adapter.getTenant();
         if (jobParameters == null || jobParameters.getFhirTenant() == null
                 || !jobParameters.getFhirTenant().equals(fhirTenant)) {
-            log.warning("Tenant not authorized to access job [" + fhirTenant + "] jobParameter [" + jobParameters.getFhirTenant() + "]");
+            LOG.warning("Tenant not authorized to access job [" + fhirTenant + "] jobParameter [" + jobParameters.getFhirTenant() + "]");
             throw export.buildOperationException("Tenant not authorized to access job", IssueType.FORBIDDEN);
         }
     }
 
     /**
-     * @param response
+     * Add the exit status from this job execution response to the passed pollingLocationResponse
+     * @param pollingLocationResponse
+     * @param baseUrl
+     * @param cosBucketPathPrefix
+     * @param source
+     * @param executionResponse
      * @return
      */
-    private PollingLocationResponse process(JobExecutionResponse response) {
-        PollingLocationResponse result = new PollingLocationResponse();
-
-        // Override the source:
-        String source = response.getJobParameters().getSource();
-
-        // Assemble the URL
-        String cosBucketPathPrefix = response.getJobParameters().getCosBucketPathPrefix();
-
-        String baseUrl = adapter.getStorageProviderEndpointExternal(source);
-
-        String request = response.getJobParameters().getIncomingUrl();
-        log.fine(response.getJobName());
-        result.setRequest(request);
-        result.setRequiresAccessToken(false);
+    private void addExecutionResponse(PollingLocationResponse pollingLocationResponse, String source, String baseUrl, String cosBucketPathPrefix,
+            JobExecutionResponse executionResponse) {
 
         // Outputs lastUpdatedTime as yyyy-MM-dd'T'HH:mm:ss
-        String lastUpdatedTime = response.getLastUpdatedTime();
+        String lastUpdatedTime = executionResponse.getLastUpdatedTime();
         TemporalAccessor acc = DATE_TIME_PARSER_FORMATTER.parse(lastUpdatedTime);
-        result.setTransactionTime(Instant.PARSER_FORMATTER.format(acc));
+
+        String currentTransactionTimeStringInResponse = pollingLocationResponse.getTransactionTime();
+        if (currentTransactionTimeStringInResponse != null) {
+            java.time.Instant currentTransactionTimeInResponse = java.time.Instant.from(Instant.PARSER_FORMATTER.parse(currentTransactionTimeStringInResponse));
+            if (currentTransactionTimeInResponse.isBefore(java.time.Instant.from(acc))) {
+                pollingLocationResponse.setTransactionTime(Instant.PARSER_FORMATTER.format(acc));
+            }
+        } else {
+            pollingLocationResponse.setTransactionTime(Instant.PARSER_FORMATTER.format(acc));
+        }
 
         // Compose outputs for all exported ndjson files from the batch job exit status,
         // e.g, Patient[1000,1000,200]:Observation[1000,1000,200],
         // COMPLETED means no file exported.
-        String exitStatus = response.getExitStatus();
-        log.fine(() -> "The Exit Status is '" + exitStatus + "'");
+        String exitStatus = executionResponse.getExitStatus();
+        LOG.fine(() -> "The Exit Status is '" + exitStatus + "'");
 
-        // Export Jobs
-        if (!"COMPLETED".equals(exitStatus) && !"bulkimportchunkjob".equals(response.getJobName())) {
+        // Export Jobs with data in the exitStatus field
+        if (!"COMPLETED".equals(exitStatus) && !"bulkimportchunkjob".equals(executionResponse.getJobName())) {
             List<String> resourceTypeInfs = Arrays.asList(exitStatus.split("\\s*:\\s*"));
             List<PollingLocationResponse.Output> outputList = new ArrayList<>();
             for (String resourceTypeInf : resourceTypeInfs) {
@@ -706,7 +579,7 @@ public class BulkDataClient {
                     StorageType storageType = adapter.getStorageProviderStorageType(source);
                     String sUrl;
 
-                    log.fine(() -> "Storage Type is " + storageType + " " + StorageType.IBMCOS.equals(storageType) + " " + StorageType.AWSS3.equals(storageType));
+                    LOG.fine(() -> "Storage Type is " + storageType + " " + StorageType.IBMCOS.equals(storageType) + " " + StorageType.AWSS3.equals(storageType));
                     if (StorageType.IBMCOS.equals(storageType) || StorageType.AWSS3.equals(storageType)) {
                         String region = adapter.getStorageProviderLocation(source);
                         String bucketName = adapter.getStorageProviderBucketName(source);
@@ -730,29 +603,35 @@ public class BulkDataClient {
                     outputList.add(new PollingLocationResponse.Output(resourceType, sUrl, resourceCounts[i]));
                 }
             }
-            result.setOutput(outputList);
+            pollingLocationResponse.addOutput(outputList);
         }
-
+        // Export that has no data exported
+        else if ("COMPLETED".equals(exitStatus) && !"bulkimportchunkjob".equals(executionResponse.getJobName())) {
+            LOG.fine(() -> "Outputlist is empty");
+            try {
+                pollingLocationResponse.addOperationOutcomeToExtension(PollingLocationResponse.EMPTY_RESULTS_DURING_EXPORT);
+            } catch (FHIRGeneratorException | IOException e) {
+                LOG.severe("Unexpected issue while serializing a fixed value");
+            }
+        }
         // Import Jobs
-        if ("bulkimportchunkjob".equals(response.getJobName())) {
+        else if ("bulkimportchunkjob".equals(executionResponse.getJobName())) {
             // Currently there is no output
-            log.fine("Hit the case where we don't form output with counts");
-            List<Input> inputs = response.getJobParameters().getInputs();
+            LOG.fine("Hit the case where we don't form output with counts");
+            List<Input> inputs = executionResponse.getJobParameters().getInputs();
 
             List<PollingLocationResponse.Output> outputs = new ArrayList<>();
             List<PollingLocationResponse.Output> errors = new ArrayList<>();
-            List<String> responseCounts = Arrays.asList(exitStatus.split(","));
+            List<String> responseCounts = Arrays.asList(executionResponse.getExitStatus().split(","));
             Iterator<String> iter = responseCounts.iterator();
             for (Input input : inputs) {
                 String[] counts = iter.next().replace("[", "").replace("]", "").split(":");
                 outputs.add(new PollingLocationResponse.Output("OperationOutcome", input.getUrl() + "_oo_success.ndjson", counts[0]));
                 errors.add(new PollingLocationResponse.Output("OperationOutcome", input.getUrl() + "_oo_errors.ndjson", counts[1]));
             }
-            result.setOutput(outputs);
-            result.setError(errors);
+            pollingLocationResponse.setOutput(outputs);
+            pollingLocationResponse.setError(errors);
         }
-
-        return result;
     }
 
     /**
@@ -797,9 +676,9 @@ public class BulkDataClient {
         String entityStr = JobInstanceRequest.Writer.generate(builder.build(), true);
 
         String baseUrl = adapter.getCoreApiBatchUrl() + "/jobinstances";
-        if (log.isLoggable(Level.FINE)) {
-            log.fine("The Base URL " + baseUrl);
-            log.fine("The Entity posted to the server " + entityStr);
+        if (LOG.isLoggable(Level.FINE)) {
+            LOG.fine("The Base URL " + baseUrl);
+            LOG.fine("The Entity posted to the server " + entityStr);
         }
 
         CloseableHttpClient cli = wrapper.getHttpClient(adapter.getCoreApiBatchUser(), adapter.getCoreApiBatchPassword());
@@ -815,8 +694,8 @@ public class BulkDataClient {
             handleStandardResponseStatus(status);
 
             // Debug / Dev only
-            if (log.isLoggable(Level.FINE)) {
-                log.fine("$import response (HTTP " + status + ")");
+            if (LOG.isLoggable(Level.FINE)) {
+                LOG.fine("$import response (HTTP " + status + ")");
             }
 
             if (status != 201) {
@@ -853,7 +732,7 @@ public class BulkDataClient {
             keyGen.init(256);
             bytes = keyGen.generateKey().getEncoded();
         } catch (NoSuchAlgorithmException e) {
-            log.warning("Algorithm 'AES' is not supported; using SecureRandom instead");
+            LOG.warning("Algorithm 'AES' is not supported; using SecureRandom instead");
             bytes = new byte[32];
             RANDOM.nextBytes(bytes);
         }

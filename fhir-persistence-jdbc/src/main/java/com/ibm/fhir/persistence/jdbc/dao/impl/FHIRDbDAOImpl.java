@@ -32,6 +32,7 @@ import com.ibm.fhir.persistence.jdbc.dto.Resource;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBCleanupException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
+import com.ibm.fhir.persistence.jdbc.util.CalendarHelper;
 
 /**
  * This class is a root Data Access Object for managing JDBC access to the FHIR database.
@@ -200,7 +201,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
             // Inject arguments into the prepared stmt.
             for (int i = 0; i < searchArgs.length; i++) {
                 if (searchArgs[i] instanceof Timestamp) {
-                    stmt.setTimestamp(i + 1, (Timestamp) searchArgs[i], JDBCConstants.UTC);
+                    stmt.setTimestamp(i + 1, (Timestamp) searchArgs[i], CalendarHelper.getCalendarForUTC());
                 } else {
                     stmt.setObject(i + 1, searchArgs[i]);
                 }
@@ -263,7 +264,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
             // Inject arguments into the prepared stmt.
             for (int i = 0; i < searchArgs.length; i++) {
                 if (searchArgs[i] instanceof Timestamp) {
-                    stmt.setTimestamp(i + 1, (Timestamp) searchArgs[i], JDBCConstants.UTC);
+                    stmt.setTimestamp(i + 1, (Timestamp) searchArgs[i], CalendarHelper.getCalendarForUTC());
                 } else {
                     stmt.setObject(i + 1, searchArgs[i]);
                 }
@@ -474,7 +475,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
             // Inject arguments into the prepared stmt.
             for (int i = 0; i < searchArgs.length; i++) {
                 if (searchArgs[i] instanceof Timestamp) {
-                    stmt.setTimestamp(i + 1, (Timestamp) searchArgs[i], JDBCConstants.UTC);
+                    stmt.setTimestamp(i + 1, (Timestamp) searchArgs[i], CalendarHelper.getCalendarForUTC());
                 } else {
                     stmt.setObject(i + 1, searchArgs[i]);
                 }

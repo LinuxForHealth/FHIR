@@ -18,9 +18,6 @@ import java.net.URI;
 import java.time.ZoneOffset;
 import java.util.UUID;
 
-import jakarta.json.Json;
-import jakarta.json.JsonBuilderFactory;
-import jakarta.json.JsonObject;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
@@ -49,6 +46,10 @@ import com.ibm.fhir.model.type.code.AdministrativeGender;
 import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.ObservationStatus;
 import com.ibm.fhir.model.util.FHIRUtil;
+
+import jakarta.json.Json;
+import jakarta.json.JsonBuilderFactory;
+import jakarta.json.JsonObject;
 
 /**
  * This class tests the REST API's compliance with the FHIR spec in terms of status code and OperationOutcome responses,

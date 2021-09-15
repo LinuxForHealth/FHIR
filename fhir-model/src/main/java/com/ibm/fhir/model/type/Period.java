@@ -24,7 +24,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "If present, start SHALL have a lower value than end",
-    expression = "start.hasValue().not() or end.hasValue().not() or (start <= end)"
+    expression = "start.hasValue().not() or end.hasValue().not() or (start <= end)",
+    source = "http://hl7.org/fhir/StructureDefinition/Period"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Period extends Element {

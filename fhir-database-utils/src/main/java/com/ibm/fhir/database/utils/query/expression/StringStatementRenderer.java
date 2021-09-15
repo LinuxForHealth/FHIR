@@ -92,7 +92,7 @@ public class StringStatementRenderer implements StatementRenderer<String> {
 
         if (groupByClause != null) {
             if (this.pretty) {
-                result.append(NEWLINE).append("    ");
+                result.append(NEWLINE).append("   ");
             }
             result.append(SPACE).append(groupByClause.toString());
         }

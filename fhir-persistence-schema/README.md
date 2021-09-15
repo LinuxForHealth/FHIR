@@ -11,8 +11,6 @@ The executable command line interface (cli) version of this module can be downlo
 
 To create the Db2 database and database user, use the following commands:
 
-
-
 1. If necessary on your system, create the User
 ``` shell
 groupadd -g 1002 fhir
@@ -115,6 +113,8 @@ For PostgreSQL:
 --update-schema
 --db-type postgresql
 ```
+
+When updating the postgres schema, the autovacuum settings are configured.
 
 ### Grant privileges to data access user (Db2 only)
 
@@ -368,6 +368,35 @@ java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \
 --target DATA FHIRDATA_2ND
 ```
 
+## Adjust the Vacuum Settings for PostgreSQL Tables only
+Since 4.9.0, the IBM FHIR Server has implemented support for modifying the [autovacuum](https://www.postgresql.org/docs/12/runtime-config-autovacuum.html). Per [4.1.2. Tuning Auto-vacuum](https://ibm.github.io/FHIR/guides/FHIRPerformanceGuide/#412-tuning-auto-vacuum) the schema tool modifies `autovacuum_vacuum_cost_limit`, `autovacuum_vacuum_scale_factor` and `autovacuum_vacuum_threshold`.
+
+The autovacuum_vacuum_scale_factor is not automatically configured, and not recommended on Databases for Postgres on IBM Cloud. The system configuration overrides the setting.
+
+### Specific Tables
+To update a specific tables settings, you can run with  `--vacuum-table-name`.
+
+```
+java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \
+--db-type postgresql --prop db.host=localhost --prop db.port=5432 \
+--prop db.database=fhirdb --schema-name fhirdata \
+--prop user=fhiradmin --prop password=passw0rd \
+--update-vacuum --vacuum-cost-limit 2000 --vacuum-threshold 1000 \
+--vacuum-scale-factor 0.01 --vacuum-table-name LOGICAL_RESOURCES
+```
+
+### All Tables in a Schema
+To update all tables in a schema, you can run without the table parameter. If you omit any value, the  defaults are picked as described in the Performance guide.
+
+```
+java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \
+--db-type postgresql --prop db.host=localhost --prop db.port=5432 \
+--prop db.database=fhirdb --schema-name fhirdata \
+--prop user=fhiradmin --prop password=passw0rd \
+--update-vacuum --vacuum-cost-limit 2000 --vacuum-threshold 1000 \
+--vacuum-scale-factor 0.01
+```
+
 ## Advanced SSL Configuration with Postgres
 
 Create a properties file like the following:
@@ -403,6 +432,7 @@ The following are advanced execution arguments
 |Property|Description|Example|
 |--------|-----------|-----------|
 |`--pool-size NUM` | The number of connections used to connect to the database|`--pool-size 20`|
+|`--skip-allocate-if-tenant-exists` | whether or not to skip over allocating the tenant where this tenantName/tenantKey combination already exists |`--skip-allocate-if-tenant-exists`|
 
 ## Alternative: Manually apply the schema
 

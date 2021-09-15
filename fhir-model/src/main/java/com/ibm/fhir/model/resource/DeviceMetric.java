@@ -56,6 +56,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/devicemetric-type",
     expression = "type.exists() and type.memberOf('http://hl7.org/fhir/ValueSet/devicemetric-type', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/DeviceMetric",
     generated = true
 )
 @Constraint(
@@ -64,6 +65,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/devicemetric-type",
     expression = "unit.exists() implies (unit.memberOf('http://hl7.org/fhir/ValueSet/devicemetric-type', 'preferred'))",
+    source = "http://hl7.org/fhir/StructureDefinition/DeviceMetric",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

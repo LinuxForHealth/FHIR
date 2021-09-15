@@ -59,7 +59,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.misc.Interval;
 
 import com.ibm.fhir.cache.CacheKey;
 import com.ibm.fhir.model.annotation.Constraint;
@@ -89,8 +90,6 @@ import net.jcip.annotations.NotThreadSafe;
 
 /**
  * A FHIRPath evaluation engine that implements the FHIRPath 2.0.0 <a href="http://hl7.org/fhirpath/N1/">specification</a>
- *
- * The static factory method {@link #evaluator()} is threadsafe, but the created instances are not.
  */
 @NotThreadSafe
 public class FHIRPathEvaluator {
@@ -147,16 +146,14 @@ public class FHIRPathEvaluator {
      *     if an exception occurs during evaluation
      */
     public Collection<FHIRPathNode> evaluate(Visitable resourceOrElement, String expr) throws FHIRPathException {
-        Objects.requireNonNull("resourceOrElement cannot be null");
-
+        Objects.requireNonNull(resourceOrElement, "resourceOrElement");
         if (resourceOrElement instanceof Resource) {
             return evaluate((Resource) resourceOrElement, expr);
-        } else if (resourceOrElement instanceof Element) {
+        }
+        if (resourceOrElement instanceof Element) {
             return evaluate((Element) resourceOrElement, expr);
         }
-
-        throw new IllegalArgumentException("FHIRPath Context cannot be established for object of type " +
-                resourceOrElement.getClass().getName());
+        throw new AssertionError();
     }
 
     /**
@@ -286,14 +283,14 @@ public class FHIRPathEvaluator {
         private static final String SYSTEM_NAMESPACE = "System";
 
         private static final int IDENTIFIER_CACHE_MAX_ENTRIES = 2048;
-        private static final Map<String, Collection<FHIRPathNode>> IDENTIFIER_CACHE = createCacheAsMap(IDENTIFIER_CACHE_MAX_ENTRIES);
-
         private static final int LITERAL_CACHE_MAX_ENTRIES = 128;
+
+        private static final Map<String, Collection<FHIRPathNode>> IDENTIFIER_CACHE = createCacheAsMap(IDENTIFIER_CACHE_MAX_ENTRIES);
         private static final Map<String, Collection<FHIRPathNode>> LITERAL_CACHE = createCacheAsMap(LITERAL_CACHE_MAX_ENTRIES);
 
-        private EvaluationContext evaluationContext;
         private final Stack<Collection<FHIRPathNode>> contextStack = new Stack<>();
 
+        private EvaluationContext evaluationContext;
         private int indentLevel = 0;
 
         private EvaluatingVisitor() { }
@@ -333,12 +330,12 @@ public class FHIRPathEvaluator {
             return SINGLETON_TRUE;
         }
 
-        private Collection<FHIRPathNode> as(Collection<ExpressionContext> arguments) {
+        private Collection<FHIRPathNode> as(List<ExpressionContext> arguments) {
             if (arguments.size() != 1) {
                 throw unexpectedNumberOfArguments(arguments.size(), "as");
             }
             Collection<FHIRPathNode> result = new ArrayList<>();
-            ExpressionContext typeName = arguments.iterator().next();
+            ExpressionContext typeName = arguments.get(0);
             String identifier = typeName.getText().replace("`", "");
             FHIRPathType type = FHIRPathType.from(identifier);
             if (type == null) {
@@ -376,7 +373,17 @@ public class FHIRPathEvaluator {
             if (arguments.isEmpty()) {
                 return !getCurrentContext().isEmpty() ? SINGLETON_TRUE : SINGLETON_FALSE;
             }
-            return evaluatesToTrue(visit(arguments.get(0))) ? SINGLETON_TRUE : SINGLETON_FALSE;
+
+            for (FHIRPathNode node : getCurrentContext()) {
+                pushContext(singleton(node));
+                if (evaluatesToTrue(visit(arguments.get(0)))) {
+                    popContext();
+                    return SINGLETON_TRUE;
+                }
+                popContext();
+            }
+
+            return SINGLETON_FALSE;
         }
 
         private Collection<FHIRPathNode> getCurrentContext() {
@@ -514,8 +521,7 @@ public class FHIRPathEvaluator {
 
         @Override
         public Collection<FHIRPathNode> visitIndexerExpression(FHIRPathParser.IndexerExpressionContext ctx) {
-            debug(ctx);
-            indentLevel++;
+            beforeEvaluation(ctx);
 
             Collection<FHIRPathNode> result = empty();
 
@@ -528,20 +534,17 @@ public class FHIRPathEvaluator {
                 result = singleton((FHIRPathNode) list.get(index));
             }
 
-            indentLevel--;
-            return result;
+            return afterEvaluation(ctx, result);
         }
 
         @Override
         public Collection<FHIRPathNode> visitPolarityExpression(FHIRPathParser.PolarityExpressionContext ctx) {
-            debug(ctx);
-            indentLevel++;
+            beforeEvaluation(ctx);
 
             Collection<FHIRPathNode> nodes = visit(ctx.expression());
 
             if (!isSingleton(nodes)) {
-                indentLevel--;
-                return empty();
+                return afterEvaluation(ctx, empty());
             }
 
             Collection<FHIRPathNode> result = empty();
@@ -560,14 +563,12 @@ public class FHIRPathEvaluator {
                 }
             }
 
-            indentLevel--;
-            return result;
+            return afterEvaluation(ctx, result);
         }
 
         @Override
         public Collection<FHIRPathNode> visitAdditiveExpression(FHIRPathParser.AdditiveExpressionContext ctx) {
-            debug(ctx);
-            indentLevel++;
+            beforeEvaluation(ctx);
 
             Collection<FHIRPathNode> left = visit(ctx.expression(0));
             Collection<FHIRPathNode> right = visit(ctx.expression(1));
@@ -645,21 +646,18 @@ public class FHIRPathEvaluator {
                 throw new IllegalArgumentException("Invalid argument(s) for '" + operator + "' operator");
             }
 
-            indentLevel--;
-            return result;
+            return afterEvaluation(ctx, result);
         }
 
         @Override
         public Collection<FHIRPathNode> visitMultiplicativeExpression(FHIRPathParser.MultiplicativeExpressionContext ctx) {
-            debug(ctx);
-            indentLevel++;
+            beforeEvaluation(ctx);
 
             Collection<FHIRPathNode> left = visit(ctx.expression(0));
             Collection<FHIRPathNode> right = visit(ctx.expression(1));
 
             if (!hasSystemValue(left) || !hasSystemValue(right)) {
-                indentLevel--;
-                return empty();
+                return afterEvaluation(ctx, empty());
             }
 
             Collection<FHIRPathNode> result = empty();
@@ -690,14 +688,12 @@ public class FHIRPathEvaluator {
                 }
             }
 
-            indentLevel--;
-            return result;
+            return afterEvaluation(ctx, result);
         }
 
         @Override
         public Collection<FHIRPathNode> visitUnionExpression(FHIRPathParser.UnionExpressionContext ctx) {
-            debug(ctx);
-            indentLevel++;
+            beforeEvaluation(ctx);
 
             Collection<FHIRPathNode> left = visit(ctx.expression(0));
             Collection<FHIRPathNode> right = visit(ctx.expression(1));
@@ -705,14 +701,12 @@ public class FHIRPathEvaluator {
             Set<FHIRPathNode> union = new LinkedHashSet<>(left);
             union.addAll(right);
 
-            indentLevel--;
-            return new ArrayList<>(union);
+            return afterEvaluation(ctx, new ArrayList<>(union));
         }
 
         @Override
         public Collection<FHIRPathNode> visitOrExpression(FHIRPathParser.OrExpressionContext ctx) {
-            debug(ctx);
-            indentLevel++;
+            beforeEvaluation(ctx);
 
             Collection<FHIRPathNode> result = empty();
 
@@ -749,14 +743,12 @@ public class FHIRPathEvaluator {
                 break;
             }
 
-            indentLevel--;
-            return result;
+            return afterEvaluation(ctx, result);
         }
 
         @Override
         public Collection<FHIRPathNode> visitAndExpression(FHIRPathParser.AndExpressionContext ctx) {
-            debug(ctx);
-            indentLevel++;
+            beforeEvaluation(ctx);
 
             Collection<FHIRPathNode> result = empty();
 
@@ -778,14 +770,12 @@ public class FHIRPathEvaluator {
                 }
             }
 
-            indentLevel--;
-            return result;
+            return afterEvaluation(ctx, result);
         }
 
         @Override
         public Collection<FHIRPathNode> visitMembershipExpression(FHIRPathParser.MembershipExpressionContext ctx) {
-            debug(ctx);
-            indentLevel++;
+            beforeEvaluation(ctx);
 
             Collection<FHIRPathNode> result = SINGLETON_FALSE;
 
@@ -809,21 +799,18 @@ public class FHIRPathEvaluator {
                 break;
             }
 
-            indentLevel--;
-            return result;
+            return afterEvaluation(ctx, result);
         }
 
         @Override
         public Collection<FHIRPathNode> visitInequalityExpression(FHIRPathParser.InequalityExpressionContext ctx) {
-            debug(ctx);
-            indentLevel++;
+            beforeEvaluation(ctx);
 
             Collection<FHIRPathNode> left = visit(ctx.expression(0));
             Collection<FHIRPathNode> right = visit(ctx.expression(1));
 
             if (!isSingleton(left) || !isSingleton(right)) {
-                indentLevel--;
-                return SINGLETON_FALSE;
+                return afterEvaluation(ctx, SINGLETON_FALSE);
             }
 
             Collection<FHIRPathNode> result = SINGLETON_FALSE;
@@ -865,27 +852,23 @@ public class FHIRPathEvaluator {
                 result = empty();
             }
 
-            indentLevel--;
-            return result;
+            return afterEvaluation(ctx, result);
         }
 
         @Override
         public Collection<FHIRPathNode> visitInvocationExpression(FHIRPathParser.InvocationExpressionContext ctx) {
-            debug(ctx);
-            indentLevel++;
+            beforeEvaluation(ctx);
 
             pushContext(visit(ctx.expression()));
             Collection<FHIRPathNode> result = visit(ctx.invocation());
             popContext();
 
-            indentLevel--;
-            return result;
+            return afterEvaluation(ctx, result);
         }
 
         @Override
         public Collection<FHIRPathNode> visitEqualityExpression(FHIRPathParser.EqualityExpressionContext ctx) {
-            debug(ctx);
-            indentLevel++;
+            beforeEvaluation(ctx);
 
             Collection<FHIRPathNode> result = SINGLETON_FALSE;
 
@@ -893,18 +876,17 @@ public class FHIRPathEvaluator {
             Collection<FHIRPathNode> right = visit(ctx.expression(1));
 
             if (left.isEmpty() || right.isEmpty()) {
-                indentLevel--;
-                return empty();
+                return afterEvaluation(ctx, empty());
             }
 
             if (left.size() != right.size()) {
-                indentLevel--;
-                return SINGLETON_FALSE;
+                return afterEvaluation(ctx, SINGLETON_FALSE);
             }
 
-            if (!validateEqualityOperands(left, right)) {
-                indentLevel--;
-                return empty();
+            // for quantity operands: Attempting to operate on quantities with invalid units will result in empty ({ }).
+            // for temporal operands: If one input has a value for the precision and the other does not, the comparison stops and the result is empty ({ })
+            if (!equalityOperandsAreValid(left, right)) {
+                return afterEvaluation(ctx, empty());
             }
 
             String operator = ctx.getChild(1).getText();
@@ -925,11 +907,10 @@ public class FHIRPathEvaluator {
                 break;
             }
 
-            indentLevel--;
-            return result;
+            return afterEvaluation(ctx, result);
         }
 
-        private boolean validateEqualityOperands(Collection<FHIRPathNode> left, Collection<FHIRPathNode> right) {
+        private boolean equalityOperandsAreValid(Collection<FHIRPathNode> left, Collection<FHIRPathNode> right) {
             if (left.size() != right.size()) {
                 throw new IllegalArgumentException();
             }
@@ -945,10 +926,6 @@ public class FHIRPathEvaluator {
                         !getTemporalValue(leftNode).precision().equals(getTemporalValue(rightNode).precision())) {
                     return false;
                 }
-                // TODO: change to this when we update to a newer version of the test file
-//                if (hasTemporalValue(leftNode) && hasTemporalValue(rightNode) && !leftNode.isComparableTo(rightNode)) {
-//                    return false;
-//                }
             }
 
             return true;
@@ -956,8 +933,7 @@ public class FHIRPathEvaluator {
 
         @Override
         public Collection<FHIRPathNode> visitImpliesExpression(FHIRPathParser.ImpliesExpressionContext ctx) {
-            debug(ctx);
-            indentLevel++;
+            beforeEvaluation(ctx);
 
             Collection<FHIRPathNode> result = empty();
 
@@ -973,23 +949,19 @@ public class FHIRPathEvaluator {
                 result = SINGLETON_TRUE;
             }
 
-            indentLevel--;
-            return result;
+            return afterEvaluation(ctx, result);
         }
 
         @Override
         public Collection<FHIRPathNode> visitTermExpression(FHIRPathParser.TermExpressionContext ctx) {
-            debug(ctx);
-            indentLevel++;
+            beforeEvaluation(ctx);
             Collection<FHIRPathNode> result = visitChildren(ctx);
-            indentLevel--;
-            return result;
+            return afterEvaluation(ctx, result);
         }
 
         @Override
         public Collection<FHIRPathNode> visitTypeExpression(FHIRPathParser.TypeExpressionContext ctx) {
-            debug(ctx);
-            indentLevel++;
+            beforeEvaluation(ctx);
 
             Collection<FHIRPathNode> nodes = visit(ctx.expression());
 
@@ -1027,117 +999,102 @@ public class FHIRPathEvaluator {
                 break;
             }
 
-            indentLevel--;
-            return result;
+            return afterEvaluation(ctx, result);
         }
 
         @Override
         public Collection<FHIRPathNode> visitInvocationTerm(FHIRPathParser.InvocationTermContext ctx) {
-            debug(ctx);
-            indentLevel++;
+            beforeEvaluation(ctx);
             Collection<FHIRPathNode> result = visitChildren(ctx);
-            indentLevel--;
-            return result;
+            return afterEvaluation(ctx, result);
         }
 
         @Override
         public Collection<FHIRPathNode> visitLiteralTerm(FHIRPathParser.LiteralTermContext ctx) {
-            debug(ctx);
-            indentLevel++;
+            beforeEvaluation(ctx);
             Collection<FHIRPathNode> result = LITERAL_CACHE.computeIfAbsent(ctx.getText(), t -> visitChildren(ctx));
-            indentLevel--;
-            return result;
+            return afterEvaluation(ctx, result);
         }
 
         @Override
         public Collection<FHIRPathNode> visitExternalConstantTerm(FHIRPathParser.ExternalConstantTermContext ctx) {
-            debug(ctx);
-            indentLevel++;
+            beforeEvaluation(ctx);
             Collection<FHIRPathNode> result = visitChildren(ctx);
-            indentLevel--;
-            return result;
+            return afterEvaluation(ctx, result);
         }
 
         @Override
         public Collection<FHIRPathNode> visitParenthesizedTerm(FHIRPathParser.ParenthesizedTermContext ctx) {
-            debug(ctx);
-            indentLevel++;
+            beforeEvaluation(ctx);
             Collection<FHIRPathNode> result = visit(ctx.expression());
-            indentLevel--;
-            return result;
+            return afterEvaluation(ctx, result);
         }
 
         @Override
         public Collection<FHIRPathNode> visitNullLiteral(FHIRPathParser.NullLiteralContext ctx) {
-            debug(ctx);
-            return empty();
+            beforeEvaluation(ctx);
+            return afterEvaluation(ctx, empty());
         }
 
         @Override
         public Collection<FHIRPathNode> visitBooleanLiteral(FHIRPathParser.BooleanLiteralContext ctx) {
-            debug(ctx);
+            beforeEvaluation(ctx);
             Boolean _boolean = Boolean.valueOf(ctx.getText());
-            return _boolean ? SINGLETON_TRUE : SINGLETON_FALSE;
+            return afterEvaluation(ctx, _boolean ? SINGLETON_TRUE : SINGLETON_FALSE);
         }
 
         @Override
         public Collection<FHIRPathNode> visitStringLiteral(FHIRPathParser.StringLiteralContext ctx) {
-            debug(ctx);
+            beforeEvaluation(ctx);
             String text = unescape(ctx.getText());
-            return singleton(stringValue(text.substring(1, text.length() - 1)));
+            return afterEvaluation(ctx, singleton(stringValue(text.substring(1, text.length() - 1))));
         }
 
         @Override
         public Collection<FHIRPathNode> visitNumberLiteral(FHIRPathParser.NumberLiteralContext ctx) {
-            debug(ctx);
+            beforeEvaluation(ctx);
             String text = ctx.getText();
             if (text.contains(".")) {
-                return singleton(decimalValue(new BigDecimal(text)));
-            } else {
-                return singleton(integerValue(Integer.parseInt(text)));
+                return afterEvaluation(ctx, singleton(decimalValue(new BigDecimal(text))));
             }
+            return afterEvaluation(ctx, singleton(integerValue(Integer.parseInt(text))));
         }
 
         @Override
         public Collection<FHIRPathNode> visitDateLiteral(FHIRPathParser.DateLiteralContext ctx) {
-            debug(ctx);
-            return singleton(dateValue(ctx.getText().substring(1)));
+            beforeEvaluation(ctx);
+            return afterEvaluation(ctx, singleton(dateValue(ctx.getText().substring(1))));
         }
 
         @Override
         public Collection<FHIRPathNode> visitDateTimeLiteral(FHIRPathParser.DateTimeLiteralContext ctx) {
-            debug(ctx);
-            return singleton(dateTimeValue(ctx.getText().substring(1)));
+            beforeEvaluation(ctx);
+            return afterEvaluation(ctx, singleton(dateTimeValue(ctx.getText().substring(1))));
         }
 
         @Override
         public Collection<FHIRPathNode> visitTimeLiteral(FHIRPathParser.TimeLiteralContext ctx) {
-            debug(ctx);
-            return singleton(timeValue(ctx.getText().substring(2)));
+            beforeEvaluation(ctx);
+            return afterEvaluation(ctx, singleton(timeValue(ctx.getText().substring(2))));
         }
 
         @Override
         public Collection<FHIRPathNode> visitQuantityLiteral(FHIRPathParser.QuantityLiteralContext ctx) {
-            debug(ctx);
-            indentLevel++;
+            beforeEvaluation(ctx);
             Collection<FHIRPathNode> result = visitChildren(ctx);
-            indentLevel--;
-            return result;
+            return afterEvaluation(ctx, result);
         }
 
         @Override
         public Collection<FHIRPathNode> visitExternalConstant(FHIRPathParser.ExternalConstantContext ctx) {
-            debug(ctx);
-            indentLevel++;
+            beforeEvaluation(ctx);
             String identifier = getString(visit(ctx.identifier()));
-            indentLevel--;
-            return evaluationContext.getExternalConstant(identifier);
+            return afterEvaluation(ctx, evaluationContext.getExternalConstant(identifier));
         }
 
         @Override
         public Collection<FHIRPathNode> visitMemberInvocation(FHIRPathParser.MemberInvocationContext ctx) {
-            debug(ctx);
-            indentLevel++;
+            beforeEvaluation(ctx);
 
             Collection<FHIRPathNode> currentContext = getCurrentContext();
             String identifier = getString(visit(ctx.identifier()));
@@ -1145,8 +1102,7 @@ public class FHIRPathEvaluator {
             if (isSingleton(currentContext)) {
                 FHIRPathNode node = getSingleton(currentContext);
                 if (closure(node.type()).contains(identifier)) {
-                    indentLevel--;
-                    return currentContext;
+                    return afterEvaluation(ctx, currentContext);
                 }
             }
 
@@ -1159,48 +1115,39 @@ public class FHIRPathEvaluator {
                 }
             }
 
-            indentLevel--;
-
-            return result;
+            return afterEvaluation(ctx, result);
         }
 
         @Override
         public Collection<FHIRPathNode> visitFunctionInvocation(FHIRPathParser.FunctionInvocationContext ctx) {
-            debug(ctx);
-            indentLevel++;
+            beforeEvaluation(ctx);
             Collection<FHIRPathNode> result = visitChildren(ctx);
-            indentLevel--;
-            return result;
+            return afterEvaluation(ctx, result);
         }
 
         @Override
         public Collection<FHIRPathNode> visitThisInvocation(FHIRPathParser.ThisInvocationContext ctx) {
-            debug(ctx);
-            return getCurrentContext();
+            beforeEvaluation(ctx);
+            return afterEvaluation(ctx, getCurrentContext());
         }
 
         @Override
         public Collection<FHIRPathNode> visitIndexInvocation(FHIRPathParser.IndexInvocationContext ctx) {
-            debug(ctx);
-            indentLevel++;
+            beforeEvaluation(ctx);
             Collection<FHIRPathNode> result = visitChildren(ctx);
-            indentLevel--;
-            return result;
+            return afterEvaluation(ctx, result);
         }
 
         @Override
         public Collection<FHIRPathNode> visitTotalInvocation(FHIRPathParser.TotalInvocationContext ctx) {
-            debug(ctx);
-            indentLevel++;
+            beforeEvaluation(ctx);
             Collection<FHIRPathNode> result = visitChildren(ctx);
-            indentLevel--;
-            return result;
+            return afterEvaluation(ctx, result);
         }
 
         @Override
         public Collection<FHIRPathNode> visitFunction(FHIRPathParser.FunctionContext ctx) {
-            debug(ctx);
-            indentLevel++;
+            beforeEvaluation(ctx);
 
             Collection<FHIRPathNode> result = empty();
 
@@ -1257,79 +1204,66 @@ public class FHIRPathEvaluator {
                 break;
             }
 
-            indentLevel--;
-            return result;
+            return afterEvaluation(ctx, result);
         }
 
         @Override
         public Collection<FHIRPathNode> visitParamList(FHIRPathParser.ParamListContext ctx) {
-            debug(ctx);
-            indentLevel++;
+            beforeEvaluation(ctx);
             Collection<FHIRPathNode> result = visitChildren(ctx);
-            indentLevel--;
-            return result;
+            return afterEvaluation(ctx, result);
         }
 
         @Override
         public Collection<FHIRPathNode> visitQuantity(FHIRPathParser.QuantityContext ctx) {
-            debug(ctx);
-            indentLevel++;
+            beforeEvaluation(ctx);
             String number = ctx.NUMBER().getText();
             String text = ctx.unit().getText();
-            String unit = text.substring(1, text.length() - 1);
-            indentLevel--;
-            return singleton(FHIRPathQuantityValue.quantityValue(new BigDecimal(number), unit));
+            String unit = text.startsWith("'") ? text.substring(1, text.length() - 1) : text;
+            return afterEvaluation(ctx, singleton(FHIRPathQuantityValue.quantityValue(new BigDecimal(number), unit)));
         }
 
         @Override
         public Collection<FHIRPathNode> visitUnit(FHIRPathParser.UnitContext ctx) {
-            debug(ctx);
-            indentLevel++;
+            beforeEvaluation(ctx);
             Collection<FHIRPathNode> result = visitChildren(ctx);
-            indentLevel--;
-            return result;
+            return afterEvaluation(ctx, result);
         }
 
         @Override
         public Collection<FHIRPathNode> visitDateTimePrecision(FHIRPathParser.DateTimePrecisionContext ctx) {
-            debug(ctx);
-            indentLevel++;
+            beforeEvaluation(ctx);
             Collection<FHIRPathNode> result = visitChildren(ctx);
-            indentLevel--;
-            return result;
+            return afterEvaluation(ctx, result);
         }
 
         @Override
         public Collection<FHIRPathNode> visitPluralDateTimePrecision(FHIRPathParser.PluralDateTimePrecisionContext ctx) {
-            debug(ctx);
-            indentLevel++;
+            beforeEvaluation(ctx);
             Collection<FHIRPathNode> result = visitChildren(ctx);
-            indentLevel--;
-            return result;
+            return afterEvaluation(ctx, result);
         }
 
         @Override
         public Collection<FHIRPathNode> visitTypeSpecifier(FHIRPathParser.TypeSpecifierContext ctx) {
-            debug(ctx);
-            indentLevel++;
+            beforeEvaluation(ctx);
             Collection<FHIRPathNode> result = visitChildren(ctx);
-            indentLevel--;
-            return result;
+            return afterEvaluation(ctx, result);
         }
 
         @Override
         public Collection<FHIRPathNode> visitQualifiedIdentifier(FHIRPathParser.QualifiedIdentifierContext ctx) {
-            debug(ctx);
+            beforeEvaluation(ctx);
             String text = ctx.getText().replace("`", "");
-            return singleton(stringValue(text));
+            return afterEvaluation(ctx, singleton(stringValue(text)));
         }
 
         @Override
         public Collection<FHIRPathNode> visitIdentifier(FHIRPathParser.IdentifierContext ctx) {
-            debug(ctx);
+            beforeEvaluation(ctx);
             String text = ctx.getText();
             Collection<FHIRPathNode> result = IDENTIFIER_CACHE.computeIfAbsent(text, t -> singleton(stringValue(text.startsWith("`") ? text.substring(1, text.length() - 1) : text)));
-            return result;
+            return afterEvaluation(ctx, result);
         }
 
         private String indent() {
@@ -1340,10 +1274,30 @@ public class FHIRPathEvaluator {
             return builder.toString();
         }
 
-        private void debug(ParseTree ctx) {
-            if (log.isLoggable(Level.FINEST)) {
-                log.finest(indent() + ctx.getClass().getSimpleName() + ": " + ctx.getText() + ", childCount: " + ctx.getChildCount());
+        private void beforeEvaluation(ParserRuleContext ctx) {
+            debug(ctx);
+            for (EvaluationListener listener : evaluationContext.getEvaluationListeners()) {
+                listener.beforeEvaluation(ctx, getCurrentContext());
             }
+            indentLevel++;
+        }
+
+        private Collection<FHIRPathNode> afterEvaluation(ParserRuleContext ctx, Collection<FHIRPathNode> result) {
+            indentLevel--;
+            for (EvaluationListener listener : evaluationContext.getEvaluationListeners()) {
+                listener.afterEvaluation(ctx, result);
+            }
+            return result;
+        }
+
+        private void debug(ParserRuleContext ctx) {
+            if (log.isLoggable(Level.FINEST)) {
+                log.finest(indent() + ctx.getClass().getSimpleName() + ": " + getText(ctx) + ", childCount: " + ctx.getChildCount());
+            }
+        }
+
+        private String getText(ParserRuleContext ctx) {
+            return ctx.getStart().getInputStream().getText(Interval.of(ctx.getStart().getStartIndex(), ctx.getStop().getStopIndex()));
         }
     }
 
@@ -1366,6 +1320,7 @@ public class FHIRPathEvaluator {
         private final Map<String, Collection<FHIRPathNode>> externalConstantMap = new HashMap<>();
         private final List<Issue> issues = new ArrayList<>();
         private final Map<CacheKey, Collection<FHIRPathNode>> functionResultCache = new HashMap<>();
+        private final List<EvaluationListener> listeners = new ArrayList<>();
 
         private Constraint constraint;
         private boolean resolveRelativeReferences = DEFAULT_RESOLVE_RELATIVE_REFERENCES;
@@ -1629,5 +1584,64 @@ public class FHIRPathEvaluator {
             CacheKey key = key(functionName, context, arguments);
             return functionResultCache.containsKey(key);
         }
+
+        /**
+         * Add an evaluation listener to this context.
+         *
+         * @param listener
+         *     the evaluation listener
+         */
+        public void addEvaluationListener(EvaluationListener listener) {
+            listeners.add(listener);
+        }
+
+        /**
+         * Remove an evaluation listener from this context.
+         *
+         * @param listener
+         *     the evaluation listener
+         * @return
+         *     true if the evaluation listener being removed was present in the list of evaluation listeners for this context, otherwise false
+         */
+        public boolean removeEvaluationListener(EvaluationListener listener) {
+            return listeners.remove(listener);
+        }
+
+        /**
+         * Get the list of evaluation listeners for this context.
+         *
+         * @return
+         *    the list of evaluation listeners
+         */
+        public List<EvaluationListener> getEvaluationListeners() {
+            return listeners;
+        }
+    }
+
+    /**
+     * A listener interface for receiving notifications during evaluation
+     */
+    public interface EvaluationListener {
+        /**
+         * Called immediately before an expression, term, or literal associated with the given
+         * parser rule context is evaluated
+         *
+         * @param parserRuleContext
+         *     the parser rule context
+         * @param context
+         *     the evaluator context
+         */
+        void beforeEvaluation(ParserRuleContext parserRuleContext, Collection<FHIRPathNode> context);
+
+        /**
+         * Called immediately after an expression, term, or literal associated with the given
+         * parser rule context is evaluated
+         *
+         * @param parserRuleContext
+         *     the parser rule context
+         * @param result
+         *     the evaluation result
+         */
+        void afterEvaluation(ParserRuleContext parserRuleContext, Collection<FHIRPathNode> result);
     }
 }

@@ -6,8 +6,10 @@
 
 package com.ibm.fhir.term.graph.factory;
 
-import org.apache.commons.configuration.Configuration;
-import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.commons.configuration2.Configuration;
+import org.apache.commons.configuration2.PropertiesConfiguration;
+import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
+import org.apache.commons.configuration2.builder.fluent.Parameters;
 
 import com.ibm.fhir.term.graph.FHIRTermGraph;
 import com.ibm.fhir.term.graph.impl.FHIRTermGraphImpl;
@@ -28,7 +30,10 @@ public final class FHIRTermGraphFactory {
      */
     public static FHIRTermGraph open(String propFileName) {
         try {
-            return open(new PropertiesConfiguration(propFileName));
+            FileBasedConfigurationBuilder<PropertiesConfiguration> builder =
+                    new FileBasedConfigurationBuilder<>(PropertiesConfiguration.class)
+                    .configure(new Parameters().properties().setFileName("myconfig.properties"));
+            return open(builder.getConfiguration());
         } catch (Exception e) {
             throw new Error(e);
         }

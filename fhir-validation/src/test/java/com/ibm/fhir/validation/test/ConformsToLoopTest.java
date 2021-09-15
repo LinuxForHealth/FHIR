@@ -15,10 +15,6 @@ import static org.testng.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Handler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -36,7 +32,6 @@ import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.ConstraintSeverity;
 import com.ibm.fhir.model.type.code.TypeDerivationRule;
-import com.ibm.fhir.path.function.ConformsToFunction;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.registry.resource.FHIRRegistryResource;
 import com.ibm.fhir.registry.util.FHIRRegistryResourceProviderAdapter;
@@ -45,8 +40,6 @@ import com.ibm.fhir.validation.FHIRValidator;
 public class ConformsToLoopTest {
     @BeforeClass
     public void beforeClass() throws Exception {
-        configureLogging();
-
         StructureDefinition structureDefinition = FHIRRegistry.getInstance().getResource("http://hl7.org/fhir/StructureDefinition/Organization", StructureDefinition.class);
 
         List<ElementDefinition> element = new ArrayList<>(structureDefinition.getSnapshot().getElement());
@@ -135,14 +128,6 @@ public class ConformsToLoopTest {
             .constraint(elementDefinition.getConstraint())
             .constraint(constraints)
             .build();
-    }
-
-    private void configureLogging() {
-        Logger logger = Logger.getLogger(ConformsToFunction.class.getName());
-        logger.setLevel(Level.FINEST);
-        Handler handler = new ConsoleHandler();
-        handler.setLevel(Level.FINEST);
-        logger.addHandler(handler);
     }
 
     private ElementDefinition getElementDefinition(StructureDefinition structureDefinition, String path) {

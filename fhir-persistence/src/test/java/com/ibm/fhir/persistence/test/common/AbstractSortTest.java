@@ -59,7 +59,7 @@ public abstract class AbstractSortTest extends AbstractPersistenceTest {
     public void createResources() throws Exception {
         FHIRRequestContext.get().setTenantId("all");
         
-        Basic resource = TestUtil.readExampleResource("json/ibm/minimal/Basic-1.json");
+        Basic resource = TestUtil.getMinimalResource(Basic.class);
         
         Basic.Builder resource1Builder = resource.toBuilder();
         Basic.Builder resource2Builder = resource.toBuilder();

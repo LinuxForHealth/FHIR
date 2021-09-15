@@ -68,12 +68,12 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
     public void createResources() throws Exception {
         checkReferenceTypes = FHIRModelConfig.getCheckReferenceTypes();
         FHIRModelConfig.setCheckReferenceTypes(false);
-        Organization org = TestUtil.readExampleResource("json/ibm/minimal/Organization-1.json");
-        Encounter encounter = TestUtil.readExampleResource("json/ibm/minimal/Encounter-1.json");
-        Observation observation = TestUtil.readExampleResource("json/ibm/minimal/Observation-1.json");
-        Patient patient = TestUtil.readExampleResource("json/ibm/minimal/Patient-1.json");
-        Device device = TestUtil.readExampleResource("json/ibm/minimal/Device-1.json");
-        DeviceRequest deviceRequest = TestUtil.readExampleResource("json/ibm/minimal/DeviceRequest-1.json");
+        Organization org = TestUtil.getMinimalResource(Organization.class);
+        Encounter encounter = TestUtil.getMinimalResource(Encounter.class);
+        Observation observation = TestUtil.getMinimalResource(Observation.class);
+        Patient patient = TestUtil.getMinimalResource(Patient.class);
+        Device device = TestUtil.getMinimalResource(Device.class);
+        DeviceRequest deviceRequest = TestUtil.getMinimalResource(DeviceRequest.class);
 
         // an Organization that will be referenced by a Patient
         savedOrg1 = persistence.create(getDefaultPersistenceContext(), org).getResource();

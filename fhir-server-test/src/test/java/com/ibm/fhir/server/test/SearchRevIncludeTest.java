@@ -8,6 +8,7 @@ package com.ibm.fhir.server.test;
 
 import static com.ibm.fhir.model.type.String.of;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
@@ -16,7 +17,13 @@ import static org.testng.Assert.fail;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
@@ -26,9 +33,12 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.core.FHIRMediaType;
-import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.resource.Bundle;
+import com.ibm.fhir.model.resource.CarePlan;
 import com.ibm.fhir.model.resource.Encounter;
+import com.ibm.fhir.model.resource.Library;
+import com.ibm.fhir.model.resource.Measure;
+import com.ibm.fhir.model.resource.MeasureReport;
 import com.ibm.fhir.model.resource.NutritionOrder;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Organization;
@@ -38,6 +48,7 @@ import com.ibm.fhir.model.resource.Practitioner;
 import com.ibm.fhir.model.resource.Procedure;
 import com.ibm.fhir.model.resource.Procedure.Performer;
 import com.ibm.fhir.model.test.TestUtil;
+import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
@@ -48,12 +59,13 @@ import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.AdministrativeGender;
+import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.EncounterStatus;
+import com.ibm.fhir.model.type.code.HTTPVerb;
 import com.ibm.fhir.model.type.code.LinkType;
 import com.ibm.fhir.model.type.code.NutritionOrderIntent;
 import com.ibm.fhir.model.type.code.NutritionOrderStatus;
 import com.ibm.fhir.model.type.code.ProcedureStatus;
-import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.type.code.SearchEntryMode;
 
 /**
@@ -72,6 +84,10 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
     private String procedure5Id;
     private String encounter1Id;
     private List<String> nutritionOrderIds = new ArrayList<>();
+    private String carePlanId;
+    private String measureReportId;
+    private String measureId;
+    private String libraryId;
     private Instant now = Instant.now();
     private String tag = Long.toString(now.toEpochMilli());
 
@@ -80,7 +96,7 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new Organization.
-        Organization organization = TestUtil.getMinimalResource(ResourceType.ORGANIZATION, Format.JSON);
+        Organization organization = TestUtil.getMinimalResource(Organization.class);
         organization = organization.toBuilder()
                 .name(of(tag))
                 .build();
@@ -93,6 +109,9 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         // Get the organization's logical id value.
         organization1Id = getLocationLogicalId(response);
 
+        // Add the organization to the resource registry.
+        addToResourceRegistry("Organization", organization1Id);
+        
         // Next, call the 'read' API to retrieve the new organization and verify it.
         response = target.path("Organization/" + organization1Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -103,7 +122,7 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new Practitioner and then call the 'create' API.
-        Practitioner practitioner = TestUtil.getMinimalResource(ResourceType.PRACTITIONER, Format.JSON);
+        Practitioner practitioner = TestUtil.getMinimalResource(Practitioner.class);
         practitioner = practitioner.toBuilder()
                 .gender(AdministrativeGender.MALE)
                 .name(HumanName.builder()
@@ -124,6 +143,9 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         // Get the practitioner logical id value.
         practitioner1Id = getLocationLogicalId(response);
 
+        // Add the practitioner to the resource registry.
+        addToResourceRegistry("Practitioner", practitioner1Id);
+        
         // Next, call the 'read' API to retrieve the new practitioner and verify it.
         response = target.path("Practitioner/" + practitioner1Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -134,7 +156,7 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new Patient and then call the 'create' API.
-        Patient patient = TestUtil.getMinimalResource(ResourceType.PATIENT, Format.JSON);
+        Patient patient = TestUtil.getMinimalResource(Patient.class);
         patient = patient.toBuilder()
                 .gender(AdministrativeGender.MALE)
                 .name(HumanName.builder()
@@ -155,6 +177,9 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         // Get the patient's logical id value.
         patient1Id = getLocationLogicalId(response);
 
+        // Add the patient to the resource registry.
+        addToResourceRegistry("Patient", patient1Id);
+        
         // Next, call the 'read' API to retrieve the new patient and verify it.
         response = target.path("Patient/" + patient1Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -165,7 +190,7 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new Patient and then call the 'create' API.
-        Patient patient = TestUtil.getMinimalResource(ResourceType.PATIENT, Format.JSON);
+        Patient patient = TestUtil.getMinimalResource(Patient.class);
         patient = patient.toBuilder()
                 .gender(AdministrativeGender.FEMALE)
                 .name(HumanName.builder()
@@ -189,6 +214,9 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         // Get the patient's logical id value.
         patient2Id = getLocationLogicalId(response);
 
+        // Add the patient to the resource registry.
+        addToResourceRegistry("Patient", patient2Id);
+        
         // Next, call the 'read' API to retrieve the new patient and verify it.
         response = target.path("Patient/" + patient2Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -199,7 +227,7 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new Patient and then call the 'create' API.
-        Patient patient = TestUtil.getMinimalResource(ResourceType.PATIENT, Format.JSON);
+        Patient patient = TestUtil.getMinimalResource(Patient.class);
         patient = patient.toBuilder()
                 .gender(AdministrativeGender.MALE)
                 .name(HumanName.builder()
@@ -221,6 +249,9 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         // Get the patient's logical id value.
         patient3Id = getLocationLogicalId(response);
 
+        // Add the patient to the resource registry.
+        addToResourceRegistry("Patient", patient3Id);
+        
         // Next, call the 'read' API to retrieve the new patient and verify it.
         response = target.path("Patient/" + patient3Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -231,7 +262,7 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new Procedure and add subject reference to patient.
-        Procedure procedure = TestUtil.getMinimalResource(ResourceType.PROCEDURE, Format.JSON);
+        Procedure procedure = TestUtil.getMinimalResource(Procedure.class);
         procedure = procedure.toBuilder()
                 .status(ProcedureStatus.COMPLETED)
                 .subject(Reference.builder().reference(of("Patient/" + patient2Id)).build())
@@ -249,6 +280,9 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         // Get the procedure's logical id value.
         procedure1Id = getLocationLogicalId(response);
 
+        // Add the procedure to the resource registry.
+        addToResourceRegistry("Procedure", procedure1Id);
+        
         // Next, call the 'read' API to retrieve the new procedure and verify it.
         response = target.path("Procedure/" + procedure1Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -259,7 +293,7 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new Procedure and add subject reference to patient.
-        Procedure procedure = TestUtil.getMinimalResource(ResourceType.PROCEDURE, Format.JSON);
+        Procedure procedure = TestUtil.getMinimalResource(Procedure.class);
         procedure = procedure.toBuilder()
                 .status(ProcedureStatus.COMPLETED)
                 .subject(Reference.builder().reference(of("Patient/" + patient2Id)).build())
@@ -277,6 +311,9 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         // Get the procedure's logical id value.
         procedure2Id = getLocationLogicalId(response);
 
+        // Add the procedure to the resource registry.
+        addToResourceRegistry("Procedure", procedure2Id);
+        
         // Next, call the 'read' API to retrieve the new procedure and verify it.
         response = target.path("Procedure/" + procedure2Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -287,7 +324,7 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new Procedure and add performer reference to patient.
-        Procedure procedure = TestUtil.getMinimalResource(ResourceType.PROCEDURE, Format.JSON);
+        Procedure procedure = TestUtil.getMinimalResource(Procedure.class);
         procedure = procedure.toBuilder()
                 .status(ProcedureStatus.COMPLETED)
                 .performer(Performer.builder().actor(Reference.builder().reference(of("Patient/" + patient2Id)).build()).build())
@@ -304,6 +341,9 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         // Get the procedure's logical id value.
         procedure3Id = getLocationLogicalId(response);
 
+        // Add the procedure to the resource registry.
+        addToResourceRegistry("Procedure", procedure3Id);
+        
         // Next, call the 'read' API to retrieve the new procedure and verify it.
         response = target.path("Procedure/" + procedure3Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -314,7 +354,7 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new Procedure and add subject reference to patient.
-        Procedure procedure = TestUtil.getMinimalResource(ResourceType.PROCEDURE, Format.JSON);
+        Procedure procedure = TestUtil.getMinimalResource(Procedure.class);
         procedure = procedure.toBuilder()
                 .status(ProcedureStatus.COMPLETED)
                 .subject(Reference.builder().reference(of("Patient/" + patient1Id)).build())
@@ -331,6 +371,9 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         // Get the procedure's logical id value.
         procedure4Id = getLocationLogicalId(response);
 
+        // Add the procedure to the resource registry.
+        addToResourceRegistry("Procedure", procedure4Id);
+        
         // Next, call the 'read' API to retrieve the new procedure and verify it.
         response = target.path("Procedure/" + procedure4Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -342,7 +385,7 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
 
         // Build a new Procedure and add subject reference to patient
         // and partOf and reasonReference references to another procedure.
-        Procedure procedure = TestUtil.getMinimalResource(ResourceType.PROCEDURE, Format.JSON);
+        Procedure procedure = TestUtil.getMinimalResource(Procedure.class);
         procedure = procedure.toBuilder()
                 .status(ProcedureStatus.COMPLETED)
                 .subject(Reference.builder().reference(of("Patient/" + patient3Id)).build())
@@ -361,6 +404,9 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         // Get the procedure's logical id value.
         procedure5Id = getLocationLogicalId(response);
 
+        // Add the procedure to the resource registry.
+        addToResourceRegistry("Procedure", procedure5Id);
+        
         // Next, call the 'read' API to retrieve the new procedure and verify it.
         response = target.path("Procedure/" + procedure5Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -371,7 +417,7 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new Encounter and add subject reference to patient.
-        Encounter encounter = TestUtil.getMinimalResource(ResourceType.ENCOUNTER, Format.JSON);
+        Encounter encounter = TestUtil.getMinimalResource(Encounter.class);
         encounter = encounter.toBuilder()
                 .status(EncounterStatus.FINISHED)
                 .subject(Reference.builder().reference(of("Patient/" + patient2Id)).build())
@@ -385,6 +431,9 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         // Get the encounter's logical id value.
         encounter1Id = getLocationLogicalId(response);
 
+        // Add the encounter to the resource registry.
+        addToResourceRegistry("Encounter", encounter1Id);
+        
         // Next, call the 'read' API to retrieve the new encounter and verify it.
         response = target.path("Encounter/" + encounter1Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -392,10 +441,8 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
 
     @Test(groups = { "server-search-revinclude" }, dependsOnMethods = {"testCreatePatient3"})
     public void testCreateNutritionOrders() throws Exception {
-        WebTarget target = getWebTarget();
-
         // Build a new NutritionOrder and add reference to patient.
-        NutritionOrder nutritionOrder = TestUtil.getMinimalResource(ResourceType.NUTRITION_ORDER, Format.JSON);
+        NutritionOrder nutritionOrder = TestUtil.getMinimalResource(NutritionOrder.class);
         nutritionOrder = nutritionOrder.toBuilder()
                 .status(NutritionOrderStatus.ACTIVE)
                 .intent(NutritionOrderIntent.DIRECTIVE)
@@ -403,123 +450,294 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
                 .patient(Reference.builder().reference(of("Patient/" + patient3Id)).build())
                 .build();
 
-        // Call the 'create' API.
-        Entity<NutritionOrder> entity = Entity.entity(nutritionOrder, FHIRMediaType.APPLICATION_FHIR_JSON);
-        for (int i=0; i<1001; ++i) {
-            Response response = target.path("NutritionOrder").request().post(entity, Response.class);
-            assertResponse(response, Response.Status.CREATED.getStatusCode());
+        String uuid = UUID.randomUUID().toString();
 
-            // Get the nutrition order logical id value.
-            nutritionOrderIds.add(getLocationLogicalId(response));
+        // Generate a Batch
+        ExecutorService svc = Executors.newFixedThreadPool(3);
+        List<Future<NutritionOrderCallableResult>> futures = new ArrayList<>();
+        int count = 0;
+        for (int j = 0; j <10; j++) {
+            Bundle.Builder bundleBuilder = Bundle.builder();
+            List<Bundle.Entry> entries = new ArrayList<>();
+            for (int i=0; i<101; ++i) {
+                Bundle.Entry.Request request = Bundle.Entry.Request.builder()
+                        .url(Uri.uri("NutritionOrder/" + uuid + "-" + count))
+                        .method(HTTPVerb.PUT)
+                        .build();
+                Bundle.Entry entry = Bundle.Entry.builder()
+                        .request(request)
+                        .resource(nutritionOrder.toBuilder().id(uuid + "-" + count).build())
+                        .build();
+                if (count <= 1001) {
+                    entries.add(entry);
+                    count++;
+                }
+            }
+            Bundle bundle = bundleBuilder
+                    .type(BundleType.TRANSACTION)
+                    .entry(entries)
+                    .build();
+
+            // Call the 'batch' API.
+            Entity<Bundle> entity = Entity.entity(bundle, FHIRMediaType.APPLICATION_FHIR_JSON);
+            NutritionOrderCallable callable = new NutritionOrderCallable(getWebTarget(), entity);
+            Future<NutritionOrderCallableResult> future = svc.submit(callable);
+            Thread.sleep(1000);
+            futures.add(future);
         }
+
+        boolean finished = false;
+        int completed = 0;
+        int terminal = 0;
+        while (!finished && terminal++ != 300) {
+            for (Future<NutritionOrderCallableResult> future : futures) {
+                if (future.isDone()) {
+                    if (!future.get().complete) {
+                        nutritionOrderIds.addAll(future.get().results);
+                        future.get().complete = Boolean.TRUE;
+                        completed++;
+                    }
+                } else if (future.isCancelled()) {
+                    svc.shutdown();
+                    throw new Exception("Failed");
+                }
+            }
+            finished = futures.size() == completed;
+            Thread.sleep(1000);
+        }
+        System.out.println("Nutrition Order Size: " + nutritionOrderIds.size());
+
         assertTrue(nutritionOrderIds.size() > 1000);
     }
 
-    @AfterClass
-    public void testDeletePatient1() {
-        WebTarget target = getWebTarget();
-        if (patient1Id != null) {
-            Response response   = target.path("Patient/" + patient1Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-            assertResponse(response, Response.Status.OK.getStatusCode());
+    public static class NutritionOrderCallableResult {
+        List<String> results = new ArrayList<>();
+        Boolean complete = Boolean.FALSE;
+        Boolean deleted = Boolean.FALSE;
+    }
+
+    public static class NutritionOrderCallable implements Callable<NutritionOrderCallableResult> {
+        private Boolean DEBUG = Boolean.FALSE;
+        private WebTarget target = null;
+        private Entity<Bundle> entity = null;
+
+        public NutritionOrderCallable(WebTarget target, Entity<Bundle> entity) {
+            this.target = target;
+            this.entity = entity;
+        }
+
+        @Override
+        public NutritionOrderCallableResult call() throws Exception {
+            NutritionOrderCallableResult result = new NutritionOrderCallableResult();
+            Response response = target.path("/").request().post(entity, Response.class);
+            assertEquals(response.getStatusInfo().getFamily(), Response.Status.Family.SUCCESSFUL);
+            Bundle bundleResponse = response.readEntity(Bundle.class);
+            assertFalse(bundleResponse.getEntry().isEmpty());
+            for (Bundle.Entry entry : bundleResponse.getEntry()) {
+                assertEquals(entry.getResponse().getStatus().getValue(), "201");
+                result.results.add(entry.getResponse().getId());
+            }
+            if (DEBUG) {
+                System.out.println(this.hashCode() + " " + result.results.size());
+            }
+            return result;
         }
     }
 
-    @AfterClass
-    public void testDeletePatient2() {
+    @Test(groups = { "server-search-revinclude" })
+    public void testCreateLibrary() throws Exception {
         WebTarget target = getWebTarget();
-        if (patient2Id != null) {
-            Response response   = target.path("Patient/" + patient2Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-            assertResponse(response, Response.Status.OK.getStatusCode());
-        }
+
+        // Build a new Library and then call the 'create' API.
+        Library library = TestUtil.getMinimalResource(Library.class);
+        library = library.toBuilder()
+                .url(Uri.of("http://example.org/fhir/Library/" + tag))
+                .version(com.ibm.fhir.model.type.String.string("1.0"))
+                .name(of(tag))
+                .build();
+
+        // Call the 'create' API.
+        Entity<Library> entity = Entity.entity(library, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response = target.path("Library").request().post(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+
+        // Get the library's logical id value.
+        libraryId = getLocationLogicalId(response);
+
+        // Add the library to the resource registry.
+        addToResourceRegistry("Library", libraryId);
+        
+        // Next, call the 'read' API to retrieve the new library and verify it.
+        response = target.path("Library/" + libraryId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+    }
+
+    @Test(groups = { "server-search-revinclude" }, dependsOnMethods = {"testCreateLibrary"})
+    public void testCreateMeasure() throws Exception {
+        WebTarget target = getWebTarget();
+
+        // Build a new Measure and then call the 'create' API.
+        Measure measure = TestUtil.getMinimalResource(Measure.class);
+        measure = measure.toBuilder()
+                .url(Uri.of("http://example.org/fhir/Measure/" + tag))
+                .version(com.ibm.fhir.model.type.String.string("1.0"))
+                .library(Canonical.of("http://example.org/fhir/Library/" + tag + "|1.0"))
+                .name(of(tag))
+                .build();
+
+        // Call the 'create' API.
+        Entity<Measure> entity = Entity.entity(measure, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response = target.path("Measure").request().post(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+
+        // Get the measure's logical id value.
+        measureId = getLocationLogicalId(response);
+
+        // Add the measure to the resource registry.
+        addToResourceRegistry("Measure", measureId);
+        
+        // Next, call the 'read' API to retrieve the new measure and verify it.
+        response = target.path("Measure/" + measureId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+    }
+
+    @Test(groups = { "server-search-revinclude" }, dependsOnMethods = {"testCreateMeasure"})
+    public void testCreateCarePlan() throws Exception {
+        WebTarget target = getWebTarget();
+
+        // Build a new CarePlan and then call the 'create' API.
+        CarePlan carePlan = TestUtil.getMinimalResource(CarePlan.class);
+        carePlan = carePlan.toBuilder()
+                .instantiatesCanonical(Canonical.of("http://example.org/fhir/Measure/" + tag))
+                .instantiatesUri(Uri.of(tag))
+                .build();
+
+        // Call the 'create' API.
+        Entity<CarePlan> entity = Entity.entity(carePlan, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response = target.path("CarePlan").request().post(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+
+        // Get the carePlan's logical id value.
+        carePlanId = getLocationLogicalId(response);
+
+        // Add the carePlan to the resource registry.
+        addToResourceRegistry("CarePlan", carePlanId);
+        
+        // Next, call the 'read' API to retrieve the new carePlan and verify it.
+        response = target.path("CarePlan/" + carePlanId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+    }
+
+    @Test(groups = { "server-search-revinclude" }, dependsOnMethods = {"testCreateMeasure"})
+    public void testCreateMeasureReport() throws Exception {
+        WebTarget target = getWebTarget();
+
+        // Build a new MeasureReport and then call the 'create' API.
+        MeasureReport measureReport = TestUtil.getMinimalResource(MeasureReport.class);
+        measureReport = measureReport.toBuilder()
+                .measure(Canonical.of("http://example.org/fhir/Measure/" + tag + "|2.0"))
+                .subject(Reference.builder().reference(of("Patient/" + tag)).build())
+                .build();
+
+        // Call the 'create' API.
+        Entity<MeasureReport> entity = Entity.entity(measureReport, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response = target.path("MeasureReport").request().post(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+
+        // Get the measureReport's logical id value.
+        measureReportId = getLocationLogicalId(response);
+
+        // Add the measureReport to the resource registry.
+        addToResourceRegistry("MeasureReport", measureReportId);
+        
+        // Next, call the 'read' API to retrieve the new measureReport and verify it.
+        response = target.path("MeasureReport/" + measureReportId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
     }
 
     @AfterClass
-    public void testDeletePatient3() {
-        WebTarget target = getWebTarget();
-        if (patient3Id != null) {
-            Response response   = target.path("Patient/" + patient3Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-            assertResponse(response, Response.Status.OK.getStatusCode());
+    public void testDeleteNutritionOrders() throws Exception {
+        Iterator<String> iter = nutritionOrderIds.iterator();
+        // Generate a Batch
+        ExecutorService svc = Executors.newFixedThreadPool(5);
+        List<Future<NutritionOrderCallableResult>> futures = new ArrayList<>();
+        int count = 0;
+        for (int j = 0; j <10; j++) {
+            Bundle.Builder bundleBuilder = Bundle.builder();
+            List<Bundle.Entry> entries = new ArrayList<>();
+            for (int i=0; i<101; ++i) {
+                if (iter.hasNext()) {
+                    Bundle.Entry.Request request = Bundle.Entry.Request.builder()
+                            .url(Uri.uri("NutritionOrder/" + iter.next()))
+                            .method(HTTPVerb.DELETE)
+                            .build();
+                    Bundle.Entry entry = Bundle.Entry.builder()
+                            .request(request)
+                            .build();
+                    if (count <= 1000) {
+                        entries.add(entry);
+                        count++;
+                    }
+                }
+            }
+            Bundle bundle = bundleBuilder
+                    .type(BundleType.BATCH)
+                    .entry(entries)
+                    .build();
+
+            // Call the 'batch' API.
+            Entity<Bundle> entity = Entity.entity(bundle, FHIRMediaType.APPLICATION_FHIR_JSON);
+            NutritionOrderCallableDelete callable = new NutritionOrderCallableDelete(getWebTarget(), entity, this);
+            Future<NutritionOrderCallableResult> future = svc.submit(callable);
+            futures.add(future);
+        }
+
+        boolean finished = false;
+        int terminal = 0;
+        int completed = 0;
+        while (!finished && terminal++ != 300) {
+            for (Future<NutritionOrderCallableResult> future : futures) {
+                if (future.isDone()) {
+                    if (!future.get().complete) {
+                        if (!future.get().deleted) {
+                            throw new Exception("Failed to complete the delete operation");
+                        }
+                        future.get().complete = true;
+                        completed++;
+                    }
+                } else if (future.isCancelled()) {
+                    svc.shutdown();
+                    throw new Exception("Failed");
+                }
+            }
+            finished = futures.size() == completed;
+            Thread.sleep(1000);
         }
     }
 
-    @AfterClass
-    public void testDeleteProcedure1() {
-        WebTarget target = getWebTarget();
-        if (procedure1Id != null) {
-            Response response   = target.path("Procedure/" + procedure1Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-            assertResponse(response, Response.Status.OK.getStatusCode());
-        }
-    }
+    public static class NutritionOrderCallableDelete implements Callable<NutritionOrderCallableResult> {
+        private WebTarget target = null;
+        private Entity<Bundle> entity = null;
+        private SearchRevIncludeTest test = null;
 
-    @AfterClass
-    public void testDeleteProcedure2() {
-        WebTarget target = getWebTarget();
-        if (procedure2Id != null) {
-            Response response   = target.path("Procedure/" + procedure2Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-            assertResponse(response, Response.Status.OK.getStatusCode());
+        public NutritionOrderCallableDelete(WebTarget target, Entity<Bundle> entity, SearchRevIncludeTest test) {
+            this.target = target;
+            this.entity = entity;
+            this.test = test;
         }
-    }
 
-    @AfterClass
-    public void testDeleteProcedure3() {
-        WebTarget target = getWebTarget();
-        if (procedure3Id != null) {
-            Response response   = target.path("Procedure/" + procedure3Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-            assertResponse(response, Response.Status.OK.getStatusCode());
-        }
-    }
-
-    @AfterClass
-    public void testDeleteProcedure4() {
-        WebTarget target = getWebTarget();
-        if (procedure4Id != null) {
-            Response response   = target.path("Procedure/" + procedure4Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-            assertResponse(response, Response.Status.OK.getStatusCode());
-        }
-    }
-
-    @AfterClass
-    public void testDeleteProcedure5() {
-        WebTarget target = getWebTarget();
-        if (procedure5Id != null) {
-            Response response   = target.path("Procedure/" + procedure5Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-            assertResponse(response, Response.Status.OK.getStatusCode());
-        }
-    }
-
-    @AfterClass
-    public void testDeleteOrganization1() {
-        WebTarget target = getWebTarget();
-        if (organization1Id != null) {
-            Response response   = target.path("Organization/" + organization1Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-            assertResponse(response, Response.Status.OK.getStatusCode());
-        }
-    }
-
-    @AfterClass
-    public void testDeletePractitioner1() {
-        WebTarget target = getWebTarget();
-        if (practitioner1Id != null) {
-            Response response   = target.path("Practitioner/" + practitioner1Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-            assertResponse(response, Response.Status.OK.getStatusCode());
-        }
-    }
-
-    @AfterClass
-    public void testDeleteEncounter1() {
-        WebTarget target = getWebTarget();
-        if (encounter1Id != null) {
-            Response response   = target.path("Encounter/" + encounter1Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-            assertResponse(response, Response.Status.OK.getStatusCode());
-        }
-    }
-
-    @AfterClass
-    public void testDeleteNutritionOrders() {
-        WebTarget target = getWebTarget();
-        for (String nutritionOrderId : nutritionOrderIds) {
-            Response response   = target.path("NutritionOrder/" + nutritionOrderId).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-            assertResponse(response, Response.Status.OK.getStatusCode());
+        @Override
+        public NutritionOrderCallableResult call() throws Exception {
+            NutritionOrderCallableResult result = new NutritionOrderCallableResult();
+            Response response = target.path("/").request().post(entity, Response.class);
+            test.assertResponse(response, Response.Status.OK.getStatusCode());
+            Bundle bundleResponse = response.readEntity(Bundle.class);
+            assertFalse(bundleResponse.getEntry().isEmpty());
+            result.deleted = Boolean.TRUE;
+            for (Bundle.Entry entry : bundleResponse.getEntry()) {
+                result.deleted = result.deleted && entry.getResponse().getStatus() != null;
+            }
+            return result;
         }
     }
 
@@ -610,6 +828,12 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
                 .queryParam("_revinclude", "NutritionOrder:patient")
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .get();
+
+        if (response.getStatus() == 200) {
+            Bundle bundle = response.readEntity(Bundle.class);
+            System.out.println(bundle.getEntry().size());
+            printOutResource(true, bundle);
+        }
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
         assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class),
                 "Number of returned 'include' resources exceeds allowable limit of 1000");
@@ -628,11 +852,11 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(2, bundle.getEntry().size());
-        assertEquals(practitioner1Id, bundle.getEntry().get(0).getResource().getId());
-        assertEquals(SearchEntryMode.MATCH, bundle.getEntry().get(0).getSearch().getMode());
-        assertEquals(patient2Id, bundle.getEntry().get(1).getResource().getId());
-        assertEquals(SearchEntryMode.INCLUDE, bundle.getEntry().get(1).getSearch().getMode());
+        assertEquals(bundle.getEntry().size(), 2);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), practitioner1Id);
+        assertEquals(bundle.getEntry().get(0).getSearch().getMode(), SearchEntryMode.MATCH);
+        assertEquals(bundle.getEntry().get(1).getResource().getId(), patient2Id);
+        assertEquals(bundle.getEntry().get(1).getSearch().getMode(), SearchEntryMode.INCLUDE);
     }
 
     @Test(groups = { "server-search-revinclude" }, dependsOnMethods = {"testCreatePatient2"})
@@ -649,11 +873,11 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(2, bundle.getEntry().size());
-        assertEquals(patient1Id, bundle.getEntry().get(0).getResource().getId());
-        assertEquals(SearchEntryMode.MATCH, bundle.getEntry().get(0).getSearch().getMode());
-        assertEquals(patient2Id, bundle.getEntry().get(1).getResource().getId());
-        assertEquals(SearchEntryMode.INCLUDE, bundle.getEntry().get(1).getSearch().getMode());
+        assertEquals(bundle.getEntry().size(), 2);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), patient1Id);
+        assertEquals(bundle.getEntry().get(0).getSearch().getMode(), SearchEntryMode.MATCH);
+        assertEquals(bundle.getEntry().get(1).getResource().getId(), patient2Id);
+        assertEquals(bundle.getEntry().get(1).getSearch().getMode(), SearchEntryMode.INCLUDE);
     }
 
     @Test(groups = { "server-search-revinclude" }, dependsOnMethods = {"testCreatePatient2"})
@@ -671,23 +895,23 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(2, bundle.getEntry().size());
+        assertEquals(bundle.getEntry().size(), 2);
         Patient matchPatient = bundle.getEntry().get(0).getResource().as(Patient.class);
-        assertEquals(patient1Id, matchPatient.getId());
-        assertEquals(SearchEntryMode.MATCH, bundle.getEntry().get(0).getSearch().getMode());
+        assertEquals(matchPatient.getId(), patient1Id);
+        assertEquals(bundle.getEntry().get(0).getSearch().getMode(), SearchEntryMode.MATCH);
         // validate included elements
-        assertEquals("1" + tag, matchPatient.getName().get(0).getGiven().get(0).getValue());
+        assertEquals(matchPatient.getName().get(0).getGiven().get(0).getValue(), "1" + tag);
         // validate not included elements
         assertNull(matchPatient.getGender());
         assertNull(matchPatient.getBirthDate());
 
         Patient includePatient = bundle.getEntry().get(1).getResource().as(Patient.class);
-        assertEquals(patient2Id, includePatient.getId());
-        assertEquals(SearchEntryMode.INCLUDE, bundle.getEntry().get(1).getSearch().getMode());
+        assertEquals(includePatient.getId(), patient2Id);
+        assertEquals(bundle.getEntry().get(1).getSearch().getMode(), SearchEntryMode.INCLUDE);
         // validate included elements
-        assertEquals(AdministrativeGender.FEMALE, includePatient.getGender());
-        assertEquals(Date.of(now.minus(1, ChronoUnit.DAYS).toString().substring(0,10)), includePatient.getBirthDate());
-        assertEquals("2" + tag, includePatient.getName().get(0).getGiven().get(0).getValue());
+        assertEquals(includePatient.getGender(), AdministrativeGender.FEMALE);
+        assertEquals(includePatient.getBirthDate(), Date.of(now.minus(1, ChronoUnit.DAYS).toString().substring(0,10)));
+        assertEquals(includePatient.getName().get(0).getGiven().get(0).getValue(), "2" + tag);
     }
 
     @Test(groups = { "server-search-revinclude" }, dependsOnMethods = {"testCreateProcedure5"})
@@ -704,11 +928,11 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(2, bundle.getEntry().size());
-        assertEquals(procedure2Id, bundle.getEntry().get(0).getResource().getId());
-        assertEquals(SearchEntryMode.MATCH, bundle.getEntry().get(0).getSearch().getMode());
-        assertEquals(procedure5Id, bundle.getEntry().get(1).getResource().getId());
-        assertEquals(SearchEntryMode.INCLUDE, bundle.getEntry().get(1).getSearch().getMode());
+        assertEquals(bundle.getEntry().size(), 2);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), procedure2Id);
+        assertEquals(bundle.getEntry().get(0).getSearch().getMode(), SearchEntryMode.MATCH);
+        assertEquals(bundle.getEntry().get(1).getResource().getId(), procedure5Id);
+        assertEquals(bundle.getEntry().get(1).getSearch().getMode(), SearchEntryMode.INCLUDE);
     }
 
     @Test(groups = { "server-search-revinclude" }, dependsOnMethods = {"testCreateProcedure1", "testCreateProcedure2", "testCreateEncounter1"})
@@ -726,13 +950,13 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(4, bundle.getEntry().size());
-        assertEquals(patient2Id, bundle.getEntry().get(0).getResource().getId());
-        assertEquals(SearchEntryMode.MATCH, bundle.getEntry().get(0).getSearch().getMode());
+        assertEquals(bundle.getEntry().size(), 4);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), patient2Id);
+        assertEquals(bundle.getEntry().get(0).getSearch().getMode(), SearchEntryMode.MATCH);
         List<String> resourceIds = new ArrayList<>();
         for (int i=1; i<bundle.getEntry().size(); ++i) {
             resourceIds.add(bundle.getEntry().get(i).getResource().getId());
-            assertEquals(SearchEntryMode.INCLUDE, bundle.getEntry().get(i).getSearch().getMode());
+            assertEquals(bundle.getEntry().get(i).getSearch().getMode(), SearchEntryMode.INCLUDE);
         }
         assertTrue(resourceIds.contains(procedure1Id));
         assertTrue(resourceIds.contains(procedure2Id));
@@ -753,13 +977,13 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(4, bundle.getEntry().size());
-        assertEquals(patient2Id, bundle.getEntry().get(0).getResource().getId());
-        assertEquals(SearchEntryMode.MATCH, bundle.getEntry().get(0).getSearch().getMode());
+        assertEquals(bundle.getEntry().size(), 4);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), patient2Id);
+        assertEquals(bundle.getEntry().get(0).getSearch().getMode(), SearchEntryMode.MATCH);
         List<String> resourceIds = new ArrayList<>();
         for (int i=1; i<bundle.getEntry().size(); ++i) {
             resourceIds.add(bundle.getEntry().get(i).getResource().getId());
-            assertEquals(SearchEntryMode.INCLUDE, bundle.getEntry().get(i).getSearch().getMode());
+            assertEquals(bundle.getEntry().get(i).getSearch().getMode(), SearchEntryMode.INCLUDE);
         }
         assertTrue(resourceIds.contains(procedure1Id));
         assertTrue(resourceIds.contains(procedure2Id));
@@ -782,11 +1006,11 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
 
         assertNotNull(bundle);
         assertNull(bundle.getTotal());
-        assertEquals(7, bundle.getEntry().size());
+        assertEquals(bundle.getEntry().size(), 7);
         List<String> matchResourceIds = new ArrayList<>();
         for (int i=0; i<expectedMatchCount; ++i) {
             matchResourceIds.add(bundle.getEntry().get(i).getResource().getId());
-            assertEquals(SearchEntryMode.MATCH, bundle.getEntry().get(i).getSearch().getMode());
+            assertEquals(bundle.getEntry().get(i).getSearch().getMode(), SearchEntryMode.MATCH);
         }
         assertTrue(matchResourceIds.contains(patient1Id));
         assertTrue(matchResourceIds.contains(patient2Id));
@@ -794,7 +1018,7 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         List<String> includeResourceIds = new ArrayList<>();
         for (int i=expectedMatchCount; i<bundle.getEntry().size(); ++i) {
             includeResourceIds.add(bundle.getEntry().get(i).getResource().getId());
-            assertEquals(SearchEntryMode.INCLUDE, bundle.getEntry().get(i).getSearch().getMode());
+            assertEquals(bundle.getEntry().get(i).getSearch().getMode(), SearchEntryMode.INCLUDE);
         }
         assertTrue(includeResourceIds.contains(procedure1Id));
         assertTrue(includeResourceIds.contains(procedure2Id));
@@ -816,22 +1040,22 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(3, bundle.getTotal().getValue().intValue());
-        assertEquals(SearchEntryMode.MATCH, bundle.getEntry().get(0).getSearch().getMode());
+        assertEquals(bundle.getTotal().getValue().intValue(), 3);
+        assertEquals(bundle.getEntry().get(0).getSearch().getMode(), SearchEntryMode.MATCH);
         List<String> includeResourceIds = new ArrayList<>();
         for (int i=1; i<bundle.getEntry().size(); ++i) {
             includeResourceIds.add(bundle.getEntry().get(i).getResource().getId());
-            assertEquals(SearchEntryMode.INCLUDE, bundle.getEntry().get(i).getSearch().getMode());
+            assertEquals(bundle.getEntry().get(i).getSearch().getMode(), SearchEntryMode.INCLUDE);
         }
         if (patient1Id.equals(bundle.getEntry().get(0).getResource().getId())) {
-            assertEquals(2, bundle.getEntry().size());
+            assertEquals(bundle.getEntry().size(), 2);
             assertTrue(includeResourceIds.contains(procedure4Id));
         } else if (patient2Id.equals(bundle.getEntry().get(0).getResource().getId())) {
-            assertEquals(3, bundle.getEntry().size());
+            assertEquals(bundle.getEntry().size(), 3);
             assertTrue(includeResourceIds.contains(procedure1Id));
             assertTrue(includeResourceIds.contains(procedure2Id));
         } else if (patient3Id.equals(bundle.getEntry().get(0).getResource().getId())) {
-            assertEquals(2, bundle.getEntry().size());
+            assertEquals(bundle.getEntry().size(), 2);
             assertTrue(includeResourceIds.contains(procedure5Id));
         } else {
             fail();
@@ -853,22 +1077,22 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(3, bundle.getTotal().getValue().intValue());
-        assertEquals(SearchEntryMode.MATCH, bundle.getEntry().get(0).getSearch().getMode());
+        assertEquals(bundle.getTotal().getValue().intValue(), 3);
+        assertEquals(bundle.getEntry().get(0).getSearch().getMode(), SearchEntryMode.MATCH);
         List<String> includeResourceIds = new ArrayList<>();
         for (int i=1; i<bundle.getEntry().size(); ++i) {
             includeResourceIds.add(bundle.getEntry().get(i).getResource().getId());
-            assertEquals(SearchEntryMode.INCLUDE, bundle.getEntry().get(i).getSearch().getMode());
+            assertEquals(bundle.getEntry().get(i).getSearch().getMode(), SearchEntryMode.INCLUDE);
         }
         if (patient1Id.equals(bundle.getEntry().get(0).getResource().getId())) {
-            assertEquals(2, bundle.getEntry().size());
+            assertEquals(bundle.getEntry().size(), 2);
             assertTrue(includeResourceIds.contains(procedure4Id));
         } else if (patient2Id.equals(bundle.getEntry().get(0).getResource().getId())) {
-            assertEquals(3, bundle.getEntry().size());
+            assertEquals(bundle.getEntry().size(), 3);
             assertTrue(includeResourceIds.contains(procedure1Id));
             assertTrue(includeResourceIds.contains(procedure2Id));
         } else if (patient3Id.equals(bundle.getEntry().get(0).getResource().getId())) {
-            assertEquals(2, bundle.getEntry().size());
+            assertEquals(bundle.getEntry().size(), 2);
             assertTrue(includeResourceIds.contains(procedure5Id));
         } else {
             fail();
@@ -891,13 +1115,13 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
 
         assertNotNull(bundle);
         assertNull(bundle.getTotal());
-        assertEquals(3, bundle.getEntry().size());
-        assertEquals(patient1Id, bundle.getEntry().get(0).getResource().getId());
-        assertEquals(SearchEntryMode.MATCH, bundle.getEntry().get(0).getSearch().getMode());
+        assertEquals(bundle.getEntry().size(), 3);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), patient1Id);
+        assertEquals(bundle.getEntry().get(0).getSearch().getMode(), SearchEntryMode.MATCH);
         List<String> includeResourceIds = new ArrayList<>();
         for (int i=1; i<bundle.getEntry().size(); ++i) {
             includeResourceIds.add(bundle.getEntry().get(i).getResource().getId());
-            assertEquals(SearchEntryMode.INCLUDE, bundle.getEntry().get(i).getSearch().getMode());
+            assertEquals(bundle.getEntry().get(i).getSearch().getMode(), SearchEntryMode.INCLUDE);
         }
         assertTrue(includeResourceIds.contains(patient2Id));
         assertTrue(includeResourceIds.contains(patient3Id));
@@ -917,13 +1141,13 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(4, bundle.getEntry().size());
-        assertEquals(organization1Id, bundle.getEntry().get(0).getResource().getId());
-        assertEquals(SearchEntryMode.MATCH, bundle.getEntry().get(0).getSearch().getMode());
+        assertEquals(bundle.getEntry().size(), 4);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), organization1Id);
+        assertEquals(bundle.getEntry().get(0).getSearch().getMode(), SearchEntryMode.MATCH);
         List<String> includeResourceIds = new ArrayList<>();
         for (int i=1; i<bundle.getEntry().size(); ++i) {
             includeResourceIds.add(bundle.getEntry().get(i).getResource().getId());
-            assertEquals(SearchEntryMode.INCLUDE, bundle.getEntry().get(i).getSearch().getMode());
+            assertEquals(bundle.getEntry().get(i).getSearch().getMode(), SearchEntryMode.INCLUDE);
         }
         assertTrue(includeResourceIds.contains(patient2Id));
         assertTrue(includeResourceIds.contains(procedure1Id));
@@ -944,11 +1168,11 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(8, bundle.getEntry().size());
+        assertEquals(bundle.getEntry().size(), 8);
         List<String> matchResourceIds = new ArrayList<>();
         for (int i=0; i<bundle.getTotal().getValue(); ++i) {
             matchResourceIds.add(bundle.getEntry().get(i).getResource().getId());
-            assertEquals(SearchEntryMode.MATCH, bundle.getEntry().get(i).getSearch().getMode());
+            assertEquals(bundle.getEntry().get(i).getSearch().getMode(), SearchEntryMode.MATCH);
         }
         assertTrue(matchResourceIds.contains(patient1Id));
         assertTrue(matchResourceIds.contains(patient2Id));
@@ -956,7 +1180,7 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         List<String> includeResourceIds = new ArrayList<>();
         for (int i=bundle.getTotal().getValue(); i<bundle.getEntry().size(); ++i) {
             includeResourceIds.add(bundle.getEntry().get(i).getResource().getId());
-            assertEquals(SearchEntryMode.INCLUDE, bundle.getEntry().get(i).getSearch().getMode());
+            assertEquals(bundle.getEntry().get(i).getSearch().getMode(), SearchEntryMode.INCLUDE);
         }
         assertTrue(includeResourceIds.contains(procedure1Id));
         assertTrue(includeResourceIds.contains(procedure2Id));
@@ -979,17 +1203,17 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(3, bundle.getEntry().size());
+        assertEquals(bundle.getEntry().size(), 3);
         List<String> matchResourceIds = new ArrayList<>();
         for (int i=0; i<bundle.getTotal().getValue(); ++i) {
             matchResourceIds.add(bundle.getEntry().get(i).getResource().getId());
-            assertEquals(SearchEntryMode.MATCH, bundle.getEntry().get(i).getSearch().getMode());
+            assertEquals(bundle.getEntry().get(i).getSearch().getMode(), SearchEntryMode.MATCH);
         }
         assertTrue(matchResourceIds.contains(procedure1Id));
         List<String> includeResourceIds = new ArrayList<>();
         for (int i=bundle.getTotal().getValue(); i<bundle.getEntry().size(); ++i) {
             includeResourceIds.add(bundle.getEntry().get(i).getResource().getId());
-            assertEquals(SearchEntryMode.INCLUDE, bundle.getEntry().get(i).getSearch().getMode());
+            assertEquals(bundle.getEntry().get(i).getSearch().getMode(), SearchEntryMode.INCLUDE);
         }
         assertTrue(includeResourceIds.contains(patient2Id));
         assertTrue(includeResourceIds.contains(encounter1Id));
@@ -1010,17 +1234,17 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(7, bundle.getEntry().size());
-        assertEquals(patient3Id, bundle.getEntry().get(0).getResource().getId());
-        assertEquals(SearchEntryMode.MATCH, bundle.getEntry().get(0).getSearch().getMode());
-        assertEquals(patient2Id, bundle.getEntry().get(1).getResource().getId());
-        assertEquals(SearchEntryMode.MATCH, bundle.getEntry().get(1).getSearch().getMode());
-        assertEquals(patient1Id, bundle.getEntry().get(2).getResource().getId());
-        assertEquals(SearchEntryMode.MATCH, bundle.getEntry().get(2).getSearch().getMode());
+        assertEquals(bundle.getEntry().size(), 7);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), patient3Id);
+        assertEquals(bundle.getEntry().get(0).getSearch().getMode(), SearchEntryMode.MATCH);
+        assertEquals(bundle.getEntry().get(1).getResource().getId(), patient2Id);
+        assertEquals(bundle.getEntry().get(1).getSearch().getMode(), SearchEntryMode.MATCH);
+        assertEquals(bundle.getEntry().get(2).getResource().getId(), patient1Id);
+        assertEquals(bundle.getEntry().get(2).getSearch().getMode(), SearchEntryMode.MATCH);
         List<String> resourceIds = new ArrayList<>();
         for (int i=3; i<bundle.getEntry().size(); ++i) {
             resourceIds.add(bundle.getEntry().get(i).getResource().getId());
-            assertEquals(SearchEntryMode.INCLUDE, bundle.getEntry().get(i).getSearch().getMode());
+            assertEquals(bundle.getEntry().get(i).getSearch().getMode(), SearchEntryMode.INCLUDE);
         }
         assertTrue(resourceIds.contains(procedure1Id));
         assertTrue(resourceIds.contains(procedure2Id));
@@ -1042,21 +1266,107 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(7, bundle.getEntry().size());
-        assertEquals(patient1Id, bundle.getEntry().get(0).getResource().getId());
-        assertEquals(SearchEntryMode.MATCH, bundle.getEntry().get(0).getSearch().getMode());
-        assertEquals(patient2Id, bundle.getEntry().get(1).getResource().getId());
-        assertEquals(SearchEntryMode.MATCH, bundle.getEntry().get(1).getSearch().getMode());
-        assertEquals(patient3Id, bundle.getEntry().get(2).getResource().getId());
-        assertEquals(SearchEntryMode.MATCH, bundle.getEntry().get(2).getSearch().getMode());
-        List<String> resourceIds = new ArrayList<>();
+        assertEquals(bundle.getEntry().size(), 7);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), patient1Id);
+        assertEquals(bundle.getEntry().get(0).getSearch().getMode(), SearchEntryMode.MATCH);
+        assertEquals(bundle.getEntry().get(1).getResource().getId(), patient2Id);
+        assertEquals(bundle.getEntry().get(1).getSearch().getMode(), SearchEntryMode.MATCH);
+        assertEquals(bundle.getEntry().get(2).getResource().getId(), patient3Id);
+        assertEquals(bundle.getEntry().get(2).getSearch().getMode(), SearchEntryMode.MATCH);
+         List<String> resourceIds = new ArrayList<>();
         for (int i=3; i<bundle.getEntry().size(); ++i) {
             resourceIds.add(bundle.getEntry().get(i).getResource().getId());
-            assertEquals(SearchEntryMode.INCLUDE, bundle.getEntry().get(i).getSearch().getMode());
+            assertEquals(bundle.getEntry().get(i).getSearch().getMode(), SearchEntryMode.INCLUDE);
         }
         assertTrue(resourceIds.contains(procedure1Id));
         assertTrue(resourceIds.contains(procedure2Id));
         assertTrue(resourceIds.contains(procedure4Id));
         assertTrue(resourceIds.contains(procedure5Id));
     }
+
+    @Test(groups = { "server-search-revinclude" }, dependsOnMethods = {"testCreateMeasure"})
+    public void testSearchCanonicalRevIncludeSingleIncludedResult() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Library")
+                .queryParam("name", tag)
+                .queryParam("_revinclude", "Measure:depends-on")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertEquals(bundle.getEntry().size(), 2);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), libraryId);
+        assertEquals(bundle.getEntry().get(0).getSearch().getMode(), SearchEntryMode.MATCH);
+        assertEquals(bundle.getEntry().get(1).getResource().getId(), measureId);
+        assertEquals(bundle.getEntry().get(1).getSearch().getMode(), SearchEntryMode.INCLUDE);
+    }
+
+    @Test(groups = { "server-search-revinclude" }, dependsOnMethods = {"testCreateCarePlan"})
+    public void testSearchCanonicalRevIncludeNoVersionSingleIncludedResult() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Measure")
+                .queryParam("name", tag)
+                .queryParam("_revinclude", "CarePlan:instantiates-canonical")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertEquals(bundle.getEntry().size(), 2);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), measureId);
+        assertEquals(bundle.getEntry().get(0).getSearch().getMode(), SearchEntryMode.MATCH);
+        assertEquals(bundle.getEntry().get(1).getResource().getId(), carePlanId);
+        assertEquals(bundle.getEntry().get(1).getSearch().getMode(), SearchEntryMode.INCLUDE);
+    }
+
+
+    @Test(groups = { "server-search-revinclude" }, dependsOnMethods = {"testCreateMeasureReport"})
+    public void testSearchCanonicalRevIncludeVersionNoIncludedResult() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Measure")
+                .queryParam("name", tag)
+                .queryParam("_revinclude", "MeasureReport:measure")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), measureId);
+        assertEquals(bundle.getEntry().get(0).getSearch().getMode(), SearchEntryMode.MATCH);
+    }
+
+    @Test(groups = { "server-search-revinclude" }, dependsOnMethods = {"testCreateCarePlan"})
+    public void testSearchCanonicalRevIncludeIterate() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Library")
+                .queryParam("name", tag)
+                .queryParam("_revinclude", "Measure:depends-on")
+                .queryParam("_revinclude:iterate", "CarePlan:instantiates-canonical")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertEquals(bundle.getTotal().getValue().intValue(), 1);
+        assertEquals(bundle.getEntry().size(), 3);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), libraryId);
+        assertEquals(bundle.getEntry().get(0).getSearch().getMode(), SearchEntryMode.MATCH);
+        List<String> includeResourceIds = new ArrayList<>();
+        for (int i=1; i<bundle.getEntry().size(); ++i) {
+            includeResourceIds.add(bundle.getEntry().get(i).getResource().getId());
+            assertEquals(bundle.getEntry().get(i).getSearch().getMode(), SearchEntryMode.INCLUDE);
+        }
+        assertTrue(includeResourceIds.contains(measureId));
+        assertTrue(includeResourceIds.contains(carePlanId));
+    }
+
 }

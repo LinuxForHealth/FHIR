@@ -9,6 +9,7 @@ package com.ibm.fhir.persistence.jdbc.impl;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_JDBC_ENABLE_CODE_SYSTEMS_CACHE;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_JDBC_ENABLE_PARAMETER_NAMES_CACHE;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_JDBC_ENABLE_RESOURCE_TYPES_CACHE;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SEARCH_ENABLE_LEGACY_WHOLE_SYSTEM_SEARCH_PARAMS;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SEARCH_ENABLE_OPT_QUERY_BUILDER;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_UPDATE_CREATE_ENABLED;
 import static com.ibm.fhir.model.type.String.string;
@@ -55,6 +56,8 @@ import com.ibm.fhir.core.context.FHIRPagingContext;
 import com.ibm.fhir.database.utils.api.DataAccessException;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.api.UniqueConstraintViolationException;
+import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.database.utils.query.Select;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.format.Format;
@@ -106,7 +109,6 @@ import com.ibm.fhir.persistence.jdbc.cache.FHIRPersistenceJDBCCacheUtil;
 import com.ibm.fhir.persistence.jdbc.connection.Action;
 import com.ibm.fhir.persistence.jdbc.connection.CreateTempTablesAction;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategy;
-import com.ibm.fhir.persistence.jdbc.connection.FHIRDbProxyDatasourceConnectionStrategy;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbTenantDatasourceConnectionStrategy;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbTestConnectionStrategy;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRTestTransactionAdapter;
@@ -219,6 +221,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     // Use the optimized query builder when supported for the search request
     private final boolean optQueryBuilderEnabled;
 
+    // Enable use of legacy whole-system search parameters for the search request
+    private final boolean legacyWholeSystemSearchParamsEnabled;
+
     /**
      * Constructor for use when running as web application in WLP.
      * @throws Exception
@@ -258,16 +263,15 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         this.configProvider = new DefaultFHIRConfigProvider(); // before buildActionChain()
         this.schemaNameSupplier = new SchemaNameImpl(this);
 
-        // Now defaults to Liberty-defined JDBC datasources, but the user can still opt in to the old proxy datasource
-        if (fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_JDBC_ENABLE_PROXY_DATASOURCE, Boolean.FALSE)) {
-            this.connectionStrategy = new FHIRDbProxyDatasourceConnectionStrategy(trxSynchRegistry, buildActionChain());
-        } else {
-            //  use separate JNDI datasources for each tenant/dsId (preferred approach)
-            boolean enableReadOnlyReplicas = fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_JDBC_ENABLE_READ_ONLY_REPLICAS, Boolean.FALSE);
-            this.connectionStrategy = new FHIRDbTenantDatasourceConnectionStrategy(trxSynchRegistry, buildActionChain(), enableReadOnlyReplicas);
-        }
+        // Use separate JNDI datasources for each tenant/dsId
+        boolean enableReadOnlyReplicas = fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_JDBC_ENABLE_READ_ONLY_REPLICAS, Boolean.FALSE);
+        this.connectionStrategy = new FHIRDbTenantDatasourceConnectionStrategy(trxSynchRegistry, buildActionChain(), enableReadOnlyReplicas);
 
         this.transactionAdapter = new FHIRUserTransactionAdapter(userTransaction, trxSynchRegistry, cache, TXN_DATA_KEY);
+
+        // Use of legacy whole-system search parameters disabled by default
+        this.legacyWholeSystemSearchParamsEnabled =
+                fhirConfig.getBooleanProperty(PROPERTY_SEARCH_ENABLE_LEGACY_WHOLE_SYSTEM_SEARCH_PARAMS, false);
 
         log.exiting(CLASSNAME, METHODNAME);
     }
@@ -329,6 +333,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
         // Always want to be testing with the new query builder
         this.optQueryBuilderEnabled = true;
+
+        // Always want to be testing with legacy whole-system search parameters disabled
+        this.legacyWholeSystemSearchParamsEnabled = false;
 
         log.exiting(CLASSNAME, METHODNAME);
     }
@@ -656,8 +663,13 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     public MultiResourceResult<Resource> search(FHIRPersistenceContext context, Class<? extends Resource> resourceType)
             throws FHIRPersistenceException {
 
-        // Fall back to the old search code if new query builder has been disabled.
-        if (!this.optQueryBuilderEnabled) {
+        // Fall back to the old search code if new query builder has been disabled
+        // or if whole-system search and legacy whole-system search params enabled.
+        if (!this.optQueryBuilderEnabled ||
+                (this.legacyWholeSystemSearchParamsEnabled && isSystemLevelSearch(resourceType))) {
+            log.warning("The server is configured to use the legacy query builder."
+                    + " This is via fhirServer/search/enableOptQueryBuilder, which will be removed in a future release,"
+                    + " or via fhirServer/search/enableLegacyWholeSystemSearchParams.");
             return oldSearch(context, resourceType);
         } else {
             // new query builder hasn't been disabled (it is enabled by default)
@@ -811,6 +823,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * @return
      * @throws FHIRPersistenceException
      */
+    @Deprecated
     public MultiResourceResult<Resource> oldSearch(FHIRPersistenceContext context, Class<? extends Resource> resourceType)
             throws FHIRPersistenceException {
         final String METHODNAME = "search";
@@ -941,6 +954,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * @return the list of 'include' resources
      * @throws Exception
      */
+    @Deprecated
     private List<com.ibm.fhir.persistence.jdbc.dto.Resource> searchForIncludeResources(FHIRSearchContext searchContext,
         Class<? extends Resource> resourceType, JDBCQueryBuilder queryBuilder, ResourceDAO resourceDao,
         List<com.ibm.fhir.persistence.jdbc.dto.Resource> resourceDTOList) throws Exception {
@@ -1250,6 +1264,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * @return the list of resources returned from the query
      * @throws Exception
      */
+    @Deprecated
     private List<com.ibm.fhir.persistence.jdbc.dto.Resource> runIncludeQuery(Class<? extends Resource> resourceType,
         FHIRSearchContext searchContext, JDBCQueryBuilder queryBuilder, InclusionParameter inclusionParm,
         String includeType, Set<String> queryIds, Map<Integer, Map<String, Set<String>>> queryResultMap,
@@ -1833,6 +1848,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * Calls some cache analysis methods and aggregates the output into a single String.
      * @return
      */
+    @Deprecated
     private String performCacheDiagnostics() {
 
         StringBuffer diags = new StringBuffer();
@@ -2115,6 +2131,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 // These references are stored as tokens and are used by the search query builder
                 // for compartment-based searches
                 addCompartmentParams(allParameters, fhirResource);
+
+                // If this is a definitional resource, augment the extracted parameter list with a composite
+                // parameter that will be used for canonical searches. It will contain the url and version
+                // values.
+                addCanonicalCompositeParam(allParameters);
             }
 
 
@@ -2123,7 +2144,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             // Sort extracted parameter values in natural order first, to ensure the hash generated by
             // this visitor is deterministic.
             sortExtractedParameterValues(allParameters);
-            ParameterHashVisitor phv = new ParameterHashVisitor();
+            ParameterHashVisitor phv = new ParameterHashVisitor(legacyWholeSystemSearchParamsEnabled);
             for (ExtractedParameterValue p: allParameters) {
                 p.accept(phv);
             }
@@ -2204,6 +2225,64 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 }
                 allParameters.add(pv);
             }
+        }
+    }
+
+    /**
+     * Augment the given allParameters list with ibm-internal parameters that represent the relationship
+     * between the url and version parameters. These parameter values are subsequently used in
+     * canonical reference searches. See {@link CompartmentUtil#makeCompartmentParamName(String)} for
+     * details on how the parameter name is composed.
+     * @param allParameters
+     */
+    protected void addCanonicalCompositeParam(List<ExtractedParameterValue> allParameters) throws FHIRSearchException {
+        StringParmVal urlParm = null;
+        TokenParmVal versionParm = null;
+
+        // Look for url and version parameters
+        for (ExtractedParameterValue parameter : allParameters) {
+            if (parameter.getName().equals(SearchConstants.URL) && parameter instanceof StringParmVal) {
+                urlParm = (StringParmVal) parameter;
+            } else if (parameter.getName().equals(SearchConstants.VERSION) && parameter instanceof TokenParmVal) {
+                versionParm = (TokenParmVal) parameter;
+            }
+        }
+
+        // If we found a url parameter, create the composite parameter. The version parameter
+        // can be null.
+        if (urlParm != null) {
+            // Create a canonical composite parameter
+            CompositeParmVal cp = new CompositeParmVal();
+            cp.setResourceType(urlParm.getResourceType());
+            cp.setName(SearchConstants.URL + SearchConstants.CANONICAL_SUFFIX);
+            cp.setUrl(urlParm.getUrl());
+            cp.setVersion(urlParm.getVersion());
+
+            // url
+            StringParmVal up = new StringParmVal();
+            up.setResourceType(cp.getResourceType());
+            up.setName(SearchUtil.makeCompositeSubCode(cp.getName(), SearchConstants.CANONICAL_COMPONENT_URI));
+            up.setUrl(cp.getUrl());
+            up.setVersion(cp.getVersion());
+            up.setValueString(urlParm.getValueString());
+            cp.addComponent(up);
+
+            // version
+            StringParmVal vp = new StringParmVal();
+            vp.setResourceType(cp.getResourceType());
+            vp.setName(SearchUtil.makeCompositeSubCode(cp.getName(), SearchConstants.CANONICAL_COMPONENT_VERSION));
+            vp.setUrl(cp.getUrl());
+            vp.setVersion(cp.getVersion());
+            vp.setValueString(versionParm != null ? versionParm.getValueCode() : null);
+            cp.addComponent(vp);
+
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("Adding canonical composite parameter: [" + cp.getResourceType() + "] " +
+                            up.getName() + " = " + up.getValueString() + ", " +
+                            vp.getName() + " = " + vp.getValueString());
+            }
+
+            allParameters.add(cp);
         }
     }
 
@@ -2504,6 +2583,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         log.entering(CLASSNAME, METHODNAME);
 
         int result = 0;
+        ResourceIndexRecord rir = null;
 
         if (log.isLoggable(Level.FINE)) {
             log.fine("reindex tstamp=" + tstamp.toString());
@@ -2513,6 +2593,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             // protect against setting a future timestamp, which could otherwise
             // disable the ability to reindex anything
             throw new FHIRPersistenceException("Reindex tstamp cannot be in the future");
+        }
+
+        if (indexIds != null) {
+            log.info("Reindex requested for index IDs " + indexIds);
         }
 
         try (Connection connection = openConnection()) {
@@ -2543,7 +2627,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
             // If list of indexIds was specified, loop over those. Otherwise, since we skip over
             // deleted resources we have to loop until we find something not deleted, or reach the end.
-            ResourceIndexRecord rir;
             do {
                 long start = System.nanoTime();
                 rir = reindexDAO.getResourceToReindex(tstamp, indexIds != null ? indexIds.get(indexIdsProcessed++) : null, resourceTypeId, logicalId);
@@ -2556,8 +2639,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
                 if (rir != null) {
 
-                    // This is important so we log it as info
-                    log.info("Reindexing FHIR Resource '" + rir.getResourceType() + "/" + rir.getLogicalId() + "'");
+                    if (log.isLoggable(Level.FINE)) {
+                        log.fine("Reindexing FHIR Resource '" + rir.getResourceType() + "/" + rir.getLogicalId() + "'");
+                    }
 
                     // Read the current resource
                     com.ibm.fhir.persistence.jdbc.dto.Resource existingResourceDTO = resourceDao.read(rir.getLogicalId(), rir.getResourceType());
@@ -2582,28 +2666,32 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
         } catch(FHIRPersistenceFKVException e) {
             getTransaction().setRollbackOnly();
+            log.log(Level.SEVERE, "Unexpected error while performing reindex" + (rir != null ? (" of FHIR Resource '" + rir.getResourceType() + "/" + rir.getLogicalId() + "'") : ""), e);
             throw e;
         } catch(FHIRPersistenceException e) {
             getTransaction().setRollbackOnly();
+            log.log(Level.SEVERE, "Unexpected error while performing reindex" + (rir != null ? (" of FHIR Resource '" + rir.getResourceType() + "/" + rir.getLogicalId() + "'") : ""), e);
             throw e;
         } catch (DataAccessException dax) {
             getTransaction().setRollbackOnly();
 
             // It's possible this is a deadlock exception, in which case it could be considered retryable
-            if (dax.isTransactionRetryable()) {
-                log.log(Level.WARNING, "retryable error", dax);
-                FHIRPersistenceDataAccessException fpx = new FHIRPersistenceDataAccessException("Data access error while performing a reindex operation.");
+            // If DB2 and a constraint violation, let's retry as it is also worth retrying.
+            if (dax.isTransactionRetryable()
+                    || (DbType.DB2.equals(connectionStrategy.getFlavor().getType()) && dax instanceof UniqueConstraintViolationException)) {
+                log.log(Level.WARNING, "Retryable error while performing reindex" + (rir != null ? (" of FHIR Resource '" + rir.getResourceType() + "/" + rir.getLogicalId() + "'") : ""), dax);
+                FHIRPersistenceDataAccessException fpx = new FHIRPersistenceDataAccessException("Data access error while performing a reindex operation.", dax);
                 fpx.setTransactionRetryable(true);
                 throw fpx;
             } else {
-                log.log(Level.SEVERE, "non-retryable error", dax);
+                log.log(Level.SEVERE, "Non-retryable error while performing reindex" + (rir != null ? (" of FHIR Resource '" + rir.getResourceType() + "/" + rir.getLogicalId() + "'") : ""), dax);
                 throw new FHIRPersistenceDataAccessException("Data access error while performing a reindex operation.");
             }
         } catch(Throwable e) {
             getTransaction().setRollbackOnly();
+            log.log(Level.SEVERE, "Unexpected error while performing a reindex" + (rir != null ? (" of FHIR Resource '" + rir.getResourceType() + "/" + rir.getLogicalId() + "'") : ""), e);
             // don't chain the exception to avoid leaking secrets
             FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while performing a reindex operation.");
-            log.log(Level.SEVERE, fx.getMessage(), e);
             throw fx;
         } finally {
             log.exiting(CLASSNAME, METHODNAME);

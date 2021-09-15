@@ -56,6 +56,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "collection.fastingStatus",
     description = "SHALL, if possible, contain a code from value set http://terminology.hl7.org/ValueSet/v2-0916",
     expression = "$this.as(CodeableConcept).memberOf('http://terminology.hl7.org/ValueSet/v2-0916', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/Specimen",
     generated = true
 )
 @Constraint(
@@ -64,6 +65,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://terminology.hl7.org/ValueSet/v2-0493",
     expression = "condition.exists() implies (condition.all(memberOf('http://terminology.hl7.org/ValueSet/v2-0493', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/Specimen",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

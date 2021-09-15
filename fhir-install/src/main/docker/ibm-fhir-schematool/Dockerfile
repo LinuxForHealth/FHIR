@@ -40,13 +40,9 @@ ENV TZ 'UTC'
 
 WORKDIR /opt/schematool
 
-COPY --chown=1001:1001 --from=base /opt/ /opt/
+COPY --chown=1001:0 --from=base /opt/ /opt/
 
-# Per the best practice, we've gone ahead and minimized the layers
-# and we want the command to fail when something in the chain fails
-# so we set +x
-RUN set +x && \
-    chmod -R 755 /opt/schematool/run.sh && \
+RUN chmod -R 755 /opt/schematool/run.sh && \
     mkdir -p /licenses && \
     mv /opt/schematool/LICENSE /licenses && \
     microdnf update -y && \
@@ -58,7 +54,9 @@ RUN set +x && \
     rm -f /@System.solv && \
     microdnf clean all && \
     rm -rf /var/tmp/* && \
-    rm -rf /tmp/*
+    rm -rf /tmp/* && \
+    mkdir -p /opt/schematool/workarea && \
+    chmod -R 775 /opt/schematool/workarea
 
 USER 1001
 

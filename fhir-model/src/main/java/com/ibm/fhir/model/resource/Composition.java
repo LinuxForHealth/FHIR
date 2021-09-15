@@ -63,14 +63,16 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "Composition.section",
     description = "A section must contain at least one of text, entries, or sub-sections",
-    expression = "text.exists() or entry.exists() or section.exists()"
+    expression = "text.exists() or entry.exists() or section.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/Composition"
 )
 @Constraint(
     id = "cmp-2",
     level = "Rule",
     location = "Composition.section",
     description = "A section can only have an emptyReason if it is empty",
-    expression = "emptyReason.empty() or entry.empty()"
+    expression = "emptyReason.empty() or entry.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/Composition"
 )
 @Constraint(
     id = "composition-3",
@@ -78,6 +80,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/doc-typecodes",
     expression = "type.exists() and type.memberOf('http://hl7.org/fhir/ValueSet/doc-typecodes', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/Composition",
     generated = true
 )
 @Constraint(
@@ -86,6 +89,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "section.orderedBy",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/list-order",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/list-order', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/Composition",
     generated = true
 )
 @Constraint(
@@ -94,6 +98,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "section.emptyReason",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/list-empty-reason",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/list-empty-reason', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/Composition",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,7 +7,6 @@
 package com.ibm.fhir.model.spec.test;
 
 import java.io.BufferedReader;
-
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,25 +42,25 @@ public class R4ExamplesDriver {
     private AtomicInteger testCount = new AtomicInteger();
     private AtomicInteger successCount = new AtomicInteger();
     private Exception firstException = null;
-    
+
     // Optional pool if we want to process the examples in parallel
     private ExecutorService pool;
-    
+
     // Limit the number of requests we submit to the pool
     private int maxInflight;
     private Lock lock = new ReentrantLock();
     private Condition runningCondition = lock.newCondition();
     private Condition inflightCondition = lock.newCondition();
-    
+
     // The number of requests submitted but not yet completed (queued + running)
     private int currentlySubmittedCount;
-    
+
     // optional metrics collection
     private DriverMetrics metrics;
 
     /**
      * Setter for the processor
-     * 
+     *
      * @param p
      */
     public void setProcessor(IExampleProcessor p) {
@@ -78,7 +77,7 @@ public class R4ExamplesDriver {
 
     /**
      * Setter for the validation processor
-     * 
+     *
      * @param p
      */
     public void setValidator(IExampleProcessor p) {
@@ -98,7 +97,7 @@ public class R4ExamplesDriver {
 
     /**
      * Process all examples referenced from the index file.
-     * 
+     *
      * @throws Exception
      */
     public void processIndex(Index index) throws Exception {
@@ -157,10 +156,10 @@ public class R4ExamplesDriver {
 
                 // We count overall success if we successfully process the resource,
                 // or if we got an expected exception earlier on
-                logger.info("Overall success rate = " + successCount + "/" + testCount + " = " 
+                logger.info("Overall success rate = " + successCount + "/" + testCount + " = "
                         + (100*successCount.get() / testCount.get()) + "%. Took " + elapsed + " ms");
             }
-            
+
             // We can access errors here safely because waitForCompletion called lock/unlock in this thread (in case you were wondering)
             for (ExampleProcessorException error : errors) {
                 logger.warning(error.toString());
@@ -171,7 +170,7 @@ public class R4ExamplesDriver {
     public void processExample(String file, Expectation expectation) throws ExampleProcessorException {
         processExample(file, Format.JSON, expectation);
     }
-    
+
     /**
      * Submit the given example for processing
      * @param errors the list of errors to accumulate
@@ -182,7 +181,6 @@ public class R4ExamplesDriver {
      */
     public void submitExample(List<ExampleProcessorException> errors, String file, Format format, Expectation expectation) throws ExampleProcessorException {
         if (pool != null) {
-            
             // Wait until we have capacity. We do this to throttle the number of requests
             // submitted to pool, hopefully avoiding memory issues if ever we have a really
             // large index to process
@@ -197,7 +195,7 @@ public class R4ExamplesDriver {
             }
             currentlySubmittedCount++;
             lock.unlock();
-            
+
             pool.execute(new Runnable() {
 
                 @Override
@@ -215,7 +213,7 @@ public class R4ExamplesDriver {
                         if (oldCount == maxInflight) {
                             inflightCondition.signal();
                         }
-                        
+
                         if (currentlySubmittedCount == 0) {
                             runningCondition.signal();
                         }
@@ -237,7 +235,7 @@ public class R4ExamplesDriver {
     /**
      * Process the example file. If jsonFile is prefixed with "file:" then the file will be read from the filesystem,
      * otherwise it will be treated as a resource on the classpath.
-     * 
+     *
      * @param file
      * @param format
      * @param expectation
@@ -312,7 +310,7 @@ public class R4ExamplesDriver {
 
     /**
      * Process the example resource
-     * 
+     *
      * @param file
      *            so we know the name of the file if there's a problem
      * @param resource
@@ -429,10 +427,10 @@ public class R4ExamplesDriver {
     /**
      * This function reads the contents of a mock resource from the specified file, then de-serializes that into a
      * Resource.
-     * 
+     *
      * @param fileName
      *            the name of the file containing the mock resource (e.g. "testdata/Patient1.json")
-     * @param format 
+     * @param format
      * @return the de-serialized mock resource
      * @throws Exception
      */

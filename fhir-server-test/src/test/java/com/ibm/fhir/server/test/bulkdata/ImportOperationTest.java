@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -112,6 +113,9 @@ public class ImportOperationTest extends FHIRServerTestBase {
     public void setup() throws Exception {
         Properties testProperties = TestUtil.readTestProperties("test.properties");
         ON = Boolean.parseBoolean(testProperties.getProperty("test.bulkdata.import.enabled", "false"));
+        if (!ON) {
+            System.out.println("Import Test Disabled, Skipping");
+        }
     }
 
     private Parameters generateParameters(String inputFormat, String inputSource, String resourceType, String url, String provider) throws FHIRGeneratorException, IOException {
@@ -145,12 +149,7 @@ public class ImportOperationTest extends FHIRServerTestBase {
         builder.parameter(parameters);
         Parameters ps = builder.build();
 
-        try (StringWriter writer = new StringWriter();) {
-            FHIRGenerator.generator(Format.JSON, true).generate(ps, writer);
-            if (DEBUG) {
-                System.out.println(writer.toString());
-            }
-        }
+        printOutResource(DEBUG, ps);
         return ps;
     }
 
@@ -240,7 +239,8 @@ public class ImportOperationTest extends FHIRServerTestBase {
                     .header("X-FHIR-DSID", dataStoreId)
                     .put(entity, Response.class);
         //@formatter:on
-        assertResponse(response, Response.Status.CREATED.getStatusCode());
+
+        assertEquals(Status.Family.familyOf(response.getStatus()), Status.Family.SUCCESSFUL);
         URI location = response.getLocation();
         assertNotNull(location);
         assertNotNull(location.toString());
@@ -287,8 +287,33 @@ public class ImportOperationTest extends FHIRServerTestBase {
             assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
             checkValidResponse(response);
             checkOnFourResources();
-        } else {
-            System.out.println("Import Test Disabled, Skipping");
+        }
+    }
+
+    @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = {"testImportFromFileDefault"})
+    public void testImportFromFileDefaultSkippable() throws Exception {
+        if (ON) {
+            String path = BASE_VALID_URL;
+            String inputFormat = FORMAT;
+            String inputSource = "https://localhost:9443/source-fhir-server";
+            String resourceType = "Patient";
+            String url = "test-import-skip.ndjson";
+
+            Response response = doPost(path, inputFormat, inputSource, resourceType, url);
+            assertEquals(response.getStatus(), Response.Status.ACCEPTED.getStatusCode());
+
+            // check the content-location that's returned.
+            String contentLocation = response.getHeaderString("Content-Location");
+            if (DEBUG) {
+                System.out.println("Content Location: " + contentLocation);
+            }
+            assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
+
+            // Check eventual value
+            response = polling(contentLocation);
+            assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
+            checkValidResponse(response);
+            checkOnFourResources();
         }
     }
 
@@ -315,8 +340,6 @@ public class ImportOperationTest extends FHIRServerTestBase {
             response = polling(contentLocation);
             assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
             checkValidResponse(response);
-        } else {
-            System.out.println("Import Test Disabled, Skipping");
         }
     }
 
@@ -402,8 +425,6 @@ public class ImportOperationTest extends FHIRServerTestBase {
             response = polling(contentLocation);
             assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
             checkValidResponse(response);
-        } else {
-            System.out.println("Import Test Disabled, Skipping");
         }
     }
 
@@ -430,8 +451,6 @@ public class ImportOperationTest extends FHIRServerTestBase {
             // Check eventual value
             response = pollingFailure(contentLocation);
             assertEquals(response.getStatus(), Response.Status.BAD_REQUEST.getStatusCode());
-        } else {
-            System.out.println("Import Test Disabled, Skipping");
         }
     }
 
@@ -482,8 +501,6 @@ public class ImportOperationTest extends FHIRServerTestBase {
             response = polling(contentLocation);
             assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
             checkValidResponse(response);
-        } else {
-            System.out.println("Import Test Disabled, Skipping");
         }
     }
 
@@ -498,8 +515,6 @@ public class ImportOperationTest extends FHIRServerTestBase {
 
             Response response = doPost(path, inputFormat, inputSource, resourceType, url, "default");
             assertEquals(response.getStatus(), Response.Status.BAD_REQUEST.getStatusCode());
-        } else {
-            System.out.println("Import Test Disabled, Skipping");
         }
     }
 
@@ -516,8 +531,6 @@ public class ImportOperationTest extends FHIRServerTestBase {
             Bundle bundle = response.readEntity(Bundle.class);
             assertNotNull(bundle);
             assertTrue(bundle.getEntry().size() >= 1);
-        } else {
-            System.out.println("Import Test Disabled, Skipping");
         }
     }
 

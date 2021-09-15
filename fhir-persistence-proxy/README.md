@@ -1,1 +1,0 @@
-fhir-persistence-proxy is deprecated and left in place for backwards compatibillity.

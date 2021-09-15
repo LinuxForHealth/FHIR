@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -33,6 +33,7 @@ import org.apache.http.HttpStatus;
 import org.apache.http.NoHttpResponseException;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.UserTokenHandler;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
@@ -157,7 +158,7 @@ public class FHIRBucketClient {
             connManager.setValidateAfterInactivity(60000);
             connManager.setDefaultSocketConfig(SocketConfig.custom().build());
 
-            client = obtainCloseableHttpClient(connKeepAliveStrategy);
+            client = obtainCloseableHttpClient(connKeepAliveStrategy, propertyAdapter);
         }
         catch (KeyManagementException e) {
             throw new IllegalStateException("Failed to initialize connection manager", e);
@@ -460,12 +461,16 @@ public class FHIRBucketClient {
         }
     }
 
-
     /**
      * Overridden by child classes for specialized behavior.
      * @param connKeepAliveStrategy
      */
-    protected CloseableHttpClient obtainCloseableHttpClient(ConnectionKeepAliveStrategy connKeepAliveStrategy) {
+    protected CloseableHttpClient obtainCloseableHttpClient(ConnectionKeepAliveStrategy connKeepAliveStrategy, ClientPropertyAdapter propertyAdapter) {
+        RequestConfig requestConfig = RequestConfig.custom()
+                .setConnectionRequestTimeout(propertyAdapter.getConnectTimeout())
+                .setConnectTimeout(propertyAdapter.getConnectTimeout())
+                .setSocketTimeout(propertyAdapter.getReadTimeout())
+                .build();
         return HttpClients.custom().setConnectionReuseStrategy(DefaultConnectionReuseStrategy.INSTANCE)
                 .setUserAgent(USER_AGENT).setKeepAliveStrategy(connKeepAliveStrategy)
                 .setConnectionManager(connManager).setRetryHandler(new DefaultHttpRequestRetryHandler(1,true))
@@ -475,9 +480,9 @@ public class FHIRBucketClient {
                         return null;
                     }
                 })
+                .setDefaultRequestConfig(requestConfig)
                 .build();
     }
-
 
     /**
      * Parse the response returned by the FHIR server

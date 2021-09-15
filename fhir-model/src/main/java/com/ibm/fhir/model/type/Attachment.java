@@ -26,7 +26,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "If the Attachment has data, it SHALL have a contentType",
-    expression = "data.empty() or contentType.exists()"
+    expression = "data.empty() or contentType.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/Attachment"
 )
 @Constraint(
     id = "attachment-2",
@@ -34,6 +35,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/languages",
     expression = "language.exists() implies (language.memberOf('http://hl7.org/fhir/ValueSet/languages', 'preferred'))",
+    source = "http://hl7.org/fhir/StructureDefinition/Attachment",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

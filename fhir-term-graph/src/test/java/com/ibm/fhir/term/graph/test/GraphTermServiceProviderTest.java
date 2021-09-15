@@ -6,7 +6,9 @@
 
 package com.ibm.fhir.term.graph.test;
 
-import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.commons.configuration2.PropertiesConfiguration;
+import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
+import org.apache.commons.configuration2.builder.fluent.Parameters;
 import org.testng.annotations.AfterClass;
 
 import com.ibm.fhir.term.graph.FHIRTermGraph;
@@ -22,7 +24,9 @@ public class GraphTermServiceProviderTest extends FHIRTermServiceProviderTest {
 
     @Override
     public FHIRTermServiceProvider createProvider() throws Exception {
-        graph = FHIRTermGraphFactory.open(new PropertiesConfiguration("conf/janusgraph-berkeleyje-lucene.properties"));
+        FileBasedConfigurationBuilder<PropertiesConfiguration> builder = new FileBasedConfigurationBuilder<>(PropertiesConfiguration.class)
+                .configure(new Parameters().properties().setFileName("conf/janusgraph-berkeleyje-lucene.properties"));
+        graph = FHIRTermGraphFactory.open(builder.getConfiguration());
         graph.dropAllVertices();
 
         FHIRTermGraphLoader loader = new CodeSystemTermGraphLoader(graph, codeSystem);

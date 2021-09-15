@@ -31,6 +31,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/security-labels",
     expression = "security.exists() implies (security.all(memberOf('http://hl7.org/fhir/ValueSet/security-labels', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/Meta",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

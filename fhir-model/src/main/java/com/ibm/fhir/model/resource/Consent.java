@@ -59,35 +59,40 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "Either a Policy or PolicyRule",
-    expression = "policy.exists() or policyRule.exists()"
+    expression = "policy.exists() or policyRule.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/Consent"
 )
 @Constraint(
     id = "ppc-2",
     level = "Rule",
     location = "(base)",
     description = "IF Scope=privacy, there must be a patient",
-    expression = "patient.exists() or scope.coding.where(system='something' and code='patient-privacy').exists().not()"
+    expression = "patient.exists() or scope.coding.where(system='something' and code='patient-privacy').exists().not()",
+    source = "http://hl7.org/fhir/StructureDefinition/Consent"
 )
 @Constraint(
     id = "ppc-3",
     level = "Rule",
     location = "(base)",
     description = "IF Scope=research, there must be a patient",
-    expression = "patient.exists() or scope.coding.where(system='something' and code='research').exists().not()"
+    expression = "patient.exists() or scope.coding.where(system='something' and code='research').exists().not()",
+    source = "http://hl7.org/fhir/StructureDefinition/Consent"
 )
 @Constraint(
     id = "ppc-4",
     level = "Rule",
     location = "(base)",
     description = "IF Scope=adr, there must be a patient",
-    expression = "patient.exists() or scope.coding.where(system='something' and code='adr').exists().not()"
+    expression = "patient.exists() or scope.coding.where(system='something' and code='adr').exists().not()",
+    source = "http://hl7.org/fhir/StructureDefinition/Consent"
 )
 @Constraint(
     id = "ppc-5",
     level = "Rule",
     location = "(base)",
     description = "IF Scope=treatment, there must be a patient",
-    expression = "patient.exists() or scope.coding.where(system='something' and code='treatment').exists().not()"
+    expression = "patient.exists() or scope.coding.where(system='something' and code='treatment').exists().not()",
+    source = "http://hl7.org/fhir/StructureDefinition/Consent"
 )
 @Constraint(
     id = "consent-6",
@@ -95,6 +100,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/consent-scope",
     expression = "scope.exists() and scope.memberOf('http://hl7.org/fhir/ValueSet/consent-scope', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/Consent",
     generated = true
 )
 @Constraint(
@@ -103,6 +109,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/consent-category",
     expression = "category.exists() and category.all(memberOf('http://hl7.org/fhir/ValueSet/consent-category', 'extensible'))",
+    source = "http://hl7.org/fhir/StructureDefinition/Consent",
     generated = true
 )
 @Constraint(
@@ -111,6 +118,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/consent-policy",
     expression = "policyRule.exists() implies (policyRule.memberOf('http://hl7.org/fhir/ValueSet/consent-policy', 'extensible'))",
+    source = "http://hl7.org/fhir/StructureDefinition/Consent",
     generated = true
 )
 @Constraint(
@@ -119,6 +127,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "provision.actor.role",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/security-role-type",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/security-role-type', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/Consent",
     generated = true
 )
 @Constraint(
@@ -127,6 +136,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "provision.securityLabel",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/security-labels",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/security-labels', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/Consent",
     generated = true
 )
 @Constraint(
@@ -135,6 +145,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "provision.purpose",
     description = "SHALL, if possible, contain a code from value set http://terminology.hl7.org/ValueSet/v3-PurposeOfUse",
     expression = "$this.memberOf('http://terminology.hl7.org/ValueSet/v3-PurposeOfUse', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/Consent",
     generated = true
 )
 @Constraint(
@@ -143,6 +154,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "provision.class",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/consent-content-class",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/consent-content-class', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/Consent",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

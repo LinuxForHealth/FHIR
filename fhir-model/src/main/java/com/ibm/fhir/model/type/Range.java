@@ -24,7 +24,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "If present, low SHALL have a lower value than high",
-    expression = "low.empty() or high.empty() or (low <= high)"
+    expression = "low.empty() or high.empty() or (low <= high)",
+    source = "http://hl7.org/fhir/StructureDefinition/Range"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Range extends Element {

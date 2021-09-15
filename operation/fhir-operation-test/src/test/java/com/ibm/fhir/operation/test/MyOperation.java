@@ -40,7 +40,7 @@ public class MyOperation extends AbstractOperation {
                 .status(PublicationStatus.DRAFT)
                 .kind(OperationKind.OPERATION)
                 .code(Code.of("hello"))
-                .affectsState(Boolean.of(true))
+                .affectsState(Boolean.of(false))
                 .system(Boolean.of(true))
                 .type(Boolean.of(false))
                 .experimental(Boolean.of(true))

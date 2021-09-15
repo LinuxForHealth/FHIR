@@ -36,6 +36,24 @@
       "type": "HealthcareService"
     },
     {
+      "filename": "StructureDefinition-EstablishmentInactivationBundle.json",
+      "resourceType": "StructureDefinition",
+      "id": "EstablishmentInactivationBundle",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/EstablishmentInactivationBundle",
+      "version": "0.1.0",
+      "kind": "resource",
+      "type": "Bundle"
+    },
+    {
+      "filename": "StructureDefinition-EstablishmentInactivationMessage.json",
+      "resourceType": "StructureDefinition",
+      "id": "EstablishmentInactivationMessage",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/EstablishmentInactivationMessage",
+      "version": "0.1.0",
+      "kind": "resource",
+      "type": "MessageHeader"
+    },
+    {
       "filename": "StructureDefinition-EstablishmentOrganization.json",
       "resourceType": "StructureDefinition",
       "id": "EstablishmentOrganization",
@@ -61,6 +79,15 @@
       "version": "0.1.0",
       "kind": "resource",
       "type": "Bundle"
+    },
+    {
+      "filename": "StructureDefinition-EstablishmentRegistrationMessage.json",
+      "resourceType": "StructureDefinition",
+      "id": "EstablishmentRegistrationMessage",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/EstablishmentRegistrationMessage",
+      "version": "0.1.0",
+      "kind": "resource",
+      "type": "MessageHeader"
     },
     {
       "filename": "StructureDefinition-GDUFAFacilityAffiliation.json",
@@ -90,6 +117,33 @@
       "type": "Bundle"
     },
     {
+      "filename": "StructureDefinition-GDUFAFacilityIdentificationMessage.json",
+      "resourceType": "StructureDefinition",
+      "id": "GDUFAFacilityIdentificationMessage",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/GDUFAFacilityIdentificationMessage",
+      "version": "0.1.0",
+      "kind": "resource",
+      "type": "MessageHeader"
+    },
+    {
+      "filename": "StructureDefinition-GDUFAFacilityInactivationBundle.json",
+      "resourceType": "StructureDefinition",
+      "id": "GDUFAFacilityInactivationBundle",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/GDUFAFacilityInactivationBundle",
+      "version": "0.1.0",
+      "kind": "resource",
+      "type": "Bundle"
+    },
+    {
+      "filename": "StructureDefinition-GDUFAFacilityInactivationMessage.json",
+      "resourceType": "StructureDefinition",
+      "id": "GDUFAFacilityInactivationMessage",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/GDUFAFacilityInactivationMessage",
+      "version": "0.1.0",
+      "kind": "resource",
+      "type": "MessageHeader"
+    },
+    {
       "filename": "StructureDefinition-GDUFAFacilityOrganization.json",
       "resourceType": "StructureDefinition",
       "id": "GDUFAFacilityOrganization",
@@ -103,6 +157,60 @@
       "resourceType": "StructureDefinition",
       "id": "GDUFARegistrantOrganization",
       "url": "http://hl7.org/fhir/us/spl/StructureDefinition/GDUFARegistrantOrganization",
+      "version": "0.1.0",
+      "kind": "resource",
+      "type": "Organization"
+    },
+    {
+      "filename": "StructureDefinition-IdentifiedEstablishment.json",
+      "resourceType": "StructureDefinition",
+      "id": "IdentifiedEstablishment",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/IdentifiedEstablishment",
+      "version": "0.1.0",
+      "kind": "resource",
+      "type": "Organization"
+    },
+    {
+      "filename": "StructureDefinition-IdentifiedEstablishmentRegistrant.json",
+      "resourceType": "StructureDefinition",
+      "id": "IdentifiedEstablishmentRegistrant",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/IdentifiedEstablishmentRegistrant",
+      "version": "0.1.0",
+      "kind": "resource",
+      "type": "Organization"
+    },
+    {
+      "filename": "StructureDefinition-IdentifiedGDUFAFacility.json",
+      "resourceType": "StructureDefinition",
+      "id": "IdentifiedGDUFAFacility",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/IdentifiedGDUFAFacility",
+      "version": "0.1.0",
+      "kind": "resource",
+      "type": "Organization"
+    },
+    {
+      "filename": "StructureDefinition-IdentifiedGDUFARegistrant.json",
+      "resourceType": "StructureDefinition",
+      "id": "IdentifiedGDUFARegistrant",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/IdentifiedGDUFARegistrant",
+      "version": "0.1.0",
+      "kind": "resource",
+      "type": "Organization"
+    },
+    {
+      "filename": "StructureDefinition-IdentifiedLabeler.json",
+      "resourceType": "StructureDefinition",
+      "id": "IdentifiedLabeler",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/IdentifiedLabeler",
+      "version": "0.1.0",
+      "kind": "resource",
+      "type": "Organization"
+    },
+    {
+      "filename": "StructureDefinition-IdentifiedOrganization.json",
+      "resourceType": "StructureDefinition",
+      "id": "IdentifiedOrganization",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/IdentifiedOrganization",
       "version": "0.1.0",
       "kind": "resource",
       "type": "Organization"
@@ -144,6 +252,33 @@
       "type": "Bundle"
     },
     {
+      "filename": "StructureDefinition-LabelerCodeRequestMessage.json",
+      "resourceType": "StructureDefinition",
+      "id": "LabelerCodeRequestMessage",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/LabelerCodeRequestMessage",
+      "version": "0.1.0",
+      "kind": "resource",
+      "type": "MessageHeader"
+    },
+    {
+      "filename": "StructureDefinition-LabelerInactivationBundle.json",
+      "resourceType": "StructureDefinition",
+      "id": "LabelerInactivationBundle",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/LabelerInactivationBundle",
+      "version": "0.1.0",
+      "kind": "resource",
+      "type": "Bundle"
+    },
+    {
+      "filename": "StructureDefinition-LabelerInactivationMessage.json",
+      "resourceType": "StructureDefinition",
+      "id": "LabelerInactivationMessage",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/LabelerInactivationMessage",
+      "version": "0.1.0",
+      "kind": "resource",
+      "type": "MessageHeader"
+    },
+    {
       "filename": "StructureDefinition-LabelerOrganization.json",
       "resourceType": "StructureDefinition",
       "id": "LabelerOrganization",
@@ -153,10 +288,37 @@
       "type": "Organization"
     },
     {
+      "filename": "StructureDefinition-OrganizationBundle.json",
+      "resourceType": "StructureDefinition",
+      "id": "OrganizationBundle",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/OrganizationBundle",
+      "version": "0.1.0",
+      "kind": "resource",
+      "type": "Bundle"
+    },
+    {
       "filename": "StructureDefinition-OrganizationMessage.json",
       "resourceType": "StructureDefinition",
       "id": "OrganizationMessage",
       "url": "http://hl7.org/fhir/us/spl/StructureDefinition/OrganizationMessage",
+      "version": "0.1.0",
+      "kind": "resource",
+      "type": "MessageHeader"
+    },
+    {
+      "filename": "StructureDefinition-OutOfBusinessBundle.json",
+      "resourceType": "StructureDefinition",
+      "id": "OutOfBusinessBundle",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/OutOfBusinessBundle",
+      "version": "0.1.0",
+      "kind": "resource",
+      "type": "Bundle"
+    },
+    {
+      "filename": "StructureDefinition-OutOfBusinessMessage.json",
+      "resourceType": "StructureDefinition",
+      "id": "OutOfBusinessMessage",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/OutOfBusinessMessage",
       "version": "0.1.0",
       "kind": "resource",
       "type": "MessageHeader"
@@ -178,6 +340,24 @@
       "version": "0.1.0",
       "kind": "resource",
       "type": "Organization"
+    },
+    {
+      "filename": "StructureDefinition-SPLAddress.json",
+      "resourceType": "StructureDefinition",
+      "id": "SPLAddress",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/SPLAddress",
+      "version": "0.1.0",
+      "kind": "complex-type",
+      "type": "Address"
+    },
+    {
+      "filename": "StructureDefinition-SPLContactPoint.json",
+      "resourceType": "StructureDefinition",
+      "id": "SPLContactPoint",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/SPLContactPoint",
+      "version": "0.1.0",
+      "kind": "complex-type",
+      "type": "ContactPoint"
     },
     {
       "filename": "StructureDefinition-SPLDocumentReference.json",
@@ -271,10 +451,31 @@
       "version": "0.1.0"
     },
     {
+      "filename": "ValueSet-valueset-genericFacilityMessageTypes.json",
+      "resourceType": "ValueSet",
+      "id": "valueset-genericFacilityMessageTypes",
+      "url": "http://hl7.org/fhir/us/spl/ValueSet/valueset-genericFacilityMessageTypes",
+      "version": "0.1.0"
+    },
+    {
       "filename": "ValueSet-valueset-labelerBusinessOperations.json",
       "resourceType": "ValueSet",
       "id": "valueset-labelerBusinessOperations",
       "url": "http://hl7.org/fhir/us/spl/ValueSet/valueset-labelerBusinessOperations",
+      "version": "0.1.0"
+    },
+    {
+      "filename": "ValueSet-valueset-organizationSubmissionMessageTypes.json",
+      "resourceType": "ValueSet",
+      "id": "valueset-organizationSubmissionMessageTypes",
+      "url": "http://hl7.org/fhir/us/spl/ValueSet/valueset-organizationSubmissionMessageTypes",
+      "version": "0.1.0"
+    },
+    {
+      "filename": "ValueSet-valueset-registrantOrganizationTypes.json",
+      "resourceType": "ValueSet",
+      "id": "valueset-registrantOrganizationTypes",
+      "url": "http://hl7.org/fhir/us/spl/ValueSet/valueset-registrantOrganizationTypes",
       "version": "0.1.0"
     },
     {
@@ -285,20 +486,6 @@
       "version": "0.1.0"
     },
     {
-      "filename": "ValueSet-valueset-splFHIRMessageTypes.json",
-      "resourceType": "ValueSet",
-      "id": "valueset-splFHIRMessageTypes",
-      "url": "http://hl7.org/fhir/us/spl/ValueSet/valueset-splFHIRMessageTypes",
-      "version": "0.1.0"
-    },
-    {
-      "filename": "ValueSet-valueset-splRegistrantOrganizationTypes.json",
-      "resourceType": "ValueSet",
-      "id": "valueset-splRegistrantOrganizationTypes",
-      "url": "http://hl7.org/fhir/us/spl/ValueSet/valueset-splRegistrantOrganizationTypes",
-      "version": "0.1.0"
-    },
-    {
       "filename": "ValueSet-splSectionCodes.json",
       "resourceType": "ValueSet",
       "id": "splSectionCodes",
@@ -306,10 +493,17 @@
       "version": "0.1.0"
     },
     {
-      "filename": "CodeSystem-codesystem-splFHIRMessageTypes.json",
+      "filename": "ValueSet-valueset-topLevelOrganizationTypes.json",
+      "resourceType": "ValueSet",
+      "id": "valueset-topLevelOrganizationTypes",
+      "url": "http://hl7.org/fhir/us/spl/ValueSet/valueset-topLevelOrganizationTypes",
+      "version": "0.1.0"
+    },
+    {
+      "filename": "CodeSystem-codesystem-fhirMessageTypes.json",
       "resourceType": "CodeSystem",
-      "id": "codesystem-splFHIRMessageTypes",
-      "url": "http://hl7.org/fhir/us/spl/CodeSystem/codesystem-splFHIRMessageTypes",
+      "id": "codesystem-fhirMessageTypes",
+      "url": "http://hl7.org/fhir/us/spl/CodeSystem/codesystem-fhirMessageTypes",
       "version": "0.1.0"
     },
     {
@@ -320,10 +514,10 @@
       "version": "0.1.0"
     },
     {
-      "filename": "CodeSystem-codesystem-splOrganizationTypes.json",
+      "filename": "CodeSystem-codesystem-organizationTypes.json",
       "resourceType": "CodeSystem",
-      "id": "codesystem-splOrganizationTypes",
-      "url": "http://hl7.org/fhir/us/spl/CodeSystem/codesystem-splOrganizationTypes",
+      "id": "codesystem-organizationTypes",
+      "url": "http://hl7.org/fhir/us/spl/CodeSystem/codesystem-organizationTypes",
       "version": "0.1.0"
     },
     {
@@ -361,6 +555,14 @@
       "version": "0.1.0",
       "kind": "logical",
       "type": "ProductSubmissionDocument"
+    },
+    {
+      "filename": "SearchParameter-ProvenanceActivitySearchParameter.json",
+      "resourceType": "SearchParameter",
+      "id": "ProvenanceActivitySearchParameter",
+      "url": "http://hl7.org/fhir/us/spl/SearchParameter/ProvenanceActivitySearchParameter",
+      "version": "0.1.0",
+      "type": "token"
     }
   ]
 }

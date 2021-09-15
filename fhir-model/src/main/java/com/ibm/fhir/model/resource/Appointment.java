@@ -58,28 +58,32 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "Appointment.participant",
     description = "Either the type or actor on the participant SHALL be specified",
-    expression = "type.exists() or actor.exists()"
+    expression = "type.exists() or actor.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/Appointment"
 )
 @Constraint(
     id = "app-2",
     level = "Rule",
     location = "(base)",
     description = "Either start and end are specified, or neither",
-    expression = "start.exists() = end.exists()"
+    expression = "start.exists() = end.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/Appointment"
 )
 @Constraint(
     id = "app-3",
     level = "Rule",
     location = "(base)",
     description = "Only proposed or cancelled appointments can be missing start/end dates",
-    expression = "(start.exists() and end.exists()) or (status in ('proposed' | 'cancelled' | 'waitlist'))"
+    expression = "(start.exists() and end.exists()) or (status in ('proposed' | 'cancelled' | 'waitlist'))",
+    source = "http://hl7.org/fhir/StructureDefinition/Appointment"
 )
 @Constraint(
     id = "app-4",
     level = "Rule",
     location = "(base)",
     description = "Cancelation reason is only used for appointments that have been cancelled, or no-show",
-    expression = "Appointment.cancelationReason.exists() implies (Appointment.status='no-show' or Appointment.status='cancelled')"
+    expression = "Appointment.cancelationReason.exists() implies (Appointment.status='no-show' or Appointment.status='cancelled')",
+    source = "http://hl7.org/fhir/StructureDefinition/Appointment"
 )
 @Constraint(
     id = "appointment-5",
@@ -87,6 +91,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/c80-practice-codes",
     expression = "specialty.exists() implies (specialty.all(memberOf('http://hl7.org/fhir/ValueSet/c80-practice-codes', 'preferred')))",
+    source = "http://hl7.org/fhir/StructureDefinition/Appointment",
     generated = true
 )
 @Constraint(
@@ -95,6 +100,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHOULD contain a code from value set http://terminology.hl7.org/ValueSet/v2-0276",
     expression = "appointmentType.exists() implies (appointmentType.memberOf('http://terminology.hl7.org/ValueSet/v2-0276', 'preferred'))",
+    source = "http://hl7.org/fhir/StructureDefinition/Appointment",
     generated = true
 )
 @Constraint(
@@ -103,6 +109,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/encounter-reason",
     expression = "reasonCode.exists() implies (reasonCode.all(memberOf('http://hl7.org/fhir/ValueSet/encounter-reason', 'preferred')))",
+    source = "http://hl7.org/fhir/StructureDefinition/Appointment",
     generated = true
 )
 @Constraint(
@@ -111,6 +118,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "participant.type",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/encounter-participant-type",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/encounter-participant-type', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/Appointment",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

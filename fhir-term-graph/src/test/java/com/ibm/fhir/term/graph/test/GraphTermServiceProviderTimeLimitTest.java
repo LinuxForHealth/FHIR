@@ -8,7 +8,9 @@ package com.ibm.fhir.term.graph.test;
 
 import static org.testng.Assert.fail;
 
-import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.commons.configuration2.PropertiesConfiguration;
+import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
+import org.apache.commons.configuration2.builder.fluent.Parameters;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -27,7 +29,9 @@ public class GraphTermServiceProviderTimeLimitTest {
     public void testGraphTermServiceProviderTimeLimit() throws Exception {
         FHIRTermGraph graph = null;
         try {
-            graph = FHIRTermGraphFactory.open(new PropertiesConfiguration("conf/janusgraph-berkeleyje-lucene.properties"));
+            FileBasedConfigurationBuilder<PropertiesConfiguration> builder = new FileBasedConfigurationBuilder<>(PropertiesConfiguration.class)
+                    .configure(new Parameters().properties().setFileName("conf/janusgraph-berkeleyje-lucene.properties"));
+            graph = FHIRTermGraphFactory.open(builder.getConfiguration());
             graph.dropAllVertices();
 
             CodeSystem codeSystem = CodeSystemSupport.getCodeSystem("http://ibm.com/fhir/CodeSystem/test");

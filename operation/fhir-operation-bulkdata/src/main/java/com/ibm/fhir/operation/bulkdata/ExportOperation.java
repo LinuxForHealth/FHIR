@@ -11,8 +11,6 @@ import java.util.List;
 
 import javax.ws.rs.core.MediaType;
 
-import com.ibm.fhir.config.FHIRConfigHelper;
-import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.format.Format;
@@ -65,14 +63,6 @@ public class ExportOperation extends AbstractOperation {
 
         // Pick off parameters
         MediaType outputFormat = export.checkAndConvertToMediaType(parameters);
-        if (FHIRMediaType.SUBTYPE_FHIR_PARQUET.equals(outputFormat.getSubtype())) {
-            Boolean enableParquet = FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_ENABLEPARQUET, false);
-            if (!enableParquet) {
-                throw buildExceptionWithIssue(
-                        "Export to parquet is not enabled; try 'application/fhir+ndjson' or contact the system administrator",
-                        IssueType.INVALID);
-            }
-        }
 
         Instant since = export.checkAndExtractSince(parameters);
         List<String> types = export.checkAndValidateTypes(parameters);
@@ -97,6 +87,13 @@ public class ExportOperation extends AbstractOperation {
             // Early detection of potential issues.
             Preflight preflight =  PreflightFactory.getInstance(operationContext, null, exportType, outputFormat.toString());
             preflight.preflight();
+
+            // Checks if parquet is enabled for the storage provider
+            if (FHIRMediaType.SUBTYPE_FHIR_PARQUET.equals(outputFormat.getSubtype()) && !preflight.checkParquet()) {
+                throw buildExceptionWithIssue(
+                        "Export to parquet is not enabled; try 'application/fhir+ndjson' or contact the system administrator",
+                         IssueType.INVALID);
+            }
 
             response = BulkDataFactory.getInstance(operationContext)
                         .export(logicalId, exportType, outputFormat, since, types, typeFilters, operationContext);

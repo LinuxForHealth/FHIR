@@ -24,7 +24,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "Numerator and denominator SHALL both be present, or both are absent. If both are absent, there SHALL be some extension present",
-    expression = "(numerator.empty() xor denominator.exists()) and (numerator.exists() or extension.exists())"
+    expression = "(numerator.empty() xor denominator.exists()) and (numerator.exists() or extension.exists())",
+    source = "http://hl7.org/fhir/StructureDefinition/Ratio"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Ratio extends Element {

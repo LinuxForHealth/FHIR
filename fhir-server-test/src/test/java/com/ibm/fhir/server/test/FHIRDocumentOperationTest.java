@@ -47,7 +47,7 @@ public class FHIRDocumentOperationTest extends FHIRServerTestBase {
     private Condition savedCreatedCondition = null;
     private AllergyIntolerance savedCreatedAllergyIntolerance = null;
     private Composition savedCreatedComposition = null;
-    
+
     private static final boolean DEBUG = false;
 
     @Test(groups = { "fhir-operation" })
@@ -179,7 +179,7 @@ public class FHIRDocumentOperationTest extends FHIRServerTestBase {
         TestUtil.assertResourceEquals(allergyIntolerance, responseAllergyIntolerance);
     }
 
-    @Test(groups = { "fhir-operation" }, dependsOnMethods = { "testCreateObservation", 
+    @Test(groups = { "fhir-operation" }, dependsOnMethods = { "testCreateObservation",
             "testCreateCondition", "testCreateAllergyIntolerance" })
     public void testCreateComposition() throws Exception {
         String practitionerId = savedCreatedPractitioner.getId();
@@ -207,6 +207,17 @@ public class FHIRDocumentOperationTest extends FHIRServerTestBase {
         savedCreatedComposition = responseComposition;
 
         TestUtil.assertResourceEquals(composition, responseComposition);
+    }
+
+    @Test(groups = { "fhir-operation" })
+    public void testCompositionDoesNotExist() throws Exception {
+        WebTarget target = getWebTarget();
+
+        String compositionId = "DOES-NOT-EXIST";
+
+        Response response = target.path("Composition/" + compositionId + "/$document").queryParam("persist", "true")
+                .request().get(Response.class);
+        assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
     }
 
     private Composition buildComposition(String practitionerId, String patientId, String observationId,

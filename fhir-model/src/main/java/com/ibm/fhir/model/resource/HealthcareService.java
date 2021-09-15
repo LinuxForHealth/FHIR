@@ -57,6 +57,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/c80-practice-codes",
     expression = "specialty.exists() implies (specialty.all(memberOf('http://hl7.org/fhir/ValueSet/c80-practice-codes', 'preferred')))",
+    source = "http://hl7.org/fhir/StructureDefinition/HealthcareService",
     generated = true
 )
 @Constraint(
@@ -65,6 +66,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/languages",
     expression = "communication.exists() implies (communication.all(memberOf('http://hl7.org/fhir/ValueSet/languages', 'preferred')))",
+    source = "http://hl7.org/fhir/StructureDefinition/HealthcareService",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

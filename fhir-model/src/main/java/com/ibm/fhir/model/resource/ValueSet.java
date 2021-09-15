@@ -63,49 +63,56 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    source = "http://hl7.org/fhir/StructureDefinition/ValueSet"
 )
 @Constraint(
     id = "vsd-1",
     level = "Rule",
     location = "ValueSet.compose.include",
     description = "A value set include/exclude SHALL have a value set or a system",
-    expression = "valueSet.exists() or system.exists()"
+    expression = "valueSet.exists() or system.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/ValueSet"
 )
 @Constraint(
     id = "vsd-2",
     level = "Rule",
     location = "ValueSet.compose.include",
     description = "A value set with concepts or filters SHALL include a system",
-    expression = "(concept.exists() or filter.exists()) implies system.exists()"
+    expression = "(concept.exists() or filter.exists()) implies system.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/ValueSet"
 )
 @Constraint(
     id = "vsd-3",
     level = "Rule",
     location = "ValueSet.compose.include",
     description = "Cannot have both concept and filter",
-    expression = "concept.empty() or filter.empty()"
+    expression = "concept.empty() or filter.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/ValueSet"
 )
 @Constraint(
     id = "vsd-6",
     level = "Rule",
     location = "ValueSet.expansion.contains",
     description = "SHALL have a code or a display",
-    expression = "code.exists() or display.exists()"
+    expression = "code.exists() or display.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/ValueSet"
 )
 @Constraint(
     id = "vsd-9",
     level = "Rule",
     location = "ValueSet.expansion.contains",
     description = "Must have a code if not abstract",
-    expression = "code.exists() or abstract = true"
+    expression = "code.exists() or abstract = true",
+    source = "http://hl7.org/fhir/StructureDefinition/ValueSet"
 )
 @Constraint(
     id = "vsd-10",
     level = "Rule",
     location = "ValueSet.expansion.contains",
     description = "Must have a system if a code is present",
-    expression = "code.empty() or system.exists()"
+    expression = "code.empty() or system.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/ValueSet"
 )
 @Constraint(
     id = "valueSet-11",
@@ -113,6 +120,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
     expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/ValueSet",
     generated = true
 )
 @Constraint(
@@ -121,6 +129,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "compose.include.concept.designation.language",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/languages",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/languages', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/ValueSet",
     generated = true
 )
 @Constraint(
@@ -129,6 +138,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "compose.include.concept.designation.use",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/designation-use",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/designation-use', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/ValueSet",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

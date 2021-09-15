@@ -62,6 +62,7 @@ import jakarta.json.JsonObject;
  * Basic sniff test of the FHIR Server.
  */
 public class BasicServerTest extends FHIRServerTestBase {
+    private static final Boolean DEBUG = Boolean.FALSE;
     private Patient savedCreatedPatient;
     private Observation savedCreatedObservation;
 
@@ -95,10 +96,19 @@ public class BasicServerTest extends FHIRServerTestBase {
         List<Issue> issues = FHIRValidator.validator().validate(conf);
         assertFalse(FHIRValidationUtil.hasErrors(issues));
         if (FHIRValidationUtil.hasWarnings(issues)) {
-            System.out.println("CapabilityStatement warnings: \n" +
+            String out;
+            if (DEBUG) {
+                out = FHIRValidationUtil.getWarnings(issues).stream()
+                    .map(i -> i.getDetails().getText().getValue())
+                    .collect(Collectors.joining("\n"));
+            } else {
+                out = Long.toString(
                     FHIRValidationUtil.getWarnings(issues).stream()
-                        .map(i -> i.getDetails().getText().getValue())
-                        .collect(Collectors.joining("\n")));
+                        .map(i -> 1)
+                        .collect(Collectors.counting()));
+            }
+
+            System.out.println("CapabilityStatement warnings: \n" + out);
         }
     }
 
@@ -127,10 +137,18 @@ public class BasicServerTest extends FHIRServerTestBase {
         List<Issue> issues = FHIRValidator.validator().validate(conf);
         assertFalse(FHIRValidationUtil.hasErrors(issues));
         if (FHIRValidationUtil.hasWarnings(issues)) {
-            System.out.println("TerminologyStatement warnings: \n" +
-                    FHIRValidationUtil.getWarnings(issues).stream()
+            String out;
+            if (DEBUG) {
+                out = FHIRValidationUtil.getWarnings(issues).stream()
                     .map(i -> i.getDetails().getText().getValue())
-                    .collect(Collectors.joining("\n")));
+                    .collect(Collectors.joining("\n"));
+            } else {
+                out = Long.toString(
+                    FHIRValidationUtil.getWarnings(issues).stream()
+                        .map(i -> 1)
+                        .collect(Collectors.counting()));
+            }
+            System.out.println("TerminologyStatement warnings: \n" + out);
         }
     }
 
@@ -451,7 +469,7 @@ public class BasicServerTest extends FHIRServerTestBase {
         // This test takes advantage of a issue with the 4.0.1 spec (https://jira.hl7.org/browse/FHIR-25173)
         // to verify that supplemental warnings that are added by the persistence layer will make it to the response
         WebTarget target = getWebTarget();
-        Immunization resource = TestUtil.readExampleResource("json/ibm/minimal/Immunization-1.json");
+        Immunization resource = TestUtil.getMinimalResource(Immunization.class);
         // 1. Add narrative text to avoid dom-6 (A resource should have narrative for robust management)
         // 2. Set occurrence to a String to get the searchparameter warning added by the persistence layer
         resource = resource.toBuilder()

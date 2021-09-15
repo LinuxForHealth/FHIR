@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -32,7 +32,7 @@ public class ExtensionTest {
         List<Constraint> constraints = generator.generate();
         constraints.forEach(System.out::println);
         assertEquals(constraints.size(), 2);
-        assertEquals(constraints.get(1).expression(), "value.as(CodeableConcept).exists() and value.as(CodeableConcept).memberOf('http://ibm.com/fhir/ValueSet/test-value-set', 'required')");
+        assertEquals(constraints.get(1).expression(), "value.where(is(CodeableConcept)).exists() and value.where(is(CodeableConcept)).all(memberOf('http://ibm.com/fhir/ValueSet/test-value-set', 'required'))");
 
         Extension extension = Extension.builder()
                 .url("http://ibm.com/fhir/pdm/StructureDefinition/test-extension")
@@ -41,7 +41,7 @@ public class ExtensionTest {
 
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
 
-        Collection<FHIRPathNode> result = evaluator.evaluate(extension, "value.as(CodeableConcept).exists() and value.as(CodeableConcept).memberOf('http://ibm.com/fhir/ValueSet/test-value-set', 'required')");
+        Collection<FHIRPathNode> result = evaluator.evaluate(extension, "value.where(is(CodeableConcept)).exists() and value.where(is(CodeableConcept)).all(memberOf('http://ibm.com/fhir/ValueSet/test-value-set', 'required'))");
 
         System.out.println("result: " + result);
 

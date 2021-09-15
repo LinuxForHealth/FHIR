@@ -6,7 +6,7 @@
 
 package com.ibm.fhir.persistence.jdbc.dao.impl;
 
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.UTC;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SEARCH_ENABLE_LEGACY_WHOLE_SYSTEM_SEARCH_PARAMS;
 import static com.ibm.fhir.search.SearchConstants.PROFILE;
 import static com.ibm.fhir.search.SearchConstants.SECURITY;
 import static com.ibm.fhir.search.SearchConstants.TAG;
@@ -18,10 +18,12 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.JDBCConstants;
 import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
@@ -38,6 +40,7 @@ import com.ibm.fhir.persistence.jdbc.dto.StringParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.TokenParmVal;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
+import com.ibm.fhir.persistence.jdbc.util.CalendarHelper;
 import com.ibm.fhir.persistence.jdbc.util.CanonicalSupport;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
 import com.ibm.fhir.search.util.ReferenceValue;
@@ -127,6 +130,9 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
     // Supports slightly more useful error messages if we hit a nested composite
     String currentCompositeParameterName = null;
 
+    // Enable use of legacy whole-system search parameters for the search request
+    private final boolean legacyWholeSystemSearchParamsEnabled;
+
     /**
      * Public constructor
      * @param c
@@ -145,6 +151,8 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         this.resourceReferenceDAO = resourceReferenceDAO;
         this.tablePrefix = tablePrefix;
         this.transactionData = ptdi;
+        this.legacyWholeSystemSearchParamsEnabled =
+                FHIRConfigHelper.getBooleanProperty(PROPERTY_SEARCH_ENABLE_LEGACY_WHOLE_SYSTEM_SEARCH_PARAMS, false);
 
         insertString = multitenant ?
                 "INSERT INTO " + tablePrefix + "_str_values (mt_id, parameter_name_id, str_value, str_value_lcase, logical_resource_id, composite_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?,?)"
@@ -219,7 +227,10 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         if (PROFILE.equals(parameterName)) {
             // profile canonicals are now stored in their own tables.
             processProfile(param);
-            return;
+            if (!legacyWholeSystemSearchParamsEnabled) {
+                // Don't store in legacy search param tables
+                return;
+            }
         }
 
         while (value != null && value.getBytes().length > FhirSchemaConstants.MAX_SEARCH_STRING_BYTES) {
@@ -405,6 +416,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
     }
 
     private void setDateParms(PreparedStatement insert, int parameterNameId, Timestamp dateStart, Timestamp dateEnd) throws SQLException {
+        final Calendar UTC = CalendarHelper.getCalendarForUTC();
         insert.setInt(1, parameterNameId);
         insert.setTimestamp(2, dateStart, UTC);
         insert.setTimestamp(3, dateEnd, UTC);
@@ -429,7 +441,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
             // Add the new token value to the collection we're building...what's the resourceTypeId?
             final int resourceTypeId = identityCache.getResourceTypeId(param.getResourceType());
             if (tokenValue == null) {
-                logger.info("tokenValue is NULL for: " + parameterName + "[" + parameterNameId + "], " + codeSystem);
+                logger.fine(() -> "tokenValue is NULL for: " + parameterName + "[" + parameterNameId + "], " + codeSystem);
             }
 
             // Issue 1683, for composites we now also record the current composite id (can be null)
@@ -443,6 +455,14 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
                 } else {
                     this.tagTokenRecs.add(rec);
                 }
+                if (legacyWholeSystemSearchParamsEnabled) {
+                    // Store as legacy search params as well
+                    if (this.transactionData != null) {
+                        this.transactionData.addValue(rec);
+                    } else {
+                        this.tokenValueRecs.add(rec);
+                    }
+                }
             } else if (SECURITY.equals(parameterName)) {
                 // search search params are often low-selectivity (many resources sharing the same value) so
                 // we put them into their own tables to allow better cardinality estimation by the query
@@ -451,6 +471,14 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
                     this.transactionData.addSecurityValue(rec);
                 } else {
                     this.securityTokenRecs.add(rec);
+                }
+                if (legacyWholeSystemSearchParamsEnabled) {
+                    // Store as legacy search params as well
+                    if (this.transactionData != null) {
+                        this.transactionData.addValue(rec);
+                    } else {
+                        this.tokenValueRecs.add(rec);
+                    }
                 }
             } else {
                 if (this.transactionData != null) {

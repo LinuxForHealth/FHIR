@@ -28,7 +28,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "An expression or a reference must be provided",
-    expression = "expression.exists() or reference.exists()"
+    expression = "expression.exists() or reference.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/Expression"
 )
 @Constraint(
     id = "expression-2",
@@ -36,6 +37,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/expression-language",
     expression = "language.exists() and language.memberOf('http://hl7.org/fhir/ValueSet/expression-language', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/Expression",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

@@ -46,7 +46,7 @@ public class PatientExportPartitionMapper implements PartitionMapper {
 
         BatchContextAdapter ctxAdapter = new BatchContextAdapter(jobExecution.getJobParameters());
 
-        BulkDataContext ctx = ctxAdapter.getStepContextForPatientExportPartitionMapper();
+        BulkDataContext ctx = ctxAdapter.getStepContextForExportPartitionMapper();
 
         // By default we're in the Patient Compartment, if we have a valid context
         // which has a resourceType specified, it's valid as the operation has already checked.

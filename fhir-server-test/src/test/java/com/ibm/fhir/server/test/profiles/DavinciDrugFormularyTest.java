@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,7 +17,6 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -34,7 +33,7 @@ import com.ibm.fhir.model.test.TestUtil;
  */
 public class DavinciDrugFormularyTest extends ProfilesTestBase {
     private static final String CLASSNAME = DavinciDrugFormularyTest.class.getName();
-    private static final Logger logger = Logger.getLogger(CLASSNAME);
+    private static final Logger LOG = Logger.getLogger(CLASSNAME);
 
     private String listCoveragePlan3001 = null;
     private String listCoveragePlan3002 = null;
@@ -61,7 +60,7 @@ public class DavinciDrugFormularyTest extends ProfilesTestBase {
         this.skip = check;
 
         if (skip) {
-            logger.info("Skipping Tests");
+            LOG.info("Skipping Tests");
         }
     }
 
@@ -75,6 +74,7 @@ public class DavinciDrugFormularyTest extends ProfilesTestBase {
         listCoveragePlan3001 = getLocationLogicalId(response);
         response = target.path("List/" + listCoveragePlan3001).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
+        addToResourceRegistry("List", listCoveragePlan3001);
     }
 
     public void loadCoveragePlan2() throws Exception {
@@ -87,6 +87,7 @@ public class DavinciDrugFormularyTest extends ProfilesTestBase {
         listCoveragePlan3002 = getLocationLogicalId(response);
         response = target.path("List/" + listCoveragePlan3002).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
+        addToResourceRegistry("List", listCoveragePlan3002);
     }
 
     public void loadCoveragePlan3() throws Exception {
@@ -99,6 +100,7 @@ public class DavinciDrugFormularyTest extends ProfilesTestBase {
         listCoveragePlan3004t = getLocationLogicalId(response);
         response = target.path("List/" + listCoveragePlan3004t).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
+        addToResourceRegistry("List", listCoveragePlan3004t);
     }
 
     public void loadCoveragePlan4() throws Exception {
@@ -111,6 +113,7 @@ public class DavinciDrugFormularyTest extends ProfilesTestBase {
         listCoveragePlan1002 = getLocationLogicalId(response);
         response = target.path("List/" + listCoveragePlan1002).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
+        addToResourceRegistry("List", listCoveragePlan1002);
     }
 
     public void loadMedicationKnowledge1() throws Exception {
@@ -123,6 +126,7 @@ public class DavinciDrugFormularyTest extends ProfilesTestBase {
         medicationKnowledgeCmsip9 = getLocationLogicalId(response);
         response = target.path("MedicationKnowledge/" + medicationKnowledgeCmsip9).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
+        addToResourceRegistry("MedicationKnowledge", medicationKnowledgeCmsip9);
     }
 
     public void loadMedicationKnowledge2() throws Exception {
@@ -135,6 +139,7 @@ public class DavinciDrugFormularyTest extends ProfilesTestBase {
         medicationKnowledge1002 = getLocationLogicalId(response);
         response = target.path("MedicationKnowledge/" + medicationKnowledge1002).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
+        addToResourceRegistry("MedicationKnowledge", medicationKnowledge1002);
     }
 
     public void loadMedicationKnowledge3() throws Exception {
@@ -147,76 +152,22 @@ public class DavinciDrugFormularyTest extends ProfilesTestBase {
         medicationKnowledge3001 = getLocationLogicalId(response);
         response = target.path("MedicationKnowledge/" + medicationKnowledge3001).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
+        addToResourceRegistry("MedicationKnowledge", medicationKnowledge3001);
     }
 
     // Load Resources
     @BeforeClass
     public void loadResources() throws Exception {
-        if (!skip) {
-            loadCoveragePlan1();
-            loadCoveragePlan2();
-            loadCoveragePlan3();
-            loadCoveragePlan4();
-            loadMedicationKnowledge1();
-            loadMedicationKnowledge2();
-            loadMedicationKnowledge3();
+        if (skip) {
+            return;
         }
-    }
-
-    // Delete Resources
-    public void deleteCoveragePlan1() throws Exception {
-        WebTarget target = getWebTarget();
-        Response response = target.path("List/" + listCoveragePlan3001).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-        assertResponse(response, Response.Status.OK.getStatusCode());
-    }
-
-    public void deleteCoveragePlan2() throws Exception {
-        WebTarget target = getWebTarget();
-        Response response = target.path("List/" + listCoveragePlan3002).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-        assertResponse(response, Response.Status.OK.getStatusCode());
-    }
-
-    public void deleteCoveragePlan3() throws Exception {
-        WebTarget target = getWebTarget();
-        Response response = target.path("List/" + listCoveragePlan3004t).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-        assertResponse(response, Response.Status.OK.getStatusCode());
-    }
-
-    public void deleteCoveragePlan4() throws Exception {
-        WebTarget target = getWebTarget();
-        Response response = target.path("List/" + listCoveragePlan1002).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-        assertResponse(response, Response.Status.OK.getStatusCode());
-    }
-
-    public void deleteMedicationKnowledge1() throws Exception {
-        WebTarget target = getWebTarget();
-        Response response = target.path("MedicationKnowledge/" + medicationKnowledgeCmsip9).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-        assertResponse(response, Response.Status.OK.getStatusCode());
-    }
-
-    public void deleteMedicationKnowledge2() throws Exception {
-        WebTarget target = getWebTarget();
-        Response response = target.path("MedicationKnowledge/" + medicationKnowledge1002).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-        assertResponse(response, Response.Status.OK.getStatusCode());
-    }
-
-    public void deleteMedicationKnowledge3() throws Exception {
-        WebTarget target = getWebTarget();
-        Response response = target.path("MedicationKnowledge/" + medicationKnowledge3001).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-        assertResponse(response, Response.Status.OK.getStatusCode());
-    }
-
-    @AfterClass
-    public void deleteResources() throws Exception {
-        if (!skip) {
-            deleteCoveragePlan1();
-            deleteCoveragePlan2();
-            deleteCoveragePlan3();
-            deleteCoveragePlan4();
-            deleteMedicationKnowledge1();
-            deleteMedicationKnowledge2();
-            deleteMedicationKnowledge3();
-        }
+        loadCoveragePlan1();
+        loadCoveragePlan2();
+        loadCoveragePlan3();
+        loadCoveragePlan4();
+        loadMedicationKnowledge1();
+        loadMedicationKnowledge2();
+        loadMedicationKnowledge3();
     }
 
     @Test

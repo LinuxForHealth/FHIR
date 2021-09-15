@@ -91,7 +91,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "Parameters.parameter",
     description = "A parameter must have one and only one of (value, resource, part)",
-    expression = "(part.exists() and value.empty() and resource.empty()) or (part.empty() and (value.exists() xor resource.exists()))"
+    expression = "(part.exists() and value.empty() and resource.empty()) or (part.empty() and (value.exists() xor resource.exists()))",
+    source = "http://hl7.org/fhir/StructureDefinition/Parameters"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Parameters extends Resource {

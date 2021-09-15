@@ -151,6 +151,7 @@ public class Db2ResourceReferenceDAO extends ResourceReferenceDAO {
 
             ps.executeUpdate();
         } catch (SQLException x) {
+            logger.throwing(Db2ResourceReferenceDAO.class.getSimpleName(), "doCommonTokenValuesUpsert", x);
             StringBuilder values = new StringBuilder();
             for (CommonTokenValue tv: tokenValues) {
                 if (values.length() > 0) {
@@ -163,7 +164,7 @@ public class Db2ResourceReferenceDAO extends ResourceReferenceDAO {
                 values.append("}");
             }
 
-            logger.log(Level.SEVERE, insert.toString() + "; [" + values.toString() + "]", x);
+            logger.log(Level.SEVERE, "Unable to upsert to common_token_values [" + insert.toString() + ";] [" + values.toString() + "]", x);
             throw getTranslator().translate(x);
         }
     }
