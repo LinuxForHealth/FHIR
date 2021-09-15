@@ -18,6 +18,7 @@ import java.util.Properties;
 import java.util.UUID;
 
 import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
@@ -70,6 +71,24 @@ public class ReindexOperationTest extends FHIRServerTestBase {
                 .post(entity, Response.class);
 
         assertEquals(r.getStatus(), Status.OK.getStatusCode());
+    }
+
+    @Test(groups = { "reindex" })
+    public void testReindexWith_GET() {
+        if (!runIt) {
+            System.out.println("Skipping over $reindex IT test");
+            return;
+        }
+        WebTarget target = getWebTarget();
+        target = target.path("/$reindex")
+                .queryParam("resourceCount", "5");
+
+        Response r = target.request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", "default")
+                .header("X-FHIR-DSID", "default")
+                .get();
+
+        assertEquals(r.getStatus(), Status.BAD_REQUEST.getStatusCode());
     }
 
     @Test(groups = { "reindex" })
