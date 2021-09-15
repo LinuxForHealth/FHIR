@@ -43,8 +43,9 @@ mkdir -p ${OVERRIDES}
 # Just in case it already exists, let's wipe the datsource*.xml files
 rm -f ${OVERRIDES}/datasource*.xml
 
-# Copy over both the db2 (default_default) and derby (tenant1_*) datasource definitions
+# Copy over the db2 (default_default and fhirbatchDS) and derby (tenant1_*) datasource definitions
 cp -p ${WORKSPACE}/fhir-server/liberty-config/configDropins/disabled/datasource-db2.xml ${OVERRIDES}/
+cp -p ${WORKSPACE}/fhir-server/liberty-config/configDropins/disabled/db2/bulkdata.xml ${OVERRIDES}/
 cp -p ${WORKSPACE}/fhir-server/liberty-config/configDropins/disabled/datasource-derby.xml ${OVERRIDES}/
 
 echo "Finished copying the server config."

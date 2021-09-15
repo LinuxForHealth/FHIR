@@ -1,6 +1,6 @@
 <server description="fhir-server">
     <!-- 
-        By default, in-memory derby is used for job repository, no configuration is needed.
+        By default, an in-memory store is used for the job repository; no configuration is needed.
         If you need an alternative, check the disabled folder for your persistence datastore/provider.
     -->
     <featureManager>

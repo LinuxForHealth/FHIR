@@ -51,6 +51,7 @@ public class OperationConstants {
 
     // Status
     public static final List<String> SUCCESS_STATUS = Collections.unmodifiableList(Arrays.asList("COMPLETED"));
+    public static final List<String> RUNNING_STATUS = Collections.unmodifiableList(Arrays.asList("STARTING", "STARTED"));
     public static final List<String> FAILED_STATUS = Collections.unmodifiableList(Arrays.asList("FAILED", "ABANDONED"));
     public static final List<String> STOPPED_STATUS = Collections.unmodifiableList(Arrays.asList("STOPPED"));
 
