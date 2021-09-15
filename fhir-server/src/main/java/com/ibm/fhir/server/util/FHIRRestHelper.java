@@ -2180,11 +2180,13 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             int total = bundle.getTotal().getValue();
 
             if (total == 0) {
-                throw buildRestException("Error resolving conditional reference: search returned no results", IssueType.NOT_FOUND);
+                throw buildRestException("Error resolving conditional reference: search '" + Encode.forHtml(conditionalReference) +
+                        "' returned no results", IssueType.NOT_FOUND);
             }
 
             if (total > 1) {
-                throw buildRestException("Error resolving conditional reference: search returned multiple results", IssueType.MULTIPLE_MATCHES);
+                throw buildRestException("Error resolving conditional reference: search '" + Encode.forHtml(conditionalReference) +
+                        "' returned multiple results", IssueType.MULTIPLE_MATCHES);
             }
 
             localRefMap.put(conditionalReference, type + "/" + bundle.getEntry().get(0).getResource().getId());
@@ -3270,8 +3272,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 }
             }
 
-            if (log.isLoggable(Level.FINE)) {
-                log.fine("Required profile list: " + profiles);
+            if (log.isLoggable(Level.FINER)) {
+                log.finer("Required profile list: " + profiles);
             }
 
             // Build the list of profiles that didn't specify a version
