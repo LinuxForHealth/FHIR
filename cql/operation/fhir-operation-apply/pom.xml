@@ -5,9 +5,9 @@
     
     <parent>
         <groupId>com.ibm.fhir</groupId>
-        <artifactId>fhir-parent</artifactId>
+        <artifactId>fhir-cql-parent</artifactId>
         <version>4.9.0-SNAPSHOT</version>
-        <relativePath>../../fhir-parent</relativePath>
+        <relativePath>../../</relativePath>
     </parent>
     
     <artifactId>fhir-operation-apply</artifactId>

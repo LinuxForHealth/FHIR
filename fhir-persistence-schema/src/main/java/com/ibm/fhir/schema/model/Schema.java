@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * (C) Copyright IBM Corp. 2021
-=======
  * (C) Copyright IBM Corp. 2020, 2021
->>>>>>> refs/remotes/origin/main
  *
  * SPDX-License-Identifier: Apache-2.0
  */

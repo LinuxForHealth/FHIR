@@ -3,4 +3,8 @@
   "https://checkstyle.sourceforge.io/dtds/configuration_1_3.dtd">
 <module name="Checker">
     <module name="FileTabCharacter"/>
+    <module name="com.puppycrawl.tools.checkstyle.checks.header.RegexpHeaderCheck">
+      <property name="headerFile" value="${checkstyle.header.file}" />
+      <property name="fileExtensions" value="java" />
+    </module>
 </module>

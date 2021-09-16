@@ -1,3 +1,9 @@
+/*
+ * (C) Copyright IBM Corp. 2021
+ * asdf
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 package com.ibm.fhir.server.test.cpg;
 
 import java.util.Collection;
@@ -13,7 +19,7 @@ import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.server.test.FHIRServerTestBase;
 
 public class BaseCPGOperationTest extends FHIRServerTestBase {
-    
+
     @BeforeClass
     public void checkForOperationSupport() throws Exception {
         CapabilityStatement conf = retrieveConformanceStatement();
@@ -21,7 +27,7 @@ public class BaseCPGOperationTest extends FHIRServerTestBase {
         EvaluationContext evaluationContext = new EvaluationContext(conf);
         Collection<FHIRPathNode> tmpResults = evaluator.evaluate(evaluationContext, "rest.resource.where(type = 'Library').operation.name");
         Collection<String> listOfOperations = tmpResults.stream().map(x -> x.getValue().asStringValue().string()).collect(Collectors.toList());
-        if( ! listOfOperations.contains("evaluate") ) {
+        if( !listOfOperations.contains("evaluate") ) {
             throw new SkipException("CPG Operations are not enabled");
         }
     }
