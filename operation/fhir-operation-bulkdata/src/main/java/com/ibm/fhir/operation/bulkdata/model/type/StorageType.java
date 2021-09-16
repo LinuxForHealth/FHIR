@@ -10,8 +10,9 @@ public enum StorageType {
     HTTPS("https"),
     FILE("file"),
     AWSS3("aws-s3"),
-    IBMCOS("ibm-cos");
-    // We don't yet support gcp-bucket, azure-blob.
+    IBMCOS("ibm-cos"),
+    AZURE("azure-blob");
+    // We don't yet support gcp-bucket.
 
     private final String value;
 

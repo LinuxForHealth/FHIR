@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 package com.ibm.fhir.bulkdata.load.partition.transformer;
 
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import jakarta.json.JsonObject;
 import jakarta.json.JsonValue;
 
 import com.ibm.fhir.bulkdata.common.BulkDataUtils;
+import com.ibm.fhir.bulkdata.load.partition.transformer.impl.AzureTransformer;
 import com.ibm.fhir.bulkdata.load.partition.transformer.impl.FileTransformer;
 import com.ibm.fhir.bulkdata.load.partition.transformer.impl.HttpsTransformer;
 import com.ibm.fhir.bulkdata.load.partition.transformer.impl.S3Transformer;
@@ -30,6 +32,7 @@ public class PartitionSourceTransformerFactory {
     private static final FileTransformer fileTransformer = new FileTransformer();
     private static final HttpsTransformer httpsTransformer = new HttpsTransformer();
     private static final S3Transformer s3Transformer = new S3Transformer();
+    private static final AzureTransformer azureTransformer = new AzureTransformer();
 
     private PartitionSourceTransformerFactory() {
         // No Operation
@@ -65,6 +68,9 @@ public class PartitionSourceTransformerFactory {
             case AWSS3:
             case IBMCOS:
                 sources.addAll(s3Transformer.transformToDataSources(source, type, location));
+                break;
+            case AZURE:
+                sources.addAll(azureTransformer.transformToDataSources(source, type, location));
                 break;
             default:
                 break;

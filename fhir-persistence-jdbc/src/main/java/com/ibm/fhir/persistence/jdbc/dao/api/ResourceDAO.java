@@ -180,6 +180,15 @@ public interface ResourceDAO extends FHIRDbDAO {
     int searchCount(String sqlSelectCount) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException;
 
     /**
+     * Executes the whole-system filter search contained in the passed {@link Select}, using its encapsulated search string and bind variables.
+     * @param select - Contains a search query and (optionally) bind variables.
+     * @return Map<Integer, List<Long>> A map of FHIR resource type ID to list of logical resource IDs satisfying the passed search.
+     * @throws FHIRPersistenceDataAccessException
+     * @throws FHIRPersistenceDBConnectException
+     */
+    Map<Integer, List<Long>> searchWholeSystem(Select select) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException;
+
+    /**
      * Sets the current persistence context
      * @param context
      */
@@ -217,6 +226,7 @@ public interface ResourceDAO extends FHIRDbDAO {
      * After insert, the generated primary key is acquired and set in the Resource object.
      * @param resource A Resource Data Transfer Object
      * @param parameters A collection of search parameters to be persisted along with the passed Resource
+     * @param parameterHashB64 Base64 encoded SHA-256 hash of parameters
      * @param parameterDao The Parameter DAO
      * @return Resource The Resource DTO
      * @throws FHIRPersistenceDataAccessException
@@ -224,6 +234,6 @@ public interface ResourceDAO extends FHIRDbDAO {
      * @throws FHIRPersistenceVersionIdMismatchException
      * @throws FHIRPersistenceException
      */
-    Resource insert(Resource resource, List<ExtractedParameterValue> parameters, ParameterDAO parameterDao)
+    Resource insert(Resource resource, List<ExtractedParameterValue> parameters, String parameterHashB64, ParameterDAO parameterDao)
             throws FHIRPersistenceException;
 }

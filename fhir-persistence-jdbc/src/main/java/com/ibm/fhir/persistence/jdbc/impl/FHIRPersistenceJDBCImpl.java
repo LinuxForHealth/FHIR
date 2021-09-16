@@ -59,11 +59,13 @@ import com.ibm.fhir.database.utils.query.Select;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
+import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
 import com.ibm.fhir.model.parser.FHIRJsonParser;
 import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.resource.Resource.Builder;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.resource.SearchParameter.Component;
 import com.ibm.fhir.model.type.Code;
@@ -124,8 +126,10 @@ import com.ibm.fhir.persistence.jdbc.dao.impl.FetchResourceChangesDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.FetchResourcePayloadsDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.JDBCIdentityCacheImpl;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterDAOImpl;
+import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceProfileRec;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
+import com.ibm.fhir.persistence.jdbc.dao.impl.RetrieveIndexDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.TransactionDataImpl;
 import com.ibm.fhir.persistence.jdbc.dto.CompositeParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.DateParmVal;
@@ -139,9 +143,11 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
 import com.ibm.fhir.persistence.jdbc.util.CodeSystemsCache;
+import com.ibm.fhir.persistence.jdbc.util.ExtractedSearchParameters;
 import com.ibm.fhir.persistence.jdbc.util.JDBCParameterBuildingVisitor;
 import com.ibm.fhir.persistence.jdbc.util.JDBCQueryBuilder;
 import com.ibm.fhir.persistence.jdbc.util.NewQueryBuilder;
+import com.ibm.fhir.persistence.jdbc.util.ParameterHashVisitor;
 import com.ibm.fhir.persistence.jdbc.util.ParameterNamesCache;
 import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
 import com.ibm.fhir.persistence.jdbc.util.SqlQueryData;
@@ -355,12 +361,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         final String METHODNAME = "create";
         log.entering(CLASSNAME, METHODNAME);
 
-        // Most resources are well under 10K after being serialized and compressed
-        InputOutputByteStream ioStream = new InputOutputByteStream(DATA_BUFFER_INITIAL_SIZE);
         String logicalId;
-
-        // We need to update the meta in the resource, so we need a modifiable version
-        Resource.Builder resultResourceBuilder = resource.toBuilder();
 
         try (Connection connection = openConnection()) {
 
@@ -376,31 +377,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
             // Set the resource id and meta fields.
             Instant lastUpdated = Instant.now(ZoneOffset.UTC);
-            resultResourceBuilder.id(logicalId);
-            Meta meta = resource.getMeta();
-            Meta.Builder metaBuilder = meta == null ? Meta.builder() : meta.toBuilder();
-            metaBuilder.versionId(Id.of(Integer.toString(newVersionNumber)));
-            metaBuilder.lastUpdated(lastUpdated);
-            resultResourceBuilder.meta(metaBuilder.build());
-
-            // rebuild the resource with updated meta
-            @SuppressWarnings("unchecked")
-            T updatedResource = (T) resultResourceBuilder.build();
+            T updatedResource = copyAndSetResourceMetaFields(resource, logicalId, newVersionNumber, lastUpdated);
 
             // Create the new Resource DTO instance.
-            com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO = new com.ibm.fhir.persistence.jdbc.dto.Resource();
-            resourceDTO.setLogicalId(logicalId);
-            resourceDTO.setVersionId(newVersionNumber);
-            Timestamp timestamp = FHIRUtilities.convertToTimestamp(lastUpdated.getValue());
-            resourceDTO.setLastUpdated(timestamp);
-            resourceDTO.setResourceType(updatedResource.getClass().getSimpleName());
-
-            // Serialize and compress the Resource
-            GZIPOutputStream zipStream = new GZIPOutputStream(ioStream.outputStream());
-            FHIRGenerator.generator( Format.JSON, false).generate(updatedResource, zipStream);
-            zipStream.finish();
-            resourceDTO.setDataStream(ioStream);
-            zipStream.close();
+            com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO =
+                    createResourceDTO(logicalId, newVersionNumber, lastUpdated, updatedResource);
 
             // The DAO objects are now created on-the-fly (not expensive to construct) and
             // given the connection to use while processing this request
@@ -409,7 +390,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
             // Persist the Resource DTO.
             resourceDao.setPersistenceContext(context);
-            resourceDao.insert(resourceDTO, this.extractSearchParameters(updatedResource, resourceDTO), parameterDao);
+            ExtractedSearchParameters searchParameters = this.extractSearchParameters(updatedResource, resourceDTO);
+            resourceDao.insert(resourceDTO, searchParameters.getParameters(), searchParameters.getParameterHashB64(), parameterDao);
             if (log.isLoggable(Level.FINE)) {
                 log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
                             + ", version=" + resourceDTO.getVersionId());
@@ -447,6 +429,66 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     }
 
     /**
+     * Creates and returns a data transfer object (DTO) with the contents of the passed arguments.
+     *
+     * @param logicalId
+     * @param newVersionNumber
+     * @param lastUpdated
+     * @param updatedResource
+     * @return
+     * @throws IOException
+     * @throws FHIRGeneratorException
+     */
+    private com.ibm.fhir.persistence.jdbc.dto.Resource createResourceDTO(String logicalId, int newVersionNumber,
+            Instant lastUpdated, Resource updatedResource) throws IOException, FHIRGeneratorException {
+
+        Timestamp timestamp = FHIRUtilities.convertToTimestamp(lastUpdated.getValue());
+
+        com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO = new com.ibm.fhir.persistence.jdbc.dto.Resource();
+        resourceDTO.setLogicalId(logicalId);
+        resourceDTO.setVersionId(newVersionNumber);
+        resourceDTO.setLastUpdated(timestamp);
+        resourceDTO.setResourceType(updatedResource.getClass().getSimpleName());
+
+        // Most resources are well under 10K after being serialized and compressed
+        InputOutputByteStream ioStream = new InputOutputByteStream(DATA_BUFFER_INITIAL_SIZE);
+
+        // Serialize and compress the Resource
+        try (GZIPOutputStream zipStream = new GZIPOutputStream(ioStream.outputStream())) {
+            FHIRGenerator.generator(Format.JSON, false).generate(updatedResource, zipStream);
+            zipStream.finish();
+            resourceDTO.setDataStream(ioStream);
+        }
+
+        return resourceDTO;
+    }
+
+    /**
+     * Creates and returns a copy of the passed resource with the {@code Resource.id}
+     * {@code Resource.meta.versionId}, and {@code Resource.meta.lastUpdated} elements replaced.
+     *
+     * @param resource
+     * @param logicalId
+     * @param newVersionNumber
+     * @param lastUpdated
+     * @return the updated resource
+     */
+    @SuppressWarnings("unchecked")
+    private <T extends Resource> T copyAndSetResourceMetaFields(T resource, String logicalId, int newVersionNumber, Instant lastUpdated) {
+        Meta meta = resource.getMeta();
+        Meta.Builder metaBuilder = meta == null ? Meta.builder() : meta.toBuilder();
+        metaBuilder.versionId(Id.of(Integer.toString(newVersionNumber)));
+        metaBuilder.lastUpdated(lastUpdated);
+
+        Builder resourceBuilder = resource.toBuilder();
+        resourceBuilder.setValidating(false);
+        return (T) resourceBuilder
+                .id(logicalId)
+                .meta(metaBuilder.build())
+                .build();
+    }
+
+    /**
      * Convenience method to construct a new instance of the {@link ResourceDAO}
      * @param connection the connection to the database for the DAO to use
      * @return a properly constructed implementation of a ResourceDAO
@@ -454,7 +496,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * @throws FHIRPersistenceException
      * @throws FHIRPersistenceDataAccessException
      */
-    private ResourceDAO makeResourceDAO(Connection connection) throws FHIRPersistenceDataAccessException, FHIRPersistenceException, IllegalArgumentException {
+    private ResourceDAO makeResourceDAO(Connection connection)
+            throws FHIRPersistenceDataAccessException, FHIRPersistenceException, IllegalArgumentException {
 
         // The resourceDAO is made before any database interaction, so this is a great spot
         // to prefill the caches if needed
@@ -512,10 +555,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
         Class<? extends Resource> resourceType = resource.getClass();
         com.ibm.fhir.persistence.jdbc.dto.Resource existingResourceDTO;
-        InputOutputByteStream ioStream = new InputOutputByteStream(DATA_BUFFER_INITIAL_SIZE);
-
-        // Resources are immutable, so we need a new builder to update it (since R4)
-        Resource.Builder resultResourceBuilder = resource.toBuilder();
 
         try (Connection connection = openConnection()) {
             ResourceDAO resourceDao = makeResourceDAO(connection);
@@ -565,37 +604,18 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 log.fine("Storing new FHIR Resource '" + resource.getClass().getSimpleName() + "/" + logicalId + "', version=" + newVersionNumber);
             }
 
-            Instant lastUpdated = Instant.now(ZoneOffset.UTC);
-
             // Set the resource id and meta fields.
-//            resultBuilder.id(logicalId);
-            Meta meta = resource.getMeta();
-            Meta.Builder metaBuilder = meta == null ? Meta.builder() : meta.toBuilder();
-            metaBuilder.versionId(Id.of(Integer.toString(newVersionNumber)));
-            metaBuilder.lastUpdated(lastUpdated);
-            resultResourceBuilder.meta(metaBuilder.build());
-
-            @SuppressWarnings("unchecked")
-            T updatedResource = (T) resultResourceBuilder.build();
+            Instant lastUpdated = Instant.now(ZoneOffset.UTC);
+            T updatedResource = copyAndSetResourceMetaFields(resource, resource.getId(), newVersionNumber, lastUpdated);
 
             // Create the new Resource DTO instance.
-            com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO = new com.ibm.fhir.persistence.jdbc.dto.Resource();
-            resourceDTO.setLogicalId(logicalId);
-            resourceDTO.setVersionId(newVersionNumber);
-            Timestamp timestamp = FHIRUtilities.convertToTimestamp(lastUpdated.getValue());
-            resourceDTO.setLastUpdated(timestamp);
-            resourceDTO.setResourceType(updatedResource.getClass().getSimpleName());
-
-            // Serialize and compress the Resource
-            GZIPOutputStream zipStream = new GZIPOutputStream(ioStream.outputStream());
-            FHIRGenerator.generator(Format.JSON, false).generate(updatedResource, zipStream);
-            zipStream.finish();
-            resourceDTO.setDataStream(ioStream);
-            zipStream.close();
+            com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO =
+                    createResourceDTO(logicalId, newVersionNumber, lastUpdated, updatedResource);
 
             // Persist the Resource DTO.
             resourceDao.setPersistenceContext(context);
-            resourceDao.insert(resourceDTO, this.extractSearchParameters(updatedResource, resourceDTO), parameterDao);
+            ExtractedSearchParameters searchParameters = this.extractSearchParameters(updatedResource, resourceDTO);
+            resourceDao.insert(resourceDTO, searchParameters.getParameters(), searchParameters.getParameterHashB64(), parameterDao);
             if (log.isLoggable(Level.FINE)) {
                 log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
                             + ", version=" + resourceDTO.getVersionId());
@@ -636,14 +656,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     public MultiResourceResult<Resource> search(FHIRPersistenceContext context, Class<? extends Resource> resourceType)
             throws FHIRPersistenceException {
 
-        // Fall back to the old search code for whole-system searches which are not yet supported
-        // by the new code.
-        if (isSystemLevelSearch(resourceType) || !this.optQueryBuilderEnabled) {
-            // New query builder doesn't support system-level search at this point, so route
-            // to the old way.
+        // Fall back to the old search code if new query builder has been disabled.
+        if (!this.optQueryBuilderEnabled) {
             return oldSearch(context, resourceType);
         } else {
-            // non-system-level search and the new query builder hasn't been disabled (it is enabled by default)
+            // new query builder hasn't been disabled (it is enabled by default)
             return newSearch(context, resourceType);
         }
     }
@@ -738,7 +755,20 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 // path than other sorted searches. Since _include and _revinclude are not supported
                 // with system-level search, no special logic to handle it differently is needed here.
                 List<com.ibm.fhir.persistence.jdbc.dto.Resource> resourceDTOList;
-                if (searchContext.hasSortParameters() && !resourceType.equals(Resource.class)) {
+                if (isSystemLevelSearch(resourceType)) {
+                    // If search parameters were specified other than those whose values get indexed
+                    // in global values tables, then we will execute the old-style UNION'd query that
+                    // was built. Otherwise, we need to execute the new whole-system filter query and
+                    // then build and execute the new whole-system data query.
+                    if (!allSearchParmsAreGlobal(searchContext.getSearchParameters())) {
+                        resourceDTOList = resourceDao.search(query);
+                    } else {
+                        Map<Integer, List<Long>> resourceTypeIdToLogicalResourceIdMap = resourceDao.searchWholeSystem(query);
+                        Select wholeSystemDataQuery = queryBuilder.buildWholeSystemDataQuery(searchContext,
+                                resourceTypeIdToLogicalResourceIdMap);
+                        resourceDTOList = resourceDao.search(wholeSystemDataQuery);
+                    }
+                } else if (searchContext.hasSortParameters()) {
                     resourceDTOList = this.buildSortedResourceDTOList(resourceDao, resourceType, resourceDao.searchForIds(query));
                 } else {
                     resourceDTOList = resourceDao.search(query);
@@ -1350,9 +1380,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
         com.ibm.fhir.persistence.jdbc.dto.Resource existingResourceDTO = null;
         T existingResource = null;
-        InputOutputByteStream ioStream = new InputOutputByteStream(DATA_BUFFER_INITIAL_SIZE);
-
-        Resource.Builder resourceBuilder;
 
         try (Connection connection = openConnection()) {
             ResourceDAO resourceDao = makeResourceDAO(connection);
@@ -1366,7 +1393,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
             if (existingResourceDTO.isDeleted()) {
                 existingResource = this.convertResourceDTO(existingResourceDTO, resourceType, null);
-                resourceBuilder = existingResource.toBuilder();
 
                 addWarning(IssueType.DELETED, "Resource of type'" + resourceType.getSimpleName() +
                         "' with id '" + logicalId + "' is already deleted.");
@@ -1381,43 +1407,20 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
             existingResource = this.convertResourceDTO(existingResourceDTO, resourceType, null);
 
-            // Resources are immutable, so we need a new builder to update it (since R4)
-            resourceBuilder = existingResource.toBuilder();
-
             int newVersionNumber = existingResourceDTO.getVersionId() + 1;
             Instant lastUpdated = Instant.now(ZoneOffset.UTC);
 
             // Update the soft-delete resource to reflect the new version and lastUpdated values.
-            Meta meta = existingResource.getMeta();
-            Meta.Builder metaBuilder = meta == null ? Meta.builder() : meta.toBuilder();
-            metaBuilder.versionId(Id.of(Integer.toString(newVersionNumber)));
-            metaBuilder.lastUpdated(lastUpdated);
-            resourceBuilder.meta(metaBuilder.build());
-
-
-            @SuppressWarnings("unchecked")
-            T updatedResource = (T) resourceBuilder.build();
+            T updatedResource = copyAndSetResourceMetaFields(existingResource, existingResource.getId(), newVersionNumber, lastUpdated);
 
             // Create a new Resource DTO instance to represent the deleted version.
-            com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO = new com.ibm.fhir.persistence.jdbc.dto.Resource();
-            resourceDTO.setLogicalId(logicalId);
-            resourceDTO.setVersionId(newVersionNumber);
-
-            // Serialize and compress the Resource
-            GZIPOutputStream zipStream = new GZIPOutputStream(ioStream.outputStream());
-            FHIRGenerator.generator(Format.JSON, false).generate(updatedResource, zipStream);
-            zipStream.finish();
-            resourceDTO.setDataStream(ioStream);
-            zipStream.close();
-
-            Timestamp timestamp = FHIRUtilities.convertToTimestamp(lastUpdated.getValue());
-            resourceDTO.setLastUpdated(timestamp);
-            resourceDTO.setResourceType(resourceType.getSimpleName());
+            com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO =
+                    createResourceDTO(logicalId, newVersionNumber, lastUpdated, updatedResource);
             resourceDTO.setDeleted(true);
 
             // Persist the logically deleted Resource DTO.
             resourceDao.setPersistenceContext(context);
-            resourceDao.insert(resourceDTO, null, null);
+            resourceDao.insert(resourceDTO, null, null, null);
 
             if (log.isLoggable(Level.FINE)) {
                 log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
@@ -1876,135 +1879,199 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * @return list of extracted search parameters
      * @throws Exception
      */
-    private List<ExtractedParameterValue> extractSearchParameters(Resource fhirResource, com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTOx)
+    private ExtractedSearchParameters extractSearchParameters(Resource fhirResource, com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTOx)
              throws Exception {
         final String METHODNAME = "extractSearchParameters";
         log.entering(CLASSNAME, METHODNAME);
 
         Map<SearchParameter, List<FHIRPathNode>> map;
         String code;
+        String url;
+        String version;
         String type;
         String expression;
 
         List<ExtractedParameterValue> allParameters = new ArrayList<>();
+        String parameterHashB64 = null;
 
         try {
-            if (fhirResource == null) {
-                return allParameters;
-            }
-            map = SearchUtil.extractParameterValues(fhirResource);
+            if (fhirResource != null) {
 
-            for (Entry<SearchParameter, List<FHIRPathNode>> entry : map.entrySet()) {
-                SearchParameter sp = entry.getKey();
-                code = sp.getCode().getValue();
+                map = SearchUtil.extractParameterValues(fhirResource);
 
-                // As not to inject any other special handling logic, this is a simple inline check to see if
-                // _id or _lastUpdated are used, and ignore those extracted values.
-                if (SPECIAL_HANDLING.contains(code)) {
-                    continue;
-                }
-                type = sp.getType().getValue();
-                expression = sp.getExpression().getValue();
+                for (Entry<SearchParameter, List<FHIRPathNode>> entry : map.entrySet()) {
+                    SearchParameter sp = entry.getKey();
+                    code = sp.getCode().getValue();
+                    url = sp.getUrl().getValue();
+                    version = sp.getVersion() != null ? sp.getVersion().getValue(): null;
+                    final boolean wholeSystemParam = isWholeSystem(sp);
 
-                if (log.isLoggable(Level.FINE)) {
-                    log.fine("Processing SearchParameter resource: " + fhirResource.getClass().getSimpleName() + ", code: " + code + ", type: " + type + ", expression: " + expression);
-                }
+                    // As not to inject any other special handling logic, this is a simple inline check to see if
+                    // _id or _lastUpdated are used, and ignore those extracted values.
+                    if (SPECIAL_HANDLING.contains(code)) {
+                        continue;
+                    }
+                    type = sp.getType().getValue();
+                    expression = sp.getExpression().getValue();
 
-                List<FHIRPathNode> values = entry.getValue();
+                    if (log.isLoggable(Level.FINE)) {
+                        log.fine("Processing SearchParameter resource: " + fhirResource.getClass().getSimpleName() + ", code: " + code + ", type: " + type + ", expression: " + expression);
+                    }
 
-                if (SearchParamType.COMPOSITE.equals(sp.getType())) {
-                    List<Component> components = sp.getComponent();
-                    FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+                    List<FHIRPathNode> values = entry.getValue();
 
-                    for (FHIRPathNode value : values) {
-                        Visitable fhirNode;
-                        EvaluationContext context;
-                        if (value.isResourceNode()) {
-                            fhirNode = value.asResourceNode().resource();
-                            context = new EvaluationContext((Resource) fhirNode);
-                        } else if (value.isElementNode()) {
-                            fhirNode = value.asElementNode().element();
-                            context = new EvaluationContext((Element) fhirNode);
-                        } else {
-                            throw new IllegalStateException("Composite parameter expression must select one or more FHIR elements");
-                        }
+                    if (SearchParamType.COMPOSITE.equals(sp.getType())) {
+                        List<Component> components = sp.getComponent();
+                        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
 
-                        CompositeParmVal p = new CompositeParmVal();
-                        p.setName(code);
-                        p.setResourceType(fhirResource.getClass().getSimpleName());
-
-                        for (int i = 0; i < components.size(); i++) {
-                            Component component = components.get(i);
-                            Collection<FHIRPathNode> nodes = evaluator.evaluate(context, component.getExpression().getValue());
-                            if (nodes.isEmpty()){
-                                if (log.isLoggable(Level.FINER)) {
-                                    log.finer("Component expression '" + component.getExpression().getValue() + "' resulted in 0 nodes; "
-                                            + "skipping composite parameter '" + code + "'.");
-                                }
-                                continue;
+                        for (FHIRPathNode value : values) {
+                            Visitable fhirNode;
+                            EvaluationContext context;
+                            if (value.isResourceNode()) {
+                                fhirNode = value.asResourceNode().resource();
+                                context = new EvaluationContext((Resource) fhirNode);
+                            } else if (value.isElementNode()) {
+                                fhirNode = value.asElementNode().element();
+                                context = new EvaluationContext((Element) fhirNode);
+                            } else {
+                                throw new IllegalStateException("Composite parameter expression must select one or more FHIR elements");
                             }
 
-                            // Alternative: consider pulling the search parameter from the FHIRRegistry instead so we can use versioned references.
-                            // Of course, that would require adding extension-search-params to the Registry which would require the Registry to be tenant-aware.
-//                            SearchParameter compSP = FHIRRegistry.getInstance().getResource(component.getDefinition().getValue(), SearchParameter.class);
-                            SearchParameter compSP = SearchUtil.getSearchParameter(p.getResourceType(), component.getDefinition());
-                            JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(p.getResourceType(), compSP);
-                            FHIRPathNode node = nodes.iterator().next();
-                            if (nodes.size() > 1 ) {
-                                // TODO: support component expressions that result in multiple nodes
-                                // On the current schema, this means creating a different CompositeParmValue for each ordered set of component values.
-                                // For example, if a composite has two components and each one's expression results in two nodes
-                                // ([Code1,Code2] and [Quantity1,Quantity2]) and each node results in a single ExtractedParameterValue,
-                                // then we need to generate CompositeParmVal objects for [Code1,Quantity1], [Code1,Quantity2],
-                                // [Code2,Quantity1], and [Code2,Quantity2].
-                                // Assumption: this should be rare.
-                                if (log.isLoggable(Level.FINE)) {
-                                    log.fine("Component expression '" + component.getExpression().getValue() + "' resulted in multiple nodes; "
-                                            + "proceeding with randomly chosen node '" + node.path() + "' for search parameter '" + code + "'.");
-                                }
-                            }
+                            CompositeParmVal p = new CompositeParmVal();
+                            p.setName(code);
+                            p.setUrl(url);
+                            p.setVersion(version);
+                            p.setResourceType(fhirResource.getClass().getSimpleName());
 
-                            try {
-                                if (node.isElementNode()) {
-                                    // parameterBuilder aggregates the results for later retrieval
-                                    node.asElementNode().element().accept(parameterBuilder);
-                                    // retrieve the list of parameters built from all the FHIRPathElementNode values
-                                    List<ExtractedParameterValue> parameters = parameterBuilder.getResult();
-                                    if (parameters.isEmpty()){
-                                        if (log.isLoggable(Level.FINE)) {
-                                            log.fine("Selected element '" + node.path() + "' resulted in 0 extracted parameter values; "
-                                                    + "skipping composite parameter '" + code + "'.");
+                            for (int i = 0; i < components.size(); i++) {
+                                Component component = components.get(i);
+                                Collection<FHIRPathNode> nodes = evaluator.evaluate(context, component.getExpression().getValue());
+                                if (nodes.isEmpty()){
+                                    if (log.isLoggable(Level.FINER)) {
+                                        log.finer("Component expression '" + component.getExpression().getValue() + "' resulted in 0 nodes; "
+                                                + "skipping composite parameter '" + code + "'.");
+                                    }
+                                    continue;
+                                }
+
+                                // Alternative: consider pulling the search parameter from the FHIRRegistry instead so we can use versioned references.
+                                // Of course, that would require adding extension-search-params to the Registry which would require the Registry to be tenant-aware.
+    //                            SearchParameter compSP = FHIRRegistry.getInstance().getResource(component.getDefinition().getValue(), SearchParameter.class);
+                                SearchParameter compSP = SearchUtil.getSearchParameter(p.getResourceType(), component.getDefinition());
+                                JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(p.getResourceType(), compSP);
+                                FHIRPathNode node = nodes.iterator().next();
+                                if (nodes.size() > 1 ) {
+                                    // TODO: support component expressions that result in multiple nodes
+                                    // On the current schema, this means creating a different CompositeParmValue for each ordered set of component values.
+                                    // For example, if a composite has two components and each one's expression results in two nodes
+                                    // ([Code1,Code2] and [Quantity1,Quantity2]) and each node results in a single ExtractedParameterValue,
+                                    // then we need to generate CompositeParmVal objects for [Code1,Quantity1], [Code1,Quantity2],
+                                    // [Code2,Quantity1], and [Code2,Quantity2].
+                                    // Assumption: this should be rare.
+                                    if (log.isLoggable(Level.FINE)) {
+                                        log.fine("Component expression '" + component.getExpression().getValue() + "' resulted in multiple nodes; "
+                                                + "proceeding with randomly chosen node '" + node.path() + "' for search parameter '" + code + "'.");
+                                    }
+                                }
+
+                                try {
+                                    if (node.isElementNode()) {
+                                        // parameterBuilder aggregates the results for later retrieval
+                                        node.asElementNode().element().accept(parameterBuilder);
+                                        // retrieve the list of parameters built from all the FHIRPathElementNode values
+                                        List<ExtractedParameterValue> parameters = parameterBuilder.getResult();
+                                        if (parameters.isEmpty()){
+                                            if (log.isLoggable(Level.FINE)) {
+                                                log.fine("Selected element '" + node.path() + "' resulted in 0 extracted parameter values; "
+                                                        + "skipping composite parameter '" + code + "'.");
+                                            }
+                                            continue;
                                         }
+
+                                        if (parameters.size() > 1) {
+                                            // TODO: support component searchParms that lead to multiple ExtractedParameterValues
+                                            // On the current schema, this means creating a different CompositeParmValue for each ordered set of component values.
+                                            // For example:
+                                            // If a composite has two components and each results in two extracted parameters ([A,B] and [1,2] respectively)
+                                            // then we need to generate CompositeParmVal objects for [A,1], [A,2], [B,1], and [B,2]
+                                            // Assumption: this should only be common for Quantity search parameters with both a coded unit and a display unit,
+                                            // and in these cases, the coded unit is almost always the preferred value for search.
+                                            if (log.isLoggable(Level.FINE)) {
+                                                log.fine("Selected element '" + node.path() + "' resulted in multiple extracted parameter values; "
+                                                        + "proceeding with the first extracted value for composite parameter '" + code + "'.");
+                                            }
+                                        }
+                                        ExtractedParameterValue componentParam = parameters.get(0);
+                                        // override the component parameter name with the composite parameter name
+                                        componentParam.setName(SearchUtil.makeCompositeSubCode(code, componentParam.getName()));
+                                        componentParam.setUrl(url);
+                                        componentParam.setVersion(version);
+                                        p.addComponent(componentParam);
+                                    } else if (node.isSystemValue()){
+                                        ExtractedParameterValue primitiveParam = processPrimitiveValue(node.asSystemValue());
+                                        primitiveParam.setName(code);
+                                        primitiveParam.setUrl(url);
+                                        primitiveParam.setVersion(version);
+                                        primitiveParam.setResourceType(fhirResource.getClass().getSimpleName());
+
+                                        if (log.isLoggable(Level.FINE)) {
+                                            log.fine("Extracted Parameter '" + p.getName() + "' from Resource.");
+                                        }
+                                        p.addComponent(primitiveParam);
+                                    } else {
+                                        // log and continue
+                                        String msg = "Unable to extract value from '" + value.path() +
+                                                "'; search parameter value extraction can only be performed on Elements and primitive values.";
+                                        if (log.isLoggable(Level.FINE)) {
+                                            log.fine(msg);
+                                        }
+                                        addWarning(IssueType.INVALID, msg);
                                         continue;
                                     }
-
-                                    if (parameters.size() > 1) {
-                                        // TODO: support component searchParms that lead to multiple ExtractedParameterValues
-                                        // On the current schema, this means creating a different CompositeParmValue for each ordered set of component values.
-                                        // For example:
-                                        // If a composite has two components and each results in two extracted parameters ([A,B] and [1,2] respectively)
-                                        // then we need to generate CompositeParmVal objects for [A,1], [A,2], [B,1], and [B,2]
-                                        // Assumption: this should only be common for Quantity search parameters with both a coded unit and a display unit,
-                                        // and in these cases, the coded unit is almost always the preferred value for search.
-                                        if (log.isLoggable(Level.FINE)) {
-                                            log.fine("Selected element '" + node.path() + "' resulted in multiple extracted parameter values; "
-                                                    + "proceeding with the first extracted value for composite parameter '" + code + "'.");
-                                        }
+                                } catch (IllegalArgumentException e) {
+                                    // log and continue with the other parameters
+                                    StringBuilder msg = new StringBuilder("Skipped search parameter '" + code + "'");
+                                    if (sp.getId() != null) {
+                                        msg.append(" with id '" + sp.getId() + "'");
                                     }
-                                    ExtractedParameterValue componentParam = parameters.get(0);
-                                    // override the component parameter name with the composite parameter name
-                                    componentParam.setName(SearchUtil.makeCompositeSubCode(code, componentParam.getName()));
-                                    componentParam.setBase(p.getBase());
-                                    p.addComponent(componentParam);
-                                } else if (node.isSystemValue()){
-                                    ExtractedParameterValue primitiveParam = processPrimitiveValue(node.asSystemValue());
-                                    primitiveParam.setName(code);
-                                    primitiveParam.setResourceType(fhirResource.getClass().getSimpleName());
+                                    msg.append(" for resource type " + fhirResource.getClass().getSimpleName());
+                                    // just use the message...no need for the whole stack trace
+                                    msg.append(" due to \n" + e.getMessage());
+                                    if (log.isLoggable(Level.FINE)) {
+                                        log.fine(msg.toString());
+                                    }
+                                    addWarning(IssueType.INVALID, msg.toString());
+                                }
+                            }
+                            if (components.size() == p.getComponent().size()) {
 
+                                // only add the parameter if all of the components are present and accounted for
+                                allParameters.add(p);
+                            }
+                        }
+                    } else { // ! SearchParamType.COMPOSITE.equals(sp.getType())
+                        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(fhirResource.getClass().getSimpleName(), sp);
+
+                        for (FHIRPathNode value : values) {
+
+                            try {
+                                if (value.isElementNode()) {
+                                    // parameterBuilder aggregates the results for later retrieval
+                                    value.asElementNode().element().accept(parameterBuilder);
+                                } else if (value.isSystemValue()){
+                                    ExtractedParameterValue p = processPrimitiveValue(value.asSystemValue());
+                                    p.setName(code);
+                                    p.setUrl(url);
+                                    p.setVersion(version);
+                                    p.setResourceType(fhirResource.getClass().getSimpleName());
+
+                                    if (wholeSystemParam) {
+                                        p.setWholeSystem(true);
+                                    }
+                                    allParameters.add(p);
                                     if (log.isLoggable(Level.FINE)) {
                                         log.fine("Extracted Parameter '" + p.getName() + "' from Resource.");
                                     }
-                                    p.addComponent(primitiveParam);
                                 } else {
                                     // log and continue
                                     String msg = "Unable to extract value from '" + value.path() +
@@ -2017,7 +2084,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                                 }
                             } catch (IllegalArgumentException e) {
                                 // log and continue with the other parameters
-                                StringBuilder msg = new StringBuilder("Skipped search parameter '" + code + "'");
+                                StringBuilder msg = new StringBuilder("Skipping search parameter '" + code + "'");
                                 if (sp.getId() != null) {
                                     msg.append(" with id '" + sp.getId() + "'");
                                 }
@@ -2030,72 +2097,76 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                                 addWarning(IssueType.INVALID, msg.toString());
                             }
                         }
-                        if (components.size() == p.getComponent().size()) {
-                            // only add the parameter if all of the components are present and accounted for
+                        // retrieve the list of parameters built from all the FHIRPathElementNode values
+                        List<ExtractedParameterValue> parameters = parameterBuilder.getResult();
+                        for (ExtractedParameterValue p : parameters) {
+                            if (wholeSystemParam) {
+                                p.setWholeSystem(true);
+                            }
                             allParameters.add(p);
-                        }
-                    }
-                } else { // ! SearchParamType.COMPOSITE.equals(sp.getType())
-                    JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(fhirResource.getClass().getSimpleName(), sp);
-
-                    for (FHIRPathNode value : values) {
-
-                        try {
-                            if (value.isElementNode()) {
-                                // parameterBuilder aggregates the results for later retrieval
-                                value.asElementNode().element().accept(parameterBuilder);
-                            } else if (value.isSystemValue()){
-                                ExtractedParameterValue p = processPrimitiveValue(value.asSystemValue());
-                                p.setName(code);
-                                p.setResourceType(fhirResource.getClass().getSimpleName());
-                                allParameters.add(p);
-                                if (log.isLoggable(Level.FINE)) {
-                                    log.fine("Extracted Parameter '" + p.getName() + "' from Resource.");
-                                }
-                            } else {
-                                // log and continue
-                                String msg = "Unable to extract value from '" + value.path() +
-                                        "'; search parameter value extraction can only be performed on Elements and primitive values.";
-                                if (log.isLoggable(Level.FINE)) {
-                                    log.fine(msg);
-                                }
-                                addWarning(IssueType.INVALID, msg);
-                                continue;
-                            }
-                        } catch (IllegalArgumentException e) {
-                            // log and continue with the other parameters
-                            StringBuilder msg = new StringBuilder("Skipping search parameter '" + code + "'");
-                            if (sp.getId() != null) {
-                                msg.append(" with id '" + sp.getId() + "'");
-                            }
-                            msg.append(" for resource type " + fhirResource.getClass().getSimpleName());
-                            // just use the message...no need for the whole stack trace
-                            msg.append(" due to \n" + e.getMessage());
                             if (log.isLoggable(Level.FINE)) {
-                                log.fine(msg.toString());
+                                log.fine("Extracted Parameter '" + p.getName() + "' from Resource.");
                             }
-                            addWarning(IssueType.INVALID, msg.toString());
-                        }
-                    }
-                    // retrieve the list of parameters built from all the FHIRPathElementNode values
-                    List<ExtractedParameterValue> parameters = parameterBuilder.getResult();
-                    for (ExtractedParameterValue p : parameters) {
-                        allParameters.add(p);
-                        if (log.isLoggable(Level.FINE)) {
-                            log.fine("Extracted Parameter '" + p.getName() + "' from Resource.");
                         }
                     }
                 }
+
+                // Augment the extracted parameter list with special values we use to represent compartment relationships.
+                // These references are stored as tokens and are used by the search query builder
+                // for compartment-based searches
+                addCompartmentParams(allParameters, fhirResource);
             }
 
-            // Augment the extracted parameter list with special values we use to represent compartment relationships.
-            // These references are stored as tokens and are used by the search query builder
-            // for compartment-based searches
-            addCompartmentParams(allParameters, fhirResource);
+
+            // Generate the hash which is used to quickly determine whether the extracted parameters
+            // are different than the extracted parameters that currently exist in the database.
+            // Sort extracted parameter values in natural order first, to ensure the hash generated by
+            // this visitor is deterministic.
+            sortExtractedParameterValues(allParameters);
+            ParameterHashVisitor phv = new ParameterHashVisitor();
+            for (ExtractedParameterValue p: allParameters) {
+                p.accept(phv);
+            }
+            parameterHashB64 = phv.getBase64Hash();
+
         } finally {
             log.exiting(CLASSNAME, METHODNAME);
         }
-        return allParameters;
+        return new ExtractedSearchParameters(allParameters, parameterHashB64);
+    }
+
+    /**
+     * Sorts the extracted parameter values in natural order. If the list contains any composite parameter values,
+     * those are sorted before the list itself is sorted. Since composite parameters cannot themselves contain composites,
+     * doing this with a recursive call is ok.
+     * @param extractedParameterValues the extracted parameter values
+     */
+    private void sortExtractedParameterValues(List<ExtractedParameterValue> extractedParameterValues) {
+        for (ExtractedParameterValue extractedParameterValue : extractedParameterValues) {
+            if (extractedParameterValue instanceof CompositeParmVal) {
+                CompositeParmVal compositeParmVal = (CompositeParmVal) extractedParameterValue;
+                sortExtractedParameterValues(compositeParmVal.getComponent());
+            }
+        }
+        Collections.sort(extractedParameterValues);
+    }
+
+    /**
+     * Should we also store values for this {@link SearchParameter} in the special whole-system
+     * param tables (for more efficient whole-system search queries).
+     * @param sp
+     * @return
+     */
+    private boolean isWholeSystem(SearchParameter sp) {
+
+        // Strip off any :text suffix before we check to see if this is in the
+        // whole-system search parameter list
+        String parameterName = sp.getCode().getValue();
+        if (parameterName.endsWith(SearchConstants.TEXT_MODIFIER_SUFFIX)) {
+            parameterName = parameterName.substring(0, parameterName.length() - SearchConstants.TEXT_MODIFIER_SUFFIX.length());
+        }
+
+        return SearchConstants.SYSTEM_LEVEL_GLOBAL_PARAMETER_NAMES.contains(parameterName);
     }
 
     /**
@@ -2427,8 +2498,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     }
 
     @Override
-    public int reindex(FHIRPersistenceContext context, OperationOutcome.Builder operationOutcomeResult, java.time.Instant tstamp, String resourceLogicalId)
-        throws FHIRPersistenceException {
+    public int reindex(FHIRPersistenceContext context, OperationOutcome.Builder operationOutcomeResult, java.time.Instant tstamp, List<Long> indexIds,
+        String resourceLogicalId) throws FHIRPersistenceException {
         final String METHODNAME = "reindex";
         log.entering(CLASSNAME, METHODNAME);
 
@@ -2468,13 +2539,14 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 // Look up the optional resourceTypeId for the given resourceType parameter
                 resourceTypeId = cache.getResourceTypeCache().getId(resourceType);
             }
+            int indexIdsProcessed = 0;
 
-            // Need to skip over deleted resources so we have to loop until we find something not
-            // deleted, or reach the end.
+            // If list of indexIds was specified, loop over those. Otherwise, since we skip over
+            // deleted resources we have to loop until we find something not deleted, or reach the end.
             ResourceIndexRecord rir;
             do {
                 long start = System.nanoTime();
-                rir = reindexDAO.getResourceToReindex(tstamp, resourceTypeId, logicalId);
+                rir = reindexDAO.getResourceToReindex(tstamp, indexIds != null ? indexIds.get(indexIdsProcessed++) : null, resourceTypeId, logicalId);
                 long end = System.nanoTime();
 
                 if (log.isLoggable(Level.FINER)) {
@@ -2497,16 +2569,16 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
                         // result is only 0 if getResourceToReindex doesn't give us anything because this indicates
                         // there's nothing left to do
-                        result = 1;
+                        result++;
                     } else {
                         // Skip this particular resource because it has been deleted
                         if (log.isLoggable(Level.FINE)) {
-                            log.info("Skipping reindex for deleted FHIR Resource '" + rir.getResourceType() + "/" + rir.getLogicalId() + "'");
+                            log.fine("Skipping reindex for deleted FHIR Resource '" + rir.getResourceType() + "/" + rir.getLogicalId() + "'");
                         }
                         rir.setDeleted(true);
                     }
                 }
-            } while (rir != null && rir.isDeleted());
+            } while ((indexIds != null && indexIdsProcessed < indexIds.size()) || (indexIds == null && rir != null && rir.isDeleted()));
 
         } catch(FHIRPersistenceFKVException e) {
             getTransaction().setRollbackOnly();
@@ -2543,11 +2615,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     /**
      * Update the parameters for the resource described by the given DTO
      * @param <T>
-     * @param rir
-     * @param resourceTypeClass
-     * @param existingResourceDTO
-     * @param reindexDAO
-     * @param operationOutcomeResult
+     * @param rir the resource index record
+     * @param resourceTypeClass the resource type class
+     * @param existingResourceDTO the existing resource DTO
+     * @param reindexDAO the reindex resource DAO
+     * @param operationOutcomeResult the operation outcome result
      * @throws Exception
      */
     public <T extends Resource> void updateParameters(ResourceIndexRecord rir, Class<T> resourceTypeClass, com.ibm.fhir.persistence.jdbc.dto.Resource existingResourceDTO,
@@ -2555,9 +2627,17 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         if (existingResourceDTO != null && !existingResourceDTO.isDeleted()) {
             T existingResource = this.convertResourceDTO(existingResourceDTO, resourceTypeClass, null);
 
-            // Extract parameters from the resource payload we just read and store them, replacing
-            // the existing set
-            reindexDAO.updateParameters(rir.getResourceType(), this.extractSearchParameters(existingResource, existingResourceDTO), rir.getLogicalId(), rir.getLogicalResourceId());
+            // Extract parameters from the resource payload.
+            ExtractedSearchParameters searchParameters = this.extractSearchParameters(existingResource, existingResourceDTO);
+
+            // Compare the hash of the extracted parameters with the hash in the index record.
+            // If hash in the index record is not null and it matches the hash of the extracted parameters, then no need to replace the
+            // extracted search parameters in the database tables for this resource, which helps with performance during reindex.
+            if (rir.getParameterHash() == null || !rir.getParameterHash().equals(searchParameters.getParameterHashB64())) {
+                reindexDAO.updateParameters(rir.getResourceType(), searchParameters.getParameters(), searchParameters.getParameterHashB64(), rir.getLogicalId(), rir.getLogicalResourceId());
+            } else {
+                log.fine(() -> "Skipping update of unchanged parameters for FHIR Resource '" + rir.getResourceType() + "/" + rir.getLogicalId() + "'");
+            }
 
             // Use an OperationOutcome Issue to let the caller know that some work was performed
             final String diag = "Processed " + rir.getResourceType() + "/" + rir.getLogicalId();
@@ -2567,7 +2647,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             final String diag = "Failed to read resource: " + rir.getResourceType() + "/" + rir.getLogicalId();
             operationOutcomeResult.issue(Issue.builder().code(IssueType.NOT_FOUND).severity(IssueSeverity.WARNING).diagnostics(string(diag)).build());
         }
-
     }
 
     @Override
@@ -2623,11 +2702,15 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * that have been accumulated during the transaction. This collection therefore
      * contains multiple resource types, which have to be processed separately.
      * @param records
+     * @param profileRecs
+     * @param tagRecs
+     * @param securityRecs
+     * @throws FHIRPersistenceException
      */
-    public void persistResourceTokenValueRecords(Collection<ResourceTokenValueRec> records) throws FHIRPersistenceException {
+    public void persistResourceTokenValueRecords(Collection<ResourceTokenValueRec> records, Collection<ResourceProfileRec> profileRecs, Collection<ResourceTokenValueRec> tagRecs, Collection<ResourceTokenValueRec> securityRecs) throws FHIRPersistenceException {
         try (Connection connection = openConnection()) {
             IResourceReferenceDAO rrd = makeResourceReferenceDAO(connection);
-            rrd.persist(records);
+            rrd.persist(records, profileRecs, tagRecs, securityRecs);
         } catch(FHIRPersistenceFKVException e) {
             log.log(Level.SEVERE, "FK violation", e);
             throw e;
@@ -2722,5 +2805,35 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         }
 
         return eraseRecord;
+    }
+
+    private boolean allSearchParmsAreGlobal(List<QueryParameter> queryParms) {
+        for (QueryParameter queryParm : queryParms) {
+            if (!SearchConstants.SYSTEM_LEVEL_GLOBAL_PARAMETER_NAMES.contains(queryParm.getCode())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public List<Long> retrieveIndex(int count, java.time.Instant notModifiedAfter, Long afterIndexId, String resourceTypeName) throws FHIRPersistenceException {
+        final String METHODNAME = "retrieveIndex";
+        log.entering(CLASSNAME, METHODNAME);
+
+        try (Connection connection = openConnection()) {
+            doCachePrefill(connection);
+            IDatabaseTranslator translator = FHIRResourceDAOFactory.getTranslatorForFlavor(connectionStrategy.getFlavor());
+            RetrieveIndexDAO dao = new RetrieveIndexDAO(translator, schemaNameSupplier.getSchemaForRequestContext(connection), resourceTypeName, count, notModifiedAfter, afterIndexId, this.cache);
+            return dao.run(connection);
+        } catch(FHIRPersistenceException e) {
+            throw e;
+        } catch(Throwable e) {
+            FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while retrieving logical resource IDs.");
+            log.log(Level.SEVERE, fx.getMessage(), e);
+            throw fx;
+        } finally {
+            log.exiting(CLASSNAME, METHODNAME);
+        }
     }
 }

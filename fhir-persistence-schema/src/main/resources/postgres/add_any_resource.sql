@@ -31,7 +31,9 @@
       IN p_is_deleted                       CHAR(  1),
       IN p_source_key                    VARCHAR( 64),
       IN p_version                           INT,
-      OUT o_logical_resource_id            BIGINT)
+      IN p_parameter_hash_b64            VARCHAR( 44),
+      OUT o_logical_resource_id           BIGINT,
+      OUT o_current_parameter_hash       VARCHAR( 44))
     LANGUAGE plpgsql
      AS $$
 
@@ -46,9 +48,9 @@
   v_duplicate               INT := 0;
   v_current_version         INT := 0;
   v_change_type            CHAR(1) := NULL;
-
-  -- Because we don't really update any existing key, so use NO KEY UPDATE to achieve better concurrence performance.
-  lock_cur CURSOR (t_resource_type_id INT, t_logical_id VARCHAR(255)) FOR SELECT logical_resource_id FROM {{SCHEMA_NAME}}.logical_resources WHERE resource_type_id = t_resource_type_id AND logical_id = t_logical_id FOR NO KEY UPDATE;
+  
+  -- Because we don't really update any existing key, so use NO KEY UPDATE to achieve better concurrence performance. 
+  lock_cur CURSOR (t_resource_type_id INT, t_logical_id VARCHAR(255)) FOR SELECT logical_resource_id, parameter_hash FROM {{SCHEMA_NAME}}.logical_resources WHERE resource_type_id = t_resource_type_id AND logical_id = t_logical_id FOR NO KEY UPDATE;
 
 BEGIN
   -- LOADED ON: {{DATE}}
@@ -61,7 +63,7 @@ BEGIN
 
   -- Get a lock at the system-wide logical resource level
   OPEN lock_cur(t_resource_type_id := v_resource_type_id, t_logical_id := p_logical_id);
-  FETCH lock_cur INTO v_logical_resource_id;
+  FETCH lock_cur INTO v_logical_resource_id, o_current_parameter_hash;
   CLOSE lock_cur;
   
   -- Create the resource if we don't have it already
@@ -71,15 +73,18 @@ BEGIN
     -- remember that we have a concurrent system...so there is a possibility
     -- that another thread snuck in before us and created the logical resource. This
     -- is easy to handle, just turn around and read it
-    INSERT INTO {{SCHEMA_NAME}}.logical_resources (logical_resource_id, resource_type_id, logical_id, reindex_tstamp)
-         VALUES (v_logical_resource_id, v_resource_type_id, p_logical_id, '1970-01-01') ON CONFLICT DO NOTHING;
+    INSERT INTO {{SCHEMA_NAME}}.logical_resources (logical_resource_id, resource_type_id, logical_id, reindex_tstamp, is_deleted, last_updated, parameter_hash)
+         VALUES (v_logical_resource_id, v_resource_type_id, p_logical_id, '1970-01-01', p_is_deleted, p_last_updated, p_parameter_hash_b64) ON CONFLICT DO NOTHING;
        
       -- row exists, so we just need to obtain a lock on it. Because logical resource records are
       -- never deleted, we don't need to worry about it disappearing again before we grab the row lock
       OPEN lock_cur (t_resource_type_id := v_resource_type_id, t_logical_id := p_logical_id);
-      FETCH lock_cur INTO t_logical_resource_id;
+      FETCH lock_cur INTO t_logical_resource_id, o_current_parameter_hash;
       CLOSE lock_cur;
 
+      -- Since the resource did not previously exist, set o_current_parameter_hash back to NULL
+      o_current_parameter_hash := NULL;
+      
     IF v_logical_resource_id = t_logical_resource_id
     THEN
       -- we created the logical resource and therefore we already own the lock. So now we can
@@ -114,29 +119,43 @@ BEGIN
     THEN
       RAISE 'Concurrent update - mismatch of version in JSON' USING ERRCODE = '99001';
     END IF;
-    
-    -- existing resource, so need to delete all its parameters. 
-    -- TODO patch parameter sets instead of all delete/all insert.
-    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_str_values          WHERE logical_resource_id = $1'
-      USING v_logical_resource_id;
-    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_number_values       WHERE logical_resource_id = $1'
-      USING v_logical_resource_id;
-    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_date_values         WHERE logical_resource_id = $1'
-      USING v_logical_resource_id;
-    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_latlng_values       WHERE logical_resource_id = $1'
-      USING v_logical_resource_id;
-    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_resource_token_refs WHERE logical_resource_id = $1'
-      USING v_logical_resource_id;
-    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_quantity_values     WHERE logical_resource_id = $1'
-      USING v_logical_resource_id;
-    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || 'str_values           WHERE logical_resource_id = $1'
-      USING v_logical_resource_id;
-    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || 'date_values          WHERE logical_resource_id = $1'
-      USING v_logical_resource_id;
-    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || 'resource_token_refs  WHERE logical_resource_id = $1'
-      USING v_logical_resource_id;
-  END IF;
 
+    IF o_current_parameter_hash IS NULL OR p_parameter_hash_b64 != o_current_parameter_hash
+    THEN
+	    -- existing resource, so need to delete all its parameters. 
+	    -- TODO patch parameter sets instead of all delete/all insert.
+	    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_str_values          WHERE logical_resource_id = $1'
+	      USING v_logical_resource_id;
+	    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_number_values       WHERE logical_resource_id = $1'
+	      USING v_logical_resource_id;
+	    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_date_values         WHERE logical_resource_id = $1'
+	      USING v_logical_resource_id;
+	    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_latlng_values       WHERE logical_resource_id = $1'
+	      USING v_logical_resource_id;
+	    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_resource_token_refs WHERE logical_resource_id = $1'
+	      USING v_logical_resource_id;
+	    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_quantity_values     WHERE logical_resource_id = $1'
+	      USING v_logical_resource_id;
+	    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_profiles            WHERE logical_resource_id = $1'
+	      USING v_logical_resource_id;
+	    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_tags                WHERE logical_resource_id = $1'
+	      USING v_logical_resource_id;
+        EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_security            WHERE logical_resource_id = $1'
+          USING v_logical_resource_id;
+	    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || 'str_values                 WHERE logical_resource_id = $1'
+	      USING v_logical_resource_id;
+	    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || 'date_values                WHERE logical_resource_id = $1'
+	      USING v_logical_resource_id;
+	    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || 'resource_token_refs        WHERE logical_resource_id = $1'
+	      USING v_logical_resource_id;
+	    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || 'logical_resource_profiles  WHERE logical_resource_id = $1'
+	      USING v_logical_resource_id;
+	    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || 'logical_resource_tags      WHERE logical_resource_id = $1'
+	      USING v_logical_resource_id;
+        EXECUTE 'DELETE FROM ' || v_schema_name || '.' || 'logical_resource_security  WHERE logical_resource_id = $1'
+          USING v_logical_resource_id;
+	END IF; -- end if check parameter hash
+  END IF; -- end if existing resource
 
   EXECUTE
          'INSERT INTO ' || v_schema_name || '.' || p_resource_type || '_resources (resource_id, logical_resource_id, version_id, data, last_updated, is_deleted) '
@@ -150,6 +169,10 @@ BEGIN
     -- need to update them here.
     EXECUTE 'UPDATE ' || v_schema_name || '.' || p_resource_type || '_logical_resources SET current_resource_id = $1, is_deleted = $2, last_updated = $3, version_id = $4 WHERE logical_resource_id = $5'
       USING v_resource_id, p_is_deleted, p_last_updated, p_version, v_logical_resource_id;
+
+    -- For V0014 we now also store is_deleted and last_updated values at the whole-system logical_resources level
+    EXECUTE 'UPDATE ' || v_schema_name || '.logical_resources SET is_deleted = $1, last_updated = $2, parameter_hash = $3 WHERE logical_resource_id = $4'
+      USING p_is_deleted, p_last_updated, p_parameter_hash_b64, v_logical_resource_id;
   END IF;
 
   -- Finally, write a record to RESOURCE_CHANGE_LOG which records each event

@@ -443,6 +443,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
      * @param schemaName
      * @param newTenantId
      */
+    @Override
     public void addNewTenantPartitions(Collection<Table> tables, String schemaName, int newTenantId) {
         // NOP for all databases except Db2
     }

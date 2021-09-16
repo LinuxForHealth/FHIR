@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,25 +11,16 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 /**
  * This class defines the Data Transfer Object representing a row in the X_STR_VALUES tables.
  */
-public class StringParmVal implements ExtractedParameterValue {
-    
-    private String resourceType;
-    private String name;
-    private String valueString;
-    
-    // The SearchParameter base type. If "Resource", then this is a Resource-level attribute
-    private String base;
+public class StringParmVal extends ExtractedParameterValue {
 
+    // The string value of this extracted parameter
+    private String valueString;
+
+    /**
+     * Public constructor
+     */
     public StringParmVal() {
         super();
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public String getValueString() {
@@ -40,32 +31,33 @@ public class StringParmVal implements ExtractedParameterValue {
         this.valueString = valueString;
     }
 
-    public String getResourceType() {
-        return resourceType;
-    }
-
-    public void setResourceType(String resourceType) {
-        this.resourceType = resourceType;
-    }
-
     /**
      * We know our type, so we can call the correct method on the visitor
      */
+    @Override
     public void accept(ExtractedParameterValueVisitor visitor) throws FHIRPersistenceException {
         visitor.visit(this);
     }
 
-    /**
-     * @return the base
-     */
-    public String getBase() {
-        return base;
-    }
+    @Override
+    protected int compareToInner(ExtractedParameterValue o) {
+        StringParmVal other = (StringParmVal) o;
+        int retVal;
 
-    /**
-     * @param base the base to set
-     */
-    public void setBase(String base) {
-        this.base = base;
+        String thisValueString = this.getValueString();
+        String otherValueString = other.getValueString();
+        if (thisValueString != null || otherValueString != null) {
+            if (thisValueString == null) {
+                return -1;
+            } else if (otherValueString == null) {
+                return 1;
+            }
+            retVal = thisValueString.compareTo(otherValueString);
+            if (retVal != 0) {
+                return retVal;
+            }
+        }
+
+        return 0;
     }
 }

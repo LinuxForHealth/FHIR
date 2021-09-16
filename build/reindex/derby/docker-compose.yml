@@ -1,0 +1,25 @@
+version: '3.9'
+services:
+  fhir:
+    image: ibmcom/ibm-fhir-server:latest
+    hostname: fhir
+    volumes:
+      - type: bind
+        source: ./workarea/volumes/dist/config
+        target: /opt/ol/wlp/usr/servers/defaultServer/config
+        read_only: true
+      - type: bind
+        source: ./workarea/volumes/dist/userlib/
+        target: /opt/ol/wlp/usr/servers/defaultServer/userlib
+        read_only: true
+    command: bash -c "/opt/ol/wlp/bin/server run"
+    healthcheck:
+      start_period: 120s
+      interval: 10s
+      timeout: 10s
+      retries: 2
+      test: curl --max-time 5 -v -f -k -u 'fhiruser:change-password' 'https://localhost:9443/fhir-server/api/v4/$$healthcheck'
+    ports:
+      - 9443:9443
+    env_file:
+      - ./.fhir.env

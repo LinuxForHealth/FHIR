@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -36,7 +36,7 @@ public class LastUpdatedParmBehaviorUtilTest {
     private static final Level LOG_LEVEL = Level.FINE;
 
     //---------------------------------------------------------------------------------------------------------
-    // Supporting Methods: 
+    // Supporting Methods:
     @BeforeClass
     public static void before() throws FHIRException {
         FHIRRequestContext.get().setTenantId("date");
@@ -88,6 +88,7 @@ public class LastUpdatedParmBehaviorUtilTest {
         assertEquals(actualWhereClauseSegment.toString(), expectedSql);
 
         if (!approx) {
+            // TODO ensure they apear in the right order?
             for (Object o : expectedBindVariables) {
                 Timestamp t1 = (Timestamp) o;
                 String i1 = "" + t1;
@@ -109,21 +110,15 @@ public class LastUpdatedParmBehaviorUtilTest {
 
     }
 
-    @SuppressWarnings("unused")
     @Test
     public void testHandleDateRangeComparisonWithExact() throws Exception {
         String vTime = "2019-12-11T00:00:00+00:00";
-
         TemporalAccessor v = DateTimeHandler.parse(vTime);
-        Timestamp value = Timestamp.from(DateTimeHandler.generateValue(v, vTime));
-        Timestamp lower = Timestamp.from(DateTimeHandler.generateLowerBound(Prefix.EQ, v, vTime));
-        Timestamp upper = Timestamp.from(DateTimeHandler.generateUpperBound(Prefix.EQ, v, vTime));
 
         // gt - Greater Than
-        QueryParameter queryParm = generateQueryParameter(SearchConstants.Prefix.GT, null, vTime);
+        QueryParameter queryParm = generateQueryParameter(Prefix.GT, null, vTime);
         List<Timestamp> expectedBindVariables = new ArrayList<>();
-        expectedBindVariables.add(upper);
-        expectedBindVariables.add(upper);
+        expectedBindVariables.add(Timestamp.from(DateTimeHandler.generateUpperBound(Prefix.GT, v, vTime)));
         String expectedSql =
                 "(LAST_UPDATED > ?)";
         runTest(queryParm,
@@ -131,10 +126,9 @@ public class LastUpdatedParmBehaviorUtilTest {
                 expectedSql);
 
         // lt - Less Than
-        queryParm             = generateQueryParameter(SearchConstants.Prefix.LT, null, vTime);
+        queryParm             = generateQueryParameter(Prefix.LT, null, vTime);
         expectedBindVariables = new ArrayList<>();
-        expectedBindVariables.add(value);
-        expectedBindVariables.add(value);
+        expectedBindVariables.add(Timestamp.from(DateTimeHandler.generateLowerBound(Prefix.LT, v, vTime)));
         expectedSql =
                 "(LAST_UPDATED < ?)";
         runTest(queryParm,
@@ -142,20 +136,18 @@ public class LastUpdatedParmBehaviorUtilTest {
                 expectedSql);
 
         // ge - Greater than Equal
-        queryParm             = generateQueryParameter(SearchConstants.Prefix.GE, null, vTime);
+        queryParm             = generateQueryParameter(Prefix.GE, null, vTime);
         expectedBindVariables = new ArrayList<>();
-        expectedBindVariables.add(value);
-        expectedBindVariables.add(value);
+        expectedBindVariables.add(Timestamp.from(DateTimeHandler.generateLowerBound(Prefix.GE, v, vTime)));
         expectedSql = "(LAST_UPDATED >= ?)";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql);
 
         // le - Less than Equal
-        queryParm             = generateQueryParameter(SearchConstants.Prefix.LE, null, vTime);
+        queryParm             = generateQueryParameter(Prefix.LE, null, vTime);
         expectedBindVariables = new ArrayList<>();
-        expectedBindVariables.add(upper);
-        expectedBindVariables.add(upper);
+        expectedBindVariables.add(Timestamp.from(DateTimeHandler.generateUpperBound(Prefix.LE, v, vTime)));
         expectedSql = "(LAST_UPDATED <= ?)";
         runTest(queryParm,
                 expectedBindVariables,
@@ -164,8 +156,7 @@ public class LastUpdatedParmBehaviorUtilTest {
         // sa - starts after
         queryParm             = generateQueryParameter(SearchConstants.Prefix.SA, null, vTime);
         expectedBindVariables = new ArrayList<>();
-        expectedBindVariables.add(upper);
-        expectedBindVariables.add(upper);
+        expectedBindVariables.add(Timestamp.from(DateTimeHandler.generateUpperBound(Prefix.SA, v, vTime)));
         expectedSql = "(LAST_UPDATED > ?)";
         runTest(queryParm,
                 expectedBindVariables,
@@ -174,8 +165,7 @@ public class LastUpdatedParmBehaviorUtilTest {
         // eb - Ends before
         queryParm             = generateQueryParameter(SearchConstants.Prefix.EB, null, vTime);
         expectedBindVariables = new ArrayList<>();
-        expectedBindVariables.add(value);
-        expectedBindVariables.add(value);
+        expectedBindVariables.add(Timestamp.from(DateTimeHandler.generateLowerBound(Prefix.EB, v, vTime)));
         expectedSql = "(LAST_UPDATED < ?)";
         runTest(queryParm,
                 expectedBindVariables,
@@ -186,15 +176,13 @@ public class LastUpdatedParmBehaviorUtilTest {
     public void testPrecisionWithEqual() throws Exception {
         String vTime = "2019-12-11T00:00:00+00:00";
         TemporalAccessor v = DateTimeHandler.parse(vTime);
-        Timestamp value = Timestamp.from(DateTimeHandler.generateValue(v, vTime));
+        Timestamp lower = Timestamp.from(DateTimeHandler.generateLowerBound(Prefix.EQ, v, vTime));
         Timestamp upper = Timestamp.from(DateTimeHandler.generateUpperBound(Prefix.EQ, v, vTime));
 
         QueryParameter queryParm = generateQueryParameter(SearchConstants.Prefix.EQ, null, vTime);
         List<Timestamp> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(upper);
-        expectedBindVariables.add(value);
-        expectedBindVariables.add(value);
-        expectedBindVariables.add(value);
+        expectedBindVariables.add(lower);
         String expectedSql = "((LAST_UPDATED >= ? AND LAST_UPDATED <= ?))";
         runTest(queryParm,
                 expectedBindVariables,
@@ -205,19 +193,15 @@ public class LastUpdatedParmBehaviorUtilTest {
     public void testPrecisionWithMultipleValuesForEqual() throws Exception {
         String vTime = "2019-12-11T00:00:00+00:00";
         TemporalAccessor v = DateTimeHandler.parse(vTime);
-        Timestamp value = Timestamp.from(DateTimeHandler.generateValue(v, vTime));
+        Timestamp lower = Timestamp.from(DateTimeHandler.generateLowerBound(Prefix.EQ, v, vTime));
         Timestamp upper = Timestamp.from(DateTimeHandler.generateUpperBound(Prefix.EQ, v, vTime));
 
         QueryParameter queryParm = generateQueryParameter(SearchConstants.Prefix.EQ, null, vTime, vTime);
         List<Timestamp> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(upper);
-        expectedBindVariables.add(value);
-        expectedBindVariables.add(value);
-        expectedBindVariables.add(value);
-        expectedBindVariables.add(upper);
-        expectedBindVariables.add(value);
-        expectedBindVariables.add(value);
-        expectedBindVariables.add(value);
+        expectedBindVariables.add(lower);
+        expectedBindVariables.add(lower);
+        expectedBindVariables.add(lower);
 
         String expectedSql =
                 "((LAST_UPDATED >= ? AND LAST_UPDATED <= ?)) OR ((LAST_UPDATED >= ? AND LAST_UPDATED <= ?))";
@@ -226,21 +210,17 @@ public class LastUpdatedParmBehaviorUtilTest {
                 expectedSql);
     }
 
-    @SuppressWarnings("unused")
     @Test
     public void testPrecisionWithNotEqual() throws Exception {
         String vTime = "2019-12-11T00:00:00+00:00";
         TemporalAccessor v = DateTimeHandler.parse(vTime);
-        Timestamp value = Timestamp.from(DateTimeHandler.generateValue(v, vTime));
         Timestamp lower = Timestamp.from(DateTimeHandler.generateLowerBound(Prefix.EQ, v, vTime));
         Timestamp upper = Timestamp.from(DateTimeHandler.generateUpperBound(Prefix.EQ, v, vTime));
 
         QueryParameter queryParm = generateQueryParameter(SearchConstants.Prefix.NE, null, vTime);
         List<Timestamp> expectedBindVariables = new ArrayList<>();
+        expectedBindVariables.add(lower);
         expectedBindVariables.add(upper);
-        expectedBindVariables.add(upper);
-        expectedBindVariables.add(value);
-        expectedBindVariables.add(value);
 
         String expectedSql =
                 "((LAST_UPDATED < ? AND LAST_UPDATED > ?))";

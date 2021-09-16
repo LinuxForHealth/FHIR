@@ -73,7 +73,8 @@ public class FHIRPersistenceJDBCTenantCache {
             } else {
                 int externalSystemCacheSize = pg.getIntProperty("externalSystemCacheSize", 1000);
                 int externalValueCacheSize = pg.getIntProperty("externalValueCacheSize", 100000);
-                return FHIRPersistenceJDBCCacheUtil.create(externalSystemCacheSize, externalValueCacheSize);
+                int canonicalCacheSize = pg.getIntProperty("canonicalCacheSize", 1000);
+                return FHIRPersistenceJDBCCacheUtil.create(externalSystemCacheSize, externalValueCacheSize, canonicalCacheSize);
             }
         } catch (IllegalStateException ise) {
             throw ise;

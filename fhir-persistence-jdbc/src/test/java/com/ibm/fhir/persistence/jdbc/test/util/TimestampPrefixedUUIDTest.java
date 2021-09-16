@@ -10,6 +10,7 @@ import static org.testng.Assert.assertTrue;
 
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.persistence.jdbc.util.TimestampPrefixedUUID;
 
 /**
@@ -25,6 +26,10 @@ public class TimestampPrefixedUUIDTest {
         for (int i=0; i<10; i++) {
             // We need a time gap between the two strings
             String s1 = provider.createNewIdentityValue();
+
+            // Ensure the generated id is always valid
+            ValidationSupport.checkId(s1);
+
             try {
                 // It's only 10ms, which is sufficient. We don't want to make it any longer
                 // for the sake of slowing down the build.
@@ -32,7 +37,12 @@ public class TimestampPrefixedUUIDTest {
             } catch (InterruptedException x) {
                 // NOP. Not gonna happen
             }
+
             String s2 = provider.createNewIdentityValue();
+
+            // Ensure the generated id is always valid
+            ValidationSupport.checkId(s2);
+
             assertTrue(s1.compareTo(s2) < 0); // s1 < s2
         }
     }

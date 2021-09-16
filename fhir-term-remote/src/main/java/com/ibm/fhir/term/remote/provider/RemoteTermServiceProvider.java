@@ -36,8 +36,6 @@ import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import jakarta.json.JsonObject;
-import jakarta.json.JsonValue;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSession;
 import javax.ws.rs.ProcessingException;
@@ -80,6 +78,10 @@ import com.ibm.fhir.provider.FHIRProvider;
 import com.ibm.fhir.term.service.exception.FHIRTermServiceException;
 import com.ibm.fhir.term.spi.AbstractTermServiceProvider;
 import com.ibm.fhir.term.spi.FHIRTermServiceProvider;
+
+import jakarta.json.JsonArray;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonValue;
 
 /**
  * An implementation of the {@link FHIRTermServiceProvider} interface that connects to an external service using a REST client to access code system content.
@@ -259,7 +261,7 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
                     new LinkedHashSet<>(expansion.getInt("total")) :
                     new LinkedHashSet<>();
 
-                for (JsonValue contains : expansion.getJsonArray("contains")) {
+                for (JsonValue contains : expansion.getOrDefault("contains", JsonArray.EMPTY_JSON_ARRAY).asJsonArray()) {
                     result.add(function.apply(toConcept(contains.asJsonObject())));
                 }
 

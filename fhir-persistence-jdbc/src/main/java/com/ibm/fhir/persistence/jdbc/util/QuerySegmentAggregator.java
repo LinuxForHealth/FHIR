@@ -24,7 +24,11 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ROWS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ROWS_ONLY;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.UNION;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.WHERE;
-import static com.ibm.fhir.persistence.jdbc.util.type.LastUpdatedParmBehaviorUtil.LAST_UPDATED;
+import static com.ibm.fhir.search.SearchConstants.ID;
+import static com.ibm.fhir.search.SearchConstants.LAST_UPDATED;
+import static com.ibm.fhir.search.SearchConstants.PROFILE;
+import static com.ibm.fhir.search.SearchConstants.SECURITY;
+import static com.ibm.fhir.search.SearchConstants.TAG;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -73,7 +77,6 @@ public class QuerySegmentAggregator {
     protected static final String WHERE_CLAUSE_ROOT = "WHERE R.IS_DELETED = 'N'";
 
     // Enables the SKIP_WHERE of WHERE clauses.
-    public static final String ID = "_id";
     public static final String ID_COLUMN_NAME = "LOGICAL_ID ";
     protected static final Set<String> SKIP_WHERE =
             new HashSet<>(Arrays.asList(ID, LAST_UPDATED));
@@ -610,14 +613,35 @@ public class QuerySegmentAggregator {
                                 missingOrNotModifierWhereClause.append(missingOrNotModifierWhereClause.length() == 0 ? WHERE : AND)
                                             .append(" NOT EXISTS (SELECT 1 FROM ")
                                             .append(valuesTable)
+                                            .append(AS);
+                                if (TAG.equals(param.getCode()) || SECURITY.equals(param.getCode())) {
+                                    String valuesTableAlias = paramTableAlias + "_P";
+                                    missingOrNotModifierWhereClause.append(valuesTableAlias)
+                                            .append(JOIN)
+                                            .append("COMMON_TOKEN_VALUES")
                                             .append(AS)
                                             .append(paramTableAlias)
+                                            .append(ON)
+                                            .append(paramTableAlias)
+                                            .append(".COMMON_TOKEN_VALUE_ID = ")
+                                            .append(valuesTableAlias)
+                                            .append(".COMMON_TOKEN_VALUE_ID")
+                                            .append(AND)
+                                            .append(paramTableFilter)
+                                            .append(WHERE)
+                                            .append("LR.LOGICAL_RESOURCE_ID = ")
+                                            .append(valuesTableAlias)
+                                            .append(".LOGICAL_RESOURCE_ID")
+                                            .append(RIGHT_PAREN);
+                                } else {                                         
+                                    missingOrNotModifierWhereClause.append(paramTableAlias)
                                             .append(WHERE)
                                             .append(paramTableFilter)
                                             .append(" AND LR.LOGICAL_RESOURCE_ID = ")
                                             .append(paramTableAlias)
                                             .append(".LOGICAL_RESOURCE_ID")
                                             .append(RIGHT_PAREN);
+                                }
                             }
                             else {
                                 // Join a standard parameter table
@@ -626,13 +650,33 @@ public class QuerySegmentAggregator {
                                 //    AND param0.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID
                                 whereClause.append(JOIN)
                                             .append(valuesTable)
-                                            .append(AS)
-                                            .append(paramTableAlias)
-                                            .append(ON)
-                                            .append(paramTableFilter)
-                                            .append(" AND LR.LOGICAL_RESOURCE_ID = ")
-                                            .append(paramTableAlias)
-                                            .append(".LOGICAL_RESOURCE_ID");
+                                            .append(AS);
+                                if (TAG.equals(param.getCode()) || SECURITY.equals(param.getCode())) {
+                                    String valuesTableAlias = paramTableAlias + "_P";
+                                    whereClause.append(valuesTableAlias)
+                                                .append(ON)
+                                                .append(" LR.LOGICAL_RESOURCE_ID = ")
+                                                .append(valuesTableAlias)
+                                                .append(".LOGICAL_RESOURCE_ID")
+                                                .append(JOIN)
+                                                .append("COMMON_TOKEN_VALUES")
+                                                .append(AS)
+                                                .append(paramTableAlias)
+                                                .append(ON)
+                                                .append(paramTableAlias)
+                                                .append(".COMMON_TOKEN_VALUE_ID = ")
+                                                .append(valuesTableAlias)
+                                                .append(".COMMON_TOKEN_VALUE_ID")
+                                                .append(AND)
+                                                .append(paramTableFilter);
+                                } else {
+                                    whereClause.append(paramTableAlias)
+                                                .append(ON)
+                                                .append(paramTableFilter)
+                                                .append(" AND LR.LOGICAL_RESOURCE_ID = ")
+                                                .append(paramTableAlias)
+                                                .append(".LOGICAL_RESOURCE_ID");
+                                }
                             }
                         }
                     } else {
@@ -655,6 +699,12 @@ public class QuerySegmentAggregator {
         StringBuilder name = new StringBuilder(resourceType);
         switch (param.getType()) {
         case URI:
+            if (PROFILE.equals(param.getCode())) {
+                name.append("_PROFILES ");
+            } else {
+                name.append("_STR_VALUES ");
+            }
+            break;
         case STRING:
         case NUMBER:
         case QUANTITY:
@@ -666,6 +716,14 @@ public class QuerySegmentAggregator {
         case TOKEN:
             if (param.isReverseChained()) {
                 name.append("_LOGICAL_RESOURCES");
+            } else if (TAG.equals(param.getCode()) &&
+                    (param.getModifier() == null ||
+                    !Modifier.TEXT.equals(param.getModifier()))) {
+                name.append("_TAGS ");
+            } else if (SECURITY.equals(param.getCode()) &&
+                    (param.getModifier() == null ||
+                    !Modifier.TEXT.equals(param.getModifier()))) {
+                name.append("_SECURITY ");
             } else {
                 name.append("_TOKEN_VALUES_V "); // uses view to hide new issue #1366 schema
             }

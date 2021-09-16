@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -44,7 +44,7 @@ public class FunctionDef extends BaseObject {
             logger.warning("Found '" + migrations.size() + "' migration steps, but performing 'create or replace' instead");
         }
 
-        // Procedures are applied with "Create or replace", so just do a regular apply
+        // Functions are applied with "Create or replace", so just do a regular apply
         apply(target);
     }
 
@@ -58,17 +58,11 @@ public class FunctionDef extends BaseObject {
         target.grantFunctionPrivileges(getSchemaName(), getObjectName(), group, toUser);
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.model.IDatabaseObject#visit(com.ibm.fhir.database.utils.model.DataModelVisitor)
-     */
     @Override
     public void visit(DataModelVisitor v) {
         v.visited(this);
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.model.IDatabaseObject#visitReverse(com.ibm.fhir.database.utils.model.DataModelVisitor)
-     */
     @Override
     public void visitReverse(DataModelVisitor v) {
         v.visited(this);

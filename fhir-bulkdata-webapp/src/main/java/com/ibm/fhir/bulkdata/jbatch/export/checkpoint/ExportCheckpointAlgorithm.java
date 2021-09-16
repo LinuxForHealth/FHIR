@@ -39,6 +39,7 @@ public class ExportCheckpointAlgorithm implements CheckpointAlgorithm {
     StepContext stepCtx;
 
     Boolean isFileExport;
+    Boolean isAzureExport;
 
     ConfigurationAdapter config = ConfigurationFactory.getInstance();
 
@@ -59,6 +60,14 @@ public class ExportCheckpointAlgorithm implements CheckpointAlgorithm {
             BatchContextAdapter contextAdapter = new BatchContextAdapter(jobExecution.getJobParameters());
             BulkDataContext ctx = contextAdapter.getStepContextForSystemChunkWriter();
             isFileExport = "file".equals(config.getStorageProviderType(ctx.getSource()));
+        }
+
+        if (isAzureExport == null) {
+            JobOperator jobOperator = BatchRuntime.getJobOperator();
+            JobExecution jobExecution = jobOperator.getJobExecution(jobCtx.getExecutionId());
+            BatchContextAdapter contextAdapter = new BatchContextAdapter(jobExecution.getJobParameters());
+            BulkDataContext ctx = contextAdapter.getStepContextForSystemChunkWriter();
+            isAzureExport = "azure-blob".equals(config.getStorageProviderType(ctx.getSource()));
         }
 
         if (logger.isLoggable(Level.FINE)) {
@@ -102,12 +111,23 @@ public class ExportCheckpointAlgorithm implements CheckpointAlgorithm {
             return false;
         }
 
-        long resourceCountThreshold = isFileExport ? config.getCoreFileResourceCountThreshold()
-                : config.getCoreCosObjectResourceCountThreshold();
-        long sizeThreshold = isFileExport ? config.getCoreFileSizeThreshold()
-                : config.getCoreCosObjectSizeThreshold();
-        long writeTrigger = isFileExport ? config.getCoreFileWriteTriggerSize()
-                : config.getCoreCosPartUploadTriggerSize();
+        // Split for our three types of Providers
+        long resourceCountThreshold;
+        long sizeThreshold;
+        long writeTrigger;
+        if (isAzureExport) {
+            resourceCountThreshold = config.getCoreAzureObjectResourceCountThreshold();
+            sizeThreshold = config.getCoreAzureObjectSizeThreshold();
+            writeTrigger = config.getCoreCosPartUploadTriggerSize();
+        } else if (isFileExport) {
+            resourceCountThreshold = config.getCoreFileResourceCountThreshold();
+            sizeThreshold = config.getCoreFileSizeThreshold();
+            writeTrigger = config.getCoreFileWriteTriggerSize();
+        } else {
+            resourceCountThreshold = config.getCoreCosObjectResourceCountThreshold();
+            sizeThreshold = config.getCoreCosObjectSizeThreshold();
+            writeTrigger = config.getCoreCosPartUploadTriggerSize();
+        }
 
         // Set to true if we have enough bytes to write a part
         boolean readyToWrite = chunkData.getBufferStream().size() >= writeTrigger;

@@ -110,6 +110,7 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("Quantity", "lt24|http://unitsofmeasure.org|s");
         assertSearchDoesntReturnSavedResource("Quantity", "lt24.4999||s");
         assertSearchDoesntReturnSavedResource("Quantity", "lt24.5||s");
+        assertSearchReturnsSavedResource("Quantity", "lt24.5001||s");
         assertSearchReturnsSavedResource("Quantity", "lt25||s");
         assertSearchReturnsSavedResource("Quantity", "lt25.4999||s");
         assertSearchReturnsSavedResource("Quantity", "lt25.5||s");
@@ -339,7 +340,7 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("Quantity-greaterThan", "sa2||gt"); // > 3 starts after 2
         assertSearchDoesntReturnSavedResource("Quantity-greaterThan", "sa4||gt"); // > 3 does not start after 4
         assertSearchDoesntReturnSavedResource("Quantity-greaterThan", "sa3||gt"); // > 3 does not start after 3 (due to ranges)
-        
+
         // eb
         // The target upper bound (positive infinity) ensures that range of target cannot be contained
         // by the range below the search value, so an ends-before search will never match.
@@ -431,7 +432,7 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("Quantity-greaterThanOrEqual", "sa2||gte"); // >= 3 starts after 2
         assertSearchDoesntReturnSavedResource("Quantity-greaterThanOrEqual", "sa4||gte"); // >= 3 does not start after 4
         assertSearchDoesntReturnSavedResource("Quantity-greaterThanOrEqual", "sa3||gte"); // >= 3 does not start after 3
-        
+
         // eb
         // The target upper bound (positive infinity) ensures that range of target cannot be contained
         // by the range below the search value, so an ends-before search will never match.
@@ -774,15 +775,45 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("missing-Range:missing", "false");
     }
 
+    // Target value is 1.2E+2 (115-125)
     @Test
     public void testSearchQuantity_Exponent() throws Exception {
-        // Value 1.2E+2 should return the value
-        // The value is extracted, and stored in the values tables.
-        assertSearchReturnsSavedResource("Quantity-withExponent", "1.2E+2");
+        // Value 1.2E+2 (115-125) should return the value
+        assertSearchReturnsSavedResource(     "Quantity-withExponent", "1.2E2");
+        assertSearchReturnsSavedResource(     "Quantity-withExponent", "1.2E+2");
+        assertSearchReturnsSavedResource(     "Quantity-withExponent", "1.2e2");
+        assertSearchReturnsSavedResource(     "Quantity-withExponent", "1.2e+2");
+
+        // here we use the non-range interpretation of `ap` and so 1.2e2 becomes [103-137]
+        assertSearchReturnsSavedResource(     "Quantity-withExponent", "ap1.2e2");
+
+        // the prefixes give the search value absolute precision and so the search value is
+        // the same as <prefix>120, despite the differing significant digits
+        assertSearchReturnsSavedResource(     "Quantity-withExponent", "lt1.2e2");
+        assertSearchReturnsSavedResource(     "Quantity-withExponent", "gt1.2e2");
+        assertSearchReturnsSavedResource(     "Quantity-withExponent", "le1.2e2");
+        assertSearchReturnsSavedResource(     "Quantity-withExponent", "ge1.2e2");
+        assertSearchDoesntReturnSavedResource("Quantity-withExponent", "sa1.2e2");
+        assertSearchDoesntReturnSavedResource("Quantity-withExponent", "eb1.2e2");
+
         // Value 120 should not return the value since the range of 120
         // (119.5-120.5) is smaller than the range of the indexed value
         // 1.2E+2 (115-125) due to the difference in scale of those values.
         assertSearchDoesntReturnSavedResource("Quantity-withExponent", "120");
+        assertSearchReturnsSavedResource(     "Quantity-withExponent", "1e2");
+
+        // here we use the non-range interpretation of `ap` and so 114 becomes [102.1-125.9]
+        assertSearchReturnsSavedResource(     "Quantity-withExponent", "ap114");
+        assertSearchReturnsSavedResource(     "Quantity-withExponent", "ap126");
+
+        // the prefixes give the search value absolute precision and so the search value is
+        // the same as <prefix>100, despite the differing significant digits
+        assertSearchDoesntReturnSavedResource("Quantity-withExponent", "lt1e2");
+        assertSearchReturnsSavedResource(     "Quantity-withExponent", "gt1e2");
+        assertSearchReturnsSavedResource(     "Quantity-withExponent", "le1e2");
+        assertSearchReturnsSavedResource(     "Quantity-withExponent", "ge1e2");
+        assertSearchDoesntReturnSavedResource("Quantity-withExponent", "sa1e2");
+        assertSearchDoesntReturnSavedResource("Quantity-withExponent", "eb1e2");
     }
 
     @Test

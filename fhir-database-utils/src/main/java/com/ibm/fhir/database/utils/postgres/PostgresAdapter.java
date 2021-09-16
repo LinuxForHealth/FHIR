@@ -8,7 +8,9 @@ package com.ibm.fhir.database.utils.postgres;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -403,5 +405,51 @@ public class PostgresAdapter extends CommonDatabaseAdapter {
         final String nm = getQualifiedName(schemaName, variableName);
         final String ddl = "DROP VARIABLE " + nm;
         warnOnce(MessageKey.DROP_VARIABLE, "Not supported in PostgreSQL: " + ddl);
+    }
+
+    @Override
+    public void createOrReplaceFunction(String schemaName, String functionName, Supplier<String> supplier) {
+        // For PostgreSQL, we need to drop the function first to avoid ending up
+        // with the same function name having different args (non-unique) which
+        // causes problems later on
+        final String objectName = DataDefinitionUtil.getQualifiedName(schemaName, functionName);
+        logger.info("Dropping current function " + objectName);
+
+        final String DROP_SPECIFIC =
+                "select p.oid::regproc || '(' || pg_get_function_identity_arguments(p.oid) || ')' " +
+                "    FROM pg_catalog.pg_proc p" +
+                "    WHERE p.oid::regproc::text = LOWER(?)";
+
+        List<String> existingFunctions = new ArrayList<>();
+        if (connectionProvider != null) {
+            try (Connection c = connectionProvider.getConnection()) {
+                try (PreparedStatement p = c.prepareStatement(DROP_SPECIFIC)) {
+                    p.setString(1, objectName);
+                    if (p.execute()) {
+                        // Closes with PreparedStatement
+                        ResultSet rs = p.getResultSet();
+                        while (rs.next()) {
+                            existingFunctions.add(rs.getString(1));
+                        }
+                    }
+                }
+            } catch (SQLException x) {
+                throw getTranslator().translate(x);
+            }
+        }
+
+        // As the signatures are mutated, we don't want to be in the situation where the signature change, and
+        // we can't drop.
+        for (String existingFunction : existingFunctions) {
+            final StringBuilder ddl = new StringBuilder()
+                    .append("DROP FUNCTION ")
+                    .append(existingFunction);
+            try {
+                runStatement(ddl.toString());
+            } catch (UndefinedNameException x) {
+                logger.warning(ddl + "; PROCEDURE not found");
+            }
+        }
+        super.createOrReplaceFunction(schemaName, functionName, supplier);
     }
 }

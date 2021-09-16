@@ -57,6 +57,7 @@ import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
 import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
 import com.ibm.fhir.validation.exception.FHIRValidationException;
@@ -81,8 +82,13 @@ public class ChunkWriter extends AbstractItemWriter {
 
     @Inject
     @Any
-    @BatchProperty (name = OperationFields.PARTITTION_WORKITEM)
+    @BatchProperty (name = OperationFields.PARTITION_WORKITEM)
     private String workItem;
+
+    @Inject
+    @Any
+    @BatchProperty(name = OperationFields.PARTITION_MATRIX)
+    private String matrix;
 
     @Inject
     @Any
@@ -174,7 +180,7 @@ public class ChunkWriter extends AbstractItemWriter {
             // Similar code @see ImportPartitionCollector
             StorageType type = adapter.getStorageProviderStorageType(ctx.getOutcome());
             boolean collectImportOperationOutcomes = adapter.shouldStorageProviderCollectOperationOutcomes(ctx.getSource())
-                    && (StorageType.AWSS3.equals(type) || StorageType.IBMCOS.equals(type));
+                    && (StorageType.AWSS3.equals(type) || StorageType.IBMCOS.equals(type) ||  StorageType.AZURE.equals(type));
 
             // Get the Skippable Update status
             boolean skip = adapter.enableSkippableUpdates();
@@ -249,9 +255,10 @@ public class ChunkWriter extends AbstractItemWriter {
 
             // Pushes to the Outcome Site
             if (collectImportOperationOutcomes) {
-                Provider wrapper = ProviderFactory.getSourceWrapper(ctx.getOutcome(), "ibm-cos");
-                wrapper.registerTransient(chunkData);
-                wrapper.pushOperationOutcomes();
+                Provider provider = ProviderFactory.getSourceWrapper(ctx.getOutcome(),
+                    ConfigurationFactory.getInstance().getStorageProviderType(ctx.getOutcome()));
+                provider.registerTransient(chunkData);
+                provider.pushOperationOutcomes();
             }
         } catch (FHIRException e) {
             logger.log(Level.SEVERE, "Import ChunkWriter.writeItems during job[" + executionId + "] - " + e.getMessage(), e);
@@ -283,7 +290,7 @@ public class ChunkWriter extends AbstractItemWriter {
      */
     public OperationOutcome conditionalFingerprintUpdate(ImportTransientUserData chunkData, boolean skip, Map<String, SaltHash> localCache, FHIRPersistence persistence, FHIRPersistenceContext context, String logicalId, Resource resource) throws FHIRPersistenceException {
         OperationOutcome oo;
-        if (!skip) {
+        if (skip) {
             // Key is scoped to the ResourceType.
             String key = resourceType + "/" + logicalId;
             SaltHash oldBaseLine = localCache.get(key);
@@ -293,7 +300,13 @@ public class ChunkWriter extends AbstractItemWriter {
             if (oldBaseLine == null) {
                 // Go get the latest resource in the database and fingerprint the resource.
                 // If the resource exists, then we need to fingerprint.
-                oldResource = persistence.read(context, resource.getClass(), logicalId).getResource();
+                try {
+                    // This execution is in a try-catch-block since we want to catch
+                    // the resource deleted exception.
+                    oldResource = persistence.read(context, resource.getClass(), logicalId).getResource();
+                } catch (FHIRPersistenceResourceDeletedException fpde) {
+                    logger.throwing("ChunkWriter", "conditionalFingerprintUpdate", fpde);
+                }
                 if (oldResource != null) {
                     ResourceFingerprintVisitor fpOld = new ResourceFingerprintVisitor();
                     oldResource.accept(fpOld);

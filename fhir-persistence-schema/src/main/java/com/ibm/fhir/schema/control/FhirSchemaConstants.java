@@ -55,6 +55,16 @@ public class FhirSchemaConstants {
     public static final String TENANT_NAME = "TENANT_NAME";
     public static final String TENANT_STATUS = "TENANT_STATUS";
 
+    public static final String COMMON_CANONICAL_VALUES = "COMMON_CANONICAL_VALUES";
+    public static final String CANONICAL_ID = "CANONICAL_ID";
+    public static final String URL = "URL";
+    public static final String PROFILES = "PROFILES";
+    public static final String SECURITY = "SECURITY";
+    public static final String TAGS = "TAGS";
+    public static final int CANONICAL_URL_BYTES = 1024; // a reasonable value of our choosing
+    public static final int VERSION_BYTES = 16;
+    public static final int FRAGMENT_BYTES = 16;
+
     // R4 Logical Resources
     public static final String LOGICAL_RESOURCES = "LOGICAL_RESOURCES";
     public static final String REINDEX_TSTAMP = "REINDEX_TSTAMP";
@@ -89,12 +99,16 @@ public class FhirSchemaConstants {
     public static final String LOGICAL_ID = "LOGICAL_ID";
     public static final String LOGICAL_RESOURCE_ID = "LOGICAL_RESOURCE_ID";
     public static final String DATA = "DATA";
+    public static final String FRAGMENT = "FRAGMENT";
     public static final String RESOURCE_ID = "RESOURCE_ID";
     public static final String CURRENT_RESOURCE_ID = "CURRENT_RESOURCE_ID";
     public static final String CHANGE_TSTAMP = "CHANGE_TSTAMP";
     public static final String VERSION_ID = "VERSION_ID";
+    public static final String VERSION = "VERSION";
     public static final String IS_DELETED = "IS_DELETED";
     public static final String LAST_UPDATED = "LAST_UPDATED";
+    public static final String PARAMETER_HASH = "PARAMETER_HASH";
+    public static final int PARAMETER_HASH_BYTES = 44; // For SHA-256 encoded as Base64
     public static final String PARAMETER_NAME = "PARAMETER_NAME";
     public static final String PARAMETER_NAME_ID = "PARAMETER_NAME_ID";
     public static final String STR_VALUE = "STR_VALUE";
@@ -147,6 +161,11 @@ public class FhirSchemaConstants {
 //    public static final String EXTERNAL_SYSTEM_ID = "EXTERNAL_SYSTEM_ID";
 //    public static final String EXTERNAL_SYSTEM_NAME = "EXTERNAL_SYSTEM_NAME";
 //    public static final String EXTERNAL_REFERENCES = "EXTERNAL_REFERENCES";
+
+    // Mapping table identifying the profiles associated with a particular resource
+    public static final String LOGICAL_RESOURCE_PROFILES = "LOGICAL_RESOURCE_PROFILES";
+    public static final String LOGICAL_RESOURCE_SECURITY = "LOGICAL_RESOURCE_SECURITY";
+    public static final String LOGICAL_RESOURCE_TAGS = "LOGICAL_RESOURCE_TAGS";
 
     // For V0006 (issue #1366) token_values become normalized to improve storage efficiency
     public static final String COMMON_TOKEN_VALUES = "COMMON_TOKEN_VALUES";

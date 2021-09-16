@@ -202,7 +202,7 @@ public class USCoreDiagnosticReportLabTest extends ProfilesTestBase {
         if (!skip) {
             FHIRParameters parameters = new FHIRParameters();
             parameters.searchParam("patient", "Patient/example");
-            parameters.searchParam("code", "|24356-8");
+            parameters.searchParam("code", "http://loinc.org|24356-8");
             FHIRResponse response = client.search(DiagnosticReport.class.getSimpleName(), parameters);
             assertSearchResponse(response, Response.Status.OK.getStatusCode());
             Bundle bundle = response.getResource(Bundle.class);
@@ -222,7 +222,7 @@ public class USCoreDiagnosticReportLabTest extends ProfilesTestBase {
         if (!skip) {
             FHIRParameters parameters = new FHIRParameters();
             parameters.searchParam("patient", "Patient/example");
-            parameters.searchParam("code", "|24356-8,|24323-8");
+            parameters.searchParam("code", "http://loinc.org|24356-8,http://loinc.org|24323-8");
             FHIRResponse response = client.search(DiagnosticReport.class.getSimpleName(), parameters);
             assertSearchResponse(response, Response.Status.OK.getStatusCode());
             Bundle bundle = response.getResource(Bundle.class);
@@ -245,7 +245,7 @@ public class USCoreDiagnosticReportLabTest extends ProfilesTestBase {
         if (!skip) {
             FHIRParameters parameters = new FHIRParameters();
             parameters.searchParam("patient", "Patient/example");
-            parameters.searchParam("code", "|24356-8,|24323-8");
+            parameters.searchParam("category", "http://terminology.hl7.org/CodeSystem/v2-0074|LAB");
             parameters.searchParam("date", "2005-07-05");
             FHIRResponse response = client.search(DiagnosticReport.class.getSimpleName(), parameters);
             assertSearchResponse(response, Response.Status.OK.getStatusCode());
@@ -254,7 +254,7 @@ public class USCoreDiagnosticReportLabTest extends ProfilesTestBase {
             assertTrue(bundle.getEntry().size() >= 1);
             assertContainsIds(bundle, diagnosticReportId1);
             assertDoesNotContainsIds(bundle, diagnosticReportId2);
-            assertDoesNotContainsIds(bundle, diagnosticReportId3);
+            assertContainsIds(bundle, diagnosticReportId3);
         }
     }
 
@@ -269,16 +269,15 @@ public class USCoreDiagnosticReportLabTest extends ProfilesTestBase {
         if (!skip) {
             FHIRParameters parameters = new FHIRParameters();
             parameters.searchParam("patient", "Patient/example");
-            parameters.searchParam("code", "|24356-8,|24323-8");
             parameters.searchParam("category", "http://terminology.hl7.org/CodeSystem/v2-0074|LAB");
             parameters.searchParam("date", "ge2005-01");
-            parameters.searchParam("date", "lt2006-01");
+            parameters.searchParam("date", "lt2005-07-05");
             FHIRResponse response = client.search(DiagnosticReport.class.getSimpleName(), parameters);
             assertSearchResponse(response, Response.Status.OK.getStatusCode());
             Bundle bundle = response.getResource(Bundle.class);
             assertNotNull(bundle);
             assertTrue(bundle.getEntry().size() >= 1);
-            assertContainsIds(bundle, diagnosticReportId1);
+            assertDoesNotContainsIds(bundle, diagnosticReportId1);
             assertContainsIds(bundle, diagnosticReportId2);
             assertDoesNotContainsIds(bundle, diagnosticReportId3);
         }
@@ -294,7 +293,6 @@ public class USCoreDiagnosticReportLabTest extends ProfilesTestBase {
             FHIRParameters parameters = new FHIRParameters();
             parameters.searchParam("patient", "Patient/example");
             parameters.searchParam("category", "http://terminology.hl7.org/CodeSystem/v2-0074|LAB");
-            parameters.searchParam("code", "|24356-8,|24323-8");
             parameters.searchParam("date", "ge2005-01");
             parameters.searchParam("status", "final");
             FHIRResponse response = client.search(DiagnosticReport.class.getSimpleName(), parameters);
@@ -304,7 +302,7 @@ public class USCoreDiagnosticReportLabTest extends ProfilesTestBase {
             assertTrue(bundle.getEntry().size() >= 1);
             assertContainsIds(bundle, diagnosticReportId1);
             assertContainsIds(bundle, diagnosticReportId2);
-            assertDoesNotContainsIds(bundle, diagnosticReportId3);
+            assertContainsIds(bundle, diagnosticReportId3);
         }
     }
 }

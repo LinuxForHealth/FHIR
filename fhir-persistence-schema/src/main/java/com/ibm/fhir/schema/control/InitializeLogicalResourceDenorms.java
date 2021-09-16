@@ -34,7 +34,6 @@ public class InitializeLogicalResourceDenorms implements IDatabaseStatement {
 
     /**
      * Public constructor
-     *
      * @param schemaName
      * @param tableName
      */
@@ -115,8 +114,8 @@ public class InitializeLogicalResourceDenorms implements IDatabaseStatement {
                 }
                 updateStatement.setString(1, isDeleted);
                 updateStatement.setTimestamp(2, lastUpdated, SchemaConstants.UTC);
-                updateStatement.setLong(3, logicalResourceId);
-                updateStatement.setInt(4, versionId);
+                updateStatement.setInt(3, versionId);
+                updateStatement.setLong(4, logicalResourceId);
                 updateStatement.addBatch();
 
                 if (++batchCount == 500) {

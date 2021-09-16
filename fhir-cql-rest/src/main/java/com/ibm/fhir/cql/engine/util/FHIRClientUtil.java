@@ -1,3 +1,8 @@
+/*
+ * (C) Copyright IBM Corp. 2021
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
 package com.ibm.fhir.cql.engine.util;
 
 import java.io.UnsupportedEncodingException;
@@ -9,6 +14,10 @@ import javax.ws.rs.core.Response;
 import com.ibm.fhir.client.FHIRResponse;
 import com.ibm.fhir.cql.engine.exception.BaseServerResponseException;
 
+/**
+ * Helper methods for working with the IBM FHIR Server Client and 
+ * produced FHIRResponse objects.
+ */
 public class FHIRClientUtil {
 
     public static void handleErrorResponse(FHIRResponse response) {

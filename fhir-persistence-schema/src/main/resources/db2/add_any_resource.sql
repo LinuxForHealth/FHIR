@@ -21,8 +21,10 @@
 --   p_last_updated the last_updated time given by the FHIR server
 --   p_is_deleted:  the soft delete flag
 --   p_version:     the intended version id for this resource
+--   p_parameter_hash_b64: Base64 encoded hash of parameter values
 --   o_logical_resource_id: output field returning the newly assigned logical_resource_id value
 --   o_resource_id: output field returning the newly assigned resource_id value
+--   o_current_parameter_hash: Base64 current parameter hash if existing resource
 -- Exceptions:
 --   SQLSTATE 99001: on version conflict (concurrency)
 --   SQLSTATE 99002: missing expected row (data integrity)
@@ -33,8 +35,10 @@
       IN p_last_updated               TIMESTAMP,
       IN p_is_deleted                      CHAR(  1),
       IN p_version                          INT,
+      IN p_parameter_hash_b64           VARCHAR(44 OCTETS),
       OUT o_logical_resource_id          BIGINT,
-      OUT o_resource_row_id              BIGINT
+      OUT o_resource_row_id              BIGINT,
+      OUT o_current_parameter_hash      VARCHAR(44 OCTETS)
     )
     LANGUAGE SQL
     MODIFIES SQL DATA
@@ -49,6 +53,7 @@ BEGIN
   DECLARE v_not_found               INT     DEFAULT 0;
   DECLARE v_duplicate               INT     DEFAULT 0;
   DECLARE v_current_version         INT     DEFAULT 0;
+  DECLARE v_require_params          INT     DEFAULT 1;
   DECLARE v_change_type            CHAR(1)  DEFAULT NULL;
   DECLARE c_duplicate CONDITION FOR SQLSTATE '23505';
   DECLARE stmt STATEMENT;
@@ -67,7 +72,7 @@ BEGIN
   
   -- FOR UPDATE WITH RS does not appear to work using a prepared statement and
   -- cursor, so we have to run this directly against the logical_resources table.
-  SELECT logical_resource_id INTO v_logical_resource_id
+  SELECT logical_resource_id, parameter_hash INTO v_logical_resource_id, o_current_parameter_hash
     FROM {{SCHEMA_NAME}}.logical_resources
    WHERE resource_type_id = v_resource_type_id AND logical_id = p_logical_id
      FOR UPDATE WITH RS
@@ -78,9 +83,9 @@ BEGIN
   THEN
     VALUES NEXT VALUE FOR {{SCHEMA_NAME}}.fhir_sequence INTO v_logical_resource_id;
     PREPARE stmt FROM
-       'INSERT INTO ' || v_schema_name || '.logical_resources (mt_id, logical_resource_id, resource_type_id, logical_id, reindex_tstamp) '
-    || '     VALUES (?, ?, ?, ?, ?)';
-    EXECUTE stmt USING {{ADMIN_SCHEMA_NAME}}.sv_tenant_id, v_logical_resource_id, v_resource_type_id, p_logical_id, '1970-01-01-00.00.00.0';
+       'INSERT INTO ' || v_schema_name || '.logical_resources (mt_id, logical_resource_id, resource_type_id, logical_id, reindex_tstamp, is_deleted, last_updated, parameter_hash) '
+    || '     VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+    EXECUTE stmt USING {{ADMIN_SCHEMA_NAME}}.sv_tenant_id, v_logical_resource_id, v_resource_type_id, p_logical_id, '1970-01-01-00.00.00.0', p_is_deleted, p_last_updated, p_parameter_hash_b64;
 
     -- remember that we have a concurrent system...so there is a possibility
     -- that another thread snuck in before us and created the logical resource. This
@@ -89,11 +94,15 @@ BEGIN
     THEN
       -- row exists, so we just need to obtain a lock on it. Because logical resource records are
       -- never deleted, we don't need to worry about it disappearing again before we grab the row lock
-      SELECT logical_resource_id INTO v_logical_resource_id
+      SELECT logical_resource_id, parameter_hash INTO v_logical_resource_id, o_current_parameter_hash
         FROM {{SCHEMA_NAME}}.logical_resources
        WHERE resource_type_id = v_resource_type_id AND logical_id = p_logical_id
          FOR UPDATE WITH RS
        ;
+       
+      -- Since the resource did not previously exist, set o_current_parameter_hash back to NULL
+      SET o_current_parameter_hash = NULL;
+
     ELSE
       -- we created the logical resource and therefore we already own the lock. So now we can
       -- safely create the corresponding record in the resource-type-specific logical_resources table
@@ -128,27 +137,43 @@ BEGIN
     THEN
         SIGNAL SQLSTATE '99001' SET MESSAGE_TEXT = 'Concurrent update - mismatch of version in JSON';
     END IF;
-
-    -- existing resource, so need to delete all its parameters. 
-    -- TODO patch parameter sets instead of all delete/all insert.
-    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_str_values          WHERE logical_resource_id = ?';
-    EXECUTE stmt USING v_logical_resource_id;
-    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_number_values       WHERE logical_resource_id = ?';
-    EXECUTE stmt USING v_logical_resource_id;
-    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_date_values         WHERE logical_resource_id = ?';
-    EXECUTE stmt USING v_logical_resource_id;
-    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_latlng_values       WHERE logical_resource_id = ?';
-    EXECUTE stmt USING v_logical_resource_id;
-    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_resource_token_refs WHERE logical_resource_id = ?';
-    EXECUTE stmt USING v_logical_resource_id;
-    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_quantity_values     WHERE logical_resource_id = ?';
-    EXECUTE stmt USING v_logical_resource_id;
-    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || 'str_values          WHERE logical_resource_id = ?';
-    EXECUTE stmt USING v_logical_resource_id;
-    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || 'date_values         WHERE logical_resource_id = ?';
-    EXECUTE stmt USING v_logical_resource_id;
-    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || 'resource_token_refs WHERE logical_resource_id = ?';
-    EXECUTE stmt USING v_logical_resource_id;
+    
+    -- check the current vs new parameter hash to see if we can bypass the delete/insert
+    IF o_current_parameter_hash IS NULL OR o_current_parameter_hash != p_parameter_hash_b64
+    THEN
+	    -- existing resource, so need to delete all its parameters. 
+	    -- TODO patch parameter sets instead of all delete/all insert.
+	    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_str_values          WHERE logical_resource_id = ?';
+	    EXECUTE stmt USING v_logical_resource_id;
+	    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_number_values       WHERE logical_resource_id = ?';
+	    EXECUTE stmt USING v_logical_resource_id;
+	    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_date_values         WHERE logical_resource_id = ?';
+	    EXECUTE stmt USING v_logical_resource_id;
+	    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_latlng_values       WHERE logical_resource_id = ?';
+	    EXECUTE stmt USING v_logical_resource_id;
+	    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_resource_token_refs WHERE logical_resource_id = ?';
+	    EXECUTE stmt USING v_logical_resource_id;
+	    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_quantity_values     WHERE logical_resource_id = ?';
+	    EXECUTE stmt USING v_logical_resource_id;
+	    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_profiles            WHERE logical_resource_id = ?';
+	    EXECUTE stmt USING v_logical_resource_id;
+	    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_tags                WHERE logical_resource_id = ?';
+	    EXECUTE stmt USING v_logical_resource_id;
+        PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_security            WHERE logical_resource_id = ?';
+        EXECUTE stmt USING v_logical_resource_id;
+	    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || 'str_values          WHERE logical_resource_id = ?';
+	    EXECUTE stmt USING v_logical_resource_id;
+	    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || 'date_values         WHERE logical_resource_id = ?';
+	    EXECUTE stmt USING v_logical_resource_id;
+	    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || 'resource_token_refs WHERE logical_resource_id = ?';
+	    EXECUTE stmt USING v_logical_resource_id;
+	    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || 'logical_resource_profiles WHERE logical_resource_id = ?';
+	    EXECUTE stmt USING v_logical_resource_id;
+	    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || 'logical_resource_tags     WHERE logical_resource_id = ?';
+	    EXECUTE stmt USING v_logical_resource_id;
+        PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || 'logical_resource_security WHERE logical_resource_id = ?';
+        EXECUTE stmt USING v_logical_resource_id;
+	END IF; -- end if parameter hash is different    
   END IF; -- end if existing resource
 
   PREPARE stmt FROM
@@ -162,6 +187,10 @@ BEGIN
     -- need to update them here.
     PREPARE stmt FROM 'UPDATE ' || v_schema_name || '.' || p_resource_type || '_logical_resources SET current_resource_id = ?, is_deleted = ?, last_updated = ?, version_id = ? WHERE logical_resource_id = ?';
     EXECUTE stmt USING v_resource_id, p_is_deleted, p_last_updated, p_version, v_logical_resource_id;
+
+    -- For V0014 we also store is_deleted and last_updated at the logical_resource level
+    PREPARE stmt FROM 'UPDATE ' || v_schema_name || '.logical_resources SET is_deleted = ?, last_updated = ?, parameter_hash = ? WHERE logical_resource_id = ?';
+    EXECUTE stmt USING p_is_deleted, p_last_updated, p_parameter_hash_b64, v_logical_resource_id;
   END IF;
   
   -- DB2 doesn't support user defined array types in dynamic SQL UNNEST/CAST statements,

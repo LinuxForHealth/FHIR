@@ -42,23 +42,34 @@ public class FHIROperationRegistry {
         // https://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html#iterator--
         Iterator<FHIROperation> iterator = operations.iterator();
         while (iterator.hasNext()) {
-            String operationName = "unknown name";
+            String operationCode = "unknown code";
             try {
                 FHIROperation operation = iterator.next();
-                log.fine("Found FHIROperation implementation class: " + operation.getClass().getName());
-                operationName = operation.getName();
+                log.fine(() -> "Found FHIROperation implementation class: " + operation.getClass().getName());
+                // This is actually the code.
+                operationCode = operation.getName();
                 if (!isValid(operation)) {
-                    log.severe("Operation $" + operationName + " has failed validation and will be skipped.");
+                    log.severe("Operation $" + operationCode + " has failed validation and will be skipped.");
                     continue;
                 }
+
+                // Some OperationDefinitions use System, Type and Instance, so we want to set this independently.
+                boolean isSet = false;
+                if (Boolean.TRUE.equals(operation.getDefinition().getSystem())) {
+                    if (operationMap.putIfAbsent(operationCode, operation) != null) {
+                        throw new IllegalStateException("Found duplicated operation code: " + operationCode);
+                    }
+                    isSet = true;
+                }
+
                 List<ResourceType> operationResourceTypes = operation.getDefinition().getResource();
-                if (operationResourceTypes == null || operationResourceTypes.isEmpty() || Boolean.TRUE.equals(operation.getDefinition().getSystem())) {
-                    if (operationMap.putIfAbsent(operation.getName(), operation) != null) {
-                        throw new IllegalStateException("Found duplicated operation name: " + operation.getName());
+                if (operationResourceTypes == null || operationResourceTypes.isEmpty()) {
+                    if (!isSet && operationMap.putIfAbsent(operationCode, operation) != null) {
+                        throw new IllegalStateException("Found duplicated operation code: " + operationCode);
                     }
                 } else {
                     // First, check if there is already an operation defined for all resource types.
-                    String tmpKey = operation.getName() + ":" + "Resource";
+                    String tmpKey = operationCode + ":" + "Resource";
                     if (operationMap.containsKey(tmpKey)) {
                         throw new IllegalStateException("There is already operation defined for all resource types: "
                             + operation.getName() + "; Conflict Operations: " + operation.getDefinition().getName()
@@ -66,7 +77,7 @@ public class FHIROperationRegistry {
                     }
                     // Then check if there is already operation defined for the required resource types.
                     for (ResourceType operationResourceType : operationResourceTypes) {
-                        tmpKey = operation.getName() + ":" + operationResourceType.getValue();
+                        tmpKey = operationCode + ":" + operationResourceType.getValue();
                         if (operationMap.putIfAbsent(tmpKey, operation) != null) {
                             throw new IllegalStateException("Found duplicated operation name plus resource type: "
                                 + operation.getName() + "-" + operationResourceType.getValue()
@@ -76,7 +87,7 @@ public class FHIROperationRegistry {
                     }
                 }
             } catch (ServiceConfigurationError | FHIRValidationException e) {
-                log.log(Level.SEVERE, "Unable to validate operation $" + operationName + ". This operation will be skipped.", e);
+                log.log(Level.SEVERE, "Unable to validate operation $" + operationCode + ". This operation will be skipped.", e);
             }
         }
 
@@ -121,13 +132,13 @@ public class FHIROperationRegistry {
         return INSTANCE;
     }
 
-    public FHIROperation getOperation(String name) throws FHIROperationException {
-        FHIROperation operation = operationMap.get(name);
+    public FHIROperation getOperation(String code) throws FHIROperationException {
+        FHIROperation operation = operationMap.get(code);
         if (operation == null) {
             // Check if there is an operation defined for all resource types.
-            operation = operationMap.get(name.split(":")[0] + ":" + "Resource");
+            operation = operationMap.get(code.split(":")[0] + ":" + "Resource");
             if (operation == null) {
-                String msg = "Operation with name: '" + name + "' was not found";
+                String msg = "Operation with code: '" + code + "' was not found";
                 throw new FHIROperationException(msg)
                     .withIssue(FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.FATAL, IssueType.NOT_SUPPORTED, msg));
             }

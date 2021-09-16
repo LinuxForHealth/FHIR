@@ -13,35 +13,33 @@ Note: The Docker image [ibmcom/ibm-fhir-schematool](https://hub.docker.com/r/ibm
 More information on installing and running the server is available in the User Guide at https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide.
 
 ### Building on top of the IBM FHIR Server Modules
-Each of the IBM FHIR Server modules are published to Maven Central [repo](https://repo1.maven.org/maven2/com/ibm/fhir/)
-
-For Version 4.6.1 and earlier, each of the IBM FHIR Server modules are published as an archive of the repository.
-
-After Version 4.6.1, you may declare the dependency without a repository as it points to [Maven Central] [https://repo1.maven.org/maven2/com/ibm/fhir]
+Each of the IBM FHIR Server modules are published to Maven Central under [com.ibm.fhir](https://repo1.maven.org/maven2/com/ibm/fhir/).
 
 To use the artifacts from a Maven project, declare the dependencies. For example, to use our visitable, thread-safe FHIR R4 object model (including our high-performance parsers and generators), declare a dependency on the `fhir-model` module:
 
-    ```
+```
+...
+<dependencies>
+    <dependency>
+      <groupId>com.ibm.fhir</groupId>
+      <artifactId>fhir-model</artifactId>
+      <version>${fhir.version}</version>
+    </dependency>
     ...
-    <dependencies>
-        <dependency>
-          <groupId>com.ibm.fhir</groupId>
-          <artifactId>fhir-model</artifactId>
-          <version>${fhir.version}</version>
-        </dependency>
-        ...
-    ```
+```
 
 Note, if you are using a local repository or private host, you must add the repository to your pom.xml:
 
-    ```
-    <repositories>
-        <repository>
-            <id>ibm-fhir</id>
-            <url>https://myhost.com/ibm-fhir-server-releases</url>
-        </repository>
-        ...
-    ```
+```
+<repositories>
+    <repository>
+        <id>ibm-fhir</id>
+        <url>https://myhost.com/ibm-fhir-server-releases</url>
+    </repository>
+    ...
+```
+
+For versions prior to 4.7.0, the IBM FHIR Server modules are only available from the [Releases tab](https://github.com/IBM/FHIR/releases) in an archived Maven repository format.
 
 ### IBM FHIR Server Module Catalog
 The IBM FHIR Server is modular and extensible. The following tables provide an overview of all the IBM FHIR modules, along with an indicator of the stability of the Java APIs defined in each module. This indicator is only applicable to the direct usage of the modules, not for usage of the IBM FHIR Server as a whole.
@@ -111,7 +109,6 @@ The IBM FHIR Server is modular and extensible. The following tables provide an o
 |Module|Description|Java API-stable|
 |------|-----------|----------|
 |fhir-client|A FHIR Client that re-uses the IBM FHIR Server model and its JAX-RS Providers|false|
-|fhir-cli|Experimental command line interface utility for working with the IBM FHIR Server client from the command line|false|
 
 #### Tools and Utilities
 |Module|Description|Java API-stable|

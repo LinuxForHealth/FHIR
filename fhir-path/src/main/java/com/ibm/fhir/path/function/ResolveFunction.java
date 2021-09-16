@@ -15,7 +15,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.regex.Matcher;
 
-import com.ibm.fhir.model.resource.DomainResource;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.code.IssueSeverity;
@@ -82,13 +81,17 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
 
                 String resourceType = null;
                 Resource resource = null;
+                FHIRPathResourceNode resourceNode = null;
 
                 if (referenceReference != null) {
                     if (referenceReference.startsWith("#")) {
                         // internal fragment reference
-                        resource = resolveInternalFragmentReference(evaluationContext, node, referenceReference);
-                        if (resource != null) {
-                            resourceType = resource.getClass().getSimpleName();
+                        resourceNode = resolveInternalFragmentReference(evaluationContext, node, referenceReference);
+                        if (resourceNode != null) {
+                            resource = resourceNode.resource();
+                            if (resource != null) {
+                                resourceType = resource.getClass().getSimpleName();
+                            }
                         }
                     } else {
                         Matcher matcher = REFERENCE_PATTERN.matcher(referenceReference);
@@ -116,7 +119,11 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
                     generateIssue(evaluationContext, IssueSeverity.INFORMATION, IssueType.INFORMATIONAL, "Resource type could not be inferred from reference: " + referenceReference, node.path());
                 }
 
-                result.add((resource != null) ? FHIRPathTree.tree(resource).getRoot() : FHIRPathResourceNode.resourceNode(type));
+                if (resourceNode == null) {
+                    resourceNode = (resource != null) ? FHIRPathTree.tree(resource).getRoot().asResourceNode() : FHIRPathResourceNode.resourceNode(type);
+                }
+
+                result.add(resourceNode);
             }
         }
         return result;
@@ -130,20 +137,21 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
         return false;
     }
 
-    private Resource resolveInternalFragmentReference(EvaluationContext evaluationContext, FHIRPathNode node, String referenceReference) {
+    private FHIRPathResourceNode resolveInternalFragmentReference(EvaluationContext evaluationContext, FHIRPathNode node, String referenceReference) {
         if (evaluationContext.getTree() != null) {
             FHIRPathResourceNode rootResource = getRootResourceNode(evaluationContext.getTree(), node);
             if (rootResource != null) {
-                Resource resource = rootResource.resource();
                 if ("#".equals(referenceReference)) {
-                    return resource;
+                    return rootResource;
                 }
                 String id = referenceReference.substring(1);
-                if (resource instanceof DomainResource) {
-                    DomainResource domainResource = (DomainResource) resource;
-                    for (Resource contained : domainResource.getContained()) {
-                        if (contained.getId() != null && contained.getId().equals(id)) {
-                            return contained;
+                if (FHIRPathType.FHIR_DOMAIN_RESOURCE.isAssignableFrom(rootResource.type())) {
+                    for (FHIRPathNode child : rootResource.children()) {
+                        if ("contained".equals(child.name())) {
+                            Resource contained = child.asResourceNode().resource();
+                            if (contained.getId() != null && contained.getId().equals(id)) {
+                                return child.asResourceNode();
+                            }
                         }
                     }
                 }

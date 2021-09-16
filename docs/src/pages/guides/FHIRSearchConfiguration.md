@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Search Configuration Overview
-date:   2020-01-15 08:37:05 -0400
+date:   2021-06-10
 permalink: /FHIRSearchConfiguration/
 markdown: kramdown
 ---
@@ -263,20 +263,45 @@ In order to avoid this issue, inclusion criteria search parameters should not be
 ##  2 Re-index
 Reindexing is implemented as a custom operation that tells the IBM FHIR Server to read a set of resources and replace the existing search parameters with those newly extracted from the resource body.
 
-The `$reindex` operation can be invoked via an HTTP(s) POST to `[base]/$reindex`. By default, the operation will select 10 resources and re-extract their search parameters values based on the current configuration of the server. The operation supports the following parameters to control the behavior:
+The `$reindex` operation can be invoked via an HTTP(s) POST to `[base]/$reindex`, `[base]/[type]/$reindex`, or `[base]/[type]/[instance]/$reindex`. By default, the operation at the System-level or Type-level selects 10 resources and re-extract their search parameters values based on the current configuration of the server. The operation supports the following parameters to control the behavior:
+
+Reindexing is resource-intensive and can take several hours or even days to complete depending on the approach used, the number of resources currently in the system, and the capability of the hosting platform.
+
+### 2.1 Server-side-driven approach
+By default, the operation will select 10 resources and re-extract their search parameters values based on the current configuration of the server. The operation supports the following parameters to control the behavior:
 
 |name|type|description|
 |----|----|-----------|
-|`tstamp`|string|Reindex any resource not previously reindexed before this timestamp. Format as a date YYYY-MM-DD or time YYYY-MM-DDTHH:MM:DDZ.|
+|`tstamp`|string|Reindex only resources not previously reindexed since this timestamp. Format as a date YYYY-MM-DD or time YYYY-MM-DDTHH:MM:SSZ.|
 |`resourceCount`|integer|The maximum number of resources to reindex in this call. If this number is too large, the processing time might exceed the transaction timeout and fail.|
 
 The IBM FHIR Server tracks when a resource was last reindexed and only resources with a reindex_tstamp value less than the given tstamp parameter will be processed. When a resource is reindexed, its reindex_tstamp is set to the given tstamp value. In most cases, using the current date (for example "2020-10-27") is the best option for this value.
 
-To aid in the re-indexing process, the IBM FHIR Server team has expanded the fhir-bucket resource-loading tool to support driving the reindex. The fhir-bucket tool uses a thread-pool to make concurrent POST requests to the IBM FHIR Server `$reindex` custom operation.
+### 2.2 Client-side-driven approach
+Another option is to have the client utilize the `$retrieve-index` and `$reindex` in parallel to drive the processing.
+
+The `$retrieve-index` operation is called to retrieve index IDs of resources available for reindexing. This can be done repeatedly by using the `_count` and `afterIndexId` parameters for pagination. The operation supports the following parameters to control the behavior:
+
+|name|type|description|
+|----|----|-----------|
+|`_count`|string|The maximum number of index IDs to retrieve. This may not exceed 1000. If not specified, the maxinum number retrieved is 1000.|
+|`notModifiedAfter`|string|Only retrieve index IDs for resources not last updated after this timestamp. Format as a date YYYY-MM-DD or time YYYY-MM-DDTHH:MM:SSZ.|
+|`afterIndexId`|string|Retrieve index IDs starting with the first index ID after this index ID. If this parameter is not specified, the retrieved index IDs start with the first index ID.|
+
+The `$retrieve-index` operation can be invoked via an HTTP(s) POST to `[base]/$retrieve-index` or `[base]/[type]/$retrieve-index`. Invoking this operation at the type-level only retrieves indexIDs for resources of that type.
+
+The `$reindex` operation is called to reindex the resources with index IDs in the specified list. The operation supports the following parameters to control the behavior:
+
+|name|type|description|
+|----|----|-----------|
+|`indexIds`|string|Reindex only resources with an index ID in the specified list, formatted as a comma-delimited list of strings. If number of index IDs in the list is too large, the processing time might exceed the transaction timeout and fail.|
+
+By specifying the index IDs on the `$reindex` operation, the IBM FHIR Server avoids the database overhead of choosing the next resource to reindex and updating the reindex_tstamp. Though it requires the client side to track the reindex progress, it should allow for an overall faster reindex.
+
+### 2.3 fhir-bucket
+To aid in the re-indexing process, the IBM FHIR Server team has expanded the fhir-bucket resource-loading tool to support driving the reindex, with the option of using either the server-side-driven or client-side-driven approach. The fhir-bucket tool uses a thread-pool to make concurrent POST requests to the IBM FHIR Server `$retrieve-index` and `$reindex` custom operations.
 
 For more information on driving the reindex operation from fhir-bucket, see https://github.com/IBM/FHIR/tree/main/fhir-bucket#driving-the-reindex-custom-operation.
-
-Reindexing is resource-intensive and can take several hours or even days to complete depending on the number of resources currently in the system and the capability of the hosting platform.
 
 ---
 FHIR® is the registered trademark of HL7 and is used with the permission of HL7.

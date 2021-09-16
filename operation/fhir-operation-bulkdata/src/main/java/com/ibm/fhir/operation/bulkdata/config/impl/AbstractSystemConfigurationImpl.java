@@ -16,6 +16,7 @@ import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.operation.bulkdata.OperationConstants;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
+import com.ibm.fhir.operation.bulkdata.config.s3.S3HostStyle;
 import com.ibm.fhir.operation.bulkdata.model.type.StorageType;
 
 /**
@@ -46,6 +47,13 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
     // 200,000 at 1 KB/file would lead to roughly 200 MB files; similar to the DEFAULT_COS_OBJ_MAX_SIZE_MB.
     protected static final int DEFAULT_COS_OBJ_MAX_RESOURCE_COUNT = 200000;
 
+    // The default size (200MiB) at which to finish writing a given AZURE object (NDJSON-only).
+    protected static final int DEFAULT_AZURE_OBJ_MAX_SIZE_MB = 200;
+
+    // The number of resources at which to finish writing a given AZURE object (NDJSON).
+    // 200,000 at 1 KB/file would lead to roughly 200 MB files; similar to the COS
+    protected static final int DEFAULT_AZURE_OBJ_MAX_RESOURCE_COUNT = 200000;
+
     // The default size (1MiB) at which to write to file (NDJSON-only).
     private static final int DEFAULT_FILE_WRITE_TRIGGER_SIZE_MB = 1;
 
@@ -74,6 +82,10 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
     private static final boolean coreCosUseServerTruststore = defaultCoreCosUseServerTruststore();
     private static final int coreCosRequestTimeout = defaultCoreCosRequestTimeout();
     private static final int coreCosSocketTimeout = defaultCoreCosSocketTimeout();
+
+    private static final int coreAzureObjectResourceCountThreshold = defaultCoreAzureObjectResourceCountThreshold();
+    private static final long coreAzureObjectSizeThreshold = defaultCoreAzureObjectSizeThreshold();
+
     private static final int coreFileResourceCountThreshold = defaultCoreFileResourceCountThreshold();
     private static final int coreFileWriteTriggerSize = defaultCoreFileWriteTriggerSize();
     private static final long coreFileSizeThreshold = defaultCoreFileSizeThreshold();
@@ -162,6 +174,26 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
     private static final int defaultCoreCosObjectResourceCountThreshold() {
         final String PATH = "fhirServer/bulkdata/core/cos/objectResourceCountThreshold";
         return FHIRConfigHelper.getIntProperty(PATH, DEFAULT_COS_OBJ_MAX_RESOURCE_COUNT);
+    }
+
+    @Override
+    public long getCoreAzureObjectSizeThreshold() {
+        return coreAzureObjectSizeThreshold;
+    }
+
+    private static final long defaultCoreAzureObjectSizeThreshold() {
+        final String PATH = "fhirServer/bulkdata/core/azure/objectSizeThresholdMB";
+        return 1024l * 1024l * FHIRConfigHelper.getIntProperty(PATH, DEFAULT_AZURE_OBJ_MAX_SIZE_MB);
+    }
+
+    @Override
+    public int getCoreAzureObjectResourceCountThreshold() {
+        return coreAzureObjectResourceCountThreshold;
+    }
+
+    private static final int defaultCoreAzureObjectResourceCountThreshold() {
+        final String PATH = "fhirServer/bulkdata/core/azure/objectResourceCountThreshold";
+        return FHIRConfigHelper.getIntProperty(PATH, DEFAULT_AZURE_OBJ_MAX_RESOURCE_COUNT);
     }
 
     @Override
@@ -354,7 +386,24 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
     }
 
     @Override
+    public S3HostStyle getS3HostStyleByStorageProvider(String provider) {
+        String hostSyle = FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/storageProviders/" + provider + "/accessType", "path");
+        return S3HostStyle.from(hostSyle);
+    }
+
+    @Override
     public boolean enableSkippableUpdates() {
         return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/core/enableSkippableUpdates", Boolean.TRUE);
+    }
+
+    @Override
+    public String getStorageProviderAuthTypeConnectionString(String provider) {
+        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/storageProviders/" + provider + "/auth/connection", null);
+    }
+
+    @Override
+    public boolean isStorageProviderAuthTypeConnectionString(String provider) {
+        String auth = getStorageProviderAuthType(provider);
+        return "connection".equalsIgnoreCase(auth);
     }
 }

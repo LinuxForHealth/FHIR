@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,7 +11,7 @@ package com.ibm.fhir.schema.model;
  */
 public class ResourceType {
     // the database-assigned id
-    private long id;
+    private int id;
 
     // the name of the resource type
     private String name;
@@ -24,14 +24,14 @@ public class ResourceType {
     /**
      * @return the id
      */
-    public long getId() {
+    public int getId() {
         return id;
     }
 
     /**
      * @param id the id to set
      */
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

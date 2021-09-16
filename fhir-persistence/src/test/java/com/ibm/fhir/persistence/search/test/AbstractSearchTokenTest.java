@@ -109,6 +109,8 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
 
     @Test
     public void testSearchToken_code() throws Exception {
+        // target value is "code" with no implicit or explicit system
+
         assertSearchReturnsSavedResource("code", "code");
         assertSearchReturnsSavedResource("code", "CODE");
         assertSearchReturnsSavedResource("code", "|code");
@@ -117,7 +119,7 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
         // system is case-sensitive
         assertSearchReturnsSavedResource("text-status", "http://hl7.org/fhir/narrative-status|extensions");
         assertSearchDoesntReturnSavedResource("text-status", "http://hl7.org/fhir/narrative-status|EXTENSIONS");
-        
+
         assertSearchReturnsSavedResource("text-status", "http://hl7.org/fhir/narrative-status|");
         assertSearchDoesntReturnSavedResource("text-status", "http://hl7.org/fhir/narrative-status||");
         assertSearchDoesntReturnSavedResource("text-status", "system|");
@@ -239,7 +241,7 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
         // system is case-sensitive
         assertSearchReturnsSavedResource("CodeableConcept-validCodeAndSystem", "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation|AA");
         assertSearchDoesntReturnSavedResource("CodeableConcept-validCodeAndSystem", "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation|aa");
-        
+
         assertSearchReturnsSavedResource("CodeableConcept", "http://example.org/codesystem|");
         assertSearchDoesntReturnSavedResource("CodeableConcept", "http://example.org/codesystem||");
         assertSearchDoesntReturnSavedResource("CodeableConcept", "example.org/codesystem|");
@@ -266,10 +268,12 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
     public void testSearchToken_CodeableConcept_chained() throws Exception {
         assertSearchReturnsComposition("subject:Basic.CodeableConcept", "code");
         assertSearchReturnsComposition("subject:Basic.CodeableConcept", "http://example.org/codesystem|code");
+
+        // system-only token search is not working for chained searches yet (https://github.com/IBM/FHIR/issues/2553)
 //        assertSearchReturnsComposition("subject:Basic.CodeableConcept", "http://example.org/codesystem|");
 
         // This shouldn't return any results because the CodeableConcept has a system
-//        assertSearchDoesntReturnComposition("subject:Basic.CodeableConcept", "|code");
+        assertSearchDoesntReturnComposition("subject:Basic.CodeableConcept", "|code");
     }
 
     @Test
@@ -355,6 +359,9 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
 
     @Test
     public void testSearchToken_Coding() throws Exception {
+        assertSearchReturnsSavedResource("Coding", "http://example.org/codesystem|");
+
+
         assertSearchReturnsSavedResource("Coding", "code");
         assertSearchReturnsSavedResource("Coding", "CODE");
         // system not in registry - treated as not case-sensitive
@@ -373,7 +380,7 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("Coding-validCodeAndSystem", "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation|");
 
         // This shouldn't return any results because the Coding has a system
-//        assertSearchDoesntReturnSavedResource("Coding", "|code");
+        assertSearchDoesntReturnSavedResource("Coding", "|code");
     }
 
     @Test
@@ -393,14 +400,17 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
     public void testSearchToken_Coding_chained() throws Exception {
         assertSearchReturnsComposition("subject:Basic.Coding", "code");
         assertSearchReturnsComposition("subject:Basic.Coding", "http://example.org/codesystem|code");
+
+        // system-only token search is not working for chained searches yet (https://github.com/IBM/FHIR/issues/2553)
 //        assertSearchReturnsComposition("subject:Basic.Coding", "http://example.org/codesystem|");
 
         // This shouldn't return any results because the Coding has a system
-//        assertSearchDoesntReturnComposition("subject:Basic.Coding", "|code");
+        assertSearchDoesntReturnComposition("subject:Basic.Coding", "|code");
     }
 
     @Test
     public void testSearchToken_Coding_NoSystem() throws Exception {
+        // target value is a coding with code "code" and no system
         assertSearchReturnsSavedResource("Coding-noSystem", "code");
         assertSearchReturnsSavedResource("Coding-noSystem", "CODE");
         assertSearchReturnsSavedResource("Coding-noSystem", "|code");
@@ -506,7 +516,7 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
         // system is case-sensitive
         assertSearchReturnsSavedResource("Identifier-validValueAndSystem", "http://hl7.org/fhir/identifier-use|official");
         assertSearchDoesntReturnSavedResource("Identifier-validValueAndSystem", "http://hl7.org/fhir/identifier-use|OFFICIAL");
-        
+
         assertSearchReturnsSavedResource("Identifier", "http://example.org/identifiersystem|");
         assertSearchDoesntReturnSavedResource("Identifier", "http://example.org/identifiersystem||");
         assertSearchDoesntReturnSavedResource("Identifier", "http://example.org/IdentifierSystem|");
@@ -520,12 +530,12 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
     public void testSearchToken_Identifier_chained() throws Exception {
         assertSearchReturnsComposition("subject:Basic.Identifier", "code");
         assertSearchReturnsComposition("subject:Basic.Identifier", "http://example.org/identifiersystem|code");
-        
-        // Search specifying only a system value is not currently supported (see issue #1409)
+
+        // system-only token search is not working for chained searches yet (https://github.com/IBM/FHIR/issues/2553)
 //        assertSearchReturnsComposition("subject:Basic.Identifier", "http://example.org/identifiersystem|");
 
         // This shouldn't return any results because the Identifier has a system
-//        assertSearchDoesntReturnComposition("subject:Basic.Identifier", "|code");
+        assertSearchDoesntReturnComposition("subject:Basic.Identifier", "|code");
     }
 
     @Test

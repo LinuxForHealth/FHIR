@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2021
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,16 +12,14 @@ import com.ibm.fhir.persistence.jdbc.JDBCConstants;
 /**
  * This class defines the Data Transfer Object representing a row in the X_TOKEN_VALUES tables.
  */
-public class TokenParmVal implements ExtractedParameterValue {
+public class TokenParmVal extends ExtractedParameterValue {
 
-    private String resourceType;
-    private String name;
     private String valueSystem;
     private String valueCode;
 
-    // The SearchParameter base type. If "Resource", then this is a Resource-level attribute
-    private String base;
-
+    /**
+     * Public constructor
+     */
     public TokenParmVal() {
         super();
     }
@@ -30,14 +28,6 @@ public class TokenParmVal implements ExtractedParameterValue {
     public String toString() {
         // to aid debugging
         return getResourceType() + "[" + getName() + ", " + getValueSystem() + ", " + getValueCode() + "]";
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public String getValueSystem() {
@@ -59,32 +49,46 @@ public class TokenParmVal implements ExtractedParameterValue {
         this.valueCode = valueCode;
     }
 
-    public String getResourceType() {
-        return resourceType;
-    }
-
-    public void setResourceType(String resourceType) {
-        this.resourceType = resourceType;
-    }
-
     /**
      * We know our type, so we can call the correct method on the visitor
      */
+    @Override
     public void accept(ExtractedParameterValueVisitor visitor) throws FHIRPersistenceException {
         visitor.visit(this);
     }
 
-    /**
-     * @return the base
-     */
-    public String getBase() {
-        return base;
-    }
+    @Override
+    protected int compareToInner(ExtractedParameterValue o) {
+        TokenParmVal other = (TokenParmVal) o;
+        int retVal;
 
-    /**
-     * @param base the base to set
-     */
-    public void setBase(String base) {
-        this.base = base;
+        String thisValueSystem = this.getValueSystem();
+        String otherValueSystem = other.getValueSystem();
+        if (thisValueSystem != null || otherValueSystem != null) {
+            if (thisValueSystem == null) {
+                return -1;
+            } else if (otherValueSystem == null) {
+                return 1;
+            }
+            retVal = thisValueSystem.compareTo(otherValueSystem);
+            if (retVal != 0) {
+                return retVal;
+            }
+        }
+        String thisValueCode = this.getValueCode();
+        String otherValueCode = other.getValueCode();
+        if (thisValueCode != null || otherValueCode != null) {
+            if (thisValueCode == null) {
+                return -1;
+            } else if (otherValueCode == null) {
+                return 1;
+            }
+            retVal = thisValueCode.compareTo(otherValueCode);
+            if (retVal != 0) {
+                return retVal;
+            }
+        }
+
+        return 0;
     }
 }

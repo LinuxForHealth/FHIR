@@ -12,6 +12,8 @@ import static com.ibm.fhir.profile.ProfileSupport.HL7_STRUCTURE_DEFINITION_URL_P
 import static com.ibm.fhir.profile.ProfileSupport.createConstraint;
 import static com.ibm.fhir.profile.ProfileSupport.getBinding;
 import static com.ibm.fhir.profile.ProfileSupport.getElementDefinition;
+import static com.ibm.fhir.profile.ProfileSupport.isSlice;
+import static com.ibm.fhir.profile.ProfileSupport.isSliceDefinition;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -277,6 +279,10 @@ public class ConstraintGenerator {
                 sb.append(".where(");
             }
             sb.append(generate(node.children));
+            if (isSlice(elementDefinition)) {
+                // append slice specific constraints
+                sb.append(constraints(elementDefinition));
+            }
             sb.append(")");
         }
 
@@ -287,6 +293,20 @@ public class ConstraintGenerator {
 
     private Constraint constraint(String id, String expr, String description) {
         return createConstraint(id, Constraint.LEVEL_RULE, Constraint.LOCATION_BASE, description, expr, false, true);
+    }
+
+    private String constraints(ElementDefinition elementDefinition) {
+        StringBuilder sb = new StringBuilder();
+        StringJoiner joiner = new StringJoiner(" and ");
+        for (ElementDefinition.Constraint constraint : ProfileSupport.getConstraintDifferential(elementDefinition)) {
+            if (constraint.getExpression() != null && constraint.getExpression().getValue() != null) {
+                joiner.add("(" + constraint.getExpression().getValue() + ")");
+            }
+        }
+        if (joiner.length() > 0) {
+            sb.append(" and ").append(joiner.toString());
+        }
+        return sb.toString();
     }
 
     private Node copy(Node node, List<String> paths, String prefix) {
@@ -547,7 +567,7 @@ public class ConstraintGenerator {
         String prefix = prefix(node);
         sb.append(prefix);
 
-        if (!isOptional(elementDefinition)) {
+        if (!isOptional(elementDefinition) && !isRepeating(elementDefinition)) {
             sb.append(".exists() and ").append(prefix);
         }
 
@@ -564,10 +584,22 @@ public class ConstraintGenerator {
         String profile = getProfiles(getTypes(elementDefinition).get(0)).get(0);
         sb.append("conformsTo('").append(profile).append("')");
 
+        if (hasChildren(node) && !discriminator) {
+            sb.append(" and ").append(generate(node.children));
+            if (isSlice(elementDefinition)) {
+                // append slice specific constraints
+                sb.append(constraints(elementDefinition));
+            }
+        }
+
         if (isRepeating(elementDefinition)) {
             sb.append(")");
-            if (isSlice(elementDefinition) && !discriminator) {
-                sb.append(cardinality(node, sb.toString()));
+            if (!discriminator) {
+                if (isSlice(elementDefinition)) {
+                    sb.append(cardinality(node, sb.toString()));
+                } else {
+                    sb.append(" and ").append(prefix).append(cardinality(node, sb.toString()));
+                }
             }
         }
 
@@ -961,14 +993,6 @@ public class ConstraintGenerator {
             return ModelSupport.isResourceType(s);
         }
         return false;
-    }
-
-    private boolean isSlice(ElementDefinition elementDefinition) {
-        return elementDefinition.getSliceName() != null;
-    }
-
-    private boolean isSliceDefinition(ElementDefinition elementDefinition) {
-        return elementDefinition.getSlicing() != null;
     }
 
     private boolean isStringElement(ElementDefinition elementDefinition) {

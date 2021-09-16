@@ -1,3 +1,8 @@
+/*
+ * (C) Copyright IBM Corp. 2021
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
 package com.ibm.fhir.cql.engine.searchparam;
 
 import java.math.BigDecimal;
@@ -39,8 +44,8 @@ public class SearchParameterResolver {
             }
 
             if (paramType == null || param.getType().equals(paramType)) {
-                String normalizedPath = normalizePath(dataType, param.getExpression().getValue());
-                if (path.equals(normalizedPath)) {
+                Set<String> normalizedPath = normalizePath(dataType, param.getExpression().getValue());
+                if (normalizedPath.contains(path)) {
                     return param;
                 }
             }
@@ -81,7 +86,7 @@ public class SearchParameterResolver {
 
     // This is actually a lot of processing. We should cache search parameter
     // resolutions.
-    private String normalizePath(String dataType, String path) {
+    private Set<String> normalizePath(String dataType, String path) {
         // TODO: What we really need is FhirPath parsing to just get the path
         // MedicationAdministration.medication.as(CodeableConcept)
         // MedicationAdministration.medication.as(Reference)
@@ -91,14 +96,13 @@ public class SearchParameterResolver {
         // Observation.code | Observation.component.code
 
         // Trim off outer parens
-        if (path.equals("(")) {
-            path = path.substring(1, path.length() - 1);
-        }
+        path = removeParens(path);
 
         Set<String> normalizedParts = new HashSet<String>();
         String[] orParts = path.split("\\|");
         for (String part : orParts) {
             part = part.trim();
+            part = removeParens(part);
 
             // Trim off DataType
             if (part.startsWith(dataType)) {
@@ -137,10 +141,18 @@ public class SearchParameterResolver {
         // will punt on something like /Observation?combo-code where the underlying
         // representation maps to multiple places in a nested hierarchy (e.g.
         // Observation.code | Observation.component.code ).
-        if (normalizedParts.size() == 1) {
-            return normalizedParts.iterator().next();
-        } else {
-            return null;
+//        if (normalizedParts.contains(path)) {
+//            return path;
+//        } else {
+//            return null;
+//        }
+        return normalizedParts;
+    }
+    
+    private String removeParens(String path) { 
+        if (path.startsWith("(")) {
+            path = path.substring(1, path.length() - 1);
         }
+        return path;
     }
 }

@@ -1,3 +1,8 @@
+/*
+ * (C) Copyright IBM Corp. 2021
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
 package com.ibm.fhir.cql.engine.retrieve;
 
 import java.io.Serializable;
@@ -11,6 +16,10 @@ import com.ibm.fhir.cql.engine.searchparam.IQueryParameter;
 import com.ibm.fhir.cql.engine.searchparam.IQueryParameterAnd;
 import com.ibm.fhir.cql.engine.searchparam.IQueryParameterOr;
 
+/**
+ * This is a helper class that encapsulates a set of query parameters for a FHIR
+ * REST API call including common parameters such as _count.
+ */
 public class SearchParameterMap implements Serializable {
 
     private static final long serialVersionUID = 2302049000744568377L;
@@ -62,5 +71,9 @@ public class SearchParameterMap implements Serializable {
 
     public List<List<? extends IQueryParameter>> remove(String theName) {
         return this.parameters.remove(theName);
+    }
+    
+    public String toString() {
+        return parameters.toString();
     }
 }

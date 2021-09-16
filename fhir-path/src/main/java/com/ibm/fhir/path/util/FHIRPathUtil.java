@@ -88,8 +88,6 @@ import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.path.exception.FHIRPathException;
 
 public final class FHIRPathUtil {
-    private static FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
-
     public static final Set<String> STRING_TRUE_VALUES = new HashSet<>(Arrays.asList("true", "t", "yes", "y", "1", "1.0"));
     public static final Set<String> STRING_FALSE_VALUES = new HashSet<>(Arrays.asList("false", "f", "no", "n", "0", "0.0"));
     public static final Integer INTEGER_TRUE = 1;
@@ -892,8 +890,10 @@ public final class FHIRPathUtil {
      * @throws FHIRPatchException
      * @throws NullPointerException if any of the passed arguments are null
      */
-    public static <T extends Visitable> T add(T elementOrResource, String fhirPath, String elementName, Visitable value) throws FHIRPathException, FHIRPatchException {
-        FHIRPathNode node = evaluateToSingle(elementOrResource, fhirPath);
+    public static <T extends Visitable> T add(T elementOrResource, String fhirPath, String elementName, Visitable value)
+            throws FHIRPathException, FHIRPatchException {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+        FHIRPathNode node = evaluateToSingle(evaluator, elementOrResource, fhirPath);
         Visitable parent = node.isResourceNode() ?
                 node.asResourceNode().resource() : node.asElementNode().element();
 
@@ -913,7 +913,8 @@ public final class FHIRPathUtil {
      * @throws NullPointerException if any of the passed arguments are null
      */
     public static <T extends Visitable> T delete(T elementOrResource, String fhirPath) throws FHIRPathException, FHIRPatchException {
-        FHIRPathNode node = evaluateToSingle(elementOrResource, fhirPath);
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+        FHIRPathNode node = evaluateToSingle(evaluator, elementOrResource, fhirPath);
 
         try {
             DeletingVisitor<T> deletingVisitor = new DeletingVisitor<T>(node.path());
@@ -932,7 +933,8 @@ public final class FHIRPathUtil {
      * @throws NullPointerException if any of the passed arguments are null
      */
     public static <T extends Visitable> T replace(T elementOrResource, String fhirPath, Visitable value) throws FHIRPathException, FHIRPatchException {
-        FHIRPathNode node = evaluateToSingle(elementOrResource, fhirPath);
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+        FHIRPathNode node = evaluateToSingle(evaluator, elementOrResource, fhirPath);
         String elementName = node.name();
 
         FHIRPathTree tree = evaluator.getEvaluationContext().getTree();
@@ -955,13 +957,15 @@ public final class FHIRPathUtil {
     }
 
     /**
+     * @param evaluator
      * @param elementOrResource
      * @param fhirPath
      * @return
      * @throws FHIRPathException
      * @throws FHIRPatchException if the fhirPath does not evaluate to a single node
      */
-    private static FHIRPathNode evaluateToSingle(Visitable elementOrResource, String fhirPath) throws FHIRPathException, FHIRPatchException {
+    private static FHIRPathNode evaluateToSingle(FHIRPathEvaluator evaluator, Visitable elementOrResource, String fhirPath)
+            throws FHIRPathException, FHIRPatchException {
         /*
          * 1. The FHIRPath statement must return a single element.
          * 2. The FHIRPath statement SHALL NOT cross resources using the resolve() function
@@ -991,6 +995,7 @@ public final class FHIRPathUtil {
      */
     public static <T extends Visitable> T insert(T elementOrResource, String fhirPath, int index, Visitable value)
             throws FHIRPathException, FHIRPatchException {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
         Collection<FHIRPathNode> nodes = evaluator.evaluate(elementOrResource, fhirPath);
         if (index > nodes.size()) {
             throw new FHIRPatchException("Index must be equal or less than the number of elements in the list", fhirPath);
@@ -1021,6 +1026,7 @@ public final class FHIRPathUtil {
      */
     public static <T extends Visitable> T move(T elementOrResource, String fhirPath, int source, int target)
             throws FHIRPathException, FHIRPatchException {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
         Collection<FHIRPathNode> nodes = evaluator.evaluate(elementOrResource, fhirPath);
         if (source > nodes.size() || target > nodes.size()) {
             throw new FHIRPatchException("Source and target indices must be less than or equal to"

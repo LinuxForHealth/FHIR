@@ -1,10 +1,10 @@
 # ----------------------------------------------------------------------------
-# (C) Copyright IBM Corp. 2019, 2020
+# (C) Copyright IBM Corp. 2019, 2021
 #
 # SPDX-License-Identifier: Apache-2.0
 # ----------------------------------------------------------------------------
 
-FROM ibmcom/db2
+FROM ibmcom/db2:11.5.5.1
 
 # Create a non-admin user for the FHIR server to use to access db2
 RUN groupadd -g 1002 fhir && \

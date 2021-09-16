@@ -1,10 +1,13 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.bucket.persistence;
+
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.ERROR_TEXT_LEN;
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.HTTP_STATUS_TEXT_LEN;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,9 +20,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.bucket.api.ResourceBundleError;
-import static com.ibm.fhir.bucket.persistence.SchemaConstants.*;
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 
 /**
  * DAO to encapsulate all the SQL/DML used to retrieve and persist data
@@ -28,21 +31,28 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 public class AddResourceBundleErrors implements IDatabaseStatement {
     private static final Logger logger = Logger.getLogger(RegisterLoaderInstance.class.getName());
 
+    // The schema with the FHIRBUCKET tables
+    private final String schemaName;
+
     // The list of resource types we want to add
     private final List<ResourceBundleError> errors;
-    
+
     // The resource bundle where we hit the error
     private final long resourceBundleLoadId;
-    
+
     // The SQL batch size
     private final int batchSize;
-        
+
     /**
      * Public constructor
-     * @param resourceType
+     * @param schemaName
+     * @param resourceBundleLoadId
+     * @param errors
+     * @param batchSize
      */
-    public AddResourceBundleErrors(long resourceBundleLoadId, Collection<ResourceBundleError> errors,
+    public AddResourceBundleErrors(String schemaName, long resourceBundleLoadId, Collection<ResourceBundleError> errors,
         int batchSize) {
+        this.schemaName = schemaName;
         this.resourceBundleLoadId = resourceBundleLoadId;
         this.errors = new ArrayList<>(errors);
         this.batchSize = batchSize;
@@ -50,13 +60,14 @@ public class AddResourceBundleErrors implements IDatabaseStatement {
 
     @Override
     public void run(IDatabaseTranslator translator, Connection c) {
-        
+
         // Use a batch to insert the freshly minted logical ids in one go.
         // Bundles can be large (O(1000) resources), so we periodically execute
         // the batch as we go
+        final String resourceBundleErrors = DataDefinitionUtil.getQualifiedName(schemaName, "resource_bundle_errors");
         final String currentTimestamp = translator.currentTimestampString();
-        final String INS = 
-                "INSERT INTO resource_bundle_errors ("
+        final String INS =
+                "INSERT INTO " + resourceBundleErrors + "("
                 + "          resource_bundle_load_id, line_number, error_tstamp, error_text, "
                 + "          response_time_ms, http_status_code, http_status_text) "
                 + "   VALUES (?, ?, " + currentTimestamp + ", ?, ?, ?, ?)";
@@ -64,7 +75,7 @@ public class AddResourceBundleErrors implements IDatabaseStatement {
         int batchCount = 0;
         try (PreparedStatement ps = c.prepareStatement(INS)) {
             for (ResourceBundleError error: errors) {
- 
+
                 // Note that for bundles we don't include a response time for each created logical
                 // response because it doesn't make sense
                 ps.setLong(1, resourceBundleLoadId);
@@ -74,12 +85,12 @@ public class AddResourceBundleErrors implements IDatabaseStatement {
                 setField(ps, 5, error.getHttpStatusCode());
                 setField(ps, 6, error.getHttpStatusText(), HTTP_STATUS_TEXT_LEN);
                 ps.addBatch();
-                
+
                 if (++batchCount == this.batchSize) {
                     ps.executeBatch();
                 }
             }
-            
+
             if (batchCount > 0) {
                 // final batch
                 ps.executeBatch();
@@ -90,7 +101,7 @@ public class AddResourceBundleErrors implements IDatabaseStatement {
             throw translator.translate(x);
         }
     }
-    
+
     /**
      * Convenience function to set a nullable int field
      * @param ps
@@ -119,7 +130,7 @@ public class AddResourceBundleErrors implements IDatabaseStatement {
         if (value != null && value.length() > maxLen) {
             value = value.substring(0, maxLen);
         }
-        
+
         if (value != null) {
             ps.setString(nbr, value);
         } else {

@@ -12,6 +12,7 @@ import com.ibm.fhir.operation.bulkdata.OperationConstants;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
 import com.ibm.fhir.operation.bulkdata.config.OperationContextAdapter;
+import com.ibm.fhir.operation.bulkdata.config.preflight.impl.AzurePreflight;
 import com.ibm.fhir.operation.bulkdata.config.preflight.impl.FilePreflight;
 import com.ibm.fhir.operation.bulkdata.config.preflight.impl.HttpsPreflight;
 import com.ibm.fhir.operation.bulkdata.config.preflight.impl.NopPreflight;
@@ -60,6 +61,9 @@ public class PreflightFactory {
             case AWSS3:
             case IBMCOS:
                 preflight = new S3Preflight(source, outcome, inputs, exportType, format);
+                break;
+            case AZURE:
+                preflight = new AzurePreflight(source, outcome, inputs, exportType, format);
                 break;
             }
         }
