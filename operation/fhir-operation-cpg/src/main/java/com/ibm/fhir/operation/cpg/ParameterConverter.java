@@ -58,7 +58,17 @@ public class ParameterConverter {
     @SuppressWarnings("unchecked")
     public Parameter.Builder toParameter(Parameter.Builder p, Object value) {
         if (value != null) {
-(??)            Object obj = typeConverter.toFhirType(value);
+            Object obj;
+            
+            try { 
+                if( value instanceof Iterable ) {
+                    obj = typeConverter.toFhirTypes((Iterable<Object>)value);
+                } else { 
+                    obj = typeConverter.toFhirType(value);
+                }
+            } catch(NotImplementedException nex) { 
+                obj = fhirstring( nex.getMessage() );
+            }
 
             if (obj instanceof BackboneElement ) {
                 throw new IllegalArgumentException("Backbone elements are not supported for FHIR parameter conversion");

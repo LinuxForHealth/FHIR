@@ -322,15 +322,6 @@ public class FHIRTypeConverterImpl implements FHIRTypeConverter {
         } 
         return result;
     }
-    
-    @Override
-    public Object toFhirTuple(Tuple value) {
-        Object result = null;
-        if (value != null) {
-            throw new NotImplementedException("can't convert Tuples");
-        } 
-        return result;
-    }
 
     @Override
     public Object toCqlType(Object value) {

@@ -5,11 +5,10 @@
  */
 package com.ibm.fhir.cql.engine.model;
 
-import static com.ibm.fhir.cql.engine.model.ModelUtil.fhirstring;
-(??)import static org.junit.Assert.assertEquals;
-(??)import static org.junit.Assert.assertNotNull;
-(??)import static org.junit.Assert.assertTrue;
-(??)//import static com.ibm.fhir.cql.engine.model.ModelUtil.*;
+import static com.ibm.fhir.cql.helpers.ModelHelper.fhirstring;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -32,28 +31,30 @@ import org.testng.annotations.Test;
 import org.opencds.cqf.cql.engine.model.ModelResolver;
 
 import com.ibm.fhir.model.resource.Bundle;
-(??)
+import com.ibm.fhir.model.resource.Encounter;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.TestReport;
 import com.ibm.fhir.model.type.Code;
-(??)
+import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Date;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Decimal;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.HumanName;
-(??)
+import com.ibm.fhir.model.type.Markdown;
 import com.ibm.fhir.model.type.Quantity;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.AdministrativeGender;
 import com.ibm.fhir.model.type.code.BundleType;
-(??)
+import com.ibm.fhir.model.type.code.EncounterStatus;
+import com.ibm.fhir.model.type.code.TestReportActionResult;
+import com.ibm.fhir.model.type.code.TestReportResult;
+import com.ibm.fhir.model.type.code.TestReportStatus;
 import com.ibm.fhir.search.compartment.CompartmentUtil;
 
-(??)public class FhirModelResolverTest {
-(??)    //private static final Logger log = LoggerFactory.getLogger(FhirModelResolverTest.class);
-(??)    
+public class FHIRModelResolverTest {
+  
     ModelResolver resolver = null;
     
     @BeforeMethod
@@ -274,19 +275,156 @@ import com.ibm.fhir.search.compartment.CompartmentUtil;
         assertNotNull( clazz );
     }
     
-(??)//    @Test
-(??)//    public void testResolvePathStringPrimitive() throws Exception {
-(??)//    	Parameters.Parameter p = Parameters.Parameter.builder().name(fhirstring("name")).build();
-(??)//    	Object result = resolver.resolvePath(p, "name");
-(??)//    	assertEquals( "java.lang.String", result.getClass().getName() );
-(??)//    	assertEquals( "name", result );
-(??)//    }
-(??)//    
-(??)//    @Test
-(??)//    public void testResolveTypeStringPrimitive() throws Exception {
-(??)//    	com.ibm.fhir.model.type.String str = fhirstring("str");
-(??)//    	Class<?> result = resolver.resolveType(str);
-(??)//    	assertEquals( "java.lang.String", result.getName() );
-(??)//    }
+    @Test
+    public void testResolveTypeUri() throws Exception {
+        Class<?> clazz = resolver.resolveType("Uri");
+        assertNotNull( clazz, "Failed to resolve type" );
+    }
+
+    @Test
+    public void testResolveTypeString() throws Exception {
+        Class<?> clazz = resolver.resolveType("string");
+        assertNotNull( clazz, "Failed to resolve type" );
+    }    
+    
+    @Test
+    public void testResolvePathExtensionUrlSimple() throws Exception {
+        Extension extension = Extension.builder().url("http://somewhere.com/profile/Something").build();
+        Object result = resolver.resolvePath(extension, "url");
+        assertNotNull( result, "Null result" );
+        assertEquals( result.getClass(), com.ibm.fhir.model.type.Uri.class );
+    }
+    
+    @Test
+    public void testResolvePathExtensionUrlCompound() throws Exception {
+        Extension extension = Extension.builder().url("http://somewhere.com/profile/Something").build();
+        Patient patient = john_doe().extension(extension).build();
+
+        Object result = resolver.resolvePath(patient, "extension[0].url");
+        assertNotNull( result, "Null result" );
+        assertEquals( result.getClass(), com.ibm.fhir.model.type.Uri.class );
+    }
+
+    @Test
+    public void testResolveResourceIdSimple() throws Exception {
+        Patient patient = john_doe().build();
+        Object result = resolver.resolvePath(patient, "id");
+        assertNotNull( result, "Null result" );
+        assertEquals( result.getClass(), java.lang.String.class );
+    }
+    
+    @Test
+    public void testResolveResourceIdCompound() throws Exception {
+        Patient patient = john_doe().build();
+        Bundle bundle = Bundle.builder().type(BundleType.SEARCHSET).entry(Bundle.Entry.builder().resource(patient).build()).build();
+        Object result = resolver.resolvePath(bundle, "entry[0].resource.id");
+        assertNotNull( result, "Null result" );
+        assertEquals( result.getClass(), java.lang.String.class );
+    }
+
+    @Test
+    public void testResolveElementIdSimple() throws Exception {
+        Patient patient = john_doe().build();
+        Object result = resolver.resolvePath(patient, "name[0].id");
+        assertNotNull( result, "Null result" );
+        assertEquals( result.getClass(), java.lang.String.class );
+    }
+    
+    @Test
+    public void testResolveElementIdCompound() throws Exception {
+        Patient patient = john_doe().build();
+        Object result = resolver.resolvePath( patient.getName().get(0), "id");
+        assertNotNull( result, "Null result" );
+        assertEquals( result.getClass(), java.lang.String.class );
+    }
+    
+    @Test
+    public void resolveContextPathPatientAppointment() {
+        String result = (String) resolver.getContextPath("Patient", "Appointment");
+        assertNotNull(result);
+        assertEquals("participant.actor", result);
+    }
+
+    @Test
+    public void testResolvePathPatientGender() {
+        Patient p = john_doe().build();
+
+        String result = (String) resolver.resolvePath(p, "gender.value");
+        assertNotNull(result);
+        assertEquals("male", result);
+    }
+    
+    @Test
+    public void testResolvePathPatientBirthDateValue() {
+        Patient p = john_doe().build();
+
+        Object result = resolver.resolvePath(p, "birthDate.value");
+        assertNotNull(result);
+        assertTrue(result instanceof org.opencds.cqf.cql.engine.runtime.Date, "Unexpected class " + result.getClass().getName());
+    }
+    
+    @Test
+    public void resolvePathPatientDeceasedChoice() {
+        Patient p = john_doe().deceased(DateTime.now()).build();
+        
+        Object result = resolver.resolvePath(p, "deceased");
+        assertNotNull( result, "Null result" );
+    }
+    
+    @Test
+    public void resolveEncounterClass() {
+        Encounter enc = Encounter.builder()
+                .status( EncounterStatus.FINISHED )
+                .clazz( Coding.builder()
+                    .code( Code.of("test") ).build() )
+                .build();
+                
+        Object result = resolver.resolvePath(enc, "class");
+        assertNotNull( result, "Null result" );
+    }
+    
+    @Test
+    public void resolveTestReportAssertClass() {
+        TestReport.Setup.Action action = TestReport.Setup.Action.builder()
+            ._assert(
+                TestReport.Setup.Action.Assert.builder()
+                    .message(Markdown.of("markdown"))
+                    .result(TestReportActionResult.PASS)
+                    .build()
+                ).build();
+        
+        TestReport report = TestReport.builder()
+                .status(TestReportStatus.COMPLETED)
+                .setup( TestReport.Setup.builder().action(action).build() )
+                .testScript(Reference.builder().reference(fhirstring("TestScript/123")).build())
+                .result(TestReportResult.PASS)
+                .build();
+
+        for( String path : Arrays.asList("setup", "setup.action", "setup.action[0].assert" ) ) {
+            assertNotNull(resolver.resolvePath(report, path), path);
+        }
+    }
+    
+    @Test
+    public void testToCqlTemporalLocalDate() {
+        LocalDate expected = LocalDate.of(2013, 12, 6);
+        Date date = Date.of(expected);
+        
+        Patient pat = john_doe().birthDate(date).build();
+        Object resolved = resolver.resolvePath(pat, "birthDate.value");
+        assertNotNull(resolved);
+        
+        assertTrue( resolved instanceof org.opencds.cqf.cql.engine.runtime.Date );
+        org.opencds.cqf.cql.engine.runtime.Date actual = (org.opencds.cqf.cql.engine.runtime.Date) resolved;
+        assertEquals( actual.getDate(), expected );
+    }
+
+    
+    protected Patient.Builder john_doe() {
+        return Patient.builder().id("123")
+                .gender(AdministrativeGender.MALE)
+                .name(HumanName.builder().id("human-name").text(fhirstring("John Doe")).build())
+                .birthDate(Date.of("1969-02-15"));
+    }
 }
  

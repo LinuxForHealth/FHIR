@@ -7,10 +7,10 @@ package com.ibm.fhir.operation.cpg;
 
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhircode;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhirstring;
-import static com.ibm.fhir.cql.engine.model.ModelUtil.fhiruri;
 
 import java.io.InputStream;
-(??)
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.commons.io.IOUtils;
 
@@ -21,16 +21,12 @@ import com.ibm.fhir.model.resource.Library;
 import com.ibm.fhir.model.resource.Library.Builder;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.model.resource.ValueSet;
 import com.ibm.fhir.model.type.Attachment;
 import com.ibm.fhir.model.type.Base64Binary;
 import com.ibm.fhir.model.type.Date;
 import com.ibm.fhir.model.type.HumanName;
-import com.ibm.fhir.model.type.Coding;
-import com.ibm.fhir.model.type.DateTime;
-import com.ibm.fhir.model.type.UnsignedInt;
 import com.ibm.fhir.model.type.Uri;
-(??)
+import com.ibm.fhir.model.type.code.AdministrativeGender;
 import com.ibm.fhir.model.type.code.PublicationStatus;
 
 public class TestHelper {
@@ -78,6 +74,10 @@ public class TestHelper {
         return Attachment.builder().contentType(fhircode(mimeType)).data(Base64Binary.of(buffer)).build();
     }
     
-(??)
+    public static Patient.Builder john_doe() {
+        return Patient.builder().id("123")
+                .gender(AdministrativeGender.MALE)
+                .name(HumanName.builder().id("human-name").text(fhirstring("John Doe")).build())
+                .birthDate(Date.of("1969-02-15"));
     }
 }

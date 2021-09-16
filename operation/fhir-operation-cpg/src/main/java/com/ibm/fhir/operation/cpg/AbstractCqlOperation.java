@@ -14,10 +14,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-(??)
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.tuple.Pair;
 import org.cqframework.cql.elm.execution.VersionedIdentifier;
 import org.opencds.cqf.cql.engine.data.DataProvider;
@@ -51,8 +50,6 @@ import com.ibm.fhir.server.operation.spi.AbstractOperation;
 import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
 
 public abstract class AbstractCqlOperation extends AbstractOperation {
-    
-    private static final Logger log = Logger.getLogger(AbstractCqlOperation.class.getName());
     
     public static final String PARAM_IN_EXPRESSION = "expression";
     public static final String PARAM_IN_PARAMETERS = "parameters";
@@ -116,12 +113,26 @@ public abstract class AbstractCqlOperation extends AbstractOperation {
         return output.build();
     }
 
-(??)        Parameters.Builder output = Parameters.builder();
-(??)        for (Map.Entry<String, Object> entry : evaluationResult.expressionResults.entrySet()) {
-(??)            String name = entry.getKey();
-(??)            Object value = entry.getValue();
-(??)
-(??)            output.parameter(parameterConverter.toParameter(value).name(fhirstring(name)).build());
+    @SuppressWarnings("unused")
+    private Parameter convertDebugResultToParameter(EvaluationResult evaluationResult) {
+        Parameter.Builder debugResultBuilder = Parameter.builder().name(fhirstring(PARAM_OUT_DEBUG_RESULT));
+        
+        Parameter debugResultParameter = null;
+        DebugResult debugResult = evaluationResult.getDebugResult();
+        if( debugResult != null ) {
+            Parameters.Builder debugResultEntries = Parameters.builder();
+            for( Map.Entry<String,DebugLibraryResultEntry> libraryResult : debugResult.getLibraryResults().entrySet() ) {
+                String libraryId = libraryResult.getKey();
+                DebugLibraryResultEntry librayResultEntry = libraryResult.getValue();
+                
+                for( Map.Entry<DebugLocator,List<DebugResultEntry>> e : librayResultEntry.getResults().entrySet() ) {
+                    DebugLocator dl = e.getKey();
+                    //The DebugResultEntry class captures no object state right now, so it is useless
+                    debugResultEntries.parameter( Parameter.builder().name(fhirstring(libraryId)).value(fhirstring(dl.getLocatorType().toString() + "|" + dl.getLocator())).build() );
+                }
+                debugResultBuilder.resource(debugResultEntries.build());
+            }
+            debugResultParameter = debugResultBuilder.build();
         }
         return debugResultParameter;
     }

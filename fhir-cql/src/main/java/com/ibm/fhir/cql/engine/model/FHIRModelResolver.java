@@ -6,7 +6,6 @@
 package com.ibm.fhir.cql.engine.model;
 
 import java.lang.reflect.Field;
-(??)
 import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -23,7 +22,6 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.opencds.cqf.cql.engine.exception.InvalidCast;
-import org.opencds.cqf.cql.engine.exception.InvalidPrecision;
 import org.opencds.cqf.cql.engine.model.ModelResolver;
 
 import com.ibm.fhir.cql.helpers.DateHelper;
@@ -75,11 +73,6 @@ public class FHIRModelResolver implements ModelResolver {
 
     public static final Pattern urlPattern = Pattern.compile("(^|.+\\.)url$");
 
-    public static final Pattern urlPattern = Pattern.compile("(^|.+\\.)url$");
-    public static final Pattern idPattern = Pattern.compile("(^|.+\\.)id$");
-    public static final Pattern valuePattern = Pattern.compile("(^|.+\\.)value$");
-    
-    
     private static final Map<String, Class<?>> TYPE_MAP = buildTypeMap();
 
     private String packageName = BASE_PACKAGE_NAME;
@@ -168,25 +161,74 @@ public class FHIRModelResolver implements ModelResolver {
     }
 
     @Override
-(??)    public Object resolvePath(Object target, String path) {
-(??)        // TODO - use FHIRPath to resolve
-        Object result = null;
-(??)
-(??)        try {
-(??)            if (target != null) {
-(??)                result = PropertyUtils.getProperty(target, path);
-                
-                if( result instanceof java.lang.String && urlPattern.matcher(path).matches() ) {
-                    // Patch the model to match the CQL translator modelinfo expectations
-                    result = Uri.of((String) result);
-                } else if( result instanceof TemporalAccessor ) {
-                    TemporalAccessor ta = (TemporalAccessor) result;
-                    result = toCqlTemporal(result, ta);
-                } else if ( result instanceof byte[] ) {
-                    result = Base64.getEncoder().encode((byte[])result);
-                } else if ( result instanceof Id ) { 
-                    result = ((Id)result).getValue();
+    public Object resolvePath(Object target, String path ) {
+        String[] identifiers = path.split("\\.");
+        for (String identifier : identifiers) {
+            // handling indexes: i.e. item[0].code
+            if (identifier.contains("[")) {
+                int index = Character.getNumericValue(identifier.charAt(identifier.indexOf("[") + 1));
+                target = resolveProperty(target, identifier.replaceAll("\\[\\d\\]", ""));
+                target = ((ArrayList<?>) target).get(index);
+            } else {
+                target = resolveProperty(target, identifier);
+            }
+        }
+        
+        return target;
+    }
+    
+    private Object resolveProperty(Object target, String path) {
+        Object value = null;
+        
+        if( target != null ) {
+            if( target instanceof Visitable) {
+                Visitable visitable = (Visitable) target;
+                try {
+                    // is there such a thing as a compile step? Do we need to cache the compile like we do with regex?
+                    Collection<FHIRPathNode> result = FHIRPathEvaluator.evaluator().evaluate(visitable, path);
+                    if( ! result.isEmpty() ) {
+                        Class<?> clazz = target.getClass();
+                        if( Code.class.isAssignableFrom(clazz) ) {
+                            clazz = Code.class;
+                        }
+                        
+                        ElementInfo elementInfo = ModelSupport.getElementInfo(clazz, path);
+                        if( elementInfo.isRepeating() ) {
+                            value = result.stream().map( n -> unpack(n, path) ).collect(Collectors.toList());
+                        } else { 
+                            value = unpack( result.iterator().next(), path);
+                        }
+                    }
+                } catch( FHIRPathException fpex ) {
+                    // intentionally empty
                 }
+            }
+        }
+        
+        return value;
+    }
+    
+    protected Object unpack(FHIRPathNode node, String path) {
+        Object result = null;
+        
+        if( node.isResourceNode() ) {
+            result = node.asResourceNode().resource();
+        } else if( node.isElementNode() ) {
+            result = node.asElementNode().element();
+        } else if( node.isSystemValue() ) {
+            FHIRPathSystemValue system = node.asSystemValue();
+            if( system.isBooleanValue() ) {
+                result = system.asBooleanValue()._boolean();
+            } else if( system.isNumberValue() ) {
+                result = system.asNumberValue().number();
+            } else if( system.isQuantityValue() ) { 
+                result = system.asQuantityValue().value();
+            } else if( system.isStringValue() ) {
+                result = system.asStringValue().string();
+            } else if( system.isTemporalValue() ) {
+                result = system.asTemporalValue().temporal();
+            } else {
+                throw new IllegalArgumentException("Unexpected node type " + node.type().toString() );
             }
         } else if( node.isTermServiceNode() ) {
             throw new UnsupportedOperationException("TermServiceNode");
@@ -199,9 +241,19 @@ public class FHIRModelResolver implements ModelResolver {
         return result;
     }
 
-(??)
 
-(??)
+
+    protected Object patchResult(String path, Object result) {
+        if( result instanceof java.lang.String && urlPattern.matcher(path).matches() ) {
+            // Patch the model to match the CQL translator modelinfo expectations
+            result = Uri.of((String) result);
+        } else if( result instanceof TemporalAccessor ) {
+            TemporalAccessor ta = (TemporalAccessor) result;
+            result = DateHelper.toCqlTemporal(ta);
+        } else if ( result instanceof byte[] ) {
+            result = Base64.getEncoder().encode((byte[])result);
+        } else if ( result instanceof Id ) {
+            result = ((Id)result).getValue();
         }
         return result;
     }

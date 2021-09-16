@@ -414,8 +414,7 @@ public interface FHIRTypeConverter {
 
 
     /**
-     * Converts a FHIR Structure to a CQL Tuple
-@Override
+     * Converts a FHIR Structure to a CQL Tuple@Override
     
      * 
      * @param value
