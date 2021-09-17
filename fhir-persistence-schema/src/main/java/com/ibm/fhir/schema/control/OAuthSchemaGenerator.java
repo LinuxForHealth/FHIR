@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019,2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -102,6 +102,7 @@ public class OAuthSchemaGenerator {
                 .addUniqueIndex(OAUTH20CACHE + "_" + EXPIRES, EXPIRES) // ASC is the default
                 .addPrivileges(generateGroupPrivilege())
                 .build(model);
+        cache.addTag(FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
 
         model.addTable(cache);
         model.addObject(cache);
@@ -119,6 +120,9 @@ public class OAuthSchemaGenerator {
                 .addPrimaryKey(PK + "COMPIDCLIENTID", COMPONENTID, CLIENTID)
                 .addPrivileges(generateGroupPrivilege())
                 .build(model);
+
+        clientConfig.addTag(FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
+
         model.addTable(clientConfig);
         model.addObject(clientConfig);
     }
@@ -133,6 +137,9 @@ public class OAuthSchemaGenerator {
                 .addClobColumn( EXTENDEDFIELDS,       false, "{}")
                 .addPrivileges(generateGroupPrivilege())
                 .build(model);
+
+        consentCache.addTag(FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
+
         model.addTable(consentCache);
         model.addObject(consentCache);
     }
