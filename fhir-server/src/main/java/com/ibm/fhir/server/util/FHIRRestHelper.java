@@ -1769,8 +1769,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         }
                     } catch (FHIRPersistenceResourceNotFoundException e) {
                         if (failFast) {
-                            String msg = "Error while processing request bundle.";
-                            throw new FHIRRestBundledRequestException(msg, e).withIssue(e.getIssues());
+                            updateIssuesWithEntryIndexAndThrow(entryIndex, e);
                         }
 
                         responseEntries[entryIndex] = Entry.builder()
@@ -1782,8 +1781,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         logBundledRequestCompletedMsg(requestDescription.toString(), initialTime, SC_NOT_FOUND);
                     } catch (FHIRPersistenceResourceDeletedException e) {
                         if (failFast) {
-                            String msg = "Error while processing request bundle.";
-                            throw new FHIRRestBundledRequestException(msg, e).withIssue(e.getIssues());
+                            updateIssuesWithEntryIndexAndThrow(entryIndex, e);
                         }
 
                         responseEntries[entryIndex] = Entry.builder()
@@ -1795,8 +1793,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         logBundledRequestCompletedMsg(requestDescription.toString(), initialTime, SC_GONE);
                     } catch (FHIROperationException e) {
                         if (failFast) {
-                            String msg = "Error while processing request bundle.";
-                            throw new FHIRRestBundledRequestException(msg, e).withIssue(e.getIssues());
+                            updateIssuesWithEntryIndexAndThrow(entryIndex, e);
                         }
 
                         Status status;
@@ -1839,6 +1836,16 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             }
             log.exiting(this.getClass().getName(), "processEntriesForMethod");
         }
+    }
+
+    private void updateIssuesWithEntryIndexAndThrow(Integer entryIndex, FHIROperationException cause) throws FHIROperationException {
+        String msg = "Error while processing request bundle on entry " + entryIndex;
+        List<Issue> updatedIssues = cause.getIssues().stream()
+                .map(i -> i.toBuilder().expression(string("Bundle.entry[" + entryIndex + "]")).build())
+                .collect(Collectors.toList());
+        // no need to keep the issues in the cause any more since we've "promoted" them to the wrapped exception
+        cause.withIssue(Collections.emptyList());
+        throw new FHIRRestBundledRequestException(msg, cause).withIssue(updatedIssues);
     }
 
     /**
