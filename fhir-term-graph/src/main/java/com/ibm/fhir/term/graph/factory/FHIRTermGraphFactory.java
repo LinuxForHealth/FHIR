@@ -32,7 +32,7 @@ public final class FHIRTermGraphFactory {
         try {
             FileBasedConfigurationBuilder<PropertiesConfiguration> builder =
                     new FileBasedConfigurationBuilder<>(PropertiesConfiguration.class)
-                    .configure(new Parameters().properties().setFileName("myconfig.properties"));
+                    .configure(new Parameters().properties().setFileName(propFileName));
             return open(builder.getConfiguration());
         } catch (Exception e) {
             throw new Error(e);
