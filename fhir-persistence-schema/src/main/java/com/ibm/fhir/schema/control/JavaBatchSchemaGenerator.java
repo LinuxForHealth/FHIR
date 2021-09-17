@@ -23,6 +23,7 @@ import com.ibm.fhir.database.utils.model.Table;
  * <code>wlp/bin/ddlGen generate fhir-server</code>
  */
 public class JavaBatchSchemaGenerator {
+    public static final String BATCH_GROUP = "OAUTH_GROUP";
     public static final String BATCH_SCHEMANAME = "FHIR_JBATCH";
     public static final Boolean NOT_NULL = Boolean.FALSE;
     public static final Boolean NULL = Boolean.TRUE;
@@ -151,7 +152,7 @@ public class JavaBatchSchemaGenerator {
                 .addPrivileges(generateGroupPrivilege())
                 .build(model);
 
-        table.addTag(FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
+        table.addTag(FhirSchemaGenerator.SCHEMA_GROUP_TAG, BATCH_GROUP);
 
         model.addTable(table);
         model.addObject(table);
@@ -178,7 +179,7 @@ public class JavaBatchSchemaGenerator {
                 .addPrivileges(generateGroupPrivilege())
                 .build(model);
 
-        table.addTag(FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
+        table.addTag(FhirSchemaGenerator.SCHEMA_GROUP_TAG, BATCH_GROUP);
 
         model.addTable(table);
         model.addObject(table);
@@ -255,7 +256,7 @@ public class JavaBatchSchemaGenerator {
                     // STPTHRDXCTNFKJBXCD FOREIGN KEY (FK_JOBEXECID) (FK_JOBEXECID)
                 .addPrivileges(generateGroupPrivilege())
                 .build(model);
-        table.addTag(FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
+        table.addTag(FhirSchemaGenerator.SCHEMA_GROUP_TAG, BATCH_GROUP);
 
         model.addTable(table);
         model.addObject(table);
@@ -301,7 +302,7 @@ public class JavaBatchSchemaGenerator {
                 .addUniqueConstraint("RMOTABLEPARTITION0", FK_JOBEXECUTIONID, STEPNAME, PARTNUM)
                 .addPrivileges(generateGroupPrivilege())
                 .build(model);
-        table.addTag(FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
+        table.addTag(FhirSchemaGenerator.SCHEMA_GROUP_TAG, BATCH_GROUP);
 
         model.addTable(table);
         model.addObject(table);
@@ -353,7 +354,7 @@ public class JavaBatchSchemaGenerator {
                     // JBXCTNFKJBNSTNCEID (FK_JOBINSTANCEID)
                 .addPrivileges(generateGroupPrivilege())
                 .build(model);
-        table.addTag(FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
+        table.addTag(FhirSchemaGenerator.SCHEMA_GROUP_TAG, BATCH_GROUP);
 
         model.addTable(table);
         model.addObject(table);
@@ -403,7 +404,7 @@ public class JavaBatchSchemaGenerator {
                     // PRIMARY KEY (PARTNUM, STEPNAME, FK_JOBINSTANCEID))
                 .addPrivileges(generateGroupPrivilege())
                 .build(model);
-        table.addTag(FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
+        table.addTag(FhirSchemaGenerator.SCHEMA_GROUP_TAG, BATCH_GROUP);
 
         model.addTable(table);
         model.addObject(table);
@@ -450,7 +451,7 @@ public class JavaBatchSchemaGenerator {
                 .addPrimaryKey(PK + JOBINSTANCEID, JOBINSTANCEID) // PRIMARY KEY (JOBINSTANCEID)
                 .addPrivileges(generateGroupPrivilege())
                 .build(model);
-        table.addTag(FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
+        table.addTag(FhirSchemaGenerator.SCHEMA_GROUP_TAG, BATCH_GROUP);
 
         model.addTable(table);
         model.addObject(table);

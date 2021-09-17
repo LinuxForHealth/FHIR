@@ -487,12 +487,12 @@ public class Main {
 
         if (dropOauthSchema) {
             logger.info("Dropping FK constraints in the OAuth schema: " + this.schema.getOauthSchemaName());
-            dropForeignKeyConstraints(pdm, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
+            dropForeignKeyConstraints(pdm, FhirSchemaGenerator.SCHEMA_GROUP_TAG, OAuthSchemaGenerator.OAUTH_GROUP);
         }
 
         if (dropJavaBatchSchema) {
             logger.info("Dropping FK constraints in the Batch schema: " + this.schema.getJavaBatchSchemaName());
-            dropForeignKeyConstraints(pdm, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
+            dropForeignKeyConstraints(pdm, FhirSchemaGenerator.SCHEMA_GROUP_TAG, JavaBatchSchemaGenerator.BATCH_GROUP);
         }
 
         if (dropAdmin) {
@@ -510,6 +510,16 @@ public class Main {
                     if (dropFhirSchema || dropOauthSchema || dropJavaBatchSchema) {
                         // Just drop the objects associated with the FHIRDATA schema group
                         pdm.drop(adapter, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
+                    }
+
+                    if (dropOauthSchema) {
+                        // Just drop the objects associated with the OAUTH schema group
+                        pdm.drop(adapter, FhirSchemaGenerator.SCHEMA_GROUP_TAG, OAuthSchemaGenerator.OAUTH_GROUP);
+                    }
+
+                    if (dropJavaBatchSchema) {
+                        // Just drop the objects associated with the BATCH schema group
+                        pdm.drop(adapter, FhirSchemaGenerator.SCHEMA_GROUP_TAG, JavaBatchSchemaGenerator.BATCH_GROUP);
                     }
 
                     if (dropAdmin) {
