@@ -23,7 +23,7 @@ import com.ibm.fhir.database.utils.model.Table;
  * <code>wlp/bin/ddlGen generate fhir-server</code>
  */
 public class JavaBatchSchemaGenerator {
-    public static final String BATCH_GROUP = "OAUTH_GROUP";
+    public static final String BATCH_GROUP = "BATCH_GROUP";
     public static final String BATCH_SCHEMANAME = "FHIR_JBATCH";
     public static final Boolean NOT_NULL = Boolean.FALSE;
     public static final Boolean NULL = Boolean.TRUE;
