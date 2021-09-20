@@ -1,10 +1,11 @@
+package com.ibm.fhir.server.interceptor.test;
 /*
  * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.test;
+
 
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Patient;
@@ -12,9 +13,9 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.HumanName;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.FHIRUtil;
-import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
-import com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptor;
-import com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptorException;
+import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
+import com.ibm.fhir.server.interceptor.FHIRPersistenceInterceptor;
+import com.ibm.fhir.server.interceptor.FHIRPersistenceInterceptorException;
 
 /**
  * This class serves as a test implementation of the FHIRPersistenceInterceptor interface.

@@ -4,20 +4,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.persistence.interceptor;
+package com.ibm.fhir.server.interceptor;
 
 import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
+import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 
 /**
  * This interface describes a persistence interceptor. Persistence interceptors are invoked by the FHIR Server to allow
  * users to inject business logic into the REST API processing flow. To make use of this interceptor, develop a class
  * that implements this interface, then store your implementation class name in a file called
  * META-INF/services/com.ibm.fhir.persistence.FHIRPersistenceInterceptor within your jar file.
- * @deprecated
  */
-@Deprecated
 public interface FHIRPersistenceInterceptor {
-
     /**
      * This method is called during the processing of a 'create' REST API invocation, immediately before the new
      * resource is stored by the persistence layer.
@@ -192,5 +190,27 @@ public interface FHIRPersistenceInterceptor {
      * @throws FHIRPersistenceInterceptorException
      */
     default void afterSearch(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
+    }
+
+    /**
+     * This method is called during the invocation of a 'custom operation', immediately before the operation logic
+     * is executed.
+     *
+     * @param context
+     *            information about the 'invoke' event
+     * @throws FHIRPersistenceInterceptorException
+     */
+    default void beforeInvoke(FHIROperationContext event) throws FHIRPersistenceInterceptorException {
+    }
+
+    /**
+     * This method is called during the invocation of a 'custom operation', immediately after the operation logic
+     * is executed.
+     *
+     * @param context
+     *            information about the 'invoke' event
+     * @throws FHIRPersistenceInterceptorException
+     */
+    default void afterInvoke(FHIROperationContext event) throws FHIRPersistenceInterceptorException {
     }
 }

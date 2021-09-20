@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.persistence.interceptor.impl;
+package com.ibm.fhir.server.interceptor;
 
 import java.util.Iterator;
 import java.util.List;
@@ -15,8 +15,7 @@ import java.util.logging.Logger;
 
 import com.ibm.fhir.core.FHIRUtilities;
 import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
-import com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptor;
-import com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptorException;
+import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 
 /**
  * This class implements the FHIR persistence interceptor framework. This framework allows users to inject business
@@ -28,9 +27,7 @@ import com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptorException;
  * and then insert your implementation class name into a file called
  * META-INF/services/com.ibm.fhir.persistence.FHIRPersistenceInterceptor and store that file in your jar.
  * These "interceptor" jars should be stored in a common place defined by the FHIR Server.
- * @deprecated moved to com.ibm.fhir.server.interceptor in fhir-server
  */
-@Deprecated
 public class FHIRPersistenceInterceptorMgr {
     private static final Logger log = Logger.getLogger(FHIRPersistenceInterceptorMgr.class.getName());
 
@@ -181,6 +178,18 @@ public class FHIRPersistenceInterceptorMgr {
     public void fireAfterSearchEvent(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
         for (FHIRPersistenceInterceptor interceptor : interceptors) {
             interceptor.afterSearch(event);
+        }
+    }
+
+    public void fireBeforeInvokeEvent(FHIROperationContext context) throws FHIRPersistenceInterceptorException {
+        for (FHIRPersistenceInterceptor interceptor : interceptors) {
+            interceptor.beforeInvoke(context);
+        }
+    }
+
+    public void fireAfterInvokeEvent(FHIROperationContext context) throws FHIRPersistenceInterceptorException {
+        for (FHIRPersistenceInterceptor interceptor : interceptors) {
+            interceptor.afterInvoke(context);
         }
     }
 }

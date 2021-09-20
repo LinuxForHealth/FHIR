@@ -164,7 +164,7 @@ public class BulkDataImportUtilTest {
     }
 
     private FHIROperationContext getContext() {
-        FHIROperationContext ctx = FHIROperationContext.createInstanceOperationContext();
+        FHIROperationContext ctx = FHIROperationContext.createInstanceOperationContext("import");
         HttpHeaders httpHeaders = new HttpHeaders() {
 
             @Override

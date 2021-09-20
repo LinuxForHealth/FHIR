@@ -24,7 +24,7 @@ import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.test.TestUtil;
-import com.ibm.fhir.notification.FHIRNotificationEvent;
+import com.ibm.fhir.server.notification.FHIRNotificationEvent;
 import com.ibm.fhir.server.test.FHIRServerTestBase;
 
 /**

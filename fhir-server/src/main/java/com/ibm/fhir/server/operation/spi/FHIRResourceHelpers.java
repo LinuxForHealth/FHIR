@@ -17,14 +17,14 @@ import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.patch.FHIRPatch;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.OperationOutcome;
-import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
+import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.fhir.persistence.ResourceEraseRecord;
 import com.ibm.fhir.persistence.SingleResourceResult;
+import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.erase.EraseDTO;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.payload.PayloadKey;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.server.util.FHIRRestHelper.Interaction;
@@ -65,7 +65,7 @@ public interface FHIRResourceHelpers {
      * @throws Exception
      */
     FHIRRestOperationResponse doCreate(String type, Resource resource, String ifNoneExist, boolean doValidation) throws Exception;
-    
+
     /**
      * Performs the heavy lifting associated with a 'create' interaction. Validates the resource.
      *
@@ -93,7 +93,7 @@ public interface FHIRResourceHelpers {
      * @return
      * @throws Exception
      */
-    FHIRRestOperationResponse doCreateMeta(FHIRPersistenceEvent event, List<Issue> warnings, String type, Resource resource, 
+    FHIRRestOperationResponse doCreateMeta(FHIRPersistenceEvent event, List<Issue> warnings, String type, Resource resource,
         String ifNoneExist) throws Exception;
 
     /**
@@ -108,7 +108,7 @@ public interface FHIRResourceHelpers {
     FHIRRestOperationResponse doCreatePersist(FHIRPersistenceEvent event, List<Issue> warnings, Resource resource) throws Exception;
 
     /**
-     * 1st phase of update interaction. 
+     * 1st phase of update interaction.
      * @param event
      * @param type
      * @param id
@@ -140,7 +140,7 @@ public interface FHIRResourceHelpers {
      */
     public FHIRRestOperationResponse doPatchOrUpdatePersist(FHIRPersistenceEvent event, String type, String id, boolean isPatch,
         Resource newResource, Resource prevResource, List<Issue> warnings, boolean isDeleted) throws Exception;
-    
+
     /**
      * Builds a collection of properties that will be passed to the persistence interceptors.
      *
@@ -157,7 +157,7 @@ public interface FHIRResourceHelpers {
      */
     Map<String, Object> buildPersistenceEventProperties(String type, String id,
         String version, FHIRSearchContext searchContext) throws FHIRPersistenceException;
-    
+
     /**
      * Performs an update operation (a new version of the Resource will be stored). Validates the resource.
      *
@@ -399,8 +399,6 @@ public interface FHIRResourceHelpers {
      *            the resource logical id associated with the request
      * @param versionId
      *            the resource version id associated with the request
-     * @param operationName
-     *            the name of the custom operation to be invoked
      * @param resource
      *            the input resource associated with the custom operation to be invoked
      * @param queryParameters
@@ -409,7 +407,7 @@ public interface FHIRResourceHelpers {
      * @return a Resource that represents the response to the custom operation
      * @throws Exception
      */
-    Resource doInvoke(FHIROperationContext operationContext, String resourceTypeName, String logicalId, String versionId, String operationName,
+    Resource doInvoke(FHIROperationContext operationContext, String resourceTypeName, String logicalId, String versionId,
             Resource resource, MultivaluedMap<String, String> queryParameters) throws Exception;
 
     /**
@@ -466,14 +464,14 @@ public interface FHIRResourceHelpers {
      * @throws Exception
      */
     List<Long> doRetrieveIndex(FHIROperationContext operationContext, String resourceTypeName, int count, Instant notModifiedAfter, Long afterIndexId) throws Exception;
-    
+
     /**
      * Generate a new resource id. This is typically delegated to the persistence layer, which
      * may want to create FHIR-compliant ids optimized for a certain type of storage.
      * @return
      */
     String generateResourceId();
-    
+
     /**
      * If the underlying persistence layer supports offloading payload storage, initiate the
      * request here.

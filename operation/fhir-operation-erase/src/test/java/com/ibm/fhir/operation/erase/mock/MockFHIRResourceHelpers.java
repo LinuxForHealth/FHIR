@@ -159,7 +159,7 @@ public class MockFHIRResourceHelpers implements FHIRResourceHelpers {
     }
 
     @Override
-    public Resource doInvoke(FHIROperationContext operationContext, String resourceTypeName, String logicalId, String versionId, String operationName,
+    public Resource doInvoke(FHIROperationContext operationContext, String resourceTypeName, String logicalId, String versionId,
         Resource resource, MultivaluedMap<String, String> queryParameters) throws Exception {
 
         return null;

@@ -83,7 +83,7 @@ public class OperationTest {
 
     @Test
     public void testBulkDataFactory() {
-        FHIROperationContext operationContext = FHIROperationContext.createInstanceOperationContext();
+        FHIROperationContext operationContext = FHIROperationContext.createInstanceOperationContext("test");
         ExportImportBulkData eibd = BulkDataFactory.getInstance(operationContext);
         assertNotNull(eibd);
     }

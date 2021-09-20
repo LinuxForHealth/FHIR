@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.notification;
+package com.ibm.fhir.server.notification;
 
 import java.util.Collections;
 import java.util.List;
@@ -17,11 +17,10 @@ import java.util.logging.Logger;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.notification.exception.FHIRNotificationException;
 import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
-import com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptor;
-import com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptorException;
-import com.ibm.fhir.persistence.interceptor.impl.FHIRPersistenceInterceptorMgr;
+import com.ibm.fhir.server.interceptor.FHIRPersistenceInterceptor;
+import com.ibm.fhir.server.interceptor.FHIRPersistenceInterceptorException;
+import com.ibm.fhir.server.interceptor.FHIRPersistenceInterceptorMgr;
 
 /**
  * This class coordinates the activities of the FHIR Server notification service.

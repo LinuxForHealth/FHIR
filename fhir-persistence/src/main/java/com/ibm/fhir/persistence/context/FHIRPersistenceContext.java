@@ -6,7 +6,6 @@
 
 package com.ibm.fhir.persistence.context;
 
-import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 
 /**

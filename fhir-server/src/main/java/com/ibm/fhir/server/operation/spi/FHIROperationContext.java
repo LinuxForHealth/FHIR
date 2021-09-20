@@ -74,19 +74,35 @@ public class FHIROperationContext {
      */
     public static final String PROPNAME_HTTP_REQUEST = "HTTP_REQUEST";
 
-    private Type type = null;
+    /**
+     * The request parameters for this invocation
+     */
+    public static final String PROPNAME_REQUEST_PARAMETERS = "REQUEST_PARAMETERS";
+
+    /**
+     * The request parameters for this invocation
+     */
+    public static final String PROPNAME_RESPONSE_PARAMETERS = "RESPONSE_PARAMETERS";
+
+    private final Type type;
+    private final String code;
     private Map<String, Object> properties = null;
 
-    private FHIROperationContext(Type type) {
+    private FHIROperationContext(Type type, String code) {
         if (type == null) {
             throw new IllegalArgumentException("Context type cannot be null");
         }
         this.type = type;
+        this.code = code;
         properties = new HashMap<String, Object>();
     }
 
     public Type getType() {
         return type;
+    }
+
+    public String getOperationCode() {
+        return code;
     }
 
     public void setProperty(String name, Object value) {
@@ -105,16 +121,16 @@ public class FHIROperationContext {
         return (HttpHeaders) getProperty(PROPNAME_HTTP_HEADERS);
     }
 
-    public static FHIROperationContext createSystemOperationContext() {
-        return new FHIROperationContext(Type.SYSTEM);
+    public static FHIROperationContext createSystemOperationContext(String operationCode) {
+        return new FHIROperationContext(Type.SYSTEM, operationCode);
     }
 
-    public static FHIROperationContext createResourceTypeOperationContext() {
-        return new FHIROperationContext(Type.RESOURCE_TYPE);
+    public static FHIROperationContext createResourceTypeOperationContext(String operationCode) {
+        return new FHIROperationContext(Type.RESOURCE_TYPE, operationCode);
     }
 
-    public static FHIROperationContext createInstanceOperationContext() {
-        return new FHIROperationContext(Type.INSTANCE);
+    public static FHIROperationContext createInstanceOperationContext(String operationCode) {
+        return new FHIROperationContext(Type.INSTANCE, operationCode);
     }
 
     /**

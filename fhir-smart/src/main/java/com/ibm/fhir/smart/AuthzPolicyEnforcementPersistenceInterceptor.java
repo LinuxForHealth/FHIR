@@ -6,12 +6,15 @@
 
 package com.ibm.fhir.smart;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,6 +23,8 @@ import java.util.stream.Stream;
 
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.resource.Bundle;
+import com.ibm.fhir.model.resource.Parameters;
+import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.resource.Provenance;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
@@ -37,12 +42,10 @@ import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
+import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
-import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
-import com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptor;
-import com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptorException;
 import com.ibm.fhir.search.compartment.CompartmentUtil;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.exception.FHIRSearchException;
@@ -50,21 +53,75 @@ import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.util.ReferenceUtil;
 import com.ibm.fhir.search.util.ReferenceValue;
 import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.server.interceptor.FHIRPersistenceInterceptor;
+import com.ibm.fhir.server.interceptor.FHIRPersistenceInterceptorException;
+import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.smart.JWT.Claim;
 import com.ibm.fhir.smart.JWT.DecodedJWT;
 import com.ibm.fhir.smart.Scope.ContextType;
 import com.ibm.fhir.smart.Scope.Permission;
 
 public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersistenceInterceptor {
+    private static final Logger log = Logger.getLogger(AuthzPolicyEnforcementPersistenceInterceptor.class.getName());
+
     private static final String DAVINCI_DRUG_FORMULARY_COVERAGE_PLAN =
             "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-CoveragePlan";
-
-    private static final Logger log = Logger.getLogger(AuthzPolicyEnforcementPersistenceInterceptor.class.getName());
 
     private static final String BEARER_TOKEN_PREFIX = "Bearer";
     private static final String PATIENT = "Patient";
 
     private static final String REQUEST_NOT_PERMITTED = "Requested interaction is not permitted by any of the passed scopes.";
+
+    @Override
+    public void beforeInvoke(FHIROperationContext context) throws FHIRPersistenceInterceptorException {
+        if (!"export".equals(context.getOperationCode())) {
+            return;
+        }
+
+        List<String> resourceTypes = computeExportResourceTypes(context);
+        if (resourceTypes.isEmpty()) {
+            throw new IllegalStateException("The set of export resources was unexpectedly empty");
+        }
+
+        DecodedJWT jwt = JWT.decode(getAccessToken());
+        List<Scope> scopesFromToken = getScopesFromToken(jwt).stream()
+                .filter(s -> s.getContextType() == ContextType.SYSTEM)
+                .collect(Collectors.toList());
+
+        for (String resourceType : resourceTypes) {
+            checkScopes(resourceType, Permission.READ, scopesFromToken);
+        }
+    }
+
+    private List<String> computeExportResourceTypes(FHIROperationContext context) {
+        List<String> resourceTypes = new ArrayList<>();
+        switch (context.getType()) {
+        case INSTANCE:      // Group/:id/$export
+        case RESOURCE_TYPE: // Patient/$export
+            // Either way, the set resourceTypes to export are those from the Patient compartment
+            try {
+                resourceTypes = CompartmentUtil.getCompartmentResourceTypes("Patient");
+            } catch (FHIRSearchException e) {
+                throw new IllegalStateException("Unexpected error while computing the resource types for the export", e);
+            }
+            break;
+        case SYSTEM:
+            Parameters parameters = (Parameters) context.getProperty(FHIROperationContext.PROPNAME_REQUEST_PARAMETERS);
+            Optional<Parameter> typesParam = parameters.getParameter().stream().filter(p -> "_types".equals(p.getName().getValue())).findFirst();
+            if (typesParam.isPresent()) {
+                String typesString = typesParam.get().getValue().as(ModelSupport.FHIR_STRING).getValue();
+                resourceTypes = Arrays.asList(typesString.split(","));
+            } else {
+                // "Resource" is used as a placeholder for the set of all resource types; equivalent to "*" in SMART
+                resourceTypes = Collections.singletonList("Resource");
+            }
+            break;
+        default:
+            log.warning("Unexpected export of type " + context.getType());
+            break;
+        }
+        return resourceTypes;
+    }
 
     @Override
     public void beforeRead(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
@@ -438,6 +495,14 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
                 .filter(s -> hasPermission(s.getPermission(), requiredPermission))
                 // Then group the scopes by their context type
                 .collect(Collectors.groupingBy(s -> s.getContextType()));
+
+        if (approvedScopeMap.containsKey(ContextType.SYSTEM)) {
+            if (log.isLoggable(Level.FINE)) {
+                log.fine(requiredPermission.value() + " permission for '" + resourceType + "/" + resource.getId() +
+                    "' is granted via scope " + approvedScopeMap.get(ContextType.SYSTEM));
+            }
+            return true;
+        }
 
         if (approvedScopeMap.containsKey(ContextType.USER)) {
             // For `user` scopes, we grant access to all resources of the requested type.

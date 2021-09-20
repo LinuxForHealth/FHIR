@@ -1,10 +1,11 @@
+package com.ibm.fhir.server.interceptor.test;
 /*
  * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.test;
+
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
@@ -22,9 +23,9 @@ import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.HumanName;
 import com.ibm.fhir.model.type.code.IssueType;
-import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
-import com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptorException;
-import com.ibm.fhir.persistence.interceptor.impl.FHIRPersistenceInterceptorMgr;
+import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
+import com.ibm.fhir.server.interceptor.FHIRPersistenceInterceptorException;
+import com.ibm.fhir.server.interceptor.FHIRPersistenceInterceptorMgr;
 
 /**
  * This class tests the persistence interceptor feature. The MyInterceptor class is our test interceptor implementation

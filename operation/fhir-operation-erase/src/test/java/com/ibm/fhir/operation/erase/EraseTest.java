@@ -154,7 +154,7 @@ public class EraseTest {
      * @return
      */
     private FHIROperationContext generateContext(String method, String checkRole) {
-        FHIROperationContext ctx = FHIROperationContext.createInstanceOperationContext();
+        FHIROperationContext ctx = FHIROperationContext.createInstanceOperationContext("erase");
         ctx.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, method);
         ctx.setProperty(FHIROperationContext.PROPNAME_SECURITY_CONTEXT, new MockSecurityContext(checkRole));
         ctx.setProperty(FHIROperationContext.PROPNAME_HTTP_REQUEST, new MockHttpServletRequest());

@@ -45,12 +45,12 @@ import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.ResourceType;
-import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
-import com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptorException;
+import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
 import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.context.impl.FHIRSearchContextImpl;
 import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.parameters.QueryParameterValue;
+import com.ibm.fhir.server.interceptor.FHIRPersistenceInterceptorException;
 import com.ibm.fhir.smart.AuthzPolicyEnforcementPersistenceInterceptor;
 import com.ibm.fhir.smart.Scope.Permission;
 
@@ -823,6 +823,10 @@ public class AuthzPolicyEnforcementTest {
             {"user/*.*", CONTEXT_IDS, all_resources, Permission.ALL},
             {"user/Patient.read", CONTEXT_IDS, patient, Permission.READ},
             {"user/Observation.write", CONTEXT_IDS, observation, Permission.WRITE},
+
+            {"system/*.*", all_resources, Permission.ALL},
+            {"system/Patient.read", patient, Permission.READ},
+            {"system/Observation.write", observation, Permission.WRITE},
 
             {"openid profile", CONTEXT_IDS, Collections.EMPTY_SET, null},
         };

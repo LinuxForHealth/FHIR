@@ -4,17 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.persistence.interceptor;
+package com.ibm.fhir.server.interceptor;
 
 import java.util.Collection;
 
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 
-/**
- * @deprecated moved to com.ibm.fhir.server.interceptor in fhir-server
- */
-@Deprecated
 public class FHIRPersistenceInterceptorException extends FHIRPersistenceException {
     private static final long serialVersionUID = 1L;
 
