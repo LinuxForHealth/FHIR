@@ -350,6 +350,8 @@ public class FhirResourceTableGroup {
                 })
                 .build(model);
 
+        tbl.addTag(FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
+
         group.add(tbl);
         model.addTable(tbl);
 
@@ -366,6 +368,9 @@ public class FhirResourceTableGroup {
                 .addColumn(LAST_UPDATED)
                 .build();
         idxLastUpdated.addDependency(tbl); // dependency to the table on which the index applies
+
+        idxLastUpdated.addTag(FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
+
         group.add(idxLastUpdated);
 
     }
@@ -538,6 +543,8 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
                 })
                 .build(model);
 
+        tbl.addTag(FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
+
         group.add(tbl);
         model.addTable(tbl);
 
@@ -580,6 +587,8 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
                 })
                 .build(model);
 
+        tbl.addTag(FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
+
         group.add(tbl);
         model.addTable(tbl);
 
@@ -621,6 +630,8 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
                 })
                 .build(model);
 
+        tbl.addTag(FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
+
         group.add(tbl);
         model.addTable(tbl);
 
@@ -658,6 +669,8 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
                     return statements;
                 })
                 .build(model);
+
+        tbl.addTag(FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
 
         group.add(tbl);
         model.addTable(tbl);
