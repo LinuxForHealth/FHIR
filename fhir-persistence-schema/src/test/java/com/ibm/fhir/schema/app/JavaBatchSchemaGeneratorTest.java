@@ -129,7 +129,7 @@ public class JavaBatchSchemaGeneratorTest {
             }
         }
 
-        assertEquals(commands.size(), 24);
+        assertEquals(commands.size(), 38);
         commands.clear();
     }
 
