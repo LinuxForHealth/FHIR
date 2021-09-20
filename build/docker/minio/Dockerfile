@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # ----------------------------------------------------------------------------
 
-FROM minio/minio
+FROM minio/minio:RELEASE.2021-08-31T05-46-54Z
 
 # Indicate that we expect to connect to the minio service on port 9000
 EXPOSE 9000
