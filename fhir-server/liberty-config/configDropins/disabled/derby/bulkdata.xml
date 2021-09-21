@@ -1,6 +1,6 @@
 <server description="fhir-server">
     <!-- 
-        This configDropin work with Db2 and user-password
+        This configDropin work with Derby
     -->
     <featureManager>
         <feature>batch-1.0</feature>
@@ -32,25 +32,10 @@
         </application-bnd>
     </webApplication>
 
-    <variable name="BATCH_DB_HOSTNAME" defaultValue="localhost"/>
-    <variable name="BATCH_DB_PORT" defaultValue="50000"/>
-    <variable name="BATCH_DB_NAME" defaultValue="FHIRDB"/>
-    <variable name="BATCH_DB_SCHEMA" defaultValue="FHIR_JBATCH"/>
-    <variable name="BATCH_DB_USER" defaultValue="db2inst1"/>
-    <variable name="BATCH_DB_PASS" defaultValue=""/>
-    <variable name="BATCH_DB_SSL" defaultValue="true"/>
-
-    <dataSource id="fhirbatchDS" jndiName="jdbc/fhirbatchDB" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true">
-        <jdbcDriver javax.sql.XADataSource="com.ibm.db2.jcc.DB2XADataSource" libraryRef="sharedLibDb2"/>
-        <properties.db2.jcc
-            serverName="${BATCH_DB_HOSTNAME}"
-            currentSchema="${BATCH_DB_SCHEMA}"
-            databaseName="${BATCH_DB_NAME}"
-            driverType="4"
-            portNumber="${BATCH_DB_PORT}"
-            sslConnection="${BATCH_DB_SSL}"
-            user="${BATCH_DB_USER}"
-            password="${BATCH_DB_PASS}"/>
+    <dataSource id="fhirbatchDS" jndiName="jdbc/fhirbatchDB" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true" validationTimeout="30s">
+        <jdbcDriver javax.sql.XADataSource="org.apache.derby.jdbc.EmbeddedXADataSource" libraryRef="sharedLibDerby"/>
+        <properties.derby.embedded databaseName="derby/fhirDB"/>
+        <connectionManager maxPoolSize="50" minPoolSize="10"/>
     </dataSource>
 
    <batchPersistence jobStoreRef="BatchDatabaseStore"/>
