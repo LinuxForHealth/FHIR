@@ -40,84 +40,108 @@ public class MyInterceptor implements FHIRPersistenceInterceptor {
     @Override
     public void beforeCreate(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
         if (event.getFhirResource() != null && event.getFhirResourceType() != null) {
-            beforeCreateCount++;
+            if ("interceptorTest".equals(event.getFhirResource().getId())) {
+                beforeCreateCount++;
+            }
         }
         possiblyThrowException(event.getFhirResource(), IssueType.FORBIDDEN);
     }
 
     @Override
     public void afterCreate(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
-        afterCreateCount++;
+        if ("interceptorTest".equals(event.getFhirResource().getId())) {
+            afterCreateCount++;
+        }
         possiblyThrowException(event.getFhirResource(), IssueType.CODE_INVALID);
     }
 
     @Override
     public void beforeUpdate(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
         if (event.getFhirResource() != null && event.getFhirResourceType() != null && event.getFhirResourceId() != null) {
-            beforeUpdateCount++;
+            if ("interceptorTest".equals(event.getFhirResourceId())) {
+                beforeUpdateCount++;
+            }
         }
         possiblyThrowException(event.getFhirResource(), IssueType.CONFLICT);
     }
 
     @Override
     public void afterUpdate(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
-        afterUpdateCount++;
+        if ("interceptorTest".equals(event.getFhirResourceId())) {
+            afterUpdateCount++;
+        }
         possiblyThrowException(event.getFhirResource(), IssueType.EXPIRED);
     }
 
     @Override
     public void beforeRead(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
         if (event.getFhirResourceType() != null && event.getFhirResourceId() != null) {
-            beforeReadCount++;
+            if ("interceptorTest".equals(event.getFhirResourceId())) {
+                beforeReadCount++;
+            }
         }
         possiblyThrowException(event.getFhirResourceType());
     }
 
     @Override
     public void afterRead(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
-        afterReadCount++;
+        if ("interceptorTest".equals(event.getFhirResourceId())) {
+            afterReadCount++;
+        }
         possiblyThrowException(event.getFhirResourceType());
     }
 
     @Override
     public void beforeVread(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
         if (event.getFhirResourceType() != null && event.getFhirResourceId() != null && event.getFhirVersionId() != null) {
-            beforeVreadCount++;
+            if ("interceptorTest".equals(event.getFhirResourceId())) {
+                beforeVreadCount++;
+            }
         }
         possiblyThrowException(event.getFhirResourceType());
     }
 
     @Override
     public void afterVread(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
-        afterVreadCount++;
+        if ("interceptorTest".equals(event.getFhirResourceId())) {
+            afterVreadCount++;
+        }
         possiblyThrowException(event.getFhirResourceType());
     }
 
     @Override
     public void beforeHistory(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
         if (event.getFhirResourceType() != null && event.getFhirResourceId() != null) {
-            beforeHistoryCount++;
+            if ("interceptorTest".equals(event.getFhirResourceId())) {
+                beforeHistoryCount++;
+            }
         }
         possiblyThrowException(event.getFhirResourceType());
     }
 
     @Override
     public void afterHistory(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
-        afterHistoryCount++;
+        if ("interceptorTest".equals(event.getFhirResourceId())) {
+            afterHistoryCount++;
+        }
         possiblyThrowException(event.getFhirResourceType());
     }
 
     @Override
     public void beforeSearch(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
         if (event.getFhirResourceType() != null) {
-            beforeSearchCount++;
+            if ("interceptorTest".equals(event.getProperty("dummyProp"))) {
+                beforeSearchCount++;
+            }
         }
         possiblyThrowException(event.getFhirResourceType());
     }
 
     @Override
     public void afterSearch(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
-        afterSearchCount++;
+        if ("interceptorTest".equals(event.getProperty("dummyProp"))) {
+            afterSearchCount++;
+        }
         possiblyThrowException(event.getFhirResourceType());
     }
 
