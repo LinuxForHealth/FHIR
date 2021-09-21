@@ -194,15 +194,21 @@ public class BatchCancelRequestAction implements BulkDataClientAction {
      * @throws FHIROperationException
      */
     private void verifyTenant(List<JobExecutionResponse> jobExecutions, String tenant) throws FHIROperationException {
-        JobExecutionResponse jer = jobExecutions.get(0);
-        JobParameter jobParameters = jer.getJobParameters();
-
-        if (jobParameters == null || jobParameters.getFhirTenant() == null
-                || !jobParameters.getFhirTenant().equals(tenant)) {
-            String jobTenant =  jobParameters != null ? jobParameters.getFhirTenant() : "<null>";
-            LOG.warning("Tenant not authorized to access job [" + tenant + "] jobParameter [" + jobTenant + "]");
-            throw export.buildOperationException("Tenant not authorized to access job", IssueType.FORBIDDEN);
+        String jobTenant = "<null>";
+        for (JobExecutionResponse jer : jobExecutions) {
+            JobParameter jobParameters = jer.getJobParameters();
+            if (jobParameters != null && jobParameters.getFhirTenant() != null) {
+                if (jobParameters.getFhirTenant().equals(tenant)) {
+                    // Escaping immediately, as there is no need to process further.
+                    return;
+                } else {
+                    jobTenant = jobParameters.getFhirTenant();
+                }
+            }
         }
+
+        LOG.warning("Tenant not authorized to access job [" + tenant + "] jobParameter [" + jobTenant + "]");
+        throw export.buildOperationException("Tenant not authorized to access job", IssueType.FORBIDDEN);
     }
 
     /**
