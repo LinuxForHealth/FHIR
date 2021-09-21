@@ -282,6 +282,12 @@ public class Main {
             }
         }
 
+        // Add the tenant and tenant_keys tables and any other admin schema stuff
+        if (dropAdmin) {
+            FhirSchemaGenerator gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), schema.getSchemaName(), isMultitenant());
+            gen.buildAdminSchema(pdm);
+        }
+
         // Build/update the Liberty OAuth-related tables
         if (oauthSchema) {
             OAuthSchemaGenerator oauthSchemaGenerator = new OAuthSchemaGenerator(schema.getOauthSchemaName());
@@ -524,12 +530,8 @@ public class Main {
 
                     if (dropAdmin) {
                         // Just drop the objects associated with the ADMIN schema group
+                        CreateVersionHistory.generateTable(pdm, ADMIN_SCHEMANAME, true);
                         pdm.drop(adapter, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.ADMIN_GROUP);
-
-                        // Drops the VHS table
-                        PhysicalDataModel vhsPdm = new PhysicalDataModel();
-                        CreateVersionHistory.generateTable(vhsPdm, ADMIN_SCHEMANAME, true);
-                        pdm.drop(adapter, CreateVersionHistory.SCHEMA_GROUP_TAG, CreateVersionHistory.ADMIN_GROUP);
                     }
                 } catch (Exception x) {
                     c.rollback();
