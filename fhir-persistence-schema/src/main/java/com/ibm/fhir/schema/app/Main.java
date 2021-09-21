@@ -280,10 +280,8 @@ public class Main {
             default:
                 throw new IllegalStateException("Unsupported db type: " + dbType);
             }
-        }
-
-        // Add the tenant and tenant_keys tables and any other admin schema stuff
-        if (dropAdmin) {
+        } else if (dropAdmin) {
+            // Add the tenant and tenant_keys tables and any other admin schema stuff
             FhirSchemaGenerator gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), schema.getSchemaName(), isMultitenant());
             gen.buildAdminSchema(pdm);
         }
