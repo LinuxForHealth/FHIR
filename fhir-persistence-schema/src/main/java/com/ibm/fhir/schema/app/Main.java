@@ -525,6 +525,11 @@ public class Main {
                     if (dropAdmin) {
                         // Just drop the objects associated with the ADMIN schema group
                         pdm.drop(adapter, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.ADMIN_GROUP);
+
+                        // Drops the VHS table
+                        PhysicalDataModel vhsPdm = new PhysicalDataModel();
+                        CreateVersionHistory.generateTable(vhsPdm, ADMIN_SCHEMANAME, true);
+                        pdm.drop(adapter, CreateVersionHistory.SCHEMA_GROUP_TAG, CreateVersionHistory.ADMIN_GROUP);
                     }
                 } catch (Exception x) {
                     c.rollback();
