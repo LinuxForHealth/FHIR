@@ -272,7 +272,7 @@ public class EraseOperationTest extends FHIRServerTestBase {
      * @param version the version that is to be erased
      * @return
      */
-    public Parameters generateParameters(boolean patient, boolean reason, String reasonMsg, Optional<Integer> version) {
+    public static Parameters generateParameters(boolean patient, boolean reason, String reasonMsg, Optional<Integer> version) {
         List<Parameter> parameters = new ArrayList<>();
         if (patient) {
             parameters.add(Parameter.builder().name(string("patient")).value(string("Patient/1-2-3-4")).build());
