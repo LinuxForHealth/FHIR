@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.smart;
 
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -21,6 +22,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.ws.rs.core.Response;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Parameters;
@@ -61,6 +63,12 @@ import com.ibm.fhir.smart.JWT.DecodedJWT;
 import com.ibm.fhir.smart.Scope.ContextType;
 import com.ibm.fhir.smart.Scope.Permission;
 
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonReader;
+import jakarta.json.JsonReaderFactory;
+import jakarta.json.JsonValue;
+
 public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersistenceInterceptor {
     private static final Logger log = Logger.getLogger(AuthzPolicyEnforcementPersistenceInterceptor.class.getName());
 
@@ -72,15 +80,24 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
 
     private static final String REQUEST_NOT_PERMITTED = "Requested interaction is not permitted by any of the passed scopes.";
 
+    private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
+
     @Override
     public void beforeInvoke(FHIROperationContext context) throws FHIRPersistenceInterceptorException {
-        if (!"export".equals(context.getOperationCode())) {
+        Permission neededPermission;
+        List<String> resourceTypes;
+        if ("import".equals(context.getOperationCode())) {
+            neededPermission = Permission.WRITE;
+            resourceTypes = computeImportResourceTypes(context);
+        } else if ("export".equals(context.getOperationCode())) {
+            neededPermission = Permission.READ;
+            resourceTypes = computeExportResourceTypes(context);
+        } else {
             return;
         }
 
-        List<String> resourceTypes = computeExportResourceTypes(context);
         if (resourceTypes.isEmpty()) {
-            throw new IllegalStateException("The set of export resources was unexpectedly empty");
+            throw new IllegalStateException("The set of resource types was unexpectedly empty");
         }
 
         DecodedJWT jwt = JWT.decode(getAccessToken());
@@ -89,8 +106,70 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
                 .collect(Collectors.toList());
 
         for (String resourceType : resourceTypes) {
-            checkScopes(resourceType, Permission.READ, scopesFromToken);
+            checkScopes(resourceType, neededPermission, scopesFromToken);
         }
+    }
+
+    @Override
+    public void afterInvoke(FHIROperationContext context) throws FHIRPersistenceInterceptorException {
+        Permission neededPermission = Permission.READ;
+        Set<String> resourceTypes = new HashSet<>();
+
+        if (!"bulkdata-status".equals(context.getOperationCode())) {
+            return;
+        }
+
+        Parameters parameters = (Parameters) context.getProperty(FHIROperationContext.PROPNAME_REQUEST_PARAMETERS);
+
+        // bulkdata-status has a special JSON response that is not a Parameters object
+        Response response = (Response) context.getProperty(FHIROperationContext.PROPNAME_RESPONSE);
+
+        if (response.hasEntity()) {
+            Object entity = response.getEntity();
+            if (entity instanceof String) {
+                JsonReader responseReader = JSON_READER_FACTORY.createReader(new StringReader((String)entity));
+                JsonObject responseObj = responseReader.readObject();
+                String request = responseObj.getJsonString("request").getString();
+                if (request.contains("$export")) {
+                    for (JsonValue output : responseObj.getJsonArray("output")) {
+                         resourceTypes.add(output.asJsonObject().getString("type"));
+                    }
+                } else if (request.contains("$import")) {
+                    // nothing much to check for bulk-import status; the only output is a set of OperationOutcome
+                } else {
+                    String jobId = parameters.getParameter().stream()
+                            .filter(p -> "job".equals(p.getName().getValue()))
+                            .map(p -> p.getValue().as(ModelSupport.FHIR_STRING).getValue())
+                            .findFirst()
+                            .get();
+                    throw new IllegalStateException("Bulk data request for job '" + jobId + "' is neither '$import' nor '$export'!");
+                }
+            } else {
+                throw new IllegalStateException("Encountered unexpected response entity of type " + entity.getClass().getName());
+            }
+        }
+
+        DecodedJWT jwt = JWT.decode(getAccessToken());
+        List<Scope> scopesFromToken = getScopesFromToken(jwt).stream()
+                .filter(s -> s.getContextType() == ContextType.SYSTEM)
+                .collect(Collectors.toList());
+
+        for (String resourceType : resourceTypes) {
+            checkScopes(resourceType, neededPermission, scopesFromToken);
+        }
+    }
+
+    private List<String> computeImportResourceTypes(FHIROperationContext context) {
+        Parameters parameters = (Parameters) context.getProperty(FHIROperationContext.PROPNAME_REQUEST_PARAMETERS);
+        Set<String> types = parameters.getParameter().stream()
+            .filter(p -> "input".equals(p.getName().getValue()))
+            .map(p -> p.getPart())
+            .flatMap(part -> part.stream()
+                .filter(pp -> "type".equals(pp.getName().getValue()))
+                .map(pp -> pp.getValue().as(ModelSupport.FHIR_STRING).getValue()))
+            .collect(Collectors.toSet());
+
+        return new ArrayList<>(types);
     }
 
     private List<String> computeExportResourceTypes(FHIROperationContext context) {
