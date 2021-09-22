@@ -198,7 +198,7 @@ public final class InteractionFactory {
     }
 
     /**
-     * This inner class invokes the FHIRClient update API for the Patient instance it encapsulates,
+     * This inner class invokes the InteractionType FHIRClient API for the resource instance it encapsulates,
      * retrying in a tight loop in the case of a 409 Conflict.
      */
     public static class InteractionCallable implements Callable<Resource> {
