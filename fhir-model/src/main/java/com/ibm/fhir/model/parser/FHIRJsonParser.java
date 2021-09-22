@@ -26,74 +26,6 @@ import javax.annotation.Generated;
 
 import org.eclipse.parsson.api.JsonConfig;
 
-import com.ibm.fhir.model.parser.exception.FHIRParserException;
-import com.ibm.fhir.model.resource.*;
-import com.ibm.fhir.model.type.Address;
-import com.ibm.fhir.model.type.Age;
-import com.ibm.fhir.model.type.Annotation;
-import com.ibm.fhir.model.type.Attachment;
-import com.ibm.fhir.model.type.BackboneElement;
-import com.ibm.fhir.model.type.Base64Binary;
-import com.ibm.fhir.model.type.Boolean;
-import com.ibm.fhir.model.type.Canonical;
-import com.ibm.fhir.model.type.Code;
-import com.ibm.fhir.model.type.CodeableConcept;
-import com.ibm.fhir.model.type.Coding;
-import com.ibm.fhir.model.type.ContactDetail;
-import com.ibm.fhir.model.type.ContactPoint;
-import com.ibm.fhir.model.type.Contributor;
-import com.ibm.fhir.model.type.Count;
-import com.ibm.fhir.model.type.DataRequirement;
-import com.ibm.fhir.model.type.Date;
-import com.ibm.fhir.model.type.DateTime;
-import com.ibm.fhir.model.type.Decimal;
-import com.ibm.fhir.model.type.Distance;
-import com.ibm.fhir.model.type.Dosage;
-import com.ibm.fhir.model.type.Duration;
-import com.ibm.fhir.model.type.Element;
-import com.ibm.fhir.model.type.ElementDefinition;
-import com.ibm.fhir.model.type.Expression;
-import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.HumanName;
-import com.ibm.fhir.model.type.Id;
-import com.ibm.fhir.model.type.Identifier;
-import com.ibm.fhir.model.type.Instant;
-import com.ibm.fhir.model.type.Integer;
-import com.ibm.fhir.model.type.Markdown;
-import com.ibm.fhir.model.type.MarketingStatus;
-import com.ibm.fhir.model.type.Meta;
-import com.ibm.fhir.model.type.Money;
-import com.ibm.fhir.model.type.MoneyQuantity;
-import com.ibm.fhir.model.type.Narrative;
-import com.ibm.fhir.model.type.Oid;
-import com.ibm.fhir.model.type.ParameterDefinition;
-import com.ibm.fhir.model.type.Period;
-import com.ibm.fhir.model.type.Population;
-import com.ibm.fhir.model.type.PositiveInt;
-import com.ibm.fhir.model.type.ProdCharacteristic;
-import com.ibm.fhir.model.type.ProductShelfLife;
-import com.ibm.fhir.model.type.Quantity;
-import com.ibm.fhir.model.type.Range;
-import com.ibm.fhir.model.type.Ratio;
-import com.ibm.fhir.model.type.Reference;
-import com.ibm.fhir.model.type.RelatedArtifact;
-import com.ibm.fhir.model.type.SampledData;
-import com.ibm.fhir.model.type.Signature;
-import com.ibm.fhir.model.type.SimpleQuantity;
-import com.ibm.fhir.model.type.String;
-import com.ibm.fhir.model.type.SubstanceAmount;
-import com.ibm.fhir.model.type.Time;
-import com.ibm.fhir.model.type.Timing;
-import com.ibm.fhir.model.type.TriggerDefinition;
-import com.ibm.fhir.model.type.UnsignedInt;
-import com.ibm.fhir.model.type.Uri;
-import com.ibm.fhir.model.type.Url;
-import com.ibm.fhir.model.type.UsageContext;
-import com.ibm.fhir.model.type.Uuid;
-import com.ibm.fhir.model.type.Xhtml;
-import com.ibm.fhir.model.type.code.*;
-import com.ibm.fhir.model.util.ElementFilter;
-
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonNumber;
@@ -102,6 +34,15 @@ import jakarta.json.JsonReader;
 import jakarta.json.JsonReaderFactory;
 import jakarta.json.JsonString;
 import jakarta.json.JsonValue;
+
+import com.ibm.fhir.model.parser.exception.FHIRParserException;
+import com.ibm.fhir.model.resource.*;
+import com.ibm.fhir.model.type.*;
+import com.ibm.fhir.model.type.code.*;
+import com.ibm.fhir.model.type.Boolean;
+import com.ibm.fhir.model.type.Integer;
+import com.ibm.fhir.model.type.String;
+import com.ibm.fhir.model.util.ElementFilter;
 import net.jcip.annotations.NotThreadSafe;
 
 @NotThreadSafe
@@ -124,7 +65,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
     /**
      * Read a resource from the passed InputStream and filter its top-level elements to the collection of elementsToInclude.
      * This method does not close the passed InputStream.
-     *
+     * 
      * @param <T>
      *     The resource type to read
      * @param in
@@ -154,7 +95,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
     /**
      * Read a resource using the passed Reader and filter its top-level elements to the collection of elementsToInclude.
      * This method does not close the passed InputStream.
-     *
+     * 
      * @param <T>
      *     The resource type to read
      * @param reader
@@ -178,7 +119,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
 
     /**
      * Read a resource from a JsonObject. This method does not close the passed InputStream.
-     *
+     * 
      * @param <T>
      *     The resource type to read
      * @param jsonObject
@@ -194,7 +135,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
     /**
      * Read a resource from a JsonObject and filter its top-level elements to the collection of elementsToInclude.
      * This method does not close the passed InputStream.
-     *
+     * 
      * @param <T>
      *     The resource type to read
      * @param jsonObject
