@@ -8,7 +8,7 @@ spec:
       restartPolicy: OnFailure
       containers:
       - name: umls-term-graph-loader
-        image: atclark/umls-term-graph-loader:4.9.0
+        image: alvearie/umls-term-graph-loader:4.9.0
         imagePullPolicy: Always
         env:
         - name: LOAD_UMLS
@@ -16,21 +16,21 @@ spec:
         - name: LOAD_MAP
           value: "true"
         - name: STORAGE_HOSTNAME
-          value: "atc-term-k8ssandra-dc1-stargate-service"
+          value: "namespace-k8ssandra-dc1-stargate-service"
         - name: STORAGE_USERNAME
-          value: "atc-term-k8ssandra-superuser"
+          value: "namespace-k8ssandra-superuser"
         - name: STORAGE_PASSWORD
-          value: "mRDkfK6MbSffG9ECod5a"
+          value: "password"
         - name: INDEX_SEARCH_HOSTNAME
           value: "elasticsearch"
         - name: COS_ENDPOINT
           value: "https://s3.us-east.cloud-object-storage.appdomain.cloud"
         - name: COS_BUCKET_LOCATION
-          value: "US"
+          value: "us"
         - name: COS_SERVICE_CRN
-          value: "crn:v1:bluemix:public:cloud-object-storage:global:a/6694a1bda7d84197b130c3ea87ef3e77:131a8d10-c8ff-4e05-b344-921abdd60bcc::"
+          value: ""
         - name: COS_API_KEY_ID
-          value: "KrgAwCqAIxyRI866y0oVaeQopHokkqFNiReyQuwHQnDY"
+          value: ""
         - name: COS_AUTH_ENDPOINT
           value: "https://iam.cloud.ibm.com/identity/token"
         - name: COS_BUCKET_NAME
