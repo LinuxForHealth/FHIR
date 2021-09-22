@@ -67,6 +67,10 @@
         <fhir-examples.version>4.9.0-SNAPSHOT</fhir-examples.version>
         <fhir-tools.version>4.9.0-SNAPSHOT</fhir-tools.version>
         <maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
+        <cqlengine.version>1.5.1</cqlengine.version>
+        <cqframework.version>1.5.1</cqframework.version>
+        <fhir.ucum.version>1.0.3</fhir.ucum.version>
+        <jackson.version>2.12.4</jackson.version>
     </properties>
 
     <modules>
@@ -95,11 +99,11 @@
         <module>../fhir-persistence-schema</module>
         <module>../fhir-persistence-jdbc</module>
         <module>../fhir-provider</module>
+        <module>../cql</module>
         <module>../operation/fhir-operation-test</module>
         <module>../operation/fhir-operation-validate</module>
         <module>../operation/fhir-operation-document</module>
         <module>../operation/fhir-operation-healthcheck</module>
-        <module>../operation/fhir-operation-apply</module>
         <module>../operation/fhir-operation-convert</module>
         <module>../operation/fhir-operation-term</module>
         <module>../operation/fhir-operation-term-cache</module>
@@ -276,22 +280,20 @@
                 <scope>test</scope>
             </dependency>
             <dependency>
-                <!--  Used by COS in fhir-bucket and bulkdata -->
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-databind</artifactId>
-                <version>2.12.3</version>
-            </dependency>
-            <dependency>
-                <!--  Used by COS in fhir-bucket and bulkdata -->
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-annotations</artifactId>
-                <version>2.12.3</version>
+                <version>${jackson.version}</version>
             </dependency>
             <dependency>
                 <!--  Used by COS in fhir-bucket and bulkdata -->
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-core</artifactId>
                 <version>2.12.3</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.module</groupId>
+                <artifactId>jackson-module-jaxb-annotations</artifactId>
+                <version>${jackson.version}</version>
             </dependency>
             <dependency>
                 <!--  Used by COS in fhir-bucket and bulkdata -->
@@ -309,6 +311,11 @@
                 <!--  Used by COS in fhir-bucket and bulkdata -->
                 <groupId>com.fasterxml.jackson.dataformat</groupId>
                 <artifactId>jackson-dataformat-xml</artifactId>
+                <version>2.12.3</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
                 <version>2.12.3</version>
             </dependency>
             <dependency>
@@ -602,6 +609,27 @@
                 <version>1.29</version>
             </dependency>
             <dependency>
+                <groupId>org.opencds.cqf.cql</groupId>
+                <artifactId>engine</artifactId>
+                <version>${cqlengine.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>info.cqframework</groupId>
+                <artifactId>cql-to-elm</artifactId>
+                <version>${cqframework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-collections4</artifactId>
+                <version>4.4</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.tomakehurst</groupId>
+                <artifactId>wiremock-jre8</artifactId>
+                <version>2.27.2</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
                 <groupId>com.azure</groupId>
                 <artifactId>azure-storage-blob</artifactId>
                 <version>12.13.0</version>
@@ -615,6 +643,11 @@
                 <groupId>com.azure</groupId>
                 <artifactId>azure-core</artifactId>
                 <version>1.17.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.fhir</groupId>
+                <artifactId>ucum</artifactId>
+                <version>${fhir.ucum.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -768,6 +801,7 @@
                     <version>3.1.0</version>
                     <configuration>
                         <configLocation>checkstyle.xml</configLocation>
+                        <headerLocation>java.header</headerLocation>
                         <consoleOutput>true</consoleOutput>
                     </configuration>
                     <executions>
