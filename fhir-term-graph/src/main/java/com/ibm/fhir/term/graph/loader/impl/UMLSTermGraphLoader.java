@@ -12,7 +12,6 @@ import static com.ibm.fhir.term.util.CodeSystemSupport.normalize;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -32,11 +31,14 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.MissingOptionException;
 import org.apache.commons.cli.Options;
+import org.apache.commons.configuration.Configuration;
 import org.apache.tinkerpop.gremlin.structure.Edge;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.janusgraph.core.schema.JanusGraphManagement;
 
 import com.ibm.fhir.term.graph.loader.FHIRTermGraphLoader;
+import com.ibm.fhir.term.graph.loader.util.COSObject;
+import com.ibm.fhir.term.graph.loader.util.ConfigLoader;
 
 /*
  * This class will load UMLS concepts and relationships into a JanusGraph.
@@ -47,11 +49,11 @@ public class UMLSTermGraphLoader extends AbstractTermGraphLoader {
     private static final String UMLS_CONCEPT_NAMES_AND_SOURCES_FILE = "MRCONSO.RRF";
     private static final String UMLS_SOURCE_INFORMATION_FILE = "MRSAB.RRF";
     private static final String UMLS_RELATED_CONCEPTS_FILE = "MRREL.RRF";
-
     private static final String UMLS_DELIMITER = "\\|";
+    public static final String COS_BUCKET_NAME = "COS_BUCKET_NAME";
 
-    // Map to track AUI to SCUI relationships, since MRREL uses AUI, but granularity of concepts used in MRCONSO is at SCUI level
-    private Map<String, String> auiToScuiMap = new ConcurrentHashMap<>(1000000);
+    // Map to track AUI to SCUI relationships, since MRREL uses AUI, but granularity of concepts used in MRCONSO is at SCUI/CODE level
+    private Map<String, String> auiToCodeMap = new ConcurrentHashMap<>(1000000);
 
     // Map of code system name to preferred label, configured in properties file
     private Properties codeSystemMap = new Properties();
@@ -59,34 +61,28 @@ public class UMLSTermGraphLoader extends AbstractTermGraphLoader {
     // Map of code system id to corresponding vertex
     private Map<String, Vertex> codeSystemVertices = new ConcurrentHashMap<>();
 
-    // Name of file containing UMLS concept data
-    private String conceptFile = null;
-
-    // Name of file containing UMLS concept relationship data
-    private String relationshipFile = null;
-
     // Map of abbreviated source name to the current version of that source
     private Map<String, String> sabToVersion = new HashMap<>();
 
-    // Name of file containing source data
-    private String sourceAttributeFile = null;
-
     // Map of concept name to corresponding vertex
     private Map<String, Vertex> vertexMap = null;
+
+    private String cosBucketName = null;
+
+    public UMLSTermGraphLoader(Map<String, String> options) {
+        super(options);
+        cosBucketName = System.getenv(COS_BUCKET_NAME);
+        vertexMap = new HashMap<>(250000);
+    }
 
     /**
      * Initialize a UMLSTermGraphLoader
      *
      * @param options
      */
-    public UMLSTermGraphLoader(Map<String, String> options) {
-        super(options);
-
-        String baseDir = options.get("base");
-        conceptFile = baseDir + "/" + UMLS_CONCEPT_NAMES_AND_SOURCES_FILE;
-        relationshipFile = baseDir + "/" + UMLS_RELATED_CONCEPTS_FILE;
-        sourceAttributeFile = baseDir + "/" + UMLS_SOURCE_INFORMATION_FILE;
-
+    public UMLSTermGraphLoader(Map<String, String> options, Configuration configuration) {
+        super(options, configuration);
+        cosBucketName = System.getenv(COS_BUCKET_NAME);
         vertexMap = new HashMap<>(250000);
     }
 
@@ -136,8 +132,9 @@ public class UMLSTermGraphLoader extends AbstractTermGraphLoader {
 
         Map<String, AtomicInteger> sabCounterMap = new HashMap<>();
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(conceptFile))) {
+        try (BufferedReader reader = new BufferedReader(COSObject.getItem(cosBucketName, UMLS_CONCEPT_NAMES_AND_SOURCES_FILE))) {
             reader.lines().forEach(line -> {
+
                 String[] tokens = line.split(UMLS_DELIMITER);
                 String lat = tokens[1];
                 String aui = tokens[7];
@@ -147,8 +144,13 @@ public class UMLSTermGraphLoader extends AbstractTermGraphLoader {
                 String str = tokens[14];
                 String suppress = tokens[16];
 
+                String code = scui;
+                if (code == null || code.trim().length() == 0) {
+                    code = tokens[13];
+                }
+
                 if (!"O".equals(suppress)) {
-                    auiToScuiMap.put(aui, scui);
+                    auiToCodeMap.put(aui, code);
 
                     Vertex codeSystemVertex = codeSystemVertices.computeIfAbsent(sab, s -> createCodeSystemVertex(s));
 
@@ -156,12 +158,12 @@ public class UMLSTermGraphLoader extends AbstractTermGraphLoader {
                     counter.incrementAndGet();
 
                     Vertex v = null;
-                    if (vertexMap.containsKey(scui)) {
-                        v = vertexMap.get(scui);
+                    if (vertexMap.containsKey(code)) {
+                        v = vertexMap.get(code);
                     } else {
-                        String codeLowerCase = normalize(scui);
-                        v = g.addV("Concept").property("code", scui).property("codeLowerCase", codeLowerCase).next();
-                        vertexMap.put(scui, v);
+                        String codeLowerCase = normalize(code);
+                        v = g.addV("Concept").property("code", code).property("codeLowerCase", codeLowerCase).next();
+                        vertexMap.put(code, v);
 
                         g.V(codeSystemVertex).addE("concept").to(v).next();
                     }
@@ -206,17 +208,18 @@ public class UMLSTermGraphLoader extends AbstractTermGraphLoader {
      */
     private void loadRelations() throws FileNotFoundException, IOException {
         // MRREL
-        // CUI1, AUI1, STYPE1, REL, CUI2, AUI2, STYPE2, RELA, RUI, SRUI, SAB, SL, RG,DIR, SUPPRESS, CVF
+        // CUI1, AUI1, STYPE1, REL, CUI2, AUI2, STYPE2, RELA, RUI, SRUI, SAB, SL, RG, DIR, SUPPRESS, CVF
         // https://www.ncbi.nlm.nih.gov/books/NBK9685/table/ch03.T.related_concepts_file_mrrel_rrf/
         //
         LOG.info("Loading relations.....");
 
         AtomicInteger counter = new AtomicInteger(0);
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(relationshipFile))) {
+        try (BufferedReader reader = new BufferedReader(COSObject.getItem(cosBucketName, UMLS_RELATED_CONCEPTS_FILE))) {
             reader.lines().forEach(line -> {
                 String[] tokens = line.split(UMLS_DELIMITER);
                 String aui1 = tokens[1];
+                String rel = tokens[3];
                 String rela = tokens[7];
                 String aui2 = tokens[5];
                 String rg = tokens[12]; // relationship group
@@ -224,16 +227,21 @@ public class UMLSTermGraphLoader extends AbstractTermGraphLoader {
                 String suppress = tokens[14];
 
                 if (!"N".equals(dir) && !"O".equals(suppress)) { // Don't load relations that are not in source order or suppressed
-                    String scui1 = auiToScuiMap.get(aui1);
-                    String scui2 = auiToScuiMap.get(aui2);
+                    String code1 = auiToCodeMap.get(aui1);
+                    String code2 = auiToCodeMap.get(aui2);
 
-                    if (scui1 != null && scui2 != null) {
-                        Vertex v1 = vertexMap.get(scui1);
-                        Vertex v2 = vertexMap.get(scui2);
+                    if (code1 != null && code2 != null) {
+                        Vertex v1 = vertexMap.get(code1);
+                        Vertex v2 = vertexMap.get(code2);
 
                         if (v1 != null && v2 != null) {
-                            String label = toLabel(rela);
-
+                            String label = null;
+                            if (rela != null && !rela.isEmpty()) {
+                                label = toLabel(rela);
+                            }
+                            if (label == null || label.isEmpty()) {
+                                label = rel;
+                            }
                             if (labelFilter.accept(label)) {
                                 if (janusGraph.getEdgeLabel(label) == null) {
                                     LOG.info("Adding label: " + label);
@@ -277,7 +285,7 @@ public class UMLSTermGraphLoader extends AbstractTermGraphLoader {
             codeSystemMap.load(codeSystemReader);
         }
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(sourceAttributeFile))) {
+        try (BufferedReader reader = new BufferedReader(COSObject.getItem(cosBucketName, UMLS_SOURCE_INFORMATION_FILE))) {
             // Load latest version for code systems in UMLS
             reader.lines().forEach(line -> {
                 String[] tokens = line.split(UMLS_DELIMITER);
@@ -311,8 +319,11 @@ public class UMLSTermGraphLoader extends AbstractTermGraphLoader {
 
             CommandLineParser parser = new DefaultParser();
             CommandLine commandLine = parser.parse(options, args);
-
-            loader = new UMLSTermGraphLoader(toMap(commandLine));
+            Map<String, String> commandLineMap = toMap(commandLine);
+            String propFileName = commandLineMap.get("config");
+            
+            Configuration configuration = ConfigLoader.load(propFileName);
+            loader = new UMLSTermGraphLoader(commandLineMap, configuration);
             loader.load();
 
             long end = System.currentTimeMillis();
