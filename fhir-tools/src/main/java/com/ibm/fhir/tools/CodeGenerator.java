@@ -2946,7 +2946,7 @@ public class CodeGenerator {
         cb._import("javax.annotation.Generated");
         cb.newLine();
 
-        cb._import("org.glassfish.json.api.JsonConfig");
+        cb._import("org.eclipse.parsson.api.JsonConfig");
         cb.newLine();
 
         cb._import("jakarta.json.Json");

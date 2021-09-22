@@ -24,7 +24,7 @@ import java.util.StringJoiner;
 
 import javax.annotation.Generated;
 
-import org.glassfish.json.api.JsonConfig;
+import org.eclipse.parsson.api.JsonConfig;
 
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
