@@ -9,6 +9,7 @@ package com.ibm.fhir.term.graph.loader.impl;
 import static com.ibm.fhir.term.graph.loader.util.FHIRTermGraphLoaderUtil.toMap;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -38,118 +39,69 @@ import com.ibm.fhir.term.graph.loader.util.ConfigLoader;
 public class SnoMedICD10MapTermGraphLoader extends AbstractTermGraphLoader {
     private static final Logger LOG = Logger.getLogger(SnoMedICD10MapTermGraphLoader.class.getName());
 
+    public static final String MAPS_TO = "mapsTo";
+
     private static final String SNOMED_TO_ICD_MAP_FILE = "der2_iisssccRefset_ExtendedMapFull_US1000124_20210901.txt";
 
     private static final String UMLS_DELIMITER = "\t";
 
-    public static final String MAPS_TO = "mapsTo";
-
-    private String cosBucketName = null;
-
     /**
-     * Initialize a SnoMedICD10MapTermGraphLoader
-     *
-     * @param options
-     * @param configuration
+     * Load the Snomed->ICD map from file, respecting effectiveDate and active status
+     * 
+     * @param cosBucketName
+     * @return a map from Snomed code to ICD10 code(s)
+     * @throws IOException
      */
-    public SnoMedICD10MapTermGraphLoader(Map<String, String> options, Configuration configuration) {
-        super(options, configuration);
-        cosBucketName = System.getenv(UMLSTermGraphLoader.COS_BUCKET_NAME);
-    }
+    public static final Map<String,Set<String>> loadMap(String cosBucketName) throws IOException {
+        // For a given snomed code, find the most recent active row. If the rule is
+        // always map to a single ICD code, add an edge. If not, skip that snomed code.
 
-    /**
-     * Loads edges into JanusGraph
-     *
-     * @throws RuntimeException
-     */
-    @Override
-    public void load() {
-        try {
-            LOG.info("Loading map.....");
+        Map<String, String> snomedToDateMap = new HashMap<>(); // Snomed->ICD, date
+        Map<String, Set<String>> snomedToICDMap = new HashMap<>(); // Snomed->ICD, date
 
-            if (janusGraph.getEdgeLabel(MAPS_TO) == null) {
-                LOG.info("Adding label: " + MAPS_TO);
-                JanusGraphManagement management = janusGraph.openManagement();
-                management.makeEdgeLabel(MAPS_TO).make();
-                management.commit();
-            }
+        final AtomicInteger rowCount = new AtomicInteger(0);
+        try (BufferedReader reader = new BufferedReader(COSObject.getItem(cosBucketName, SNOMED_TO_ICD_MAP_FILE))) {
+            reader.lines().forEach(line -> {
+                if (rowCount.incrementAndGet() % 100000 == 0) {
+                    LOG.info("Row Count: " + rowCount.get());
+                }
 
-            // For a given snomed code, find the most recent active row. If the rule is
-            // always map to a single ICD code, add an edge. If not, skip that snomed code.
+                String[] tokens = line.split(UMLS_DELIMITER);
+                String active = tokens[2];
+                if (!active.equals("1")) { // Skip inactive rows
+                    return;
+                }
+                String effectiveTime = tokens[1];
+                String snomed = tokens[5];
 
-            Map<String, String> snomedToDateMap = new HashMap<>(); // Snomed->ICD, date
-            Map<String, Set<String>> snomedToICDMap = new HashMap<>(); // Snomed->ICD, date
+                String curEffectiveTime = null;
+                if (snomedToDateMap.containsKey(snomed)) {
+                    curEffectiveTime = snomedToDateMap.get(snomed);
+                }
+                if (curEffectiveTime != null && curEffectiveTime.compareTo(effectiveTime) > 0) {
+                            // Only look at the most recent effectiveTime values for a given Snomed code
+                    return;
+                }
+                if (curEffectiveTime!=null && !effectiveTime.equals(curEffectiveTime)) {
+                    snomedToICDMap.remove(snomed);
+                }
+                snomedToDateMap.put(snomed, effectiveTime);
 
-            final AtomicInteger rowCount = new AtomicInteger(0);
-            try (BufferedReader reader = new BufferedReader(COSObject.getItem(cosBucketName, SNOMED_TO_ICD_MAP_FILE))) {
-                reader.lines().forEach(line -> {
-                    if (rowCount.incrementAndGet() % 100000 == 0) {
-                        LOG.info("Row Count: " + rowCount.get());
-                    }
-
-                    String[] tokens = line.split(UMLS_DELIMITER);
-                    String active = tokens[2];
-                    if (!active.equals("1")) {
-                        return;
-                    }
-                    String effectiveTime = tokens[1];
-                    String snomed = tokens[5];
-
-                    String curEffectiveTime = null;
-                    if (snomedToDateMap.containsKey(snomed)) {
-                        curEffectiveTime = snomedToDateMap.get(snomed);
-                    }
-                    if (curEffectiveTime != null && curEffectiveTime.compareTo(effectiveTime) > 0) {
-                        return;
-                    }
-                    if (curEffectiveTime!=null && !effectiveTime.equals(curEffectiveTime)) {
-                        snomedToICDMap.remove(snomed);
-                    }
-                    snomedToDateMap.put(snomed, effectiveTime);
-
-                    String mapRule = tokens[8];
-                    if (!Boolean.parseBoolean(mapRule)) {
-                        return;
-                    }
-                    String advice = tokens[9];
-                    String icd = tokens[10];
-                    if (!advice.equals("ALWAYS " + icd)) {
-                        return;
-                    }
-                    Set<String> icds = snomedToICDMap.computeIfAbsent(snomed, s -> new HashSet<>());
-                    icds.add(icd);
-                });
-            }
-            snomedToDateMap.clear(); // Don't need it any more, let GC clean it up
-
-            LOG.info("Loading " + snomedToICDMap.size() + " edges into TermGraph");
-            AtomicInteger edgeCount = new AtomicInteger(0);
-            snomedToICDMap.forEach((snomed, icds) -> {
-                List<Vertex> snomedConcepts = g.V().hasLabel("Concept").has("code", snomed).toList();
-                icds.forEach(icd -> {
-                    List<Vertex> icdConcepts = g.V().hasLabel("Concept").has("code", icd).toList();
-
-                    for (Vertex snomedConcept : snomedConcepts) {
-                        for (Vertex icdConcept : icdConcepts) {
-                            g.V(icdConcept).addE(MAPS_TO).to(snomedConcept).next();
-                            edgeCount.incrementAndGet();
-                        }
-                    }
-
-                    if ((edgeCount.get() % Math.floor(snomedToICDMap.size() / 10)) == 0) {
-                        LOG.info("Committed edges: " + edgeCount.get() + "/" + snomedToICDMap.size());
-                        g.tx().commit();
-                    }
-                });
+                String mapRule = tokens[8];
+                if (!Boolean.parseBoolean(mapRule)) {
+                    return;
+                }
+                String advice = tokens[9];
+                String icd = tokens[10];
+                if (!advice.equals("ALWAYS " + icd)) {
+                    // Only support map rows where the rules are ALWAYS mapping 
+                    return;
+                }
+                Set<String> icds = snomedToICDMap.computeIfAbsent(snomed, s -> new HashSet<>());
+                icds.add(icd);
             });
-
-            // commit any uncommitted work
-            g.tx().commit();
-            LOG.info("Committed Edges: " + edgeCount.get() + "/" + snomedToICDMap.size());
-            LOG.info("Done loading Snomed to ICD10 map.....");
-        } catch (Exception e) {
-            throw new RuntimeException(e);
         }
+        return snomedToICDMap;
     }
 
     /**
@@ -187,6 +139,69 @@ public class SnoMedICD10MapTermGraphLoader extends AbstractTermGraphLoader {
             if (loader != null) {
                 loader.close();
             }
+        }
+    }
+
+    private String cosBucketName = null;
+    
+    /**
+     * Initialize a SnoMedICD10MapTermGraphLoader
+     *
+     * @param options
+     * @param configuration
+     */
+    public SnoMedICD10MapTermGraphLoader(Map<String, String> options, Configuration configuration) {
+        super(options, configuration);
+        cosBucketName = System.getenv(UMLSTermGraphLoader.COS_BUCKET_NAME);
+    }
+    
+
+    /**
+     * Loads edges into JanusGraph
+     *
+     * @throws RuntimeException
+     */
+    @Override
+    public void load() {
+        try {
+            LOG.info("Loading map.....");
+
+            if (janusGraph.getEdgeLabel(MAPS_TO) == null) {
+                LOG.info("Adding label: " + MAPS_TO);
+                JanusGraphManagement management = janusGraph.openManagement();
+                management.makeEdgeLabel(MAPS_TO).make();
+                management.commit();
+            }
+
+            Map<String, Set<String>> snomedToICDMap = loadMap(cosBucketName); 
+            
+            LOG.info("Loading " + snomedToICDMap.size() + " edges into TermGraph");
+            AtomicInteger edgeCount = new AtomicInteger(0);
+            snomedToICDMap.forEach((snomed, icds) -> {
+                List<Vertex> snomedConcepts = g.V().hasLabel("Concept").has("code", snomed).toList();
+                icds.forEach(icd -> {
+                    List<Vertex> icdConcepts = g.V().hasLabel("Concept").has("code", icd).toList();
+
+                    for (Vertex snomedConcept : snomedConcepts) {
+                        for (Vertex icdConcept : icdConcepts) {
+                            g.V(icdConcept).addE(MAPS_TO).to(snomedConcept).next();
+                            edgeCount.incrementAndGet();
+                        }
+                    }
+
+                    if ((edgeCount.get() % Math.floor(snomedToICDMap.size() / 10)) == 0) {
+                        LOG.info("Committed edges: " + edgeCount.get() + "/" + snomedToICDMap.size());
+                        g.tx().commit();
+                    }
+                });
+            });
+
+            // commit any uncommitted work
+            g.tx().commit();
+            LOG.info("Committed Edges: " + edgeCount.get() + "/" + snomedToICDMap.size());
+            LOG.info("Done loading Snomed to ICD10 map.....");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 }
