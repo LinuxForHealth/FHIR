@@ -87,46 +87,9 @@ public class MedicationRequestIntent extends Code {
 
     /**
      * Get the value of this MedicationRequestIntent as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this MedicationRequestIntent as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating MedicationRequestIntent objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static MedicationRequestIntent of(ValueSet value) {
-        switch (value) {
-        case PROPOSAL:
-            return PROPOSAL;
-        case PLAN:
-            return PLAN;
-        case ORDER:
-            return ORDER;
-        case ORIGINAL_ORDER:
-            return ORIGINAL_ORDER;
-        case REFLEX_ORDER:
-            return REFLEX_ORDER;
-        case FILLER_ORDER:
-            return FILLER_ORDER;
-        case INSTANCE_ORDER:
-            return INSTANCE_ORDER;
-        case OPTION:
-            return OPTION;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -250,14 +213,6 @@ public class MedicationRequestIntent extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -286,100 +241,6 @@ public class MedicationRequestIntent extends Code {
         protected Builder from(MedicationRequestIntent medicationRequestIntent) {
             super.from(medicationRequestIntent);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Proposal
-         * 
-         * <p>The request is a suggestion made by someone/something that doesn't have an intention to ensure it occurs and 
-         * without providing an authorization to act
-         */
-        PROPOSAL("proposal"),
-
-        /**
-         * Plan
-         * 
-         * <p>The request represents an intention to ensure something occurs without providing an authorization for others to act.
-         */
-        PLAN("plan"),
-
-        /**
-         * Order
-         * 
-         * <p>The request represents a request/demand and authorization for action
-         */
-        ORDER("order"),
-
-        /**
-         * Original Order
-         * 
-         * <p>The request represents the original authorization for the medication request.
-         */
-        ORIGINAL_ORDER("original-order"),
-
-        /**
-         * Reflex Order
-         * 
-         * <p>The request represents an automatically generated supplemental authorization for action based on a parent 
-         * authorization together with initial results of the action taken against that parent authorization..
-         */
-        REFLEX_ORDER("reflex-order"),
-
-        /**
-         * Filler Order
-         * 
-         * <p>The request represents the view of an authorization instantiated by a fulfilling system representing the details of 
-         * the fulfiller's intention to act upon a submitted order.
-         */
-        FILLER_ORDER("filler-order"),
-
-        /**
-         * Instance Order
-         * 
-         * <p>The request represents an instance for the particular order, for example a medication administration record.
-         */
-        INSTANCE_ORDER("instance-order"),
-
-        /**
-         * Option
-         * 
-         * <p>The request represents a component or option for a RequestGroup that establishes timing, conditionality and/or 
-         * other constraints among a set of requests.
-         */
-        OPTION("option");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating MedicationRequestIntent.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

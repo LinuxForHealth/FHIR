@@ -104,52 +104,9 @@ public class AssertionOperatorType extends Code {
 
     /**
      * Get the value of this AssertionOperatorType as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this AssertionOperatorType as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating AssertionOperatorType objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static AssertionOperatorType of(ValueSet value) {
-        switch (value) {
-        case EQUALS:
-            return EQUALS;
-        case NOT_EQUALS:
-            return NOT_EQUALS;
-        case IN:
-            return IN;
-        case NOT_IN:
-            return NOT_IN;
-        case GREATER_THAN:
-            return GREATER_THAN;
-        case LESS_THAN:
-            return LESS_THAN;
-        case EMPTY:
-            return EMPTY;
-        case NOT_EMPTY:
-            return NOT_EMPTY;
-        case CONTAINS:
-            return CONTAINS;
-        case NOT_CONTAINS:
-            return NOT_CONTAINS;
-        case EVAL:
-            return EVAL;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -279,14 +236,6 @@ public class AssertionOperatorType extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -315,117 +264,6 @@ public class AssertionOperatorType extends Code {
         protected Builder from(AssertionOperatorType assertionOperatorType) {
             super.from(assertionOperatorType);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * equals
-         * 
-         * <p>Default value. Equals comparison.
-         */
-        EQUALS("equals"),
-
-        /**
-         * notEquals
-         * 
-         * <p>Not equals comparison.
-         */
-        NOT_EQUALS("notEquals"),
-
-        /**
-         * in
-         * 
-         * <p>Compare value within a known set of values.
-         */
-        IN("in"),
-
-        /**
-         * notIn
-         * 
-         * <p>Compare value not within a known set of values.
-         */
-        NOT_IN("notIn"),
-
-        /**
-         * greaterThan
-         * 
-         * <p>Compare value to be greater than a known value.
-         */
-        GREATER_THAN("greaterThan"),
-
-        /**
-         * lessThan
-         * 
-         * <p>Compare value to be less than a known value.
-         */
-        LESS_THAN("lessThan"),
-
-        /**
-         * empty
-         * 
-         * <p>Compare value is empty.
-         */
-        EMPTY("empty"),
-
-        /**
-         * notEmpty
-         * 
-         * <p>Compare value is not empty.
-         */
-        NOT_EMPTY("notEmpty"),
-
-        /**
-         * contains
-         * 
-         * <p>Compare value string contains a known value.
-         */
-        CONTAINS("contains"),
-
-        /**
-         * notContains
-         * 
-         * <p>Compare value string does not contain a known value.
-         */
-        NOT_CONTAINS("notContains"),
-
-        /**
-         * evaluate
-         * 
-         * <p>Evaluate the FHIRPath expression as a boolean condition.
-         */
-        EVAL("eval");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating AssertionOperatorType.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

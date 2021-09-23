@@ -49,36 +49,9 @@ public class NamingSystemType extends Code {
 
     /**
      * Get the value of this NamingSystemType as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this NamingSystemType as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating NamingSystemType objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static NamingSystemType of(ValueSet value) {
-        switch (value) {
-        case CODESYSTEM:
-            return CODESYSTEM;
-        case IDENTIFIER:
-            return IDENTIFIER;
-        case ROOT:
-            return ROOT;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -192,14 +165,6 @@ public class NamingSystemType extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -228,62 +193,6 @@ public class NamingSystemType extends Code {
         protected Builder from(NamingSystemType namingSystemType) {
             super.from(namingSystemType);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Code System
-         * 
-         * <p>The naming system is used to define concepts and symbols to represent those concepts; e.g. UCUM, LOINC, NDC code, 
-         * local lab codes, etc.
-         */
-        CODESYSTEM("codesystem"),
-
-        /**
-         * Identifier
-         * 
-         * <p>The naming system is used to manage identifiers (e.g. license numbers, order numbers, etc.).
-         */
-        IDENTIFIER("identifier"),
-
-        /**
-         * Root
-         * 
-         * <p>The naming system is used as the root for other identifiers and naming systems.
-         */
-        ROOT("root");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating NamingSystemType.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

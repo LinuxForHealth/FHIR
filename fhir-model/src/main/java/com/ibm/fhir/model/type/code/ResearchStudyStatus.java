@@ -108,52 +108,9 @@ public class ResearchStudyStatus extends Code {
 
     /**
      * Get the value of this ResearchStudyStatus as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this ResearchStudyStatus as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating ResearchStudyStatus objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static ResearchStudyStatus of(ValueSet value) {
-        switch (value) {
-        case ACTIVE:
-            return ACTIVE;
-        case ADMINISTRATIVELY_COMPLETED:
-            return ADMINISTRATIVELY_COMPLETED;
-        case APPROVED:
-            return APPROVED;
-        case CLOSED_TO_ACCRUAL:
-            return CLOSED_TO_ACCRUAL;
-        case CLOSED_TO_ACCRUAL_AND_INTERVENTION:
-            return CLOSED_TO_ACCRUAL_AND_INTERVENTION;
-        case COMPLETED:
-            return COMPLETED;
-        case DISAPPROVED:
-            return DISAPPROVED;
-        case IN_REVIEW:
-            return IN_REVIEW;
-        case TEMPORARILY_CLOSED_TO_ACCRUAL:
-            return TEMPORARILY_CLOSED_TO_ACCRUAL;
-        case TEMPORARILY_CLOSED_TO_ACCRUAL_AND_INTERVENTION:
-            return TEMPORARILY_CLOSED_TO_ACCRUAL_AND_INTERVENTION;
-        case WITHDRAWN:
-            return WITHDRAWN;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -283,14 +240,6 @@ public class ResearchStudyStatus extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -319,121 +268,6 @@ public class ResearchStudyStatus extends Code {
         protected Builder from(ResearchStudyStatus researchStudyStatus) {
             super.from(researchStudyStatus);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Active
-         * 
-         * <p>Study is opened for accrual.
-         */
-        ACTIVE("active"),
-
-        /**
-         * Administratively Completed
-         * 
-         * <p>Study is completed prematurely and will not resume; patients are no longer examined nor treated.
-         */
-        ADMINISTRATIVELY_COMPLETED("administratively-completed"),
-
-        /**
-         * Approved
-         * 
-         * <p>Protocol is approved by the review board.
-         */
-        APPROVED("approved"),
-
-        /**
-         * Closed to Accrual
-         * 
-         * <p>Study is closed for accrual; patients can be examined and treated.
-         */
-        CLOSED_TO_ACCRUAL("closed-to-accrual"),
-
-        /**
-         * Closed to Accrual and Intervention
-         * 
-         * <p>Study is closed to accrual and intervention, i.e. the study is closed to enrollment, all study subjects have 
-         * completed treatment or intervention but are still being followed according to the primary objective of the study.
-         */
-        CLOSED_TO_ACCRUAL_AND_INTERVENTION("closed-to-accrual-and-intervention"),
-
-        /**
-         * Completed
-         * 
-         * <p>Study is closed to accrual and intervention, i.e. the study is closed to enrollment, all study subjects have 
-         * completed treatment
-         * <p>or intervention but are still being followed according to the primary objective of the study.
-         */
-        COMPLETED("completed"),
-
-        /**
-         * Disapproved
-         * 
-         * <p>Protocol was disapproved by the review board.
-         */
-        DISAPPROVED("disapproved"),
-
-        /**
-         * In Review
-         * 
-         * <p>Protocol is submitted to the review board for approval.
-         */
-        IN_REVIEW("in-review"),
-
-        /**
-         * Temporarily Closed to Accrual
-         * 
-         * <p>Study is temporarily closed for accrual; can be potentially resumed in the future; patients can be examined and 
-         * treated.
-         */
-        TEMPORARILY_CLOSED_TO_ACCRUAL("temporarily-closed-to-accrual"),
-
-        /**
-         * Temporarily Closed to Accrual and Intervention
-         * 
-         * <p>Study is temporarily closed for accrual and intervention and potentially can be resumed in the future.
-         */
-        TEMPORARILY_CLOSED_TO_ACCRUAL_AND_INTERVENTION("temporarily-closed-to-accrual-and-intervention"),
-
-        /**
-         * Withdrawn
-         * 
-         * <p>Protocol was withdrawn by the lead organization.
-         */
-        WITHDRAWN("withdrawn");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating ResearchStudyStatus.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

@@ -48,36 +48,9 @@ public class MedicationStatus extends Code {
 
     /**
      * Get the value of this MedicationStatus as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this MedicationStatus as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating MedicationStatus objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static MedicationStatus of(ValueSet value) {
-        switch (value) {
-        case ACTIVE:
-            return ACTIVE;
-        case INACTIVE:
-            return INACTIVE;
-        case ENTERED_IN_ERROR:
-            return ENTERED_IN_ERROR;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -191,14 +164,6 @@ public class MedicationStatus extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -227,61 +192,6 @@ public class MedicationStatus extends Code {
         protected Builder from(MedicationStatus medicationStatus) {
             super.from(medicationStatus);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Active
-         * 
-         * <p>The medication is available for use.
-         */
-        ACTIVE("active"),
-
-        /**
-         * Inactive
-         * 
-         * <p>The medication is not available for use.
-         */
-        INACTIVE("inactive"),
-
-        /**
-         * Entered in Error
-         * 
-         * <p>The medication was entered in error.
-         */
-        ENTERED_IN_ERROR("entered-in-error");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating MedicationStatus.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

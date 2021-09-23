@@ -56,38 +56,9 @@ public class FamilyHistoryStatus extends Code {
 
     /**
      * Get the value of this FamilyHistoryStatus as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this FamilyHistoryStatus as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating FamilyHistoryStatus objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static FamilyHistoryStatus of(ValueSet value) {
-        switch (value) {
-        case PARTIAL:
-            return PARTIAL;
-        case COMPLETED:
-            return COMPLETED;
-        case ENTERED_IN_ERROR:
-            return ENTERED_IN_ERROR;
-        case HEALTH_UNKNOWN:
-            return HEALTH_UNKNOWN;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -203,14 +174,6 @@ public class FamilyHistoryStatus extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -239,69 +202,6 @@ public class FamilyHistoryStatus extends Code {
         protected Builder from(FamilyHistoryStatus familyHistoryStatus) {
             super.from(familyHistoryStatus);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Partial
-         * 
-         * <p>Some health information is known and captured, but not complete - see notes for details.
-         */
-        PARTIAL("partial"),
-
-        /**
-         * Completed
-         * 
-         * <p>All available related health information is captured as of the date (and possibly time) when the family member 
-         * history was taken.
-         */
-        COMPLETED("completed"),
-
-        /**
-         * Entered in Error
-         * 
-         * <p>This instance should not have been part of this patient's medical record.
-         */
-        ENTERED_IN_ERROR("entered-in-error"),
-
-        /**
-         * Health Unknown
-         * 
-         * <p>Health information for this family member is unavailable/unknown.
-         */
-        HEALTH_UNKNOWN("health-unknown");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating FamilyHistoryStatus.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

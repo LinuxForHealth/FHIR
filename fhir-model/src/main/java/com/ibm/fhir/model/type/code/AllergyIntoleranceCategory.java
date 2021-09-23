@@ -60,38 +60,9 @@ public class AllergyIntoleranceCategory extends Code {
 
     /**
      * Get the value of this AllergyIntoleranceCategory as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this AllergyIntoleranceCategory as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating AllergyIntoleranceCategory objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static AllergyIntoleranceCategory of(ValueSet value) {
-        switch (value) {
-        case FOOD:
-            return FOOD;
-        case MEDICATION:
-            return MEDICATION;
-        case ENVIRONMENT:
-            return ENVIRONMENT;
-        case BIOLOGIC:
-            return BIOLOGIC;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -207,14 +178,6 @@ public class AllergyIntoleranceCategory extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -243,73 +206,6 @@ public class AllergyIntoleranceCategory extends Code {
         protected Builder from(AllergyIntoleranceCategory allergyIntoleranceCategory) {
             super.from(allergyIntoleranceCategory);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Food
-         * 
-         * <p>Any substance consumed to provide nutritional support for the body.
-         */
-        FOOD("food"),
-
-        /**
-         * Medication
-         * 
-         * <p>Substances administered to achieve a physiological effect.
-         */
-        MEDICATION("medication"),
-
-        /**
-         * Environment
-         * 
-         * <p>Any substances that are encountered in the environment, including any substance not already classified as food, 
-         * medication, or biologic.
-         */
-        ENVIRONMENT("environment"),
-
-        /**
-         * Biologic
-         * 
-         * <p>A preparation that is synthesized from living organisms or their products, especially a human or animal protein, 
-         * such as a hormone or antitoxin, that is used as a diagnostic, preventive, or therapeutic agent. Examples of biologic 
-         * medications include: vaccines; allergenic extracts, which are used for both diagnosis and treatment (for example, 
-         * allergy shots); gene therapies; cellular therapies. There are other biologic products, such as tissues, which are not 
-         * typically associated with allergies.
-         */
-        BIOLOGIC("biologic");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating AllergyIntoleranceCategory.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

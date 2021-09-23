@@ -113,54 +113,9 @@ public class TaskStatus extends Code {
 
     /**
      * Get the value of this TaskStatus as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this TaskStatus as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating TaskStatus objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static TaskStatus of(ValueSet value) {
-        switch (value) {
-        case DRAFT:
-            return DRAFT;
-        case REQUESTED:
-            return REQUESTED;
-        case RECEIVED:
-            return RECEIVED;
-        case ACCEPTED:
-            return ACCEPTED;
-        case REJECTED:
-            return REJECTED;
-        case READY:
-            return READY;
-        case CANCELLED:
-            return CANCELLED;
-        case IN_PROGRESS:
-            return IN_PROGRESS;
-        case ON_HOLD:
-            return ON_HOLD;
-        case FAILED:
-            return FAILED;
-        case COMPLETED:
-            return COMPLETED;
-        case ENTERED_IN_ERROR:
-            return ENTERED_IN_ERROR;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -292,14 +247,6 @@ public class TaskStatus extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -328,126 +275,6 @@ public class TaskStatus extends Code {
         protected Builder from(TaskStatus taskStatus) {
             super.from(taskStatus);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Draft
-         * 
-         * <p>The task is not yet ready to be acted upon.
-         */
-        DRAFT("draft"),
-
-        /**
-         * Requested
-         * 
-         * <p>The task is ready to be acted upon and action is sought.
-         */
-        REQUESTED("requested"),
-
-        /**
-         * Received
-         * 
-         * <p>A potential performer has claimed ownership of the task and is evaluating whether to perform it.
-         */
-        RECEIVED("received"),
-
-        /**
-         * Accepted
-         * 
-         * <p>The potential performer has agreed to execute the task but has not yet started work.
-         */
-        ACCEPTED("accepted"),
-
-        /**
-         * Rejected
-         * 
-         * <p>The potential performer who claimed ownership of the task has decided not to execute it prior to performing any 
-         * action.
-         */
-        REJECTED("rejected"),
-
-        /**
-         * Ready
-         * 
-         * <p>The task is ready to be performed, but no action has yet been taken. Used in place of 
-         * requested/received/accepted/rejected when request assignment and acceptance is a given.
-         */
-        READY("ready"),
-
-        /**
-         * Cancelled
-         * 
-         * <p>The task was not completed.
-         */
-        CANCELLED("cancelled"),
-
-        /**
-         * In Progress
-         * 
-         * <p>The task has been started but is not yet complete.
-         */
-        IN_PROGRESS("in-progress"),
-
-        /**
-         * On Hold
-         * 
-         * <p>The task has been started but work has been paused.
-         */
-        ON_HOLD("on-hold"),
-
-        /**
-         * Failed
-         * 
-         * <p>The task was attempted but could not be completed due to some error.
-         */
-        FAILED("failed"),
-
-        /**
-         * Completed
-         * 
-         * <p>The task has been completed.
-         */
-        COMPLETED("completed"),
-
-        /**
-         * Entered in Error
-         * 
-         * <p>The task should never have existed and is retained only because of the possibility it may have used.
-         */
-        ENTERED_IN_ERROR("entered-in-error");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating TaskStatus.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

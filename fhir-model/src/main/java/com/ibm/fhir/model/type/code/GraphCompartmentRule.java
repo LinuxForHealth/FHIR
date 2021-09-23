@@ -55,38 +55,9 @@ public class GraphCompartmentRule extends Code {
 
     /**
      * Get the value of this GraphCompartmentRule as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this GraphCompartmentRule as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating GraphCompartmentRule objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static GraphCompartmentRule of(ValueSet value) {
-        switch (value) {
-        case IDENTICAL:
-            return IDENTICAL;
-        case MATCHING:
-            return MATCHING;
-        case DIFFERENT:
-            return DIFFERENT;
-        case CUSTOM:
-            return CUSTOM;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -202,14 +173,6 @@ public class GraphCompartmentRule extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -238,68 +201,6 @@ public class GraphCompartmentRule extends Code {
         protected Builder from(GraphCompartmentRule graphCompartmentRule) {
             super.from(graphCompartmentRule);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Identical
-         * 
-         * <p>The compartment must be identical (the same literal reference).
-         */
-        IDENTICAL("identical"),
-
-        /**
-         * Matching
-         * 
-         * <p>The compartment must be the same - the record must be about the same patient, but the reference may be different.
-         */
-        MATCHING("matching"),
-
-        /**
-         * Different
-         * 
-         * <p>The compartment must be different.
-         */
-        DIFFERENT("different"),
-
-        /**
-         * Custom
-         * 
-         * <p>The compartment rule is defined in the accompanying FHIRPath expression.
-         */
-        CUSTOM("custom");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating GraphCompartmentRule.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

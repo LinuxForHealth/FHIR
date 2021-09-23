@@ -55,36 +55,9 @@ public class ActionGroupingBehavior extends Code {
 
     /**
      * Get the value of this ActionGroupingBehavior as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this ActionGroupingBehavior as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating ActionGroupingBehavior objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static ActionGroupingBehavior of(ValueSet value) {
-        switch (value) {
-        case VISUAL_GROUP:
-            return VISUAL_GROUP;
-        case LOGICAL_GROUP:
-            return LOGICAL_GROUP;
-        case SENTENCE_GROUP:
-            return SENTENCE_GROUP;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -198,14 +171,6 @@ public class ActionGroupingBehavior extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -234,68 +199,6 @@ public class ActionGroupingBehavior extends Code {
         protected Builder from(ActionGroupingBehavior actionGroupingBehavior) {
             super.from(actionGroupingBehavior);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Visual Group
-         * 
-         * <p>Any group marked with this behavior should be displayed as a visual group to the end user.
-         */
-        VISUAL_GROUP("visual-group"),
-
-        /**
-         * Logical Group
-         * 
-         * <p>A group with this behavior logically groups its sub-elements, and may be shown as a visual group to the end user, 
-         * but it is not required to do so.
-         */
-        LOGICAL_GROUP("logical-group"),
-
-        /**
-         * Sentence Group
-         * 
-         * <p>A group of related alternative actions is a sentence group if the target referenced by the action is the same in 
-         * all the actions and each action simply constitutes a different variation on how to specify the details for the target. 
-         * For example, two actions that could be in a SentenceGroup are "aspirin, 500 mg, 2 times per day" and "aspirin, 300 mg, 
-         * 3 times per day". In both cases, aspirin is the target referenced by the action, and the two actions represent 
-         * different options for how aspirin might be ordered for the patient. Note that a SentenceGroup would almost always have 
-         * an associated selection behavior of "AtMostOne", unless it's a required action, in which case, it would be 
-         * "ExactlyOne".
-         */
-        SENTENCE_GROUP("sentence-group");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating ActionGroupingBehavior.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

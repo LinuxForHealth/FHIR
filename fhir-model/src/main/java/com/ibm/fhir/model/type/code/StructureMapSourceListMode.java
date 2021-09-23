@@ -62,40 +62,9 @@ public class StructureMapSourceListMode extends Code {
 
     /**
      * Get the value of this StructureMapSourceListMode as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this StructureMapSourceListMode as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating StructureMapSourceListMode objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static StructureMapSourceListMode of(ValueSet value) {
-        switch (value) {
-        case FIRST:
-            return FIRST;
-        case NOT_FIRST:
-            return NOT_FIRST;
-        case LAST:
-            return LAST;
-        case NOT_LAST:
-            return NOT_LAST;
-        case ONLY_ONE:
-            return ONLY_ONE;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -213,14 +182,6 @@ public class StructureMapSourceListMode extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -249,75 +210,6 @@ public class StructureMapSourceListMode extends Code {
         protected Builder from(StructureMapSourceListMode structureMapSourceListMode) {
             super.from(structureMapSourceListMode);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * First
-         * 
-         * <p>Only process this rule for the first in the list.
-         */
-        FIRST("first"),
-
-        /**
-         * All but the first
-         * 
-         * <p>Process this rule for all but the first.
-         */
-        NOT_FIRST("not_first"),
-
-        /**
-         * Last
-         * 
-         * <p>Only process this rule for the last in the list.
-         */
-        LAST("last"),
-
-        /**
-         * All but the last
-         * 
-         * <p>Process this rule for all but the last.
-         */
-        NOT_LAST("not_last"),
-
-        /**
-         * Enforce only one
-         * 
-         * <p>Only process this rule is there is only item.
-         */
-        ONLY_ONE("only_one");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating StructureMapSourceListMode.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

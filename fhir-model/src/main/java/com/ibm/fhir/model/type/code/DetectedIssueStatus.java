@@ -92,46 +92,9 @@ public class DetectedIssueStatus extends Code {
 
     /**
      * Get the value of this DetectedIssueStatus as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this DetectedIssueStatus as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating DetectedIssueStatus objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static DetectedIssueStatus of(ValueSet value) {
-        switch (value) {
-        case REGISTERED:
-            return REGISTERED;
-        case PRELIMINARY:
-            return PRELIMINARY;
-        case FINAL:
-            return FINAL;
-        case AMENDED:
-            return AMENDED;
-        case CORRECTED:
-            return CORRECTED;
-        case CANCELLED:
-            return CANCELLED;
-        case ENTERED_IN_ERROR:
-            return ENTERED_IN_ERROR;
-        case UNKNOWN:
-            return UNKNOWN;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -255,14 +218,6 @@ public class DetectedIssueStatus extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -291,105 +246,6 @@ public class DetectedIssueStatus extends Code {
         protected Builder from(DetectedIssueStatus detectedIssueStatus) {
             super.from(detectedIssueStatus);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Registered
-         * 
-         * <p>The existence of the observation is registered, but there is no result yet available.
-         */
-        REGISTERED("registered"),
-
-        /**
-         * Preliminary
-         * 
-         * <p>This is an initial or interim observation: data may be incomplete or unverified.
-         */
-        PRELIMINARY("preliminary"),
-
-        /**
-         * Final
-         * 
-         * <p>The observation is complete and there are no further actions needed. Additional information such "released", 
-         * "signed", etc would be represented using [Provenance](provenance.html) which provides not only the act but also the 
-         * actors and dates and other related data. These act states would be associated with an observation status of 
-         * `preliminary` until they are all completed and then a status of `final` would be applied.
-         */
-        FINAL("final"),
-
-        /**
-         * Amended
-         * 
-         * <p>Subsequent to being Final, the observation has been modified subsequent. This includes updates/new information and 
-         * corrections.
-         */
-        AMENDED("amended"),
-
-        /**
-         * Corrected
-         * 
-         * <p>Subsequent to being Final, the observation has been modified to correct an error in the test result.
-         */
-        CORRECTED("corrected"),
-
-        /**
-         * Cancelled
-         * 
-         * <p>The observation is unavailable because the measurement was not started or not completed (also sometimes called 
-         * "aborted").
-         */
-        CANCELLED("cancelled"),
-
-        /**
-         * Entered in Error
-         * 
-         * <p>The observation has been withdrawn following previous final release. This electronic record should never have 
-         * existed, though it is possible that real-world decisions were based on it. (If real-world activity has occurred, the 
-         * status should be "cancelled" rather than "entered-in-error".).
-         */
-        ENTERED_IN_ERROR("entered-in-error"),
-
-        /**
-         * Unknown
-         * 
-         * <p>The authoring/source system does not know which of the status values currently applies for this observation. Note: 
-         * This concept is not to be used for "other" - one of the listed statuses is presumed to apply, but the authoring/source 
-         * system does not know which.
-         */
-        UNKNOWN("unknown");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating DetectedIssueStatus.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

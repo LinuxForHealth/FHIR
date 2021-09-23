@@ -55,38 +55,9 @@ public class ConceptSubsumptionOutcome extends Code {
 
     /**
      * Get the value of this ConceptSubsumptionOutcome as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this ConceptSubsumptionOutcome as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating ConceptSubsumptionOutcome objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static ConceptSubsumptionOutcome of(ValueSet value) {
-        switch (value) {
-        case EQUIVALENT:
-            return EQUIVALENT;
-        case SUBSUMES:
-            return SUBSUMES;
-        case SUBSUMED_BY:
-            return SUBSUMED_BY;
-        case NOT_SUBSUMED:
-            return NOT_SUBSUMED;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -202,14 +173,6 @@ public class ConceptSubsumptionOutcome extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -238,68 +201,6 @@ public class ConceptSubsumptionOutcome extends Code {
         protected Builder from(ConceptSubsumptionOutcome conceptSubsumptionOutcome) {
             super.from(conceptSubsumptionOutcome);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Equivalent
-         * 
-         * <p>The two concepts are equivalent (have the same properties).
-         */
-        EQUIVALENT("equivalent"),
-
-        /**
-         * Subsumes
-         * 
-         * <p>Coding/code "A" subsumes Coding/code "B" (e.g. B has all the properties A has, and some of it's own).
-         */
-        SUBSUMES("subsumes"),
-
-        /**
-         * Subsumed-By
-         * 
-         * <p>Coding/code "A" is subsumed by Coding/code "B" (e.g. A has all the properties B has, and some of it's own).
-         */
-        SUBSUMED_BY("subsumed-by"),
-
-        /**
-         * Not-Subsumed
-         * 
-         * <p>Coding/code "A" and Coding/code "B" are disjoint (e.g. each has propeties that the other doesn't have).
-         */
-        NOT_SUBSUMED("not-subsumed");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating ConceptSubsumptionOutcome.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

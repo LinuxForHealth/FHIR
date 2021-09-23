@@ -41,34 +41,9 @@ public class StructureMapInputMode extends Code {
 
     /**
      * Get the value of this StructureMapInputMode as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this StructureMapInputMode as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating StructureMapInputMode objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static StructureMapInputMode of(ValueSet value) {
-        switch (value) {
-        case SOURCE:
-            return SOURCE;
-        case TARGET:
-            return TARGET;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -180,14 +155,6 @@ public class StructureMapInputMode extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -216,54 +183,6 @@ public class StructureMapInputMode extends Code {
         protected Builder from(StructureMapInputMode structureMapInputMode) {
             super.from(structureMapInputMode);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Source Instance
-         * 
-         * <p>Names an input instance used a source for mapping.
-         */
-        SOURCE("source"),
-
-        /**
-         * Target Instance
-         * 
-         * <p>Names an instance that is being populated.
-         */
-        TARGET("target");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating StructureMapInputMode.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

@@ -50,36 +50,9 @@ public class ActionRequiredBehavior extends Code {
 
     /**
      * Get the value of this ActionRequiredBehavior as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this ActionRequiredBehavior as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating ActionRequiredBehavior objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static ActionRequiredBehavior of(ValueSet value) {
-        switch (value) {
-        case MUST:
-            return MUST;
-        case COULD:
-            return COULD;
-        case MUST_UNLESS_DOCUMENTED:
-            return MUST_UNLESS_DOCUMENTED;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -193,14 +166,6 @@ public class ActionRequiredBehavior extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -229,63 +194,6 @@ public class ActionRequiredBehavior extends Code {
         protected Builder from(ActionRequiredBehavior actionRequiredBehavior) {
             super.from(actionRequiredBehavior);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Must
-         * 
-         * <p>An action with this behavior must be included in the actions processed by the end user; the end user SHALL NOT 
-         * choose not to include this action.
-         */
-        MUST("must"),
-
-        /**
-         * Could
-         * 
-         * <p>An action with this behavior may be included in the set of actions processed by the end user.
-         */
-        COULD("could"),
-
-        /**
-         * Must Unless Documented
-         * 
-         * <p>An action with this behavior must be included in the set of actions processed by the end user, unless the end user 
-         * provides documentation as to why the action was not included.
-         */
-        MUST_UNLESS_DOCUMENTED("must-unless-documented");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating ActionRequiredBehavior.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

@@ -41,34 +41,9 @@ public class BiologicallyDerivedProductStatus extends Code {
 
     /**
      * Get the value of this BiologicallyDerivedProductStatus as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this BiologicallyDerivedProductStatus as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating BiologicallyDerivedProductStatus objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static BiologicallyDerivedProductStatus of(ValueSet value) {
-        switch (value) {
-        case AVAILABLE:
-            return AVAILABLE;
-        case UNAVAILABLE:
-            return UNAVAILABLE;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -180,14 +155,6 @@ public class BiologicallyDerivedProductStatus extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -216,54 +183,6 @@ public class BiologicallyDerivedProductStatus extends Code {
         protected Builder from(BiologicallyDerivedProductStatus biologicallyDerivedProductStatus) {
             super.from(biologicallyDerivedProductStatus);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Available
-         * 
-         * <p>Product is currently available for use.
-         */
-        AVAILABLE("available"),
-
-        /**
-         * Unavailable
-         * 
-         * <p>Product is not currently available for use.
-         */
-        UNAVAILABLE("unavailable");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating BiologicallyDerivedProductStatus.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

@@ -126,56 +126,9 @@ public class ResearchSubjectStatus extends Code {
 
     /**
      * Get the value of this ResearchSubjectStatus as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this ResearchSubjectStatus as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating ResearchSubjectStatus objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static ResearchSubjectStatus of(ValueSet value) {
-        switch (value) {
-        case CANDIDATE:
-            return CANDIDATE;
-        case ELIGIBLE:
-            return ELIGIBLE;
-        case FOLLOW_UP:
-            return FOLLOW_UP;
-        case INELIGIBLE:
-            return INELIGIBLE;
-        case NOT_REGISTERED:
-            return NOT_REGISTERED;
-        case OFF_STUDY:
-            return OFF_STUDY;
-        case ON_STUDY:
-            return ON_STUDY;
-        case ON_STUDY_INTERVENTION:
-            return ON_STUDY_INTERVENTION;
-        case ON_STUDY_OBSERVATION:
-            return ON_STUDY_OBSERVATION;
-        case PENDING_ON_STUDY:
-            return PENDING_ON_STUDY;
-        case POTENTIAL_CANDIDATE:
-            return POTENTIAL_CANDIDATE;
-        case SCREENING:
-            return SCREENING;
-        case WITHDRAWN:
-            return WITHDRAWN;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -309,14 +262,6 @@ public class ResearchSubjectStatus extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -345,139 +290,6 @@ public class ResearchSubjectStatus extends Code {
         protected Builder from(ResearchSubjectStatus researchSubjectStatus) {
             super.from(researchSubjectStatus);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Candidate
-         * 
-         * <p>An identified person that can be considered for inclusion in a study.
-         */
-        CANDIDATE("candidate"),
-
-        /**
-         * Eligible
-         * 
-         * <p>A person that has met the eligibility criteria for inclusion in a study.
-         */
-        ELIGIBLE("eligible"),
-
-        /**
-         * Follow-up
-         * 
-         * <p>A person is no longer receiving study intervention and/or being evaluated with tests and procedures according to 
-         * the protocol, but they are being monitored on a protocol-prescribed schedule.
-         */
-        FOLLOW_UP("follow-up"),
-
-        /**
-         * Ineligible
-         * 
-         * <p>A person who did not meet one or more criteria required for participation in a study is considered to have failed 
-         * screening or
-         * <p>is ineligible for the study.
-         */
-        INELIGIBLE("ineligible"),
-
-        /**
-         * Not Registered
-         * 
-         * <p>A person for whom registration was not completed.
-         */
-        NOT_REGISTERED("not-registered"),
-
-        /**
-         * Off-study
-         * 
-         * <p>A person that has ended their participation on a study either because their treatment/observation is complete or 
-         * through not
-         * <p>responding, withdrawal, non-compliance and/or adverse event.
-         */
-        OFF_STUDY("off-study"),
-
-        /**
-         * On-study
-         * 
-         * <p>A person that is enrolled or registered on a study.
-         */
-        ON_STUDY("on-study"),
-
-        /**
-         * On-study-intervention
-         * 
-         * <p>The person is receiving the treatment or participating in an activity (e.g. yoga, diet, etc.) that the study is 
-         * evaluating.
-         */
-        ON_STUDY_INTERVENTION("on-study-intervention"),
-
-        /**
-         * On-study-observation
-         * 
-         * <p>The subject is being evaluated via tests and assessments according to the study calendar, but is not receiving any 
-         * intervention. Note that this state is study-dependent and might not exist in all studies. A synonym for this is "short-
-         * term follow-up".
-         */
-        ON_STUDY_OBSERVATION("on-study-observation"),
-
-        /**
-         * Pending on-study
-         * 
-         * <p>A person is pre-registered for a study.
-         */
-        PENDING_ON_STUDY("pending-on-study"),
-
-        /**
-         * Potential Candidate
-         * 
-         * <p>A person that is potentially eligible for participation in the study.
-         */
-        POTENTIAL_CANDIDATE("potential-candidate"),
-
-        /**
-         * Screening
-         * 
-         * <p>A person who is being evaluated for eligibility for a study.
-         */
-        SCREENING("screening"),
-
-        /**
-         * Withdrawn
-         * 
-         * <p>The person has withdrawn their participation in the study before registration.
-         */
-        WITHDRAWN("withdrawn");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating ResearchSubjectStatus.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

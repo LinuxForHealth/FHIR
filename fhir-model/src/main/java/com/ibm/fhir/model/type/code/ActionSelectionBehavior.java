@@ -71,42 +71,9 @@ public class ActionSelectionBehavior extends Code {
 
     /**
      * Get the value of this ActionSelectionBehavior as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this ActionSelectionBehavior as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating ActionSelectionBehavior objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static ActionSelectionBehavior of(ValueSet value) {
-        switch (value) {
-        case ANY:
-            return ANY;
-        case ALL:
-            return ALL;
-        case ALL_OR_NONE:
-            return ALL_OR_NONE;
-        case EXACTLY_ONE:
-            return EXACTLY_ONE;
-        case AT_MOST_ONE:
-            return AT_MOST_ONE;
-        case ONE_OR_MORE:
-            return ONE_OR_MORE;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -226,14 +193,6 @@ public class ActionSelectionBehavior extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -262,84 +221,6 @@ public class ActionSelectionBehavior extends Code {
         protected Builder from(ActionSelectionBehavior actionSelectionBehavior) {
             super.from(actionSelectionBehavior);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Any
-         * 
-         * <p>Any number of the actions in the group may be chosen, from zero to all.
-         */
-        ANY("any"),
-
-        /**
-         * All
-         * 
-         * <p>All the actions in the group must be selected as a single unit.
-         */
-        ALL("all"),
-
-        /**
-         * All Or None
-         * 
-         * <p>All the actions in the group are meant to be chosen as a single unit: either all must be selected by the end user, 
-         * or none may be selected.
-         */
-        ALL_OR_NONE("all-or-none"),
-
-        /**
-         * Exactly One
-         * 
-         * <p>The end user must choose one and only one of the selectable actions in the group. The user SHALL NOT choose none of 
-         * the actions in the group.
-         */
-        EXACTLY_ONE("exactly-one"),
-
-        /**
-         * At Most One
-         * 
-         * <p>The end user may choose zero or at most one of the actions in the group.
-         */
-        AT_MOST_ONE("at-most-one"),
-
-        /**
-         * One Or More
-         * 
-         * <p>The end user must choose a minimum of one, and as many additional as desired.
-         */
-        ONE_OR_MORE("one-or-more");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating ActionSelectionBehavior.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

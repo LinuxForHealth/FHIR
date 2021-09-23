@@ -55,38 +55,9 @@ public class NamingSystemIdentifierType extends Code {
 
     /**
      * Get the value of this NamingSystemIdentifierType as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this NamingSystemIdentifierType as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating NamingSystemIdentifierType objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static NamingSystemIdentifierType of(ValueSet value) {
-        switch (value) {
-        case OID:
-            return OID;
-        case UUID:
-            return UUID;
-        case URI:
-            return URI;
-        case OTHER:
-            return OTHER;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -202,14 +173,6 @@ public class NamingSystemIdentifierType extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -238,68 +201,6 @@ public class NamingSystemIdentifierType extends Code {
         protected Builder from(NamingSystemIdentifierType namingSystemIdentifierType) {
             super.from(namingSystemIdentifierType);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * OID
-         * 
-         * <p>An ISO object identifier; e.g. 1.2.3.4.5.
-         */
-        OID("oid"),
-
-        /**
-         * UUID
-         * 
-         * <p>A universally unique identifier of the form a5afddf4-e880-459b-876e-e4591b0acc11.
-         */
-        UUID("uuid"),
-
-        /**
-         * URI
-         * 
-         * <p>A uniform resource identifier (ideally a URL - uniform resource locator); e.g. http://unitsofmeasure.org.
-         */
-        URI("uri"),
-
-        /**
-         * Other
-         * 
-         * <p>Some other type of unique identifier; e.g. HL7-assigned reserved string such as LN for LOINC.
-         */
-        OTHER("other");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating NamingSystemIdentifierType.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

@@ -82,44 +82,9 @@ public class EpisodeOfCareStatus extends Code {
 
     /**
      * Get the value of this EpisodeOfCareStatus as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this EpisodeOfCareStatus as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating EpisodeOfCareStatus objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static EpisodeOfCareStatus of(ValueSet value) {
-        switch (value) {
-        case PLANNED:
-            return PLANNED;
-        case WAITLIST:
-            return WAITLIST;
-        case ACTIVE:
-            return ACTIVE;
-        case ONHOLD:
-            return ONHOLD;
-        case FINISHED:
-            return FINISHED;
-        case CANCELLED:
-            return CANCELLED;
-        case ENTERED_IN_ERROR:
-            return ENTERED_IN_ERROR;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -241,14 +206,6 @@ public class EpisodeOfCareStatus extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -277,95 +234,6 @@ public class EpisodeOfCareStatus extends Code {
         protected Builder from(EpisodeOfCareStatus episodeOfCareStatus) {
             super.from(episodeOfCareStatus);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Planned
-         * 
-         * <p>This episode of care is planned to start at the date specified in the period.start. During this status, an 
-         * organization may perform assessments to determine if the patient is eligible to receive services, or be organizing to 
-         * make resources available to provide care services.
-         */
-        PLANNED("planned"),
-
-        /**
-         * Waitlist
-         * 
-         * <p>This episode has been placed on a waitlist, pending the episode being made active (or cancelled).
-         */
-        WAITLIST("waitlist"),
-
-        /**
-         * Active
-         * 
-         * <p>This episode of care is current.
-         */
-        ACTIVE("active"),
-
-        /**
-         * On Hold
-         * 
-         * <p>This episode of care is on hold; the organization has limited responsibility for the patient (such as while on 
-         * respite).
-         */
-        ONHOLD("onhold"),
-
-        /**
-         * Finished
-         * 
-         * <p>This episode of care is finished and the organization is not expecting to be providing further care to the patient. 
-         * Can also be known as "closed", "completed" or other similar terms.
-         */
-        FINISHED("finished"),
-
-        /**
-         * Cancelled
-         * 
-         * <p>The episode of care was cancelled, or withdrawn from service, often selected during the planned stage as the 
-         * patient may have gone elsewhere, or the circumstances have changed and the organization is unable to provide the care. 
-         * It indicates that services terminated outside the planned/expected workflow.
-         */
-        CANCELLED("cancelled"),
-
-        /**
-         * Entered in Error
-         * 
-         * <p>This instance should not have been part of this patient's medical record.
-         */
-        ENTERED_IN_ERROR("entered-in-error");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating EpisodeOfCareStatus.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 
