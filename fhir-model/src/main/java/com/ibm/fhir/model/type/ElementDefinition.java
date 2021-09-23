@@ -523,7 +523,15 @@ public class ElementDefinition extends BackboneElement {
      * abstract is false').
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Base64Binary}, {@link Boolean}, {@link Canonical}, {@link Code}, {@link Date}, 
+     *     {@link DateTime}, {@link Decimal}, {@link Id}, {@link Instant}, {@link Integer}, {@link Markdown}, {@link Oid}, {@link 
+     *     PositiveInt}, {@link String}, {@link Time}, {@link UnsignedInt}, {@link Uri}, {@link Url}, {@link Uuid}, {@link 
+     *     Address}, {@link Age}, {@link Annotation}, {@link Attachment}, {@link CodeableConcept}, {@link Coding}, {@link 
+     *     ContactPoint}, {@link Count}, {@link Distance}, {@link Duration}, {@link HumanName}, {@link Identifier}, {@link 
+     *     Money}, {@link Period}, {@link Quantity}, {@link Range}, {@link Ratio}, {@link Reference}, {@link SampledData}, {@link 
+     *     Signature}, {@link Timing}, {@link ContactDetail}, {@link Contributor}, {@link DataRequirement}, {@link Expression}, 
+     *     {@link ParameterDefinition}, {@link RelatedArtifact}, {@link TriggerDefinition}, {@link UsageContext}, {@link Dosage} 
+     *     or {@link Meta} that may be null.
      */
     public Element getDefaultValue() {
         return defaultValue;
@@ -557,7 +565,15 @@ public class ElementDefinition extends BackboneElement {
      * elements/attributes must also be missing.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Base64Binary}, {@link Boolean}, {@link Canonical}, {@link Code}, {@link Date}, 
+     *     {@link DateTime}, {@link Decimal}, {@link Id}, {@link Instant}, {@link Integer}, {@link Markdown}, {@link Oid}, {@link 
+     *     PositiveInt}, {@link String}, {@link Time}, {@link UnsignedInt}, {@link Uri}, {@link Url}, {@link Uuid}, {@link 
+     *     Address}, {@link Age}, {@link Annotation}, {@link Attachment}, {@link CodeableConcept}, {@link Coding}, {@link 
+     *     ContactPoint}, {@link Count}, {@link Distance}, {@link Duration}, {@link HumanName}, {@link Identifier}, {@link 
+     *     Money}, {@link Period}, {@link Quantity}, {@link Range}, {@link Ratio}, {@link Reference}, {@link SampledData}, {@link 
+     *     Signature}, {@link Timing}, {@link ContactDetail}, {@link Contributor}, {@link DataRequirement}, {@link Expression}, 
+     *     {@link ParameterDefinition}, {@link RelatedArtifact}, {@link TriggerDefinition}, {@link UsageContext}, {@link Dosage} 
+     *     or {@link Meta} that may be null.
      */
     public Element getFixed() {
         return fixed;
@@ -581,7 +597,15 @@ public class ElementDefinition extends BackboneElement {
      * <p>3. If an array: it must match (recursively) the pattern value.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Base64Binary}, {@link Boolean}, {@link Canonical}, {@link Code}, {@link Date}, 
+     *     {@link DateTime}, {@link Decimal}, {@link Id}, {@link Instant}, {@link Integer}, {@link Markdown}, {@link Oid}, {@link 
+     *     PositiveInt}, {@link String}, {@link Time}, {@link UnsignedInt}, {@link Uri}, {@link Url}, {@link Uuid}, {@link 
+     *     Address}, {@link Age}, {@link Annotation}, {@link Attachment}, {@link CodeableConcept}, {@link Coding}, {@link 
+     *     ContactPoint}, {@link Count}, {@link Distance}, {@link Duration}, {@link HumanName}, {@link Identifier}, {@link 
+     *     Money}, {@link Period}, {@link Quantity}, {@link Range}, {@link Ratio}, {@link Reference}, {@link SampledData}, {@link 
+     *     Signature}, {@link Timing}, {@link ContactDetail}, {@link Contributor}, {@link DataRequirement}, {@link Expression}, 
+     *     {@link ParameterDefinition}, {@link RelatedArtifact}, {@link TriggerDefinition}, {@link UsageContext}, {@link Dosage} 
+     *     or {@link Meta} that may be null.
      */
     public Element getPattern() {
         return pattern;
@@ -602,7 +626,8 @@ public class ElementDefinition extends BackboneElement {
      * instant, time, decimal, integer, and Quantity.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Date}, {@link DateTime}, {@link Instant}, {@link Time}, {@link Decimal}, {@link 
+     *     Integer}, {@link PositiveInt}, {@link UnsignedInt} or {@link Quantity} that may be null.
      */
     public Element getMinValue() {
         return minValue;
@@ -613,7 +638,8 @@ public class ElementDefinition extends BackboneElement {
      * instant, time, decimal, integer, and Quantity.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Date}, {@link DateTime}, {@link Instant}, {@link Time}, {@link Decimal}, {@link 
+     *     Integer}, {@link PositiveInt}, {@link UnsignedInt} or {@link Quantity} that may be null.
      */
     public Element getMaxValue() {
         return maxValue;
@@ -972,7 +998,8 @@ public class ElementDefinition extends BackboneElement {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -991,13 +1018,17 @@ public class ElementDefinition extends BackboneElement {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -1015,7 +1046,8 @@ public class ElementDefinition extends BackboneElement {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored even if unrecognized
@@ -1039,17 +1071,39 @@ public class ElementDefinition extends BackboneElement {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored even if unrecognized
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
             return (Builder) super.modifierExtension(modifierExtension);
+        }
+
+        /**
+         * Convenience method for setting {@code path}.
+         * 
+         * <p>This element is required.
+         * 
+         * @param path
+         *     Path of the element in the hierarchy of elements
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #path(com.ibm.fhir.model.type.String)
+         */
+        public Builder path(java.lang.String path) {
+            this.path = (path == null) ? null : String.of(path);
+            return this;
         }
 
         /**
@@ -1072,7 +1126,8 @@ public class ElementDefinition extends BackboneElement {
         /**
          * Codes that define how this element is represented in instances, when the deviation varies from the normal case.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param representation
          *     xmlAttr | xmlText | typeAttr | cdaText | xhtml
@@ -1090,16 +1145,36 @@ public class ElementDefinition extends BackboneElement {
         /**
          * Codes that define how this element is represented in instances, when the deviation varies from the normal case.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param representation
          *     xmlAttr | xmlText | typeAttr | cdaText | xhtml
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder representation(Collection<PropertyRepresentation> representation) {
             this.representation = new ArrayList<>(representation);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code sliceName}.
+         * 
+         * @param sliceName
+         *     Name for this particular element (in a set of slices)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #sliceName(com.ibm.fhir.model.type.String)
+         */
+        public Builder sliceName(java.lang.String sliceName) {
+            this.sliceName = (sliceName == null) ? null : String.of(sliceName);
             return this;
         }
 
@@ -1120,6 +1195,22 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
+         * Convenience method for setting {@code sliceIsConstraining}.
+         * 
+         * @param sliceIsConstraining
+         *     If this slice definition constrains an inherited slice definition (or not)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #sliceIsConstraining(com.ibm.fhir.model.type.Boolean)
+         */
+        public Builder sliceIsConstraining(java.lang.Boolean sliceIsConstraining) {
+            this.sliceIsConstraining = (sliceIsConstraining == null) ? null : Boolean.of(sliceIsConstraining);
+            return this;
+        }
+
+        /**
          * If true, indicates that this slice definition is constraining a slice definition with the same name in an inherited 
          * profile. If false, the slice is not overriding any slice in an inherited profile. If missing, the slice might or might 
          * not be overriding a slice in an inherited profile, depending on the sliceName.
@@ -1132,6 +1223,22 @@ public class ElementDefinition extends BackboneElement {
          */
         public Builder sliceIsConstraining(Boolean sliceIsConstraining) {
             this.sliceIsConstraining = sliceIsConstraining;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code label}.
+         * 
+         * @param label
+         *     Name for element to display with or prompt for element
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #label(com.ibm.fhir.model.type.String)
+         */
+        public Builder label(java.lang.String label) {
+            this.label = (label == null) ? null : String.of(label);
             return this;
         }
 
@@ -1153,7 +1260,8 @@ public class ElementDefinition extends BackboneElement {
         /**
          * A code that has the same meaning as the element in a particular terminology.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param code
          *     Corresponding codes in terminologies
@@ -1171,13 +1279,17 @@ public class ElementDefinition extends BackboneElement {
         /**
          * A code that has the same meaning as the element in a particular terminology.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param code
          *     Corresponding codes in terminologies
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder code(Collection<Coding> code) {
             this.code = new ArrayList<>(code);
@@ -1199,6 +1311,22 @@ public class ElementDefinition extends BackboneElement {
          */
         public Builder slicing(Slicing slicing) {
             this.slicing = slicing;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code _short}.
+         * 
+         * @param _short
+         *     Concise definition for space-constrained presentation
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #_short(com.ibm.fhir.model.type.String)
+         */
+        public Builder _short(java.lang.String _short) {
+            this._short = (_short == null) ? null : String.of(_short);
             return this;
         }
 
@@ -1264,9 +1392,31 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
+         * Convenience method for setting {@code alias}.
+         * 
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
+         * 
+         * @param alias
+         *     Other names
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #alias(com.ibm.fhir.model.type.String)
+         */
+        public Builder alias(java.lang.String... alias) {
+            for (java.lang.String value : alias) {
+                this.alias.add((value == null) ? null : String.of(value));
+            }
+            return this;
+        }
+
+        /**
          * Identifies additional names by which this element might also be known.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param alias
          *     Other names
@@ -1284,13 +1434,17 @@ public class ElementDefinition extends BackboneElement {
         /**
          * Identifies additional names by which this element might also be known.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param alias
          *     Other names
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder alias(Collection<String> alias) {
             this.alias = new ArrayList<>(alias);
@@ -1308,6 +1462,22 @@ public class ElementDefinition extends BackboneElement {
          */
         public Builder min(UnsignedInt min) {
             this.min = min;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code max}.
+         * 
+         * @param max
+         *     Maximum Cardinality (a number or *)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #max(com.ibm.fhir.model.type.String)
+         */
+        public Builder max(java.lang.String max) {
+            this.max = (max == null) ? null : String.of(max);
             return this;
         }
 
@@ -1362,7 +1532,8 @@ public class ElementDefinition extends BackboneElement {
         /**
          * The data type or resource that the value of this element is permitted to be.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param type
          *     Data type and Profile for this element
@@ -1380,16 +1551,116 @@ public class ElementDefinition extends BackboneElement {
         /**
          * The data type or resource that the value of this element is permitted to be.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param type
          *     Data type and Profile for this element
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder type(Collection<Type> type) {
             this.type = new ArrayList<>(type);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code defaultValue} with choice type Boolean.
+         * 
+         * @param defaultValue
+         *     Specified value if missing from instance
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #defaultValue(Element)
+         */
+        public Builder defaultValue(java.lang.Boolean defaultValue) {
+            this.defaultValue = (defaultValue == null) ? null : Boolean.of(defaultValue);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code defaultValue} with choice type Date.
+         * 
+         * @param defaultValue
+         *     Specified value if missing from instance
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #defaultValue(Element)
+         */
+        public Builder defaultValue(java.time.LocalDate defaultValue) {
+            this.defaultValue = (defaultValue == null) ? null : Date.of(defaultValue);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code defaultValue} with choice type Instant.
+         * 
+         * @param defaultValue
+         *     Specified value if missing from instance
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #defaultValue(Element)
+         */
+        public Builder defaultValue(java.time.ZonedDateTime defaultValue) {
+            this.defaultValue = (defaultValue == null) ? null : Instant.of(defaultValue);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code defaultValue} with choice type Integer.
+         * 
+         * @param defaultValue
+         *     Specified value if missing from instance
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #defaultValue(Element)
+         */
+        public Builder defaultValue(java.lang.Integer defaultValue) {
+            this.defaultValue = (defaultValue == null) ? null : Integer.of(defaultValue);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code defaultValue} with choice type String.
+         * 
+         * @param defaultValue
+         *     Specified value if missing from instance
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #defaultValue(Element)
+         */
+        public Builder defaultValue(java.lang.String defaultValue) {
+            this.defaultValue = (defaultValue == null) ? null : String.of(defaultValue);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code defaultValue} with choice type Time.
+         * 
+         * @param defaultValue
+         *     Specified value if missing from instance
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #defaultValue(Element)
+         */
+        public Builder defaultValue(java.time.LocalTime defaultValue) {
+            this.defaultValue = (defaultValue == null) ? null : Time.of(defaultValue);
             return this;
         }
 
@@ -1478,6 +1749,22 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
+         * Convenience method for setting {@code orderMeaning}.
+         * 
+         * @param orderMeaning
+         *     What the order of the elements means
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #orderMeaning(com.ibm.fhir.model.type.String)
+         */
+        public Builder orderMeaning(java.lang.String orderMeaning) {
+            this.orderMeaning = (orderMeaning == null) ? null : String.of(orderMeaning);
+            return this;
+        }
+
+        /**
          * If present, indicates that the order of the repeating element has meaning and describes what that meaning is. If 
          * absent, it means that the order of the element has no meaning.
          * 
@@ -1489,6 +1776,102 @@ public class ElementDefinition extends BackboneElement {
          */
         public Builder orderMeaning(String orderMeaning) {
             this.orderMeaning = orderMeaning;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code fixed} with choice type Boolean.
+         * 
+         * @param fixed
+         *     Value must be exactly this
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #fixed(Element)
+         */
+        public Builder fixed(java.lang.Boolean fixed) {
+            this.fixed = (fixed == null) ? null : Boolean.of(fixed);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code fixed} with choice type Date.
+         * 
+         * @param fixed
+         *     Value must be exactly this
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #fixed(Element)
+         */
+        public Builder fixed(java.time.LocalDate fixed) {
+            this.fixed = (fixed == null) ? null : Date.of(fixed);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code fixed} with choice type Instant.
+         * 
+         * @param fixed
+         *     Value must be exactly this
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #fixed(Element)
+         */
+        public Builder fixed(java.time.ZonedDateTime fixed) {
+            this.fixed = (fixed == null) ? null : Instant.of(fixed);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code fixed} with choice type Integer.
+         * 
+         * @param fixed
+         *     Value must be exactly this
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #fixed(Element)
+         */
+        public Builder fixed(java.lang.Integer fixed) {
+            this.fixed = (fixed == null) ? null : Integer.of(fixed);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code fixed} with choice type String.
+         * 
+         * @param fixed
+         *     Value must be exactly this
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #fixed(Element)
+         */
+        public Builder fixed(java.lang.String fixed) {
+            this.fixed = (fixed == null) ? null : String.of(fixed);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code fixed} with choice type Time.
+         * 
+         * @param fixed
+         *     Value must be exactly this
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #fixed(Element)
+         */
+        public Builder fixed(java.time.LocalTime fixed) {
+            this.fixed = (fixed == null) ? null : Time.of(fixed);
             return this;
         }
 
@@ -1559,6 +1942,102 @@ public class ElementDefinition extends BackboneElement {
          */
         public Builder fixed(Element fixed) {
             this.fixed = fixed;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code pattern} with choice type Boolean.
+         * 
+         * @param pattern
+         *     Value must have at least these property values
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #pattern(Element)
+         */
+        public Builder pattern(java.lang.Boolean pattern) {
+            this.pattern = (pattern == null) ? null : Boolean.of(pattern);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code pattern} with choice type Date.
+         * 
+         * @param pattern
+         *     Value must have at least these property values
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #pattern(Element)
+         */
+        public Builder pattern(java.time.LocalDate pattern) {
+            this.pattern = (pattern == null) ? null : Date.of(pattern);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code pattern} with choice type Instant.
+         * 
+         * @param pattern
+         *     Value must have at least these property values
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #pattern(Element)
+         */
+        public Builder pattern(java.time.ZonedDateTime pattern) {
+            this.pattern = (pattern == null) ? null : Instant.of(pattern);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code pattern} with choice type Integer.
+         * 
+         * @param pattern
+         *     Value must have at least these property values
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #pattern(Element)
+         */
+        public Builder pattern(java.lang.Integer pattern) {
+            this.pattern = (pattern == null) ? null : Integer.of(pattern);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code pattern} with choice type String.
+         * 
+         * @param pattern
+         *     Value must have at least these property values
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #pattern(Element)
+         */
+        public Builder pattern(java.lang.String pattern) {
+            this.pattern = (pattern == null) ? null : String.of(pattern);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code pattern} with choice type Time.
+         * 
+         * @param pattern
+         *     Value must have at least these property values
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #pattern(Element)
+         */
+        public Builder pattern(java.time.LocalTime pattern) {
+            this.pattern = (pattern == null) ? null : Time.of(pattern);
             return this;
         }
 
@@ -1647,7 +2126,8 @@ public class ElementDefinition extends BackboneElement {
         /**
          * A sample value for this element demonstrating the type of information that would typically be found in the element.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param example
          *     Example value (as defined for type)
@@ -1665,16 +2145,84 @@ public class ElementDefinition extends BackboneElement {
         /**
          * A sample value for this element demonstrating the type of information that would typically be found in the element.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param example
          *     Example value (as defined for type)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder example(Collection<Example> example) {
             this.example = new ArrayList<>(example);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code minValue} with choice type Date.
+         * 
+         * @param minValue
+         *     Minimum Allowed Value (for some types)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #minValue(Element)
+         */
+        public Builder minValue(java.time.LocalDate minValue) {
+            this.minValue = (minValue == null) ? null : Date.of(minValue);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code minValue} with choice type Instant.
+         * 
+         * @param minValue
+         *     Minimum Allowed Value (for some types)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #minValue(Element)
+         */
+        public Builder minValue(java.time.ZonedDateTime minValue) {
+            this.minValue = (minValue == null) ? null : Instant.of(minValue);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code minValue} with choice type Time.
+         * 
+         * @param minValue
+         *     Minimum Allowed Value (for some types)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #minValue(Element)
+         */
+        public Builder minValue(java.time.LocalTime minValue) {
+            this.minValue = (minValue == null) ? null : Time.of(minValue);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code minValue} with choice type Integer.
+         * 
+         * @param minValue
+         *     Minimum Allowed Value (for some types)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #minValue(Element)
+         */
+        public Builder minValue(java.lang.Integer minValue) {
+            this.minValue = (minValue == null) ? null : Integer.of(minValue);
             return this;
         }
 
@@ -1707,6 +2255,70 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
+         * Convenience method for setting {@code maxValue} with choice type Date.
+         * 
+         * @param maxValue
+         *     Maximum Allowed Value (for some types)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #maxValue(Element)
+         */
+        public Builder maxValue(java.time.LocalDate maxValue) {
+            this.maxValue = (maxValue == null) ? null : Date.of(maxValue);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code maxValue} with choice type Instant.
+         * 
+         * @param maxValue
+         *     Maximum Allowed Value (for some types)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #maxValue(Element)
+         */
+        public Builder maxValue(java.time.ZonedDateTime maxValue) {
+            this.maxValue = (maxValue == null) ? null : Instant.of(maxValue);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code maxValue} with choice type Time.
+         * 
+         * @param maxValue
+         *     Maximum Allowed Value (for some types)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #maxValue(Element)
+         */
+        public Builder maxValue(java.time.LocalTime maxValue) {
+            this.maxValue = (maxValue == null) ? null : Time.of(maxValue);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code maxValue} with choice type Integer.
+         * 
+         * @param maxValue
+         *     Maximum Allowed Value (for some types)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #maxValue(Element)
+         */
+        public Builder maxValue(java.lang.Integer maxValue) {
+            this.maxValue = (maxValue == null) ? null : Integer.of(maxValue);
+            return this;
+        }
+
+        /**
          * The maximum allowed value for the element. The value is inclusive. This is allowed for the types date, dateTime, 
          * instant, time, decimal, integer, and Quantity.
          * 
@@ -1735,6 +2347,22 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
+         * Convenience method for setting {@code maxLength}.
+         * 
+         * @param maxLength
+         *     Max length for strings
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #maxLength(com.ibm.fhir.model.type.Integer)
+         */
+        public Builder maxLength(java.lang.Integer maxLength) {
+            this.maxLength = (maxLength == null) ? null : Integer.of(maxLength);
+            return this;
+        }
+
+        /**
          * Indicates the maximum length in characters that is permitted to be present in conformant instances and which is 
          * expected to be supported by conformant consumers that support the element.
          * 
@@ -1752,7 +2380,8 @@ public class ElementDefinition extends BackboneElement {
         /**
          * A reference to an invariant that may make additional statements about the cardinality or value in the instance.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param condition
          *     Reference to invariant about presence
@@ -1770,13 +2399,17 @@ public class ElementDefinition extends BackboneElement {
         /**
          * A reference to an invariant that may make additional statements about the cardinality or value in the instance.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param condition
          *     Reference to invariant about presence
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder condition(Collection<Id> condition) {
             this.condition = new ArrayList<>(condition);
@@ -1787,7 +2420,8 @@ public class ElementDefinition extends BackboneElement {
          * Formal constraints such as co-occurrence and other constraints that can be computationally evaluated within the 
          * context of the instance.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param constraint
          *     Condition that must evaluate to true
@@ -1806,16 +2440,36 @@ public class ElementDefinition extends BackboneElement {
          * Formal constraints such as co-occurrence and other constraints that can be computationally evaluated within the 
          * context of the instance.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param constraint
          *     Condition that must evaluate to true
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder constraint(Collection<Constraint> constraint) {
             this.constraint = new ArrayList<>(constraint);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code mustSupport}.
+         * 
+         * @param mustSupport
+         *     If the element must be supported
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #mustSupport(com.ibm.fhir.model.type.Boolean)
+         */
+        public Builder mustSupport(java.lang.Boolean mustSupport) {
+            this.mustSupport = (mustSupport == null) ? null : Boolean.of(mustSupport);
             return this;
         }
 
@@ -1832,6 +2486,22 @@ public class ElementDefinition extends BackboneElement {
          */
         public Builder mustSupport(Boolean mustSupport) {
             this.mustSupport = mustSupport;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code isModifier}.
+         * 
+         * @param isModifier
+         *     If this modifies the meaning of other elements
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #isModifier(com.ibm.fhir.model.type.Boolean)
+         */
+        public Builder isModifier(java.lang.Boolean isModifier) {
+            this.isModifier = (isModifier == null) ? null : Boolean.of(isModifier);
             return this;
         }
 
@@ -1853,6 +2523,22 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
+         * Convenience method for setting {@code isModifierReason}.
+         * 
+         * @param isModifierReason
+         *     Reason that this element is marked as a modifier
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #isModifierReason(com.ibm.fhir.model.type.String)
+         */
+        public Builder isModifierReason(java.lang.String isModifierReason) {
+            this.isModifierReason = (isModifierReason == null) ? null : String.of(isModifierReason);
+            return this;
+        }
+
+        /**
          * Explains how that element affects the interpretation of the resource or element that contains it.
          * 
          * @param isModifierReason
@@ -1863,6 +2549,22 @@ public class ElementDefinition extends BackboneElement {
          */
         public Builder isModifierReason(String isModifierReason) {
             this.isModifierReason = isModifierReason;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code isSummary}.
+         * 
+         * @param isSummary
+         *     Include when _summary = true?
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #isSummary(com.ibm.fhir.model.type.Boolean)
+         */
+        public Builder isSummary(java.lang.Boolean isSummary) {
+            this.isSummary = (isSummary == null) ? null : Boolean.of(isSummary);
             return this;
         }
 
@@ -1898,7 +2600,8 @@ public class ElementDefinition extends BackboneElement {
         /**
          * Identifies a concept from an external specification that roughly corresponds to this element.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param mapping
          *     Map element to another set of definitions
@@ -1916,13 +2619,17 @@ public class ElementDefinition extends BackboneElement {
         /**
          * Identifies a concept from an external specification that roughly corresponds to this element.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param mapping
          *     Map element to another set of definitions
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder mapping(Collection<Mapping> mapping) {
             this.mapping = new ArrayList<>(mapping);
@@ -2191,7 +2898,8 @@ public class ElementDefinition extends BackboneElement {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2210,13 +2918,17 @@ public class ElementDefinition extends BackboneElement {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2233,7 +2945,8 @@ public class ElementDefinition extends BackboneElement {
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2256,13 +2969,17 @@ public class ElementDefinition extends BackboneElement {
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2274,7 +2991,8 @@ public class ElementDefinition extends BackboneElement {
              * more discriminators are provided, the value of the child elements in the instance data SHALL completely distinguish 
              * which slice the element in the resource matches based on the allowed values for those elements in each of the slices.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param discriminator
              *     Element values that are used to distinguish the slices
@@ -2294,16 +3012,36 @@ public class ElementDefinition extends BackboneElement {
              * more discriminators are provided, the value of the child elements in the instance data SHALL completely distinguish 
              * which slice the element in the resource matches based on the allowed values for those elements in each of the slices.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param discriminator
              *     Element values that are used to distinguish the slices
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder discriminator(Collection<Discriminator> discriminator) {
                 this.discriminator = new ArrayList<>(discriminator);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code description}.
+             * 
+             * @param description
+             *     Text description of how slicing works (or not)
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #description(com.ibm.fhir.model.type.String)
+             */
+            public Builder description(java.lang.String description) {
+                this.description = (description == null) ? null : String.of(description);
                 return this;
             }
 
@@ -2319,6 +3057,22 @@ public class ElementDefinition extends BackboneElement {
              */
             public Builder description(String description) {
                 this.description = description;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code ordered}.
+             * 
+             * @param ordered
+             *     If elements must be in same order as slices
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #ordered(com.ibm.fhir.model.type.Boolean)
+             */
+            public Builder ordered(java.lang.Boolean ordered) {
+                this.ordered = (ordered == null) ? null : Boolean.of(ordered);
                 return this;
             }
 
@@ -2533,7 +3287,8 @@ public class ElementDefinition extends BackboneElement {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2552,13 +3307,17 @@ public class ElementDefinition extends BackboneElement {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2575,7 +3334,8 @@ public class ElementDefinition extends BackboneElement {
                  * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
                  * modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2598,13 +3358,17 @@ public class ElementDefinition extends BackboneElement {
                  * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
                  * modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2624,6 +3388,24 @@ public class ElementDefinition extends BackboneElement {
                  */
                 public Builder type(DiscriminatorType type) {
                     this.type = type;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code path}.
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param path
+                 *     Path to element value
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #path(com.ibm.fhir.model.type.String)
+                 */
+                public Builder path(java.lang.String path) {
+                    this.path = (path == null) ? null : String.of(path);
                     return this;
                 }
 
@@ -2841,7 +3623,8 @@ public class ElementDefinition extends BackboneElement {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2860,13 +3643,17 @@ public class ElementDefinition extends BackboneElement {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2883,7 +3670,8 @@ public class ElementDefinition extends BackboneElement {
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2906,17 +3694,39 @@ public class ElementDefinition extends BackboneElement {
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting {@code path}.
+             * 
+             * <p>This element is required.
+             * 
+             * @param path
+             *     Path that identifies the base element
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #path(com.ibm.fhir.model.type.String)
+             */
+            public Builder path(java.lang.String path) {
+                this.path = (path == null) ? null : String.of(path);
+                return this;
             }
 
             /**
@@ -2950,6 +3760,24 @@ public class ElementDefinition extends BackboneElement {
              */
             public Builder min(UnsignedInt min) {
                 this.min = min;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code max}.
+             * 
+             * <p>This element is required.
+             * 
+             * @param max
+             *     Max cardinality of the base element
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #max(com.ibm.fhir.model.type.String)
+             */
+            public Builder max(java.lang.String max) {
+                this.max = (max == null) ? null : String.of(max);
                 return this;
             }
 
@@ -3225,7 +4053,8 @@ public class ElementDefinition extends BackboneElement {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -3244,13 +4073,17 @@ public class ElementDefinition extends BackboneElement {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -3267,7 +4100,8 @@ public class ElementDefinition extends BackboneElement {
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -3290,13 +4124,17 @@ public class ElementDefinition extends BackboneElement {
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3328,7 +4166,8 @@ public class ElementDefinition extends BackboneElement {
              * URL. When an implementation guide is specified, the type SHALL conform to at least one profile defined in the 
              * implementation guide.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param profile
              *     Profiles (StructureDefinition or IG) - one must apply
@@ -3350,13 +4189,17 @@ public class ElementDefinition extends BackboneElement {
              * URL. When an implementation guide is specified, the type SHALL conform to at least one profile defined in the 
              * implementation guide.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param profile
              *     Profiles (StructureDefinition or IG) - one must apply
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder profile(Collection<Canonical> profile) {
                 this.profile = new ArrayList<>(profile);
@@ -3370,7 +4213,8 @@ public class ElementDefinition extends BackboneElement {
              * to another StructureDefinition or Implementation Guide by a canonical URL. When an implementation guide is specified, 
              * the target resource SHALL conform to at least one profile defined in the implementation guide.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param targetProfile
              *     Profile (StructureDefinition or IG) on the Reference/canonical target - one must apply
@@ -3392,13 +4236,17 @@ public class ElementDefinition extends BackboneElement {
              * to another StructureDefinition or Implementation Guide by a canonical URL. When an implementation guide is specified, 
              * the target resource SHALL conform to at least one profile defined in the implementation guide.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param targetProfile
              *     Profile (StructureDefinition or IG) on the Reference/canonical target - one must apply
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder targetProfile(Collection<Canonical> targetProfile) {
                 this.targetProfile = new ArrayList<>(targetProfile);
@@ -3409,7 +4257,8 @@ public class ElementDefinition extends BackboneElement {
              * If the type is a reference to another resource, how the resource is or can be aggregated - is it a contained resource, 
              * or a reference, and if the context is a bundle, is it included in the bundle.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param aggregation
              *     contained | referenced | bundled - how aggregated
@@ -3428,13 +4277,17 @@ public class ElementDefinition extends BackboneElement {
              * If the type is a reference to another resource, how the resource is or can be aggregated - is it a contained resource, 
              * or a reference, and if the context is a bundle, is it included in the bundle.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param aggregation
              *     contained | referenced | bundled - how aggregated
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder aggregation(Collection<AggregationMode> aggregation) {
                 this.aggregation = new ArrayList<>(aggregation);
@@ -3530,7 +4383,15 @@ public class ElementDefinition extends BackboneElement {
          * The actual value for the element, which must be one of the types allowed for this element.
          * 
          * @return
-         *     An immutable object of type {@link Element} that is non-null.
+         *     An immutable object of type {@link Base64Binary}, {@link Boolean}, {@link Canonical}, {@link Code}, {@link Date}, 
+         *     {@link DateTime}, {@link Decimal}, {@link Id}, {@link Instant}, {@link Integer}, {@link Markdown}, {@link Oid}, {@link 
+         *     PositiveInt}, {@link String}, {@link Time}, {@link UnsignedInt}, {@link Uri}, {@link Url}, {@link Uuid}, {@link 
+         *     Address}, {@link Age}, {@link Annotation}, {@link Attachment}, {@link CodeableConcept}, {@link Coding}, {@link 
+         *     ContactPoint}, {@link Count}, {@link Distance}, {@link Duration}, {@link HumanName}, {@link Identifier}, {@link 
+         *     Money}, {@link Period}, {@link Quantity}, {@link Range}, {@link Ratio}, {@link Reference}, {@link SampledData}, {@link 
+         *     Signature}, {@link Timing}, {@link ContactDetail}, {@link Contributor}, {@link DataRequirement}, {@link Expression}, 
+         *     {@link ParameterDefinition}, {@link RelatedArtifact}, {@link TriggerDefinition}, {@link UsageContext}, {@link Dosage} 
+         *     or {@link Meta} that is non-null.
          */
         public Element getValue() {
             return value;
@@ -3631,7 +4492,8 @@ public class ElementDefinition extends BackboneElement {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -3650,13 +4512,17 @@ public class ElementDefinition extends BackboneElement {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -3673,7 +4539,8 @@ public class ElementDefinition extends BackboneElement {
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -3696,17 +4563,39 @@ public class ElementDefinition extends BackboneElement {
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting {@code label}.
+             * 
+             * <p>This element is required.
+             * 
+             * @param label
+             *     Describes the purpose of this example
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #label(com.ibm.fhir.model.type.String)
+             */
+            public Builder label(java.lang.String label) {
+                this.label = (label == null) ? null : String.of(label);
+                return this;
             }
 
             /**
@@ -3722,6 +4611,114 @@ public class ElementDefinition extends BackboneElement {
              */
             public Builder label(String label) {
                 this.label = label;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type Boolean.
+             * 
+             * <p>This element is required.
+             * 
+             * @param value
+             *     Value of Example (one of allowed types)
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.lang.Boolean value) {
+                this.value = (value == null) ? null : Boolean.of(value);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type Date.
+             * 
+             * <p>This element is required.
+             * 
+             * @param value
+             *     Value of Example (one of allowed types)
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.time.LocalDate value) {
+                this.value = (value == null) ? null : Date.of(value);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type Instant.
+             * 
+             * <p>This element is required.
+             * 
+             * @param value
+             *     Value of Example (one of allowed types)
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.time.ZonedDateTime value) {
+                this.value = (value == null) ? null : Instant.of(value);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type Integer.
+             * 
+             * <p>This element is required.
+             * 
+             * @param value
+             *     Value of Example (one of allowed types)
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.lang.Integer value) {
+                this.value = (value == null) ? null : Integer.of(value);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type String.
+             * 
+             * <p>This element is required.
+             * 
+             * @param value
+             *     Value of Example (one of allowed types)
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.lang.String value) {
+                this.value = (value == null) ? null : String.of(value);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type Time.
+             * 
+             * <p>This element is required.
+             * 
+             * @param value
+             *     Value of Example (one of allowed types)
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.time.LocalTime value) {
+                this.value = (value == null) ? null : Time.of(value);
                 return this;
             }
 
@@ -4065,7 +5062,8 @@ public class ElementDefinition extends BackboneElement {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -4084,13 +5082,17 @@ public class ElementDefinition extends BackboneElement {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -4107,7 +5109,8 @@ public class ElementDefinition extends BackboneElement {
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -4130,13 +5133,17 @@ public class ElementDefinition extends BackboneElement {
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -4157,6 +5164,22 @@ public class ElementDefinition extends BackboneElement {
              */
             public Builder key(Id key) {
                 this.key = key;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code requirements}.
+             * 
+             * @param requirements
+             *     Why this constraint is necessary or appropriate
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #requirements(com.ibm.fhir.model.type.String)
+             */
+            public Builder requirements(java.lang.String requirements) {
+                this.requirements = (requirements == null) ? null : String.of(requirements);
                 return this;
             }
 
@@ -4191,6 +5214,24 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
+             * Convenience method for setting {@code human}.
+             * 
+             * <p>This element is required.
+             * 
+             * @param human
+             *     Human description of constraint
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #human(com.ibm.fhir.model.type.String)
+             */
+            public Builder human(java.lang.String human) {
+                this.human = (human == null) ? null : String.of(human);
+                return this;
+            }
+
+            /**
              * Text that can be used to describe the constraint in messages identifying that the constraint has been violated.
              * 
              * <p>This element is required.
@@ -4207,6 +5248,22 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
+             * Convenience method for setting {@code expression}.
+             * 
+             * @param expression
+             *     FHIRPath expression of constraint
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #expression(com.ibm.fhir.model.type.String)
+             */
+            public Builder expression(java.lang.String expression) {
+                this.expression = (expression == null) ? null : String.of(expression);
+                return this;
+            }
+
+            /**
              * A [FHIRPath](fhirpath.html) expression of constraint that can be executed to see if this constraint is met.
              * 
              * @param expression
@@ -4217,6 +5274,22 @@ public class ElementDefinition extends BackboneElement {
              */
             public Builder expression(String expression) {
                 this.expression = expression;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code xpath}.
+             * 
+             * @param xpath
+             *     XPath expression of constraint
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #xpath(com.ibm.fhir.model.type.String)
+             */
+            public Builder xpath(java.lang.String xpath) {
+                this.xpath = (xpath == null) ? null : String.of(xpath);
                 return this;
             }
 
@@ -4451,7 +5524,8 @@ public class ElementDefinition extends BackboneElement {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -4470,13 +5544,17 @@ public class ElementDefinition extends BackboneElement {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -4493,7 +5571,8 @@ public class ElementDefinition extends BackboneElement {
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -4516,13 +5595,17 @@ public class ElementDefinition extends BackboneElement {
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -4543,6 +5626,22 @@ public class ElementDefinition extends BackboneElement {
              */
             public Builder strength(BindingStrength strength) {
                 this.strength = strength;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code description}.
+             * 
+             * @param description
+             *     Human explanation of the value set
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #description(com.ibm.fhir.model.type.String)
+             */
+            public Builder description(java.lang.String description) {
+                this.description = (description == null) ? null : String.of(description);
                 return this;
             }
 
@@ -4786,7 +5885,8 @@ public class ElementDefinition extends BackboneElement {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -4805,13 +5905,17 @@ public class ElementDefinition extends BackboneElement {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -4828,7 +5932,8 @@ public class ElementDefinition extends BackboneElement {
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -4851,13 +5956,17 @@ public class ElementDefinition extends BackboneElement {
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -4895,6 +6004,24 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
+             * Convenience method for setting {@code map}.
+             * 
+             * <p>This element is required.
+             * 
+             * @param map
+             *     Details of the mapping
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #map(com.ibm.fhir.model.type.String)
+             */
+            public Builder map(java.lang.String map) {
+                this.map = (map == null) ? null : String.of(map);
+                return this;
+            }
+
+            /**
              * Expresses what part of the target specification corresponds to this element.
              * 
              * <p>This element is required.
@@ -4907,6 +6034,22 @@ public class ElementDefinition extends BackboneElement {
              */
             public Builder map(String map) {
                 this.map = map;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code comment}.
+             * 
+             * @param comment
+             *     Comments about the mapping or its use
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #comment(com.ibm.fhir.model.type.String)
+             */
+            public Builder comment(java.lang.String comment) {
+                this.comment = (comment == null) ? null : String.of(comment);
                 return this;
             }
 

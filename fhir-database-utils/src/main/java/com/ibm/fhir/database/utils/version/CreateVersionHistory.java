@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,35 @@ import com.ibm.fhir.database.utils.model.Table;
  * it.
  */
 public class CreateVersionHistory {
+    public static final String SCHEMA_GROUP_TAG = "SCHEMA_GROUP";
+    public static final String ADMIN_GROUP = "FHIR_ADMIN";
+
+    /**
+     * Generates the Table
+     * @param dataModel
+     * @param adminSchemaName
+     * @param addTags
+     * @return
+     */
+    public static Table generateTable(PhysicalDataModel dataModel, String adminSchemaName, boolean addTags) {
+        Table t = Table.builder(adminSchemaName, SchemaConstants.VERSION_HISTORY)
+                .setVersion(0)
+                .addVarcharColumn(SchemaConstants.SCHEMA_NAME, 64, false)
+                .addVarcharColumn(SchemaConstants.OBJECT_TYPE, 16, false)
+                .addVarcharColumn(SchemaConstants.OBJECT_NAME, 64, false)
+                .addIntColumn(SchemaConstants.VERSION, false)
+                .addTimestampColumn(SchemaConstants.APPLIED, false)
+                .addPrimaryKey("PK_" + SchemaConstants.VERSION_HISTORY, SchemaConstants.SCHEMA_NAME, SchemaConstants.OBJECT_TYPE, SchemaConstants.OBJECT_NAME, SchemaConstants.VERSION)
+                .build(dataModel);
+        dataModel.addTable(t);
+        dataModel.addObject(t);
+
+        if (addTags) {
+            t.addTag(SCHEMA_GROUP_TAG, ADMIN_GROUP);
+        }
+
+        return t;
+    }
 
     /**
      * Create the version history table in the given (admin) schema. This
@@ -31,17 +60,8 @@ public class CreateVersionHistory {
      */
     public static void createTableIfNeeded(String adminSchemaName, IDatabaseAdapter target) {
         PhysicalDataModel dataModel = new PhysicalDataModel();
-        Table t = Table.builder(adminSchemaName, SchemaConstants.VERSION_HISTORY)
-                .setVersion(0)
-                .addVarcharColumn(SchemaConstants.SCHEMA_NAME, 64, false)
-                .addVarcharColumn(SchemaConstants.OBJECT_TYPE, 16, false)
-                .addVarcharColumn(SchemaConstants.OBJECT_NAME, 64, false)
-                .addIntColumn(SchemaConstants.VERSION, false)
-                .addTimestampColumn(SchemaConstants.APPLIED, false)
-                .addPrimaryKey("PK_" + SchemaConstants.VERSION_HISTORY, SchemaConstants.SCHEMA_NAME, SchemaConstants.OBJECT_TYPE, SchemaConstants.OBJECT_NAME, SchemaConstants.VERSION)
-                .build(dataModel);
-        dataModel.addTable(t);
-        dataModel.addObject(t);
+
+        Table t = generateTable(dataModel, adminSchemaName, false);
 
         // apply this data model to the target if necessary - note - this bypasses the
         // version history table...because this is the table we're trying to create!

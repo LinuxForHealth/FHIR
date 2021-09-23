@@ -147,7 +147,7 @@ public class DeviceDefinition extends DomainResource {
      * A name of the manufacturer.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link String} or {@link Reference} that may be null.
      */
     public Element getManufacturer() {
         return manufacturer;
@@ -614,7 +614,8 @@ public class DeviceDefinition extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -631,13 +632,17 @@ public class DeviceDefinition extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -650,7 +655,8 @@ public class DeviceDefinition extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -669,13 +675,17 @@ public class DeviceDefinition extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -693,7 +703,8 @@ public class DeviceDefinition extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -717,13 +728,17 @@ public class DeviceDefinition extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -734,7 +749,8 @@ public class DeviceDefinition extends DomainResource {
          * Unique instance identifiers assigned to a device by the software, manufacturers, other organizations or owners. For 
          * example: handle ID.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Instance identifier
@@ -753,13 +769,17 @@ public class DeviceDefinition extends DomainResource {
          * Unique instance identifiers assigned to a device by the software, manufacturers, other organizations or owners. For 
          * example: handle ID.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Instance identifier
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder identifier(Collection<Identifier> identifier) {
             this.identifier = new ArrayList<>(identifier);
@@ -771,7 +791,8 @@ public class DeviceDefinition extends DomainResource {
          * udiCarriers as it either may include just the udiCarrier for the jurisdiction it is sold, or for multiple 
          * jurisdictions it could have been sold.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param udiDeviceIdentifier
          *     Unique Device Identifier (UDI) Barcode string
@@ -791,16 +812,36 @@ public class DeviceDefinition extends DomainResource {
          * udiCarriers as it either may include just the udiCarrier for the jurisdiction it is sold, or for multiple 
          * jurisdictions it could have been sold.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param udiDeviceIdentifier
          *     Unique Device Identifier (UDI) Barcode string
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder udiDeviceIdentifier(Collection<UdiDeviceIdentifier> udiDeviceIdentifier) {
             this.udiDeviceIdentifier = new ArrayList<>(udiDeviceIdentifier);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code manufacturer} with choice type String.
+         * 
+         * @param manufacturer
+         *     Name of device manufacturer
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #manufacturer(Element)
+         */
+        public Builder manufacturer(java.lang.String manufacturer) {
+            this.manufacturer = (manufacturer == null) ? null : String.of(manufacturer);
             return this;
         }
 
@@ -832,7 +873,8 @@ public class DeviceDefinition extends DomainResource {
         /**
          * A name given to the device to identify it.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param deviceName
          *     A name given to the device to identify it
@@ -850,16 +892,36 @@ public class DeviceDefinition extends DomainResource {
         /**
          * A name given to the device to identify it.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param deviceName
          *     A name given to the device to identify it
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder deviceName(Collection<DeviceName> deviceName) {
             this.deviceName = new ArrayList<>(deviceName);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code modelNumber}.
+         * 
+         * @param modelNumber
+         *     The model number for the device
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #modelNumber(com.ibm.fhir.model.type.String)
+         */
+        public Builder modelNumber(java.lang.String modelNumber) {
+            this.modelNumber = (modelNumber == null) ? null : String.of(modelNumber);
             return this;
         }
 
@@ -895,7 +957,8 @@ public class DeviceDefinition extends DomainResource {
          * The capabilities supported on a device, the standards to which the device conforms for a particular purpose, and used 
          * for the communication.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param specialization
          *     The capabilities supported on a device, the standards to which the device conforms for a particular purpose, and used 
@@ -915,7 +978,8 @@ public class DeviceDefinition extends DomainResource {
          * The capabilities supported on a device, the standards to which the device conforms for a particular purpose, and used 
          * for the communication.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param specialization
          *     The capabilities supported on a device, the standards to which the device conforms for a particular purpose, and used 
@@ -923,6 +987,9 @@ public class DeviceDefinition extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder specialization(Collection<Specialization> specialization) {
             this.specialization = new ArrayList<>(specialization);
@@ -930,9 +997,31 @@ public class DeviceDefinition extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code version}.
+         * 
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
+         * 
+         * @param version
+         *     Available versions
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #version(com.ibm.fhir.model.type.String)
+         */
+        public Builder version(java.lang.String... version) {
+            for (java.lang.String value : version) {
+                this.version.add((value == null) ? null : String.of(value));
+            }
+            return this;
+        }
+
+        /**
          * The available versions of the device, e.g., software versions.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param version
          *     Available versions
@@ -950,13 +1039,17 @@ public class DeviceDefinition extends DomainResource {
         /**
          * The available versions of the device, e.g., software versions.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param version
          *     Available versions
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder version(Collection<String> version) {
             this.version = new ArrayList<>(version);
@@ -966,7 +1059,8 @@ public class DeviceDefinition extends DomainResource {
         /**
          * Safety characteristics of the device.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param safety
          *     Safety characteristics of the device
@@ -984,13 +1078,17 @@ public class DeviceDefinition extends DomainResource {
         /**
          * Safety characteristics of the device.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param safety
          *     Safety characteristics of the device
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder safety(Collection<CodeableConcept> safety) {
             this.safety = new ArrayList<>(safety);
@@ -1000,7 +1098,8 @@ public class DeviceDefinition extends DomainResource {
         /**
          * Shelf Life and storage information.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param shelfLifeStorage
          *     Shelf Life and storage information
@@ -1018,13 +1117,17 @@ public class DeviceDefinition extends DomainResource {
         /**
          * Shelf Life and storage information.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param shelfLifeStorage
          *     Shelf Life and storage information
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder shelfLifeStorage(Collection<ProductShelfLife> shelfLifeStorage) {
             this.shelfLifeStorage = new ArrayList<>(shelfLifeStorage);
@@ -1048,7 +1151,8 @@ public class DeviceDefinition extends DomainResource {
         /**
          * Language code for the human-readable text strings produced by the device (all supported).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param languageCode
          *     Language code for the human-readable text strings produced by the device (all supported)
@@ -1066,13 +1170,17 @@ public class DeviceDefinition extends DomainResource {
         /**
          * Language code for the human-readable text strings produced by the device (all supported).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param languageCode
          *     Language code for the human-readable text strings produced by the device (all supported)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder languageCode(Collection<CodeableConcept> languageCode) {
             this.languageCode = new ArrayList<>(languageCode);
@@ -1082,7 +1190,8 @@ public class DeviceDefinition extends DomainResource {
         /**
          * Device capabilities.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param capability
          *     Device capabilities
@@ -1100,13 +1209,17 @@ public class DeviceDefinition extends DomainResource {
         /**
          * Device capabilities.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param capability
          *     Device capabilities
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder capability(Collection<Capability> capability) {
             this.capability = new ArrayList<>(capability);
@@ -1116,7 +1229,8 @@ public class DeviceDefinition extends DomainResource {
         /**
          * The actual configuration settings of a device as it actually operates, e.g., regulation status, time properties.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param property
          *     The actual configuration settings of a device as it actually operates, e.g., regulation status, time properties
@@ -1134,13 +1248,17 @@ public class DeviceDefinition extends DomainResource {
         /**
          * The actual configuration settings of a device as it actually operates, e.g., regulation status, time properties.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param property
          *     The actual configuration settings of a device as it actually operates, e.g., regulation status, time properties
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder property(Collection<Property> property) {
             this.property = new ArrayList<>(property);
@@ -1169,7 +1287,8 @@ public class DeviceDefinition extends DomainResource {
         /**
          * Contact details for an organization or a particular human that is responsible for the device.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contact
          *     Details for human/organization for support
@@ -1187,13 +1306,17 @@ public class DeviceDefinition extends DomainResource {
         /**
          * Contact details for an organization or a particular human that is responsible for the device.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contact
          *     Details for human/organization for support
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder contact(Collection<ContactPoint> contact) {
             this.contact = new ArrayList<>(contact);
@@ -1231,7 +1354,8 @@ public class DeviceDefinition extends DomainResource {
         /**
          * Descriptive information, usage information or implantation information that is not captured in an existing element.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param note
          *     Device notes and comments
@@ -1249,13 +1373,17 @@ public class DeviceDefinition extends DomainResource {
         /**
          * Descriptive information, usage information or implantation information that is not captured in an existing element.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param note
          *     Device notes and comments
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder note(Collection<Annotation> note) {
             this.note = new ArrayList<>(note);
@@ -1300,7 +1428,8 @@ public class DeviceDefinition extends DomainResource {
         /**
          * A substance used to create the material(s) of which the device is made.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param material
          *     A substance used to create the material(s) of which the device is made
@@ -1318,13 +1447,17 @@ public class DeviceDefinition extends DomainResource {
         /**
          * A substance used to create the material(s) of which the device is made.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param material
          *     A substance used to create the material(s) of which the device is made
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder material(Collection<Material> material) {
             this.material = new ArrayList<>(material);
@@ -1548,7 +1681,8 @@ public class DeviceDefinition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1567,13 +1701,17 @@ public class DeviceDefinition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1591,7 +1729,8 @@ public class DeviceDefinition extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1615,17 +1754,40 @@ public class DeviceDefinition extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting {@code deviceIdentifier}.
+             * 
+             * <p>This element is required.
+             * 
+             * @param deviceIdentifier
+             *     The identifier that is to be associated with every Device that references this DeviceDefintiion for the issuer and 
+             *     jurisdication porvided in the DeviceDefinition.udiDeviceIdentifier
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #deviceIdentifier(com.ibm.fhir.model.type.String)
+             */
+            public Builder deviceIdentifier(java.lang.String deviceIdentifier) {
+                this.deviceIdentifier = (deviceIdentifier == null) ? null : String.of(deviceIdentifier);
+                return this;
             }
 
             /**
@@ -1857,7 +2019,8 @@ public class DeviceDefinition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1876,13 +2039,17 @@ public class DeviceDefinition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1900,7 +2067,8 @@ public class DeviceDefinition extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1924,17 +2092,39 @@ public class DeviceDefinition extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting {@code name}.
+             * 
+             * <p>This element is required.
+             * 
+             * @param name
+             *     The name of the device
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #name(com.ibm.fhir.model.type.String)
+             */
+            public Builder name(java.lang.String name) {
+                this.name = (name == null) ? null : String.of(name);
+                return this;
             }
 
             /**
@@ -2139,7 +2329,8 @@ public class DeviceDefinition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2158,13 +2349,17 @@ public class DeviceDefinition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2182,7 +2377,8 @@ public class DeviceDefinition extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2206,17 +2402,39 @@ public class DeviceDefinition extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting {@code systemType}.
+             * 
+             * <p>This element is required.
+             * 
+             * @param systemType
+             *     The standard that is used to operate and communicate
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #systemType(com.ibm.fhir.model.type.String)
+             */
+            public Builder systemType(java.lang.String systemType) {
+                this.systemType = (systemType == null) ? null : String.of(systemType);
+                return this;
             }
 
             /**
@@ -2232,6 +2450,22 @@ public class DeviceDefinition extends DomainResource {
              */
             public Builder systemType(String systemType) {
                 this.systemType = systemType;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code version}.
+             * 
+             * @param version
+             *     The version of the standard that is used to operate and communicate
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #version(com.ibm.fhir.model.type.String)
+             */
+            public Builder version(java.lang.String version) {
+                this.version = (version == null) ? null : String.of(version);
                 return this;
             }
 
@@ -2415,7 +2649,8 @@ public class DeviceDefinition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2434,13 +2669,17 @@ public class DeviceDefinition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2458,7 +2697,8 @@ public class DeviceDefinition extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2482,13 +2722,17 @@ public class DeviceDefinition extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2514,7 +2758,8 @@ public class DeviceDefinition extends DomainResource {
             /**
              * Description of capability.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param description
              *     Description of capability
@@ -2532,13 +2777,17 @@ public class DeviceDefinition extends DomainResource {
             /**
              * Description of capability.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param description
              *     Description of capability
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder description(Collection<CodeableConcept> description) {
                 this.description = new ArrayList<>(description);
@@ -2729,7 +2978,8 @@ public class DeviceDefinition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2748,13 +2998,17 @@ public class DeviceDefinition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2772,7 +3026,8 @@ public class DeviceDefinition extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2796,13 +3051,17 @@ public class DeviceDefinition extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2828,7 +3087,8 @@ public class DeviceDefinition extends DomainResource {
             /**
              * Property value as a quantity.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param valueQuantity
              *     Property value as a quantity
@@ -2846,13 +3106,17 @@ public class DeviceDefinition extends DomainResource {
             /**
              * Property value as a quantity.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param valueQuantity
              *     Property value as a quantity
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder valueQuantity(Collection<Quantity> valueQuantity) {
                 this.valueQuantity = new ArrayList<>(valueQuantity);
@@ -2862,7 +3126,8 @@ public class DeviceDefinition extends DomainResource {
             /**
              * Property value as a code, e.g., NTP4 (synced to NTP).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param valueCode
              *     Property value as a code, e.g., NTP4 (synced to NTP)
@@ -2880,13 +3145,17 @@ public class DeviceDefinition extends DomainResource {
             /**
              * Property value as a code, e.g., NTP4 (synced to NTP).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param valueCode
              *     Property value as a code, e.g., NTP4 (synced to NTP)
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder valueCode(Collection<CodeableConcept> valueCode) {
                 this.valueCode = new ArrayList<>(valueCode);
@@ -3079,7 +3348,8 @@ public class DeviceDefinition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -3098,13 +3368,17 @@ public class DeviceDefinition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -3122,7 +3396,8 @@ public class DeviceDefinition extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -3146,13 +3421,17 @@ public class DeviceDefinition extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3176,6 +3455,22 @@ public class DeviceDefinition extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code alternate}.
+             * 
+             * @param alternate
+             *     Indicates an alternative material of the device
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #alternate(com.ibm.fhir.model.type.Boolean)
+             */
+            public Builder alternate(java.lang.Boolean alternate) {
+                this.alternate = (alternate == null) ? null : Boolean.of(alternate);
+                return this;
+            }
+
+            /**
              * Indicates an alternative material of the device.
              * 
              * @param alternate
@@ -3186,6 +3481,22 @@ public class DeviceDefinition extends DomainResource {
              */
             public Builder alternate(Boolean alternate) {
                 this.alternate = alternate;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code allergenicIndicator}.
+             * 
+             * @param allergenicIndicator
+             *     Whether the substance is a known or suspected allergen
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #allergenicIndicator(com.ibm.fhir.model.type.Boolean)
+             */
+            public Builder allergenicIndicator(java.lang.Boolean allergenicIndicator) {
+                this.allergenicIndicator = (allergenicIndicator == null) ? null : Boolean.of(allergenicIndicator);
                 return this;
             }
 

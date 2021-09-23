@@ -48,36 +48,9 @@ public class DocumentReferenceStatus extends Code {
 
     /**
      * Get the value of this DocumentReferenceStatus as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this DocumentReferenceStatus as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating DocumentReferenceStatus objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static DocumentReferenceStatus of(ValueSet value) {
-        switch (value) {
-        case CURRENT:
-            return CURRENT;
-        case SUPERSEDED:
-            return SUPERSEDED;
-        case ENTERED_IN_ERROR:
-            return ENTERED_IN_ERROR;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -191,14 +164,6 @@ public class DocumentReferenceStatus extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -227,61 +192,6 @@ public class DocumentReferenceStatus extends Code {
         protected Builder from(DocumentReferenceStatus documentReferenceStatus) {
             super.from(documentReferenceStatus);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Current
-         * 
-         * <p>This is the current reference for this document.
-         */
-        CURRENT("current"),
-
-        /**
-         * Superseded
-         * 
-         * <p>This reference has been superseded by another reference.
-         */
-        SUPERSEDED("superseded"),
-
-        /**
-         * Entered in Error
-         * 
-         * <p>This reference was created in error.
-         */
-        ENTERED_IN_ERROR("entered-in-error");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating DocumentReferenceStatus.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

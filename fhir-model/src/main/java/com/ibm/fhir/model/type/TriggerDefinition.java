@@ -109,7 +109,7 @@ public class TriggerDefinition extends Element {
      * The timing of the event (if this is a periodic trigger).
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Timing}, {@link Reference}, {@link Date} or {@link DateTime} that may be null.
      */
     public Element getTiming() {
         return timing;
@@ -244,7 +244,8 @@ public class TriggerDefinition extends Element {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -263,13 +264,17 @@ public class TriggerDefinition extends Element {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -293,6 +298,22 @@ public class TriggerDefinition extends Element {
         }
 
         /**
+         * Convenience method for setting {@code name}.
+         * 
+         * @param name
+         *     Name or URI that identifies the event
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #name(com.ibm.fhir.model.type.String)
+         */
+        public Builder name(java.lang.String name) {
+            this.name = (name == null) ? null : String.of(name);
+            return this;
+        }
+
+        /**
          * A formal name for the event. This may be an absolute URI that identifies the event formally (e.g. from a trigger 
          * registry), or a simple relative URI that identifies the event in a local context.
          * 
@@ -304,6 +325,22 @@ public class TriggerDefinition extends Element {
          */
         public Builder name(String name) {
             this.name = name;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code timing} with choice type Date.
+         * 
+         * @param timing
+         *     Timing of the event
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #timing(Element)
+         */
+        public Builder timing(java.time.LocalDate timing) {
+            this.timing = (timing == null) ? null : Date.of(timing);
             return this;
         }
 
@@ -338,7 +375,8 @@ public class TriggerDefinition extends Element {
          * The triggering data of the event (if this is a data trigger). If more than one data is requirement is specified, then 
          * all the data requirements must be true.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param data
          *     Triggering data of the event (multiple = 'and')
@@ -357,13 +395,17 @@ public class TriggerDefinition extends Element {
          * The triggering data of the event (if this is a data trigger). If more than one data is requirement is specified, then 
          * all the data requirements must be true.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param data
          *     Triggering data of the event (multiple = 'and')
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder data(Collection<DataRequirement> data) {
             this.data = new ArrayList<>(data);

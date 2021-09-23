@@ -30,12 +30,18 @@ public class AllTrueFunction extends FHIRPathAbstractFunction {
     public int getMaxArity() {
         return 0;
     }
-    
+
     @Override
     public Collection<FHIRPathNode> apply(EvaluationContext evaluationContext, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
-        return context.stream().allMatch(node -> node.isSystemValue() && 
-                    node.asSystemValue().isBooleanValue() && 
-                    node.asSystemValue().asBooleanValue().isTrue()) ? 
-                            SINGLETON_TRUE : SINGLETON_FALSE;
+        for (FHIRPathNode node : context) {
+            if (node.isSystemValue() && node.asSystemValue().isBooleanValue()) {
+                if (node.asSystemValue().asBooleanValue().isFalse()) {
+                    return SINGLETON_FALSE;
+                }
+            } else {
+                throw new IllegalArgumentException("Invalid argument; expected boolean but found " + node.type());
+            }
+        }
+        return SINGLETON_TRUE;
     }
 }

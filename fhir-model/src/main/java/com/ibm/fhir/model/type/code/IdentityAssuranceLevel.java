@@ -55,38 +55,9 @@ public class IdentityAssuranceLevel extends Code {
 
     /**
      * Get the value of this IdentityAssuranceLevel as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this IdentityAssuranceLevel as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating IdentityAssuranceLevel objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static IdentityAssuranceLevel of(ValueSet value) {
-        switch (value) {
-        case LEVEL1:
-            return LEVEL1;
-        case LEVEL2:
-            return LEVEL2;
-        case LEVEL3:
-            return LEVEL3;
-        case LEVEL4:
-            return LEVEL4;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -202,14 +173,6 @@ public class IdentityAssuranceLevel extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -238,68 +201,6 @@ public class IdentityAssuranceLevel extends Code {
         protected Builder from(IdentityAssuranceLevel identityAssuranceLevel) {
             super.from(identityAssuranceLevel);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Level 1
-         * 
-         * <p>Little or no confidence in the asserted identity's accuracy.
-         */
-        LEVEL1("level1"),
-
-        /**
-         * Level 2
-         * 
-         * <p>Some confidence in the asserted identity's accuracy.
-         */
-        LEVEL2("level2"),
-
-        /**
-         * Level 3
-         * 
-         * <p>High confidence in the asserted identity's accuracy.
-         */
-        LEVEL3("level3"),
-
-        /**
-         * Level 4
-         * 
-         * <p>Very high confidence in the asserted identity's accuracy.
-         */
-        LEVEL4("level4");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating IdentityAssuranceLevel.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

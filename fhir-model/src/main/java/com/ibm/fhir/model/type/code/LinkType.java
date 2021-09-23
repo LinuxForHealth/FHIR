@@ -63,38 +63,9 @@ public class LinkType extends Code {
 
     /**
      * Get the value of this LinkType as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this LinkType as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating LinkType objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static LinkType of(ValueSet value) {
-        switch (value) {
-        case REPLACED_BY:
-            return REPLACED_BY;
-        case REPLACES:
-            return REPLACES;
-        case REFER:
-            return REFER;
-        case SEEALSO:
-            return SEEALSO;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -210,14 +181,6 @@ public class LinkType extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -246,76 +209,6 @@ public class LinkType extends Code {
         protected Builder from(LinkType linkType) {
             super.from(linkType);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Replaced-by
-         * 
-         * <p>The patient resource containing this link must no longer be used. The link points forward to another patient 
-         * resource that must be used in lieu of the patient resource that contains this link.
-         */
-        REPLACED_BY("replaced-by"),
-
-        /**
-         * Replaces
-         * 
-         * <p>The patient resource containing this link is the current active patient record. The link points back to an inactive 
-         * patient resource that has been merged into this resource, and should be consulted to retrieve additional referenced 
-         * information.
-         */
-        REPLACES("replaces"),
-
-        /**
-         * Refer
-         * 
-         * <p>The patient resource containing this link is in use and valid but not considered the main source of information 
-         * about a patient. The link points forward to another patient resource that should be consulted to retrieve additional 
-         * patient information.
-         */
-        REFER("refer"),
-
-        /**
-         * See also
-         * 
-         * <p>The patient resource containing this link is in use and valid, but points to another patient resource that is known 
-         * to contain data about the same person. Data in this resource might overlap or contradict information found in the 
-         * other patient resource. This link does not indicate any relative importance of the resources concerned, and both 
-         * should be regarded as equally valid.
-         */
-        SEEALSO("seealso");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating LinkType.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

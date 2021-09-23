@@ -55,38 +55,9 @@ public class TaskPriority extends Code {
 
     /**
      * Get the value of this TaskPriority as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this TaskPriority as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating TaskPriority objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static TaskPriority of(ValueSet value) {
-        switch (value) {
-        case ROUTINE:
-            return ROUTINE;
-        case URGENT:
-            return URGENT;
-        case ASAP:
-            return ASAP;
-        case STAT:
-            return STAT;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -202,14 +173,6 @@ public class TaskPriority extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -238,68 +201,6 @@ public class TaskPriority extends Code {
         protected Builder from(TaskPriority taskPriority) {
             super.from(taskPriority);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Routine
-         * 
-         * <p>The request has normal priority.
-         */
-        ROUTINE("routine"),
-
-        /**
-         * Urgent
-         * 
-         * <p>The request should be actioned promptly - higher priority than routine.
-         */
-        URGENT("urgent"),
-
-        /**
-         * ASAP
-         * 
-         * <p>The request should be actioned as soon as possible - higher priority than urgent.
-         */
-        ASAP("asap"),
-
-        /**
-         * STAT
-         * 
-         * <p>The request should be actioned immediately - highest possible priority. E.g. an emergency.
-         */
-        STAT("stat");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating TaskPriority.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

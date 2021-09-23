@@ -431,7 +431,8 @@ public class Organization extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -448,13 +449,17 @@ public class Organization extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -467,7 +472,8 @@ public class Organization extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -486,13 +492,17 @@ public class Organization extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -510,7 +520,8 @@ public class Organization extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -534,13 +545,17 @@ public class Organization extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -550,7 +565,8 @@ public class Organization extends DomainResource {
         /**
          * Identifier for the organization that is used to identify the organization across multiple disparate systems.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Identifies this organization across multiple systems
@@ -568,16 +584,36 @@ public class Organization extends DomainResource {
         /**
          * Identifier for the organization that is used to identify the organization across multiple disparate systems.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Identifies this organization across multiple systems
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder identifier(Collection<Identifier> identifier) {
             this.identifier = new ArrayList<>(identifier);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code active}.
+         * 
+         * @param active
+         *     Whether the organization's record is still in active use
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #active(com.ibm.fhir.model.type.Boolean)
+         */
+        public Builder active(java.lang.Boolean active) {
+            this.active = (active == null) ? null : Boolean.of(active);
             return this;
         }
 
@@ -598,7 +634,8 @@ public class Organization extends DomainResource {
         /**
          * The kind(s) of organization that this is.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param type
          *     Kind of organization
@@ -616,16 +653,36 @@ public class Organization extends DomainResource {
         /**
          * The kind(s) of organization that this is.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param type
          *     Kind of organization
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder type(Collection<CodeableConcept> type) {
             this.type = new ArrayList<>(type);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code name}.
+         * 
+         * @param name
+         *     Name used for the organization
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #name(com.ibm.fhir.model.type.String)
+         */
+        public Builder name(java.lang.String name) {
+            this.name = (name == null) ? null : String.of(name);
             return this;
         }
 
@@ -644,9 +701,31 @@ public class Organization extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code alias}.
+         * 
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
+         * 
+         * @param alias
+         *     A list of alternate names that the organization is known as, or was known as in the past
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #alias(com.ibm.fhir.model.type.String)
+         */
+        public Builder alias(java.lang.String... alias) {
+            for (java.lang.String value : alias) {
+                this.alias.add((value == null) ? null : String.of(value));
+            }
+            return this;
+        }
+
+        /**
          * A list of alternate names that the organization is known as, or was known as in the past.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param alias
          *     A list of alternate names that the organization is known as, or was known as in the past
@@ -664,13 +743,17 @@ public class Organization extends DomainResource {
         /**
          * A list of alternate names that the organization is known as, or was known as in the past.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param alias
          *     A list of alternate names that the organization is known as, or was known as in the past
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder alias(Collection<String> alias) {
             this.alias = new ArrayList<>(alias);
@@ -680,7 +763,8 @@ public class Organization extends DomainResource {
         /**
          * A contact detail for the organization.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param telecom
          *     A contact detail for the organization
@@ -698,13 +782,17 @@ public class Organization extends DomainResource {
         /**
          * A contact detail for the organization.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param telecom
          *     A contact detail for the organization
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder telecom(Collection<ContactPoint> telecom) {
             this.telecom = new ArrayList<>(telecom);
@@ -714,7 +802,8 @@ public class Organization extends DomainResource {
         /**
          * An address for the organization.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param address
          *     An address for the organization
@@ -732,13 +821,17 @@ public class Organization extends DomainResource {
         /**
          * An address for the organization.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param address
          *     An address for the organization
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder address(Collection<Address> address) {
             this.address = new ArrayList<>(address);
@@ -767,7 +860,8 @@ public class Organization extends DomainResource {
         /**
          * Contact for the organization for a certain purpose.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contact
          *     Contact for the organization for a certain purpose
@@ -785,13 +879,17 @@ public class Organization extends DomainResource {
         /**
          * Contact for the organization for a certain purpose.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contact
          *     Contact for the organization for a certain purpose
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder contact(Collection<Contact> contact) {
             this.contact = new ArrayList<>(contact);
@@ -801,7 +899,8 @@ public class Organization extends DomainResource {
         /**
          * Technical endpoints providing access to services operated for the organization.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -824,7 +923,8 @@ public class Organization extends DomainResource {
         /**
          * Technical endpoints providing access to services operated for the organization.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -836,6 +936,9 @@ public class Organization extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder endpoint(Collection<Reference> endpoint) {
             this.endpoint = new ArrayList<>(endpoint);
@@ -1056,7 +1159,8 @@ public class Organization extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1075,13 +1179,17 @@ public class Organization extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1099,7 +1207,8 @@ public class Organization extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1123,13 +1232,17 @@ public class Organization extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1167,7 +1280,8 @@ public class Organization extends DomainResource {
             /**
              * A contact detail (e.g. a telephone number or an email address) by which the party may be contacted.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param telecom
              *     Contact details (telephone, email, etc.) for a contact
@@ -1185,13 +1299,17 @@ public class Organization extends DomainResource {
             /**
              * A contact detail (e.g. a telephone number or an email address) by which the party may be contacted.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param telecom
              *     Contact details (telephone, email, etc.) for a contact
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder telecom(Collection<ContactPoint> telecom) {
                 this.telecom = new ArrayList<>(telecom);

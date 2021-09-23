@@ -82,44 +82,9 @@ public class ContactPointSystem extends Code {
 
     /**
      * Get the value of this ContactPointSystem as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this ContactPointSystem as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating ContactPointSystem objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static ContactPointSystem of(ValueSet value) {
-        switch (value) {
-        case PHONE:
-            return PHONE;
-        case FAX:
-            return FAX;
-        case EMAIL:
-            return EMAIL;
-        case PAGER:
-            return PAGER;
-        case URL:
-            return URL;
-        case SMS:
-            return SMS;
-        case OTHER:
-            return OTHER;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -241,14 +206,6 @@ public class ContactPointSystem extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -277,95 +234,6 @@ public class ContactPointSystem extends Code {
         protected Builder from(ContactPointSystem contactPointSystem) {
             super.from(contactPointSystem);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Phone
-         * 
-         * <p>The value is a telephone number used for voice calls. Use of full international numbers starting with + is 
-         * recommended to enable automatic dialing support but not required.
-         */
-        PHONE("phone"),
-
-        /**
-         * Fax
-         * 
-         * <p>The value is a fax machine. Use of full international numbers starting with + is recommended to enable automatic 
-         * dialing support but not required.
-         */
-        FAX("fax"),
-
-        /**
-         * Email
-         * 
-         * <p>The value is an email address.
-         */
-        EMAIL("email"),
-
-        /**
-         * Pager
-         * 
-         * <p>The value is a pager number. These may be local pager numbers that are only usable on a particular pager system.
-         */
-        PAGER("pager"),
-
-        /**
-         * URL
-         * 
-         * <p>A contact that is not a phone, fax, pager or email address and is expressed as a URL. This is intended for various 
-         * institutional or personal contacts including web sites, blogs, Skype, Twitter, Facebook, etc. Do not use for email 
-         * addresses.
-         */
-        URL("url"),
-
-        /**
-         * SMS
-         * 
-         * <p>A contact that can be used for sending an sms message (e.g. mobile phones, some landlines).
-         */
-        SMS("sms"),
-
-        /**
-         * Other
-         * 
-         * <p>A contact that is not a phone, fax, page or email address and is not expressible as a URL. E.g. Internal mail 
-         * address. This SHOULD NOT be used for contacts that are expressible as a URL (e.g. Skype, Twitter, Facebook, etc.) 
-         * Extensions may be used to distinguish "other" contact types.
-         */
-        OTHER("other");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating ContactPointSystem.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

@@ -79,44 +79,9 @@ public class ChargeItemStatus extends Code {
 
     /**
      * Get the value of this ChargeItemStatus as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this ChargeItemStatus as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating ChargeItemStatus objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static ChargeItemStatus of(ValueSet value) {
-        switch (value) {
-        case PLANNED:
-            return PLANNED;
-        case BILLABLE:
-            return BILLABLE;
-        case NOT_BILLABLE:
-            return NOT_BILLABLE;
-        case ABORTED:
-            return ABORTED;
-        case BILLED:
-            return BILLED;
-        case ENTERED_IN_ERROR:
-            return ENTERED_IN_ERROR;
-        case UNKNOWN:
-            return UNKNOWN;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -238,14 +203,6 @@ public class ChargeItemStatus extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -274,92 +231,6 @@ public class ChargeItemStatus extends Code {
         protected Builder from(ChargeItemStatus chargeItemStatus) {
             super.from(chargeItemStatus);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Planned
-         * 
-         * <p>The charge item has been entered, but the charged service is not yet complete, so it shall not be billed yet but 
-         * might be used in the context of pre-authorization.
-         */
-        PLANNED("planned"),
-
-        /**
-         * Billable
-         * 
-         * <p>The charge item is ready for billing.
-         */
-        BILLABLE("billable"),
-
-        /**
-         * Not billable
-         * 
-         * <p>The charge item has been determined to be not billable (e.g. due to rules associated with the billing code).
-         */
-        NOT_BILLABLE("not-billable"),
-
-        /**
-         * Aborted
-         * 
-         * <p>The processing of the charge was aborted.
-         */
-        ABORTED("aborted"),
-
-        /**
-         * Billed
-         * 
-         * <p>The charge item has been billed (e.g. a billing engine has generated financial transactions by applying the 
-         * associated ruled for the charge item to the context of the Encounter, and placed them into Claims/Invoices.
-         */
-        BILLED("billed"),
-
-        /**
-         * Entered in Error
-         * 
-         * <p>The charge item has been entered in error and should not be processed for billing.
-         */
-        ENTERED_IN_ERROR("entered-in-error"),
-
-        /**
-         * Unknown
-         * 
-         * <p>The authoring system does not know which of the status values currently applies for this charge item Note: This 
-         * concept is not to be used for "other" - one of the listed statuses is presumed to apply, it's just not known which one.
-         */
-        UNKNOWN("unknown");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating ChargeItemStatus.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

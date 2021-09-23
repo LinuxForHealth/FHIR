@@ -280,6 +280,10 @@ public class Main {
             default:
                 throw new IllegalStateException("Unsupported db type: " + dbType);
             }
+        } else if (dropAdmin) {
+            // Add the tenant and tenant_keys tables and any other admin schema stuff
+            FhirSchemaGenerator gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), schema.getSchemaName(), isMultitenant());
+            gen.buildAdminSchema(pdm);
         }
 
         // Build/update the Liberty OAuth-related tables
@@ -480,9 +484,19 @@ public class Main {
         // which is apparently related to max_locks_per_transaction. It may not be possible
         // to increase this value (e.g. in cloud databases) and so to work around this, before
         // dropping the schema objects, we knock out all the FOREIGN KEY constraints first.
-        if (dropFhirSchema || dropOauthSchema || dropJavaBatchSchema) {
+        if (dropFhirSchema) {
             logger.info("Dropping FK constraints in the data schema: " + this.schema.getSchemaName());
             dropForeignKeyConstraints(pdm, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
+        }
+
+        if (dropOauthSchema) {
+            logger.info("Dropping FK constraints in the OAuth schema: " + this.schema.getOauthSchemaName());
+            dropForeignKeyConstraints(pdm, FhirSchemaGenerator.SCHEMA_GROUP_TAG, OAuthSchemaGenerator.OAUTH_GROUP);
+        }
+
+        if (dropJavaBatchSchema) {
+            logger.info("Dropping FK constraints in the Batch schema: " + this.schema.getJavaBatchSchemaName());
+            dropForeignKeyConstraints(pdm, FhirSchemaGenerator.SCHEMA_GROUP_TAG, JavaBatchSchemaGenerator.BATCH_GROUP);
         }
 
         if (dropAdmin) {
@@ -502,8 +516,19 @@ public class Main {
                         pdm.drop(adapter, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
                     }
 
+                    if (dropOauthSchema) {
+                        // Just drop the objects associated with the OAUTH schema group
+                        pdm.drop(adapter, FhirSchemaGenerator.SCHEMA_GROUP_TAG, OAuthSchemaGenerator.OAUTH_GROUP);
+                    }
+
+                    if (dropJavaBatchSchema) {
+                        // Just drop the objects associated with the BATCH schema group
+                        pdm.drop(adapter, FhirSchemaGenerator.SCHEMA_GROUP_TAG, JavaBatchSchemaGenerator.BATCH_GROUP);
+                    }
+
                     if (dropAdmin) {
                         // Just drop the objects associated with the ADMIN schema group
+                        CreateVersionHistory.generateTable(pdm, ADMIN_SCHEMANAME, true);
                         pdm.drop(adapter, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.ADMIN_GROUP);
                     }
                 } catch (Exception x) {

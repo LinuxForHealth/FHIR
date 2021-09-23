@@ -158,7 +158,7 @@ public class Dosage extends BackboneElement {
      * indicates the precondition for taking the Medication (CodeableConcept).
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Boolean} or {@link CodeableConcept} that may be null.
      */
     public Element getAsNeeded() {
         return asNeeded;
@@ -384,7 +384,8 @@ public class Dosage extends BackboneElement {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -403,13 +404,17 @@ public class Dosage extends BackboneElement {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -427,7 +432,8 @@ public class Dosage extends BackboneElement {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored even if unrecognized
@@ -451,17 +457,37 @@ public class Dosage extends BackboneElement {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored even if unrecognized
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
             return (Builder) super.modifierExtension(modifierExtension);
+        }
+
+        /**
+         * Convenience method for setting {@code sequence}.
+         * 
+         * @param sequence
+         *     The order of the dosage instructions
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #sequence(com.ibm.fhir.model.type.Integer)
+         */
+        public Builder sequence(java.lang.Integer sequence) {
+            this.sequence = (sequence == null) ? null : Integer.of(sequence);
+            return this;
         }
 
         /**
@@ -475,6 +501,22 @@ public class Dosage extends BackboneElement {
          */
         public Builder sequence(Integer sequence) {
             this.sequence = sequence;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code text}.
+         * 
+         * @param text
+         *     Free text dosage instructions e.g. SIG
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #text(com.ibm.fhir.model.type.String)
+         */
+        public Builder text(java.lang.String text) {
+            this.text = (text == null) ? null : String.of(text);
             return this;
         }
 
@@ -497,7 +539,8 @@ public class Dosage extends BackboneElement {
          * before food") or warnings for the patient about the medication (e.g. "may cause drowsiness" or "avoid exposure of skin 
          * to direct sunlight or sunlamps").
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param additionalInstruction
          *     Supplemental instruction or warnings to the patient - e.g. "with meals", "may cause drowsiness"
@@ -517,16 +560,36 @@ public class Dosage extends BackboneElement {
          * before food") or warnings for the patient about the medication (e.g. "may cause drowsiness" or "avoid exposure of skin 
          * to direct sunlight or sunlamps").
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param additionalInstruction
          *     Supplemental instruction or warnings to the patient - e.g. "with meals", "may cause drowsiness"
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder additionalInstruction(Collection<CodeableConcept> additionalInstruction) {
             this.additionalInstruction = new ArrayList<>(additionalInstruction);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code patientInstruction}.
+         * 
+         * @param patientInstruction
+         *     Patient or consumer oriented instructions
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #patientInstruction(com.ibm.fhir.model.type.String)
+         */
+        public Builder patientInstruction(java.lang.String patientInstruction) {
+            this.patientInstruction = (patientInstruction == null) ? null : String.of(patientInstruction);
             return this;
         }
 
@@ -555,6 +618,22 @@ public class Dosage extends BackboneElement {
          */
         public Builder timing(Timing timing) {
             this.timing = timing;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code asNeeded} with choice type Boolean.
+         * 
+         * @param asNeeded
+         *     Take "as needed" (for x)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #asNeeded(Element)
+         */
+        public Builder asNeeded(java.lang.Boolean asNeeded) {
+            this.asNeeded = (asNeeded == null) ? null : Boolean.of(asNeeded);
             return this;
         }
 
@@ -624,7 +703,8 @@ public class Dosage extends BackboneElement {
         /**
          * The amount of medication administered.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param doseAndRate
          *     Amount of medication administered
@@ -642,13 +722,17 @@ public class Dosage extends BackboneElement {
         /**
          * The amount of medication administered.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param doseAndRate
          *     Amount of medication administered
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder doseAndRate(Collection<DoseAndRate> doseAndRate) {
             this.doseAndRate = new ArrayList<>(doseAndRate);
@@ -781,7 +865,7 @@ public class Dosage extends BackboneElement {
          * Amount of medication per dose.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link Range} or {@link SimpleQuantity} that may be null.
          */
         public Element getDose() {
             return dose;
@@ -791,7 +875,7 @@ public class Dosage extends BackboneElement {
          * Amount of medication per unit of time.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link Ratio}, {@link Range} or {@link SimpleQuantity} that may be null.
          */
         public Element getRate() {
             return rate;
@@ -897,7 +981,8 @@ public class Dosage extends BackboneElement {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -916,13 +1001,17 @@ public class Dosage extends BackboneElement {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -939,7 +1028,8 @@ public class Dosage extends BackboneElement {
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -962,13 +1052,17 @@ public class Dosage extends BackboneElement {
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {

@@ -102,50 +102,9 @@ public class AppointmentStatus extends Code {
 
     /**
      * Get the value of this AppointmentStatus as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this AppointmentStatus as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating AppointmentStatus objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static AppointmentStatus of(ValueSet value) {
-        switch (value) {
-        case PROPOSED:
-            return PROPOSED;
-        case PENDING:
-            return PENDING;
-        case BOOKED:
-            return BOOKED;
-        case ARRIVED:
-            return ARRIVED;
-        case FULFILLED:
-            return FULFILLED;
-        case CANCELLED:
-            return CANCELLED;
-        case NOSHOW:
-            return NOSHOW;
-        case ENTERED_IN_ERROR:
-            return ENTERED_IN_ERROR;
-        case CHECKED_IN:
-            return CHECKED_IN;
-        case WAITLIST:
-            return WAITLIST;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -273,14 +232,6 @@ public class AppointmentStatus extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -309,115 +260,6 @@ public class AppointmentStatus extends Code {
         protected Builder from(AppointmentStatus appointmentStatus) {
             super.from(appointmentStatus);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Proposed
-         * 
-         * <p>None of the participant(s) have finalized their acceptance of the appointment request, and the start/end time might 
-         * not be set yet.
-         */
-        PROPOSED("proposed"),
-
-        /**
-         * Pending
-         * 
-         * <p>Some or all of the participant(s) have not finalized their acceptance of the appointment request.
-         */
-        PENDING("pending"),
-
-        /**
-         * Booked
-         * 
-         * <p>All participant(s) have been considered and the appointment is confirmed to go ahead at the date/times specified.
-         */
-        BOOKED("booked"),
-
-        /**
-         * Arrived
-         * 
-         * <p>The patient/patients has/have arrived and is/are waiting to be seen.
-         */
-        ARRIVED("arrived"),
-
-        /**
-         * Fulfilled
-         * 
-         * <p>The planning stages of the appointment are now complete, the encounter resource will exist and will track further 
-         * status changes. Note that an encounter may exist before the appointment status is fulfilled for many reasons.
-         */
-        FULFILLED("fulfilled"),
-
-        /**
-         * Cancelled
-         * 
-         * <p>The appointment has been cancelled.
-         */
-        CANCELLED("cancelled"),
-
-        /**
-         * No Show
-         * 
-         * <p>Some or all of the participant(s) have not/did not appear for the appointment (usually the patient).
-         */
-        NOSHOW("noshow"),
-
-        /**
-         * Entered in error
-         * 
-         * <p>This instance should not have been part of this patient's medical record.
-         */
-        ENTERED_IN_ERROR("entered-in-error"),
-
-        /**
-         * Checked In
-         * 
-         * <p>When checked in, all pre-encounter administrative work is complete, and the encounter may begin. (where multiple 
-         * patients are involved, they are all present).
-         */
-        CHECKED_IN("checked-in"),
-
-        /**
-         * Waitlisted
-         * 
-         * <p>The appointment has been placed on a waitlist, to be scheduled/confirmed in the future when a slot/service is 
-         * available.
-         * <p>A specific time might or might not be pre-allocated.
-         */
-        WAITLIST("waitlist");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating AppointmentStatus.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

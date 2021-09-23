@@ -65,40 +65,9 @@ public class SubscriptionChannelType extends Code {
 
     /**
      * Get the value of this SubscriptionChannelType as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this SubscriptionChannelType as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating SubscriptionChannelType objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static SubscriptionChannelType of(ValueSet value) {
-        switch (value) {
-        case REST_HOOK:
-            return REST_HOOK;
-        case WEBSOCKET:
-            return WEBSOCKET;
-        case EMAIL:
-            return EMAIL;
-        case SMS:
-            return SMS;
-        case MESSAGE:
-            return MESSAGE;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -216,14 +185,6 @@ public class SubscriptionChannelType extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -252,78 +213,6 @@ public class SubscriptionChannelType extends Code {
         protected Builder from(SubscriptionChannelType subscriptionChannelType) {
             super.from(subscriptionChannelType);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Rest Hook
-         * 
-         * <p>The channel is executed by making a post to the URI. If a payload is included, the URL is interpreted as the 
-         * service base, and an update (PUT) is made.
-         */
-        REST_HOOK("rest-hook"),
-
-        /**
-         * Websocket
-         * 
-         * <p>The channel is executed by sending a packet across a web socket connection maintained by the client. The URL 
-         * identifies the websocket, and the client binds to this URL.
-         */
-        WEBSOCKET("websocket"),
-
-        /**
-         * Email
-         * 
-         * <p>The channel is executed by sending an email to the email addressed in the URI (which must be a mailto:).
-         */
-        EMAIL("email"),
-
-        /**
-         * SMS
-         * 
-         * <p>The channel is executed by sending an SMS message to the phone number identified in the URL (tel:).
-         */
-        SMS("sms"),
-
-        /**
-         * Message
-         * 
-         * <p>The channel is executed by sending a message (e.g. a Bundle with a MessageHeader resource etc.) to the application 
-         * identified in the URI.
-         */
-        MESSAGE("message");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating SubscriptionChannelType.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

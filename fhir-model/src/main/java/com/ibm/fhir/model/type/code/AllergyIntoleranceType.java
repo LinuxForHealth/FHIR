@@ -44,34 +44,9 @@ public class AllergyIntoleranceType extends Code {
 
     /**
      * Get the value of this AllergyIntoleranceType as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this AllergyIntoleranceType as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating AllergyIntoleranceType objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static AllergyIntoleranceType of(ValueSet value) {
-        switch (value) {
-        case ALLERGY:
-            return ALLERGY;
-        case INTOLERANCE:
-            return INTOLERANCE;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -183,14 +158,6 @@ public class AllergyIntoleranceType extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -219,57 +186,6 @@ public class AllergyIntoleranceType extends Code {
         protected Builder from(AllergyIntoleranceType allergyIntoleranceType) {
             super.from(allergyIntoleranceType);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Allergy
-         * 
-         * <p>A propensity for hypersensitive reaction(s) to a substance. These reactions are most typically type I 
-         * hypersensitivity, plus other "allergy-like" reactions, including pseudoallergy.
-         */
-        ALLERGY("allergy"),
-
-        /**
-         * Intolerance
-         * 
-         * <p>A propensity for adverse reactions to a substance that is not judged to be allergic or "allergy-like". These 
-         * reactions are typically (but not necessarily) non-immune. They are to some degree idiosyncratic and/or patient-
-         * specific (i.e. are not a reaction that is expected to occur with most or all patients given similar circumstances).
-         */
-        INTOLERANCE("intolerance");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating AllergyIntoleranceType.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

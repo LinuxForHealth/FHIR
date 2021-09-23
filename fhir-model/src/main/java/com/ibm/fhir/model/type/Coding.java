@@ -200,7 +200,8 @@ public class Coding extends Element {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -219,13 +220,17 @@ public class Coding extends Element {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -243,6 +248,22 @@ public class Coding extends Element {
          */
         public Builder system(Uri system) {
             this.system = system;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code version}.
+         * 
+         * @param version
+         *     Version of the system - if relevant
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #version(com.ibm.fhir.model.type.String)
+         */
+        public Builder version(java.lang.String version) {
+            this.version = (version == null) ? null : String.of(version);
             return this;
         }
 
@@ -278,6 +299,22 @@ public class Coding extends Element {
         }
 
         /**
+         * Convenience method for setting {@code display}.
+         * 
+         * @param display
+         *     Representation defined by the system
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #display(com.ibm.fhir.model.type.String)
+         */
+        public Builder display(java.lang.String display) {
+            this.display = (display == null) ? null : String.of(display);
+            return this;
+        }
+
+        /**
          * A representation of the meaning of the code in the system, following the rules of the system.
          * 
          * @param display
@@ -288,6 +325,22 @@ public class Coding extends Element {
          */
         public Builder display(String display) {
             this.display = display;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code userSelected}.
+         * 
+         * @param userSelected
+         *     If this coding was chosen directly by the user
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #userSelected(com.ibm.fhir.model.type.Boolean)
+         */
+        public Builder userSelected(java.lang.Boolean userSelected) {
+            this.userSelected = (userSelected == null) ? null : Boolean.of(userSelected);
             return this;
         }
 

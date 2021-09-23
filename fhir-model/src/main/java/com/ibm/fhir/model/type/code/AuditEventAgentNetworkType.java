@@ -62,40 +62,9 @@ public class AuditEventAgentNetworkType extends Code {
 
     /**
      * Get the value of this AuditEventAgentNetworkType as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this AuditEventAgentNetworkType as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating AuditEventAgentNetworkType objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static AuditEventAgentNetworkType of(ValueSet value) {
-        switch (value) {
-        case TYPE_1:
-            return TYPE_1;
-        case TYPE_2:
-            return TYPE_2;
-        case TYPE_3:
-            return TYPE_3;
-        case TYPE_4:
-            return TYPE_4;
-        case TYPE_5:
-            return TYPE_5;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -213,14 +182,6 @@ public class AuditEventAgentNetworkType extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -249,75 +210,6 @@ public class AuditEventAgentNetworkType extends Code {
         protected Builder from(AuditEventAgentNetworkType auditEventAgentNetworkType) {
             super.from(auditEventAgentNetworkType);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Machine Name
-         * 
-         * <p>The machine name, including DNS name.
-         */
-        TYPE_1("1"),
-
-        /**
-         * IP Address
-         * 
-         * <p>The assigned Internet Protocol (IP) address.
-         */
-        TYPE_2("2"),
-
-        /**
-         * Telephone Number
-         * 
-         * <p>The assigned telephone number.
-         */
-        TYPE_3("3"),
-
-        /**
-         * Email address
-         * 
-         * <p>The assigned email address.
-         */
-        TYPE_4("4"),
-
-        /**
-         * URI
-         * 
-         * <p>URI (User directory, HTTP-PUT, ftp, etc.).
-         */
-        TYPE_5("5");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating AuditEventAgentNetworkType.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

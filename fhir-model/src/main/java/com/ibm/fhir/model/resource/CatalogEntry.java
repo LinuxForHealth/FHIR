@@ -448,7 +448,8 @@ public class CatalogEntry extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -465,13 +466,17 @@ public class CatalogEntry extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -484,7 +489,8 @@ public class CatalogEntry extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -503,13 +509,17 @@ public class CatalogEntry extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -527,7 +537,8 @@ public class CatalogEntry extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -551,13 +562,17 @@ public class CatalogEntry extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -567,7 +582,8 @@ public class CatalogEntry extends DomainResource {
         /**
          * Used in supporting different identifiers for the same product, e.g. manufacturer code and retailer code.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Unique identifier of the catalog item
@@ -585,13 +601,17 @@ public class CatalogEntry extends DomainResource {
         /**
          * Used in supporting different identifiers for the same product, e.g. manufacturer code and retailer code.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Unique identifier of the catalog item
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder identifier(Collection<Identifier> identifier) {
             this.identifier = new ArrayList<>(identifier);
@@ -609,6 +629,24 @@ public class CatalogEntry extends DomainResource {
          */
         public Builder type(CodeableConcept type) {
             this.type = type;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code orderable}.
+         * 
+         * <p>This element is required.
+         * 
+         * @param orderable
+         *     Whether the entry represents an orderable item
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #orderable(com.ibm.fhir.model.type.Boolean)
+         */
+        public Builder orderable(java.lang.Boolean orderable) {
+            this.orderable = (orderable == null) ? null : Boolean.of(orderable);
             return this;
         }
 
@@ -662,7 +700,8 @@ public class CatalogEntry extends DomainResource {
         /**
          * Used in supporting related concepts, e.g. NDC to RxNorm.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param additionalIdentifier
          *     Any additional identifier(s) for the catalog item, in the same granularity or concept
@@ -680,13 +719,17 @@ public class CatalogEntry extends DomainResource {
         /**
          * Used in supporting related concepts, e.g. NDC to RxNorm.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param additionalIdentifier
          *     Any additional identifier(s) for the catalog item, in the same granularity or concept
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder additionalIdentifier(Collection<Identifier> additionalIdentifier) {
             this.additionalIdentifier = new ArrayList<>(additionalIdentifier);
@@ -696,7 +739,8 @@ public class CatalogEntry extends DomainResource {
         /**
          * Classes of devices, or ATC for medication.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param classification
          *     Classification (category or class) of the item entry
@@ -714,13 +758,17 @@ public class CatalogEntry extends DomainResource {
         /**
          * Classes of devices, or ATC for medication.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param classification
          *     Classification (category or class) of the item entry
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder classification(Collection<CodeableConcept> classification) {
             this.classification = new ArrayList<>(classification);
@@ -788,7 +836,8 @@ public class CatalogEntry extends DomainResource {
         /**
          * Used for examplefor Out of Formulary, or any specifics.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param additionalCharacteristic
          *     Additional characteristics of the catalog entry
@@ -806,13 +855,17 @@ public class CatalogEntry extends DomainResource {
         /**
          * Used for examplefor Out of Formulary, or any specifics.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param additionalCharacteristic
          *     Additional characteristics of the catalog entry
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder additionalCharacteristic(Collection<CodeableConcept> additionalCharacteristic) {
             this.additionalCharacteristic = new ArrayList<>(additionalCharacteristic);
@@ -822,7 +875,8 @@ public class CatalogEntry extends DomainResource {
         /**
          * User for example for ATC classification, or.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param additionalClassification
          *     Additional classification of the catalog entry
@@ -840,13 +894,17 @@ public class CatalogEntry extends DomainResource {
         /**
          * User for example for ATC classification, or.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param additionalClassification
          *     Additional classification of the catalog entry
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder additionalClassification(Collection<CodeableConcept> additionalClassification) {
             this.additionalClassification = new ArrayList<>(additionalClassification);
@@ -856,7 +914,8 @@ public class CatalogEntry extends DomainResource {
         /**
          * Used for example, to point to a substance, or to a device used to administer a medication.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param relatedEntry
          *     An item that this catalog entry is related to
@@ -874,13 +933,17 @@ public class CatalogEntry extends DomainResource {
         /**
          * Used for example, to point to a substance, or to a device used to administer a medication.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param relatedEntry
          *     An item that this catalog entry is related to
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder relatedEntry(Collection<RelatedEntry> relatedEntry) {
             this.relatedEntry = new ArrayList<>(relatedEntry);
@@ -1079,7 +1142,8 @@ public class CatalogEntry extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1098,13 +1162,17 @@ public class CatalogEntry extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1122,7 +1190,8 @@ public class CatalogEntry extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1146,13 +1215,17 @@ public class CatalogEntry extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {

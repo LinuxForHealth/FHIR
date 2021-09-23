@@ -871,7 +871,8 @@ public class CapabilityStatement extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -888,13 +889,17 @@ public class CapabilityStatement extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<com.ibm.fhir.model.resource.Resource> contained) {
@@ -907,7 +912,8 @@ public class CapabilityStatement extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -926,13 +932,17 @@ public class CapabilityStatement extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -950,7 +960,8 @@ public class CapabilityStatement extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -974,13 +985,17 @@ public class CapabilityStatement extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1006,6 +1021,22 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code version}.
+         * 
+         * @param version
+         *     Business version of the capability statement
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #version(com.ibm.fhir.model.type.String)
+         */
+        public Builder version(java.lang.String version) {
+            this.version = (version == null) ? null : String.of(version);
+            return this;
+        }
+
+        /**
          * The identifier that is used to identify this version of the capability statement when it is referenced in a 
          * specification, model, design or instance. This is an arbitrary value managed by the capability statement author and is 
          * not expected to be globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not 
@@ -1023,6 +1054,22 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code name}.
+         * 
+         * @param name
+         *     Name for this capability statement (computer friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #name(com.ibm.fhir.model.type.String)
+         */
+        public Builder name(java.lang.String name) {
+            this.name = (name == null) ? null : String.of(name);
+            return this;
+        }
+
+        /**
          * A natural language name identifying the capability statement. This name should be usable as an identifier for the 
          * module by machine processing applications such as code generation.
          * 
@@ -1034,6 +1081,22 @@ public class CapabilityStatement extends DomainResource {
          */
         public Builder name(String name) {
             this.name = name;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code title}.
+         * 
+         * @param title
+         *     Name for this capability statement (human friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #title(com.ibm.fhir.model.type.String)
+         */
+        public Builder title(java.lang.String title) {
+            this.title = (title == null) ? null : String.of(title);
             return this;
         }
 
@@ -1064,6 +1127,22 @@ public class CapabilityStatement extends DomainResource {
          */
         public Builder status(PublicationStatus status) {
             this.status = status;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code experimental}.
+         * 
+         * @param experimental
+         *     For testing purposes, not real usage
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #experimental(com.ibm.fhir.model.type.Boolean)
+         */
+        public Builder experimental(java.lang.Boolean experimental) {
+            this.experimental = (experimental == null) ? null : Boolean.of(experimental);
             return this;
         }
 
@@ -1101,6 +1180,22 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code publisher}.
+         * 
+         * @param publisher
+         *     Name of the publisher (organization or individual)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #publisher(com.ibm.fhir.model.type.String)
+         */
+        public Builder publisher(java.lang.String publisher) {
+            this.publisher = (publisher == null) ? null : String.of(publisher);
+            return this;
+        }
+
+        /**
          * The name of the organization or individual that published the capability statement.
          * 
          * @param publisher
@@ -1117,7 +1212,8 @@ public class CapabilityStatement extends DomainResource {
         /**
          * Contact details to assist a user in finding and communicating with the publisher.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contact
          *     Contact details for the publisher
@@ -1135,13 +1231,17 @@ public class CapabilityStatement extends DomainResource {
         /**
          * Contact details to assist a user in finding and communicating with the publisher.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contact
          *     Contact details for the publisher
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder contact(Collection<ContactDetail> contact) {
             this.contact = new ArrayList<>(contact);
@@ -1169,7 +1269,8 @@ public class CapabilityStatement extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate capability statement instances.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param useContext
          *     The context that the content is intended to support
@@ -1189,13 +1290,17 @@ public class CapabilityStatement extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate capability statement instances.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param useContext
          *     The context that the content is intended to support
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder useContext(Collection<UsageContext> useContext) {
             this.useContext = new ArrayList<>(useContext);
@@ -1205,7 +1310,8 @@ public class CapabilityStatement extends DomainResource {
         /**
          * A legal or geographic region in which the capability statement is intended to be used.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param jurisdiction
          *     Intended jurisdiction for capability statement (if applicable)
@@ -1223,13 +1329,17 @@ public class CapabilityStatement extends DomainResource {
         /**
          * A legal or geographic region in which the capability statement is intended to be used.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param jurisdiction
          *     Intended jurisdiction for capability statement (if applicable)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder jurisdiction(Collection<CodeableConcept> jurisdiction) {
             this.jurisdiction = new ArrayList<>(jurisdiction);
@@ -1287,7 +1397,8 @@ public class CapabilityStatement extends DomainResource {
          * is a published API description that corresponds to a business service. The server may actually implement a subset of 
          * the capability statement it claims to implement, so the capability statement must specify the full capability details.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param instantiates
          *     Canonical URL of another capability statement this implements
@@ -1307,13 +1418,17 @@ public class CapabilityStatement extends DomainResource {
          * is a published API description that corresponds to a business service. The server may actually implement a subset of 
          * the capability statement it claims to implement, so the capability statement must specify the full capability details.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param instantiates
          *     Canonical URL of another capability statement this implements
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder instantiates(Collection<Canonical> instantiates) {
             this.instantiates = new ArrayList<>(instantiates);
@@ -1325,7 +1440,8 @@ public class CapabilityStatement extends DomainResource {
          * automatically includes everything in the other statement, and it is not duplicated, though the server may repeat the 
          * same resources, interactions and operations to add additional details to them.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param imports
          *     Canonical URL of another capability statement this adds to
@@ -1345,13 +1461,17 @@ public class CapabilityStatement extends DomainResource {
          * automatically includes everything in the other statement, and it is not duplicated, though the server may repeat the 
          * same resources, interactions and operations to add additional details to them.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param imports
          *     Canonical URL of another capability statement this adds to
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder imports(Collection<Canonical> imports) {
             this.imports = new ArrayList<>(imports);
@@ -1408,7 +1528,8 @@ public class CapabilityStatement extends DomainResource {
         /**
          * A list of the formats supported by this implementation using their content types.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>This element is required.
          * 
@@ -1428,7 +1549,8 @@ public class CapabilityStatement extends DomainResource {
         /**
          * A list of the formats supported by this implementation using their content types.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>This element is required.
          * 
@@ -1437,6 +1559,9 @@ public class CapabilityStatement extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder format(Collection<Code> format) {
             this.format = new ArrayList<>(format);
@@ -1446,7 +1571,8 @@ public class CapabilityStatement extends DomainResource {
         /**
          * A list of the patch formats supported by this implementation using their content types.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param patchFormat
          *     Patch formats supported
@@ -1464,13 +1590,17 @@ public class CapabilityStatement extends DomainResource {
         /**
          * A list of the patch formats supported by this implementation using their content types.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param patchFormat
          *     Patch formats supported
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder patchFormat(Collection<Code> patchFormat) {
             this.patchFormat = new ArrayList<>(patchFormat);
@@ -1480,7 +1610,8 @@ public class CapabilityStatement extends DomainResource {
         /**
          * A list of implementation guides that the server does (or should) support in their entirety.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param implementationGuide
          *     Implementation guides supported
@@ -1498,13 +1629,17 @@ public class CapabilityStatement extends DomainResource {
         /**
          * A list of implementation guides that the server does (or should) support in their entirety.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param implementationGuide
          *     Implementation guides supported
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder implementationGuide(Collection<Canonical> implementationGuide) {
             this.implementationGuide = new ArrayList<>(implementationGuide);
@@ -1514,7 +1649,8 @@ public class CapabilityStatement extends DomainResource {
         /**
          * A definition of the restful capabilities of the solution, if any.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param rest
          *     If the endpoint is a RESTful one
@@ -1532,13 +1668,17 @@ public class CapabilityStatement extends DomainResource {
         /**
          * A definition of the restful capabilities of the solution, if any.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param rest
          *     If the endpoint is a RESTful one
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder rest(Collection<Rest> rest) {
             this.rest = new ArrayList<>(rest);
@@ -1548,7 +1688,8 @@ public class CapabilityStatement extends DomainResource {
         /**
          * A description of the messaging capabilities of the solution.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param messaging
          *     If messaging is supported
@@ -1566,13 +1707,17 @@ public class CapabilityStatement extends DomainResource {
         /**
          * A description of the messaging capabilities of the solution.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param messaging
          *     If messaging is supported
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder messaging(Collection<Messaging> messaging) {
             this.messaging = new ArrayList<>(messaging);
@@ -1582,7 +1727,8 @@ public class CapabilityStatement extends DomainResource {
         /**
          * A document definition.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param document
          *     Document definition
@@ -1600,13 +1746,17 @@ public class CapabilityStatement extends DomainResource {
         /**
          * A document definition.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param document
          *     Document definition
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder document(Collection<Document> document) {
             this.document = new ArrayList<>(document);
@@ -1840,7 +1990,8 @@ public class CapabilityStatement extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1859,13 +2010,17 @@ public class CapabilityStatement extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1883,7 +2038,8 @@ public class CapabilityStatement extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1907,17 +2063,39 @@ public class CapabilityStatement extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting {@code name}.
+             * 
+             * <p>This element is required.
+             * 
+             * @param name
+             *     A name the software is known by
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #name(com.ibm.fhir.model.type.String)
+             */
+            public Builder name(java.lang.String name) {
+                this.name = (name == null) ? null : String.of(name);
+                return this;
             }
 
             /**
@@ -1933,6 +2111,22 @@ public class CapabilityStatement extends DomainResource {
              */
             public Builder name(String name) {
                 this.name = name;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code version}.
+             * 
+             * @param version
+             *     Version covered by this statement
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #version(com.ibm.fhir.model.type.String)
+             */
+            public Builder version(java.lang.String version) {
+                this.version = (version == null) ? null : String.of(version);
                 return this;
             }
 
@@ -2155,7 +2349,8 @@ public class CapabilityStatement extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2174,13 +2369,17 @@ public class CapabilityStatement extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2198,7 +2397,8 @@ public class CapabilityStatement extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2222,17 +2422,39 @@ public class CapabilityStatement extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting {@code description}.
+             * 
+             * <p>This element is required.
+             * 
+             * @param description
+             *     Describes this specific instance
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #description(com.ibm.fhir.model.type.String)
+             */
+            public Builder description(java.lang.String description) {
+                this.description = (description == null) ? null : String.of(description);
+                return this;
             }
 
             /**
@@ -2568,7 +2790,8 @@ public class CapabilityStatement extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2587,13 +2810,17 @@ public class CapabilityStatement extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2611,7 +2838,8 @@ public class CapabilityStatement extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2635,13 +2863,17 @@ public class CapabilityStatement extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2695,7 +2927,8 @@ public class CapabilityStatement extends DomainResource {
             /**
              * A specification of the restful capabilities of the solution for a specific resource type.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param resource
              *     Resource served on the REST interface
@@ -2713,13 +2946,17 @@ public class CapabilityStatement extends DomainResource {
             /**
              * A specification of the restful capabilities of the solution for a specific resource type.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param resource
              *     Resource served on the REST interface
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder resource(Collection<Resource> resource) {
                 this.resource = new ArrayList<>(resource);
@@ -2729,7 +2966,8 @@ public class CapabilityStatement extends DomainResource {
             /**
              * A specification of restful operations supported by the system.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param interaction
              *     What operations are supported?
@@ -2747,13 +2985,17 @@ public class CapabilityStatement extends DomainResource {
             /**
              * A specification of restful operations supported by the system.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param interaction
              *     What operations are supported?
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder interaction(Collection<Interaction> interaction) {
                 this.interaction = new ArrayList<>(interaction);
@@ -2764,7 +3006,8 @@ public class CapabilityStatement extends DomainResource {
              * Search parameters that are supported for searching all resources for implementations to support and/or make use of - 
              * either references to ones defined in the specification, or additional ones defined for/by the implementation.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param searchParam
              *     Search parameters for searching all resources
@@ -2783,13 +3026,17 @@ public class CapabilityStatement extends DomainResource {
              * Search parameters that are supported for searching all resources for implementations to support and/or make use of - 
              * either references to ones defined in the specification, or additional ones defined for/by the implementation.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param searchParam
              *     Search parameters for searching all resources
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder searchParam(Collection<CapabilityStatement.Rest.Resource.SearchParam> searchParam) {
                 this.searchParam = new ArrayList<>(searchParam);
@@ -2799,7 +3046,8 @@ public class CapabilityStatement extends DomainResource {
             /**
              * Definition of an operation or a named query together with its parameters and their meaning and type.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param operation
              *     Definition of a system level operation
@@ -2817,13 +3065,17 @@ public class CapabilityStatement extends DomainResource {
             /**
              * Definition of an operation or a named query together with its parameters and their meaning and type.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param operation
              *     Definition of a system level operation
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder operation(Collection<CapabilityStatement.Rest.Resource.Operation> operation) {
                 this.operation = new ArrayList<>(operation);
@@ -2834,7 +3086,8 @@ public class CapabilityStatement extends DomainResource {
              * An absolute URI which is a reference to the definition of a compartment that the system supports. The reference is to 
              * a CompartmentDefinition resource by its canonical URL .
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param compartment
              *     Compartments served/used by system
@@ -2853,13 +3106,17 @@ public class CapabilityStatement extends DomainResource {
              * An absolute URI which is a reference to the definition of a compartment that the system supports. The reference is to 
              * a CompartmentDefinition resource by its canonical URL .
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param compartment
              *     Compartments served/used by system
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder compartment(Collection<Canonical> compartment) {
                 this.compartment = new ArrayList<>(compartment);
@@ -3066,7 +3323,8 @@ public class CapabilityStatement extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -3085,13 +3343,17 @@ public class CapabilityStatement extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -3109,7 +3371,8 @@ public class CapabilityStatement extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3133,17 +3396,37 @@ public class CapabilityStatement extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
                     return (Builder) super.modifierExtension(modifierExtension);
+                }
+
+                /**
+                 * Convenience method for setting {@code cors}.
+                 * 
+                 * @param cors
+                 *     Adds CORS Headers (http://enable-cors.org/)
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #cors(com.ibm.fhir.model.type.Boolean)
+                 */
+                public Builder cors(java.lang.Boolean cors) {
+                    this.cors = (cors == null) ? null : Boolean.of(cors);
+                    return this;
                 }
 
                 /**
@@ -3163,7 +3446,8 @@ public class CapabilityStatement extends DomainResource {
                 /**
                  * Types of security services that are supported/required by the system.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param service
                  *     OAuth | SMART-on-FHIR | NTLM | Basic | Kerberos | Certificates
@@ -3181,13 +3465,17 @@ public class CapabilityStatement extends DomainResource {
                 /**
                  * Types of security services that are supported/required by the system.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param service
                  *     OAuth | SMART-on-FHIR | NTLM | Basic | Kerberos | Certificates
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder service(Collection<CodeableConcept> service) {
                     this.service = new ArrayList<>(service);
@@ -3672,7 +3960,8 @@ public class CapabilityStatement extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -3691,13 +3980,17 @@ public class CapabilityStatement extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -3715,7 +4008,8 @@ public class CapabilityStatement extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3739,13 +4033,17 @@ public class CapabilityStatement extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3791,7 +4089,8 @@ public class CapabilityStatement extends DomainResource {
                  * will search by this profile and process data according to the guidance implicit in the profile. See further discussion 
                  * in [Using Profiles](profiling.html#profile-uses).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param supportedProfile
                  *     Profiles for use cases supported
@@ -3813,13 +4112,17 @@ public class CapabilityStatement extends DomainResource {
                  * will search by this profile and process data according to the guidance implicit in the profile. See further discussion 
                  * in [Using Profiles](profiling.html#profile-uses).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param supportedProfile
                  *     Profiles for use cases supported
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder supportedProfile(Collection<Canonical> supportedProfile) {
                     this.supportedProfile = new ArrayList<>(supportedProfile);
@@ -3843,7 +4146,8 @@ public class CapabilityStatement extends DomainResource {
                 /**
                  * Identifies a restful operation supported by the solution.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param interaction
                  *     What operations are supported?
@@ -3861,13 +4165,17 @@ public class CapabilityStatement extends DomainResource {
                 /**
                  * Identifies a restful operation supported by the solution.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param interaction
                  *     What operations are supported?
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder interaction(Collection<Interaction> interaction) {
                     this.interaction = new ArrayList<>(interaction);
@@ -3892,6 +4200,22 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting {@code readHistory}.
+                 * 
+                 * @param readHistory
+                 *     Whether vRead can return past versions
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #readHistory(com.ibm.fhir.model.type.Boolean)
+                 */
+                public Builder readHistory(java.lang.Boolean readHistory) {
+                    this.readHistory = (readHistory == null) ? null : Boolean.of(readHistory);
+                    return this;
+                }
+
+                /**
                  * A flag for whether the server is able to return past versions as part of the vRead operation.
                  * 
                  * @param readHistory
@@ -3902,6 +4226,22 @@ public class CapabilityStatement extends DomainResource {
                  */
                 public Builder readHistory(Boolean readHistory) {
                     this.readHistory = readHistory;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code updateCreate}.
+                 * 
+                 * @param updateCreate
+                 *     If update can commit to a new identity
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #updateCreate(com.ibm.fhir.model.type.Boolean)
+                 */
+                public Builder updateCreate(java.lang.Boolean updateCreate) {
+                    this.updateCreate = (updateCreate == null) ? null : Boolean.of(updateCreate);
                     return this;
                 }
 
@@ -3918,6 +4258,22 @@ public class CapabilityStatement extends DomainResource {
                  */
                 public Builder updateCreate(Boolean updateCreate) {
                     this.updateCreate = updateCreate;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code conditionalCreate}.
+                 * 
+                 * @param conditionalCreate
+                 *     If allows/uses conditional create
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #conditionalCreate(com.ibm.fhir.model.type.Boolean)
+                 */
+                public Builder conditionalCreate(java.lang.Boolean conditionalCreate) {
+                    this.conditionalCreate = (conditionalCreate == null) ? null : Boolean.of(conditionalCreate);
                     return this;
                 }
 
@@ -3946,6 +4302,22 @@ public class CapabilityStatement extends DomainResource {
                  */
                 public Builder conditionalRead(ConditionalReadStatus conditionalRead) {
                     this.conditionalRead = conditionalRead;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code conditionalUpdate}.
+                 * 
+                 * @param conditionalUpdate
+                 *     If allows/uses conditional update
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #conditionalUpdate(com.ibm.fhir.model.type.Boolean)
+                 */
+                public Builder conditionalUpdate(java.lang.Boolean conditionalUpdate) {
+                    this.conditionalUpdate = (conditionalUpdate == null) ? null : Boolean.of(conditionalUpdate);
                     return this;
                 }
 
@@ -3980,7 +4352,8 @@ public class CapabilityStatement extends DomainResource {
                 /**
                  * A set of flags that defines how references are supported.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param referencePolicy
                  *     literal | logical | resolves | enforced | local
@@ -3998,13 +4371,17 @@ public class CapabilityStatement extends DomainResource {
                 /**
                  * A set of flags that defines how references are supported.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param referencePolicy
                  *     literal | logical | resolves | enforced | local
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder referencePolicy(Collection<ReferenceHandlingPolicy> referencePolicy) {
                     this.referencePolicy = new ArrayList<>(referencePolicy);
@@ -4012,9 +4389,31 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting {@code searchInclude}.
+                 * 
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
+                 * 
+                 * @param searchInclude
+                 *     _include values supported by the server
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #searchInclude(com.ibm.fhir.model.type.String)
+                 */
+                public Builder searchInclude(java.lang.String... searchInclude) {
+                    for (java.lang.String value : searchInclude) {
+                        this.searchInclude.add((value == null) ? null : String.of(value));
+                    }
+                    return this;
+                }
+
+                /**
                  * A list of _include values supported by the server.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param searchInclude
                  *     _include values supported by the server
@@ -4032,13 +4431,17 @@ public class CapabilityStatement extends DomainResource {
                 /**
                  * A list of _include values supported by the server.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param searchInclude
                  *     _include values supported by the server
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder searchInclude(Collection<String> searchInclude) {
                     this.searchInclude = new ArrayList<>(searchInclude);
@@ -4046,9 +4449,31 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting {@code searchRevInclude}.
+                 * 
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
+                 * 
+                 * @param searchRevInclude
+                 *     _revinclude values supported by the server
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #searchRevInclude(com.ibm.fhir.model.type.String)
+                 */
+                public Builder searchRevInclude(java.lang.String... searchRevInclude) {
+                    for (java.lang.String value : searchRevInclude) {
+                        this.searchRevInclude.add((value == null) ? null : String.of(value));
+                    }
+                    return this;
+                }
+
+                /**
                  * A list of _revinclude (reverse include) values supported by the server.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param searchRevInclude
                  *     _revinclude values supported by the server
@@ -4066,13 +4491,17 @@ public class CapabilityStatement extends DomainResource {
                 /**
                  * A list of _revinclude (reverse include) values supported by the server.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param searchRevInclude
                  *     _revinclude values supported by the server
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder searchRevInclude(Collection<String> searchRevInclude) {
                     this.searchRevInclude = new ArrayList<>(searchRevInclude);
@@ -4083,7 +4512,8 @@ public class CapabilityStatement extends DomainResource {
                  * Search parameters for implementations to support and/or make use of - either references to ones defined in the 
                  * specification, or additional ones defined for/by the implementation.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param searchParam
                  *     Search parameters supported by implementation
@@ -4102,13 +4532,17 @@ public class CapabilityStatement extends DomainResource {
                  * Search parameters for implementations to support and/or make use of - either references to ones defined in the 
                  * specification, or additional ones defined for/by the implementation.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param searchParam
                  *     Search parameters supported by implementation
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder searchParam(Collection<SearchParam> searchParam) {
                     this.searchParam = new ArrayList<>(searchParam);
@@ -4119,7 +4553,8 @@ public class CapabilityStatement extends DomainResource {
                  * Definition of an operation or a named query together with its parameters and their meaning and type. Consult the 
                  * definition of the operation for details about how to invoke the operation, and the parameters.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param operation
                  *     Definition of a resource operation
@@ -4138,13 +4573,17 @@ public class CapabilityStatement extends DomainResource {
                  * Definition of an operation or a named query together with its parameters and their meaning and type. Consult the 
                  * definition of the operation for details about how to invoke the operation, and the parameters.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param operation
                  *     Definition of a resource operation
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder operation(Collection<Operation> operation) {
                     this.operation = new ArrayList<>(operation);
@@ -4345,7 +4784,8 @@ public class CapabilityStatement extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -4364,13 +4804,17 @@ public class CapabilityStatement extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     @Override
                     public Builder extension(Collection<Extension> extension) {
@@ -4388,7 +4832,8 @@ public class CapabilityStatement extends DomainResource {
                      * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -4412,13 +4857,17 @@ public class CapabilityStatement extends DomainResource {
                      * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -4668,7 +5117,8 @@ public class CapabilityStatement extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -4687,13 +5137,17 @@ public class CapabilityStatement extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     @Override
                     public Builder extension(Collection<Extension> extension) {
@@ -4711,7 +5165,8 @@ public class CapabilityStatement extends DomainResource {
                      * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -4735,17 +5190,39 @@ public class CapabilityStatement extends DomainResource {
                      * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
                         return (Builder) super.modifierExtension(modifierExtension);
+                    }
+
+                    /**
+                     * Convenience method for setting {@code name}.
+                     * 
+                     * <p>This element is required.
+                     * 
+                     * @param name
+                     *     Name of search parameter
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #name(com.ibm.fhir.model.type.String)
+                     */
+                    public Builder name(java.lang.String name) {
+                        this.name = (name == null) ? null : String.of(name);
+                        return this;
                     }
 
                     /**
@@ -5009,7 +5486,8 @@ public class CapabilityStatement extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -5028,13 +5506,17 @@ public class CapabilityStatement extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     @Override
                     public Builder extension(Collection<Extension> extension) {
@@ -5052,7 +5534,8 @@ public class CapabilityStatement extends DomainResource {
                      * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -5076,17 +5559,39 @@ public class CapabilityStatement extends DomainResource {
                      * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
                         return (Builder) super.modifierExtension(modifierExtension);
+                    }
+
+                    /**
+                     * Convenience method for setting {@code name}.
+                     * 
+                     * <p>This element is required.
+                     * 
+                     * @param name
+                     *     Name by which the operation/query is invoked
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #name(com.ibm.fhir.model.type.String)
+                     */
+                    public Builder name(java.lang.String name) {
+                        this.name = (name == null) ? null : String.of(name);
+                        return this;
                     }
 
                     /**
@@ -5318,7 +5823,8 @@ public class CapabilityStatement extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -5337,13 +5843,17 @@ public class CapabilityStatement extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -5361,7 +5871,8 @@ public class CapabilityStatement extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -5385,13 +5896,17 @@ public class CapabilityStatement extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -5632,7 +6147,8 @@ public class CapabilityStatement extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -5651,13 +6167,17 @@ public class CapabilityStatement extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -5675,7 +6195,8 @@ public class CapabilityStatement extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -5699,13 +6220,17 @@ public class CapabilityStatement extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -5715,7 +6240,8 @@ public class CapabilityStatement extends DomainResource {
             /**
              * An endpoint (network accessible address) to which messages and/or replies are to be sent.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param endpoint
              *     Where messages should be sent
@@ -5733,13 +6259,17 @@ public class CapabilityStatement extends DomainResource {
             /**
              * An endpoint (network accessible address) to which messages and/or replies are to be sent.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param endpoint
              *     Where messages should be sent
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder endpoint(Collection<Endpoint> endpoint) {
                 this.endpoint = new ArrayList<>(endpoint);
@@ -5779,7 +6309,8 @@ public class CapabilityStatement extends DomainResource {
             /**
              * References to message definitions for messages this system can send or receive.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param supportedMessage
              *     Messages supported by this system
@@ -5797,13 +6328,17 @@ public class CapabilityStatement extends DomainResource {
             /**
              * References to message definitions for messages this system can send or receive.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param supportedMessage
              *     Messages supported by this system
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder supportedMessage(Collection<SupportedMessage> supportedMessage) {
                 this.supportedMessage = new ArrayList<>(supportedMessage);
@@ -5981,7 +6516,8 @@ public class CapabilityStatement extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -6000,13 +6536,17 @@ public class CapabilityStatement extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -6024,7 +6564,8 @@ public class CapabilityStatement extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -6048,13 +6589,17 @@ public class CapabilityStatement extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -6271,7 +6816,8 @@ public class CapabilityStatement extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -6290,13 +6836,17 @@ public class CapabilityStatement extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -6314,7 +6864,8 @@ public class CapabilityStatement extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -6338,13 +6889,17 @@ public class CapabilityStatement extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -6579,7 +7134,8 @@ public class CapabilityStatement extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -6598,13 +7154,17 @@ public class CapabilityStatement extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -6622,7 +7182,8 @@ public class CapabilityStatement extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -6646,13 +7207,17 @@ public class CapabilityStatement extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {

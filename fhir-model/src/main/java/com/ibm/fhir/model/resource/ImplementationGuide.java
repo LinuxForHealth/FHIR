@@ -664,7 +664,8 @@ public class ImplementationGuide extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -681,13 +682,17 @@ public class ImplementationGuide extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<com.ibm.fhir.model.resource.Resource> contained) {
@@ -700,7 +705,8 @@ public class ImplementationGuide extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -719,13 +725,17 @@ public class ImplementationGuide extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -743,7 +753,8 @@ public class ImplementationGuide extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -767,13 +778,17 @@ public class ImplementationGuide extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -801,6 +816,22 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code version}.
+         * 
+         * @param version
+         *     Business version of the implementation guide
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #version(com.ibm.fhir.model.type.String)
+         */
+        public Builder version(java.lang.String version) {
+            this.version = (version == null) ? null : String.of(version);
+            return this;
+        }
+
+        /**
          * The identifier that is used to identify this version of the implementation guide when it is referenced in a 
          * specification, model, design or instance. This is an arbitrary value managed by the implementation guide author and is 
          * not expected to be globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not 
@@ -818,6 +849,24 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code name}.
+         * 
+         * <p>This element is required.
+         * 
+         * @param name
+         *     Name for this implementation guide (computer friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #name(com.ibm.fhir.model.type.String)
+         */
+        public Builder name(java.lang.String name) {
+            this.name = (name == null) ? null : String.of(name);
+            return this;
+        }
+
+        /**
          * A natural language name identifying the implementation guide. This name should be usable as an identifier for the 
          * module by machine processing applications such as code generation.
          * 
@@ -831,6 +880,22 @@ public class ImplementationGuide extends DomainResource {
          */
         public Builder name(String name) {
             this.name = name;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code title}.
+         * 
+         * @param title
+         *     Name for this implementation guide (human friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #title(com.ibm.fhir.model.type.String)
+         */
+        public Builder title(java.lang.String title) {
+            this.title = (title == null) ? null : String.of(title);
             return this;
         }
 
@@ -861,6 +926,22 @@ public class ImplementationGuide extends DomainResource {
          */
         public Builder status(PublicationStatus status) {
             this.status = status;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code experimental}.
+         * 
+         * @param experimental
+         *     For testing purposes, not real usage
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #experimental(com.ibm.fhir.model.type.Boolean)
+         */
+        public Builder experimental(java.lang.Boolean experimental) {
+            this.experimental = (experimental == null) ? null : Boolean.of(experimental);
             return this;
         }
 
@@ -896,6 +977,22 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code publisher}.
+         * 
+         * @param publisher
+         *     Name of the publisher (organization or individual)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #publisher(com.ibm.fhir.model.type.String)
+         */
+        public Builder publisher(java.lang.String publisher) {
+            this.publisher = (publisher == null) ? null : String.of(publisher);
+            return this;
+        }
+
+        /**
          * The name of the organization or individual that published the implementation guide.
          * 
          * @param publisher
@@ -912,7 +1009,8 @@ public class ImplementationGuide extends DomainResource {
         /**
          * Contact details to assist a user in finding and communicating with the publisher.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contact
          *     Contact details for the publisher
@@ -930,13 +1028,17 @@ public class ImplementationGuide extends DomainResource {
         /**
          * Contact details to assist a user in finding and communicating with the publisher.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contact
          *     Contact details for the publisher
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder contact(Collection<ContactDetail> contact) {
             this.contact = new ArrayList<>(contact);
@@ -962,7 +1064,8 @@ public class ImplementationGuide extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate implementation guide instances.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param useContext
          *     The context that the content is intended to support
@@ -982,13 +1085,17 @@ public class ImplementationGuide extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate implementation guide instances.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param useContext
          *     The context that the content is intended to support
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder useContext(Collection<UsageContext> useContext) {
             this.useContext = new ArrayList<>(useContext);
@@ -998,7 +1105,8 @@ public class ImplementationGuide extends DomainResource {
         /**
          * A legal or geographic region in which the implementation guide is intended to be used.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param jurisdiction
          *     Intended jurisdiction for implementation guide (if applicable)
@@ -1016,13 +1124,17 @@ public class ImplementationGuide extends DomainResource {
         /**
          * A legal or geographic region in which the implementation guide is intended to be used.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param jurisdiction
          *     Intended jurisdiction for implementation guide (if applicable)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder jurisdiction(Collection<CodeableConcept> jurisdiction) {
             this.jurisdiction = new ArrayList<>(jurisdiction);
@@ -1081,7 +1193,8 @@ public class ImplementationGuide extends DomainResource {
          * of this element is the formal version of the specification, without the revision number, e.g. [publication].[major].
          * [minor], which is 4.0.1. for this version.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>This element is required.
          * 
@@ -1103,7 +1216,8 @@ public class ImplementationGuide extends DomainResource {
          * of this element is the formal version of the specification, without the revision number, e.g. [publication].[major].
          * [minor], which is 4.0.1. for this version.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>This element is required.
          * 
@@ -1112,6 +1226,9 @@ public class ImplementationGuide extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder fhirVersion(Collection<FHIRVersion> fhirVersion) {
             this.fhirVersion = new ArrayList<>(fhirVersion);
@@ -1122,7 +1239,8 @@ public class ImplementationGuide extends DomainResource {
          * Another implementation guide that this implementation depends on. Typically, an implementation guide uses value sets, 
          * profiles etc.defined in other implementation guides.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param dependsOn
          *     Another Implementation guide this depends on
@@ -1141,13 +1259,17 @@ public class ImplementationGuide extends DomainResource {
          * Another implementation guide that this implementation depends on. Typically, an implementation guide uses value sets, 
          * profiles etc.defined in other implementation guides.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param dependsOn
          *     Another Implementation guide this depends on
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder dependsOn(Collection<DependsOn> dependsOn) {
             this.dependsOn = new ArrayList<>(dependsOn);
@@ -1157,7 +1279,8 @@ public class ImplementationGuide extends DomainResource {
         /**
          * A set of profiles that all resources covered by this implementation guide must conform to.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param global
          *     Profiles that apply globally
@@ -1175,13 +1298,17 @@ public class ImplementationGuide extends DomainResource {
         /**
          * A set of profiles that all resources covered by this implementation guide must conform to.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param global
          *     Profiles that apply globally
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder global(Collection<Global> global) {
             this.global = new ArrayList<>(global);
@@ -1432,7 +1559,8 @@ public class ImplementationGuide extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1451,13 +1579,17 @@ public class ImplementationGuide extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1475,7 +1607,8 @@ public class ImplementationGuide extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1499,13 +1632,17 @@ public class ImplementationGuide extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1539,6 +1676,22 @@ public class ImplementationGuide extends DomainResource {
              */
             public Builder packageId(Id packageId) {
                 this.packageId = packageId;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code version}.
+             * 
+             * @param version
+             *     Version of the IG
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #version(com.ibm.fhir.model.type.String)
+             */
+            public Builder version(java.lang.String version) {
+                this.version = (version == null) ? null : String.of(version);
                 return this;
             }
 
@@ -1732,7 +1885,8 @@ public class ImplementationGuide extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1751,13 +1905,17 @@ public class ImplementationGuide extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1775,7 +1933,8 @@ public class ImplementationGuide extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1799,13 +1958,17 @@ public class ImplementationGuide extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2065,7 +2228,8 @@ public class ImplementationGuide extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2084,13 +2248,17 @@ public class ImplementationGuide extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2108,7 +2276,8 @@ public class ImplementationGuide extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2132,13 +2301,17 @@ public class ImplementationGuide extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2148,7 +2321,8 @@ public class ImplementationGuide extends DomainResource {
             /**
              * A logical group of resources. Logical groups can be used when building pages.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param grouping
              *     Grouping used to present related resources in the IG
@@ -2166,13 +2340,17 @@ public class ImplementationGuide extends DomainResource {
             /**
              * A logical group of resources. Logical groups can be used when building pages.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param grouping
              *     Grouping used to present related resources in the IG
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder grouping(Collection<Grouping> grouping) {
                 this.grouping = new ArrayList<>(grouping);
@@ -2184,7 +2362,8 @@ public class ImplementationGuide extends DomainResource {
              * capability statements etc.) are obvious candidates for inclusion, but any kind of resource can be included as an 
              * example resource.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>This element is required.
              * 
@@ -2206,7 +2385,8 @@ public class ImplementationGuide extends DomainResource {
              * capability statements etc.) are obvious candidates for inclusion, but any kind of resource can be included as an 
              * example resource.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>This element is required.
              * 
@@ -2215,6 +2395,9 @@ public class ImplementationGuide extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder resource(Collection<Resource> resource) {
                 this.resource = new ArrayList<>(resource);
@@ -2238,7 +2421,8 @@ public class ImplementationGuide extends DomainResource {
             /**
              * Defines how IG is built by tools.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param parameter
              *     Defines how IG is built by tools
@@ -2256,13 +2440,17 @@ public class ImplementationGuide extends DomainResource {
             /**
              * Defines how IG is built by tools.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param parameter
              *     Defines how IG is built by tools
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder parameter(Collection<Parameter> parameter) {
                 this.parameter = new ArrayList<>(parameter);
@@ -2272,7 +2460,8 @@ public class ImplementationGuide extends DomainResource {
             /**
              * A template for building resources.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param template
              *     A template for building resources
@@ -2290,13 +2479,17 @@ public class ImplementationGuide extends DomainResource {
             /**
              * A template for building resources.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param template
              *     A template for building resources
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder template(Collection<Template> template) {
                 this.template = new ArrayList<>(template);
@@ -2474,7 +2667,8 @@ public class ImplementationGuide extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2493,13 +2687,17 @@ public class ImplementationGuide extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2517,7 +2715,8 @@ public class ImplementationGuide extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2541,17 +2740,39 @@ public class ImplementationGuide extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
                     return (Builder) super.modifierExtension(modifierExtension);
+                }
+
+                /**
+                 * Convenience method for setting {@code name}.
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param name
+                 *     Descriptive name for the package
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #name(com.ibm.fhir.model.type.String)
+                 */
+                public Builder name(java.lang.String name) {
+                    this.name = (name == null) ? null : String.of(name);
+                    return this;
                 }
 
                 /**
@@ -2567,6 +2788,22 @@ public class ImplementationGuide extends DomainResource {
                  */
                 public Builder name(String name) {
                     this.name = name;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code description}.
+                 * 
+                 * @param description
+                 *     Human readable text describing the package
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #description(com.ibm.fhir.model.type.String)
+                 */
+                public Builder description(java.lang.String description) {
+                    this.description = (description == null) ? null : String.of(description);
                     return this;
                 }
 
@@ -2699,7 +2936,7 @@ public class ImplementationGuide extends DomainResource {
              * example is an example of the specified profile.
              * 
              * @return
-             *     An immutable object of type {@link Element} that may be null.
+             *     An immutable object of type {@link Boolean} or {@link Canonical} that may be null.
              */
             public Element getExample() {
                 return example;
@@ -2830,7 +3067,8 @@ public class ImplementationGuide extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2849,13 +3087,17 @@ public class ImplementationGuide extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2873,7 +3115,8 @@ public class ImplementationGuide extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2897,13 +3140,17 @@ public class ImplementationGuide extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2930,7 +3177,8 @@ public class ImplementationGuide extends DomainResource {
                  * Indicates the FHIR Version(s) this artifact is intended to apply to. If no versions are specified, the resource is 
                  * assumed to apply to all the versions stated in ImplementationGuide.fhirVersion.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param fhirVersion
                  *     Versions this applies to (if different to IG)
@@ -2949,16 +3197,36 @@ public class ImplementationGuide extends DomainResource {
                  * Indicates the FHIR Version(s) this artifact is intended to apply to. If no versions are specified, the resource is 
                  * assumed to apply to all the versions stated in ImplementationGuide.fhirVersion.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param fhirVersion
                  *     Versions this applies to (if different to IG)
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder fhirVersion(Collection<FHIRVersion> fhirVersion) {
                     this.fhirVersion = new ArrayList<>(fhirVersion);
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code name}.
+                 * 
+                 * @param name
+                 *     Human Name for the resource
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #name(com.ibm.fhir.model.type.String)
+                 */
+                public Builder name(java.lang.String name) {
+                    this.name = (name == null) ? null : String.of(name);
                     return this;
                 }
 
@@ -2978,6 +3246,22 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting {@code description}.
+                 * 
+                 * @param description
+                 *     Reason why included in guide
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #description(com.ibm.fhir.model.type.String)
+                 */
+                public Builder description(java.lang.String description) {
+                    this.description = (description == null) ? null : String.of(description);
+                    return this;
+                }
+
+                /**
                  * A description of the reason that a resource has been included in the implementation guide.
                  * 
                  * @param description
@@ -2988,6 +3272,22 @@ public class ImplementationGuide extends DomainResource {
                  */
                 public Builder description(String description) {
                     this.description = description;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code example} with choice type Boolean.
+                 * 
+                 * @param example
+                 *     Is an example/What is this an example of?
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #example(Element)
+                 */
+                public Builder example(java.lang.Boolean example) {
+                    this.example = (example == null) ? null : Boolean.of(example);
                     return this;
                 }
 
@@ -3101,7 +3401,7 @@ public class ImplementationGuide extends DomainResource {
              * The source address for the page.
              * 
              * @return
-             *     An immutable object of type {@link Element} that is non-null.
+             *     An immutable object of type {@link Url} or {@link Reference} that is non-null.
              */
             public Element getName() {
                 return name;
@@ -3242,7 +3542,8 @@ public class ImplementationGuide extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -3261,13 +3562,17 @@ public class ImplementationGuide extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -3285,7 +3590,8 @@ public class ImplementationGuide extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3309,13 +3615,17 @@ public class ImplementationGuide extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3346,6 +3656,24 @@ public class ImplementationGuide extends DomainResource {
                  */
                 public Builder name(Element name) {
                     this.name = name;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code title}.
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param title
+                 *     Short title shown for navigational assistance
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #title(com.ibm.fhir.model.type.String)
+                 */
+                public Builder title(java.lang.String title) {
+                    this.title = (title == null) ? null : String.of(title);
                     return this;
                 }
 
@@ -3384,7 +3712,8 @@ public class ImplementationGuide extends DomainResource {
                 /**
                  * Nested Pages/Sections under this page.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param page
                  *     Nested Pages / Sections
@@ -3402,13 +3731,17 @@ public class ImplementationGuide extends DomainResource {
                 /**
                  * Nested Pages/Sections under this page.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param page
                  *     Nested Pages / Sections
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder page(Collection<ImplementationGuide.Definition.Page> page) {
                     this.page = new ArrayList<>(page);
@@ -3597,7 +3930,8 @@ public class ImplementationGuide extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -3616,13 +3950,17 @@ public class ImplementationGuide extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -3640,7 +3978,8 @@ public class ImplementationGuide extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3664,13 +4003,17 @@ public class ImplementationGuide extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3692,6 +4035,24 @@ public class ImplementationGuide extends DomainResource {
                  */
                 public Builder code(GuideParameterCode code) {
                     this.code = code;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code value}.
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param value
+                 *     Value for named type
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #value(com.ibm.fhir.model.type.String)
+                 */
+                public Builder value(java.lang.String value) {
+                    this.value = (value == null) ? null : String.of(value);
                     return this;
                 }
 
@@ -3897,7 +4258,8 @@ public class ImplementationGuide extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -3916,13 +4278,17 @@ public class ImplementationGuide extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -3940,7 +4306,8 @@ public class ImplementationGuide extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3964,13 +4331,17 @@ public class ImplementationGuide extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3994,6 +4365,24 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting {@code source}.
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param source
+                 *     The source location for the template
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #source(com.ibm.fhir.model.type.String)
+                 */
+                public Builder source(java.lang.String source) {
+                    this.source = (source == null) ? null : String.of(source);
+                    return this;
+                }
+
+                /**
                  * The source location for the template.
                  * 
                  * <p>This element is required.
@@ -4006,6 +4395,22 @@ public class ImplementationGuide extends DomainResource {
                  */
                 public Builder source(String source) {
                     this.source = source;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code scope}.
+                 * 
+                 * @param scope
+                 *     The scope in which the template applies
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #scope(com.ibm.fhir.model.type.String)
+                 */
+                public Builder scope(java.lang.String scope) {
+                    this.scope = (scope == null) ? null : String.of(scope);
                     return this;
                 }
 
@@ -4249,7 +4654,8 @@ public class ImplementationGuide extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -4268,13 +4674,17 @@ public class ImplementationGuide extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -4292,7 +4702,8 @@ public class ImplementationGuide extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -4316,13 +4727,17 @@ public class ImplementationGuide extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -4348,7 +4763,8 @@ public class ImplementationGuide extends DomainResource {
              * capability statements etc.) are obvious candidates for inclusion, but any kind of resource can be included as an 
              * example resource.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>This element is required.
              * 
@@ -4370,7 +4786,8 @@ public class ImplementationGuide extends DomainResource {
              * capability statements etc.) are obvious candidates for inclusion, but any kind of resource can be included as an 
              * example resource.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>This element is required.
              * 
@@ -4379,6 +4796,9 @@ public class ImplementationGuide extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder resource(Collection<Resource> resource) {
                 this.resource = new ArrayList<>(resource);
@@ -4388,7 +4808,8 @@ public class ImplementationGuide extends DomainResource {
             /**
              * Information about a page within the IG.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param page
              *     HTML page within the parent IG
@@ -4406,13 +4827,17 @@ public class ImplementationGuide extends DomainResource {
             /**
              * Information about a page within the IG.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param page
              *     HTML page within the parent IG
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder page(Collection<Page> page) {
                 this.page = new ArrayList<>(page);
@@ -4420,9 +4845,31 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code image}.
+             * 
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
+             * 
+             * @param image
+             *     Image within the IG
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #image(com.ibm.fhir.model.type.String)
+             */
+            public Builder image(java.lang.String... image) {
+                for (java.lang.String value : image) {
+                    this.image.add((value == null) ? null : String.of(value));
+                }
+                return this;
+            }
+
+            /**
              * Indicates a relative path to an image that exists within the IG.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param image
              *     Image within the IG
@@ -4440,13 +4887,17 @@ public class ImplementationGuide extends DomainResource {
             /**
              * Indicates a relative path to an image that exists within the IG.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param image
              *     Image within the IG
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder image(Collection<String> image) {
                 this.image = new ArrayList<>(image);
@@ -4454,10 +4905,32 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code other}.
+             * 
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
+             * 
+             * @param other
+             *     Additional linkable file in IG
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #other(com.ibm.fhir.model.type.String)
+             */
+            public Builder other(java.lang.String... other) {
+                for (java.lang.String value : other) {
+                    this.other.add((value == null) ? null : String.of(value));
+                }
+                return this;
+            }
+
+            /**
              * Indicates the relative path of an additional non-page, non-image file that is part of the IG - e.g. zip, jar and 
              * similar files that could be the target of a hyperlink in a derived IG.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param other
              *     Additional linkable file in IG
@@ -4476,13 +4949,17 @@ public class ImplementationGuide extends DomainResource {
              * Indicates the relative path of an additional non-page, non-image file that is part of the IG - e.g. zip, jar and 
              * similar files that could be the target of a hyperlink in a derived IG.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param other
              *     Additional linkable file in IG
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder other(Collection<String> other) {
                 this.other = new ArrayList<>(other);
@@ -4566,7 +5043,7 @@ public class ImplementationGuide extends DomainResource {
              * example is an example of the specified profile.
              * 
              * @return
-             *     An immutable object of type {@link Element} that may be null.
+             *     An immutable object of type {@link Boolean} or {@link Canonical} that may be null.
              */
             public Element getExample() {
                 return example;
@@ -4682,7 +5159,8 @@ public class ImplementationGuide extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -4701,13 +5179,17 @@ public class ImplementationGuide extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -4725,7 +5207,8 @@ public class ImplementationGuide extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -4749,13 +5232,17 @@ public class ImplementationGuide extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -4775,6 +5262,22 @@ public class ImplementationGuide extends DomainResource {
                  */
                 public Builder reference(Reference reference) {
                     this.reference = reference;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code example} with choice type Boolean.
+                 * 
+                 * @param example
+                 *     Is an example/What is this an example of?
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #example(Element)
+                 */
+                public Builder example(java.lang.Boolean example) {
+                    this.example = (example == null) ? null : Boolean.of(example);
                     return this;
                 }
 
@@ -4998,7 +5501,8 @@ public class ImplementationGuide extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -5017,13 +5521,17 @@ public class ImplementationGuide extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -5041,7 +5549,8 @@ public class ImplementationGuide extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -5065,17 +5574,39 @@ public class ImplementationGuide extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
                     return (Builder) super.modifierExtension(modifierExtension);
+                }
+
+                /**
+                 * Convenience method for setting {@code name}.
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param name
+                 *     HTML page name
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #name(com.ibm.fhir.model.type.String)
+                 */
+                public Builder name(java.lang.String name) {
+                    this.name = (name == null) ? null : String.of(name);
+                    return this;
                 }
 
                 /**
@@ -5095,6 +5626,22 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting {@code title}.
+                 * 
+                 * @param title
+                 *     Title of the page, for references
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #title(com.ibm.fhir.model.type.String)
+                 */
+                public Builder title(java.lang.String title) {
+                    this.title = (title == null) ? null : String.of(title);
+                    return this;
+                }
+
+                /**
                  * Label for the page intended for human display.
                  * 
                  * @param title
@@ -5109,9 +5656,31 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting {@code anchor}.
+                 * 
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
+                 * 
+                 * @param anchor
+                 *     Anchor available on the page
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #anchor(com.ibm.fhir.model.type.String)
+                 */
+                public Builder anchor(java.lang.String... anchor) {
+                    for (java.lang.String value : anchor) {
+                        this.anchor.add((value == null) ? null : String.of(value));
+                    }
+                    return this;
+                }
+
+                /**
                  * The name of an anchor available on the page.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param anchor
                  *     Anchor available on the page
@@ -5129,13 +5698,17 @@ public class ImplementationGuide extends DomainResource {
                 /**
                  * The name of an anchor available on the page.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param anchor
                  *     Anchor available on the page
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder anchor(Collection<String> anchor) {
                     this.anchor = new ArrayList<>(anchor);

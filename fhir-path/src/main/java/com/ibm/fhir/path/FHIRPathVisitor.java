@@ -1,3 +1,9 @@
+/*
+ * (C) Copyright IBM Corp. 2021
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 // Generated from FHIRPath.g4 by ANTLR 4.9.1
 package com.ibm.fhir.path;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;

@@ -773,7 +773,8 @@ public class OperationDefinition extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -790,13 +791,17 @@ public class OperationDefinition extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -809,7 +814,8 @@ public class OperationDefinition extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -828,13 +834,17 @@ public class OperationDefinition extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -852,7 +862,8 @@ public class OperationDefinition extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -876,13 +887,17 @@ public class OperationDefinition extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -908,6 +923,22 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code version}.
+         * 
+         * @param version
+         *     Business version of the operation definition
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #version(com.ibm.fhir.model.type.String)
+         */
+        public Builder version(java.lang.String version) {
+            this.version = (version == null) ? null : String.of(version);
+            return this;
+        }
+
+        /**
          * The identifier that is used to identify this version of the operation definition when it is referenced in a 
          * specification, model, design or instance. This is an arbitrary value managed by the operation definition author and is 
          * not expected to be globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not 
@@ -925,6 +956,24 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code name}.
+         * 
+         * <p>This element is required.
+         * 
+         * @param name
+         *     Name for this operation definition (computer friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #name(com.ibm.fhir.model.type.String)
+         */
+        public Builder name(java.lang.String name) {
+            this.name = (name == null) ? null : String.of(name);
+            return this;
+        }
+
+        /**
          * A natural language name identifying the operation definition. This name should be usable as an identifier for the 
          * module by machine processing applications such as code generation.
          * 
@@ -938,6 +987,22 @@ public class OperationDefinition extends DomainResource {
          */
         public Builder name(String name) {
             this.name = name;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code title}.
+         * 
+         * @param title
+         *     Name for this operation definition (human friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #title(com.ibm.fhir.model.type.String)
+         */
+        public Builder title(java.lang.String title) {
+            this.title = (title == null) ? null : String.of(title);
             return this;
         }
 
@@ -988,6 +1053,22 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code experimental}.
+         * 
+         * @param experimental
+         *     For testing purposes, not real usage
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #experimental(com.ibm.fhir.model.type.Boolean)
+         */
+        public Builder experimental(java.lang.Boolean experimental) {
+            this.experimental = (experimental == null) ? null : Boolean.of(experimental);
+            return this;
+        }
+
+        /**
          * A Boolean value to indicate that this operation definition is authored for testing purposes (or 
          * education/evaluation/marketing) and is not intended to be used for genuine usage.
          * 
@@ -1019,6 +1100,22 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code publisher}.
+         * 
+         * @param publisher
+         *     Name of the publisher (organization or individual)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #publisher(com.ibm.fhir.model.type.String)
+         */
+        public Builder publisher(java.lang.String publisher) {
+            this.publisher = (publisher == null) ? null : String.of(publisher);
+            return this;
+        }
+
+        /**
          * The name of the organization or individual that published the operation definition.
          * 
          * @param publisher
@@ -1035,7 +1132,8 @@ public class OperationDefinition extends DomainResource {
         /**
          * Contact details to assist a user in finding and communicating with the publisher.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contact
          *     Contact details for the publisher
@@ -1053,13 +1151,17 @@ public class OperationDefinition extends DomainResource {
         /**
          * Contact details to assist a user in finding and communicating with the publisher.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contact
          *     Contact details for the publisher
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder contact(Collection<ContactDetail> contact) {
             this.contact = new ArrayList<>(contact);
@@ -1085,7 +1187,8 @@ public class OperationDefinition extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate operation definition instances.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param useContext
          *     The context that the content is intended to support
@@ -1105,13 +1208,17 @@ public class OperationDefinition extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate operation definition instances.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param useContext
          *     The context that the content is intended to support
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder useContext(Collection<UsageContext> useContext) {
             this.useContext = new ArrayList<>(useContext);
@@ -1121,7 +1228,8 @@ public class OperationDefinition extends DomainResource {
         /**
          * A legal or geographic region in which the operation definition is intended to be used.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param jurisdiction
          *     Intended jurisdiction for operation definition (if applicable)
@@ -1139,13 +1247,17 @@ public class OperationDefinition extends DomainResource {
         /**
          * A legal or geographic region in which the operation definition is intended to be used.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param jurisdiction
          *     Intended jurisdiction for operation definition (if applicable)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder jurisdiction(Collection<CodeableConcept> jurisdiction) {
             this.jurisdiction = new ArrayList<>(jurisdiction);
@@ -1163,6 +1275,22 @@ public class OperationDefinition extends DomainResource {
          */
         public Builder purpose(Markdown purpose) {
             this.purpose = purpose;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code affectsState}.
+         * 
+         * @param affectsState
+         *     Whether content is changed by the operation
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #affectsState(com.ibm.fhir.model.type.Boolean)
+         */
+        public Builder affectsState(java.lang.Boolean affectsState) {
+            this.affectsState = (affectsState == null) ? null : Boolean.of(affectsState);
             return this;
         }
 
@@ -1228,7 +1356,8 @@ public class OperationDefinition extends DomainResource {
         /**
          * The types on which this operation can be executed.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param resource
          *     Types this operation applies to
@@ -1246,16 +1375,38 @@ public class OperationDefinition extends DomainResource {
         /**
          * The types on which this operation can be executed.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param resource
          *     Types this operation applies to
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder resource(Collection<ResourceType> resource) {
             this.resource = new ArrayList<>(resource);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code system}.
+         * 
+         * <p>This element is required.
+         * 
+         * @param system
+         *     Invoke at the system level?
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #system(com.ibm.fhir.model.type.Boolean)
+         */
+        public Builder system(java.lang.Boolean system) {
+            this.system = (system == null) ? null : Boolean.of(system);
             return this;
         }
 
@@ -1277,6 +1428,24 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code type}.
+         * 
+         * <p>This element is required.
+         * 
+         * @param type
+         *     Invoke at the type level?
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #type(com.ibm.fhir.model.type.Boolean)
+         */
+        public Builder type(java.lang.Boolean type) {
+            this.type = (type == null) ? null : Boolean.of(type);
+            return this;
+        }
+
+        /**
          * Indicates whether this operation or named query can be invoked at the resource type level for any given resource type 
          * level (e.g. without needing to choose a specific resource id for the context).
          * 
@@ -1290,6 +1459,24 @@ public class OperationDefinition extends DomainResource {
          */
         public Builder type(Boolean type) {
             this.type = type;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code instance}.
+         * 
+         * <p>This element is required.
+         * 
+         * @param instance
+         *     Invoke on an instance?
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #instance(com.ibm.fhir.model.type.Boolean)
+         */
+        public Builder instance(java.lang.Boolean instance) {
+            this.instance = (instance == null) ? null : Boolean.of(instance);
             return this;
         }
 
@@ -1342,7 +1529,8 @@ public class OperationDefinition extends DomainResource {
         /**
          * The parameters for the operation/query.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param parameter
          *     Parameters for the operation/query
@@ -1360,13 +1548,17 @@ public class OperationDefinition extends DomainResource {
         /**
          * The parameters for the operation/query.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param parameter
          *     Parameters for the operation/query
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder parameter(Collection<Parameter> parameter) {
             this.parameter = new ArrayList<>(parameter);
@@ -1377,7 +1569,8 @@ public class OperationDefinition extends DomainResource {
          * Defines an appropriate combination of parameters to use when invoking this operation, to help code generators when 
          * generating overloaded parameter sets for this operation.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param overload
          *     Define overloaded variants for when generating code
@@ -1396,13 +1589,17 @@ public class OperationDefinition extends DomainResource {
          * Defines an appropriate combination of parameters to use when invoking this operation, to help code generators when 
          * generating overloaded parameter sets for this operation.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param overload
          *     Define overloaded variants for when generating code
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder overload(Collection<Overload> overload) {
             this.overload = new ArrayList<>(overload);
@@ -1793,7 +1990,8 @@ public class OperationDefinition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1812,13 +2010,17 @@ public class OperationDefinition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1836,7 +2038,8 @@ public class OperationDefinition extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1860,13 +2063,17 @@ public class OperationDefinition extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1906,6 +2113,24 @@ public class OperationDefinition extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code min}.
+             * 
+             * <p>This element is required.
+             * 
+             * @param min
+             *     Minimum Cardinality
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #min(com.ibm.fhir.model.type.Integer)
+             */
+            public Builder min(java.lang.Integer min) {
+                this.min = (min == null) ? null : Integer.of(min);
+                return this;
+            }
+
+            /**
              * The minimum number of times this parameter SHALL appear in the request or response.
              * 
              * <p>This element is required.
@@ -1922,6 +2147,24 @@ public class OperationDefinition extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code max}.
+             * 
+             * <p>This element is required.
+             * 
+             * @param max
+             *     Maximum Cardinality (a number or *)
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #max(com.ibm.fhir.model.type.String)
+             */
+            public Builder max(java.lang.String max) {
+                this.max = (max == null) ? null : String.of(max);
+                return this;
+            }
+
+            /**
              * The maximum number of times this element is permitted to appear in the request or response.
              * 
              * <p>This element is required.
@@ -1934,6 +2177,22 @@ public class OperationDefinition extends DomainResource {
              */
             public Builder max(String max) {
                 this.max = max;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code documentation}.
+             * 
+             * @param documentation
+             *     Description of meaning/use
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #documentation(com.ibm.fhir.model.type.String)
+             */
+            public Builder documentation(java.lang.String documentation) {
+                this.documentation = (documentation == null) ? null : String.of(documentation);
                 return this;
             }
 
@@ -1972,7 +2231,8 @@ public class OperationDefinition extends DomainResource {
              * to another StructureDefinition or Implementation Guide by a canonical URL. When an implementation guide is specified, 
              * the target resource SHALL conform to at least one profile defined in the implementation guide.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param targetProfile
              *     If type is Reference | canonical, allowed targets
@@ -1994,13 +2254,17 @@ public class OperationDefinition extends DomainResource {
              * to another StructureDefinition or Implementation Guide by a canonical URL. When an implementation guide is specified, 
              * the target resource SHALL conform to at least one profile defined in the implementation guide.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param targetProfile
              *     If type is Reference | canonical, allowed targets
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder targetProfile(Collection<Canonical> targetProfile) {
                 this.targetProfile = new ArrayList<>(targetProfile);
@@ -2038,7 +2302,8 @@ public class OperationDefinition extends DomainResource {
             /**
              * Identifies other resource parameters within the operation invocation that are expected to resolve to this resource.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param referencedFrom
              *     References to this parameter
@@ -2056,13 +2321,17 @@ public class OperationDefinition extends DomainResource {
             /**
              * Identifies other resource parameters within the operation invocation that are expected to resolve to this resource.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param referencedFrom
              *     References to this parameter
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder referencedFrom(Collection<ReferencedFrom> referencedFrom) {
                 this.referencedFrom = new ArrayList<>(referencedFrom);
@@ -2072,7 +2341,8 @@ public class OperationDefinition extends DomainResource {
             /**
              * The parts of a nested Parameter.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param part
              *     Parts of a nested Parameter
@@ -2090,13 +2360,17 @@ public class OperationDefinition extends DomainResource {
             /**
              * The parts of a nested Parameter.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param part
              *     Parts of a nested Parameter
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder part(Collection<OperationDefinition.Parameter> part) {
                 this.part = new ArrayList<>(part);
@@ -2294,7 +2568,8 @@ public class OperationDefinition extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2313,13 +2588,17 @@ public class OperationDefinition extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2337,7 +2616,8 @@ public class OperationDefinition extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2361,13 +2641,17 @@ public class OperationDefinition extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2576,7 +2860,8 @@ public class OperationDefinition extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2595,13 +2880,17 @@ public class OperationDefinition extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2619,7 +2908,8 @@ public class OperationDefinition extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2643,17 +2933,39 @@ public class OperationDefinition extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
                     return (Builder) super.modifierExtension(modifierExtension);
+                }
+
+                /**
+                 * Convenience method for setting {@code source}.
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param source
+                 *     Referencing parameter
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #source(com.ibm.fhir.model.type.String)
+                 */
+                public Builder source(java.lang.String source) {
+                    this.source = (source == null) ? null : String.of(source);
+                    return this;
                 }
 
                 /**
@@ -2670,6 +2982,22 @@ public class OperationDefinition extends DomainResource {
                  */
                 public Builder source(String source) {
                     this.source = source;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code sourceId}.
+                 * 
+                 * @param sourceId
+                 *     Element id of reference
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #sourceId(com.ibm.fhir.model.type.String)
+                 */
+                public Builder sourceId(java.lang.String sourceId) {
+                    this.sourceId = (sourceId == null) ? null : String.of(sourceId);
                     return this;
                 }
 
@@ -2854,7 +3182,8 @@ public class OperationDefinition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2873,13 +3202,17 @@ public class OperationDefinition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2897,7 +3230,8 @@ public class OperationDefinition extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2921,13 +3255,17 @@ public class OperationDefinition extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2935,9 +3273,31 @@ public class OperationDefinition extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code parameterName}.
+             * 
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
+             * 
+             * @param parameterName
+             *     Name of parameter to include in overload
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #parameterName(com.ibm.fhir.model.type.String)
+             */
+            public Builder parameterName(java.lang.String... parameterName) {
+                for (java.lang.String value : parameterName) {
+                    this.parameterName.add((value == null) ? null : String.of(value));
+                }
+                return this;
+            }
+
+            /**
              * Name of parameter to include in overload.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param parameterName
              *     Name of parameter to include in overload
@@ -2955,16 +3315,36 @@ public class OperationDefinition extends DomainResource {
             /**
              * Name of parameter to include in overload.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param parameterName
              *     Name of parameter to include in overload
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder parameterName(Collection<String> parameterName) {
                 this.parameterName = new ArrayList<>(parameterName);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code comment}.
+             * 
+             * @param comment
+             *     Comments to go on overload
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #comment(com.ibm.fhir.model.type.String)
+             */
+            public Builder comment(java.lang.String comment) {
+                this.comment = (comment == null) ? null : String.of(comment);
                 return this;
             }
 

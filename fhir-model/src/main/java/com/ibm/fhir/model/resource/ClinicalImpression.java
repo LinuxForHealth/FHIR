@@ -218,7 +218,7 @@ public class ClinicalImpression extends DomainResource {
      * The point in time or period over which the subject was assessed.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link DateTime} or {@link Period} that may be null.
      */
     public Element getEffective() {
         return effective;
@@ -609,7 +609,8 @@ public class ClinicalImpression extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -626,13 +627,17 @@ public class ClinicalImpression extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -645,7 +650,8 @@ public class ClinicalImpression extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -664,13 +670,17 @@ public class ClinicalImpression extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -688,7 +698,8 @@ public class ClinicalImpression extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -712,13 +723,17 @@ public class ClinicalImpression extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -729,7 +744,8 @@ public class ClinicalImpression extends DomainResource {
          * Business identifiers assigned to this clinical impression by the performer or other systems which remain constant as 
          * the resource is updated and propagates from server to server.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Business identifier
@@ -748,13 +764,17 @@ public class ClinicalImpression extends DomainResource {
          * Business identifiers assigned to this clinical impression by the performer or other systems which remain constant as 
          * the resource is updated and propagates from server to server.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Business identifier
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder identifier(Collection<Identifier> identifier) {
             this.identifier = new ArrayList<>(identifier);
@@ -802,6 +822,22 @@ public class ClinicalImpression extends DomainResource {
          */
         public Builder code(CodeableConcept code) {
             this.code = code;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code description}.
+         * 
+         * @param description
+         *     Why/how the assessment was performed
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #description(com.ibm.fhir.model.type.String)
+         */
+        public Builder description(java.lang.String description) {
+            this.description = (description == null) ? null : String.of(description);
             return this;
         }
 
@@ -940,7 +976,8 @@ public class ClinicalImpression extends DomainResource {
         /**
          * A list of the relevant problems/conditions for a patient.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -964,7 +1001,8 @@ public class ClinicalImpression extends DomainResource {
         /**
          * A list of the relevant problems/conditions for a patient.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -977,6 +1015,9 @@ public class ClinicalImpression extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder problem(Collection<Reference> problem) {
             this.problem = new ArrayList<>(problem);
@@ -988,7 +1029,8 @@ public class ClinicalImpression extends DomainResource {
          * depending on the type and context of the assessment. These investigations may include data generated during the 
          * assessment process, or data previously generated and recorded that is pertinent to the outcomes.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param investigation
          *     One or more sets of investigations (signs, symptoms, etc.)
@@ -1008,13 +1050,17 @@ public class ClinicalImpression extends DomainResource {
          * depending on the type and context of the assessment. These investigations may include data generated during the 
          * assessment process, or data previously generated and recorded that is pertinent to the outcomes.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param investigation
          *     One or more sets of investigations (signs, symptoms, etc.)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder investigation(Collection<Investigation> investigation) {
             this.investigation = new ArrayList<>(investigation);
@@ -1025,7 +1071,8 @@ public class ClinicalImpression extends DomainResource {
          * Reference to a specific published clinical protocol that was followed during this assessment, and/or that provides 
          * evidence in support of the diagnosis.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param protocol
          *     Clinical Protocol followed
@@ -1044,16 +1091,36 @@ public class ClinicalImpression extends DomainResource {
          * Reference to a specific published clinical protocol that was followed during this assessment, and/or that provides 
          * evidence in support of the diagnosis.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param protocol
          *     Clinical Protocol followed
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder protocol(Collection<Uri> protocol) {
             this.protocol = new ArrayList<>(protocol);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code summary}.
+         * 
+         * @param summary
+         *     Summary of the assessment
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #summary(com.ibm.fhir.model.type.String)
+         */
+        public Builder summary(java.lang.String summary) {
+            this.summary = (summary == null) ? null : String.of(summary);
             return this;
         }
 
@@ -1074,7 +1141,8 @@ public class ClinicalImpression extends DomainResource {
         /**
          * Specific findings or diagnoses that were considered likely or relevant to ongoing treatment.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param finding
          *     Possible or likely findings and diagnoses
@@ -1092,13 +1160,17 @@ public class ClinicalImpression extends DomainResource {
         /**
          * Specific findings or diagnoses that were considered likely or relevant to ongoing treatment.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param finding
          *     Possible or likely findings and diagnoses
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder finding(Collection<Finding> finding) {
             this.finding = new ArrayList<>(finding);
@@ -1108,7 +1180,8 @@ public class ClinicalImpression extends DomainResource {
         /**
          * Estimate of likely outcome.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param prognosisCodeableConcept
          *     Estimate of likely outcome
@@ -1126,13 +1199,17 @@ public class ClinicalImpression extends DomainResource {
         /**
          * Estimate of likely outcome.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param prognosisCodeableConcept
          *     Estimate of likely outcome
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder prognosisCodeableConcept(Collection<CodeableConcept> prognosisCodeableConcept) {
             this.prognosisCodeableConcept = new ArrayList<>(prognosisCodeableConcept);
@@ -1142,7 +1219,8 @@ public class ClinicalImpression extends DomainResource {
         /**
          * RiskAssessment expressing likely outcome.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1165,7 +1243,8 @@ public class ClinicalImpression extends DomainResource {
         /**
          * RiskAssessment expressing likely outcome.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1177,6 +1256,9 @@ public class ClinicalImpression extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder prognosisReference(Collection<Reference> prognosisReference) {
             this.prognosisReference = new ArrayList<>(prognosisReference);
@@ -1186,7 +1268,8 @@ public class ClinicalImpression extends DomainResource {
         /**
          * Information supporting the clinical impression.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param supportingInfo
          *     Information supporting the clinical impression
@@ -1204,13 +1287,17 @@ public class ClinicalImpression extends DomainResource {
         /**
          * Information supporting the clinical impression.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param supportingInfo
          *     Information supporting the clinical impression
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder supportingInfo(Collection<Reference> supportingInfo) {
             this.supportingInfo = new ArrayList<>(supportingInfo);
@@ -1221,7 +1308,8 @@ public class ClinicalImpression extends DomainResource {
          * Commentary about the impression, typically recorded after the impression itself was made, though supplemental notes by 
          * the original author could also appear.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param note
          *     Comments made about the ClinicalImpression
@@ -1240,13 +1328,17 @@ public class ClinicalImpression extends DomainResource {
          * Commentary about the impression, typically recorded after the impression itself was made, though supplemental notes by 
          * the original author could also appear.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param note
          *     Comments made about the ClinicalImpression
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder note(Collection<Annotation> note) {
             this.note = new ArrayList<>(note);
@@ -1464,7 +1556,8 @@ public class ClinicalImpression extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1483,13 +1576,17 @@ public class ClinicalImpression extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1507,7 +1604,8 @@ public class ClinicalImpression extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1531,13 +1629,17 @@ public class ClinicalImpression extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1565,7 +1667,8 @@ public class ClinicalImpression extends DomainResource {
             /**
              * A record of a specific investigation that was undertaken.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>Allowed resource types for the references:
              * <ul>
@@ -1594,7 +1697,8 @@ public class ClinicalImpression extends DomainResource {
             /**
              * A record of a specific investigation that was undertaken.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>Allowed resource types for the references:
              * <ul>
@@ -1612,6 +1716,9 @@ public class ClinicalImpression extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder item(Collection<Reference> item) {
                 this.item = new ArrayList<>(item);
@@ -1809,7 +1916,8 @@ public class ClinicalImpression extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1828,13 +1936,17 @@ public class ClinicalImpression extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1852,7 +1964,8 @@ public class ClinicalImpression extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1876,13 +1989,17 @@ public class ClinicalImpression extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1921,6 +2038,22 @@ public class ClinicalImpression extends DomainResource {
              */
             public Builder itemReference(Reference itemReference) {
                 this.itemReference = itemReference;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code basis}.
+             * 
+             * @param basis
+             *     Which investigations support finding
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #basis(com.ibm.fhir.model.type.String)
+             */
+            public Builder basis(java.lang.String basis) {
+                this.basis = (basis == null) ? null : String.of(basis);
                 return this;
             }
 

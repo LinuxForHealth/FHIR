@@ -38,7 +38,11 @@ config(){
     # Setup the Configurations for Migration
     echo "Copying fhir configuration files..."
     mkdir -p ${DIST}/config
-    cp -pr ${WORKSPACE}/prev/fhir-server-webapp/src/main/liberty/config/config $DIST
+    if [ -d ${WORKSPACE}/prev/fhir-server-webapp/src/main/liberty/config ]; then
+        cp -pr ${WORKSPACE}/prev/fhir-server-webapp/src/main/liberty/config/config $DIST
+    else
+        cp -pr ${WORKSPACE}/prev/fhir-server/liberty-config/config $DIST
+    fi
     cp -pr ${WORKSPACE}/prev/fhir-server/liberty-config-tenants/config/* $DIST/config
 
     echo "Copying test artifacts to install location..."
@@ -49,12 +53,19 @@ config(){
 
     echo "Copying over the overrides for the datasource"
     mkdir -p ${DIST}/overrides
-    cp ${WORKSPACE}/prev/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/datasource-postgresql.xml ${DIST}/overrides
-    cp -p ${WORKSPACE}/prev/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/datasource-derby.xml ${DIST}/overrides
+    if [ -d ${WORKSPACE}/prev/fhir-server-webapp/src/main/liberty/config ]; then
+        cp ${WORKSPACE}/prev/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/datasource-postgresql.xml ${DIST}/overrides
+        cp ${WORKSPACE}/prev/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/datasource-derby.xml ${DIST}/overrides
+    else
+        cp ${WORKSPACE}/prev/fhir-server/liberty-config/configDropins/disabled/datasource-postgresql.xml ${DIST}/overrides
+        cp ${WORKSPACE}/prev/fhir-server/liberty-config/configDropins/disabled/datasource-derby.xml ${DIST}/overrides
+    fi
+
     if [ -d ${WORKSPACE}/prev/operation/fhir-operation-term-cache/target ]
     then
         find ${WORKSPACE}/prev/operation/fhir-operation-term-cache/target -iname '*.jar' -exec cp -f {} ${USERLIB} \;
     fi
+
     # Move over the test configurations
     echo "Copying over the fhir-server-config.json and updating publishing"
     cp -f ${DIST}/config/default/fhir-server-config-postgresql.json ${DIST}/config/default/fhir-server-config.json

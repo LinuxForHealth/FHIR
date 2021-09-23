@@ -221,7 +221,7 @@ public class RiskAssessment extends DomainResource {
      * The date (and possibly time) the risk assessment was performed.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link DateTime} or {@link Period} that may be null.
      */
     public Element getOccurrence() {
         return occurrence;
@@ -552,7 +552,8 @@ public class RiskAssessment extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -569,13 +570,17 @@ public class RiskAssessment extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -588,7 +593,8 @@ public class RiskAssessment extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -607,13 +613,17 @@ public class RiskAssessment extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -631,7 +641,8 @@ public class RiskAssessment extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -655,13 +666,17 @@ public class RiskAssessment extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -671,7 +686,8 @@ public class RiskAssessment extends DomainResource {
         /**
          * Business identifier assigned to the risk assessment.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Unique identifier for the assessment
@@ -689,13 +705,17 @@ public class RiskAssessment extends DomainResource {
         /**
          * Business identifier assigned to the risk assessment.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Unique identifier for the assessment
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder identifier(Collection<Identifier> identifier) {
             this.identifier = new ArrayList<>(identifier);
@@ -878,7 +898,8 @@ public class RiskAssessment extends DomainResource {
         /**
          * The reason the risk assessment was performed.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param reasonCode
          *     Why the assessment was necessary?
@@ -896,13 +917,17 @@ public class RiskAssessment extends DomainResource {
         /**
          * The reason the risk assessment was performed.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param reasonCode
          *     Why the assessment was necessary?
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder reasonCode(Collection<CodeableConcept> reasonCode) {
             this.reasonCode = new ArrayList<>(reasonCode);
@@ -912,7 +937,8 @@ public class RiskAssessment extends DomainResource {
         /**
          * Resources supporting the reason the risk assessment was performed.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -938,7 +964,8 @@ public class RiskAssessment extends DomainResource {
         /**
          * Resources supporting the reason the risk assessment was performed.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -953,6 +980,9 @@ public class RiskAssessment extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder reasonReference(Collection<Reference> reasonReference) {
             this.reasonReference = new ArrayList<>(reasonReference);
@@ -963,7 +993,8 @@ public class RiskAssessment extends DomainResource {
          * Indicates the source data considered as part of the assessment (for example, FamilyHistory, Observations, Procedures, 
          * Conditions, etc.).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param basis
          *     Information used in assessment
@@ -982,13 +1013,17 @@ public class RiskAssessment extends DomainResource {
          * Indicates the source data considered as part of the assessment (for example, FamilyHistory, Observations, Procedures, 
          * Conditions, etc.).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param basis
          *     Information used in assessment
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder basis(Collection<Reference> basis) {
             this.basis = new ArrayList<>(basis);
@@ -998,7 +1033,8 @@ public class RiskAssessment extends DomainResource {
         /**
          * Describes the expected outcome for the subject.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param prediction
          *     Outcome predicted
@@ -1016,16 +1052,36 @@ public class RiskAssessment extends DomainResource {
         /**
          * Describes the expected outcome for the subject.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param prediction
          *     Outcome predicted
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder prediction(Collection<Prediction> prediction) {
             this.prediction = new ArrayList<>(prediction);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code mitigation}.
+         * 
+         * @param mitigation
+         *     How to reduce risk
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #mitigation(com.ibm.fhir.model.type.String)
+         */
+        public Builder mitigation(java.lang.String mitigation) {
+            this.mitigation = (mitigation == null) ? null : String.of(mitigation);
             return this;
         }
 
@@ -1046,7 +1102,8 @@ public class RiskAssessment extends DomainResource {
         /**
          * Additional comments about the risk assessment.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param note
          *     Comments on the risk assessment
@@ -1064,13 +1121,17 @@ public class RiskAssessment extends DomainResource {
         /**
          * Additional comments about the risk assessment.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param note
          *     Comments on the risk assessment
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder note(Collection<Annotation> note) {
             this.note = new ArrayList<>(note);
@@ -1189,7 +1250,7 @@ public class RiskAssessment extends DomainResource {
          * Indicates how likely the outcome is (in the specified timeframe).
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link Decimal} or {@link Range} that may be null.
          */
         public Element getProbability() {
             return probability;
@@ -1221,7 +1282,7 @@ public class RiskAssessment extends DomainResource {
          * Indicates the period of time or age range of the subject to which the specified probability applies.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link Period} or {@link Range} that may be null.
          */
         public Element getWhen() {
             return when;
@@ -1352,7 +1413,8 @@ public class RiskAssessment extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1371,13 +1433,17 @@ public class RiskAssessment extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1395,7 +1461,8 @@ public class RiskAssessment extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1419,13 +1486,17 @@ public class RiskAssessment extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1513,6 +1584,22 @@ public class RiskAssessment extends DomainResource {
              */
             public Builder when(Element when) {
                 this.when = when;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code rationale}.
+             * 
+             * @param rationale
+             *     Explanation of prediction
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #rationale(com.ibm.fhir.model.type.String)
+             */
+            public Builder rationale(java.lang.String rationale) {
+                this.rationale = (rationale == null) ? null : String.of(rationale);
                 return this;
             }
 

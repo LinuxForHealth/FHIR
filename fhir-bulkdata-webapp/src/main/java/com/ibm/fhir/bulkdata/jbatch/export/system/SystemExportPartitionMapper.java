@@ -49,7 +49,7 @@ public class SystemExportPartitionMapper implements PartitionMapper {
 
         BatchContextAdapter ctxAdapter = new BatchContextAdapter(jobExecution.getJobParameters());
 
-        BulkDataContext ctx = ctxAdapter.getStepContextForPatientExportPartitionMapper();
+        BulkDataContext ctx = ctxAdapter.getStepContextForExportPartitionMapper();
 
         // We know these are real resource types.
         List<String> resourceTypes = Arrays.asList(ctx.getFhirResourceTypes().split("\\s*,\\s*"));

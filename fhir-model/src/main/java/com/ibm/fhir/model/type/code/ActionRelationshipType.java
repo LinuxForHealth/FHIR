@@ -90,48 +90,9 @@ public class ActionRelationshipType extends Code {
 
     /**
      * Get the value of this ActionRelationshipType as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this ActionRelationshipType as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating ActionRelationshipType objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static ActionRelationshipType of(ValueSet value) {
-        switch (value) {
-        case BEFORE_START:
-            return BEFORE_START;
-        case BEFORE:
-            return BEFORE;
-        case BEFORE_END:
-            return BEFORE_END;
-        case CONCURRENT_WITH_START:
-            return CONCURRENT_WITH_START;
-        case CONCURRENT:
-            return CONCURRENT;
-        case CONCURRENT_WITH_END:
-            return CONCURRENT_WITH_END;
-        case AFTER_START:
-            return AFTER_START;
-        case AFTER:
-            return AFTER;
-        case AFTER_END:
-            return AFTER_END;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -257,14 +218,6 @@ public class ActionRelationshipType extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -293,103 +246,6 @@ public class ActionRelationshipType extends Code {
         protected Builder from(ActionRelationshipType actionRelationshipType) {
             super.from(actionRelationshipType);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Before Start
-         * 
-         * <p>The action must be performed before the start of the related action.
-         */
-        BEFORE_START("before-start"),
-
-        /**
-         * Before
-         * 
-         * <p>The action must be performed before the related action.
-         */
-        BEFORE("before"),
-
-        /**
-         * Before End
-         * 
-         * <p>The action must be performed before the end of the related action.
-         */
-        BEFORE_END("before-end"),
-
-        /**
-         * Concurrent With Start
-         * 
-         * <p>The action must be performed concurrent with the start of the related action.
-         */
-        CONCURRENT_WITH_START("concurrent-with-start"),
-
-        /**
-         * Concurrent
-         * 
-         * <p>The action must be performed concurrent with the related action.
-         */
-        CONCURRENT("concurrent"),
-
-        /**
-         * Concurrent With End
-         * 
-         * <p>The action must be performed concurrent with the end of the related action.
-         */
-        CONCURRENT_WITH_END("concurrent-with-end"),
-
-        /**
-         * After Start
-         * 
-         * <p>The action must be performed after the start of the related action.
-         */
-        AFTER_START("after-start"),
-
-        /**
-         * After
-         * 
-         * <p>The action must be performed after the related action.
-         */
-        AFTER("after"),
-
-        /**
-         * After End
-         * 
-         * <p>The action must be performed after the end of the related action.
-         */
-        AFTER_END("after-end");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating ActionRelationshipType.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

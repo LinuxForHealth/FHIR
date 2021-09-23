@@ -657,7 +657,8 @@ public class ValueSet extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -674,13 +675,17 @@ public class ValueSet extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -693,7 +698,8 @@ public class ValueSet extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -712,13 +718,17 @@ public class ValueSet extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -736,7 +746,8 @@ public class ValueSet extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -760,13 +771,17 @@ public class ValueSet extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -794,7 +809,8 @@ public class ValueSet extends DomainResource {
          * A formal identifier that is used to identify this value set when it is represented in other formats, or referenced in 
          * a specification, model, design or an instance.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Additional identifier for the value set (business identifier)
@@ -813,16 +829,36 @@ public class ValueSet extends DomainResource {
          * A formal identifier that is used to identify this value set when it is represented in other formats, or referenced in 
          * a specification, model, design or an instance.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Additional identifier for the value set (business identifier)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder identifier(Collection<Identifier> identifier) {
             this.identifier = new ArrayList<>(identifier);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code version}.
+         * 
+         * @param version
+         *     Business version of the value set
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #version(com.ibm.fhir.model.type.String)
+         */
+        public Builder version(java.lang.String version) {
+            this.version = (version == null) ? null : String.of(version);
             return this;
         }
 
@@ -844,6 +880,22 @@ public class ValueSet extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code name}.
+         * 
+         * @param name
+         *     Name for this value set (computer friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #name(com.ibm.fhir.model.type.String)
+         */
+        public Builder name(java.lang.String name) {
+            this.name = (name == null) ? null : String.of(name);
+            return this;
+        }
+
+        /**
          * A natural language name identifying the value set. This name should be usable as an identifier for the module by 
          * machine processing applications such as code generation.
          * 
@@ -855,6 +907,22 @@ public class ValueSet extends DomainResource {
          */
         public Builder name(String name) {
             this.name = name;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code title}.
+         * 
+         * @param title
+         *     Name for this value set (human friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #title(com.ibm.fhir.model.type.String)
+         */
+        public Builder title(java.lang.String title) {
+            this.title = (title == null) ? null : String.of(title);
             return this;
         }
 
@@ -890,6 +958,22 @@ public class ValueSet extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code experimental}.
+         * 
+         * @param experimental
+         *     For testing purposes, not real usage
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #experimental(com.ibm.fhir.model.type.Boolean)
+         */
+        public Builder experimental(java.lang.Boolean experimental) {
+            this.experimental = (experimental == null) ? null : Boolean.of(experimental);
+            return this;
+        }
+
+        /**
          * A Boolean value to indicate that this value set is authored for testing purposes (or education/evaluation/marketing) 
          * and is not intended to be used for genuine usage.
          * 
@@ -919,6 +1003,22 @@ public class ValueSet extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code publisher}.
+         * 
+         * @param publisher
+         *     Name of the publisher (organization or individual)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #publisher(com.ibm.fhir.model.type.String)
+         */
+        public Builder publisher(java.lang.String publisher) {
+            this.publisher = (publisher == null) ? null : String.of(publisher);
+            return this;
+        }
+
+        /**
          * The name of the organization or individual that published the value set.
          * 
          * @param publisher
@@ -935,7 +1035,8 @@ public class ValueSet extends DomainResource {
         /**
          * Contact details to assist a user in finding and communicating with the publisher.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contact
          *     Contact details for the publisher
@@ -953,13 +1054,17 @@ public class ValueSet extends DomainResource {
         /**
          * Contact details to assist a user in finding and communicating with the publisher.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contact
          *     Contact details for the publisher
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder contact(Collection<ContactDetail> contact) {
             this.contact = new ArrayList<>(contact);
@@ -987,7 +1092,8 @@ public class ValueSet extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate value set instances.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param useContext
          *     The context that the content is intended to support
@@ -1007,13 +1113,17 @@ public class ValueSet extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate value set instances.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param useContext
          *     The context that the content is intended to support
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder useContext(Collection<UsageContext> useContext) {
             this.useContext = new ArrayList<>(useContext);
@@ -1023,7 +1133,8 @@ public class ValueSet extends DomainResource {
         /**
          * A legal or geographic region in which the value set is intended to be used.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param jurisdiction
          *     Intended jurisdiction for value set (if applicable)
@@ -1041,16 +1152,36 @@ public class ValueSet extends DomainResource {
         /**
          * A legal or geographic region in which the value set is intended to be used.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param jurisdiction
          *     Intended jurisdiction for value set (if applicable)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder jurisdiction(Collection<CodeableConcept> jurisdiction) {
             this.jurisdiction = new ArrayList<>(jurisdiction);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code immutable}.
+         * 
+         * @param immutable
+         *     Indicates whether or not any change to the content logical definition may occur
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #immutable(com.ibm.fhir.model.type.Boolean)
+         */
+        public Builder immutable(java.lang.Boolean immutable) {
+            this.immutable = (immutable == null) ? null : Boolean.of(immutable);
             return this;
         }
 
@@ -1354,7 +1485,8 @@ public class ValueSet extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1373,13 +1505,17 @@ public class ValueSet extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1397,7 +1533,8 @@ public class ValueSet extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1421,17 +1558,37 @@ public class ValueSet extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting {@code lockedDate}.
+             * 
+             * @param lockedDate
+             *     Fixed date for references with no specified version (transitive)
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #lockedDate(com.ibm.fhir.model.type.Date)
+             */
+            public Builder lockedDate(java.time.LocalDate lockedDate) {
+                this.lockedDate = (lockedDate == null) ? null : Date.of(lockedDate);
+                return this;
             }
 
             /**
@@ -1446,6 +1603,22 @@ public class ValueSet extends DomainResource {
              */
             public Builder lockedDate(Date lockedDate) {
                 this.lockedDate = lockedDate;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code inactive}.
+             * 
+             * @param inactive
+             *     Whether inactive codes are in the value set
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #inactive(com.ibm.fhir.model.type.Boolean)
+             */
+            public Builder inactive(java.lang.Boolean inactive) {
+                this.inactive = (inactive == null) ? null : Boolean.of(inactive);
                 return this;
             }
 
@@ -1469,7 +1642,8 @@ public class ValueSet extends DomainResource {
             /**
              * Include one or more codes from a code system or other value set(s).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>This element is required.
              * 
@@ -1489,7 +1663,8 @@ public class ValueSet extends DomainResource {
             /**
              * Include one or more codes from a code system or other value set(s).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>This element is required.
              * 
@@ -1498,6 +1673,9 @@ public class ValueSet extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder include(Collection<Include> include) {
                 this.include = new ArrayList<>(include);
@@ -1507,7 +1685,8 @@ public class ValueSet extends DomainResource {
             /**
              * Exclude one or more codes from the value set based on code system filters and/or other value sets.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param exclude
              *     Explicitly exclude codes from a code system or other value sets
@@ -1525,13 +1704,17 @@ public class ValueSet extends DomainResource {
             /**
              * Exclude one or more codes from the value set based on code system filters and/or other value sets.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param exclude
              *     Explicitly exclude codes from a code system or other value sets
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder exclude(Collection<ValueSet.Compose.Include> exclude) {
                 this.exclude = new ArrayList<>(exclude);
@@ -1763,7 +1946,8 @@ public class ValueSet extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -1782,13 +1966,17 @@ public class ValueSet extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -1806,7 +1994,8 @@ public class ValueSet extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -1830,13 +2019,17 @@ public class ValueSet extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1858,6 +2051,22 @@ public class ValueSet extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting {@code version}.
+                 * 
+                 * @param version
+                 *     Specific version of the code system referred to
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #version(com.ibm.fhir.model.type.String)
+                 */
+                public Builder version(java.lang.String version) {
+                    this.version = (version == null) ? null : String.of(version);
+                    return this;
+                }
+
+                /**
                  * The version of the code system that the codes are selected from, or the special version '*' for all versions.
                  * 
                  * @param version
@@ -1874,7 +2083,8 @@ public class ValueSet extends DomainResource {
                 /**
                  * Specifies a concept to be included or excluded.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param concept
                  *     A concept defined in the system
@@ -1892,13 +2102,17 @@ public class ValueSet extends DomainResource {
                 /**
                  * Specifies a concept to be included or excluded.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param concept
                  *     A concept defined in the system
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder concept(Collection<Concept> concept) {
                     this.concept = new ArrayList<>(concept);
@@ -1909,7 +2123,8 @@ public class ValueSet extends DomainResource {
                  * Select concepts by specify a matching criterion based on the properties (including relationships) defined by the 
                  * system, or on filters defined by the system. If multiple filters are specified, they SHALL all be true.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param filter
                  *     Select codes/concepts by their properties (including relationships)
@@ -1928,13 +2143,17 @@ public class ValueSet extends DomainResource {
                  * Select concepts by specify a matching criterion based on the properties (including relationships) defined by the 
                  * system, or on filters defined by the system. If multiple filters are specified, they SHALL all be true.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param filter
                  *     Select codes/concepts by their properties (including relationships)
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder filter(Collection<Filter> filter) {
                     this.filter = new ArrayList<>(filter);
@@ -1946,7 +2165,8 @@ public class ValueSet extends DomainResource {
                  * reference to ValueSet.url. If multiple value sets are specified this includes the union of the contents of all of the 
                  * referenced value sets.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param valueSet
                  *     Select the contents included in this value set
@@ -1966,13 +2186,17 @@ public class ValueSet extends DomainResource {
                  * reference to ValueSet.url. If multiple value sets are specified this includes the union of the contents of all of the 
                  * referenced value sets.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param valueSet
                  *     Select the contents included in this value set
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder valueSet(Collection<Canonical> valueSet) {
                     this.valueSet = new ArrayList<>(valueSet);
@@ -2163,7 +2387,8 @@ public class ValueSet extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -2182,13 +2407,17 @@ public class ValueSet extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     @Override
                     public Builder extension(Collection<Extension> extension) {
@@ -2206,7 +2435,8 @@ public class ValueSet extends DomainResource {
                      * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -2230,13 +2460,17 @@ public class ValueSet extends DomainResource {
                      * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2260,6 +2494,22 @@ public class ValueSet extends DomainResource {
                     }
 
                     /**
+                     * Convenience method for setting {@code display}.
+                     * 
+                     * @param display
+                     *     Text to display for this code for this value set in this valueset
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #display(com.ibm.fhir.model.type.String)
+                     */
+                    public Builder display(java.lang.String display) {
+                        this.display = (display == null) ? null : String.of(display);
+                        return this;
+                    }
+
+                    /**
                      * The text to display to the user for this concept in the context of this valueset. If no display is provided, then 
                      * applications using the value set use the display specified for the code by the system.
                      * 
@@ -2278,7 +2528,8 @@ public class ValueSet extends DomainResource {
                      * Additional representations for this concept when used in this value set - other languages, aliases, specialized 
                      * purposes, used for particular purposes, etc.
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param designation
                      *     Additional representations for this concept
@@ -2297,13 +2548,17 @@ public class ValueSet extends DomainResource {
                      * Additional representations for this concept when used in this value set - other languages, aliases, specialized 
                      * purposes, used for particular purposes, etc.
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param designation
                      *     Additional representations for this concept
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     public Builder designation(Collection<Designation> designation) {
                         this.designation = new ArrayList<>(designation);
@@ -2508,7 +2763,8 @@ public class ValueSet extends DomainResource {
                          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                          * of the definition of the extension.
                          * 
-                         * <p>Adds new element(s) to the existing list
+                         * <p>Adds new element(s) to the existing list.
+                         * If any of the elements are null, calling {@link #build()} will fail.
                          * 
                          * @param extension
                          *     Additional content defined by implementations
@@ -2527,13 +2783,17 @@ public class ValueSet extends DomainResource {
                          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                          * of the definition of the extension.
                          * 
-                         * <p>Replaces the existing list with a new one containing elements from the Collection
+                         * <p>Replaces the existing list with a new one containing elements from the Collection.
+                         * If any of the elements are null, calling {@link #build()} will fail.
                          * 
                          * @param extension
                          *     Additional content defined by implementations
                          * 
                          * @return
                          *     A reference to this Builder instance
+                         * 
+                         * @throws NullPointerException
+                         *     If the passed collection is null
                          */
                         @Override
                         public Builder extension(Collection<Extension> extension) {
@@ -2551,7 +2811,8 @@ public class ValueSet extends DomainResource {
                          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                          * change the meaning of modifierExtension itself).
                          * 
-                         * <p>Adds new element(s) to the existing list
+                         * <p>Adds new element(s) to the existing list.
+                         * If any of the elements are null, calling {@link #build()} will fail.
                          * 
                          * @param modifierExtension
                          *     Extensions that cannot be ignored even if unrecognized
@@ -2575,13 +2836,17 @@ public class ValueSet extends DomainResource {
                          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                          * change the meaning of modifierExtension itself).
                          * 
-                         * <p>Replaces the existing list with a new one containing elements from the Collection
+                         * <p>Replaces the existing list with a new one containing elements from the Collection.
+                         * If any of the elements are null, calling {@link #build()} will fail.
                          * 
                          * @param modifierExtension
                          *     Extensions that cannot be ignored even if unrecognized
                          * 
                          * @return
                          *     A reference to this Builder instance
+                         * 
+                         * @throws NullPointerException
+                         *     If the passed collection is null
                          */
                         @Override
                         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2613,6 +2878,24 @@ public class ValueSet extends DomainResource {
                          */
                         public Builder use(Coding use) {
                             this.use = use;
+                            return this;
+                        }
+
+                        /**
+                         * Convenience method for setting {@code value}.
+                         * 
+                         * <p>This element is required.
+                         * 
+                         * @param value
+                         *     The text value for this designation
+                         * 
+                         * @return
+                         *     A reference to this Builder instance
+                         * 
+                         * @see #value(com.ibm.fhir.model.type.String)
+                         */
+                        public Builder value(java.lang.String value) {
+                            this.value = (value == null) ? null : String.of(value);
                             return this;
                         }
 
@@ -2833,7 +3116,8 @@ public class ValueSet extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -2852,13 +3136,17 @@ public class ValueSet extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     @Override
                     public Builder extension(Collection<Extension> extension) {
@@ -2876,7 +3164,8 @@ public class ValueSet extends DomainResource {
                      * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -2900,13 +3189,17 @@ public class ValueSet extends DomainResource {
                      * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2942,6 +3235,24 @@ public class ValueSet extends DomainResource {
                      */
                     public Builder op(FilterOperator op) {
                         this.op = op;
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting {@code value}.
+                     * 
+                     * <p>This element is required.
+                     * 
+                     * @param value
+                     *     Code from the system, or regex criteria, or boolean value for exists
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #value(com.ibm.fhir.model.type.String)
+                     */
+                    public Builder value(java.lang.String value) {
+                        this.value = (value == null) ? null : String.of(value);
                         return this;
                     }
 
@@ -3212,7 +3523,8 @@ public class ValueSet extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -3231,13 +3543,17 @@ public class ValueSet extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -3255,7 +3571,8 @@ public class ValueSet extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -3279,13 +3596,17 @@ public class ValueSet extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3326,6 +3647,22 @@ public class ValueSet extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code total}.
+             * 
+             * @param total
+             *     Total number of codes in the expansion
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #total(com.ibm.fhir.model.type.Integer)
+             */
+            public Builder total(java.lang.Integer total) {
+                this.total = (total == null) ? null : Integer.of(total);
+                return this;
+            }
+
+            /**
              * The total number of concepts in the expansion. If the number of concept nodes in this resource is less than the stated 
              * number, then the server can return more using the offset parameter.
              * 
@@ -3337,6 +3674,22 @@ public class ValueSet extends DomainResource {
              */
             public Builder total(Integer total) {
                 this.total = total;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code offset}.
+             * 
+             * @param offset
+             *     Offset at which this resource starts
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #offset(com.ibm.fhir.model.type.Integer)
+             */
+            public Builder offset(java.lang.Integer offset) {
+                this.offset = (offset == null) ? null : Integer.of(offset);
                 return this;
             }
 
@@ -3359,7 +3712,8 @@ public class ValueSet extends DomainResource {
              * A parameter that controlled the expansion process. These parameters may be used by users of expanded value sets to 
              * check whether the expansion is suitable for a particular purpose, or to pick the correct expansion.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param parameter
              *     Parameter that controlled the expansion process
@@ -3378,13 +3732,17 @@ public class ValueSet extends DomainResource {
              * A parameter that controlled the expansion process. These parameters may be used by users of expanded value sets to 
              * check whether the expansion is suitable for a particular purpose, or to pick the correct expansion.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param parameter
              *     Parameter that controlled the expansion process
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder parameter(Collection<Parameter> parameter) {
                 this.parameter = new ArrayList<>(parameter);
@@ -3394,7 +3752,8 @@ public class ValueSet extends DomainResource {
             /**
              * The codes that are contained in the value set expansion.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param contains
              *     Codes in the value set
@@ -3412,13 +3771,17 @@ public class ValueSet extends DomainResource {
             /**
              * The codes that are contained in the value set expansion.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param contains
              *     Codes in the value set
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder contains(Collection<Contains> contains) {
                 this.contains = new ArrayList<>(contains);
@@ -3498,7 +3861,8 @@ public class ValueSet extends DomainResource {
              * The value of the parameter.
              * 
              * @return
-             *     An immutable object of type {@link Element} that may be null.
+             *     An immutable object of type {@link String}, {@link Boolean}, {@link Integer}, {@link Decimal}, {@link Uri}, {@link 
+             *     Code} or {@link DateTime} that may be null.
              */
             public Element getValue() {
                 return value;
@@ -3599,7 +3963,8 @@ public class ValueSet extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -3618,13 +3983,17 @@ public class ValueSet extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -3642,7 +4011,8 @@ public class ValueSet extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3666,17 +4036,39 @@ public class ValueSet extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
                     return (Builder) super.modifierExtension(modifierExtension);
+                }
+
+                /**
+                 * Convenience method for setting {@code name}.
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param name
+                 *     Name as assigned by the client or server
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #name(com.ibm.fhir.model.type.String)
+                 */
+                public Builder name(java.lang.String name) {
+                    this.name = (name == null) ? null : String.of(name);
+                    return this;
                 }
 
                 /**
@@ -3693,6 +4085,54 @@ public class ValueSet extends DomainResource {
                  */
                 public Builder name(String name) {
                     this.name = name;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code value} with choice type String.
+                 * 
+                 * @param value
+                 *     Value of the named parameter
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #value(Element)
+                 */
+                public Builder value(java.lang.String value) {
+                    this.value = (value == null) ? null : String.of(value);
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code value} with choice type Boolean.
+                 * 
+                 * @param value
+                 *     Value of the named parameter
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #value(Element)
+                 */
+                public Builder value(java.lang.Boolean value) {
+                    this.value = (value == null) ? null : Boolean.of(value);
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code value} with choice type Integer.
+                 * 
+                 * @param value
+                 *     Value of the named parameter
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #value(Element)
+                 */
+                public Builder value(java.lang.Integer value) {
+                    this.value = (value == null) ? null : Integer.of(value);
                     return this;
                 }
 
@@ -3996,7 +4436,8 @@ public class ValueSet extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -4015,13 +4456,17 @@ public class ValueSet extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -4039,7 +4484,8 @@ public class ValueSet extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -4063,13 +4509,17 @@ public class ValueSet extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -4091,6 +4541,22 @@ public class ValueSet extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting {@code _abstract}.
+                 * 
+                 * @param _abstract
+                 *     If user cannot select this entry
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #_abstract(com.ibm.fhir.model.type.Boolean)
+                 */
+                public Builder _abstract(java.lang.Boolean _abstract) {
+                    this._abstract = (_abstract == null) ? null : Boolean.of(_abstract);
+                    return this;
+                }
+
+                /**
                  * If true, this entry is included in the expansion for navigational purposes, and the user cannot select the code 
                  * directly as a proper value.
                  * 
@@ -4102,6 +4568,22 @@ public class ValueSet extends DomainResource {
                  */
                 public Builder _abstract(Boolean _abstract) {
                     this._abstract = _abstract;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code inactive}.
+                 * 
+                 * @param inactive
+                 *     If concept is inactive in the code system
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #inactive(com.ibm.fhir.model.type.Boolean)
+                 */
+                public Builder inactive(java.lang.Boolean inactive) {
+                    this.inactive = (inactive == null) ? null : Boolean.of(inactive);
                     return this;
                 }
 
@@ -4118,6 +4600,22 @@ public class ValueSet extends DomainResource {
                  */
                 public Builder inactive(Boolean inactive) {
                     this.inactive = inactive;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code version}.
+                 * 
+                 * @param version
+                 *     Version in which this code/display is defined
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #version(com.ibm.fhir.model.type.String)
+                 */
+                public Builder version(java.lang.String version) {
+                    this.version = (version == null) ? null : String.of(version);
                     return this;
                 }
 
@@ -4153,6 +4651,22 @@ public class ValueSet extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting {@code display}.
+                 * 
+                 * @param display
+                 *     User display for the concept
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #display(com.ibm.fhir.model.type.String)
+                 */
+                public Builder display(java.lang.String display) {
+                    this.display = (display == null) ? null : String.of(display);
+                    return this;
+                }
+
+                /**
                  * The recommended display for this item in the expansion.
                  * 
                  * @param display
@@ -4170,7 +4684,8 @@ public class ValueSet extends DomainResource {
                  * Additional representations for this item - other languages, aliases, specialized purposes, used for particular 
                  * purposes, etc. These are relevant when the conditions of the expansion do not fix to a single correct representation.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param designation
                  *     Additional representations for this item
@@ -4189,13 +4704,17 @@ public class ValueSet extends DomainResource {
                  * Additional representations for this item - other languages, aliases, specialized purposes, used for particular 
                  * purposes, etc. These are relevant when the conditions of the expansion do not fix to a single correct representation.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param designation
                  *     Additional representations for this item
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder designation(Collection<ValueSet.Compose.Include.Concept.Designation> designation) {
                     this.designation = new ArrayList<>(designation);
@@ -4205,7 +4724,8 @@ public class ValueSet extends DomainResource {
                 /**
                  * Other codes and entries contained under this entry in the hierarchy.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param contains
                  *     Codes contained under this entry
@@ -4223,13 +4743,17 @@ public class ValueSet extends DomainResource {
                 /**
                  * Other codes and entries contained under this entry in the hierarchy.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param contains
                  *     Codes contained under this entry
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder contains(Collection<ValueSet.Expansion.Contains> contains) {
                     this.contains = new ArrayList<>(contains);

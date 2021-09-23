@@ -547,7 +547,8 @@ public class VerificationResult extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -564,13 +565,17 @@ public class VerificationResult extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -583,7 +588,8 @@ public class VerificationResult extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -602,13 +608,17 @@ public class VerificationResult extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -626,7 +636,8 @@ public class VerificationResult extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -650,13 +661,17 @@ public class VerificationResult extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -666,7 +681,8 @@ public class VerificationResult extends DomainResource {
         /**
          * A resource that was validated.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param target
          *     A resource that was validated
@@ -684,13 +700,17 @@ public class VerificationResult extends DomainResource {
         /**
          * A resource that was validated.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param target
          *     A resource that was validated
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder target(Collection<Reference> target) {
             this.target = new ArrayList<>(target);
@@ -698,9 +718,31 @@ public class VerificationResult extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code targetLocation}.
+         * 
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
+         * 
+         * @param targetLocation
+         *     The fhirpath location(s) within the resource that was validated
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #targetLocation(com.ibm.fhir.model.type.String)
+         */
+        public Builder targetLocation(java.lang.String... targetLocation) {
+            for (java.lang.String value : targetLocation) {
+                this.targetLocation.add((value == null) ? null : String.of(value));
+            }
+            return this;
+        }
+
+        /**
          * The fhirpath location(s) within the resource that was validated.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param targetLocation
          *     The fhirpath location(s) within the resource that was validated
@@ -718,13 +760,17 @@ public class VerificationResult extends DomainResource {
         /**
          * The fhirpath location(s) within the resource that was validated.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param targetLocation
          *     The fhirpath location(s) within the resource that was validated
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder targetLocation(Collection<String> targetLocation) {
             this.targetLocation = new ArrayList<>(targetLocation);
@@ -794,7 +840,8 @@ public class VerificationResult extends DomainResource {
          * The primary process by which the target is validated (edit check; value set; primary source; multiple sources; 
          * standalone; in context).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param validationProcess
          *     The primary process by which the target is validated (edit check; value set; primary source; multiple sources; 
@@ -814,7 +861,8 @@ public class VerificationResult extends DomainResource {
          * The primary process by which the target is validated (edit check; value set; primary source; multiple sources; 
          * standalone; in context).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param validationProcess
          *     The primary process by which the target is validated (edit check; value set; primary source; multiple sources; 
@@ -822,6 +870,9 @@ public class VerificationResult extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder validationProcess(Collection<CodeableConcept> validationProcess) {
             this.validationProcess = new ArrayList<>(validationProcess);
@@ -857,6 +908,22 @@ public class VerificationResult extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code nextScheduled}.
+         * 
+         * @param nextScheduled
+         *     The date when target is next validated, if appropriate
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #nextScheduled(com.ibm.fhir.model.type.Date)
+         */
+        public Builder nextScheduled(java.time.LocalDate nextScheduled) {
+            this.nextScheduled = (nextScheduled == null) ? null : Date.of(nextScheduled);
+            return this;
+        }
+
+        /**
          * The date when target is next validated, if appropriate.
          * 
          * @param nextScheduled
@@ -887,7 +954,8 @@ public class VerificationResult extends DomainResource {
         /**
          * Information about the primary source(s) involved in validation.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param primarySource
          *     Information about the primary source(s) involved in validation
@@ -905,13 +973,17 @@ public class VerificationResult extends DomainResource {
         /**
          * Information about the primary source(s) involved in validation.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param primarySource
          *     Information about the primary source(s) involved in validation
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder primarySource(Collection<PrimarySource> primarySource) {
             this.primarySource = new ArrayList<>(primarySource);
@@ -935,7 +1007,8 @@ public class VerificationResult extends DomainResource {
         /**
          * Information about the entity validating information.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param validator
          *     Information about the entity validating information
@@ -953,13 +1026,17 @@ public class VerificationResult extends DomainResource {
         /**
          * Information about the entity validating information.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param validator
          *     Information about the entity validating information
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder validator(Collection<Validator> validator) {
             this.validator = new ArrayList<>(validator);
@@ -1266,7 +1343,8 @@ public class VerificationResult extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1285,13 +1363,17 @@ public class VerificationResult extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1309,7 +1391,8 @@ public class VerificationResult extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1333,13 +1416,17 @@ public class VerificationResult extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1371,7 +1458,8 @@ public class VerificationResult extends DomainResource {
              * Type of primary source (License Board; Primary Education; Continuing Education; Postal Service; Relationship owner; 
              * Registration Authority; legal source; issuing source; authoritative source).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param type
              *     Type of primary source (License Board; Primary Education; Continuing Education; Postal Service; Relationship owner; 
@@ -1391,7 +1479,8 @@ public class VerificationResult extends DomainResource {
              * Type of primary source (License Board; Primary Education; Continuing Education; Postal Service; Relationship owner; 
              * Registration Authority; legal source; issuing source; authoritative source).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param type
              *     Type of primary source (License Board; Primary Education; Continuing Education; Postal Service; Relationship owner; 
@@ -1399,6 +1488,9 @@ public class VerificationResult extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder type(Collection<CodeableConcept> type) {
                 this.type = new ArrayList<>(type);
@@ -1408,7 +1500,8 @@ public class VerificationResult extends DomainResource {
             /**
              * Method for communicating with the primary source (manual; API; Push).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param communicationMethod
              *     Method for exchanging information with the primary source
@@ -1426,13 +1519,17 @@ public class VerificationResult extends DomainResource {
             /**
              * Method for communicating with the primary source (manual; API; Push).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param communicationMethod
              *     Method for exchanging information with the primary source
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder communicationMethod(Collection<CodeableConcept> communicationMethod) {
                 this.communicationMethod = new ArrayList<>(communicationMethod);
@@ -1484,7 +1581,8 @@ public class VerificationResult extends DomainResource {
             /**
              * Type of alerts/updates the primary source can send (specific requested changes; any changes; as defined by source).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param pushTypeAvailable
              *     specific | any | source
@@ -1502,13 +1600,17 @@ public class VerificationResult extends DomainResource {
             /**
              * Type of alerts/updates the primary source can send (specific requested changes; any changes; as defined by source).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param pushTypeAvailable
              *     specific | any | source
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder pushTypeAvailable(Collection<CodeableConcept> pushTypeAvailable) {
                 this.pushTypeAvailable = new ArrayList<>(pushTypeAvailable);
@@ -1799,7 +1901,8 @@ public class VerificationResult extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1818,13 +1921,17 @@ public class VerificationResult extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1842,7 +1949,8 @@ public class VerificationResult extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1866,13 +1974,17 @@ public class VerificationResult extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1936,6 +2048,22 @@ public class VerificationResult extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code date}.
+             * 
+             * @param date
+             *     The date the information was attested to
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #date(com.ibm.fhir.model.type.Date)
+             */
+            public Builder date(java.time.LocalDate date) {
+                this.date = (date == null) ? null : Date.of(date);
+                return this;
+            }
+
+            /**
              * The date the information was attested to.
              * 
              * @param date
@@ -1950,6 +2078,22 @@ public class VerificationResult extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code sourceIdentityCertificate}.
+             * 
+             * @param sourceIdentityCertificate
+             *     A digital identity certificate associated with the attestation source
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #sourceIdentityCertificate(com.ibm.fhir.model.type.String)
+             */
+            public Builder sourceIdentityCertificate(java.lang.String sourceIdentityCertificate) {
+                this.sourceIdentityCertificate = (sourceIdentityCertificate == null) ? null : String.of(sourceIdentityCertificate);
+                return this;
+            }
+
+            /**
              * A digital identity certificate associated with the attestation source.
              * 
              * @param sourceIdentityCertificate
@@ -1960,6 +2104,23 @@ public class VerificationResult extends DomainResource {
              */
             public Builder sourceIdentityCertificate(String sourceIdentityCertificate) {
                 this.sourceIdentityCertificate = sourceIdentityCertificate;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code proxyIdentityCertificate}.
+             * 
+             * @param proxyIdentityCertificate
+             *     A digital identity certificate associated with the proxy entity submitting attested information on behalf of the 
+             *     attestation source
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #proxyIdentityCertificate(com.ibm.fhir.model.type.String)
+             */
+            public Builder proxyIdentityCertificate(java.lang.String proxyIdentityCertificate) {
+                this.proxyIdentityCertificate = (proxyIdentityCertificate == null) ? null : String.of(proxyIdentityCertificate);
                 return this;
             }
 
@@ -2194,7 +2355,8 @@ public class VerificationResult extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2213,13 +2375,17 @@ public class VerificationResult extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2237,7 +2403,8 @@ public class VerificationResult extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2261,13 +2428,17 @@ public class VerificationResult extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2292,6 +2463,22 @@ public class VerificationResult extends DomainResource {
              */
             public Builder organization(Reference organization) {
                 this.organization = organization;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code identityCertificate}.
+             * 
+             * @param identityCertificate
+             *     A digital identity certificate associated with the validator
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #identityCertificate(com.ibm.fhir.model.type.String)
+             */
+            public Builder identityCertificate(java.lang.String identityCertificate) {
+                this.identityCertificate = (identityCertificate == null) ? null : String.of(identityCertificate);
                 return this;
             }
 

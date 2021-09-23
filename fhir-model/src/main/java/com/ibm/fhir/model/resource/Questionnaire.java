@@ -782,7 +782,8 @@ public class Questionnaire extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -799,13 +800,17 @@ public class Questionnaire extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -818,7 +823,8 @@ public class Questionnaire extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -837,13 +843,17 @@ public class Questionnaire extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -861,7 +871,8 @@ public class Questionnaire extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -885,13 +896,17 @@ public class Questionnaire extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -919,7 +934,8 @@ public class Questionnaire extends DomainResource {
          * A formal identifier that is used to identify this questionnaire when it is represented in other formats, or referenced 
          * in a specification, model, design or an instance.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Additional identifier for the questionnaire
@@ -938,16 +954,36 @@ public class Questionnaire extends DomainResource {
          * A formal identifier that is used to identify this questionnaire when it is represented in other formats, or referenced 
          * in a specification, model, design or an instance.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Additional identifier for the questionnaire
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder identifier(Collection<Identifier> identifier) {
             this.identifier = new ArrayList<>(identifier);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code version}.
+         * 
+         * @param version
+         *     Business version of the questionnaire
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #version(com.ibm.fhir.model.type.String)
+         */
+        public Builder version(java.lang.String version) {
+            this.version = (version == null) ? null : String.of(version);
             return this;
         }
 
@@ -969,6 +1005,22 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code name}.
+         * 
+         * @param name
+         *     Name for this questionnaire (computer friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #name(com.ibm.fhir.model.type.String)
+         */
+        public Builder name(java.lang.String name) {
+            this.name = (name == null) ? null : String.of(name);
+            return this;
+        }
+
+        /**
          * A natural language name identifying the questionnaire. This name should be usable as an identifier for the module by 
          * machine processing applications such as code generation.
          * 
@@ -980,6 +1032,22 @@ public class Questionnaire extends DomainResource {
          */
         public Builder name(String name) {
             this.name = name;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code title}.
+         * 
+         * @param title
+         *     Name for this questionnaire (human friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #title(com.ibm.fhir.model.type.String)
+         */
+        public Builder title(java.lang.String title) {
+            this.title = (title == null) ? null : String.of(title);
             return this;
         }
 
@@ -1000,7 +1068,8 @@ public class Questionnaire extends DomainResource {
         /**
          * The URL of a Questionnaire that this Questionnaire is based on.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param derivedFrom
          *     Instantiates protocol or definition
@@ -1018,13 +1087,17 @@ public class Questionnaire extends DomainResource {
         /**
          * The URL of a Questionnaire that this Questionnaire is based on.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param derivedFrom
          *     Instantiates protocol or definition
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder derivedFrom(Collection<Canonical> derivedFrom) {
             this.derivedFrom = new ArrayList<>(derivedFrom);
@@ -1048,6 +1121,22 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code experimental}.
+         * 
+         * @param experimental
+         *     For testing purposes, not real usage
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #experimental(com.ibm.fhir.model.type.Boolean)
+         */
+        public Builder experimental(java.lang.Boolean experimental) {
+            this.experimental = (experimental == null) ? null : Boolean.of(experimental);
+            return this;
+        }
+
+        /**
          * A Boolean value to indicate that this questionnaire is authored for testing purposes (or 
          * education/evaluation/marketing) and is not intended to be used for genuine usage.
          * 
@@ -1065,7 +1154,8 @@ public class Questionnaire extends DomainResource {
         /**
          * The types of subjects that can be the subject of responses created for the questionnaire.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param subjectType
          *     Resource that can be subject of QuestionnaireResponse
@@ -1083,13 +1173,17 @@ public class Questionnaire extends DomainResource {
         /**
          * The types of subjects that can be the subject of responses created for the questionnaire.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param subjectType
          *     Resource that can be subject of QuestionnaireResponse
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder subjectType(Collection<ResourceType> subjectType) {
             this.subjectType = new ArrayList<>(subjectType);
@@ -1113,6 +1207,22 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code publisher}.
+         * 
+         * @param publisher
+         *     Name of the publisher (organization or individual)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #publisher(com.ibm.fhir.model.type.String)
+         */
+        public Builder publisher(java.lang.String publisher) {
+            this.publisher = (publisher == null) ? null : String.of(publisher);
+            return this;
+        }
+
+        /**
          * The name of the organization or individual that published the questionnaire.
          * 
          * @param publisher
@@ -1129,7 +1239,8 @@ public class Questionnaire extends DomainResource {
         /**
          * Contact details to assist a user in finding and communicating with the publisher.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contact
          *     Contact details for the publisher
@@ -1147,13 +1258,17 @@ public class Questionnaire extends DomainResource {
         /**
          * Contact details to assist a user in finding and communicating with the publisher.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contact
          *     Contact details for the publisher
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder contact(Collection<ContactDetail> contact) {
             this.contact = new ArrayList<>(contact);
@@ -1179,7 +1294,8 @@ public class Questionnaire extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate questionnaire instances.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param useContext
          *     The context that the content is intended to support
@@ -1199,13 +1315,17 @@ public class Questionnaire extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate questionnaire instances.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param useContext
          *     The context that the content is intended to support
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder useContext(Collection<UsageContext> useContext) {
             this.useContext = new ArrayList<>(useContext);
@@ -1215,7 +1335,8 @@ public class Questionnaire extends DomainResource {
         /**
          * A legal or geographic region in which the questionnaire is intended to be used.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param jurisdiction
          *     Intended jurisdiction for questionnaire (if applicable)
@@ -1233,13 +1354,17 @@ public class Questionnaire extends DomainResource {
         /**
          * A legal or geographic region in which the questionnaire is intended to be used.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param jurisdiction
          *     Intended jurisdiction for questionnaire (if applicable)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder jurisdiction(Collection<CodeableConcept> jurisdiction) {
             this.jurisdiction = new ArrayList<>(jurisdiction);
@@ -1276,6 +1401,22 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code approvalDate}.
+         * 
+         * @param approvalDate
+         *     When the questionnaire was approved by publisher
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #approvalDate(com.ibm.fhir.model.type.Date)
+         */
+        public Builder approvalDate(java.time.LocalDate approvalDate) {
+            this.approvalDate = (approvalDate == null) ? null : Date.of(approvalDate);
+            return this;
+        }
+
+        /**
          * The date on which the resource content was approved by the publisher. Approval happens once when the content is 
          * officially approved for usage.
          * 
@@ -1287,6 +1428,22 @@ public class Questionnaire extends DomainResource {
          */
         public Builder approvalDate(Date approvalDate) {
             this.approvalDate = approvalDate;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code lastReviewDate}.
+         * 
+         * @param lastReviewDate
+         *     When the questionnaire was last reviewed
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #lastReviewDate(com.ibm.fhir.model.type.Date)
+         */
+        public Builder lastReviewDate(java.time.LocalDate lastReviewDate) {
+            this.lastReviewDate = (lastReviewDate == null) ? null : Date.of(lastReviewDate);
             return this;
         }
 
@@ -1322,7 +1479,8 @@ public class Questionnaire extends DomainResource {
         /**
          * An identifier for this question or group of questions in a particular terminology such as LOINC.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param code
          *     Concept that represents the overall questionnaire
@@ -1340,13 +1498,17 @@ public class Questionnaire extends DomainResource {
         /**
          * An identifier for this question or group of questions in a particular terminology such as LOINC.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param code
          *     Concept that represents the overall questionnaire
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder code(Collection<Coding> code) {
             this.code = new ArrayList<>(code);
@@ -1356,7 +1518,8 @@ public class Questionnaire extends DomainResource {
         /**
          * A particular question, question grouping or display text that is part of the questionnaire.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param item
          *     Questions and sections within the Questionnaire
@@ -1374,13 +1537,17 @@ public class Questionnaire extends DomainResource {
         /**
          * A particular question, question grouping or display text that is part of the questionnaire.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param item
          *     Questions and sections within the Questionnaire
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder item(Collection<Item> item) {
             this.item = new ArrayList<>(item);
@@ -1857,7 +2024,8 @@ public class Questionnaire extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1876,13 +2044,17 @@ public class Questionnaire extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1900,7 +2072,8 @@ public class Questionnaire extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1924,17 +2097,39 @@ public class Questionnaire extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting {@code linkId}.
+             * 
+             * <p>This element is required.
+             * 
+             * @param linkId
+             *     Unique id for item in questionnaire
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #linkId(com.ibm.fhir.model.type.String)
+             */
+            public Builder linkId(java.lang.String linkId) {
+                this.linkId = (linkId == null) ? null : String.of(linkId);
+                return this;
             }
 
             /**
@@ -1984,7 +2179,8 @@ public class Questionnaire extends DomainResource {
              * A terminology code that corresponds to this group or question (e.g. a code from LOINC, which defines many questions 
              * and answers).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param code
              *     Corresponding concept for this item in a terminology
@@ -2003,16 +2199,36 @@ public class Questionnaire extends DomainResource {
              * A terminology code that corresponds to this group or question (e.g. a code from LOINC, which defines many questions 
              * and answers).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param code
              *     Corresponding concept for this item in a terminology
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder code(Collection<Coding> code) {
                 this.code = new ArrayList<>(code);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code prefix}.
+             * 
+             * @param prefix
+             *     E.g. "1(a)", "2.5.3"
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #prefix(com.ibm.fhir.model.type.String)
+             */
+            public Builder prefix(java.lang.String prefix) {
+                this.prefix = (prefix == null) ? null : String.of(prefix);
                 return this;
             }
 
@@ -2028,6 +2244,22 @@ public class Questionnaire extends DomainResource {
              */
             public Builder prefix(String prefix) {
                 this.prefix = prefix;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code text}.
+             * 
+             * @param text
+             *     Primary text for the item
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #text(com.ibm.fhir.model.type.String)
+             */
+            public Builder text(java.lang.String text) {
+                this.text = (text == null) ? null : String.of(text);
                 return this;
             }
 
@@ -2066,7 +2298,8 @@ public class Questionnaire extends DomainResource {
              * A constraint indicating that this item should only be enabled (displayed/allow answers to be captured) when the 
              * specified condition is true.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param enableWhen
              *     Only allow data when
@@ -2085,13 +2318,17 @@ public class Questionnaire extends DomainResource {
              * A constraint indicating that this item should only be enabled (displayed/allow answers to be captured) when the 
              * specified condition is true.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param enableWhen
              *     Only allow data when
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder enableWhen(Collection<EnableWhen> enableWhen) {
                 this.enableWhen = new ArrayList<>(enableWhen);
@@ -2113,6 +2350,22 @@ public class Questionnaire extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code required}.
+             * 
+             * @param required
+             *     Whether the item must be included in data results
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #required(com.ibm.fhir.model.type.Boolean)
+             */
+            public Builder required(java.lang.Boolean required) {
+                this.required = (required == null) ? null : Boolean.of(required);
+                return this;
+            }
+
+            /**
              * An indication, if true, that the item must be present in a "completed" QuestionnaireResponse. If false, the item may 
              * be skipped when answering the questionnaire.
              * 
@@ -2124,6 +2377,22 @@ public class Questionnaire extends DomainResource {
              */
             public Builder required(Boolean required) {
                 this.required = required;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code repeats}.
+             * 
+             * @param repeats
+             *     Whether the item may repeat
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #repeats(com.ibm.fhir.model.type.Boolean)
+             */
+            public Builder repeats(java.lang.Boolean repeats) {
+                this.repeats = (repeats == null) ? null : Boolean.of(repeats);
                 return this;
             }
 
@@ -2143,6 +2412,22 @@ public class Questionnaire extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code readOnly}.
+             * 
+             * @param readOnly
+             *     Don't allow human editing
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #readOnly(com.ibm.fhir.model.type.Boolean)
+             */
+            public Builder readOnly(java.lang.Boolean readOnly) {
+                this.readOnly = (readOnly == null) ? null : Boolean.of(readOnly);
+                return this;
+            }
+
+            /**
              * An indication, when true, that the value cannot be changed by a human respondent to the Questionnaire.
              * 
              * @param readOnly
@@ -2153,6 +2438,22 @@ public class Questionnaire extends DomainResource {
              */
             public Builder readOnly(Boolean readOnly) {
                 this.readOnly = readOnly;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code maxLength}.
+             * 
+             * @param maxLength
+             *     No more than this many characters
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #maxLength(com.ibm.fhir.model.type.Integer)
+             */
+            public Builder maxLength(java.lang.Integer maxLength) {
+                this.maxLength = (maxLength == null) ? null : Integer.of(maxLength);
                 return this;
             }
 
@@ -2188,7 +2489,8 @@ public class Questionnaire extends DomainResource {
             /**
              * One of the permitted answers for a "choice" or "open-choice" question.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param answerOption
              *     Permitted answer
@@ -2206,13 +2508,17 @@ public class Questionnaire extends DomainResource {
             /**
              * One of the permitted answers for a "choice" or "open-choice" question.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param answerOption
              *     Permitted answer
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder answerOption(Collection<AnswerOption> answerOption) {
                 this.answerOption = new ArrayList<>(answerOption);
@@ -2223,7 +2529,8 @@ public class Questionnaire extends DomainResource {
              * One or more values that should be pre-populated in the answer when initially rendering the questionnaire for user 
              * input.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param initial
              *     Initial value(s) when item is first rendered
@@ -2242,13 +2549,17 @@ public class Questionnaire extends DomainResource {
              * One or more values that should be pre-populated in the answer when initially rendering the questionnaire for user 
              * input.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param initial
              *     Initial value(s) when item is first rendered
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder initial(Collection<Initial> initial) {
                 this.initial = new ArrayList<>(initial);
@@ -2258,7 +2569,8 @@ public class Questionnaire extends DomainResource {
             /**
              * Text, questions and other groups to be nested beneath a question or group.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param item
              *     Nested questionnaire items
@@ -2276,13 +2588,17 @@ public class Questionnaire extends DomainResource {
             /**
              * Text, questions and other groups to be nested beneath a question or group.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param item
              *     Nested questionnaire items
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder item(Collection<Questionnaire.Item> item) {
                 this.item = new ArrayList<>(item);
@@ -2402,7 +2718,8 @@ public class Questionnaire extends DomainResource {
              * A value that the referenced question is tested using the specified operator in order for the item to be enabled.
              * 
              * @return
-             *     An immutable object of type {@link Element} that is non-null.
+             *     An immutable object of type {@link Boolean}, {@link Decimal}, {@link Integer}, {@link Date}, {@link DateTime}, {@link 
+             *     Time}, {@link String}, {@link Coding}, {@link Quantity} or {@link Reference} that is non-null.
              */
             public Element getAnswer() {
                 return answer;
@@ -2508,7 +2825,8 @@ public class Questionnaire extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2527,13 +2845,17 @@ public class Questionnaire extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2551,7 +2873,8 @@ public class Questionnaire extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2575,17 +2898,39 @@ public class Questionnaire extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
                     return (Builder) super.modifierExtension(modifierExtension);
+                }
+
+                /**
+                 * Convenience method for setting {@code question}.
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param question
+                 *     Question that determines whether item is enabled
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #question(com.ibm.fhir.model.type.String)
+                 */
+                public Builder question(java.lang.String question) {
+                    this.question = (question == null) ? null : String.of(question);
+                    return this;
                 }
 
                 /**
@@ -2617,6 +2962,96 @@ public class Questionnaire extends DomainResource {
                  */
                 public Builder operator(QuestionnaireItemOperator operator) {
                     this.operator = operator;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code answer} with choice type Boolean.
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param answer
+                 *     Value for question comparison based on operator
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #answer(Element)
+                 */
+                public Builder answer(java.lang.Boolean answer) {
+                    this.answer = (answer == null) ? null : Boolean.of(answer);
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code answer} with choice type Integer.
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param answer
+                 *     Value for question comparison based on operator
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #answer(Element)
+                 */
+                public Builder answer(java.lang.Integer answer) {
+                    this.answer = (answer == null) ? null : Integer.of(answer);
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code answer} with choice type Date.
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param answer
+                 *     Value for question comparison based on operator
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #answer(Element)
+                 */
+                public Builder answer(java.time.LocalDate answer) {
+                    this.answer = (answer == null) ? null : Date.of(answer);
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code answer} with choice type Time.
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param answer
+                 *     Value for question comparison based on operator
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #answer(Element)
+                 */
+                public Builder answer(java.time.LocalTime answer) {
+                    this.answer = (answer == null) ? null : Time.of(answer);
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code answer} with choice type String.
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param answer
+                 *     Value for question comparison based on operator
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #answer(Element)
+                 */
+                public Builder answer(java.lang.String answer) {
+                    this.answer = (answer == null) ? null : String.of(answer);
                     return this;
                 }
 
@@ -2717,7 +3152,8 @@ public class Questionnaire extends DomainResource {
              * A potential answer that's allowed as the answer to this question.
              * 
              * @return
-             *     An immutable object of type {@link Element} that is non-null.
+             *     An immutable object of type {@link Integer}, {@link Date}, {@link Time}, {@link String}, {@link Coding} or {@link 
+             *     Reference} that is non-null.
              */
             public Element getValue() {
                 return value;
@@ -2828,7 +3264,8 @@ public class Questionnaire extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2847,13 +3284,17 @@ public class Questionnaire extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2871,7 +3312,8 @@ public class Questionnaire extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2895,17 +3337,93 @@ public class Questionnaire extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
                     return (Builder) super.modifierExtension(modifierExtension);
+                }
+
+                /**
+                 * Convenience method for setting {@code value} with choice type Integer.
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param value
+                 *     Answer value
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #value(Element)
+                 */
+                public Builder value(java.lang.Integer value) {
+                    this.value = (value == null) ? null : Integer.of(value);
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code value} with choice type Date.
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param value
+                 *     Answer value
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #value(Element)
+                 */
+                public Builder value(java.time.LocalDate value) {
+                    this.value = (value == null) ? null : Date.of(value);
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code value} with choice type Time.
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param value
+                 *     Answer value
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #value(Element)
+                 */
+                public Builder value(java.time.LocalTime value) {
+                    this.value = (value == null) ? null : Time.of(value);
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code value} with choice type String.
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param value
+                 *     Answer value
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #value(Element)
+                 */
+                public Builder value(java.lang.String value) {
+                    this.value = (value == null) ? null : String.of(value);
+                    return this;
                 }
 
                 /**
@@ -2931,6 +3449,22 @@ public class Questionnaire extends DomainResource {
                  */
                 public Builder value(Element value) {
                     this.value = value;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code initialSelected}.
+                 * 
+                 * @param initialSelected
+                 *     Whether option is selected by default
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #initialSelected(com.ibm.fhir.model.type.Boolean)
+                 */
+                public Builder initialSelected(java.lang.Boolean initialSelected) {
+                    this.initialSelected = (initialSelected == null) ? null : Boolean.of(initialSelected);
                     return this;
                 }
 
@@ -3009,7 +3543,9 @@ public class Questionnaire extends DomainResource {
              * The actual value to for an initial answer.
              * 
              * @return
-             *     An immutable object of type {@link Element} that is non-null.
+             *     An immutable object of type {@link Boolean}, {@link Decimal}, {@link Integer}, {@link Date}, {@link DateTime}, {@link 
+             *     Time}, {@link String}, {@link Uri}, {@link Attachment}, {@link Coding}, {@link Quantity} or {@link Reference} that is 
+             *     non-null.
              */
             public Element getValue() {
                 return value;
@@ -3105,7 +3641,8 @@ public class Questionnaire extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -3124,13 +3661,17 @@ public class Questionnaire extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -3148,7 +3689,8 @@ public class Questionnaire extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3172,17 +3714,111 @@ public class Questionnaire extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
                     return (Builder) super.modifierExtension(modifierExtension);
+                }
+
+                /**
+                 * Convenience method for setting {@code value} with choice type Boolean.
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param value
+                 *     Actual value for initializing the question
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #value(Element)
+                 */
+                public Builder value(java.lang.Boolean value) {
+                    this.value = (value == null) ? null : Boolean.of(value);
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code value} with choice type Integer.
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param value
+                 *     Actual value for initializing the question
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #value(Element)
+                 */
+                public Builder value(java.lang.Integer value) {
+                    this.value = (value == null) ? null : Integer.of(value);
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code value} with choice type Date.
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param value
+                 *     Actual value for initializing the question
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #value(Element)
+                 */
+                public Builder value(java.time.LocalDate value) {
+                    this.value = (value == null) ? null : Date.of(value);
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code value} with choice type Time.
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param value
+                 *     Actual value for initializing the question
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #value(Element)
+                 */
+                public Builder value(java.time.LocalTime value) {
+                    this.value = (value == null) ? null : Time.of(value);
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code value} with choice type String.
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param value
+                 *     Actual value for initializing the question
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #value(Element)
+                 */
+                public Builder value(java.lang.String value) {
+                    this.value = (value == null) ? null : String.of(value);
+                    return this;
                 }
 
                 /**

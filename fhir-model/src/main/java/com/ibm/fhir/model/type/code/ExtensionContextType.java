@@ -51,36 +51,9 @@ public class ExtensionContextType extends Code {
 
     /**
      * Get the value of this ExtensionContextType as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this ExtensionContextType as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating ExtensionContextType objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static ExtensionContextType of(ValueSet value) {
-        switch (value) {
-        case FHIRPATH:
-            return FHIRPATH;
-        case ELEMENT:
-            return ELEMENT;
-        case EXTENSION:
-            return EXTENSION;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -194,14 +167,6 @@ public class ExtensionContextType extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -230,64 +195,6 @@ public class ExtensionContextType extends Code {
         protected Builder from(ExtensionContextType extensionContextType) {
             super.from(extensionContextType);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * FHIRPath
-         * 
-         * <p>The context is all elements that match the FHIRPath query found in the expression.
-         */
-        FHIRPATH("fhirpath"),
-
-        /**
-         * Element ID
-         * 
-         * <p>The context is any element that has an ElementDefinition.id that matches that found in the expression. This 
-         * includes ElementDefinition Ids that have slicing identifiers. The full path for the element is [url]#[elementid]. If 
-         * there is no #, the Element id is one defined in the base specification.
-         */
-        ELEMENT("element"),
-
-        /**
-         * Extension URL
-         * 
-         * <p>The context is a particular extension from a particular StructureDefinition, and the expression is just a uri that 
-         * identifies the extension.
-         */
-        EXTENSION("extension");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating ExtensionContextType.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

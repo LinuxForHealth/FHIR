@@ -312,7 +312,8 @@ public class Address extends Element {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -331,13 +332,17 @@ public class Address extends Element {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -374,6 +379,22 @@ public class Address extends Element {
         }
 
         /**
+         * Convenience method for setting {@code text}.
+         * 
+         * @param text
+         *     Text representation of the address
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #text(com.ibm.fhir.model.type.String)
+         */
+        public Builder text(java.lang.String text) {
+            this.text = (text == null) ? null : String.of(text);
+            return this;
+        }
+
+        /**
          * Specifies the entire address as it should be displayed e.g. on a postal label. This may be provided instead of or as 
          * well as the specific parts.
          * 
@@ -389,10 +410,32 @@ public class Address extends Element {
         }
 
         /**
+         * Convenience method for setting {@code line}.
+         * 
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
+         * 
+         * @param line
+         *     Street name, number, direction &amp; P.O. Box etc.
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #line(com.ibm.fhir.model.type.String)
+         */
+        public Builder line(java.lang.String... line) {
+            for (java.lang.String value : line) {
+                this.line.add((value == null) ? null : String.of(value));
+            }
+            return this;
+        }
+
+        /**
          * This component contains the house number, apartment number, street name, street direction, P.O. Box number, delivery 
          * hints, and similar address information.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param line
          *     Street name, number, direction &amp; P.O. Box etc.
@@ -411,16 +454,36 @@ public class Address extends Element {
          * This component contains the house number, apartment number, street name, street direction, P.O. Box number, delivery 
          * hints, and similar address information.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param line
          *     Street name, number, direction &amp; P.O. Box etc.
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder line(Collection<String> line) {
             this.line = new ArrayList<>(line);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code city}.
+         * 
+         * @param city
+         *     Name of city, town etc.
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #city(com.ibm.fhir.model.type.String)
+         */
+        public Builder city(java.lang.String city) {
+            this.city = (city == null) ? null : String.of(city);
             return this;
         }
 
@@ -439,6 +502,22 @@ public class Address extends Element {
         }
 
         /**
+         * Convenience method for setting {@code district}.
+         * 
+         * @param district
+         *     District name (aka county)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #district(com.ibm.fhir.model.type.String)
+         */
+        public Builder district(java.lang.String district) {
+            this.district = (district == null) ? null : String.of(district);
+            return this;
+        }
+
+        /**
          * The name of the administrative area (county).
          * 
          * @param district
@@ -449,6 +528,22 @@ public class Address extends Element {
          */
         public Builder district(String district) {
             this.district = district;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code state}.
+         * 
+         * @param state
+         *     Sub-unit of country (abbreviations ok)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #state(com.ibm.fhir.model.type.String)
+         */
+        public Builder state(java.lang.String state) {
+            this.state = (state == null) ? null : String.of(state);
             return this;
         }
 
@@ -468,6 +563,22 @@ public class Address extends Element {
         }
 
         /**
+         * Convenience method for setting {@code postalCode}.
+         * 
+         * @param postalCode
+         *     Postal code for area
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #postalCode(com.ibm.fhir.model.type.String)
+         */
+        public Builder postalCode(java.lang.String postalCode) {
+            this.postalCode = (postalCode == null) ? null : String.of(postalCode);
+            return this;
+        }
+
+        /**
          * A postal code designating a region defined by the postal service.
          * 
          * @param postalCode
@@ -478,6 +589,22 @@ public class Address extends Element {
          */
         public Builder postalCode(String postalCode) {
             this.postalCode = postalCode;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code country}.
+         * 
+         * @param country
+         *     Country (e.g. can be ISO 3166 2 or 3 letter code)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #country(com.ibm.fhir.model.type.String)
+         */
+        public Builder country(java.lang.String country) {
+            this.country = (country == null) ? null : String.of(country);
             return this;
         }
 

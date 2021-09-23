@@ -421,7 +421,8 @@ public class Group extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -438,13 +439,17 @@ public class Group extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -457,7 +462,8 @@ public class Group extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -476,13 +482,17 @@ public class Group extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -500,7 +510,8 @@ public class Group extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -524,13 +535,17 @@ public class Group extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -540,7 +555,8 @@ public class Group extends DomainResource {
         /**
          * A unique business identifier for this group.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Unique id
@@ -558,16 +574,36 @@ public class Group extends DomainResource {
         /**
          * A unique business identifier for this group.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Unique id
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder identifier(Collection<Identifier> identifier) {
             this.identifier = new ArrayList<>(identifier);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code active}.
+         * 
+         * @param active
+         *     Whether this group's record is in active use
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #active(com.ibm.fhir.model.type.Boolean)
+         */
+        public Builder active(java.lang.Boolean active) {
+            this.active = (active == null) ? null : Boolean.of(active);
             return this;
         }
 
@@ -602,6 +638,24 @@ public class Group extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code actual}.
+         * 
+         * <p>This element is required.
+         * 
+         * @param actual
+         *     Descriptive or actual
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #actual(com.ibm.fhir.model.type.Boolean)
+         */
+        public Builder actual(java.lang.Boolean actual) {
+            this.actual = (actual == null) ? null : Boolean.of(actual);
+            return this;
+        }
+
+        /**
          * If true, indicates that the resource refers to a specific group of real individuals. If false, the group defines a set 
          * of intended individuals.
          * 
@@ -629,6 +683,22 @@ public class Group extends DomainResource {
          */
         public Builder code(CodeableConcept code) {
             this.code = code;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code name}.
+         * 
+         * @param name
+         *     Label for Group
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #name(com.ibm.fhir.model.type.String)
+         */
+        public Builder name(java.lang.String name) {
+            this.name = (name == null) ? null : String.of(name);
             return this;
         }
 
@@ -685,7 +755,8 @@ public class Group extends DomainResource {
         /**
          * Identifies traits whose presence r absence is shared by members of the group.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param characteristic
          *     Include / Exclude group members by Trait
@@ -703,13 +774,17 @@ public class Group extends DomainResource {
         /**
          * Identifies traits whose presence r absence is shared by members of the group.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param characteristic
          *     Include / Exclude group members by Trait
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder characteristic(Collection<Characteristic> characteristic) {
             this.characteristic = new ArrayList<>(characteristic);
@@ -719,7 +794,8 @@ public class Group extends DomainResource {
         /**
          * Identifies the resource instances that are members of the group.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param member
          *     Who or what is in group
@@ -737,13 +813,17 @@ public class Group extends DomainResource {
         /**
          * Identifies the resource instances that are members of the group.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param member
          *     Who or what is in group
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder member(Collection<Member> member) {
             this.member = new ArrayList<>(member);
@@ -844,7 +924,8 @@ public class Group extends DomainResource {
          * The value of the trait that holds (or does not hold - see 'exclude') for members of the group.
          * 
          * @return
-         *     An immutable object of type {@link Element} that is non-null.
+         *     An immutable object of type {@link CodeableConcept}, {@link Boolean}, {@link Quantity}, {@link Range} or {@link 
+         *     Reference} that is non-null.
          */
         public Element getValue() {
             return value;
@@ -975,7 +1056,8 @@ public class Group extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -994,13 +1076,17 @@ public class Group extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1018,7 +1104,8 @@ public class Group extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1042,13 +1129,17 @@ public class Group extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1068,6 +1159,24 @@ public class Group extends DomainResource {
              */
             public Builder code(CodeableConcept code) {
                 this.code = code;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type Boolean.
+             * 
+             * <p>This element is required.
+             * 
+             * @param value
+             *     Value held by characteristic
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.lang.Boolean value) {
+                this.value = (value == null) ? null : Boolean.of(value);
                 return this;
             }
 
@@ -1093,6 +1202,24 @@ public class Group extends DomainResource {
              */
             public Builder value(Element value) {
                 this.value = value;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code exclude}.
+             * 
+             * <p>This element is required.
+             * 
+             * @param exclude
+             *     Group includes or excludes
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #exclude(com.ibm.fhir.model.type.Boolean)
+             */
+            public Builder exclude(java.lang.Boolean exclude) {
+                this.exclude = (exclude == null) ? null : Boolean.of(exclude);
                 return this;
             }
 
@@ -1317,7 +1444,8 @@ public class Group extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1336,13 +1464,17 @@ public class Group extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1360,7 +1492,8 @@ public class Group extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1384,13 +1517,17 @@ public class Group extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1436,6 +1573,22 @@ public class Group extends DomainResource {
              */
             public Builder period(Period period) {
                 this.period = period;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code inactive}.
+             * 
+             * @param inactive
+             *     If member is no longer in group
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #inactive(com.ibm.fhir.model.type.Boolean)
+             */
+            public Builder inactive(java.lang.Boolean inactive) {
+                this.inactive = (inactive == null) ? null : Boolean.of(inactive);
                 return this;
             }
 

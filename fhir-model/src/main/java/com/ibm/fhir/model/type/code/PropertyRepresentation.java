@@ -62,40 +62,9 @@ public class PropertyRepresentation extends Code {
 
     /**
      * Get the value of this PropertyRepresentation as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this PropertyRepresentation as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating PropertyRepresentation objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static PropertyRepresentation of(ValueSet value) {
-        switch (value) {
-        case XML_ATTR:
-            return XML_ATTR;
-        case XML_TEXT:
-            return XML_TEXT;
-        case TYPE_ATTR:
-            return TYPE_ATTR;
-        case CDA_TEXT:
-            return CDA_TEXT;
-        case XHTML:
-            return XHTML;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -213,14 +182,6 @@ public class PropertyRepresentation extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -249,75 +210,6 @@ public class PropertyRepresentation extends Code {
         protected Builder from(PropertyRepresentation propertyRepresentation) {
             super.from(propertyRepresentation);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * XML Attribute
-         * 
-         * <p>In XML, this property is represented as an attribute not an element.
-         */
-        XML_ATTR("xmlAttr"),
-
-        /**
-         * XML Text
-         * 
-         * <p>This element is represented using the XML text attribute (primitives only).
-         */
-        XML_TEXT("xmlText"),
-
-        /**
-         * Type Attribute
-         * 
-         * <p>The type of this element is indicated using xsi:type.
-         */
-        TYPE_ATTR("typeAttr"),
-
-        /**
-         * CDA Text Format
-         * 
-         * <p>Use CDA narrative instead of XHTML.
-         */
-        CDA_TEXT("cdaText"),
-
-        /**
-         * XHTML
-         * 
-         * <p>The property is represented using XHTML.
-         */
-        XHTML("xhtml");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating PropertyRepresentation.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

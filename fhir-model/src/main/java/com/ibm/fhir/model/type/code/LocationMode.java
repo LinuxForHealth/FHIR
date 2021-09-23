@@ -42,34 +42,9 @@ public class LocationMode extends Code {
 
     /**
      * Get the value of this LocationMode as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this LocationMode as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating LocationMode objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static LocationMode of(ValueSet value) {
-        switch (value) {
-        case INSTANCE:
-            return INSTANCE;
-        case KIND:
-            return KIND;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -181,14 +156,6 @@ public class LocationMode extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -217,55 +184,6 @@ public class LocationMode extends Code {
         protected Builder from(LocationMode locationMode) {
             super.from(locationMode);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Instance
-         * 
-         * <p>The Location resource represents a specific instance of a location (e.g. Operating Theatre 1A).
-         */
-        INSTANCE("instance"),
-
-        /**
-         * Kind
-         * 
-         * <p>The Location represents a class of locations (e.g. Any Operating Theatre) although this class of locations could be 
-         * constrained within a specific boundary (such as organization, or parent location, address etc.).
-         */
-        KIND("kind");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating LocationMode.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

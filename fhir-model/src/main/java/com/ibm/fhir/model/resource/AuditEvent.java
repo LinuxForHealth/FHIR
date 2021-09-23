@@ -556,7 +556,8 @@ public class AuditEvent extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -573,13 +574,17 @@ public class AuditEvent extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -592,7 +597,8 @@ public class AuditEvent extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -611,13 +617,17 @@ public class AuditEvent extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -635,7 +645,8 @@ public class AuditEvent extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -659,13 +670,17 @@ public class AuditEvent extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -692,7 +707,8 @@ public class AuditEvent extends DomainResource {
         /**
          * Identifier for the category of event.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param subtype
          *     More specific type/id for the event
@@ -710,13 +726,17 @@ public class AuditEvent extends DomainResource {
         /**
          * Identifier for the category of event.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param subtype
          *     More specific type/id for the event
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder subtype(Collection<Coding> subtype) {
             this.subtype = new ArrayList<>(subtype);
@@ -752,6 +772,24 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code recorded}.
+         * 
+         * <p>This element is required.
+         * 
+         * @param recorded
+         *     Time when the event was recorded
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #recorded(com.ibm.fhir.model.type.Instant)
+         */
+        public Builder recorded(java.time.ZonedDateTime recorded) {
+            this.recorded = (recorded == null) ? null : Instant.of(recorded);
+            return this;
+        }
+
+        /**
          * The time when the event was recorded.
          * 
          * <p>This element is required.
@@ -782,6 +820,22 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code outcomeDesc}.
+         * 
+         * @param outcomeDesc
+         *     Description of the event outcome
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #outcomeDesc(com.ibm.fhir.model.type.String)
+         */
+        public Builder outcomeDesc(java.lang.String outcomeDesc) {
+            this.outcomeDesc = (outcomeDesc == null) ? null : String.of(outcomeDesc);
+            return this;
+        }
+
+        /**
          * A free text description of the outcome of the event.
          * 
          * @param outcomeDesc
@@ -798,7 +852,8 @@ public class AuditEvent extends DomainResource {
         /**
          * The purposeOfUse (reason) that was used during the event being recorded.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param purposeOfEvent
          *     The purposeOfUse of the event
@@ -816,13 +871,17 @@ public class AuditEvent extends DomainResource {
         /**
          * The purposeOfUse (reason) that was used during the event being recorded.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param purposeOfEvent
          *     The purposeOfUse of the event
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder purposeOfEvent(Collection<CodeableConcept> purposeOfEvent) {
             this.purposeOfEvent = new ArrayList<>(purposeOfEvent);
@@ -832,7 +891,8 @@ public class AuditEvent extends DomainResource {
         /**
          * An actor taking an active role in the event or activity that is logged.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>This element is required.
          * 
@@ -852,7 +912,8 @@ public class AuditEvent extends DomainResource {
         /**
          * An actor taking an active role in the event or activity that is logged.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>This element is required.
          * 
@@ -861,6 +922,9 @@ public class AuditEvent extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder agent(Collection<Agent> agent) {
             this.agent = new ArrayList<>(agent);
@@ -886,7 +950,8 @@ public class AuditEvent extends DomainResource {
         /**
          * Specific instances of data or objects that have been accessed.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param entity
          *     Data or objects used
@@ -904,13 +969,17 @@ public class AuditEvent extends DomainResource {
         /**
          * Specific instances of data or objects that have been accessed.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param entity
          *     Data or objects used
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder entity(Collection<Entity> entity) {
             this.entity = new ArrayList<>(entity);
@@ -1284,7 +1353,8 @@ public class AuditEvent extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1303,13 +1373,17 @@ public class AuditEvent extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1327,7 +1401,8 @@ public class AuditEvent extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1351,13 +1426,17 @@ public class AuditEvent extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1382,7 +1461,8 @@ public class AuditEvent extends DomainResource {
              * The security role that the user was acting under, that come from local codes defined by the access control security 
              * system (e.g. RBAC, ABAC) used in the local context.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param role
              *     Agent role in the event
@@ -1401,13 +1481,17 @@ public class AuditEvent extends DomainResource {
              * The security role that the user was acting under, that come from local codes defined by the access control security 
              * system (e.g. RBAC, ABAC) used in the local context.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param role
              *     Agent role in the event
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder role(Collection<CodeableConcept> role) {
                 this.role = new ArrayList<>(role);
@@ -1439,6 +1523,22 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code altId}.
+             * 
+             * @param altId
+             *     Alternative User identity
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #altId(com.ibm.fhir.model.type.String)
+             */
+            public Builder altId(java.lang.String altId) {
+                this.altId = (altId == null) ? null : String.of(altId);
+                return this;
+            }
+
+            /**
              * Alternative agent Identifier. For a human, this should be a user identifier text string from authentication system. 
              * This identifier would be one known to a common authentication system (e.g. single sign-on), if available.
              * 
@@ -1454,6 +1554,22 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code name}.
+             * 
+             * @param name
+             *     Human friendly name for the agent
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #name(com.ibm.fhir.model.type.String)
+             */
+            public Builder name(java.lang.String name) {
+                this.name = (name == null) ? null : String.of(name);
+                return this;
+            }
+
+            /**
              * Human-meaningful name for the agent.
              * 
              * @param name
@@ -1464,6 +1580,24 @@ public class AuditEvent extends DomainResource {
              */
             public Builder name(String name) {
                 this.name = name;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code requestor}.
+             * 
+             * <p>This element is required.
+             * 
+             * @param requestor
+             *     Whether user is initiator
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #requestor(com.ibm.fhir.model.type.Boolean)
+             */
+            public Builder requestor(java.lang.Boolean requestor) {
+                this.requestor = (requestor == null) ? null : Boolean.of(requestor);
                 return this;
             }
 
@@ -1507,7 +1641,8 @@ public class AuditEvent extends DomainResource {
              * applicable policies, such as patient consent, guarantor funding, etc. The policy would also indicate the security 
              * token used.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param policy
              *     Policy that authorized event
@@ -1527,13 +1662,17 @@ public class AuditEvent extends DomainResource {
              * applicable policies, such as patient consent, guarantor funding, etc. The policy would also indicate the security 
              * token used.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param policy
              *     Policy that authorized event
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder policy(Collection<Uri> policy) {
                 this.policy = new ArrayList<>(policy);
@@ -1571,7 +1710,8 @@ public class AuditEvent extends DomainResource {
             /**
              * The reason (purpose of use), specific to this agent, that was used during the event being recorded.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param purposeOfUse
              *     Reason given for this user
@@ -1589,13 +1729,17 @@ public class AuditEvent extends DomainResource {
             /**
              * The reason (purpose of use), specific to this agent, that was used during the event being recorded.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param purposeOfUse
              *     Reason given for this user
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder purposeOfUse(Collection<CodeableConcept> purposeOfUse) {
                 this.purposeOfUse = new ArrayList<>(purposeOfUse);
@@ -1786,7 +1930,8 @@ public class AuditEvent extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -1805,13 +1950,17 @@ public class AuditEvent extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -1829,7 +1978,8 @@ public class AuditEvent extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -1853,17 +2003,37 @@ public class AuditEvent extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
                     return (Builder) super.modifierExtension(modifierExtension);
+                }
+
+                /**
+                 * Convenience method for setting {@code address}.
+                 * 
+                 * @param address
+                 *     Identifier for the network access point of the user device
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #address(com.ibm.fhir.model.type.String)
+                 */
+                public Builder address(java.lang.String address) {
+                    this.address = (address == null) ? null : String.of(address);
+                    return this;
                 }
 
                 /**
@@ -2081,7 +2251,8 @@ public class AuditEvent extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2100,13 +2271,17 @@ public class AuditEvent extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2124,7 +2299,8 @@ public class AuditEvent extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2148,17 +2324,37 @@ public class AuditEvent extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting {@code site}.
+             * 
+             * @param site
+             *     Logical source location within the enterprise
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #site(com.ibm.fhir.model.type.String)
+             */
+            public Builder site(java.lang.String site) {
+                this.site = (site == null) ? null : String.of(site);
+                return this;
             }
 
             /**
@@ -2205,7 +2401,8 @@ public class AuditEvent extends DomainResource {
             /**
              * Code specifying the type of source where event originated.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param type
              *     The type of source where event originated
@@ -2223,13 +2420,17 @@ public class AuditEvent extends DomainResource {
             /**
              * Code specifying the type of source where event originated.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param type
              *     The type of source where event originated
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder type(Collection<Coding> type) {
                 this.type = new ArrayList<>(type);
@@ -2550,7 +2751,8 @@ public class AuditEvent extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2569,13 +2771,17 @@ public class AuditEvent extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2593,7 +2799,8 @@ public class AuditEvent extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2617,13 +2824,17 @@ public class AuditEvent extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2689,7 +2900,8 @@ public class AuditEvent extends DomainResource {
             /**
              * Security labels for the identified entity.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param securityLabel
              *     Security labels on the entity
@@ -2707,16 +2919,36 @@ public class AuditEvent extends DomainResource {
             /**
              * Security labels for the identified entity.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param securityLabel
              *     Security labels on the entity
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder securityLabel(Collection<Coding> securityLabel) {
                 this.securityLabel = new ArrayList<>(securityLabel);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code name}.
+             * 
+             * @param name
+             *     Descriptor for entity
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #name(com.ibm.fhir.model.type.String)
+             */
+            public Builder name(java.lang.String name) {
+                this.name = (name == null) ? null : String.of(name);
                 return this;
             }
 
@@ -2731,6 +2963,22 @@ public class AuditEvent extends DomainResource {
              */
             public Builder name(String name) {
                 this.name = name;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code description}.
+             * 
+             * @param description
+             *     Descriptive text
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #description(com.ibm.fhir.model.type.String)
+             */
+            public Builder description(java.lang.String description) {
+                this.description = (description == null) ? null : String.of(description);
                 return this;
             }
 
@@ -2765,7 +3013,8 @@ public class AuditEvent extends DomainResource {
             /**
              * Tagged value pairs for conveying additional information about the entity.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param detail
              *     Additional Information about the entity
@@ -2783,13 +3032,17 @@ public class AuditEvent extends DomainResource {
             /**
              * Tagged value pairs for conveying additional information about the entity.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param detail
              *     Additional Information about the entity
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder detail(Collection<Detail> detail) {
                 this.detail = new ArrayList<>(detail);
@@ -2865,7 +3118,7 @@ public class AuditEvent extends DomainResource {
              * The value of the extra detail.
              * 
              * @return
-             *     An immutable object of type {@link Element} that is non-null.
+             *     An immutable object of type {@link String} or {@link Base64Binary} that is non-null.
              */
             public Element getValue() {
                 return value;
@@ -2966,7 +3219,8 @@ public class AuditEvent extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2985,13 +3239,17 @@ public class AuditEvent extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -3009,7 +3267,8 @@ public class AuditEvent extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3033,17 +3292,39 @@ public class AuditEvent extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
                     return (Builder) super.modifierExtension(modifierExtension);
+                }
+
+                /**
+                 * Convenience method for setting {@code type}.
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param type
+                 *     Name of the property
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #type(com.ibm.fhir.model.type.String)
+                 */
+                public Builder type(java.lang.String type) {
+                    this.type = (type == null) ? null : String.of(type);
+                    return this;
                 }
 
                 /**
@@ -3059,6 +3340,24 @@ public class AuditEvent extends DomainResource {
                  */
                 public Builder type(String type) {
                     this.type = type;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code value} with choice type String.
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param value
+                 *     Property value
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #value(Element)
+                 */
+                public Builder value(java.lang.String value) {
+                    this.value = (value == null) ? null : String.of(value);
                     return this;
                 }
 

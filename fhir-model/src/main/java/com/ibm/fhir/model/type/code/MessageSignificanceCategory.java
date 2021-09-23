@@ -51,36 +51,9 @@ public class MessageSignificanceCategory extends Code {
 
     /**
      * Get the value of this MessageSignificanceCategory as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this MessageSignificanceCategory as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating MessageSignificanceCategory objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static MessageSignificanceCategory of(ValueSet value) {
-        switch (value) {
-        case CONSEQUENCE:
-            return CONSEQUENCE;
-        case CURRENCY:
-            return CURRENCY;
-        case NOTIFICATION:
-            return NOTIFICATION;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -194,14 +167,6 @@ public class MessageSignificanceCategory extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -230,64 +195,6 @@ public class MessageSignificanceCategory extends Code {
         protected Builder from(MessageSignificanceCategory messageSignificanceCategory) {
             super.from(messageSignificanceCategory);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Consequence
-         * 
-         * <p>The message represents/requests a change that should not be processed more than once; e.g., making a booking for an 
-         * appointment.
-         */
-        CONSEQUENCE("consequence"),
-
-        /**
-         * Currency
-         * 
-         * <p>The message represents a response to query for current information. Retrospective processing is wrong and/or 
-         * wasteful.
-         */
-        CURRENCY("currency"),
-
-        /**
-         * Notification
-         * 
-         * <p>The content is not necessarily intended to be current, and it can be reprocessed, though there may be version 
-         * issues created by processing old notifications.
-         */
-        NOTIFICATION("notification");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating MessageSignificanceCategory.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

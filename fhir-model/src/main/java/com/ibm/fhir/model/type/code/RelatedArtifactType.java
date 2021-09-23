@@ -91,46 +91,9 @@ public class RelatedArtifactType extends Code {
 
     /**
      * Get the value of this RelatedArtifactType as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this RelatedArtifactType as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating RelatedArtifactType objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static RelatedArtifactType of(ValueSet value) {
-        switch (value) {
-        case DOCUMENTATION:
-            return DOCUMENTATION;
-        case JUSTIFICATION:
-            return JUSTIFICATION;
-        case CITATION:
-            return CITATION;
-        case PREDECESSOR:
-            return PREDECESSOR;
-        case SUCCESSOR:
-            return SUCCESSOR;
-        case DERIVED_FROM:
-            return DERIVED_FROM;
-        case DEPENDS_ON:
-            return DEPENDS_ON;
-        case COMPOSED_OF:
-            return COMPOSED_OF;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -254,14 +217,6 @@ public class RelatedArtifactType extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -290,104 +245,6 @@ public class RelatedArtifactType extends Code {
         protected Builder from(RelatedArtifactType relatedArtifactType) {
             super.from(relatedArtifactType);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Documentation
-         * 
-         * <p>Additional documentation for the knowledge resource. This would include additional instructions on usage as well as 
-         * additional information on clinical context or appropriateness.
-         */
-        DOCUMENTATION("documentation"),
-
-        /**
-         * Justification
-         * 
-         * <p>A summary of the justification for the knowledge resource including supporting evidence, relevant guidelines, or 
-         * other clinically important information. This information is intended to provide a way to make the justification for 
-         * the knowledge resource available to the consumer of interventions or results produced by the knowledge resource.
-         */
-        JUSTIFICATION("justification"),
-
-        /**
-         * Citation
-         * 
-         * <p>Bibliographic citation for papers, references, or other relevant material for the knowledge resource. This is 
-         * intended to allow for citation of related material, but that was not necessarily specifically prepared in connection 
-         * with this knowledge resource.
-         */
-        CITATION("citation"),
-
-        /**
-         * Predecessor
-         * 
-         * <p>The previous version of the knowledge resource.
-         */
-        PREDECESSOR("predecessor"),
-
-        /**
-         * Successor
-         * 
-         * <p>The next version of the knowledge resource.
-         */
-        SUCCESSOR("successor"),
-
-        /**
-         * Derived From
-         * 
-         * <p>The knowledge resource is derived from the related artifact. This is intended to capture the relationship in which 
-         * a particular knowledge resource is based on the content of another artifact, but is modified to capture either a 
-         * different set of overall requirements, or a more specific set of requirements such as those involved in a particular 
-         * institution or clinical setting.
-         */
-        DERIVED_FROM("derived-from"),
-
-        /**
-         * Depends On
-         * 
-         * <p>The knowledge resource depends on the given related artifact.
-         */
-        DEPENDS_ON("depends-on"),
-
-        /**
-         * Composed Of
-         * 
-         * <p>The knowledge resource is composed of the given related artifact.
-         */
-        COMPOSED_OF("composed-of");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating RelatedArtifactType.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

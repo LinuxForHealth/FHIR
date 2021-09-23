@@ -562,7 +562,8 @@ public class SubstanceSpecification extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -579,13 +580,17 @@ public class SubstanceSpecification extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -598,7 +603,8 @@ public class SubstanceSpecification extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -617,13 +623,17 @@ public class SubstanceSpecification extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -641,7 +651,8 @@ public class SubstanceSpecification extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -665,13 +676,17 @@ public class SubstanceSpecification extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -735,6 +750,22 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code description}.
+         * 
+         * @param description
+         *     Textual description of the substance
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #description(com.ibm.fhir.model.type.String)
+         */
+        public Builder description(java.lang.String description) {
+            this.description = (description == null) ? null : String.of(description);
+            return this;
+        }
+
+        /**
          * Textual description of the substance.
          * 
          * @param description
@@ -751,7 +782,8 @@ public class SubstanceSpecification extends DomainResource {
         /**
          * Supporting literature.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -774,7 +806,8 @@ public class SubstanceSpecification extends DomainResource {
         /**
          * Supporting literature.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -786,9 +819,28 @@ public class SubstanceSpecification extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder source(Collection<Reference> source) {
             this.source = new ArrayList<>(source);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code comment}.
+         * 
+         * @param comment
+         *     Textual comment about this record of a substance
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #comment(com.ibm.fhir.model.type.String)
+         */
+        public Builder comment(java.lang.String comment) {
+            this.comment = (comment == null) ? null : String.of(comment);
             return this;
         }
 
@@ -809,7 +861,8 @@ public class SubstanceSpecification extends DomainResource {
         /**
          * Moiety, for structural modifications.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param moiety
          *     Moiety, for structural modifications
@@ -827,13 +880,17 @@ public class SubstanceSpecification extends DomainResource {
         /**
          * Moiety, for structural modifications.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param moiety
          *     Moiety, for structural modifications
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder moiety(Collection<Moiety> moiety) {
             this.moiety = new ArrayList<>(moiety);
@@ -843,7 +900,8 @@ public class SubstanceSpecification extends DomainResource {
         /**
          * General specifications for this substance, including how it is related to other substances.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param property
          *     General specifications for this substance, including how it is related to other substances
@@ -861,13 +919,17 @@ public class SubstanceSpecification extends DomainResource {
         /**
          * General specifications for this substance, including how it is related to other substances.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param property
          *     General specifications for this substance, including how it is related to other substances
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder property(Collection<Property> property) {
             this.property = new ArrayList<>(property);
@@ -910,7 +972,8 @@ public class SubstanceSpecification extends DomainResource {
         /**
          * Codes associated with the substance.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param code
          *     Codes associated with the substance
@@ -928,13 +991,17 @@ public class SubstanceSpecification extends DomainResource {
         /**
          * Codes associated with the substance.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param code
          *     Codes associated with the substance
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder code(Collection<Code> code) {
             this.code = new ArrayList<>(code);
@@ -944,7 +1011,8 @@ public class SubstanceSpecification extends DomainResource {
         /**
          * Names applicable to this substance.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param name
          *     Names applicable to this substance
@@ -962,13 +1030,17 @@ public class SubstanceSpecification extends DomainResource {
         /**
          * Names applicable to this substance.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param name
          *     Names applicable to this substance
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder name(Collection<Name> name) {
             this.name = new ArrayList<>(name);
@@ -978,7 +1050,8 @@ public class SubstanceSpecification extends DomainResource {
         /**
          * The molecular weight or weight range (for proteins, polymers or nucleic acids).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param molecularWeight
          *     The molecular weight or weight range (for proteins, polymers or nucleic acids)
@@ -996,13 +1069,17 @@ public class SubstanceSpecification extends DomainResource {
         /**
          * The molecular weight or weight range (for proteins, polymers or nucleic acids).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param molecularWeight
          *     The molecular weight or weight range (for proteins, polymers or nucleic acids)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder molecularWeight(Collection<SubstanceSpecification.Structure.Isotope.MolecularWeight> molecularWeight) {
             this.molecularWeight = new ArrayList<>(molecularWeight);
@@ -1012,7 +1089,8 @@ public class SubstanceSpecification extends DomainResource {
         /**
          * A link between this substance and another, with details of the relationship.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param relationship
          *     A link between this substance and another, with details of the relationship
@@ -1030,13 +1108,17 @@ public class SubstanceSpecification extends DomainResource {
         /**
          * A link between this substance and another, with details of the relationship.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param relationship
          *     A link between this substance and another, with details of the relationship
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder relationship(Collection<Relationship> relationship) {
             this.relationship = new ArrayList<>(relationship);
@@ -1273,7 +1355,7 @@ public class SubstanceSpecification extends DomainResource {
          * Quantitative value for this moiety.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link Quantity} or {@link String} that may be null.
          */
         public Element getAmount() {
             return amount;
@@ -1399,7 +1481,8 @@ public class SubstanceSpecification extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1418,13 +1501,17 @@ public class SubstanceSpecification extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1442,7 +1529,8 @@ public class SubstanceSpecification extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1466,13 +1554,17 @@ public class SubstanceSpecification extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1504,6 +1596,22 @@ public class SubstanceSpecification extends DomainResource {
              */
             public Builder identifier(Identifier identifier) {
                 this.identifier = identifier;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code name}.
+             * 
+             * @param name
+             *     Textual name for this moiety substance
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #name(com.ibm.fhir.model.type.String)
+             */
+            public Builder name(java.lang.String name) {
+                this.name = (name == null) ? null : String.of(name);
                 return this;
             }
 
@@ -1550,6 +1658,22 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code molecularFormula}.
+             * 
+             * @param molecularFormula
+             *     Molecular formula
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #molecularFormula(com.ibm.fhir.model.type.String)
+             */
+            public Builder molecularFormula(java.lang.String molecularFormula) {
+                this.molecularFormula = (molecularFormula == null) ? null : String.of(molecularFormula);
+                return this;
+            }
+
+            /**
              * Molecular formula.
              * 
              * @param molecularFormula
@@ -1560,6 +1684,22 @@ public class SubstanceSpecification extends DomainResource {
              */
             public Builder molecularFormula(String molecularFormula) {
                 this.molecularFormula = molecularFormula;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code amount} with choice type String.
+             * 
+             * @param amount
+             *     Quantitative value for this moiety
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #amount(Element)
+             */
+            public Builder amount(java.lang.String amount) {
+                this.amount = (amount == null) ? null : String.of(amount);
                 return this;
             }
 
@@ -1681,7 +1821,7 @@ public class SubstanceSpecification extends DomainResource {
          * A substance upon which a defining property depends (e.g. for solubility: in water, in alcohol).
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link Reference} or {@link CodeableConcept} that may be null.
          */
         public Element getDefiningSubstance() {
             return definingSubstance;
@@ -1691,7 +1831,7 @@ public class SubstanceSpecification extends DomainResource {
          * Quantitative value for this property.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link Quantity} or {@link String} that may be null.
          */
         public Element getAmount() {
             return amount;
@@ -1807,7 +1947,8 @@ public class SubstanceSpecification extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1826,13 +1967,17 @@ public class SubstanceSpecification extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1850,7 +1995,8 @@ public class SubstanceSpecification extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1874,13 +2020,17 @@ public class SubstanceSpecification extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1912,6 +2062,22 @@ public class SubstanceSpecification extends DomainResource {
              */
             public Builder code(CodeableConcept code) {
                 this.code = code;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code parameters}.
+             * 
+             * @param parameters
+             *     Parameters that were used in the measurement of a property (e.g. for viscosity: measured at 20C with a pH of 7.1)
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #parameters(com.ibm.fhir.model.type.String)
+             */
+            public Builder parameters(java.lang.String parameters) {
+                this.parameters = (parameters == null) ? null : String.of(parameters);
                 return this;
             }
 
@@ -1952,6 +2118,22 @@ public class SubstanceSpecification extends DomainResource {
              */
             public Builder definingSubstance(Element definingSubstance) {
                 this.definingSubstance = definingSubstance;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code amount} with choice type String.
+             * 
+             * @param amount
+             *     Quantitative value for this property
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #amount(Element)
+             */
+            public Builder amount(java.lang.String amount) {
+                this.amount = (amount == null) ? null : String.of(amount);
                 return this;
             }
 
@@ -2252,7 +2434,8 @@ public class SubstanceSpecification extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2271,13 +2454,17 @@ public class SubstanceSpecification extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2295,7 +2482,8 @@ public class SubstanceSpecification extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2319,13 +2507,17 @@ public class SubstanceSpecification extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2361,6 +2553,22 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code molecularFormula}.
+             * 
+             * @param molecularFormula
+             *     Molecular formula
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #molecularFormula(com.ibm.fhir.model.type.String)
+             */
+            public Builder molecularFormula(java.lang.String molecularFormula) {
+                this.molecularFormula = (molecularFormula == null) ? null : String.of(molecularFormula);
+                return this;
+            }
+
+            /**
              * Molecular formula.
              * 
              * @param molecularFormula
@@ -2371,6 +2579,23 @@ public class SubstanceSpecification extends DomainResource {
              */
             public Builder molecularFormula(String molecularFormula) {
                 this.molecularFormula = molecularFormula;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code molecularFormulaByMoiety}.
+             * 
+             * @param molecularFormulaByMoiety
+             *     Specified per moiety according to the Hill system, i.e. first C, then H, then alphabetical, each moiety separated by a 
+             *     dot
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #molecularFormulaByMoiety(com.ibm.fhir.model.type.String)
+             */
+            public Builder molecularFormulaByMoiety(java.lang.String molecularFormulaByMoiety) {
+                this.molecularFormulaByMoiety = (molecularFormulaByMoiety == null) ? null : String.of(molecularFormulaByMoiety);
                 return this;
             }
 
@@ -2393,7 +2618,8 @@ public class SubstanceSpecification extends DomainResource {
             /**
              * Applicable for single substances that contain a radionuclide or a non-natural isotopic ratio.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param isotope
              *     Applicable for single substances that contain a radionuclide or a non-natural isotopic ratio
@@ -2411,13 +2637,17 @@ public class SubstanceSpecification extends DomainResource {
             /**
              * Applicable for single substances that contain a radionuclide or a non-natural isotopic ratio.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param isotope
              *     Applicable for single substances that contain a radionuclide or a non-natural isotopic ratio
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder isotope(Collection<Isotope> isotope) {
                 this.isotope = new ArrayList<>(isotope);
@@ -2441,7 +2671,8 @@ public class SubstanceSpecification extends DomainResource {
             /**
              * Supporting literature.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>Allowed resource types for the references:
              * <ul>
@@ -2464,7 +2695,8 @@ public class SubstanceSpecification extends DomainResource {
             /**
              * Supporting literature.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>Allowed resource types for the references:
              * <ul>
@@ -2476,6 +2708,9 @@ public class SubstanceSpecification extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder source(Collection<Reference> source) {
                 this.source = new ArrayList<>(source);
@@ -2485,7 +2720,8 @@ public class SubstanceSpecification extends DomainResource {
             /**
              * Molecular structural representation.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param representation
              *     Molecular structural representation
@@ -2503,13 +2739,17 @@ public class SubstanceSpecification extends DomainResource {
             /**
              * Molecular structural representation.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param representation
              *     Molecular structural representation
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder representation(Collection<Representation> representation) {
                 this.representation = new ArrayList<>(representation);
@@ -2740,7 +2980,8 @@ public class SubstanceSpecification extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2759,13 +3000,17 @@ public class SubstanceSpecification extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2783,7 +3028,8 @@ public class SubstanceSpecification extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2807,13 +3053,17 @@ public class SubstanceSpecification extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3072,7 +3322,8 @@ public class SubstanceSpecification extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -3091,13 +3342,17 @@ public class SubstanceSpecification extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     @Override
                     public Builder extension(Collection<Extension> extension) {
@@ -3115,7 +3370,8 @@ public class SubstanceSpecification extends DomainResource {
                      * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -3139,13 +3395,17 @@ public class SubstanceSpecification extends DomainResource {
                      * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3377,7 +3637,8 @@ public class SubstanceSpecification extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -3396,13 +3657,17 @@ public class SubstanceSpecification extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -3420,7 +3685,8 @@ public class SubstanceSpecification extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3444,13 +3710,17 @@ public class SubstanceSpecification extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3468,6 +3738,22 @@ public class SubstanceSpecification extends DomainResource {
                  */
                 public Builder type(CodeableConcept type) {
                     this.type = type;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code representation}.
+                 * 
+                 * @param representation
+                 *     The structural representation as text string in a format e.g. InChI, SMILES, MOLFILE, CDX
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #representation(com.ibm.fhir.model.type.String)
+                 */
+                public Builder representation(java.lang.String representation) {
+                    this.representation = (representation == null) ? null : String.of(representation);
                     return this;
                 }
 
@@ -3717,7 +4003,8 @@ public class SubstanceSpecification extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -3736,13 +4023,17 @@ public class SubstanceSpecification extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -3760,7 +4051,8 @@ public class SubstanceSpecification extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -3784,13 +4076,17 @@ public class SubstanceSpecification extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3840,6 +4136,22 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code comment}.
+             * 
+             * @param comment
+             *     Any comment can be provided in this field, if necessary
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #comment(com.ibm.fhir.model.type.String)
+             */
+            public Builder comment(java.lang.String comment) {
+                this.comment = (comment == null) ? null : String.of(comment);
+                return this;
+            }
+
+            /**
              * Any comment can be provided in this field, if necessary.
              * 
              * @param comment
@@ -3856,7 +4168,8 @@ public class SubstanceSpecification extends DomainResource {
             /**
              * Supporting literature.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>Allowed resource types for the references:
              * <ul>
@@ -3879,7 +4192,8 @@ public class SubstanceSpecification extends DomainResource {
             /**
              * Supporting literature.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>Allowed resource types for the references:
              * <ul>
@@ -3891,6 +4205,9 @@ public class SubstanceSpecification extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder source(Collection<Reference> source) {
                 this.source = new ArrayList<>(source);
@@ -4228,7 +4545,8 @@ public class SubstanceSpecification extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -4247,13 +4565,17 @@ public class SubstanceSpecification extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -4271,7 +4593,8 @@ public class SubstanceSpecification extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -4295,17 +4618,39 @@ public class SubstanceSpecification extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting {@code name}.
+             * 
+             * <p>This element is required.
+             * 
+             * @param name
+             *     The actual name
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #name(com.ibm.fhir.model.type.String)
+             */
+            public Builder name(java.lang.String name) {
+                this.name = (name == null) ? null : String.of(name);
+                return this;
             }
 
             /**
@@ -4353,6 +4698,22 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code preferred}.
+             * 
+             * @param preferred
+             *     If this is the preferred name for this substance
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #preferred(com.ibm.fhir.model.type.Boolean)
+             */
+            public Builder preferred(java.lang.Boolean preferred) {
+                this.preferred = (preferred == null) ? null : Boolean.of(preferred);
+                return this;
+            }
+
+            /**
              * If this is the preferred name for this substance.
              * 
              * @param preferred
@@ -4369,7 +4730,8 @@ public class SubstanceSpecification extends DomainResource {
             /**
              * Language of the name.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param language
              *     Language of the name
@@ -4387,13 +4749,17 @@ public class SubstanceSpecification extends DomainResource {
             /**
              * Language of the name.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param language
              *     Language of the name
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder language(Collection<CodeableConcept> language) {
                 this.language = new ArrayList<>(language);
@@ -4404,7 +4770,8 @@ public class SubstanceSpecification extends DomainResource {
              * The use context of this name for example if there is a different name a drug active ingredient as opposed to a food 
              * colour additive.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param domain
              *     The use context of this name for example if there is a different name a drug active ingredient as opposed to a food 
@@ -4424,7 +4791,8 @@ public class SubstanceSpecification extends DomainResource {
              * The use context of this name for example if there is a different name a drug active ingredient as opposed to a food 
              * colour additive.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param domain
              *     The use context of this name for example if there is a different name a drug active ingredient as opposed to a food 
@@ -4432,6 +4800,9 @@ public class SubstanceSpecification extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder domain(Collection<CodeableConcept> domain) {
                 this.domain = new ArrayList<>(domain);
@@ -4441,7 +4812,8 @@ public class SubstanceSpecification extends DomainResource {
             /**
              * The jurisdiction where this name applies.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param jurisdiction
              *     The jurisdiction where this name applies
@@ -4459,13 +4831,17 @@ public class SubstanceSpecification extends DomainResource {
             /**
              * The jurisdiction where this name applies.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param jurisdiction
              *     The jurisdiction where this name applies
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder jurisdiction(Collection<CodeableConcept> jurisdiction) {
                 this.jurisdiction = new ArrayList<>(jurisdiction);
@@ -4475,7 +4851,8 @@ public class SubstanceSpecification extends DomainResource {
             /**
              * A synonym of this name.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param synonym
              *     A synonym of this name
@@ -4493,13 +4870,17 @@ public class SubstanceSpecification extends DomainResource {
             /**
              * A synonym of this name.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param synonym
              *     A synonym of this name
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder synonym(Collection<SubstanceSpecification.Name> synonym) {
                 this.synonym = new ArrayList<>(synonym);
@@ -4509,7 +4890,8 @@ public class SubstanceSpecification extends DomainResource {
             /**
              * A translation for this name.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param translation
              *     A translation for this name
@@ -4527,13 +4909,17 @@ public class SubstanceSpecification extends DomainResource {
             /**
              * A translation for this name.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param translation
              *     A translation for this name
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder translation(Collection<SubstanceSpecification.Name> translation) {
                 this.translation = new ArrayList<>(translation);
@@ -4543,7 +4929,8 @@ public class SubstanceSpecification extends DomainResource {
             /**
              * Details of the official nature of this name.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param official
              *     Details of the official nature of this name
@@ -4561,13 +4948,17 @@ public class SubstanceSpecification extends DomainResource {
             /**
              * Details of the official nature of this name.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param official
              *     Details of the official nature of this name
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder official(Collection<Official> official) {
                 this.official = new ArrayList<>(official);
@@ -4577,7 +4968,8 @@ public class SubstanceSpecification extends DomainResource {
             /**
              * Supporting literature.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>Allowed resource types for the references:
              * <ul>
@@ -4600,7 +4992,8 @@ public class SubstanceSpecification extends DomainResource {
             /**
              * Supporting literature.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>Allowed resource types for the references:
              * <ul>
@@ -4612,6 +5005,9 @@ public class SubstanceSpecification extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder source(Collection<Reference> source) {
                 this.source = new ArrayList<>(source);
@@ -4819,7 +5215,8 @@ public class SubstanceSpecification extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -4838,13 +5235,17 @@ public class SubstanceSpecification extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -4862,7 +5263,8 @@ public class SubstanceSpecification extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -4886,13 +5288,17 @@ public class SubstanceSpecification extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -5012,7 +5418,7 @@ public class SubstanceSpecification extends DomainResource {
          * A pointer to another substance, as a resource or just a representational code.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link Reference} or {@link CodeableConcept} that may be null.
          */
         public Element getSubstance() {
             return substance;
@@ -5044,7 +5450,7 @@ public class SubstanceSpecification extends DomainResource {
          * active substance in relation to some other.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link Quantity}, {@link Range}, {@link Ratio} or {@link String} that may be null.
          */
         public Element getAmount() {
             return amount;
@@ -5200,7 +5606,8 @@ public class SubstanceSpecification extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -5219,13 +5626,17 @@ public class SubstanceSpecification extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -5243,7 +5654,8 @@ public class SubstanceSpecification extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -5267,13 +5679,17 @@ public class SubstanceSpecification extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -5320,6 +5736,23 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code isDefining}.
+             * 
+             * @param isDefining
+             *     For example where an enzyme strongly bonds with a particular substance, this is a defining relationship for that 
+             *     enzyme, out of several possible substance relationships
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #isDefining(com.ibm.fhir.model.type.Boolean)
+             */
+            public Builder isDefining(java.lang.Boolean isDefining) {
+                this.isDefining = (isDefining == null) ? null : Boolean.of(isDefining);
+                return this;
+            }
+
+            /**
              * For example where an enzyme strongly bonds with a particular substance, this is a defining relationship for that 
              * enzyme, out of several possible substance relationships.
              * 
@@ -5332,6 +5765,23 @@ public class SubstanceSpecification extends DomainResource {
              */
             public Builder isDefining(Boolean isDefining) {
                 this.isDefining = isDefining;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code amount} with choice type String.
+             * 
+             * @param amount
+             *     A numeric factor for the relationship, for instance to express that the salt of a substance has some percentage of the 
+             *     active substance in relation to some other
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #amount(Element)
+             */
+            public Builder amount(java.lang.String amount) {
+                this.amount = (amount == null) ? null : String.of(amount);
                 return this;
             }
 
@@ -5390,7 +5840,8 @@ public class SubstanceSpecification extends DomainResource {
             /**
              * Supporting literature.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>Allowed resource types for the references:
              * <ul>
@@ -5413,7 +5864,8 @@ public class SubstanceSpecification extends DomainResource {
             /**
              * Supporting literature.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>Allowed resource types for the references:
              * <ul>
@@ -5425,6 +5877,9 @@ public class SubstanceSpecification extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder source(Collection<Reference> source) {
                 this.source = new ArrayList<>(source);

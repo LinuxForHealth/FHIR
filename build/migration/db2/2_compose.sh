@@ -37,8 +37,13 @@ config(){
     # Setup the Configurations for Migration
     echo "Copying fhir configuration files..."
     mkdir -p ${DIST}/config
-    cp -pr ${WORKSPACE}/prev/fhir-server-webapp/src/main/liberty/config/config $DIST
+    if [ -d ${WORKSPACE}/prev/fhir-server-webapp/src/main/liberty/config ]; then
+        cp -pr ${WORKSPACE}/prev/fhir-server-webapp/src/main/liberty/config/config $DIST
+    else
+        cp -pr ${WORKSPACE}/prev/fhir-server/liberty-config/config $DIST
+    fi
     cp -pr ${WORKSPACE}/prev/fhir-server/liberty-config-tenants/config/* $DIST/config
+
 
     echo "Copying test artifacts to install location..."
     USERLIB="${DIST}/userlib"
@@ -52,8 +57,14 @@ config(){
 
     echo "Copying over the overrides for the datasource"
     mkdir -p ${DIST}/overrides
-    cp ${WORKSPACE}/prev/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/datasource-db2.xml ${DIST}/overrides
-    cp -p ${WORKSPACE}/prev/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/datasource-derby.xml ${DIST}/overrides
+    if [ -d ${WORKSPACE}/prev/fhir-server-webapp/src/main/liberty/config ]; then
+        cp ${WORKSPACE}/prev/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/datasource-db2.xml ${DIST}/overrides
+        cp ${WORKSPACE}/prev/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/datasource-derby.xml ${DIST}/overrides
+    else
+        cp ${WORKSPACE}/prev/fhir-server/liberty-config/configDropins/disabled/datasource-db2.xml ${DIST}/overrides
+        cp ${WORKSPACE}/prev/fhir-server/liberty-config/configDropins/disabled/datasource-derby.xml ${DIST}/overrides
+    fi
+    
 
     # Move over the test configurations
     echo "Copying over the fhir-server-config.json and updating publishing"

@@ -256,7 +256,7 @@ public class Goal extends DomainResource {
      * The date or event after which the goal should begin being pursued.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Date} or {@link CodeableConcept} that may be null.
      */
     public Element getStart() {
         return start;
@@ -581,7 +581,8 @@ public class Goal extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -598,13 +599,17 @@ public class Goal extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -617,7 +622,8 @@ public class Goal extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -636,13 +642,17 @@ public class Goal extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -660,7 +670,8 @@ public class Goal extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -684,13 +695,17 @@ public class Goal extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -701,7 +716,8 @@ public class Goal extends DomainResource {
          * Business identifiers assigned to this goal by the performer or other systems which remain constant as the resource is 
          * updated and propagates from server to server.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     External Ids for this goal
@@ -720,13 +736,17 @@ public class Goal extends DomainResource {
          * Business identifiers assigned to this goal by the performer or other systems which remain constant as the resource is 
          * updated and propagates from server to server.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     External Ids for this goal
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder identifier(Collection<Identifier> identifier) {
             this.identifier = new ArrayList<>(identifier);
@@ -766,7 +786,8 @@ public class Goal extends DomainResource {
         /**
          * Indicates a category the goal falls within.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param category
          *     E.g. Treatment, dietary, behavioral, etc.
@@ -784,13 +805,17 @@ public class Goal extends DomainResource {
         /**
          * Indicates a category the goal falls within.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param category
          *     E.g. Treatment, dietary, behavioral, etc.
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder category(Collection<CodeableConcept> category) {
             this.category = new ArrayList<>(category);
@@ -852,6 +877,22 @@ public class Goal extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code start} with choice type Date.
+         * 
+         * @param start
+         *     When goal pursuit begins
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #start(Element)
+         */
+        public Builder start(java.time.LocalDate start) {
+            this.start = (start == null) ? null : Date.of(start);
+            return this;
+        }
+
+        /**
          * The date or event after which the goal should begin being pursued.
          * 
          * <p>This is a choice element with the following allowed types:
@@ -874,7 +915,8 @@ public class Goal extends DomainResource {
         /**
          * Indicates what should be done by when.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param target
          *     Target outcome for the goal
@@ -892,16 +934,36 @@ public class Goal extends DomainResource {
         /**
          * Indicates what should be done by when.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param target
          *     Target outcome for the goal
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder target(Collection<Target> target) {
             this.target = new ArrayList<>(target);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code statusDate}.
+         * 
+         * @param statusDate
+         *     When goal status took effect
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #statusDate(com.ibm.fhir.model.type.Date)
+         */
+        public Builder statusDate(java.time.LocalDate statusDate) {
+            this.statusDate = (statusDate == null) ? null : Date.of(statusDate);
             return this;
         }
 
@@ -916,6 +978,22 @@ public class Goal extends DomainResource {
          */
         public Builder statusDate(Date statusDate) {
             this.statusDate = statusDate;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code statusReason}.
+         * 
+         * @param statusReason
+         *     Reason for current status
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #statusReason(com.ibm.fhir.model.type.String)
+         */
+        public Builder statusReason(java.lang.String statusReason) {
+            this.statusReason = (statusReason == null) ? null : String.of(statusReason);
             return this;
         }
 
@@ -958,7 +1036,8 @@ public class Goal extends DomainResource {
         /**
          * The identified conditions and other health record elements that are intended to be addressed by the goal.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -986,7 +1065,8 @@ public class Goal extends DomainResource {
         /**
          * The identified conditions and other health record elements that are intended to be addressed by the goal.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1003,6 +1083,9 @@ public class Goal extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder addresses(Collection<Reference> addresses) {
             this.addresses = new ArrayList<>(addresses);
@@ -1012,7 +1095,8 @@ public class Goal extends DomainResource {
         /**
          * Any comments related to the goal.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param note
          *     Comments about the goal
@@ -1030,13 +1114,17 @@ public class Goal extends DomainResource {
         /**
          * Any comments related to the goal.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param note
          *     Comments about the goal
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder note(Collection<Annotation> note) {
             this.note = new ArrayList<>(note);
@@ -1046,7 +1134,8 @@ public class Goal extends DomainResource {
         /**
          * Identifies the change (or lack of change) at the point when the status of the goal is assessed.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param outcomeCode
          *     What result was achieved regarding the goal?
@@ -1064,13 +1153,17 @@ public class Goal extends DomainResource {
         /**
          * Identifies the change (or lack of change) at the point when the status of the goal is assessed.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param outcomeCode
          *     What result was achieved regarding the goal?
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder outcomeCode(Collection<CodeableConcept> outcomeCode) {
             this.outcomeCode = new ArrayList<>(outcomeCode);
@@ -1080,7 +1173,8 @@ public class Goal extends DomainResource {
         /**
          * Details of what's changed (or not changed).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1103,7 +1197,8 @@ public class Goal extends DomainResource {
         /**
          * Details of what's changed (or not changed).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1115,6 +1210,9 @@ public class Goal extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder outcomeReference(Collection<Reference> outcomeReference) {
             this.outcomeReference = new ArrayList<>(outcomeReference);
@@ -1234,7 +1332,8 @@ public class Goal extends DomainResource {
          * goal is achieved at any focus value at or above the low value.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link Quantity}, {@link Range}, {@link CodeableConcept}, {@link String}, {@link Boolean}, 
+         *     {@link Integer} or {@link Ratio} that may be null.
          */
         public Element getDetail() {
             return detail;
@@ -1244,7 +1343,7 @@ public class Goal extends DomainResource {
          * Indicates either the date or the duration after start by which the goal should be met.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link Date} or {@link Duration} that may be null.
          */
         public Element getDue() {
             return due;
@@ -1350,7 +1449,8 @@ public class Goal extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1369,13 +1469,17 @@ public class Goal extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1393,7 +1497,8 @@ public class Goal extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1417,13 +1522,17 @@ public class Goal extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1441,6 +1550,54 @@ public class Goal extends DomainResource {
              */
             public Builder measure(CodeableConcept measure) {
                 this.measure = measure;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code detail} with choice type String.
+             * 
+             * @param detail
+             *     The target value to be achieved
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #detail(Element)
+             */
+            public Builder detail(java.lang.String detail) {
+                this.detail = (detail == null) ? null : String.of(detail);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code detail} with choice type Boolean.
+             * 
+             * @param detail
+             *     The target value to be achieved
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #detail(Element)
+             */
+            public Builder detail(java.lang.Boolean detail) {
+                this.detail = (detail == null) ? null : Boolean.of(detail);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code detail} with choice type Integer.
+             * 
+             * @param detail
+             *     The target value to be achieved
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #detail(Element)
+             */
+            public Builder detail(java.lang.Integer detail) {
+                this.detail = (detail == null) ? null : Integer.of(detail);
                 return this;
             }
 
@@ -1469,6 +1626,22 @@ public class Goal extends DomainResource {
              */
             public Builder detail(Element detail) {
                 this.detail = detail;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code due} with choice type Date.
+             * 
+             * @param due
+             *     Reach goal on or before
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #due(Element)
+             */
+            public Builder due(java.time.LocalDate due) {
+                this.due = (due == null) ? null : Date.of(due);
                 return this;
             }
 

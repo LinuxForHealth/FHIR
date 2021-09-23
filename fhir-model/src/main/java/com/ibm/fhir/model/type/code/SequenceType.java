@@ -48,36 +48,9 @@ public class SequenceType extends Code {
 
     /**
      * Get the value of this SequenceType as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this SequenceType as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating SequenceType objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static SequenceType of(ValueSet value) {
-        switch (value) {
-        case AA:
-            return AA;
-        case DNA:
-            return DNA;
-        case RNA:
-            return RNA;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -191,14 +164,6 @@ public class SequenceType extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -227,61 +192,6 @@ public class SequenceType extends Code {
         protected Builder from(SequenceType sequenceType) {
             super.from(sequenceType);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * AA Sequence
-         * 
-         * <p>Amino acid sequence.
-         */
-        AA("aa"),
-
-        /**
-         * DNA Sequence
-         * 
-         * <p>DNA Sequence.
-         */
-        DNA("dna"),
-
-        /**
-         * RNA Sequence
-         * 
-         * <p>RNA Sequence.
-         */
-        RNA("rna");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating SequenceType.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

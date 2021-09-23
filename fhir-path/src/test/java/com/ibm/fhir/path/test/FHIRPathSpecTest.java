@@ -6,6 +6,7 @@
 package com.ibm.fhir.path.test;
 
 import static com.ibm.fhir.path.util.FHIRPathUtil.getBooleanValue;
+import static com.ibm.fhir.path.util.FHIRPathUtil.getDate;
 import static com.ibm.fhir.path.util.FHIRPathUtil.getDateTime;
 import static com.ibm.fhir.path.util.FHIRPathUtil.getNumberValue;
 import static com.ibm.fhir.path.util.FHIRPathUtil.getStringValue;
@@ -34,16 +35,18 @@ import org.testng.internal.BaseTestMethod;
 
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
-import com.ibm.fhir.model.resource.Observation;
-import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.util.XMLSupport;
+import com.ibm.fhir.path.FHIRPathDateTimeValue;
+import com.ibm.fhir.path.FHIRPathDateValue;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.FHIRPathQuantityValue;
+import com.ibm.fhir.path.FHIRPathTimeValue;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.path.exception.FHIRPathException;
+import com.ibm.fhir.path.util.FHIRPathUtil;
 
 /**
  * Executes all the FHIRPath tests shipped with the FHIRPath specification
@@ -141,8 +144,15 @@ public class FHIRPathSpecTest implements ITest {
                 assertEquals(getStringValue(singleton(result)).toString(), expectedOutput.text);
                 break;
             case "date":
+                if (FHIRPathUtil.hasDateTimeValue(singleton(result))) {
+                    // FHIR says that FHIR dates are actually FHIRPath dateTimes:  https://www.hl7.org/fhir/fhirpath.html
+                    assertEquals(getDateTime(singleton(result)), FHIRPathDateValue.dateValue(expectedOutput.text.substring(1)).date());
+                } else {
+                    assertEquals(getDate(singleton(result)), FHIRPathDateValue.dateValue(expectedOutput.text.substring(1)).date());
+                }
+                break;
             case "dateTime":
-                assertEquals(getDateTime(singleton(result)).toString(), expectedOutput.text);
+                assertEquals(getDateTime(singleton(result)), FHIRPathDateTimeValue.dateTimeValue(expectedOutput.text.substring(1)).dateTime());
                 break;
             case "decimal":
             case "integer":
@@ -155,7 +165,7 @@ public class FHIRPathSpecTest implements ITest {
                 assertEquals(getStringValue(singleton(result)).toString(), expectedOutput.text);
                 break;
             case "time":
-                assertEquals(getTime(singleton(result)).toString(), expectedOutput.text);
+                assertEquals(getTime(singleton(result)), FHIRPathTimeValue.timeValue(expectedOutput.text).time());
                 break;
             }
         }
@@ -298,17 +308,20 @@ public class FHIRPathSpecTest implements ITest {
     }
 
     public static void main(String[] args) throws Exception {
-        try (InputStream in = FHIRPathSpecTest.class.getClassLoader().getResourceAsStream("FHIRPath/input/patient-example.xml")) {
-            Patient patient = FHIRParser.parser(Format.XML).parse(in);
-            FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
-            Collection<FHIRPathNode> result = evaluator.evaluate(patient, "Patient.active.type().name = 'boolean'");
-            System.out.println("result: " + result);
-        }
         try (InputStream in = FHIRPathSpecTest.class.getClassLoader().getResourceAsStream("FHIRPath/input/observation-example.xml")) {
-            Observation observation = FHIRParser.parser(Format.XML).parse(in);
+            Resource resource = FHIRParser.parser(Format.XML).parse(in);
             FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
-            Collection<FHIRPathNode> result = evaluator.evaluate(observation, "(Observation.value as Period).unit");
+            Collection<FHIRPathNode> result = evaluator.evaluate(resource, "Observation.issued is instant");
             System.out.println("result: " + result);
         }
+//        try (InputStream in = FHIRPathSpecTest.class.getClassLoader().getResourceAsStream("FHIRPath/input/observation-example.xml")) {
+//            Observation observation = FHIRParser.parser(Format.XML).parse(in);
+//            FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+//            Collection<FHIRPathNode> result = evaluator.evaluate(observation, "(Observation.value as Period).unit");
+//            System.out.println("result: " + result);
+//        }
+
+
+
     }
 }

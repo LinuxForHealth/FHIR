@@ -14,6 +14,7 @@ import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.OperationDefinition;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Parameters;
+import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.OperationParameterUse;
@@ -51,7 +52,7 @@ public abstract class AbstractOperation implements FHIROperation {
             String logicalId, String versionId,
             Parameters parameters,
             FHIRResourceHelpers resourceHelper) throws FHIROperationException {
-        validateOperationContext(operationContext, resourceType);
+        validateOperationContext(operationContext, resourceType, parameters);
         validateInputParameters(operationContext, resourceType, logicalId, versionId, parameters);
         Parameters result = doInvoke(operationContext, resourceType, logicalId, versionId, parameters, resourceHelper);
         validateOutputParameters(result);
@@ -129,8 +130,18 @@ public abstract class AbstractOperation implements FHIROperation {
         validateParameters(parameters, OperationParameterUse.IN);
     }
 
-    protected void validateOperationContext(FHIROperationContext operationContext, Class<? extends Resource> resourceType) throws FHIROperationException {
+    protected void validateOperationContext(FHIROperationContext operationContext, Class<? extends Resource> resourceType, Parameters parameters) throws FHIROperationException {
         OperationDefinition definition = getDefinition();
+
+        // Check which methods are allowed
+        String method = (String) operationContext.getProperty(FHIROperationContext.PROPNAME_METHOD_TYPE);
+        if (!"POST".equalsIgnoreCase(method)
+                && (!"GET".equalsIgnoreCase(method) || !isGetMethodAllowed(definition, parameters))
+                && !isAdditionalMethodAllowed(method)) {
+            String msg = "HTTP method '" + method + "' is not supported for operation: '" + getName() + "'";
+            throw buildExceptionWithIssue(msg, IssueType.NOT_SUPPORTED);
+        }
+
         switch (operationContext.getType()) {
         case INSTANCE:
             if (definition.getInstance().getValue() == false) {
@@ -155,6 +166,45 @@ public abstract class AbstractOperation implements FHIROperation {
         default:
             break;
         }
+    }
+
+    /**
+     * Determines if the operation disallows the GET method.
+     * This is determined by the affectsState value of the OperatorDefinition and whether the
+     * OperatorDefinition contains any non-primitive parameters.
+     * @param operationDefinition the operation definition
+     * @param parameters the parameters
+     * @return true or false
+     */
+    private boolean isGetMethodAllowed(OperationDefinition operationDefinition, Parameters parameters) {
+        // Check if affectState is true
+        if (operationDefinition.getAffectsState() != null && operationDefinition.getAffectsState().getValue() == Boolean.TRUE) {
+            return false;
+        }
+        // Check for any non-primitive parameters passed in
+        if (parameters != null && operationDefinition.getParameter() != null) {
+            for (Parameter parameter : parameters.getParameter()) {
+                // Determine if parameter is non-primative by checking the operation definition for the parameter type
+                for (OperationDefinition.Parameter odParameter : operationDefinition.getParameter()) {
+                    if (parameter.getName().getValue() != null && odParameter.getName() != null
+                            && parameter.getName().getValue().equals(odParameter.getName().getValue())
+                            && (odParameter.getType() == null || !ModelSupport.isPrimitiveType(ModelSupport.getDataType(odParameter.getType().getValue()))
+                                    || (odParameter.getPart() != null && !odParameter.getPart().isEmpty()))) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Determines if any methods (except GET and POST) are allowed for the operation.
+     * This can be overridden by an operation to allow additional methods.
+     * @return true or false
+     */
+    protected boolean isAdditionalMethodAllowed(String method) {
+        return false;
     }
 
     /**

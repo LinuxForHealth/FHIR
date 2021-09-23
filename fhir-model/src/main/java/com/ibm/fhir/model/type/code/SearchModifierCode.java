@@ -120,54 +120,9 @@ public class SearchModifierCode extends Code {
 
     /**
      * Get the value of this SearchModifierCode as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this SearchModifierCode as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating SearchModifierCode objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static SearchModifierCode of(ValueSet value) {
-        switch (value) {
-        case MISSING:
-            return MISSING;
-        case EXACT:
-            return EXACT;
-        case CONTAINS:
-            return CONTAINS;
-        case NOT:
-            return NOT;
-        case TEXT:
-            return TEXT;
-        case IN:
-            return IN;
-        case NOT_IN:
-            return NOT_IN;
-        case BELOW:
-            return BELOW;
-        case ABOVE:
-            return ABOVE;
-        case TYPE:
-            return TYPE;
-        case IDENTIFIER:
-            return IDENTIFIER;
-        case OF_TYPE:
-            return OF_TYPE;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -299,14 +254,6 @@ public class SearchModifierCode extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -335,133 +282,6 @@ public class SearchModifierCode extends Code {
         protected Builder from(SearchModifierCode searchModifierCode) {
             super.from(searchModifierCode);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Missing
-         * 
-         * <p>The search parameter returns resources that have a value or not.
-         */
-        MISSING("missing"),
-
-        /**
-         * Exact
-         * 
-         * <p>The search parameter returns resources that have a value that exactly matches the supplied parameter (the whole 
-         * string, including casing and accents).
-         */
-        EXACT("exact"),
-
-        /**
-         * Contains
-         * 
-         * <p>The search parameter returns resources that include the supplied parameter value anywhere within the field being 
-         * searched.
-         */
-        CONTAINS("contains"),
-
-        /**
-         * Not
-         * 
-         * <p>The search parameter returns resources that do not contain a match.
-         */
-        NOT("not"),
-
-        /**
-         * Text
-         * 
-         * <p>The search parameter is processed as a string that searches text associated with the code/value - either 
-         * CodeableConcept.text, Coding.display, or Identifier.type.text.
-         */
-        TEXT("text"),
-
-        /**
-         * In
-         * 
-         * <p>The search parameter is a URI (relative or absolute) that identifies a value set, and the search parameter tests 
-         * whether the coding is in the specified value set.
-         */
-        IN("in"),
-
-        /**
-         * Not In
-         * 
-         * <p>The search parameter is a URI (relative or absolute) that identifies a value set, and the search parameter tests 
-         * whether the coding is not in the specified value set.
-         */
-        NOT_IN("not-in"),
-
-        /**
-         * Below
-         * 
-         * <p>The search parameter tests whether the value in a resource is subsumed by the specified value (is-a, or 
-         * hierarchical relationships).
-         */
-        BELOW("below"),
-
-        /**
-         * Above
-         * 
-         * <p>The search parameter tests whether the value in a resource subsumes the specified value (is-a, or hierarchical 
-         * relationships).
-         */
-        ABOVE("above"),
-
-        /**
-         * Type
-         * 
-         * <p>The search parameter only applies to the Resource Type specified as a modifier (e.g. the modifier is not actually :
-         * type, but :Patient etc.).
-         */
-        TYPE("type"),
-
-        /**
-         * Identifier
-         * 
-         * <p>The search parameter applies to the identifier on the resource, not the reference.
-         */
-        IDENTIFIER("identifier"),
-
-        /**
-         * Of Type
-         * 
-         * <p>The search parameter has the format system|code|value, where the system and code refer to an Identifier.type.coding.
-         * system and .code, and match if any of the type codes match. All 3 parts must be present.
-         */
-        OF_TYPE("ofType");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating SearchModifierCode.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

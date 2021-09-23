@@ -172,7 +172,7 @@ public class DeviceUseStatement extends DomainResource {
      * How often the device was used.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Timing}, {@link Period} or {@link DateTime} that may be null.
      */
     public Element getTiming() {
         return timing;
@@ -473,7 +473,8 @@ public class DeviceUseStatement extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -490,13 +491,17 @@ public class DeviceUseStatement extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -509,7 +514,8 @@ public class DeviceUseStatement extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -528,13 +534,17 @@ public class DeviceUseStatement extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -552,7 +562,8 @@ public class DeviceUseStatement extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -576,13 +587,17 @@ public class DeviceUseStatement extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -592,7 +607,8 @@ public class DeviceUseStatement extends DomainResource {
         /**
          * An external identifier for this statement such as an IRI.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     External identifier for this record
@@ -610,13 +626,17 @@ public class DeviceUseStatement extends DomainResource {
         /**
          * An external identifier for this statement such as an IRI.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     External identifier for this record
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder identifier(Collection<Identifier> identifier) {
             this.identifier = new ArrayList<>(identifier);
@@ -626,7 +646,8 @@ public class DeviceUseStatement extends DomainResource {
         /**
          * A plan, proposal or order that is fulfilled in whole or in part by this DeviceUseStatement.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -649,7 +670,8 @@ public class DeviceUseStatement extends DomainResource {
         /**
          * A plan, proposal or order that is fulfilled in whole or in part by this DeviceUseStatement.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -661,6 +683,9 @@ public class DeviceUseStatement extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder basedOn(Collection<Reference> basedOn) {
             this.basedOn = new ArrayList<>(basedOn);
@@ -710,7 +735,8 @@ public class DeviceUseStatement extends DomainResource {
          * Allows linking the DeviceUseStatement to the underlying Request, or to other information that supports or is used to 
          * derive the DeviceUseStatement.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -739,7 +765,8 @@ public class DeviceUseStatement extends DomainResource {
          * Allows linking the DeviceUseStatement to the underlying Request, or to other information that supports or is used to 
          * derive the DeviceUseStatement.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -756,6 +783,9 @@ public class DeviceUseStatement extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder derivedFrom(Collection<Reference> derivedFrom) {
             this.derivedFrom = new ArrayList<>(derivedFrom);
@@ -843,7 +873,8 @@ public class DeviceUseStatement extends DomainResource {
         /**
          * Reason or justification for the use of the device.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param reasonCode
          *     Why device was used
@@ -861,13 +892,17 @@ public class DeviceUseStatement extends DomainResource {
         /**
          * Reason or justification for the use of the device.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param reasonCode
          *     Why device was used
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder reasonCode(Collection<CodeableConcept> reasonCode) {
             this.reasonCode = new ArrayList<>(reasonCode);
@@ -877,7 +912,8 @@ public class DeviceUseStatement extends DomainResource {
         /**
          * Indicates another resource whose existence justifies this DeviceUseStatement.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -904,7 +940,8 @@ public class DeviceUseStatement extends DomainResource {
         /**
          * Indicates another resource whose existence justifies this DeviceUseStatement.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -920,6 +957,9 @@ public class DeviceUseStatement extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder reasonReference(Collection<Reference> reasonReference) {
             this.reasonReference = new ArrayList<>(reasonReference);
@@ -944,7 +984,8 @@ public class DeviceUseStatement extends DomainResource {
          * Details about the device statement that were not represented at all or sufficiently in one of the attributes provided 
          * in a class. These may include for example a comment, an instruction, or a note associated with the statement.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param note
          *     Addition details (comments, instructions)
@@ -963,13 +1004,17 @@ public class DeviceUseStatement extends DomainResource {
          * Details about the device statement that were not represented at all or sufficiently in one of the attributes provided 
          * in a class. These may include for example a comment, an instruction, or a note associated with the statement.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param note
          *     Addition details (comments, instructions)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder note(Collection<Annotation> note) {
             this.note = new ArrayList<>(note);

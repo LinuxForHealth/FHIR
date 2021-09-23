@@ -76,7 +76,7 @@ public class ImportPartitionMapper implements PartitionMapper {
             return pp;
         } catch (FHIRLoadException e) {
             jobCtx.setExitStatus("FAILED_BAD_SOURCE");
-            logger.log(Level.SEVERE, "Import PartitionMapper source[" + executionId + "] - " + e.getMessage(), e);
+            logger.log(Level.WARNING, "Import PartitionMapper source[" + executionId + "] - " + e.getMessage(), e);
             throw e;
         } catch (FHIRException e) {
             logger.log(Level.SEVERE, "Import PartitionMapper.mapPartitions during job[" + executionId + "] - " + e.getMessage(), e);

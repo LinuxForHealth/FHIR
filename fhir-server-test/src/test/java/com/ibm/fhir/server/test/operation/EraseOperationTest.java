@@ -272,7 +272,7 @@ public class EraseOperationTest extends FHIRServerTestBase {
      * @param version the version that is to be erased
      * @return
      */
-    public Parameters generateParameters(boolean patient, boolean reason, String reasonMsg, Optional<Integer> version) {
+    public static Parameters generateParameters(boolean patient, boolean reason, String reasonMsg, Optional<Integer> version) {
         List<Parameter> parameters = new ArrayList<>();
         if (patient) {
             parameters.add(Parameter.builder().name(string("patient")).value(string("Patient/1-2-3-4")).build());
@@ -1119,12 +1119,15 @@ public class EraseOperationTest extends FHIRServerTestBase {
      */
     @Test
     public void testForbiddenResourceDoesNotExists() {
+        Entity<Parameters> entity = Entity.entity(generateParameters(true, true, null, null),
+            FHIRMediaType.APPLICATION_FHIR_JSON);
+
         Response r = getWebTarget()
                 .path("/Patient/1-2-3-4-5-BAD/$erase")
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .header("X-FHIR-TENANT-ID", "tenant1")
                 .header("X-FHIR-DSID", "study1")
-                .get(Response.class);
+                .post(entity, Response.class);
        assertEquals(r.getStatus(), Status.FORBIDDEN.getStatusCode());
        OperationOutcome outcome = r.readEntity(OperationOutcome.class);
        assertEquals(outcome.getIssue().get(0).getCode().getValue(), "forbidden");
@@ -1190,6 +1193,24 @@ public class EraseOperationTest extends FHIRServerTestBase {
 
         eraseResource("Patient", id, false, "Deleting per Patient Request");
         checkResourceNoLongerExists("Patient", id);
+    }
+
+    /**
+     * Acceptance Criteria 14 - $erase does not support GET method
+     * When the $erase operation is run with GET method
+     * Then result is bad request
+     */
+    @Test
+    public void testGetMethodNotSupported() {
+        Response r = getWebTarget()
+                .path("/Patient/1-2-3-4-5-BAD/$erase")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", "tenant1")
+                .header("X-FHIR-DSID", "study1")
+                .get(Response.class);
+       assertEquals(r.getStatus(), Status.BAD_REQUEST.getStatusCode());
+       OperationOutcome outcome = r.readEntity(OperationOutcome.class);
+       assertEquals(outcome.getIssue().get(0).getCode().getValue(), "not-supported");
     }
 
     public void loadLargeBundle(Patient r, String id) {

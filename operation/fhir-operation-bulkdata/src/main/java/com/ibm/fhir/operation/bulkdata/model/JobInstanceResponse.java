@@ -65,15 +65,15 @@ public class JobInstanceResponse {
     private String instanceName;
     private String lastUpdatedTime;
     private String instanceState;
-    private Integer executionId;
+    private List<Integer> executionId;
 
     private List<Link> _links = new ArrayList<>();
 
-    public Integer getExecutionId() {
+    public List<Integer> getExecutionId() {
         return executionId;
     }
 
-    public void setExecutionId(Integer executionId) {
+    public void setExecutionId(List<Integer> executionId) {
         this.executionId = executionId;
     }
 
@@ -193,7 +193,7 @@ public class JobInstanceResponse {
             // Intentionally hiding from external callers.
         }
 
-        public Builder executionId(Integer executionId) {
+        public Builder executionId(List<Integer> executionId) {
             response.setExecutionId(executionId);
             return this;
         }
@@ -360,7 +360,7 @@ public class JobInstanceResponse {
                 builder.lastUpdatedTime(lastUpdatedTime);
             }
 
-            int jobExecutionId = 0;
+            List<Integer> jobExecutionId = new ArrayList<>();
             if (jsonObject.containsKey("_links")) {
                 JsonArray arr = jsonObject.getJsonArray("_links");
                 ListIterator<JsonValue> iter = arr.listIterator();
@@ -381,11 +381,13 @@ public class JobInstanceResponse {
                             // as the current job execution id.
                             int tmpJobExecutionId =
                                     Integer.parseInt(href.substring(href.indexOf("jobexecutions") + 14));
-                            jobExecutionId =
-                                    jobExecutionId < tmpJobExecutionId ? tmpJobExecutionId : jobExecutionId;
+                            jobExecutionId.add(tmpJobExecutionId);
                         }
                     }
                 }
+            }
+            if (jobExecutionId.isEmpty()) {
+                jobExecutionId = Collections.singletonList(0);
             }
             builder.executionId(jobExecutionId);
 

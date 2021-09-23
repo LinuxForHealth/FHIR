@@ -253,7 +253,8 @@ public class ParameterDefinition extends Element {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -272,13 +273,17 @@ public class ParameterDefinition extends Element {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -316,6 +321,22 @@ public class ParameterDefinition extends Element {
         }
 
         /**
+         * Convenience method for setting {@code min}.
+         * 
+         * @param min
+         *     Minimum cardinality
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #min(com.ibm.fhir.model.type.Integer)
+         */
+        public Builder min(java.lang.Integer min) {
+            this.min = (min == null) ? null : Integer.of(min);
+            return this;
+        }
+
+        /**
          * The minimum number of times this parameter SHALL appear in the request or response.
          * 
          * @param min
@@ -330,6 +351,22 @@ public class ParameterDefinition extends Element {
         }
 
         /**
+         * Convenience method for setting {@code max}.
+         * 
+         * @param max
+         *     Maximum cardinality (a number of *)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #max(com.ibm.fhir.model.type.String)
+         */
+        public Builder max(java.lang.String max) {
+            this.max = (max == null) ? null : String.of(max);
+            return this;
+        }
+
+        /**
          * The maximum number of times this element is permitted to appear in the request or response.
          * 
          * @param max
@@ -340,6 +377,22 @@ public class ParameterDefinition extends Element {
          */
         public Builder max(String max) {
             this.max = max;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code documentation}.
+         * 
+         * @param documentation
+         *     A brief description of the parameter
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #documentation(com.ibm.fhir.model.type.String)
+         */
+        public Builder documentation(java.lang.String documentation) {
+            this.documentation = (documentation == null) ? null : String.of(documentation);
             return this;
         }
 

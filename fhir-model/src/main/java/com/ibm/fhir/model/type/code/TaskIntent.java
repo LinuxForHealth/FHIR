@@ -51,48 +51,9 @@ public class TaskIntent extends Code {
 
     /**
      * Get the value of this TaskIntent as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this TaskIntent as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating TaskIntent objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static TaskIntent of(ValueSet value) {
-        switch (value) {
-        case UNKNOWN:
-            return UNKNOWN;
-        case PROPOSAL:
-            return PROPOSAL;
-        case PLAN:
-            return PLAN;
-        case ORDER:
-            return ORDER;
-        case ORIGINAL_ORDER:
-            return ORIGINAL_ORDER;
-        case REFLEX_ORDER:
-            return REFLEX_ORDER;
-        case FILLER_ORDER:
-            return FILLER_ORDER;
-        case INSTANCE_ORDER:
-            return INSTANCE_ORDER;
-        case OPTION:
-            return OPTION;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -218,14 +179,6 @@ public class TaskIntent extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -254,64 +207,6 @@ public class TaskIntent extends Code {
         protected Builder from(TaskIntent taskIntent) {
             super.from(taskIntent);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Unknown
-         * 
-         * <p>The intent is not known. When dealing with Task, it's not always known (or relevant) how the task was initiated - i.
-         * e. whether it was proposed, planned, ordered or just done spontaneously.
-         */
-        UNKNOWN("unknown"),
-
-        PROPOSAL("proposal"),
-
-        PLAN("plan"),
-
-        ORDER("order"),
-
-        ORIGINAL_ORDER("original-order"),
-
-        REFLEX_ORDER("reflex-order"),
-
-        FILLER_ORDER("filler-order"),
-
-        INSTANCE_ORDER("instance-order"),
-
-        OPTION("option");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating TaskIntent.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

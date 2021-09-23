@@ -63,40 +63,9 @@ public class RepositoryType extends Code {
 
     /**
      * Get the value of this RepositoryType as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this RepositoryType as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating RepositoryType objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static RepositoryType of(ValueSet value) {
-        switch (value) {
-        case DIRECTLINK:
-            return DIRECTLINK;
-        case OPENAPI:
-            return OPENAPI;
-        case LOGIN:
-            return LOGIN;
-        case OAUTH:
-            return OAUTH;
-        case OTHER:
-            return OTHER;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -214,14 +183,6 @@ public class RepositoryType extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -250,76 +211,6 @@ public class RepositoryType extends Code {
         protected Builder from(RepositoryType repositoryType) {
             super.from(repositoryType);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Click and see
-         * 
-         * <p>When URL is clicked, the resource can be seen directly (by webpage or by download link format).
-         */
-        DIRECTLINK("directlink"),
-
-        /**
-         * The URL is the RESTful or other kind of API that can access to the result.
-         * 
-         * <p>When the API method (e.g. [base_url]/[parameter]) related with the URL of the website is executed, the resource can 
-         * be seen directly (usually in JSON or XML format).
-         */
-        OPENAPI("openapi"),
-
-        /**
-         * Result cannot be access unless an account is logged in
-         * 
-         * <p>When logged into the website, the resource can be seen.
-         */
-        LOGIN("login"),
-
-        /**
-         * Result need to be fetched with API and need LOGIN( or cookies are required when visiting the link of resource)
-         * 
-         * <p>When logged in and follow the API in the website related with URL, the resource can be seen.
-         */
-        OAUTH("oauth"),
-
-        /**
-         * Some other complicated or particular way to get resource from URL.
-         * 
-         * <p>Some other complicated or particular way to get resource from URL.
-         */
-        OTHER("other");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating RepositoryType.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

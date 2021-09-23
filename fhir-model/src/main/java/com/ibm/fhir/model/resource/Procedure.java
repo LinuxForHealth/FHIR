@@ -340,7 +340,8 @@ public class Procedure extends DomainResource {
      * complex procedures that span more than one date, and also allows for the length of the procedure to be captured.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link DateTime}, {@link Period}, {@link String}, {@link Age} or {@link Range} that may be 
+     *     null.
      */
     public Element getPerformed() {
         return performed;
@@ -811,7 +812,8 @@ public class Procedure extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -828,13 +830,17 @@ public class Procedure extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -847,7 +853,8 @@ public class Procedure extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -866,13 +873,17 @@ public class Procedure extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -890,7 +901,8 @@ public class Procedure extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -914,13 +926,17 @@ public class Procedure extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -931,7 +947,8 @@ public class Procedure extends DomainResource {
          * Business identifiers assigned to this procedure by the performer or other systems which remain constant as the 
          * resource is updated and is propagated from server to server.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     External Identifiers for this procedure
@@ -950,13 +967,17 @@ public class Procedure extends DomainResource {
          * Business identifiers assigned to this procedure by the performer or other systems which remain constant as the 
          * resource is updated and is propagated from server to server.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     External Identifiers for this procedure
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder identifier(Collection<Identifier> identifier) {
             this.identifier = new ArrayList<>(identifier);
@@ -967,7 +988,8 @@ public class Procedure extends DomainResource {
          * The URL pointing to a FHIR-defined protocol, guideline, order set or other definition that is adhered to in whole or 
          * in part by this Procedure.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param instantiatesCanonical
          *     Instantiates FHIR protocol or definition
@@ -986,13 +1008,17 @@ public class Procedure extends DomainResource {
          * The URL pointing to a FHIR-defined protocol, guideline, order set or other definition that is adhered to in whole or 
          * in part by this Procedure.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param instantiatesCanonical
          *     Instantiates FHIR protocol or definition
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder instantiatesCanonical(Collection<Canonical> instantiatesCanonical) {
             this.instantiatesCanonical = new ArrayList<>(instantiatesCanonical);
@@ -1003,7 +1029,8 @@ public class Procedure extends DomainResource {
          * The URL pointing to an externally maintained protocol, guideline, order set or other definition that is adhered to in 
          * whole or in part by this Procedure.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param instantiatesUri
          *     Instantiates external protocol or definition
@@ -1022,13 +1049,17 @@ public class Procedure extends DomainResource {
          * The URL pointing to an externally maintained protocol, guideline, order set or other definition that is adhered to in 
          * whole or in part by this Procedure.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param instantiatesUri
          *     Instantiates external protocol or definition
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder instantiatesUri(Collection<Uri> instantiatesUri) {
             this.instantiatesUri = new ArrayList<>(instantiatesUri);
@@ -1038,7 +1069,8 @@ public class Procedure extends DomainResource {
         /**
          * A reference to a resource that contains details of the request for this procedure.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1062,7 +1094,8 @@ public class Procedure extends DomainResource {
         /**
          * A reference to a resource that contains details of the request for this procedure.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1075,6 +1108,9 @@ public class Procedure extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder basedOn(Collection<Reference> basedOn) {
             this.basedOn = new ArrayList<>(basedOn);
@@ -1084,7 +1120,8 @@ public class Procedure extends DomainResource {
         /**
          * A larger event of which this particular procedure is a component or step.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1109,7 +1146,8 @@ public class Procedure extends DomainResource {
         /**
          * A larger event of which this particular procedure is a component or step.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1123,6 +1161,9 @@ public class Procedure extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder partOf(Collection<Reference> partOf) {
             this.partOf = new ArrayList<>(partOf);
@@ -1231,6 +1272,22 @@ public class Procedure extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code performed} with choice type String.
+         * 
+         * @param performed
+         *     When the procedure was performed
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #performed(Element)
+         */
+        public Builder performed(java.lang.String performed) {
+            this.performed = (performed == null) ? null : String.of(performed);
+            return this;
+        }
+
+        /**
          * Estimated or actual date, date-time, period, or age when the procedure was performed. Allows a period to support 
          * complex procedures that span more than one date, and also allows for the length of the procedure to be captured.
          * 
@@ -1301,7 +1358,8 @@ public class Procedure extends DomainResource {
         /**
          * Limited to "real" people rather than equipment.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param performer
          *     The people who performed the procedure
@@ -1319,13 +1377,17 @@ public class Procedure extends DomainResource {
         /**
          * Limited to "real" people rather than equipment.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param performer
          *     The people who performed the procedure
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder performer(Collection<Performer> performer) {
             this.performer = new ArrayList<>(performer);
@@ -1355,7 +1417,8 @@ public class Procedure extends DomainResource {
          * The coded reason why the procedure was performed. This may be a coded entity of some type, or may simply be present as 
          * text.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param reasonCode
          *     Coded reason procedure performed
@@ -1374,13 +1437,17 @@ public class Procedure extends DomainResource {
          * The coded reason why the procedure was performed. This may be a coded entity of some type, or may simply be present as 
          * text.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param reasonCode
          *     Coded reason procedure performed
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder reasonCode(Collection<CodeableConcept> reasonCode) {
             this.reasonCode = new ArrayList<>(reasonCode);
@@ -1390,7 +1457,8 @@ public class Procedure extends DomainResource {
         /**
          * The justification of why the procedure was performed.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1417,7 +1485,8 @@ public class Procedure extends DomainResource {
         /**
          * The justification of why the procedure was performed.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1433,6 +1502,9 @@ public class Procedure extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder reasonReference(Collection<Reference> reasonReference) {
             this.reasonReference = new ArrayList<>(reasonReference);
@@ -1443,7 +1515,8 @@ public class Procedure extends DomainResource {
          * Detailed and structured anatomical location information. Multiple locations are allowed - e.g. multiple punch biopsies 
          * of a lesion.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param bodySite
          *     Target body sites
@@ -1462,13 +1535,17 @@ public class Procedure extends DomainResource {
          * Detailed and structured anatomical location information. Multiple locations are allowed - e.g. multiple punch biopsies 
          * of a lesion.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param bodySite
          *     Target body sites
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder bodySite(Collection<CodeableConcept> bodySite) {
             this.bodySite = new ArrayList<>(bodySite);
@@ -1492,7 +1569,8 @@ public class Procedure extends DomainResource {
         /**
          * This could be a histology result, pathology report, surgical report, etc.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1517,7 +1595,8 @@ public class Procedure extends DomainResource {
         /**
          * This could be a histology result, pathology report, surgical report, etc.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1531,6 +1610,9 @@ public class Procedure extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder report(Collection<Reference> report) {
             this.report = new ArrayList<>(report);
@@ -1542,7 +1624,8 @@ public class Procedure extends DomainResource {
          * tracked separately from the notes, which will typically describe the procedure itself rather than any 'post procedure' 
          * issues.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param complication
          *     Complication following the procedure
@@ -1562,13 +1645,17 @@ public class Procedure extends DomainResource {
          * tracked separately from the notes, which will typically describe the procedure itself rather than any 'post procedure' 
          * issues.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param complication
          *     Complication following the procedure
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder complication(Collection<CodeableConcept> complication) {
             this.complication = new ArrayList<>(complication);
@@ -1578,7 +1665,8 @@ public class Procedure extends DomainResource {
         /**
          * Any complications that occurred during the procedure, or in the immediate post-performance period.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1601,7 +1689,8 @@ public class Procedure extends DomainResource {
         /**
          * Any complications that occurred during the procedure, or in the immediate post-performance period.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1613,6 +1702,9 @@ public class Procedure extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder complicationDetail(Collection<Reference> complicationDetail) {
             this.complicationDetail = new ArrayList<>(complicationDetail);
@@ -1623,7 +1715,8 @@ public class Procedure extends DomainResource {
          * If the procedure required specific follow up - e.g. removal of sutures. The follow up may be represented as a simple 
          * note or could potentially be more complex, in which case the CarePlan resource can be used.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param followUp
          *     Instructions for follow up
@@ -1642,13 +1735,17 @@ public class Procedure extends DomainResource {
          * If the procedure required specific follow up - e.g. removal of sutures. The follow up may be represented as a simple 
          * note or could potentially be more complex, in which case the CarePlan resource can be used.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param followUp
          *     Instructions for follow up
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder followUp(Collection<CodeableConcept> followUp) {
             this.followUp = new ArrayList<>(followUp);
@@ -1658,7 +1755,8 @@ public class Procedure extends DomainResource {
         /**
          * Any other notes and comments about the procedure.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param note
          *     Additional information about the procedure
@@ -1676,13 +1774,17 @@ public class Procedure extends DomainResource {
         /**
          * Any other notes and comments about the procedure.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param note
          *     Additional information about the procedure
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder note(Collection<Annotation> note) {
             this.note = new ArrayList<>(note);
@@ -1693,7 +1795,8 @@ public class Procedure extends DomainResource {
          * A device that is implanted, removed or otherwise manipulated (calibration, battery replacement, fitting a prosthesis, 
          * attaching a wound-vac, etc.) as a focal portion of the Procedure.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param focalDevice
          *     Manipulated, implanted, or removed device
@@ -1712,13 +1815,17 @@ public class Procedure extends DomainResource {
          * A device that is implanted, removed or otherwise manipulated (calibration, battery replacement, fitting a prosthesis, 
          * attaching a wound-vac, etc.) as a focal portion of the Procedure.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param focalDevice
          *     Manipulated, implanted, or removed device
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder focalDevice(Collection<FocalDevice> focalDevice) {
             this.focalDevice = new ArrayList<>(focalDevice);
@@ -1728,7 +1835,8 @@ public class Procedure extends DomainResource {
         /**
          * Identifies medications, devices and any other substance used as part of the procedure.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1753,7 +1861,8 @@ public class Procedure extends DomainResource {
         /**
          * Identifies medications, devices and any other substance used as part of the procedure.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1767,6 +1876,9 @@ public class Procedure extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder usedReference(Collection<Reference> usedReference) {
             this.usedReference = new ArrayList<>(usedReference);
@@ -1776,7 +1888,8 @@ public class Procedure extends DomainResource {
         /**
          * Identifies coded items that were used as part of the procedure.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param usedCode
          *     Coded items used during the procedure
@@ -1794,13 +1907,17 @@ public class Procedure extends DomainResource {
         /**
          * Identifies coded items that were used as part of the procedure.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param usedCode
          *     Coded items used during the procedure
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder usedCode(Collection<CodeableConcept> usedCode) {
             this.usedCode = new ArrayList<>(usedCode);
@@ -2056,7 +2173,8 @@ public class Procedure extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2075,13 +2193,17 @@ public class Procedure extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2099,7 +2221,8 @@ public class Procedure extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2123,13 +2246,17 @@ public class Procedure extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2373,7 +2500,8 @@ public class Procedure extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2392,13 +2520,17 @@ public class Procedure extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2416,7 +2548,8 @@ public class Procedure extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2440,13 +2573,17 @@ public class Procedure extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {

@@ -62,40 +62,9 @@ public class AccountStatus extends Code {
 
     /**
      * Get the value of this AccountStatus as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this AccountStatus as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating AccountStatus objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static AccountStatus of(ValueSet value) {
-        switch (value) {
-        case ACTIVE:
-            return ACTIVE;
-        case INACTIVE:
-            return INACTIVE;
-        case ENTERED_IN_ERROR:
-            return ENTERED_IN_ERROR;
-        case ON_HOLD:
-            return ON_HOLD;
-        case UNKNOWN:
-            return UNKNOWN;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -213,14 +182,6 @@ public class AccountStatus extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -249,75 +210,6 @@ public class AccountStatus extends Code {
         protected Builder from(AccountStatus accountStatus) {
             super.from(accountStatus);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Active
-         * 
-         * <p>This account is active and may be used.
-         */
-        ACTIVE("active"),
-
-        /**
-         * Inactive
-         * 
-         * <p>This account is inactive and should not be used to track financial information.
-         */
-        INACTIVE("inactive"),
-
-        /**
-         * Entered in error
-         * 
-         * <p>This instance should not have been part of this patient's medical record.
-         */
-        ENTERED_IN_ERROR("entered-in-error"),
-
-        /**
-         * On Hold
-         * 
-         * <p>This account is on hold.
-         */
-        ON_HOLD("on-hold"),
-
-        /**
-         * Unknown
-         * 
-         * <p>The account status is unknown.
-         */
-        UNKNOWN("unknown");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating AccountStatus.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 
