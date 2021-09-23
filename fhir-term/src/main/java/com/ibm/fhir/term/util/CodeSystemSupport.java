@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -61,6 +62,7 @@ import com.ibm.fhir.term.service.FHIRTermService;
  * A utility class for working with FHIR code systems
  */
 public final class CodeSystemSupport {
+    private static final Logger LOG = Logger.getLogger(CodeSystemSupport.class.getName());
     public static final java.lang.String ANCESTORS_AND_SELF_CACHE_NAME = "com.ibm.fhir.term.util.CodeSystemSupport.ancestorsAndSelfCache";
     public static final java.lang.String DESCENDANTS_AND_SELF_CACHE_NAME = "com.ibm.fhir.term.util.CodeSystemSupport.descendantsAndSelfCache";
     public static final Configuration ANCESTORS_AND_SELF_CACHE_CONFIG = Configuration.of(128);
@@ -210,6 +212,7 @@ public final class CodeSystemSupport {
         }
         CacheKey key = key(codeSystem, code);
         Map<CacheKey, Set<java.lang.String>> cacheAsMap = CacheManager.getCacheAsMap(ANCESTORS_AND_SELF_CACHE_NAME, ANCESTORS_AND_SELF_CACHE_CONFIG);
+        CacheManager.reportCacheStats(LOG, ANCESTORS_AND_SELF_CACHE_NAME);
         return cacheAsMap.computeIfAbsent(key, k -> computeAncestorsAndSelf(codeSystem, code));
     }
 
@@ -458,6 +461,7 @@ public final class CodeSystemSupport {
         }
         CacheKey key = key(codeSystem, code);
         Map<CacheKey, Set<java.lang.String>> cacheAsMap = CacheManager.getCacheAsMap(DESCENDANTS_AND_SELF_CACHE_NAME, DESCENDANTS_AND_SELF_CACHE_CONFIG);
+        CacheManager.reportCacheStats(LOG, DESCENDANTS_AND_SELF_CACHE_NAME);
         return cacheAsMap.computeIfAbsent(key, k -> computeDescendantsAndSelf(codeSystem, code));
     }
 
