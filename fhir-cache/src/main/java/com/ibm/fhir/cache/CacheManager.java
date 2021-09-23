@@ -12,6 +12,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.stats.CacheStats;
@@ -22,6 +24,7 @@ import com.ibm.fhir.core.TenantIdProvider;
  * A class used to create and manage cache instances on a per tenant basis
  */
 public final class CacheManager {
+    private static final Logger LOG = Logger.getLogger(CacheManager.class.getName());
     private static final Map<String, Map<String, Cache<?, ?>>> TENANT_CACHE_MAPS = new ConcurrentHashMap<>();
     private static final TenantIdProvider TENANT_ID_PROVIDER = TenantIdProvider.provider();
 
@@ -302,5 +305,33 @@ public final class CacheManager {
             return CacheSupport.createCache(configuration.getMaximumSize(), true);
         }
         return CacheSupport.createCache(configuration.getDuration(), true);
+    }
+
+    /**
+     * Reports the cache statistics in the caffeine cache.
+     * @param cacheClientLogger used to report the statistics
+     * @param cacheName the name of the cache to check
+     */
+    public static void reportCacheStats(Logger cacheClientLogger, String cacheName) {
+        Objects.requireNonNull(cacheClientLogger, "The logger must exist");
+        Objects.requireNonNull(cacheName, "The cacheName must exist");
+        if (LOG.isLoggable(Level.FINE) && cacheClientLogger.isLoggable(Level.FINEST)) {
+            CacheStats stats = CacheManager.getCacheStats(cacheName);
+            if (stats == null) {
+                cacheClientLogger.warning("No cachestats for " + cacheName);
+            } else {
+                cacheClientLogger.fine("CacheStats for '" + cacheName + "' "
+                        + "averageLoadPenalty=[" + stats.averageLoadPenalty() + "],"
+                        + "evictionCount=[" + stats.evictionCount() + "],"
+                        + "hitCount=[" + stats.hitCount() + "],"
+                        + "hitRate=[" + stats.hitRate() + "],"
+                        + "loadCount=[" + stats.loadCount() + "],"
+                        + "missCount=[" + stats.missCount() + "],"
+                        + "requestCount=[" + stats.requestCount() + "],"
+                        + "missRate=[" + stats.missRate() + "],"
+                        + "loadFailureRate=[" + stats.loadFailureRate() + "]");
+
+            }
+        }
     }
 }

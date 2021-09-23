@@ -52,6 +52,7 @@ public class ServerResolveFunction extends ResolveFunction {
     @Override
     protected Resource resolveRelativeReference(EvaluationContext evaluationContext, FHIRPathNode node, String resourceType, String logicalId, String versionId) {
         Map<CacheKey, Object> cacheAsMap = CacheManager.getCacheAsMap(RESOURCE_CACHE_NAME, RESOURCE_CACHE_CONFIGURATION);
+        CacheManager.reportCacheStats(log, RESOURCE_CACHE_NAME);
         CacheKey key = key(resourceType, logicalId, versionId);
         Object result = cacheAsMap.computeIfAbsent(key, k -> computeResource(evaluationContext, node, resourceType, logicalId, versionId));
         return (result != NULL) ? (Resource) result : null;
