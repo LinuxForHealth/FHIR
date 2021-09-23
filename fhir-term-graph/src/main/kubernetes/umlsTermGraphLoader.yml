@@ -15,23 +15,25 @@ spec:
           value: "true"
         - name: LOAD_MAP
           value: "true"
-        - name: STORAGE_HOSTNAME
+        - name: TERM_CONFIG_PROPS
+          value: "conf/janusgraph-cassandra-elasticsearch.properties"
+        - name: TERM_STORAGE_HOSTNAME
           value: "namespace-k8ssandra-dc1-stargate-service"
-        - name: STORAGE_USERNAME
+        - name: TERM_STORAGE_USERNAME
           value: "namespace-k8ssandra-superuser"
-        - name: STORAGE_PASSWORD
+        - name: TERM_STORAGE_PASSWORD
           value: "password"
-        - name: INDEX_SEARCH_HOSTNAME
+        - name: TERM_INDEX_SEARCH_HOSTNAME
           value: "elasticsearch"
-        - name: COS_ENDPOINT
+        - name: TERM_COS_ENDPOINT
           value: "https://s3.us-east.cloud-object-storage.appdomain.cloud"
-        - name: COS_BUCKET_LOCATION
+        - name: TERM_COS_BUCKET_LOCATION
           value: "us"
-        - name: COS_SERVICE_CRN
+        - name: TERM_COS_SERVICE_CRN
           value: ""
-        - name: COS_API_KEY_ID
+        - name: TERM_COS_API_KEY_ID
           value: ""
-        - name: COS_AUTH_ENDPOINT
+        - name: TERM_COS_AUTH_ENDPOINT
           value: "https://iam.cloud.ibm.com/identity/token"
-        - name: COS_BUCKET_NAME
+        - name: TERM_COS_BUCKET_NAME
           value: "fhir-term-graph"

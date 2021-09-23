@@ -1,3 +1,9 @@
+# ----------------------------------------------------------------------------
+# (C) Copyright IBM Corp. 2021
+#
+# SPDX-License-Identifier: Apache-2.0
+# ----------------------------------------------------------------------------
+
 # Build stage
 FROM maven:3.6.0-jdk-11-slim AS build
 COPY . /
@@ -15,8 +21,8 @@ RUN mvn org.apache.maven.plugins:maven-dependency-plugin:3.2.0:copy-dependencies
 # Package stage
 FROM openjdk:11-jre-slim
 
-COPY --from=build loadTermGraph.sh /usr/local/
-COPY --from=build /fhir-term-graph/target/*.jar /usr/local/lib/
-COPY --from=build /fhir-term-graph/target/ftg/*.jar /usr/local/lib/
+COPY --from=build run.sh /opt/
+COPY --from=build /fhir-term-graph/target/*.jar /opt/lib/
+COPY --from=build /fhir-term-graph/target/ftg/*.jar /opt/lib/
 
-CMD ["/usr/local/loadTermGraph.sh"]
+ENTRYPOINT ["/opt/run.sh"]

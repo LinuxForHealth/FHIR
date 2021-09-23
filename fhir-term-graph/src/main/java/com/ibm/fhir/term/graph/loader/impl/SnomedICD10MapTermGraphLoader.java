@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021, 2021
+ * (C) Copyright IBM Corp. 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -36,14 +36,16 @@ import com.ibm.fhir.term.graph.loader.util.ConfigLoader;
 /*
  * This class will load edges between Snomed codes and ICD10 codes based on the UMLS into a JanusGraph.
  */
-public class SnoMedICD10MapTermGraphLoader extends AbstractTermGraphLoader {
-    private static final Logger LOG = Logger.getLogger(SnoMedICD10MapTermGraphLoader.class.getName());
+public class SnomedICD10MapTermGraphLoader extends AbstractTermGraphLoader {
+    private static final Logger LOG = Logger.getLogger(SnomedICD10MapTermGraphLoader.class.getName());
 
     public static final String MAPS_TO = "mapsTo";
 
     private static final String SNOMED_TO_ICD_MAP_FILE = "der2_iisssccRefset_ExtendedMapFull_US1000124_20210901.txt";
 
     private static final String UMLS_DELIMITER = "\t";
+
+    private String cosBucketName = null;
 
     /**
      * Load the Snomed->ICD map from file, respecting effectiveDate and active status
@@ -53,8 +55,8 @@ public class SnoMedICD10MapTermGraphLoader extends AbstractTermGraphLoader {
      * @throws IOException
      */
     public static final Map<String,Set<String>> loadMap(String cosBucketName) throws IOException {
-        // For a given snomed code, find the most recent active row. If the rule is
-        // always map to a single ICD code, add an edge. If not, skip that snomed code.
+        // For a given Snomed code, find the most recent active row. If the rule is
+        // always map to a single ICD code, add an edge. If not, skip that Snomed code.
 
         Map<String, String> snomedToDateMap = new HashMap<>(); // Snomed->ICD, date
         Map<String, Set<String>> snomedToICDMap = new HashMap<>(); // Snomed->ICD, date
@@ -65,8 +67,16 @@ public class SnoMedICD10MapTermGraphLoader extends AbstractTermGraphLoader {
                 if (rowCount.incrementAndGet() % 100000 == 0) {
                     LOG.info("Row Count: " + rowCount.get());
                 }
-
+                
+                if (line == null) {
+                    return;
+                }
                 String[] tokens = line.split(UMLS_DELIMITER);
+
+                if (tokens.length < 11) {
+                    // Expect at least 11 tokens per valid row of data
+                    return;
+                }
                 String active = tokens[2];
                 if (!active.equals("1")) { // Skip inactive rows
                     return;
@@ -105,56 +115,16 @@ public class SnoMedICD10MapTermGraphLoader extends AbstractTermGraphLoader {
     }
 
     /**
-     * Load UMLS data using properties provided in arguments
-     *
-     * @param args
-     */
-    public static void main(String[] args) {
-        SnoMedICD10MapTermGraphLoader loader = null;
-        Options options = null;
-        try {
-            long start = System.currentTimeMillis();
-
-            options = FHIRTermGraphLoader.Type.UMLS.options();
-
-            CommandLineParser parser = new DefaultParser();
-            CommandLine commandLine = parser.parse(options, args);
-            Map<String, String> commandLineMap = toMap(commandLine);
-
-            String propFileName = commandLineMap.get("config");
-            Configuration configuration = ConfigLoader.load(propFileName);
-            
-            loader = new SnoMedICD10MapTermGraphLoader(toMap(commandLine), configuration);
-            loader.load();
-
-            long end = System.currentTimeMillis();
-            LOG.info("Loading time (milliseconds): " + (end - start));
-        } catch (MissingOptionException e) {
-            LOG.log(Level.SEVERE, "MissingOptionException: ", e);
-            HelpFormatter formatter = new HelpFormatter();
-            formatter.printHelp("UMLSTermGraphLoader", options);
-        } catch (Exception e) {
-            LOG.log(Level.SEVERE, "An error occurred: " + e.getMessage());
-        } finally {
-            if (loader != null) {
-                loader.close();
-            }
-        }
-    }
-
-    private String cosBucketName = null;
-    
-    /**
      * Initialize a SnoMedICD10MapTermGraphLoader
      *
      * @param options
      * @param configuration
      */
-    public SnoMedICD10MapTermGraphLoader(Map<String, String> options, Configuration configuration) {
+    public SnomedICD10MapTermGraphLoader(Map<String, String> options, Configuration configuration) {
         super(options, configuration);
         cosBucketName = System.getenv(UMLSTermGraphLoader.COS_BUCKET_NAME);
     }
-    
+   
 
     /**
      * Loads edges into JanusGraph
@@ -202,6 +172,44 @@ public class SnoMedICD10MapTermGraphLoader extends AbstractTermGraphLoader {
             LOG.info("Done loading Snomed to ICD10 map.....");
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Load UMLS data using properties provided in arguments
+     *
+     * @param args
+     */
+    public static void main(String[] args) {
+        SnomedICD10MapTermGraphLoader loader = null;
+        Options options = null;
+        try {
+            long start = System.currentTimeMillis();
+
+            options = FHIRTermGraphLoader.Type.UMLS.options();
+
+            CommandLineParser parser = new DefaultParser();
+            CommandLine commandLine = parser.parse(options, args);
+            Map<String, String> commandLineMap = toMap(commandLine);
+
+            String propFileName = commandLineMap.get("config");
+            Configuration configuration = ConfigLoader.load(propFileName);
+            
+            loader = new SnomedICD10MapTermGraphLoader(toMap(commandLine), configuration);
+            loader.load();
+
+            long end = System.currentTimeMillis();
+            LOG.info("Loading time (milliseconds): " + (end - start));
+        } catch (MissingOptionException e) {
+            LOG.log(Level.SEVERE, "MissingOptionException: ", e);
+            HelpFormatter formatter = new HelpFormatter();
+            formatter.printHelp("UMLSTermGraphLoader", options);
+        } catch (Exception e) {
+            LOG.log(Level.SEVERE, "An error occurred: " + e.getMessage());
+        } finally {
+            if (loader != null) {
+                loader.close();
+            }
         }
     }
 }

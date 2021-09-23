@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021, 2021
+ * (C) Copyright IBM Corp. 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -23,12 +23,12 @@ public class ConfigLoader {
     public static final String STORAGE_PASSWORD = "storage.password";
     public static final String INDEX_SEARCH_HOSTNAME = "index.search.hostname";
     public static final String INDEX_SEARCH_PORT = "index.search.port";
-    public static final String STORAGE_HOSTNAME_ENV = STORAGE_HOSTNAME.toUpperCase().replaceAll("\\.", "_");
-    public static final String STORAGE_PORT_ENV = STORAGE_PORT.toUpperCase().replaceAll("\\.", "_");
-    public static final String STORAGE_USERNAME_ENV = STORAGE_USERNAME.toUpperCase().replaceAll("\\.", "_");
-    public static final String STORAGE_PASSWORD_ENV = STORAGE_PASSWORD.toUpperCase().replaceAll("\\.", "_");
-    public static final String INDEX_SEARCH_HOSTNAME_ENV = INDEX_SEARCH_HOSTNAME.toUpperCase().replaceAll("\\.", "_");
-    public static final String INDEX_SEARCH_PORT_ENV = INDEX_SEARCH_PORT.toUpperCase().replaceAll("\\.", "_");
+    public static final String STORAGE_HOSTNAME_ENV = "TERM_" + STORAGE_HOSTNAME.toUpperCase().replaceAll("\\.", "_");
+    public static final String STORAGE_PORT_ENV = "TERM_" + STORAGE_PORT.toUpperCase().replaceAll("\\.", "_");
+    public static final String STORAGE_USERNAME_ENV = "TERM_" + STORAGE_USERNAME.toUpperCase().replaceAll("\\.", "_");
+    public static final String STORAGE_PASSWORD_ENV = "TERM_" + STORAGE_PASSWORD.toUpperCase().replaceAll("\\.", "_");
+    public static final String INDEX_SEARCH_HOSTNAME_ENV = "TERM_" + INDEX_SEARCH_HOSTNAME.toUpperCase().replaceAll("\\.", "_");
+    public static final String INDEX_SEARCH_PORT_ENV = "TERM_" + INDEX_SEARCH_PORT.toUpperCase().replaceAll("\\.", "_");
 
     private static final Logger LOG = Logger.getLogger(ConfigLoader.class.getName());
 
@@ -40,6 +40,15 @@ public class ConfigLoader {
         if (propFileName == null) {
             LOG.info("Could not load configuration from property file. ");
             configuration = new BaseConfiguration();
+            configuration.setProperty("storage.backend", "cql");
+            configuration.setProperty("storage.batch-loading", "true");
+            configuration.setProperty(STORAGE_HOSTNAME, "127.0.0.1");
+            configuration.setProperty("index.search.backend", "elasticsearch");
+            configuration.setProperty(INDEX_SEARCH_HOSTNAME, "127.0.0.1");
+            configuration.setProperty(INDEX_SEARCH_PORT, "9200");
+            configuration.setProperty("cache.tx-cache-size", "100000");
+            configuration.setProperty("cache.tx-dirty-size", "10000");
+            configuration.setProperty("ids.block-size", "500000");
         } else {
             configuration = new PropertiesConfiguration(propFileName);
         }

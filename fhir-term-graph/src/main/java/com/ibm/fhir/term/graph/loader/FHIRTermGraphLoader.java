@@ -40,7 +40,7 @@ public interface FHIRTermGraphLoader {
             @Override
             public Options options() {
                 return new Options()
-                    .addRequiredOption("config", null, true, "Configuration properties file")
+                    .addOption("config", null, true, "Configuration properties file")
                     .addOption("labels", null, true, "labels");
             }
         };

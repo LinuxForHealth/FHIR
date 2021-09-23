@@ -50,7 +50,7 @@ public class UMLSTermGraphLoader extends AbstractTermGraphLoader {
     private static final String UMLS_SOURCE_INFORMATION_FILE = "MRSAB.RRF";
     private static final String UMLS_RELATED_CONCEPTS_FILE = "MRREL.RRF";
     private static final String UMLS_DELIMITER = "\\|";
-    public static final String COS_BUCKET_NAME = "COS_BUCKET_NAME";
+    public static final String COS_BUCKET_NAME = "TERM_COS_BUCKET_NAME";
 
     // Map to track AUI to SCUI relationships, since MRREL uses AUI, but granularity of concepts used in MRCONSO is at SCUI/CODE level
     private Map<String, String> auiToCodeMap = new ConcurrentHashMap<>(1000000);
@@ -134,8 +134,14 @@ public class UMLSTermGraphLoader extends AbstractTermGraphLoader {
 
         try (BufferedReader reader = new BufferedReader(COSObject.getItem(cosBucketName, UMLS_CONCEPT_NAMES_AND_SOURCES_FILE))) {
             reader.lines().forEach(line -> {
-
+                if (line == null) {
+                    return;
+                }
                 String[] tokens = line.split(UMLS_DELIMITER);
+                if (tokens.length < 18) {
+                    // Expect 18 tokens per valid line
+                    return;
+                }
                 String lat = tokens[1];
                 String aui = tokens[7];
                 String scui = tokens[9];
@@ -217,7 +223,14 @@ public class UMLSTermGraphLoader extends AbstractTermGraphLoader {
 
         try (BufferedReader reader = new BufferedReader(COSObject.getItem(cosBucketName, UMLS_RELATED_CONCEPTS_FILE))) {
             reader.lines().forEach(line -> {
+                if (line == null) {
+                    return;
+                }
                 String[] tokens = line.split(UMLS_DELIMITER);
+                if (tokens.length < 16) {
+                    // Expect 16 tokens per valid line
+                    return;
+                }
                 String aui1 = tokens[1];
                 String rel = tokens[3];
                 String rela = tokens[7];
@@ -288,7 +301,14 @@ public class UMLSTermGraphLoader extends AbstractTermGraphLoader {
         try (BufferedReader reader = new BufferedReader(COSObject.getItem(cosBucketName, UMLS_SOURCE_INFORMATION_FILE))) {
             // Load latest version for code systems in UMLS
             reader.lines().forEach(line -> {
+                if (line==null) {
+                    return;
+                }
                 String[] tokens = line.split(UMLS_DELIMITER);
+                if (tokens.length < 25) {
+                    // Expect 25 tokens per valid line
+                    return;
+                }
                 String rsab = tokens[3];
                 String sver = tokens[6];
                 String curver = tokens[21];
