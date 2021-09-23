@@ -48,36 +48,9 @@ public class SearchEntryMode extends Code {
 
     /**
      * Get the value of this SearchEntryMode as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this SearchEntryMode as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating SearchEntryMode objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static SearchEntryMode of(ValueSet value) {
-        switch (value) {
-        case MATCH:
-            return MATCH;
-        case INCLUDE:
-            return INCLUDE;
-        case OUTCOME:
-            return OUTCOME;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -191,14 +164,6 @@ public class SearchEntryMode extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -227,61 +192,6 @@ public class SearchEntryMode extends Code {
         protected Builder from(SearchEntryMode searchEntryMode) {
             super.from(searchEntryMode);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Match
-         * 
-         * <p>This resource matched the search specification.
-         */
-        MATCH("match"),
-
-        /**
-         * Include
-         * 
-         * <p>This resource is returned because it is referred to from another resource in the search set.
-         */
-        INCLUDE("include"),
-
-        /**
-         * Outcome
-         * 
-         * <p>An OperationOutcome that provides additional information about the processing of a search.
-         */
-        OUTCOME("outcome");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating SearchEntryMode.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

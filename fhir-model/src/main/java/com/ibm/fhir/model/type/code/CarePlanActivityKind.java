@@ -43,46 +43,9 @@ public class CarePlanActivityKind extends Code {
 
     /**
      * Get the value of this CarePlanActivityKind as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this CarePlanActivityKind as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating CarePlanActivityKind objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static CarePlanActivityKind of(ValueSet value) {
-        switch (value) {
-        case APPOINTMENT:
-            return APPOINTMENT;
-        case COMMUNICATION_REQUEST:
-            return COMMUNICATION_REQUEST;
-        case DEVICE_REQUEST:
-            return DEVICE_REQUEST;
-        case MEDICATION_REQUEST:
-            return MEDICATION_REQUEST;
-        case NUTRITION_ORDER:
-            return NUTRITION_ORDER;
-        case TASK:
-            return TASK;
-        case SERVICE_REQUEST:
-            return SERVICE_REQUEST;
-        case VISION_PRESCRIPTION:
-            return VISION_PRESCRIPTION;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -206,14 +169,6 @@ public class CarePlanActivityKind extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -242,56 +197,6 @@ public class CarePlanActivityKind extends Code {
         protected Builder from(CarePlanActivityKind carePlanActivityKind) {
             super.from(carePlanActivityKind);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        APPOINTMENT("Appointment"),
-
-        COMMUNICATION_REQUEST("CommunicationRequest"),
-
-        DEVICE_REQUEST("DeviceRequest"),
-
-        MEDICATION_REQUEST("MedicationRequest"),
-
-        NUTRITION_ORDER("NutritionOrder"),
-
-        TASK("Task"),
-
-        SERVICE_REQUEST("ServiceRequest"),
-
-        VISION_PRESCRIPTION("VisionPrescription");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating CarePlanActivityKind.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

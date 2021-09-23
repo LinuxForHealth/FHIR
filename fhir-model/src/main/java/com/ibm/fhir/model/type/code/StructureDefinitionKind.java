@@ -62,38 +62,9 @@ public class StructureDefinitionKind extends Code {
 
     /**
      * Get the value of this StructureDefinitionKind as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this StructureDefinitionKind as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating StructureDefinitionKind objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static StructureDefinitionKind of(ValueSet value) {
-        switch (value) {
-        case PRIMITIVE_TYPE:
-            return PRIMITIVE_TYPE;
-        case COMPLEX_TYPE:
-            return COMPLEX_TYPE;
-        case RESOURCE:
-            return RESOURCE;
-        case LOGICAL:
-            return LOGICAL;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -209,14 +180,6 @@ public class StructureDefinitionKind extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -245,75 +208,6 @@ public class StructureDefinitionKind extends Code {
         protected Builder from(StructureDefinitionKind structureDefinitionKind) {
             super.from(structureDefinitionKind);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Primitive Data Type
-         * 
-         * <p>A primitive type that has a value and an extension. These can be used throughout complex datatype, Resource and 
-         * extension definitions. Only the base specification can define primitive types.
-         */
-        PRIMITIVE_TYPE("primitive-type"),
-
-        /**
-         * Complex Data Type
-         * 
-         * <p>A complex structure that defines a set of data elements that is suitable for use in 'resources'. The base 
-         * specification defines a number of complex types, and other specifications can define additional types. These 
-         * structures do not have a maintained identity.
-         */
-        COMPLEX_TYPE("complex-type"),
-
-        /**
-         * Resource
-         * 
-         * <p>A 'resource' - a directed acyclic graph of elements that aggregrates other types into an identifiable entity. The 
-         * base FHIR resources are defined by the FHIR specification itself but other 'resources' can be defined in additional 
-         * specifications (though these will not be recognised as 'resources' by the FHIR specification (i.e. they do not get end-
-         * points etc, or act as the targets of references in FHIR defined resources - though other specificatiosn can treat them 
-         * this way).
-         */
-        RESOURCE("resource"),
-
-        /**
-         * Logical
-         * 
-         * <p>A pattern or a template that is not intended to be a real resource or complex type.
-         */
-        LOGICAL("logical");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating StructureDefinitionKind.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

@@ -86,42 +86,9 @@ public class StandardsStatus extends Code {
 
     /**
      * Get the value of this StandardsStatus as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this StandardsStatus as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating StandardsStatus objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static StandardsStatus of(ValueSet value) {
-        switch (value) {
-        case DRAFT:
-            return DRAFT;
-        case NORMATIVE:
-            return NORMATIVE;
-        case TRIAL_USE:
-            return TRIAL_USE;
-        case INFORMATIVE:
-            return INFORMATIVE;
-        case DEPRECATED:
-            return DEPRECATED;
-        case EXTERNAL:
-            return EXTERNAL;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -241,14 +208,6 @@ public class StandardsStatus extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -277,99 +236,6 @@ public class StandardsStatus extends Code {
         protected Builder from(StandardsStatus standardsStatus) {
             super.from(standardsStatus);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Draft
-         * 
-         * <p>This portion of the specification is not considered to be complete enough or sufficiently reviewed to be safe for 
-         * implementation. It may have known issues or still be in the "in development" stage. It is included in the publication 
-         * as a place-holder, to solicit feedback from the implementation community and/or to give implementers some insight as 
-         * to functionality likely to be included in future versions of the specification. Content at this level should only be 
-         * implemented by the brave or desperate and is very much "use at your own risk". The content that is Draft that will 
-         * usually be elevated to Trial Use once review and correction is complete after it has been subjected to ballot.
-         */
-        DRAFT("draft"),
-
-        /**
-         * Normative
-         * 
-         * <p>This content has been subject to review and production implementation in a wide variety of environments. The 
-         * content is considered to be stable and has been 'locked', subjecting it to FHIR Inter-version Compatibility Rules. 
-         * While changes are possible, they are expected to be infrequent and are tightly constrained. Compatibility Rules.
-         */
-        NORMATIVE("normative"),
-
-        /**
-         * Trial-Use
-         * 
-         * <p>This content has been well reviewed and is considered by the authors to be ready for use in production systems. It 
-         * has been subjected to ballot and approved as an official standard. However, it has not yet seen widespread use in 
-         * production across the full spectrum of environments it is intended to be used in. In some cases, there may be 
-         * documented known issues that require implementation experience to determine appropriate resolutions for.
-         * 
-         * <p>Future versions of FHIR may make significant changes to Trial Use content that are not compatible with previously 
-         * published content.
-         */
-        TRIAL_USE("trial-use"),
-
-        /**
-         * Informative
-         * 
-         * <p>This portion of the specification is provided for implementer assistance, and does not make rules that implementers 
-         * are required to follow. Typical examples of this content in the FHIR specification are tables of contents, registries, 
-         * examples, and implementer advice.
-         */
-        INFORMATIVE("informative"),
-
-        /**
-         * Deprecated
-         * 
-         * <p>This portion of the specification is provided for implementer assistance, and does not make rules that implementers 
-         * are required to follow. Typical examples of this content in the FHIR specification are tables of contents, registries, 
-         * examples, and implementer advice.
-         */
-        DEPRECATED("deprecated"),
-
-        /**
-         * External
-         * 
-         * <p>This is content that is managed outside the FHIR Specification, but included for implementer convenience.
-         */
-        EXTERNAL("external");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating StandardsStatus.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

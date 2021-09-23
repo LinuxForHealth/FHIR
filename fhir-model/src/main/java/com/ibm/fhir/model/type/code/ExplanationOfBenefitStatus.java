@@ -55,38 +55,9 @@ public class ExplanationOfBenefitStatus extends Code {
 
     /**
      * Get the value of this ExplanationOfBenefitStatus as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this ExplanationOfBenefitStatus as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating ExplanationOfBenefitStatus objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static ExplanationOfBenefitStatus of(ValueSet value) {
-        switch (value) {
-        case ACTIVE:
-            return ACTIVE;
-        case CANCELLED:
-            return CANCELLED;
-        case DRAFT:
-            return DRAFT;
-        case ENTERED_IN_ERROR:
-            return ENTERED_IN_ERROR;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -202,14 +173,6 @@ public class ExplanationOfBenefitStatus extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -238,68 +201,6 @@ public class ExplanationOfBenefitStatus extends Code {
         protected Builder from(ExplanationOfBenefitStatus explanationOfBenefitStatus) {
             super.from(explanationOfBenefitStatus);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Active
-         * 
-         * <p>The resource instance is currently in-force.
-         */
-        ACTIVE("active"),
-
-        /**
-         * Cancelled
-         * 
-         * <p>The resource instance is withdrawn, rescinded or reversed.
-         */
-        CANCELLED("cancelled"),
-
-        /**
-         * Draft
-         * 
-         * <p>A new resource instance the contents of which is not complete.
-         */
-        DRAFT("draft"),
-
-        /**
-         * Entered In Error
-         * 
-         * <p>The resource instance was entered in error.
-         */
-        ENTERED_IN_ERROR("entered-in-error");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating ExplanationOfBenefitStatus.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

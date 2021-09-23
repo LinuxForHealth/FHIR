@@ -90,48 +90,9 @@ public class SearchComparator extends Code {
 
     /**
      * Get the value of this SearchComparator as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this SearchComparator as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating SearchComparator objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static SearchComparator of(ValueSet value) {
-        switch (value) {
-        case EQ:
-            return EQ;
-        case NE:
-            return NE;
-        case GT:
-            return GT;
-        case LT:
-            return LT;
-        case GE:
-            return GE;
-        case LE:
-            return LE;
-        case SA:
-            return SA;
-        case EB:
-            return EB;
-        case AP:
-            return AP;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -257,14 +218,6 @@ public class SearchComparator extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -293,103 +246,6 @@ public class SearchComparator extends Code {
         protected Builder from(SearchComparator searchComparator) {
             super.from(searchComparator);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Equals
-         * 
-         * <p>the value for the parameter in the resource is equal to the provided value.
-         */
-        EQ("eq"),
-
-        /**
-         * Not Equals
-         * 
-         * <p>the value for the parameter in the resource is not equal to the provided value.
-         */
-        NE("ne"),
-
-        /**
-         * Greater Than
-         * 
-         * <p>the value for the parameter in the resource is greater than the provided value.
-         */
-        GT("gt"),
-
-        /**
-         * Less Than
-         * 
-         * <p>the value for the parameter in the resource is less than the provided value.
-         */
-        LT("lt"),
-
-        /**
-         * Greater or Equals
-         * 
-         * <p>the value for the parameter in the resource is greater or equal to the provided value.
-         */
-        GE("ge"),
-
-        /**
-         * Less of Equal
-         * 
-         * <p>the value for the parameter in the resource is less or equal to the provided value.
-         */
-        LE("le"),
-
-        /**
-         * Starts After
-         * 
-         * <p>the value for the parameter in the resource starts after the provided value.
-         */
-        SA("sa"),
-
-        /**
-         * Ends Before
-         * 
-         * <p>the value for the parameter in the resource ends before the provided value.
-         */
-        EB("eb"),
-
-        /**
-         * Approximately
-         * 
-         * <p>the value for the parameter in the resource is approximately the same to the provided value.
-         */
-        AP("ap");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating SearchComparator.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

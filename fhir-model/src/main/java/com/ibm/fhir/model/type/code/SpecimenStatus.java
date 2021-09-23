@@ -55,38 +55,9 @@ public class SpecimenStatus extends Code {
 
     /**
      * Get the value of this SpecimenStatus as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this SpecimenStatus as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating SpecimenStatus objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static SpecimenStatus of(ValueSet value) {
-        switch (value) {
-        case AVAILABLE:
-            return AVAILABLE;
-        case UNAVAILABLE:
-            return UNAVAILABLE;
-        case UNSATISFACTORY:
-            return UNSATISFACTORY;
-        case ENTERED_IN_ERROR:
-            return ENTERED_IN_ERROR;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -202,14 +173,6 @@ public class SpecimenStatus extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -238,68 +201,6 @@ public class SpecimenStatus extends Code {
         protected Builder from(SpecimenStatus specimenStatus) {
             super.from(specimenStatus);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Available
-         * 
-         * <p>The physical specimen is present and in good condition.
-         */
-        AVAILABLE("available"),
-
-        /**
-         * Unavailable
-         * 
-         * <p>There is no physical specimen because it is either lost, destroyed or consumed.
-         */
-        UNAVAILABLE("unavailable"),
-
-        /**
-         * Unsatisfactory
-         * 
-         * <p>The specimen cannot be used because of a quality issue such as a broken container, contamination, or too old.
-         */
-        UNSATISFACTORY("unsatisfactory"),
-
-        /**
-         * Entered in Error
-         * 
-         * <p>The specimen was entered in error and therefore nullified.
-         */
-        ENTERED_IN_ERROR("entered-in-error");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating SpecimenStatus.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

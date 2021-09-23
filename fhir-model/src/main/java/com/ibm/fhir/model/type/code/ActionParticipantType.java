@@ -55,38 +55,9 @@ public class ActionParticipantType extends Code {
 
     /**
      * Get the value of this ActionParticipantType as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this ActionParticipantType as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating ActionParticipantType objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static ActionParticipantType of(ValueSet value) {
-        switch (value) {
-        case PATIENT:
-            return PATIENT;
-        case PRACTITIONER:
-            return PRACTITIONER;
-        case RELATED_PERSON:
-            return RELATED_PERSON;
-        case DEVICE:
-            return DEVICE;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -202,14 +173,6 @@ public class ActionParticipantType extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -238,68 +201,6 @@ public class ActionParticipantType extends Code {
         protected Builder from(ActionParticipantType actionParticipantType) {
             super.from(actionParticipantType);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Patient
-         * 
-         * <p>The participant is the patient under evaluation.
-         */
-        PATIENT("patient"),
-
-        /**
-         * Practitioner
-         * 
-         * <p>The participant is a practitioner involved in the patient's care.
-         */
-        PRACTITIONER("practitioner"),
-
-        /**
-         * Related Person
-         * 
-         * <p>The participant is a person related to the patient.
-         */
-        RELATED_PERSON("related-person"),
-
-        /**
-         * Device
-         * 
-         * <p>The participant is a system or device used in the care of the patient.
-         */
-        DEVICE("device");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating ActionParticipantType.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

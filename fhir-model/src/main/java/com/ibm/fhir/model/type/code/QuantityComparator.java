@@ -55,38 +55,9 @@ public class QuantityComparator extends Code {
 
     /**
      * Get the value of this QuantityComparator as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this QuantityComparator as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating QuantityComparator objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static QuantityComparator of(ValueSet value) {
-        switch (value) {
-        case LESS_THAN:
-            return LESS_THAN;
-        case LESS_OR_EQUALS:
-            return LESS_OR_EQUALS;
-        case GREATER_OR_EQUALS:
-            return GREATER_OR_EQUALS;
-        case GREATER_THAN:
-            return GREATER_THAN;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -202,14 +173,6 @@ public class QuantityComparator extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -238,68 +201,6 @@ public class QuantityComparator extends Code {
         protected Builder from(QuantityComparator quantityComparator) {
             super.from(quantityComparator);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Less than
-         * 
-         * <p>The actual value is less than the given value.
-         */
-        LESS_THAN("<"),
-
-        /**
-         * Less or Equal to
-         * 
-         * <p>The actual value is less than or equal to the given value.
-         */
-        LESS_OR_EQUALS("<="),
-
-        /**
-         * Greater or Equal to
-         * 
-         * <p>The actual value is greater than or equal to the given value.
-         */
-        GREATER_OR_EQUALS(">="),
-
-        /**
-         * Greater than
-         * 
-         * <p>The actual value is greater than the given value.
-         */
-        GREATER_THAN(">");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating QuantityComparator.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

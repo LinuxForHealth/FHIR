@@ -55,38 +55,9 @@ public class StructureMapModelMode extends Code {
 
     /**
      * Get the value of this StructureMapModelMode as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this StructureMapModelMode as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating StructureMapModelMode objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static StructureMapModelMode of(ValueSet value) {
-        switch (value) {
-        case SOURCE:
-            return SOURCE;
-        case QUERIED:
-            return QUERIED;
-        case TARGET:
-            return TARGET;
-        case PRODUCED:
-            return PRODUCED;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -202,14 +173,6 @@ public class StructureMapModelMode extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -238,68 +201,6 @@ public class StructureMapModelMode extends Code {
         protected Builder from(StructureMapModelMode structureMapModelMode) {
             super.from(structureMapModelMode);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Source Structure Definition
-         * 
-         * <p>This structure describes an instance passed to the mapping engine that is used a source of data.
-         */
-        SOURCE("source"),
-
-        /**
-         * Queried Structure Definition
-         * 
-         * <p>This structure describes an instance that the mapping engine may ask for that is used a source of data.
-         */
-        QUERIED("queried"),
-
-        /**
-         * Target Structure Definition
-         * 
-         * <p>This structure describes an instance passed to the mapping engine that is used a target of data.
-         */
-        TARGET("target"),
-
-        /**
-         * Produced Structure Definition
-         * 
-         * <p>This structure describes an instance that the mapping engine may ask to create that is used a target of data.
-         */
-        PRODUCED("produced");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating StructureMapModelMode.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

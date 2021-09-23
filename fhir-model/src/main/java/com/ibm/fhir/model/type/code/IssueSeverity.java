@@ -56,38 +56,9 @@ public class IssueSeverity extends Code {
 
     /**
      * Get the value of this IssueSeverity as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this IssueSeverity as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating IssueSeverity objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static IssueSeverity of(ValueSet value) {
-        switch (value) {
-        case FATAL:
-            return FATAL;
-        case ERROR:
-            return ERROR;
-        case WARNING:
-            return WARNING;
-        case INFORMATION:
-            return INFORMATION;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -203,14 +174,6 @@ public class IssueSeverity extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -239,69 +202,6 @@ public class IssueSeverity extends Code {
         protected Builder from(IssueSeverity issueSeverity) {
             super.from(issueSeverity);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Fatal
-         * 
-         * <p>The issue caused the action to fail and no further checking could be performed.
-         */
-        FATAL("fatal"),
-
-        /**
-         * Error
-         * 
-         * <p>The issue is sufficiently important to cause the action to fail.
-         */
-        ERROR("error"),
-
-        /**
-         * Warning
-         * 
-         * <p>The issue is not important enough to cause the action to fail but may cause it to be performed suboptimally or in a 
-         * way that is not as desired.
-         */
-        WARNING("warning"),
-
-        /**
-         * Information
-         * 
-         * <p>The issue has no relation to the degree of success of the action.
-         */
-        INFORMATION("information");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating IssueSeverity.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

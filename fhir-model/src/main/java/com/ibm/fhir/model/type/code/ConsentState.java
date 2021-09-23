@@ -69,42 +69,9 @@ public class ConsentState extends Code {
 
     /**
      * Get the value of this ConsentState as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this ConsentState as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating ConsentState objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static ConsentState of(ValueSet value) {
-        switch (value) {
-        case DRAFT:
-            return DRAFT;
-        case PROPOSED:
-            return PROPOSED;
-        case ACTIVE:
-            return ACTIVE;
-        case REJECTED:
-            return REJECTED;
-        case INACTIVE:
-            return INACTIVE;
-        case ENTERED_IN_ERROR:
-            return ENTERED_IN_ERROR;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -224,14 +191,6 @@ public class ConsentState extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -260,82 +219,6 @@ public class ConsentState extends Code {
         protected Builder from(ConsentState consentState) {
             super.from(consentState);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Pending
-         * 
-         * <p>The consent is in development or awaiting use but is not yet intended to be acted upon.
-         */
-        DRAFT("draft"),
-
-        /**
-         * Proposed
-         * 
-         * <p>The consent has been proposed but not yet agreed to by all parties. The negotiation stage.
-         */
-        PROPOSED("proposed"),
-
-        /**
-         * Active
-         * 
-         * <p>The consent is to be followed and enforced.
-         */
-        ACTIVE("active"),
-
-        /**
-         * Rejected
-         * 
-         * <p>The consent has been rejected by one or more of the parties.
-         */
-        REJECTED("rejected"),
-
-        /**
-         * Inactive
-         * 
-         * <p>The consent is terminated or replaced.
-         */
-        INACTIVE("inactive"),
-
-        /**
-         * Entered in Error
-         * 
-         * <p>The consent was created wrongly (e.g. wrong patient) and should be ignored.
-         */
-        ENTERED_IN_ERROR("entered-in-error");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating ConsentState.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

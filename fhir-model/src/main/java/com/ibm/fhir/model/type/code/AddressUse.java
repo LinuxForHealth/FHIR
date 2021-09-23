@@ -62,40 +62,9 @@ public class AddressUse extends Code {
 
     /**
      * Get the value of this AddressUse as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this AddressUse as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating AddressUse objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static AddressUse of(ValueSet value) {
-        switch (value) {
-        case HOME:
-            return HOME;
-        case WORK:
-            return WORK;
-        case TEMP:
-            return TEMP;
-        case OLD:
-            return OLD;
-        case BILLING:
-            return BILLING;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -213,14 +182,6 @@ public class AddressUse extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -249,75 +210,6 @@ public class AddressUse extends Code {
         protected Builder from(AddressUse addressUse) {
             super.from(addressUse);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Home
-         * 
-         * <p>A communication address at a home.
-         */
-        HOME("home"),
-
-        /**
-         * Work
-         * 
-         * <p>An office address. First choice for business related contacts during business hours.
-         */
-        WORK("work"),
-
-        /**
-         * Temporary
-         * 
-         * <p>A temporary address. The period can provide more detailed information.
-         */
-        TEMP("temp"),
-
-        /**
-         * Old / Incorrect
-         * 
-         * <p>This address is no longer in use (or was never correct but retained for records).
-         */
-        OLD("old"),
-
-        /**
-         * Billing
-         * 
-         * <p>An address to be used to send bills, invoices, receipts etc.
-         */
-        BILLING("billing");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating AddressUse.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

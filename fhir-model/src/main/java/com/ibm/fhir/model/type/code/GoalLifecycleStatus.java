@@ -90,48 +90,9 @@ public class GoalLifecycleStatus extends Code {
 
     /**
      * Get the value of this GoalLifecycleStatus as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this GoalLifecycleStatus as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating GoalLifecycleStatus objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static GoalLifecycleStatus of(ValueSet value) {
-        switch (value) {
-        case PROPOSED:
-            return PROPOSED;
-        case PLANNED:
-            return PLANNED;
-        case ACCEPTED:
-            return ACCEPTED;
-        case ACTIVE:
-            return ACTIVE;
-        case ON_HOLD:
-            return ON_HOLD;
-        case COMPLETED:
-            return COMPLETED;
-        case CANCELLED:
-            return CANCELLED;
-        case ENTERED_IN_ERROR:
-            return ENTERED_IN_ERROR;
-        case REJECTED:
-            return REJECTED;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -257,14 +218,6 @@ public class GoalLifecycleStatus extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -293,103 +246,6 @@ public class GoalLifecycleStatus extends Code {
         protected Builder from(GoalLifecycleStatus goalLifecycleStatus) {
             super.from(goalLifecycleStatus);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Proposed
-         * 
-         * <p>A goal is proposed for this patient.
-         */
-        PROPOSED("proposed"),
-
-        /**
-         * Planned
-         * 
-         * <p>A goal is planned for this patient.
-         */
-        PLANNED("planned"),
-
-        /**
-         * Accepted
-         * 
-         * <p>A proposed goal was accepted or acknowledged.
-         */
-        ACCEPTED("accepted"),
-
-        /**
-         * Active
-         * 
-         * <p>The goal is being sought actively.
-         */
-        ACTIVE("active"),
-
-        /**
-         * On Hold
-         * 
-         * <p>The goal remains a long term objective but is no longer being actively pursued for a temporary period of time.
-         */
-        ON_HOLD("on-hold"),
-
-        /**
-         * Completed
-         * 
-         * <p>The goal is no longer being sought.
-         */
-        COMPLETED("completed"),
-
-        /**
-         * Cancelled
-         * 
-         * <p>The goal has been abandoned.
-         */
-        CANCELLED("cancelled"),
-
-        /**
-         * Entered in Error
-         * 
-         * <p>The goal was entered in error and voided.
-         */
-        ENTERED_IN_ERROR("entered-in-error"),
-
-        /**
-         * Rejected
-         * 
-         * <p>A proposed goal was rejected.
-         */
-        REJECTED("rejected");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating GoalLifecycleStatus.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

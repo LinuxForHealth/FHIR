@@ -76,44 +76,9 @@ public class DayOfWeek extends Code {
 
     /**
      * Get the value of this DayOfWeek as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this DayOfWeek as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating DayOfWeek objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static DayOfWeek of(ValueSet value) {
-        switch (value) {
-        case MON:
-            return MON;
-        case TUE:
-            return TUE;
-        case WED:
-            return WED;
-        case THU:
-            return THU;
-        case FRI:
-            return FRI;
-        case SAT:
-            return SAT;
-        case SUN:
-            return SUN;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -235,14 +200,6 @@ public class DayOfWeek extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -271,89 +228,6 @@ public class DayOfWeek extends Code {
         protected Builder from(DayOfWeek dayOfWeek) {
             super.from(dayOfWeek);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Monday
-         * 
-         * <p>Monday.
-         */
-        MON("mon"),
-
-        /**
-         * Tuesday
-         * 
-         * <p>Tuesday.
-         */
-        TUE("tue"),
-
-        /**
-         * Wednesday
-         * 
-         * <p>Wednesday.
-         */
-        WED("wed"),
-
-        /**
-         * Thursday
-         * 
-         * <p>Thursday.
-         */
-        THU("thu"),
-
-        /**
-         * Friday
-         * 
-         * <p>Friday.
-         */
-        FRI("fri"),
-
-        /**
-         * Saturday
-         * 
-         * <p>Saturday.
-         */
-        SAT("sat"),
-
-        /**
-         * Sunday
-         * 
-         * <p>Sunday.
-         */
-        SUN("sun");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating DayOfWeek.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

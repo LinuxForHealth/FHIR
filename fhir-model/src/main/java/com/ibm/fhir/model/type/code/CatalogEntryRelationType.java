@@ -41,34 +41,9 @@ public class CatalogEntryRelationType extends Code {
 
     /**
      * Get the value of this CatalogEntryRelationType as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this CatalogEntryRelationType as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating CatalogEntryRelationType objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static CatalogEntryRelationType of(ValueSet value) {
-        switch (value) {
-        case TRIGGERS:
-            return TRIGGERS;
-        case IS_REPLACED_BY:
-            return IS_REPLACED_BY;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -180,14 +155,6 @@ public class CatalogEntryRelationType extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -216,54 +183,6 @@ public class CatalogEntryRelationType extends Code {
         protected Builder from(CatalogEntryRelationType catalogEntryRelationType) {
             super.from(catalogEntryRelationType);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Triggers
-         * 
-         * <p>the related entry represents an activity that may be triggered by the current item.
-         */
-        TRIGGERS("triggers"),
-
-        /**
-         * Replaced By
-         * 
-         * <p>the related entry represents an item that replaces the current retired item.
-         */
-        IS_REPLACED_BY("is-replaced-by");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating CatalogEntryRelationType.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

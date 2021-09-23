@@ -70,42 +70,9 @@ public class EndpointStatus extends Code {
 
     /**
      * Get the value of this EndpointStatus as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this EndpointStatus as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating EndpointStatus objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static EndpointStatus of(ValueSet value) {
-        switch (value) {
-        case ACTIVE:
-            return ACTIVE;
-        case SUSPENDED:
-            return SUSPENDED;
-        case ERROR:
-            return ERROR;
-        case OFF:
-            return OFF;
-        case ENTERED_IN_ERROR:
-            return ENTERED_IN_ERROR;
-        case TEST:
-            return TEST;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -225,14 +192,6 @@ public class EndpointStatus extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -261,83 +220,6 @@ public class EndpointStatus extends Code {
         protected Builder from(EndpointStatus endpointStatus) {
             super.from(endpointStatus);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Active
-         * 
-         * <p>This endpoint is expected to be active and can be used.
-         */
-        ACTIVE("active"),
-
-        /**
-         * Suspended
-         * 
-         * <p>This endpoint is temporarily unavailable.
-         */
-        SUSPENDED("suspended"),
-
-        /**
-         * Error
-         * 
-         * <p>This endpoint has exceeded connectivity thresholds and is considered in an error state and should no longer be 
-         * attempted to connect to until corrective action is taken.
-         */
-        ERROR("error"),
-
-        /**
-         * Off
-         * 
-         * <p>This endpoint is no longer to be used.
-         */
-        OFF("off"),
-
-        /**
-         * Entered in error
-         * 
-         * <p>This instance should not have been part of this patient's medical record.
-         */
-        ENTERED_IN_ERROR("entered-in-error"),
-
-        /**
-         * Test
-         * 
-         * <p>This endpoint is not intended for production usage.
-         */
-        TEST("test");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating EndpointStatus.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

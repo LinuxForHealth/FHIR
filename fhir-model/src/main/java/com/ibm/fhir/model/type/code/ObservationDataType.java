@@ -104,52 +104,9 @@ public class ObservationDataType extends Code {
 
     /**
      * Get the value of this ObservationDataType as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this ObservationDataType as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating ObservationDataType objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static ObservationDataType of(ValueSet value) {
-        switch (value) {
-        case QUANTITY:
-            return QUANTITY;
-        case CODEABLE_CONCEPT:
-            return CODEABLE_CONCEPT;
-        case STRING:
-            return STRING;
-        case BOOLEAN:
-            return BOOLEAN;
-        case INTEGER:
-            return INTEGER;
-        case RANGE:
-            return RANGE;
-        case RATIO:
-            return RATIO;
-        case SAMPLED_DATA:
-            return SAMPLED_DATA;
-        case TIME:
-            return TIME;
-        case DATE_TIME:
-            return DATE_TIME;
-        case PERIOD:
-            return PERIOD;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -279,14 +236,6 @@ public class ObservationDataType extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -315,117 +264,6 @@ public class ObservationDataType extends Code {
         protected Builder from(ObservationDataType observationDataType) {
             super.from(observationDataType);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Quantity
-         * 
-         * <p>A measured amount.
-         */
-        QUANTITY("Quantity"),
-
-        /**
-         * CodeableConcept
-         * 
-         * <p>A coded concept from a reference terminology and/or text.
-         */
-        CODEABLE_CONCEPT("CodeableConcept"),
-
-        /**
-         * string
-         * 
-         * <p>A sequence of Unicode characters.
-         */
-        STRING("string"),
-
-        /**
-         * boolean
-         * 
-         * <p>true or false.
-         */
-        BOOLEAN("boolean"),
-
-        /**
-         * integer
-         * 
-         * <p>A signed integer.
-         */
-        INTEGER("integer"),
-
-        /**
-         * Range
-         * 
-         * <p>A set of values bounded by low and high.
-         */
-        RANGE("Range"),
-
-        /**
-         * Ratio
-         * 
-         * <p>A ratio of two Quantity values - a numerator and a denominator.
-         */
-        RATIO("Ratio"),
-
-        /**
-         * SampledData
-         * 
-         * <p>A series of measurements taken by a device.
-         */
-        SAMPLED_DATA("SampledData"),
-
-        /**
-         * time
-         * 
-         * <p>A time during the day, in the format hh:mm:ss.
-         */
-        TIME("time"),
-
-        /**
-         * dateTime
-         * 
-         * <p>A date, date-time or partial date (e.g. just year or year + month) as used in human communication.
-         */
-        DATE_TIME("dateTime"),
-
-        /**
-         * Period
-         * 
-         * <p>A time range defined by start and end date/time.
-         */
-        PERIOD("Period");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating ObservationDataType.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

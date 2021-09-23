@@ -57,38 +57,9 @@ public class NarrativeStatus extends Code {
 
     /**
      * Get the value of this NarrativeStatus as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this NarrativeStatus as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating NarrativeStatus objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static NarrativeStatus of(ValueSet value) {
-        switch (value) {
-        case GENERATED:
-            return GENERATED;
-        case EXTENSIONS:
-            return EXTENSIONS;
-        case ADDITIONAL:
-            return ADDITIONAL;
-        case EMPTY:
-            return EMPTY;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -204,14 +175,6 @@ public class NarrativeStatus extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -240,70 +203,6 @@ public class NarrativeStatus extends Code {
         protected Builder from(NarrativeStatus narrativeStatus) {
             super.from(narrativeStatus);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Generated
-         * 
-         * <p>The contents of the narrative are entirely generated from the core elements in the content.
-         */
-        GENERATED("generated"),
-
-        /**
-         * Extensions
-         * 
-         * <p>The contents of the narrative are entirely generated from the core elements in the content and some of the content 
-         * is generated from extensions. The narrative SHALL reflect the impact of all modifier extensions.
-         */
-        EXTENSIONS("extensions"),
-
-        /**
-         * Additional
-         * 
-         * <p>The contents of the narrative may contain additional information not found in the structured data. Note that there 
-         * is no computable way to determine what the extra information is, other than by human inspection.
-         */
-        ADDITIONAL("additional"),
-
-        /**
-         * Empty
-         * 
-         * <p>The contents of the narrative are some equivalent of "No human-readable text provided in this case".
-         */
-        EMPTY("empty");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating NarrativeStatus.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 
