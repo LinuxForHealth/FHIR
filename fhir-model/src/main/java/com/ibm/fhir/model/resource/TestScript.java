@@ -822,7 +822,8 @@ public class TestScript extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -839,13 +840,17 @@ public class TestScript extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -858,7 +863,8 @@ public class TestScript extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -877,13 +883,17 @@ public class TestScript extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -901,7 +911,8 @@ public class TestScript extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -925,13 +936,17 @@ public class TestScript extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -973,6 +988,22 @@ public class TestScript extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code version}.
+         * 
+         * @param version
+         *     Business version of the test script
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #version(com.ibm.fhir.model.type.String)
+         */
+        public Builder version(java.lang.String version) {
+            this.version = (version == null) ? null : String.of(version);
+            return this;
+        }
+
+        /**
          * The identifier that is used to identify this version of the test script when it is referenced in a specification, 
          * model, design or instance. This is an arbitrary value managed by the test script author and is not expected to be 
          * globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available. There is 
@@ -990,6 +1021,24 @@ public class TestScript extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code name}.
+         * 
+         * <p>This element is required.
+         * 
+         * @param name
+         *     Name for this test script (computer friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #name(com.ibm.fhir.model.type.String)
+         */
+        public Builder name(java.lang.String name) {
+            this.name = (name == null) ? null : String.of(name);
+            return this;
+        }
+
+        /**
          * A natural language name identifying the test script. This name should be usable as an identifier for the module by 
          * machine processing applications such as code generation.
          * 
@@ -1003,6 +1052,22 @@ public class TestScript extends DomainResource {
          */
         public Builder name(String name) {
             this.name = name;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code title}.
+         * 
+         * @param title
+         *     Name for this test script (human friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #title(com.ibm.fhir.model.type.String)
+         */
+        public Builder title(java.lang.String title) {
+            this.title = (title == null) ? null : String.of(title);
             return this;
         }
 
@@ -1033,6 +1098,22 @@ public class TestScript extends DomainResource {
          */
         public Builder status(PublicationStatus status) {
             this.status = status;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code experimental}.
+         * 
+         * @param experimental
+         *     For testing purposes, not real usage
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #experimental(com.ibm.fhir.model.type.Boolean)
+         */
+        public Builder experimental(java.lang.Boolean experimental) {
+            this.experimental = (experimental == null) ? null : Boolean.of(experimental);
             return this;
         }
 
@@ -1068,6 +1149,22 @@ public class TestScript extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code publisher}.
+         * 
+         * @param publisher
+         *     Name of the publisher (organization or individual)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #publisher(com.ibm.fhir.model.type.String)
+         */
+        public Builder publisher(java.lang.String publisher) {
+            this.publisher = (publisher == null) ? null : String.of(publisher);
+            return this;
+        }
+
+        /**
          * The name of the organization or individual that published the test script.
          * 
          * @param publisher
@@ -1084,7 +1181,8 @@ public class TestScript extends DomainResource {
         /**
          * Contact details to assist a user in finding and communicating with the publisher.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contact
          *     Contact details for the publisher
@@ -1102,13 +1200,17 @@ public class TestScript extends DomainResource {
         /**
          * Contact details to assist a user in finding and communicating with the publisher.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contact
          *     Contact details for the publisher
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder contact(Collection<ContactDetail> contact) {
             this.contact = new ArrayList<>(contact);
@@ -1134,7 +1236,8 @@ public class TestScript extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate test script instances.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param useContext
          *     The context that the content is intended to support
@@ -1154,13 +1257,17 @@ public class TestScript extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate test script instances.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param useContext
          *     The context that the content is intended to support
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder useContext(Collection<UsageContext> useContext) {
             this.useContext = new ArrayList<>(useContext);
@@ -1170,7 +1277,8 @@ public class TestScript extends DomainResource {
         /**
          * A legal or geographic region in which the test script is intended to be used.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param jurisdiction
          *     Intended jurisdiction for test script (if applicable)
@@ -1188,13 +1296,17 @@ public class TestScript extends DomainResource {
         /**
          * A legal or geographic region in which the test script is intended to be used.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param jurisdiction
          *     Intended jurisdiction for test script (if applicable)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder jurisdiction(Collection<CodeableConcept> jurisdiction) {
             this.jurisdiction = new ArrayList<>(jurisdiction);
@@ -1233,7 +1345,8 @@ public class TestScript extends DomainResource {
         /**
          * An abstract server used in operations within this test script in the origin element.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param origin
          *     An abstract server representing a client or sender in a message exchange
@@ -1251,13 +1364,17 @@ public class TestScript extends DomainResource {
         /**
          * An abstract server used in operations within this test script in the origin element.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param origin
          *     An abstract server representing a client or sender in a message exchange
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder origin(Collection<Origin> origin) {
             this.origin = new ArrayList<>(origin);
@@ -1267,7 +1384,8 @@ public class TestScript extends DomainResource {
         /**
          * An abstract server used in operations within this test script in the destination element.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param destination
          *     An abstract server representing a destination or receiver in a message exchange
@@ -1285,13 +1403,17 @@ public class TestScript extends DomainResource {
         /**
          * An abstract server used in operations within this test script in the destination element.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param destination
          *     An abstract server representing a destination or receiver in a message exchange
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder destination(Collection<Destination> destination) {
             this.destination = new ArrayList<>(destination);
@@ -1315,7 +1437,8 @@ public class TestScript extends DomainResource {
         /**
          * Fixture in the test script - by reference (uri). All fixtures are required for the test script to execute.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param fixture
          *     Fixture in the test script - by reference (uri)
@@ -1333,13 +1456,17 @@ public class TestScript extends DomainResource {
         /**
          * Fixture in the test script - by reference (uri). All fixtures are required for the test script to execute.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param fixture
          *     Fixture in the test script - by reference (uri)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder fixture(Collection<Fixture> fixture) {
             this.fixture = new ArrayList<>(fixture);
@@ -1349,7 +1476,8 @@ public class TestScript extends DomainResource {
         /**
          * Reference to the profile to be used for validation.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param profile
          *     Reference of the validation profile
@@ -1367,13 +1495,17 @@ public class TestScript extends DomainResource {
         /**
          * Reference to the profile to be used for validation.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param profile
          *     Reference of the validation profile
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder profile(Collection<Reference> profile) {
             this.profile = new ArrayList<>(profile);
@@ -1383,7 +1515,8 @@ public class TestScript extends DomainResource {
         /**
          * Variable is set based either on element value in response body or on header field value in the response headers.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param variable
          *     Placeholder for evaluated elements
@@ -1401,13 +1534,17 @@ public class TestScript extends DomainResource {
         /**
          * Variable is set based either on element value in response body or on header field value in the response headers.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param variable
          *     Placeholder for evaluated elements
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder variable(Collection<Variable> variable) {
             this.variable = new ArrayList<>(variable);
@@ -1431,7 +1568,8 @@ public class TestScript extends DomainResource {
         /**
          * A test in this script.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param test
          *     A test in this script
@@ -1449,13 +1587,17 @@ public class TestScript extends DomainResource {
         /**
          * A test in this script.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param test
          *     A test in this script
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder test(Collection<Test> test) {
             this.test = new ArrayList<>(test);
@@ -1682,7 +1824,8 @@ public class TestScript extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1701,13 +1844,17 @@ public class TestScript extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1725,7 +1872,8 @@ public class TestScript extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1749,17 +1897,39 @@ public class TestScript extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting {@code index}.
+             * 
+             * <p>This element is required.
+             * 
+             * @param index
+             *     The index of the abstract origin server starting at 1
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #index(com.ibm.fhir.model.type.Integer)
+             */
+            public Builder index(java.lang.Integer index) {
+                this.index = (index == null) ? null : Integer.of(index);
+                return this;
             }
 
             /**
@@ -1969,7 +2139,8 @@ public class TestScript extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1988,13 +2159,17 @@ public class TestScript extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2012,7 +2187,8 @@ public class TestScript extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2036,17 +2212,39 @@ public class TestScript extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting {@code index}.
+             * 
+             * <p>This element is required.
+             * 
+             * @param index
+             *     The index of the abstract destination server starting at 1
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #index(com.ibm.fhir.model.type.Integer)
+             */
+            public Builder index(java.lang.Integer index) {
+                this.index = (index == null) ? null : Integer.of(index);
+                return this;
             }
 
             /**
@@ -2249,7 +2447,8 @@ public class TestScript extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2268,13 +2467,17 @@ public class TestScript extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2292,7 +2495,8 @@ public class TestScript extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2316,13 +2520,17 @@ public class TestScript extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2332,7 +2540,8 @@ public class TestScript extends DomainResource {
             /**
              * A link to the FHIR specification that this test is covering.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param link
              *     Links to the FHIR specification
@@ -2350,13 +2559,17 @@ public class TestScript extends DomainResource {
             /**
              * A link to the FHIR specification that this test is covering.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param link
              *     Links to the FHIR specification
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder link(Collection<Link> link) {
                 this.link = new ArrayList<>(link);
@@ -2366,7 +2579,8 @@ public class TestScript extends DomainResource {
             /**
              * Capabilities that must exist and are assumed to function correctly on the FHIR server being tested.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>This element is required.
              * 
@@ -2386,7 +2600,8 @@ public class TestScript extends DomainResource {
             /**
              * Capabilities that must exist and are assumed to function correctly on the FHIR server being tested.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>This element is required.
              * 
@@ -2395,6 +2610,9 @@ public class TestScript extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder capability(Collection<Capability> capability) {
                 this.capability = new ArrayList<>(capability);
@@ -2567,7 +2785,8 @@ public class TestScript extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2586,13 +2805,17 @@ public class TestScript extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2610,7 +2833,8 @@ public class TestScript extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2634,13 +2858,17 @@ public class TestScript extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2660,6 +2888,22 @@ public class TestScript extends DomainResource {
                  */
                 public Builder url(Uri url) {
                     this.url = url;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code description}.
+                 * 
+                 * @param description
+                 *     Short description
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #description(com.ibm.fhir.model.type.String)
+                 */
+                public Builder description(java.lang.String description) {
+                    this.description = (description == null) ? null : String.of(description);
                     return this;
                 }
 
@@ -2933,7 +3177,8 @@ public class TestScript extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2952,13 +3197,17 @@ public class TestScript extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2976,7 +3225,8 @@ public class TestScript extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3000,17 +3250,39 @@ public class TestScript extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
                     return (Builder) super.modifierExtension(modifierExtension);
+                }
+
+                /**
+                 * Convenience method for setting {@code required}.
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param required
+                 *     Are the capabilities required?
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #required(com.ibm.fhir.model.type.Boolean)
+                 */
+                public Builder required(java.lang.Boolean required) {
+                    this.required = (required == null) ? null : Boolean.of(required);
+                    return this;
                 }
 
                 /**
@@ -3027,6 +3299,24 @@ public class TestScript extends DomainResource {
                  */
                 public Builder required(Boolean required) {
                     this.required = required;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code validated}.
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param validated
+                 *     Are the capabilities validated?
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #validated(com.ibm.fhir.model.type.Boolean)
+                 */
+                public Builder validated(java.lang.Boolean validated) {
+                    this.validated = (validated == null) ? null : Boolean.of(validated);
                     return this;
                 }
 
@@ -3048,6 +3338,22 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting {@code description}.
+                 * 
+                 * @param description
+                 *     The expected capabilities of the server
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #description(com.ibm.fhir.model.type.String)
+                 */
+                public Builder description(java.lang.String description) {
+                    this.description = (description == null) ? null : String.of(description);
+                    return this;
+                }
+
+                /**
                  * Description of the capabilities that this test script is requiring the server to support.
                  * 
                  * @param description
@@ -3062,9 +3368,31 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting {@code origin}.
+                 * 
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
+                 * 
+                 * @param origin
+                 *     Which origin server these requirements apply to
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #origin(com.ibm.fhir.model.type.Integer)
+                 */
+                public Builder origin(java.lang.Integer... origin) {
+                    for (java.lang.Integer value : origin) {
+                        this.origin.add((value == null) ? null : Integer.of(value));
+                    }
+                    return this;
+                }
+
+                /**
                  * Which origin server these requirements apply to.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param origin
                  *     Which origin server these requirements apply to
@@ -3082,16 +3410,36 @@ public class TestScript extends DomainResource {
                 /**
                  * Which origin server these requirements apply to.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param origin
                  *     Which origin server these requirements apply to
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder origin(Collection<Integer> origin) {
                     this.origin = new ArrayList<>(origin);
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code destination}.
+                 * 
+                 * @param destination
+                 *     Which server these requirements apply to
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #destination(com.ibm.fhir.model.type.Integer)
+                 */
+                public Builder destination(java.lang.Integer destination) {
+                    this.destination = (destination == null) ? null : Integer.of(destination);
                     return this;
                 }
 
@@ -3112,7 +3460,8 @@ public class TestScript extends DomainResource {
                 /**
                  * Links to the FHIR specification that describes this interaction and the resources involved in more detail.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param link
                  *     Links to the FHIR specification
@@ -3130,13 +3479,17 @@ public class TestScript extends DomainResource {
                 /**
                  * Links to the FHIR specification that describes this interaction and the resources involved in more detail.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param link
                  *     Links to the FHIR specification
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder link(Collection<Uri> link) {
                     this.link = new ArrayList<>(link);
@@ -3360,7 +3713,8 @@ public class TestScript extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -3379,13 +3733,17 @@ public class TestScript extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -3403,7 +3761,8 @@ public class TestScript extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -3427,17 +3786,39 @@ public class TestScript extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting {@code autocreate}.
+             * 
+             * <p>This element is required.
+             * 
+             * @param autocreate
+             *     Whether or not to implicitly create the fixture during setup
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #autocreate(com.ibm.fhir.model.type.Boolean)
+             */
+            public Builder autocreate(java.lang.Boolean autocreate) {
+                this.autocreate = (autocreate == null) ? null : Boolean.of(autocreate);
+                return this;
             }
 
             /**
@@ -3455,6 +3836,24 @@ public class TestScript extends DomainResource {
              */
             public Builder autocreate(Boolean autocreate) {
                 this.autocreate = autocreate;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code autodelete}.
+             * 
+             * <p>This element is required.
+             * 
+             * @param autodelete
+             *     Whether or not to implicitly delete the fixture during teardown
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #autodelete(com.ibm.fhir.model.type.Boolean)
+             */
+            public Builder autodelete(java.lang.Boolean autodelete) {
+                this.autodelete = (autodelete == null) ? null : Boolean.of(autodelete);
                 return this;
             }
 
@@ -3763,7 +4162,8 @@ public class TestScript extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -3782,13 +4182,17 @@ public class TestScript extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -3806,7 +4210,8 @@ public class TestScript extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -3830,17 +4235,39 @@ public class TestScript extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting {@code name}.
+             * 
+             * <p>This element is required.
+             * 
+             * @param name
+             *     Descriptive name for this variable
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #name(com.ibm.fhir.model.type.String)
+             */
+            public Builder name(java.lang.String name) {
+                this.name = (name == null) ? null : String.of(name);
+                return this;
             }
 
             /**
@@ -3860,6 +4287,22 @@ public class TestScript extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code defaultValue}.
+             * 
+             * @param defaultValue
+             *     Default, hard-coded, or user-defined value for this variable
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #defaultValue(com.ibm.fhir.model.type.String)
+             */
+            public Builder defaultValue(java.lang.String defaultValue) {
+                this.defaultValue = (defaultValue == null) ? null : String.of(defaultValue);
+                return this;
+            }
+
+            /**
              * A default, hard-coded, or user-defined value for this variable.
              * 
              * @param defaultValue
@@ -3874,6 +4317,22 @@ public class TestScript extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code description}.
+             * 
+             * @param description
+             *     Natural language description of the variable
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #description(com.ibm.fhir.model.type.String)
+             */
+            public Builder description(java.lang.String description) {
+                this.description = (description == null) ? null : String.of(description);
+                return this;
+            }
+
+            /**
              * A free text natural language description of the variable and its purpose.
              * 
              * @param description
@@ -3884,6 +4343,22 @@ public class TestScript extends DomainResource {
              */
             public Builder description(String description) {
                 this.description = description;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code expression}.
+             * 
+             * @param expression
+             *     The FHIRPath expression against the fixture body
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #expression(com.ibm.fhir.model.type.String)
+             */
+            public Builder expression(java.lang.String expression) {
+                this.expression = (expression == null) ? null : String.of(expression);
                 return this;
             }
 
@@ -3903,6 +4378,22 @@ public class TestScript extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code headerField}.
+             * 
+             * @param headerField
+             *     HTTP header field name for source
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #headerField(com.ibm.fhir.model.type.String)
+             */
+            public Builder headerField(java.lang.String headerField) {
+                this.headerField = (headerField == null) ? null : String.of(headerField);
+                return this;
+            }
+
+            /**
              * Will be used to grab the HTTP header field value from the headers that sourceId is pointing to.
              * 
              * @param headerField
@@ -3917,6 +4408,22 @@ public class TestScript extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code hint}.
+             * 
+             * @param hint
+             *     Hint help text for default value to enter
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #hint(com.ibm.fhir.model.type.String)
+             */
+            public Builder hint(java.lang.String hint) {
+                this.hint = (hint == null) ? null : String.of(hint);
+                return this;
+            }
+
+            /**
              * Displayable text string with hint help information to the user when entering a default value.
              * 
              * @param hint
@@ -3927,6 +4434,22 @@ public class TestScript extends DomainResource {
              */
             public Builder hint(String hint) {
                 this.hint = hint;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code path}.
+             * 
+             * @param path
+             *     XPath or JSONPath against the fixture body
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #path(com.ibm.fhir.model.type.String)
+             */
+            public Builder path(java.lang.String path) {
+                this.path = (path == null) ? null : String.of(path);
                 return this;
             }
 
@@ -4114,7 +4637,8 @@ public class TestScript extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -4133,13 +4657,17 @@ public class TestScript extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -4157,7 +4685,8 @@ public class TestScript extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -4181,13 +4710,17 @@ public class TestScript extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -4197,7 +4730,8 @@ public class TestScript extends DomainResource {
             /**
              * Action would contain either an operation or an assertion.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>This element is required.
              * 
@@ -4217,7 +4751,8 @@ public class TestScript extends DomainResource {
             /**
              * Action would contain either an operation or an assertion.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>This element is required.
              * 
@@ -4226,6 +4761,9 @@ public class TestScript extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder action(Collection<Action> action) {
                 this.action = new ArrayList<>(action);
@@ -4395,7 +4933,8 @@ public class TestScript extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -4414,13 +4953,17 @@ public class TestScript extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -4438,7 +4981,8 @@ public class TestScript extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -4462,13 +5006,17 @@ public class TestScript extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -4950,7 +5498,8 @@ public class TestScript extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -4969,13 +5518,17 @@ public class TestScript extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     @Override
                     public Builder extension(Collection<Extension> extension) {
@@ -4993,7 +5546,8 @@ public class TestScript extends DomainResource {
                      * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -5017,13 +5571,17 @@ public class TestScript extends DomainResource {
                      * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -5059,6 +5617,22 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
+                     * Convenience method for setting {@code label}.
+                     * 
+                     * @param label
+                     *     Tracking/logging operation label
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #label(com.ibm.fhir.model.type.String)
+                     */
+                    public Builder label(java.lang.String label) {
+                        this.label = (label == null) ? null : String.of(label);
+                        return this;
+                    }
+
+                    /**
                      * The label would be used for tracking/logging purposes by test engines.
                      * 
                      * @param label
@@ -5069,6 +5643,22 @@ public class TestScript extends DomainResource {
                      */
                     public Builder label(String label) {
                         this.label = label;
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting {@code description}.
+                     * 
+                     * @param description
+                     *     Tracking/reporting operation description
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #description(com.ibm.fhir.model.type.String)
+                     */
+                    public Builder description(java.lang.String description) {
+                        this.description = (description == null) ? null : String.of(description);
                         return this;
                     }
 
@@ -5115,6 +5705,22 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
+                     * Convenience method for setting {@code destination}.
+                     * 
+                     * @param destination
+                     *     Server responding to the request
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #destination(com.ibm.fhir.model.type.Integer)
+                     */
+                    public Builder destination(java.lang.Integer destination) {
+                        this.destination = (destination == null) ? null : Integer.of(destination);
+                        return this;
+                    }
+
+                    /**
                      * The server where the request message is destined for. Must be one of the server numbers listed in TestScript.
                      * destination section.
                      * 
@@ -5126,6 +5732,24 @@ public class TestScript extends DomainResource {
                      */
                     public Builder destination(Integer destination) {
                         this.destination = destination;
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting {@code encodeRequestUrl}.
+                     * 
+                     * <p>This element is required.
+                     * 
+                     * @param encodeRequestUrl
+                     *     Whether or not to send the request url in encoded format
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #encodeRequestUrl(com.ibm.fhir.model.type.Boolean)
+                     */
+                    public Builder encodeRequestUrl(java.lang.Boolean encodeRequestUrl) {
+                        this.encodeRequestUrl = (encodeRequestUrl == null) ? null : Boolean.of(encodeRequestUrl);
                         return this;
                     }
 
@@ -5161,6 +5785,22 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
+                     * Convenience method for setting {@code origin}.
+                     * 
+                     * @param origin
+                     *     Server initiating the request
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #origin(com.ibm.fhir.model.type.Integer)
+                     */
+                    public Builder origin(java.lang.Integer origin) {
+                        this.origin = (origin == null) ? null : Integer.of(origin);
+                        return this;
+                    }
+
+                    /**
                      * The server where the request message originates from. Must be one of the server numbers listed in TestScript.origin 
                      * section.
                      * 
@@ -5172,6 +5812,22 @@ public class TestScript extends DomainResource {
                      */
                     public Builder origin(Integer origin) {
                         this.origin = origin;
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting {@code params}.
+                     * 
+                     * @param params
+                     *     Explicitly defined path parameters
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #params(com.ibm.fhir.model.type.String)
+                     */
+                    public Builder params(java.lang.String params) {
+                        this.params = (params == null) ? null : String.of(params);
                         return this;
                     }
 
@@ -5192,7 +5848,8 @@ public class TestScript extends DomainResource {
                     /**
                      * Header elements would be used to set HTTP headers.
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param requestHeader
                      *     Each operation can have one or more header elements
@@ -5210,13 +5867,17 @@ public class TestScript extends DomainResource {
                     /**
                      * Header elements would be used to set HTTP headers.
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param requestHeader
                      *     Each operation can have one or more header elements
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     public Builder requestHeader(Collection<RequestHeader> requestHeader) {
                         this.requestHeader = new ArrayList<>(requestHeader);
@@ -5276,6 +5937,22 @@ public class TestScript extends DomainResource {
                      */
                     public Builder targetId(Id targetId) {
                         this.targetId = targetId;
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting {@code url}.
+                     * 
+                     * @param url
+                     *     Request URL
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #url(com.ibm.fhir.model.type.String)
+                     */
+                    public Builder url(java.lang.String url) {
+                        this.url = (url == null) ? null : String.of(url);
                         return this;
                     }
 
@@ -5475,7 +6152,8 @@ public class TestScript extends DomainResource {
                          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                          * of the definition of the extension.
                          * 
-                         * <p>Adds new element(s) to the existing list
+                         * <p>Adds new element(s) to the existing list.
+                         * If any of the elements are null, calling {@link #build()} will fail.
                          * 
                          * @param extension
                          *     Additional content defined by implementations
@@ -5494,13 +6172,17 @@ public class TestScript extends DomainResource {
                          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                          * of the definition of the extension.
                          * 
-                         * <p>Replaces the existing list with a new one containing elements from the Collection
+                         * <p>Replaces the existing list with a new one containing elements from the Collection.
+                         * If any of the elements are null, calling {@link #build()} will fail.
                          * 
                          * @param extension
                          *     Additional content defined by implementations
                          * 
                          * @return
                          *     A reference to this Builder instance
+                         * 
+                         * @throws NullPointerException
+                         *     If the passed collection is null
                          */
                         @Override
                         public Builder extension(Collection<Extension> extension) {
@@ -5518,7 +6200,8 @@ public class TestScript extends DomainResource {
                          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                          * change the meaning of modifierExtension itself).
                          * 
-                         * <p>Adds new element(s) to the existing list
+                         * <p>Adds new element(s) to the existing list.
+                         * If any of the elements are null, calling {@link #build()} will fail.
                          * 
                          * @param modifierExtension
                          *     Extensions that cannot be ignored even if unrecognized
@@ -5542,17 +6225,39 @@ public class TestScript extends DomainResource {
                          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                          * change the meaning of modifierExtension itself).
                          * 
-                         * <p>Replaces the existing list with a new one containing elements from the Collection
+                         * <p>Replaces the existing list with a new one containing elements from the Collection.
+                         * If any of the elements are null, calling {@link #build()} will fail.
                          * 
                          * @param modifierExtension
                          *     Extensions that cannot be ignored even if unrecognized
                          * 
                          * @return
                          *     A reference to this Builder instance
+                         * 
+                         * @throws NullPointerException
+                         *     If the passed collection is null
                          */
                         @Override
                         public Builder modifierExtension(Collection<Extension> modifierExtension) {
                             return (Builder) super.modifierExtension(modifierExtension);
+                        }
+
+                        /**
+                         * Convenience method for setting {@code field}.
+                         * 
+                         * <p>This element is required.
+                         * 
+                         * @param field
+                         *     HTTP header field name
+                         * 
+                         * @return
+                         *     A reference to this Builder instance
+                         * 
+                         * @see #field(com.ibm.fhir.model.type.String)
+                         */
+                        public Builder field(java.lang.String field) {
+                            this.field = (field == null) ? null : String.of(field);
+                            return this;
                         }
 
                         /**
@@ -5568,6 +6273,24 @@ public class TestScript extends DomainResource {
                          */
                         public Builder field(String field) {
                             this.field = field;
+                            return this;
+                        }
+
+                        /**
+                         * Convenience method for setting {@code value}.
+                         * 
+                         * <p>This element is required.
+                         * 
+                         * @param value
+                         *     HTTP headerfield value
+                         * 
+                         * @return
+                         *     A reference to this Builder instance
+                         * 
+                         * @see #value(com.ibm.fhir.model.type.String)
+                         */
+                        public Builder value(java.lang.String value) {
+                            this.value = (value == null) ? null : String.of(value);
                             return this;
                         }
 
@@ -6136,7 +6859,8 @@ public class TestScript extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -6155,13 +6879,17 @@ public class TestScript extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     @Override
                     public Builder extension(Collection<Extension> extension) {
@@ -6179,7 +6907,8 @@ public class TestScript extends DomainResource {
                      * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -6203,17 +6932,37 @@ public class TestScript extends DomainResource {
                      * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
                         return (Builder) super.modifierExtension(modifierExtension);
+                    }
+
+                    /**
+                     * Convenience method for setting {@code label}.
+                     * 
+                     * @param label
+                     *     Tracking/logging assertion label
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #label(com.ibm.fhir.model.type.String)
+                     */
+                    public Builder label(java.lang.String label) {
+                        this.label = (label == null) ? null : String.of(label);
+                        return this;
                     }
 
                     /**
@@ -6227,6 +6976,22 @@ public class TestScript extends DomainResource {
                      */
                     public Builder label(String label) {
                         this.label = label;
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting {@code description}.
+                     * 
+                     * @param description
+                     *     Tracking/reporting assertion description
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #description(com.ibm.fhir.model.type.String)
+                     */
+                    public Builder description(java.lang.String description) {
+                        this.description = (description == null) ? null : String.of(description);
                         return this;
                     }
 
@@ -6259,6 +7024,22 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
+                     * Convenience method for setting {@code compareToSourceId}.
+                     * 
+                     * @param compareToSourceId
+                     *     Id of the source fixture to be evaluated
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #compareToSourceId(com.ibm.fhir.model.type.String)
+                     */
+                    public Builder compareToSourceId(java.lang.String compareToSourceId) {
+                        this.compareToSourceId = (compareToSourceId == null) ? null : String.of(compareToSourceId);
+                        return this;
+                    }
+
+                    /**
                      * Id of the source fixture used as the contents to be evaluated by either the "source/expression" or "sourceId/path" 
                      * definition.
                      * 
@@ -6274,6 +7055,22 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
+                     * Convenience method for setting {@code compareToSourceExpression}.
+                     * 
+                     * @param compareToSourceExpression
+                     *     The FHIRPath expression to evaluate against the source fixture
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #compareToSourceExpression(com.ibm.fhir.model.type.String)
+                     */
+                    public Builder compareToSourceExpression(java.lang.String compareToSourceExpression) {
+                        this.compareToSourceExpression = (compareToSourceExpression == null) ? null : String.of(compareToSourceExpression);
+                        return this;
+                    }
+
+                    /**
                      * The FHIRPath expression to evaluate against the source fixture. When compareToSourceId is defined, either 
                      * compareToSourceExpression or compareToSourcePath must be defined, but not both.
                      * 
@@ -6285,6 +7082,22 @@ public class TestScript extends DomainResource {
                      */
                     public Builder compareToSourceExpression(String compareToSourceExpression) {
                         this.compareToSourceExpression = compareToSourceExpression;
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting {@code compareToSourcePath}.
+                     * 
+                     * @param compareToSourcePath
+                     *     XPath or JSONPath expression to evaluate against the source fixture
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #compareToSourcePath(com.ibm.fhir.model.type.String)
+                     */
+                    public Builder compareToSourcePath(java.lang.String compareToSourcePath) {
+                        this.compareToSourcePath = (compareToSourcePath == null) ? null : String.of(compareToSourcePath);
                         return this;
                     }
 
@@ -6318,6 +7131,22 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
+                     * Convenience method for setting {@code expression}.
+                     * 
+                     * @param expression
+                     *     The FHIRPath expression to be evaluated
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #expression(com.ibm.fhir.model.type.String)
+                     */
+                    public Builder expression(java.lang.String expression) {
+                        this.expression = (expression == null) ? null : String.of(expression);
+                        return this;
+                    }
+
+                    /**
                      * The FHIRPath expression to be evaluated against the request or response message contents - HTTP headers and payload.
                      * 
                      * @param expression
@@ -6328,6 +7157,22 @@ public class TestScript extends DomainResource {
                      */
                     public Builder expression(String expression) {
                         this.expression = expression;
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting {@code headerField}.
+                     * 
+                     * @param headerField
+                     *     HTTP header field name
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #headerField(com.ibm.fhir.model.type.String)
+                     */
+                    public Builder headerField(java.lang.String headerField) {
+                        this.headerField = (headerField == null) ? null : String.of(headerField);
                         return this;
                     }
 
@@ -6346,6 +7191,22 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
+                     * Convenience method for setting {@code minimumId}.
+                     * 
+                     * @param minimumId
+                     *     Fixture Id of minimum content resource
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #minimumId(com.ibm.fhir.model.type.String)
+                     */
+                    public Builder minimumId(java.lang.String minimumId) {
+                        this.minimumId = (minimumId == null) ? null : String.of(minimumId);
+                        return this;
+                    }
+
+                    /**
                      * The ID of a fixture. Asserts that the response contains at a minimum the fixture specified by minimumId.
                      * 
                      * @param minimumId
@@ -6356,6 +7217,22 @@ public class TestScript extends DomainResource {
                      */
                     public Builder minimumId(String minimumId) {
                         this.minimumId = minimumId;
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting {@code navigationLinks}.
+                     * 
+                     * @param navigationLinks
+                     *     Perform validation on navigation links?
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #navigationLinks(com.ibm.fhir.model.type.Boolean)
+                     */
+                    public Builder navigationLinks(java.lang.Boolean navigationLinks) {
+                        this.navigationLinks = (navigationLinks == null) ? null : Boolean.of(navigationLinks);
                         return this;
                     }
 
@@ -6388,6 +7265,22 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
+                     * Convenience method for setting {@code path}.
+                     * 
+                     * @param path
+                     *     XPath or JSONPath expression
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #path(com.ibm.fhir.model.type.String)
+                     */
+                    public Builder path(java.lang.String path) {
+                        this.path = (path == null) ? null : String.of(path);
+                        return this;
+                    }
+
+                    /**
                      * The XPath or JSONPath expression to be evaluated against the fixture representing the response received from server.
                      * 
                      * @param path
@@ -6412,6 +7305,22 @@ public class TestScript extends DomainResource {
                      */
                     public Builder requestMethod(TestScriptRequestMethodCode requestMethod) {
                         this.requestMethod = requestMethod;
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting {@code requestURL}.
+                     * 
+                     * @param requestURL
+                     *     Request URL comparison value
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #requestURL(com.ibm.fhir.model.type.String)
+                     */
+                    public Builder requestURL(java.lang.String requestURL) {
+                        this.requestURL = (requestURL == null) ? null : String.of(requestURL);
                         return this;
                     }
 
@@ -6460,6 +7369,22 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
+                     * Convenience method for setting {@code responseCode}.
+                     * 
+                     * @param responseCode
+                     *     HTTP response code to test
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #responseCode(com.ibm.fhir.model.type.String)
+                     */
+                    public Builder responseCode(java.lang.String responseCode) {
+                        this.responseCode = (responseCode == null) ? null : String.of(responseCode);
+                        return this;
+                    }
+
+                    /**
                      * The value of the HTTP response code to be tested.
                      * 
                      * @param responseCode
@@ -6502,6 +7427,22 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
+                     * Convenience method for setting {@code value}.
+                     * 
+                     * @param value
+                     *     The value to compare to
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #value(com.ibm.fhir.model.type.String)
+                     */
+                    public Builder value(java.lang.String value) {
+                        this.value = (value == null) ? null : String.of(value);
+                        return this;
+                    }
+
+                    /**
                      * The value to compare to.
                      * 
                      * @param value
@@ -6512,6 +7453,24 @@ public class TestScript extends DomainResource {
                      */
                     public Builder value(String value) {
                         this.value = value;
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting {@code warningOnly}.
+                     * 
+                     * <p>This element is required.
+                     * 
+                     * @param warningOnly
+                     *     Will this assert produce a warning only on error?
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #warningOnly(com.ibm.fhir.model.type.Boolean)
+                     */
+                    public Builder warningOnly(java.lang.Boolean warningOnly) {
+                        this.warningOnly = (warningOnly == null) ? null : Boolean.of(warningOnly);
                         return this;
                     }
 
@@ -6736,7 +7695,8 @@ public class TestScript extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -6755,13 +7715,17 @@ public class TestScript extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -6779,7 +7743,8 @@ public class TestScript extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -6803,17 +7768,37 @@ public class TestScript extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting {@code name}.
+             * 
+             * @param name
+             *     Tracking/logging name of this test
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #name(com.ibm.fhir.model.type.String)
+             */
+            public Builder name(java.lang.String name) {
+                this.name = (name == null) ? null : String.of(name);
+                return this;
             }
 
             /**
@@ -6827,6 +7812,22 @@ public class TestScript extends DomainResource {
              */
             public Builder name(String name) {
                 this.name = name;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code description}.
+             * 
+             * @param description
+             *     Tracking/reporting short description of the test
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #description(com.ibm.fhir.model.type.String)
+             */
+            public Builder description(java.lang.String description) {
+                this.description = (description == null) ? null : String.of(description);
                 return this;
             }
 
@@ -6847,7 +7848,8 @@ public class TestScript extends DomainResource {
             /**
              * Action would contain either an operation or an assertion.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>This element is required.
              * 
@@ -6867,7 +7869,8 @@ public class TestScript extends DomainResource {
             /**
              * Action would contain either an operation or an assertion.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>This element is required.
              * 
@@ -6876,6 +7879,9 @@ public class TestScript extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder action(Collection<Action> action) {
                 this.action = new ArrayList<>(action);
@@ -7047,7 +8053,8 @@ public class TestScript extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -7066,13 +8073,17 @@ public class TestScript extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -7090,7 +8101,8 @@ public class TestScript extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -7114,13 +8126,17 @@ public class TestScript extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -7299,7 +8315,8 @@ public class TestScript extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -7318,13 +8335,17 @@ public class TestScript extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -7342,7 +8363,8 @@ public class TestScript extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -7366,13 +8388,17 @@ public class TestScript extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -7382,7 +8408,8 @@ public class TestScript extends DomainResource {
             /**
              * The teardown action will only contain an operation.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>This element is required.
              * 
@@ -7402,7 +8429,8 @@ public class TestScript extends DomainResource {
             /**
              * The teardown action will only contain an operation.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>This element is required.
              * 
@@ -7411,6 +8439,9 @@ public class TestScript extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder action(Collection<Action> action) {
                 this.action = new ArrayList<>(action);
@@ -7564,7 +8595,8 @@ public class TestScript extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -7583,13 +8615,17 @@ public class TestScript extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -7607,7 +8643,8 @@ public class TestScript extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -7631,13 +8668,17 @@ public class TestScript extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {

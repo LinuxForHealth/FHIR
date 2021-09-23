@@ -336,7 +336,7 @@ public class ConceptMap extends DomainResource {
      * mappings.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Uri} or {@link Canonical} that may be null.
      */
     public Element getSource() {
         return source;
@@ -347,7 +347,7 @@ public class ConceptMap extends DomainResource {
      * value sets, but the value set provides important context about how the concept mapping choices are made.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Uri} or {@link Canonical} that may be null.
      */
     public Element getTarget() {
         return target;
@@ -612,7 +612,8 @@ public class ConceptMap extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -629,13 +630,17 @@ public class ConceptMap extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -648,7 +653,8 @@ public class ConceptMap extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -667,13 +673,17 @@ public class ConceptMap extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -691,7 +701,8 @@ public class ConceptMap extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -715,13 +726,17 @@ public class ConceptMap extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -761,6 +776,22 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code version}.
+         * 
+         * @param version
+         *     Business version of the concept map
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #version(com.ibm.fhir.model.type.String)
+         */
+        public Builder version(java.lang.String version) {
+            this.version = (version == null) ? null : String.of(version);
+            return this;
+        }
+
+        /**
          * The identifier that is used to identify this version of the concept map when it is referenced in a specification, 
          * model, design or instance. This is an arbitrary value managed by the concept map author and is not expected to be 
          * globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available. There is 
@@ -778,6 +809,22 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code name}.
+         * 
+         * @param name
+         *     Name for this concept map (computer friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #name(com.ibm.fhir.model.type.String)
+         */
+        public Builder name(java.lang.String name) {
+            this.name = (name == null) ? null : String.of(name);
+            return this;
+        }
+
+        /**
          * A natural language name identifying the concept map. This name should be usable as an identifier for the module by 
          * machine processing applications such as code generation.
          * 
@@ -789,6 +836,22 @@ public class ConceptMap extends DomainResource {
          */
         public Builder name(String name) {
             this.name = name;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code title}.
+         * 
+         * @param title
+         *     Name for this concept map (human friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #title(com.ibm.fhir.model.type.String)
+         */
+        public Builder title(java.lang.String title) {
+            this.title = (title == null) ? null : String.of(title);
             return this;
         }
 
@@ -819,6 +882,22 @@ public class ConceptMap extends DomainResource {
          */
         public Builder status(PublicationStatus status) {
             this.status = status;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code experimental}.
+         * 
+         * @param experimental
+         *     For testing purposes, not real usage
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #experimental(com.ibm.fhir.model.type.Boolean)
+         */
+        public Builder experimental(java.lang.Boolean experimental) {
+            this.experimental = (experimental == null) ? null : Boolean.of(experimental);
             return this;
         }
 
@@ -854,6 +933,22 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code publisher}.
+         * 
+         * @param publisher
+         *     Name of the publisher (organization or individual)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #publisher(com.ibm.fhir.model.type.String)
+         */
+        public Builder publisher(java.lang.String publisher) {
+            this.publisher = (publisher == null) ? null : String.of(publisher);
+            return this;
+        }
+
+        /**
          * The name of the organization or individual that published the concept map.
          * 
          * @param publisher
@@ -870,7 +965,8 @@ public class ConceptMap extends DomainResource {
         /**
          * Contact details to assist a user in finding and communicating with the publisher.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contact
          *     Contact details for the publisher
@@ -888,13 +984,17 @@ public class ConceptMap extends DomainResource {
         /**
          * Contact details to assist a user in finding and communicating with the publisher.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contact
          *     Contact details for the publisher
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder contact(Collection<ContactDetail> contact) {
             this.contact = new ArrayList<>(contact);
@@ -920,7 +1020,8 @@ public class ConceptMap extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate concept map instances.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param useContext
          *     The context that the content is intended to support
@@ -940,13 +1041,17 @@ public class ConceptMap extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate concept map instances.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param useContext
          *     The context that the content is intended to support
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder useContext(Collection<UsageContext> useContext) {
             this.useContext = new ArrayList<>(useContext);
@@ -956,7 +1061,8 @@ public class ConceptMap extends DomainResource {
         /**
          * A legal or geographic region in which the concept map is intended to be used.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param jurisdiction
          *     Intended jurisdiction for concept map (if applicable)
@@ -974,13 +1080,17 @@ public class ConceptMap extends DomainResource {
         /**
          * A legal or geographic region in which the concept map is intended to be used.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param jurisdiction
          *     Intended jurisdiction for concept map (if applicable)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder jurisdiction(Collection<CodeableConcept> jurisdiction) {
             this.jurisdiction = new ArrayList<>(jurisdiction);
@@ -1061,7 +1171,8 @@ public class ConceptMap extends DomainResource {
         /**
          * A group of mappings that all have the same source and target system.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param group
          *     Same source and target systems
@@ -1079,13 +1190,17 @@ public class ConceptMap extends DomainResource {
         /**
          * A group of mappings that all have the same source and target system.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param group
          *     Same source and target systems
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder group(Collection<Group> group) {
             this.group = new ArrayList<>(group);
@@ -1347,7 +1462,8 @@ public class ConceptMap extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1366,13 +1482,17 @@ public class ConceptMap extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1390,7 +1510,8 @@ public class ConceptMap extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1414,13 +1535,17 @@ public class ConceptMap extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1438,6 +1563,22 @@ public class ConceptMap extends DomainResource {
              */
             public Builder source(Uri source) {
                 this.source = source;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code sourceVersion}.
+             * 
+             * @param sourceVersion
+             *     Specific version of the code system
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #sourceVersion(com.ibm.fhir.model.type.String)
+             */
+            public Builder sourceVersion(java.lang.String sourceVersion) {
+                this.sourceVersion = (sourceVersion == null) ? null : String.of(sourceVersion);
                 return this;
             }
 
@@ -1470,6 +1611,22 @@ public class ConceptMap extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code targetVersion}.
+             * 
+             * @param targetVersion
+             *     Specific version of the code system
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #targetVersion(com.ibm.fhir.model.type.String)
+             */
+            public Builder targetVersion(java.lang.String targetVersion) {
+                this.targetVersion = (targetVersion == null) ? null : String.of(targetVersion);
+                return this;
+            }
+
+            /**
              * The specific version of the code system, as determined by the code system authority.
              * 
              * @param targetVersion
@@ -1486,7 +1643,8 @@ public class ConceptMap extends DomainResource {
             /**
              * Mappings for an individual concept in the source to one or more concepts in the target.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>This element is required.
              * 
@@ -1506,7 +1664,8 @@ public class ConceptMap extends DomainResource {
             /**
              * Mappings for an individual concept in the source to one or more concepts in the target.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>This element is required.
              * 
@@ -1515,6 +1674,9 @@ public class ConceptMap extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder element(Collection<Element> element) {
                 this.element = new ArrayList<>(element);
@@ -1721,7 +1883,8 @@ public class ConceptMap extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -1740,13 +1903,17 @@ public class ConceptMap extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -1764,7 +1931,8 @@ public class ConceptMap extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -1788,13 +1956,17 @@ public class ConceptMap extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1816,6 +1988,22 @@ public class ConceptMap extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting {@code display}.
+                 * 
+                 * @param display
+                 *     Display for the code
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #display(com.ibm.fhir.model.type.String)
+                 */
+                public Builder display(java.lang.String display) {
+                    this.display = (display == null) ? null : String.of(display);
+                    return this;
+                }
+
+                /**
                  * The display for the code. The display is only provided to help editors when editing the concept map.
                  * 
                  * @param display
@@ -1832,7 +2020,8 @@ public class ConceptMap extends DomainResource {
                 /**
                  * A concept from the target value set that this concept maps to.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param target
                  *     Concept in target system for element
@@ -1850,13 +2039,17 @@ public class ConceptMap extends DomainResource {
                 /**
                  * A concept from the target value set that this concept maps to.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param target
                  *     Concept in target system for element
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder target(Collection<Target> target) {
                     this.target = new ArrayList<>(target);
@@ -2102,7 +2295,8 @@ public class ConceptMap extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -2121,13 +2315,17 @@ public class ConceptMap extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     @Override
                     public Builder extension(Collection<Extension> extension) {
@@ -2145,7 +2343,8 @@ public class ConceptMap extends DomainResource {
                      * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -2169,13 +2368,17 @@ public class ConceptMap extends DomainResource {
                      * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2193,6 +2396,22 @@ public class ConceptMap extends DomainResource {
                      */
                     public Builder code(Code code) {
                         this.code = code;
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting {@code display}.
+                     * 
+                     * @param display
+                     *     Display for the code
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #display(com.ibm.fhir.model.type.String)
+                     */
+                    public Builder display(java.lang.String display) {
+                        this.display = (display == null) ? null : String.of(display);
                         return this;
                     }
 
@@ -2228,6 +2447,22 @@ public class ConceptMap extends DomainResource {
                     }
 
                     /**
+                     * Convenience method for setting {@code comment}.
+                     * 
+                     * @param comment
+                     *     Description of status/issues in mapping
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #comment(com.ibm.fhir.model.type.String)
+                     */
+                    public Builder comment(java.lang.String comment) {
+                        this.comment = (comment == null) ? null : String.of(comment);
+                        return this;
+                    }
+
+                    /**
                      * A description of status/issues in mapping that conveys additional information not represented in the structured data.
                      * 
                      * @param comment
@@ -2245,7 +2480,8 @@ public class ConceptMap extends DomainResource {
                      * A set of additional dependencies for this mapping to hold. This mapping is only applicable if the specified element 
                      * can be resolved, and it has the specified value.
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param dependsOn
                      *     Other elements required for this mapping (from context)
@@ -2264,13 +2500,17 @@ public class ConceptMap extends DomainResource {
                      * A set of additional dependencies for this mapping to hold. This mapping is only applicable if the specified element 
                      * can be resolved, and it has the specified value.
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param dependsOn
                      *     Other elements required for this mapping (from context)
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     public Builder dependsOn(Collection<DependsOn> dependsOn) {
                         this.dependsOn = new ArrayList<>(dependsOn);
@@ -2282,7 +2522,8 @@ public class ConceptMap extends DomainResource {
                      * element must be mapped to some data element or source that is in context. The mapping may still be useful without a 
                      * place for the additional data elements, but the equivalence cannot be relied on.
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param product
                      *     Other concepts that this mapping also produces
@@ -2302,13 +2543,17 @@ public class ConceptMap extends DomainResource {
                      * element must be mapped to some data element or source that is in context. The mapping may still be useful without a 
                      * place for the additional data elements, but the equivalence cannot be relied on.
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param product
                      *     Other concepts that this mapping also produces
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     public Builder product(Collection<ConceptMap.Group.Element.Target.DependsOn> product) {
                         this.product = new ArrayList<>(product);
@@ -2524,7 +2769,8 @@ public class ConceptMap extends DomainResource {
                          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                          * of the definition of the extension.
                          * 
-                         * <p>Adds new element(s) to the existing list
+                         * <p>Adds new element(s) to the existing list.
+                         * If any of the elements are null, calling {@link #build()} will fail.
                          * 
                          * @param extension
                          *     Additional content defined by implementations
@@ -2543,13 +2789,17 @@ public class ConceptMap extends DomainResource {
                          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                          * of the definition of the extension.
                          * 
-                         * <p>Replaces the existing list with a new one containing elements from the Collection
+                         * <p>Replaces the existing list with a new one containing elements from the Collection.
+                         * If any of the elements are null, calling {@link #build()} will fail.
                          * 
                          * @param extension
                          *     Additional content defined by implementations
                          * 
                          * @return
                          *     A reference to this Builder instance
+                         * 
+                         * @throws NullPointerException
+                         *     If the passed collection is null
                          */
                         @Override
                         public Builder extension(Collection<Extension> extension) {
@@ -2567,7 +2817,8 @@ public class ConceptMap extends DomainResource {
                          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                          * change the meaning of modifierExtension itself).
                          * 
-                         * <p>Adds new element(s) to the existing list
+                         * <p>Adds new element(s) to the existing list.
+                         * If any of the elements are null, calling {@link #build()} will fail.
                          * 
                          * @param modifierExtension
                          *     Extensions that cannot be ignored even if unrecognized
@@ -2591,13 +2842,17 @@ public class ConceptMap extends DomainResource {
                          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                          * change the meaning of modifierExtension itself).
                          * 
-                         * <p>Replaces the existing list with a new one containing elements from the Collection
+                         * <p>Replaces the existing list with a new one containing elements from the Collection.
+                         * If any of the elements are null, calling {@link #build()} will fail.
                          * 
                          * @param modifierExtension
                          *     Extensions that cannot be ignored even if unrecognized
                          * 
                          * @return
                          *     A reference to this Builder instance
+                         * 
+                         * @throws NullPointerException
+                         *     If the passed collection is null
                          */
                         @Override
                         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2637,6 +2892,24 @@ public class ConceptMap extends DomainResource {
                         }
 
                         /**
+                         * Convenience method for setting {@code value}.
+                         * 
+                         * <p>This element is required.
+                         * 
+                         * @param value
+                         *     Value of the referenced element
+                         * 
+                         * @return
+                         *     A reference to this Builder instance
+                         * 
+                         * @see #value(com.ibm.fhir.model.type.String)
+                         */
+                        public Builder value(java.lang.String value) {
+                            this.value = (value == null) ? null : String.of(value);
+                            return this;
+                        }
+
+                        /**
                          * Identity (code or path) or the element/item/ValueSet/text that the map depends on / refers to.
                          * 
                          * <p>This element is required.
@@ -2649,6 +2922,22 @@ public class ConceptMap extends DomainResource {
                          */
                         public Builder value(String value) {
                             this.value = value;
+                            return this;
+                        }
+
+                        /**
+                         * Convenience method for setting {@code display}.
+                         * 
+                         * @param display
+                         *     Display for the code (if value is a code)
+                         * 
+                         * @return
+                         *     A reference to this Builder instance
+                         * 
+                         * @see #display(com.ibm.fhir.model.type.String)
+                         */
+                        public Builder display(java.lang.String display) {
+                            this.display = (display == null) ? null : String.of(display);
                             return this;
                         }
 
@@ -2883,7 +3172,8 @@ public class ConceptMap extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2902,13 +3192,17 @@ public class ConceptMap extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2926,7 +3220,8 @@ public class ConceptMap extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2950,13 +3245,17 @@ public class ConceptMap extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2993,6 +3292,22 @@ public class ConceptMap extends DomainResource {
                  */
                 public Builder code(Code code) {
                     this.code = code;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code display}.
+                 * 
+                 * @param display
+                 *     Display for the code
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #display(com.ibm.fhir.model.type.String)
+                 */
+                public Builder display(java.lang.String display) {
+                    this.display = (display == null) ? null : String.of(display);
                     return this;
                 }
 

@@ -341,7 +341,8 @@ public class SpecimenDefinition extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -358,13 +359,17 @@ public class SpecimenDefinition extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -377,7 +382,8 @@ public class SpecimenDefinition extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -396,13 +402,17 @@ public class SpecimenDefinition extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -420,7 +430,8 @@ public class SpecimenDefinition extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -444,13 +455,17 @@ public class SpecimenDefinition extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -488,7 +503,8 @@ public class SpecimenDefinition extends DomainResource {
         /**
          * Preparation of the patient for specimen collection.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param patientPreparation
          *     Patient preparation for collection
@@ -506,16 +522,36 @@ public class SpecimenDefinition extends DomainResource {
         /**
          * Preparation of the patient for specimen collection.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param patientPreparation
          *     Patient preparation for collection
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder patientPreparation(Collection<CodeableConcept> patientPreparation) {
             this.patientPreparation = new ArrayList<>(patientPreparation);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code timeAspect}.
+         * 
+         * @param timeAspect
+         *     Time aspect for collection
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #timeAspect(com.ibm.fhir.model.type.String)
+         */
+        public Builder timeAspect(java.lang.String timeAspect) {
+            this.timeAspect = (timeAspect == null) ? null : String.of(timeAspect);
             return this;
         }
 
@@ -536,7 +572,8 @@ public class SpecimenDefinition extends DomainResource {
         /**
          * The action to be performed for collecting the specimen.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param collection
          *     Specimen collection procedure
@@ -554,13 +591,17 @@ public class SpecimenDefinition extends DomainResource {
         /**
          * The action to be performed for collecting the specimen.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param collection
          *     Specimen collection procedure
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder collection(Collection<CodeableConcept> collection) {
             this.collection = new ArrayList<>(collection);
@@ -570,7 +611,8 @@ public class SpecimenDefinition extends DomainResource {
         /**
          * Specimen conditioned in a container as expected by the testing laboratory.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param typeTested
          *     Specimen in container intended for testing by lab
@@ -588,13 +630,17 @@ public class SpecimenDefinition extends DomainResource {
         /**
          * Specimen conditioned in a container as expected by the testing laboratory.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param typeTested
          *     Specimen in container intended for testing by lab
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder typeTested(Collection<TypeTested> typeTested) {
             this.typeTested = new ArrayList<>(typeTested);
@@ -888,7 +934,8 @@ public class SpecimenDefinition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -907,13 +954,17 @@ public class SpecimenDefinition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -931,7 +982,8 @@ public class SpecimenDefinition extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -955,17 +1007,37 @@ public class SpecimenDefinition extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting {@code isDerived}.
+             * 
+             * @param isDerived
+             *     Primary or secondary specimen
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #isDerived(com.ibm.fhir.model.type.Boolean)
+             */
+            public Builder isDerived(java.lang.Boolean isDerived) {
+                this.isDerived = (isDerived == null) ? null : Boolean.of(isDerived);
+                return this;
             }
 
             /**
@@ -1027,6 +1099,22 @@ public class SpecimenDefinition extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code requirement}.
+             * 
+             * @param requirement
+             *     Specimen requirements
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #requirement(com.ibm.fhir.model.type.String)
+             */
+            public Builder requirement(java.lang.String requirement) {
+                this.requirement = (requirement == null) ? null : String.of(requirement);
+                return this;
+            }
+
+            /**
              * Requirements for delivery and special handling of this kind of conditioned specimen.
              * 
              * @param requirement
@@ -1058,7 +1146,8 @@ public class SpecimenDefinition extends DomainResource {
             /**
              * Criterion for rejection of the specimen in its container by the laboratory.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param rejectionCriterion
              *     Rejection criterion
@@ -1076,13 +1165,17 @@ public class SpecimenDefinition extends DomainResource {
             /**
              * Criterion for rejection of the specimen in its container by the laboratory.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param rejectionCriterion
              *     Rejection criterion
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder rejectionCriterion(Collection<CodeableConcept> rejectionCriterion) {
                 this.rejectionCriterion = new ArrayList<>(rejectionCriterion);
@@ -1093,7 +1186,8 @@ public class SpecimenDefinition extends DomainResource {
              * Set of instructions for preservation/transport of the specimen at a defined temperature interval, prior the testing 
              * process.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param handling
              *     Specimen handling before testing
@@ -1112,13 +1206,17 @@ public class SpecimenDefinition extends DomainResource {
              * Set of instructions for preservation/transport of the specimen at a defined temperature interval, prior the testing 
              * process.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param handling
              *     Specimen handling before testing
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder handling(Collection<Handling> handling) {
                 this.handling = new ArrayList<>(handling);
@@ -1267,7 +1365,7 @@ public class SpecimenDefinition extends DomainResource {
              * The minimum volume to be conditioned in the container.
              * 
              * @return
-             *     An immutable object of type {@link Element} that may be null.
+             *     An immutable object of type {@link SimpleQuantity} or {@link String} that may be null.
              */
             public Element getMinimumVolume() {
                 return minimumVolume;
@@ -1419,7 +1517,8 @@ public class SpecimenDefinition extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -1438,13 +1537,17 @@ public class SpecimenDefinition extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -1462,7 +1565,8 @@ public class SpecimenDefinition extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -1486,13 +1590,17 @@ public class SpecimenDefinition extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1542,6 +1650,22 @@ public class SpecimenDefinition extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting {@code description}.
+                 * 
+                 * @param description
+                 *     Container description
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #description(com.ibm.fhir.model.type.String)
+                 */
+                public Builder description(java.lang.String description) {
+                    this.description = (description == null) ? null : String.of(description);
+                    return this;
+                }
+
+                /**
                  * The textual description of the kind of container.
                  * 
                  * @param description
@@ -1570,6 +1694,22 @@ public class SpecimenDefinition extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting {@code minimumVolume} with choice type String.
+                 * 
+                 * @param minimumVolume
+                 *     Minimum volume
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #minimumVolume(Element)
+                 */
+                public Builder minimumVolume(java.lang.String minimumVolume) {
+                    this.minimumVolume = (minimumVolume == null) ? null : String.of(minimumVolume);
+                    return this;
+                }
+
+                /**
                  * The minimum volume to be conditioned in the container.
                  * 
                  * <p>This is a choice element with the following allowed types:
@@ -1593,7 +1733,8 @@ public class SpecimenDefinition extends DomainResource {
                  * Substance introduced in the kind of container to preserve, maintain or enhance the specimen. Examples: Formalin, 
                  * Citrate, EDTA.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param additive
                  *     Additive associated with container
@@ -1612,16 +1753,36 @@ public class SpecimenDefinition extends DomainResource {
                  * Substance introduced in the kind of container to preserve, maintain or enhance the specimen. Examples: Formalin, 
                  * Citrate, EDTA.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param additive
                  *     Additive associated with container
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder additive(Collection<Additive> additive) {
                     this.additive = new ArrayList<>(additive);
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code preparation}.
+                 * 
+                 * @param preparation
+                 *     Specimen container preparation
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #preparation(com.ibm.fhir.model.type.String)
+                 */
+                public Builder preparation(java.lang.String preparation) {
+                    this.preparation = (preparation == null) ? null : String.of(preparation);
                     return this;
                 }
 
@@ -1703,7 +1864,7 @@ public class SpecimenDefinition extends DomainResource {
                  * Citrate, EDTA.
                  * 
                  * @return
-                 *     An immutable object of type {@link Element} that is non-null.
+                 *     An immutable object of type {@link CodeableConcept} or {@link Reference} that is non-null.
                  */
                 public Element getAdditive() {
                     return additive;
@@ -1799,7 +1960,8 @@ public class SpecimenDefinition extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -1818,13 +1980,17 @@ public class SpecimenDefinition extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     @Override
                     public Builder extension(Collection<Extension> extension) {
@@ -1842,7 +2008,8 @@ public class SpecimenDefinition extends DomainResource {
                      * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -1866,13 +2033,17 @@ public class SpecimenDefinition extends DomainResource {
                      * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2116,7 +2287,8 @@ public class SpecimenDefinition extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2135,13 +2307,17 @@ public class SpecimenDefinition extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2159,7 +2335,8 @@ public class SpecimenDefinition extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2183,13 +2360,17 @@ public class SpecimenDefinition extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2236,6 +2417,22 @@ public class SpecimenDefinition extends DomainResource {
                  */
                 public Builder maxDuration(Duration maxDuration) {
                     this.maxDuration = maxDuration;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code instruction}.
+                 * 
+                 * @param instruction
+                 *     Preservation instruction
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #instruction(com.ibm.fhir.model.type.String)
+                 */
+                public Builder instruction(java.lang.String instruction) {
+                    this.instruction = (instruction == null) ? null : String.of(instruction);
                     return this;
                 }
 

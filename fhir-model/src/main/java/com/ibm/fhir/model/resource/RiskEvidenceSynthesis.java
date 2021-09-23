@@ -899,7 +899,8 @@ public class RiskEvidenceSynthesis extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -916,13 +917,17 @@ public class RiskEvidenceSynthesis extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -935,7 +940,8 @@ public class RiskEvidenceSynthesis extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -954,13 +960,17 @@ public class RiskEvidenceSynthesis extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -978,7 +988,8 @@ public class RiskEvidenceSynthesis extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -1002,13 +1013,17 @@ public class RiskEvidenceSynthesis extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1037,7 +1052,8 @@ public class RiskEvidenceSynthesis extends DomainResource {
          * A formal identifier that is used to identify this risk evidence synthesis when it is represented in other formats, or 
          * referenced in a specification, model, design or an instance.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Additional identifier for the risk evidence synthesis
@@ -1056,16 +1072,36 @@ public class RiskEvidenceSynthesis extends DomainResource {
          * A formal identifier that is used to identify this risk evidence synthesis when it is represented in other formats, or 
          * referenced in a specification, model, design or an instance.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Additional identifier for the risk evidence synthesis
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder identifier(Collection<Identifier> identifier) {
             this.identifier = new ArrayList<>(identifier);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code version}.
+         * 
+         * @param version
+         *     Business version of the risk evidence synthesis
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #version(com.ibm.fhir.model.type.String)
+         */
+        public Builder version(java.lang.String version) {
+            this.version = (version == null) ? null : String.of(version);
             return this;
         }
 
@@ -1087,6 +1123,22 @@ public class RiskEvidenceSynthesis extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code name}.
+         * 
+         * @param name
+         *     Name for this risk evidence synthesis (computer friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #name(com.ibm.fhir.model.type.String)
+         */
+        public Builder name(java.lang.String name) {
+            this.name = (name == null) ? null : String.of(name);
+            return this;
+        }
+
+        /**
          * A natural language name identifying the risk evidence synthesis. This name should be usable as an identifier for the 
          * module by machine processing applications such as code generation.
          * 
@@ -1098,6 +1150,22 @@ public class RiskEvidenceSynthesis extends DomainResource {
          */
         public Builder name(String name) {
             this.name = name;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code title}.
+         * 
+         * @param title
+         *     Name for this risk evidence synthesis (human friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #title(com.ibm.fhir.model.type.String)
+         */
+        public Builder title(java.lang.String title) {
+            this.title = (title == null) ? null : String.of(title);
             return this;
         }
 
@@ -1148,6 +1216,22 @@ public class RiskEvidenceSynthesis extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code publisher}.
+         * 
+         * @param publisher
+         *     Name of the publisher (organization or individual)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #publisher(com.ibm.fhir.model.type.String)
+         */
+        public Builder publisher(java.lang.String publisher) {
+            this.publisher = (publisher == null) ? null : String.of(publisher);
+            return this;
+        }
+
+        /**
          * The name of the organization or individual that published the risk evidence synthesis.
          * 
          * @param publisher
@@ -1164,7 +1248,8 @@ public class RiskEvidenceSynthesis extends DomainResource {
         /**
          * Contact details to assist a user in finding and communicating with the publisher.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contact
          *     Contact details for the publisher
@@ -1182,13 +1267,17 @@ public class RiskEvidenceSynthesis extends DomainResource {
         /**
          * Contact details to assist a user in finding and communicating with the publisher.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contact
          *     Contact details for the publisher
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder contact(Collection<ContactDetail> contact) {
             this.contact = new ArrayList<>(contact);
@@ -1212,7 +1301,8 @@ public class RiskEvidenceSynthesis extends DomainResource {
         /**
          * A human-readable string to clarify or explain concepts about the resource.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param note
          *     Used for footnotes or explanatory notes
@@ -1230,13 +1320,17 @@ public class RiskEvidenceSynthesis extends DomainResource {
         /**
          * A human-readable string to clarify or explain concepts about the resource.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param note
          *     Used for footnotes or explanatory notes
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder note(Collection<Annotation> note) {
             this.note = new ArrayList<>(note);
@@ -1248,7 +1342,8 @@ public class RiskEvidenceSynthesis extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate risk evidence synthesis instances.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param useContext
          *     The context that the content is intended to support
@@ -1268,13 +1363,17 @@ public class RiskEvidenceSynthesis extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate risk evidence synthesis instances.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param useContext
          *     The context that the content is intended to support
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder useContext(Collection<UsageContext> useContext) {
             this.useContext = new ArrayList<>(useContext);
@@ -1284,7 +1383,8 @@ public class RiskEvidenceSynthesis extends DomainResource {
         /**
          * A legal or geographic region in which the risk evidence synthesis is intended to be used.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param jurisdiction
          *     Intended jurisdiction for risk evidence synthesis (if applicable)
@@ -1302,13 +1402,17 @@ public class RiskEvidenceSynthesis extends DomainResource {
         /**
          * A legal or geographic region in which the risk evidence synthesis is intended to be used.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param jurisdiction
          *     Intended jurisdiction for risk evidence synthesis (if applicable)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder jurisdiction(Collection<CodeableConcept> jurisdiction) {
             this.jurisdiction = new ArrayList<>(jurisdiction);
@@ -1331,6 +1435,22 @@ public class RiskEvidenceSynthesis extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code approvalDate}.
+         * 
+         * @param approvalDate
+         *     When the risk evidence synthesis was approved by publisher
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #approvalDate(com.ibm.fhir.model.type.Date)
+         */
+        public Builder approvalDate(java.time.LocalDate approvalDate) {
+            this.approvalDate = (approvalDate == null) ? null : Date.of(approvalDate);
+            return this;
+        }
+
+        /**
          * The date on which the resource content was approved by the publisher. Approval happens once when the content is 
          * officially approved for usage.
          * 
@@ -1342,6 +1462,22 @@ public class RiskEvidenceSynthesis extends DomainResource {
          */
         public Builder approvalDate(Date approvalDate) {
             this.approvalDate = approvalDate;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code lastReviewDate}.
+         * 
+         * @param lastReviewDate
+         *     When the risk evidence synthesis was last reviewed
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #lastReviewDate(com.ibm.fhir.model.type.Date)
+         */
+        public Builder lastReviewDate(java.time.LocalDate lastReviewDate) {
+            this.lastReviewDate = (lastReviewDate == null) ? null : Date.of(lastReviewDate);
             return this;
         }
 
@@ -1378,7 +1514,8 @@ public class RiskEvidenceSynthesis extends DomainResource {
          * Descriptive topics related to the content of the RiskEvidenceSynthesis. Topics provide a high-level categorization 
          * grouping types of EffectEvidenceSynthesiss that can be useful for filtering and searching.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param topic
          *     The category of the EffectEvidenceSynthesis, such as Education, Treatment, Assessment, etc.
@@ -1397,13 +1534,17 @@ public class RiskEvidenceSynthesis extends DomainResource {
          * Descriptive topics related to the content of the RiskEvidenceSynthesis. Topics provide a high-level categorization 
          * grouping types of EffectEvidenceSynthesiss that can be useful for filtering and searching.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param topic
          *     The category of the EffectEvidenceSynthesis, such as Education, Treatment, Assessment, etc.
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder topic(Collection<CodeableConcept> topic) {
             this.topic = new ArrayList<>(topic);
@@ -1413,7 +1554,8 @@ public class RiskEvidenceSynthesis extends DomainResource {
         /**
          * An individiual or organization primarily involved in the creation and maintenance of the content.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param author
          *     Who authored the content
@@ -1431,13 +1573,17 @@ public class RiskEvidenceSynthesis extends DomainResource {
         /**
          * An individiual or organization primarily involved in the creation and maintenance of the content.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param author
          *     Who authored the content
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder author(Collection<ContactDetail> author) {
             this.author = new ArrayList<>(author);
@@ -1447,7 +1593,8 @@ public class RiskEvidenceSynthesis extends DomainResource {
         /**
          * An individual or organization primarily responsible for internal coherence of the content.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param editor
          *     Who edited the content
@@ -1465,13 +1612,17 @@ public class RiskEvidenceSynthesis extends DomainResource {
         /**
          * An individual or organization primarily responsible for internal coherence of the content.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param editor
          *     Who edited the content
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder editor(Collection<ContactDetail> editor) {
             this.editor = new ArrayList<>(editor);
@@ -1481,7 +1632,8 @@ public class RiskEvidenceSynthesis extends DomainResource {
         /**
          * An individual or organization primarily responsible for review of some aspect of the content.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param reviewer
          *     Who reviewed the content
@@ -1499,13 +1651,17 @@ public class RiskEvidenceSynthesis extends DomainResource {
         /**
          * An individual or organization primarily responsible for review of some aspect of the content.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param reviewer
          *     Who reviewed the content
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder reviewer(Collection<ContactDetail> reviewer) {
             this.reviewer = new ArrayList<>(reviewer);
@@ -1515,7 +1671,8 @@ public class RiskEvidenceSynthesis extends DomainResource {
         /**
          * An individual or organization responsible for officially endorsing the content for use in some setting.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param endorser
          *     Who endorsed the content
@@ -1533,13 +1690,17 @@ public class RiskEvidenceSynthesis extends DomainResource {
         /**
          * An individual or organization responsible for officially endorsing the content for use in some setting.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param endorser
          *     Who endorsed the content
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder endorser(Collection<ContactDetail> endorser) {
             this.endorser = new ArrayList<>(endorser);
@@ -1549,7 +1710,8 @@ public class RiskEvidenceSynthesis extends DomainResource {
         /**
          * Related artifacts such as additional documentation, justification, or bibliographic references.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param relatedArtifact
          *     Additional documentation, citations, etc.
@@ -1567,13 +1729,17 @@ public class RiskEvidenceSynthesis extends DomainResource {
         /**
          * Related artifacts such as additional documentation, justification, or bibliographic references.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param relatedArtifact
          *     Additional documentation, citations, etc.
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder relatedArtifact(Collection<RelatedArtifact> relatedArtifact) {
             this.relatedArtifact = new ArrayList<>(relatedArtifact);
@@ -1700,7 +1866,8 @@ public class RiskEvidenceSynthesis extends DomainResource {
         /**
          * A description of the certainty of the risk estimate.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param certainty
          *     How certain is the risk
@@ -1718,13 +1885,17 @@ public class RiskEvidenceSynthesis extends DomainResource {
         /**
          * A description of the certainty of the risk estimate.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param certainty
          *     How certain is the risk
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder certainty(Collection<Certainty> certainty) {
             this.certainty = new ArrayList<>(certainty);
@@ -1959,7 +2130,8 @@ public class RiskEvidenceSynthesis extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1978,13 +2150,17 @@ public class RiskEvidenceSynthesis extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2002,7 +2178,8 @@ public class RiskEvidenceSynthesis extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2026,17 +2203,37 @@ public class RiskEvidenceSynthesis extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting {@code description}.
+             * 
+             * @param description
+             *     Description of sample size
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #description(com.ibm.fhir.model.type.String)
+             */
+            public Builder description(java.lang.String description) {
+                this.description = (description == null) ? null : String.of(description);
+                return this;
             }
 
             /**
@@ -2054,6 +2251,22 @@ public class RiskEvidenceSynthesis extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code numberOfStudies}.
+             * 
+             * @param numberOfStudies
+             *     How many studies?
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #numberOfStudies(com.ibm.fhir.model.type.Integer)
+             */
+            public Builder numberOfStudies(java.lang.Integer numberOfStudies) {
+                this.numberOfStudies = (numberOfStudies == null) ? null : Integer.of(numberOfStudies);
+                return this;
+            }
+
+            /**
              * Number of studies included in this evidence synthesis.
              * 
              * @param numberOfStudies
@@ -2064,6 +2277,22 @@ public class RiskEvidenceSynthesis extends DomainResource {
              */
             public Builder numberOfStudies(Integer numberOfStudies) {
                 this.numberOfStudies = numberOfStudies;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code numberOfParticipants}.
+             * 
+             * @param numberOfParticipants
+             *     How many participants?
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #numberOfParticipants(com.ibm.fhir.model.type.Integer)
+             */
+            public Builder numberOfParticipants(java.lang.Integer numberOfParticipants) {
+                this.numberOfParticipants = (numberOfParticipants == null) ? null : Integer.of(numberOfParticipants);
                 return this;
             }
 
@@ -2338,7 +2567,8 @@ public class RiskEvidenceSynthesis extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2357,13 +2587,17 @@ public class RiskEvidenceSynthesis extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2381,7 +2615,8 @@ public class RiskEvidenceSynthesis extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2405,17 +2640,37 @@ public class RiskEvidenceSynthesis extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting {@code description}.
+             * 
+             * @param description
+             *     Description of risk estimate
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #description(com.ibm.fhir.model.type.String)
+             */
+            public Builder description(java.lang.String description) {
+                this.description = (description == null) ? null : String.of(description);
+                return this;
             }
 
             /**
@@ -2475,6 +2730,22 @@ public class RiskEvidenceSynthesis extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code denominatorCount}.
+             * 
+             * @param denominatorCount
+             *     Sample size for group measured
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #denominatorCount(com.ibm.fhir.model.type.Integer)
+             */
+            public Builder denominatorCount(java.lang.Integer denominatorCount) {
+                this.denominatorCount = (denominatorCount == null) ? null : Integer.of(denominatorCount);
+                return this;
+            }
+
+            /**
              * The sample size for the group that was measured for this risk estimate.
              * 
              * @param denominatorCount
@@ -2485,6 +2756,22 @@ public class RiskEvidenceSynthesis extends DomainResource {
              */
             public Builder denominatorCount(Integer denominatorCount) {
                 this.denominatorCount = denominatorCount;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code numeratorCount}.
+             * 
+             * @param numeratorCount
+             *     Number with the outcome
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #numeratorCount(com.ibm.fhir.model.type.Integer)
+             */
+            public Builder numeratorCount(java.lang.Integer numeratorCount) {
+                this.numeratorCount = (numeratorCount == null) ? null : Integer.of(numeratorCount);
                 return this;
             }
 
@@ -2505,7 +2792,8 @@ public class RiskEvidenceSynthesis extends DomainResource {
             /**
              * A description of the precision of the estimate for the effect.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param precisionEstimate
              *     How precise the estimate is
@@ -2523,13 +2811,17 @@ public class RiskEvidenceSynthesis extends DomainResource {
             /**
              * A description of the precision of the estimate for the effect.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param precisionEstimate
              *     How precise the estimate is
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder precisionEstimate(Collection<PrecisionEstimate> precisionEstimate) {
                 this.precisionEstimate = new ArrayList<>(precisionEstimate);
@@ -2741,7 +3033,8 @@ public class RiskEvidenceSynthesis extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2760,13 +3053,17 @@ public class RiskEvidenceSynthesis extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2784,7 +3081,8 @@ public class RiskEvidenceSynthesis extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2808,13 +3106,17 @@ public class RiskEvidenceSynthesis extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3062,7 +3364,8 @@ public class RiskEvidenceSynthesis extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -3081,13 +3384,17 @@ public class RiskEvidenceSynthesis extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -3105,7 +3412,8 @@ public class RiskEvidenceSynthesis extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -3129,13 +3437,17 @@ public class RiskEvidenceSynthesis extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3145,7 +3457,8 @@ public class RiskEvidenceSynthesis extends DomainResource {
             /**
              * A rating of the certainty of the effect estimate.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param rating
              *     Certainty rating
@@ -3163,13 +3476,17 @@ public class RiskEvidenceSynthesis extends DomainResource {
             /**
              * A rating of the certainty of the effect estimate.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param rating
              *     Certainty rating
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder rating(Collection<CodeableConcept> rating) {
                 this.rating = new ArrayList<>(rating);
@@ -3179,7 +3496,8 @@ public class RiskEvidenceSynthesis extends DomainResource {
             /**
              * A human-readable string to clarify or explain concepts about the resource.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param note
              *     Used for footnotes or explanatory notes
@@ -3197,13 +3515,17 @@ public class RiskEvidenceSynthesis extends DomainResource {
             /**
              * A human-readable string to clarify or explain concepts about the resource.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param note
              *     Used for footnotes or explanatory notes
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder note(Collection<Annotation> note) {
                 this.note = new ArrayList<>(note);
@@ -3213,7 +3535,8 @@ public class RiskEvidenceSynthesis extends DomainResource {
             /**
              * A description of a component of the overall certainty.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param certaintySubcomponent
              *     A component that contributes to the overall certainty
@@ -3231,13 +3554,17 @@ public class RiskEvidenceSynthesis extends DomainResource {
             /**
              * A description of a component of the overall certainty.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param certaintySubcomponent
              *     A component that contributes to the overall certainty
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder certaintySubcomponent(Collection<CertaintySubcomponent> certaintySubcomponent) {
                 this.certaintySubcomponent = new ArrayList<>(certaintySubcomponent);
@@ -3435,7 +3762,8 @@ public class RiskEvidenceSynthesis extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -3454,13 +3782,17 @@ public class RiskEvidenceSynthesis extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -3478,7 +3810,8 @@ public class RiskEvidenceSynthesis extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3502,13 +3835,17 @@ public class RiskEvidenceSynthesis extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3532,7 +3869,8 @@ public class RiskEvidenceSynthesis extends DomainResource {
                 /**
                  * A rating of a subcomponent of rating certainty.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param rating
                  *     Subcomponent certainty rating
@@ -3550,13 +3888,17 @@ public class RiskEvidenceSynthesis extends DomainResource {
                 /**
                  * A rating of a subcomponent of rating certainty.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param rating
                  *     Subcomponent certainty rating
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder rating(Collection<CodeableConcept> rating) {
                     this.rating = new ArrayList<>(rating);
@@ -3566,7 +3908,8 @@ public class RiskEvidenceSynthesis extends DomainResource {
                 /**
                  * A human-readable string to clarify or explain concepts about the resource.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param note
                  *     Used for footnotes or explanatory notes
@@ -3584,13 +3927,17 @@ public class RiskEvidenceSynthesis extends DomainResource {
                 /**
                  * A human-readable string to clarify or explain concepts about the resource.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param note
                  *     Used for footnotes or explanatory notes
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder note(Collection<Annotation> note) {
                     this.note = new ArrayList<>(note);

@@ -678,7 +678,8 @@ public class CarePlan extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -695,13 +696,17 @@ public class CarePlan extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -714,7 +719,8 @@ public class CarePlan extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -733,13 +739,17 @@ public class CarePlan extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -757,7 +767,8 @@ public class CarePlan extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -781,13 +792,17 @@ public class CarePlan extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -798,7 +813,8 @@ public class CarePlan extends DomainResource {
          * Business identifiers assigned to this care plan by the performer or other systems which remain constant as the 
          * resource is updated and propagates from server to server.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     External Ids for this plan
@@ -817,13 +833,17 @@ public class CarePlan extends DomainResource {
          * Business identifiers assigned to this care plan by the performer or other systems which remain constant as the 
          * resource is updated and propagates from server to server.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     External Ids for this plan
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder identifier(Collection<Identifier> identifier) {
             this.identifier = new ArrayList<>(identifier);
@@ -834,7 +854,8 @@ public class CarePlan extends DomainResource {
          * The URL pointing to a FHIR-defined protocol, guideline, questionnaire or other definition that is adhered to in whole 
          * or in part by this CarePlan.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param instantiatesCanonical
          *     Instantiates FHIR protocol or definition
@@ -853,13 +874,17 @@ public class CarePlan extends DomainResource {
          * The URL pointing to a FHIR-defined protocol, guideline, questionnaire or other definition that is adhered to in whole 
          * or in part by this CarePlan.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param instantiatesCanonical
          *     Instantiates FHIR protocol or definition
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder instantiatesCanonical(Collection<Canonical> instantiatesCanonical) {
             this.instantiatesCanonical = new ArrayList<>(instantiatesCanonical);
@@ -870,7 +895,8 @@ public class CarePlan extends DomainResource {
          * The URL pointing to an externally maintained protocol, guideline, questionnaire or other definition that is adhered to 
          * in whole or in part by this CarePlan.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param instantiatesUri
          *     Instantiates external protocol or definition
@@ -889,13 +915,17 @@ public class CarePlan extends DomainResource {
          * The URL pointing to an externally maintained protocol, guideline, questionnaire or other definition that is adhered to 
          * in whole or in part by this CarePlan.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param instantiatesUri
          *     Instantiates external protocol or definition
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder instantiatesUri(Collection<Uri> instantiatesUri) {
             this.instantiatesUri = new ArrayList<>(instantiatesUri);
@@ -905,7 +935,8 @@ public class CarePlan extends DomainResource {
         /**
          * A care plan that is fulfilled in whole or in part by this care plan.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -928,7 +959,8 @@ public class CarePlan extends DomainResource {
         /**
          * A care plan that is fulfilled in whole or in part by this care plan.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -940,6 +972,9 @@ public class CarePlan extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder basedOn(Collection<Reference> basedOn) {
             this.basedOn = new ArrayList<>(basedOn);
@@ -949,7 +984,8 @@ public class CarePlan extends DomainResource {
         /**
          * Completed or terminated care plan whose function is taken by this new care plan.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -972,7 +1008,8 @@ public class CarePlan extends DomainResource {
         /**
          * Completed or terminated care plan whose function is taken by this new care plan.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -984,6 +1021,9 @@ public class CarePlan extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder replaces(Collection<Reference> replaces) {
             this.replaces = new ArrayList<>(replaces);
@@ -993,7 +1033,8 @@ public class CarePlan extends DomainResource {
         /**
          * A larger care plan of which this particular care plan is a component or step.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1016,7 +1057,8 @@ public class CarePlan extends DomainResource {
         /**
          * A larger care plan of which this particular care plan is a component or step.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1028,6 +1070,9 @@ public class CarePlan extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder partOf(Collection<Reference> partOf) {
             this.partOf = new ArrayList<>(partOf);
@@ -1071,7 +1116,8 @@ public class CarePlan extends DomainResource {
          * Identifies what "kind" of plan this is to support differentiation between multiple co-existing plans; e.g. "Home 
          * health", "psychiatric", "asthma", "disease management", "wellness plan", etc.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param category
          *     Type of plan
@@ -1090,16 +1136,36 @@ public class CarePlan extends DomainResource {
          * Identifies what "kind" of plan this is to support differentiation between multiple co-existing plans; e.g. "Home 
          * health", "psychiatric", "asthma", "disease management", "wellness plan", etc.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param category
          *     Type of plan
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder category(Collection<CodeableConcept> category) {
             this.category = new ArrayList<>(category);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code title}.
+         * 
+         * @param title
+         *     Human-friendly name for the care plan
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #title(com.ibm.fhir.model.type.String)
+         */
+        public Builder title(java.lang.String title) {
+            this.title = (title == null) ? null : String.of(title);
             return this;
         }
 
@@ -1114,6 +1180,22 @@ public class CarePlan extends DomainResource {
          */
         public Builder title(String title) {
             this.title = title;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code description}.
+         * 
+         * @param description
+         *     Summary of nature of plan
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #description(com.ibm.fhir.model.type.String)
+         */
+        public Builder description(java.lang.String description) {
+            this.description = (description == null) ? null : String.of(description);
             return this;
         }
 
@@ -1228,7 +1310,8 @@ public class CarePlan extends DomainResource {
         /**
          * Identifies the individual(s) or organization who provided the contents of the care plan.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1257,7 +1340,8 @@ public class CarePlan extends DomainResource {
         /**
          * Identifies the individual(s) or organization who provided the contents of the care plan.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1275,6 +1359,9 @@ public class CarePlan extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder contributor(Collection<Reference> contributor) {
             this.contributor = new ArrayList<>(contributor);
@@ -1284,7 +1371,8 @@ public class CarePlan extends DomainResource {
         /**
          * Identifies all people and organizations who are expected to be involved in the care envisioned by this plan.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1307,7 +1395,8 @@ public class CarePlan extends DomainResource {
         /**
          * Identifies all people and organizations who are expected to be involved in the care envisioned by this plan.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1319,6 +1408,9 @@ public class CarePlan extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder careTeam(Collection<Reference> careTeam) {
             this.careTeam = new ArrayList<>(careTeam);
@@ -1328,7 +1420,8 @@ public class CarePlan extends DomainResource {
         /**
          * Identifies the conditions/problems/concerns/diagnoses/etc. whose management and/or mitigation are handled by this plan.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1351,7 +1444,8 @@ public class CarePlan extends DomainResource {
         /**
          * Identifies the conditions/problems/concerns/diagnoses/etc. whose management and/or mitigation are handled by this plan.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1363,6 +1457,9 @@ public class CarePlan extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder addresses(Collection<Reference> addresses) {
             this.addresses = new ArrayList<>(addresses);
@@ -1373,7 +1470,8 @@ public class CarePlan extends DomainResource {
          * Identifies portions of the patient's record that specifically influenced the formation of the plan. These might 
          * include comorbidities, recent procedures, limitations, recent assessments, etc.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param supportingInfo
          *     Information considered as part of plan
@@ -1392,13 +1490,17 @@ public class CarePlan extends DomainResource {
          * Identifies portions of the patient's record that specifically influenced the formation of the plan. These might 
          * include comorbidities, recent procedures, limitations, recent assessments, etc.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param supportingInfo
          *     Information considered as part of plan
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder supportingInfo(Collection<Reference> supportingInfo) {
             this.supportingInfo = new ArrayList<>(supportingInfo);
@@ -1408,7 +1510,8 @@ public class CarePlan extends DomainResource {
         /**
          * Describes the intended objective(s) of carrying out the care plan.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1431,7 +1534,8 @@ public class CarePlan extends DomainResource {
         /**
          * Describes the intended objective(s) of carrying out the care plan.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1443,6 +1547,9 @@ public class CarePlan extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder goal(Collection<Reference> goal) {
             this.goal = new ArrayList<>(goal);
@@ -1453,7 +1560,8 @@ public class CarePlan extends DomainResource {
          * Identifies a planned action to occur as part of the plan. For example, a medication to be used, lab tests to perform, 
          * self-monitoring, education, etc.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param activity
          *     Action to occur as part of plan
@@ -1472,13 +1580,17 @@ public class CarePlan extends DomainResource {
          * Identifies a planned action to occur as part of the plan. For example, a medication to be used, lab tests to perform, 
          * self-monitoring, education, etc.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param activity
          *     Action to occur as part of plan
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder activity(Collection<Activity> activity) {
             this.activity = new ArrayList<>(activity);
@@ -1488,7 +1600,8 @@ public class CarePlan extends DomainResource {
         /**
          * General notes about the care plan not covered elsewhere.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param note
          *     Comments about the plan
@@ -1506,13 +1619,17 @@ public class CarePlan extends DomainResource {
         /**
          * General notes about the care plan not covered elsewhere.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param note
          *     Comments about the plan
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder note(Collection<Annotation> note) {
             this.note = new ArrayList<>(note);
@@ -1794,7 +1911,8 @@ public class CarePlan extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1813,13 +1931,17 @@ public class CarePlan extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1837,7 +1959,8 @@ public class CarePlan extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1861,13 +1984,17 @@ public class CarePlan extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1878,7 +2005,8 @@ public class CarePlan extends DomainResource {
              * Identifies the outcome at the point when the status of the activity is assessed. For example, the outcome of an 
              * education activity could be patient understands (or not).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param outcomeCodeableConcept
              *     Results of the activity
@@ -1897,13 +2025,17 @@ public class CarePlan extends DomainResource {
              * Identifies the outcome at the point when the status of the activity is assessed. For example, the outcome of an 
              * education activity could be patient understands (or not).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param outcomeCodeableConcept
              *     Results of the activity
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder outcomeCodeableConcept(Collection<CodeableConcept> outcomeCodeableConcept) {
                 this.outcomeCodeableConcept = new ArrayList<>(outcomeCodeableConcept);
@@ -1915,7 +2047,8 @@ public class CarePlan extends DomainResource {
              * or Encounter or Observation, is the result/outcome of the activity itself. The activity can be conveyed using CarePlan.
              * activity.detail OR using the CarePlan.activity.reference (a reference to a “request” resource).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param outcomeReference
              *     Appointment, Encounter, Procedure, etc.
@@ -1935,13 +2068,17 @@ public class CarePlan extends DomainResource {
              * or Encounter or Observation, is the result/outcome of the activity itself. The activity can be conveyed using CarePlan.
              * activity.detail OR using the CarePlan.activity.reference (a reference to a “request” resource).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param outcomeReference
              *     Appointment, Encounter, Procedure, etc.
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder outcomeReference(Collection<Reference> outcomeReference) {
                 this.outcomeReference = new ArrayList<>(outcomeReference);
@@ -1951,7 +2088,8 @@ public class CarePlan extends DomainResource {
             /**
              * Notes about the adherence/status/progress of the activity.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param progress
              *     Comments about the activity status/progress
@@ -1969,13 +2107,17 @@ public class CarePlan extends DomainResource {
             /**
              * Notes about the adherence/status/progress of the activity.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param progress
              *     Comments about the activity status/progress
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder progress(Collection<Annotation> progress) {
                 this.progress = new ArrayList<>(progress);
@@ -2254,7 +2396,7 @@ public class CarePlan extends DomainResource {
              * The period, timing or frequency upon which the described activity is to occur.
              * 
              * @return
-             *     An immutable object of type {@link Element} that may be null.
+             *     An immutable object of type {@link Timing}, {@link Period} or {@link String} that may be null.
              */
             public Element getScheduled() {
                 return scheduled;
@@ -2284,7 +2426,7 @@ public class CarePlan extends DomainResource {
              * Identifies the food, drug or other product to be consumed or supplied in the activity.
              * 
              * @return
-             *     An immutable object of type {@link Element} that may be null.
+             *     An immutable object of type {@link CodeableConcept} or {@link Reference} that may be null.
              */
             public Element getProduct() {
                 return product;
@@ -2492,7 +2634,8 @@ public class CarePlan extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2511,13 +2654,17 @@ public class CarePlan extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2535,7 +2682,8 @@ public class CarePlan extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2559,13 +2707,17 @@ public class CarePlan extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2593,7 +2745,8 @@ public class CarePlan extends DomainResource {
                  * The URL pointing to a FHIR-defined protocol, guideline, questionnaire or other definition that is adhered to in whole 
                  * or in part by this CarePlan activity.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param instantiatesCanonical
                  *     Instantiates FHIR protocol or definition
@@ -2612,13 +2765,17 @@ public class CarePlan extends DomainResource {
                  * The URL pointing to a FHIR-defined protocol, guideline, questionnaire or other definition that is adhered to in whole 
                  * or in part by this CarePlan activity.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param instantiatesCanonical
                  *     Instantiates FHIR protocol or definition
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder instantiatesCanonical(Collection<Canonical> instantiatesCanonical) {
                     this.instantiatesCanonical = new ArrayList<>(instantiatesCanonical);
@@ -2629,7 +2786,8 @@ public class CarePlan extends DomainResource {
                  * The URL pointing to an externally maintained protocol, guideline, questionnaire or other definition that is adhered to 
                  * in whole or in part by this CarePlan activity.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param instantiatesUri
                  *     Instantiates external protocol or definition
@@ -2648,13 +2806,17 @@ public class CarePlan extends DomainResource {
                  * The URL pointing to an externally maintained protocol, guideline, questionnaire or other definition that is adhered to 
                  * in whole or in part by this CarePlan activity.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param instantiatesUri
                  *     Instantiates external protocol or definition
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder instantiatesUri(Collection<Uri> instantiatesUri) {
                     this.instantiatesUri = new ArrayList<>(instantiatesUri);
@@ -2679,7 +2841,8 @@ public class CarePlan extends DomainResource {
                  * Provides the rationale that drove the inclusion of this particular activity as part of the plan or the reason why the 
                  * activity was prohibited.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param reasonCode
                  *     Why activity should be done or why activity was prohibited
@@ -2698,13 +2861,17 @@ public class CarePlan extends DomainResource {
                  * Provides the rationale that drove the inclusion of this particular activity as part of the plan or the reason why the 
                  * activity was prohibited.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param reasonCode
                  *     Why activity should be done or why activity was prohibited
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder reasonCode(Collection<CodeableConcept> reasonCode) {
                     this.reasonCode = new ArrayList<>(reasonCode);
@@ -2715,7 +2882,8 @@ public class CarePlan extends DomainResource {
                  * Indicates another resource, such as the health condition(s), whose existence justifies this request and drove the 
                  * inclusion of this particular activity as part of the plan.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * <p>Allowed resource types for the references:
                  * <ul>
@@ -2742,7 +2910,8 @@ public class CarePlan extends DomainResource {
                  * Indicates another resource, such as the health condition(s), whose existence justifies this request and drove the 
                  * inclusion of this particular activity as part of the plan.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * <p>Allowed resource types for the references:
                  * <ul>
@@ -2757,6 +2926,9 @@ public class CarePlan extends DomainResource {
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder reasonReference(Collection<Reference> reasonReference) {
                     this.reasonReference = new ArrayList<>(reasonReference);
@@ -2766,7 +2938,8 @@ public class CarePlan extends DomainResource {
                 /**
                  * Internal reference that identifies the goals that this activity is intended to contribute towards meeting.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * <p>Allowed resource types for the references:
                  * <ul>
@@ -2789,7 +2962,8 @@ public class CarePlan extends DomainResource {
                 /**
                  * Internal reference that identifies the goals that this activity is intended to contribute towards meeting.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * <p>Allowed resource types for the references:
                  * <ul>
@@ -2801,6 +2975,9 @@ public class CarePlan extends DomainResource {
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder goal(Collection<Reference> goal) {
                     this.goal = new ArrayList<>(goal);
@@ -2838,6 +3015,22 @@ public class CarePlan extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting {@code doNotPerform}.
+                 * 
+                 * @param doNotPerform
+                 *     If true, activity is prohibiting action
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #doNotPerform(com.ibm.fhir.model.type.Boolean)
+                 */
+                public Builder doNotPerform(java.lang.Boolean doNotPerform) {
+                    this.doNotPerform = (doNotPerform == null) ? null : Boolean.of(doNotPerform);
+                    return this;
+                }
+
+                /**
                  * If true, indicates that the described activity is one that must NOT be engaged in when following the plan. If false, 
                  * or missing, indicates that the described activity is one that should be engaged in when following the plan.
                  * 
@@ -2849,6 +3042,22 @@ public class CarePlan extends DomainResource {
                  */
                 public Builder doNotPerform(Boolean doNotPerform) {
                     this.doNotPerform = doNotPerform;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code scheduled} with choice type String.
+                 * 
+                 * @param scheduled
+                 *     When activity is to occur
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #scheduled(Element)
+                 */
+                public Builder scheduled(java.lang.String scheduled) {
+                    this.scheduled = (scheduled == null) ? null : String.of(scheduled);
                     return this;
                 }
 
@@ -2895,7 +3104,8 @@ public class CarePlan extends DomainResource {
                 /**
                  * Identifies who's expected to be involved in the activity.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * <p>Allowed resource types for the references:
                  * <ul>
@@ -2925,7 +3135,8 @@ public class CarePlan extends DomainResource {
                 /**
                  * Identifies who's expected to be involved in the activity.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * <p>Allowed resource types for the references:
                  * <ul>
@@ -2944,6 +3155,9 @@ public class CarePlan extends DomainResource {
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder performer(Collection<Reference> performer) {
                     this.performer = new ArrayList<>(performer);
@@ -3001,6 +3215,22 @@ public class CarePlan extends DomainResource {
                  */
                 public Builder quantity(SimpleQuantity quantity) {
                     this.quantity = quantity;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code description}.
+                 * 
+                 * @param description
+                 *     Extra info describing activity to perform
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #description(com.ibm.fhir.model.type.String)
+                 */
+                public Builder description(java.lang.String description) {
+                    this.description = (description == null) ? null : String.of(description);
                     return this;
                 }
 

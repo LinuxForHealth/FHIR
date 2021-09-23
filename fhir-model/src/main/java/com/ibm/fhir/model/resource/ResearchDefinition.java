@@ -316,7 +316,7 @@ public class ResearchDefinition extends DomainResource {
      * the subject of the ResearchDefinition can be anything.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link CodeableConcept} or {@link Reference} that may be null.
      */
     public Element getSubject() {
         return subject;
@@ -899,7 +899,8 @@ public class ResearchDefinition extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -916,13 +917,17 @@ public class ResearchDefinition extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -935,7 +940,8 @@ public class ResearchDefinition extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -954,13 +960,17 @@ public class ResearchDefinition extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -978,7 +988,8 @@ public class ResearchDefinition extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -1002,13 +1013,17 @@ public class ResearchDefinition extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1037,7 +1052,8 @@ public class ResearchDefinition extends DomainResource {
          * A formal identifier that is used to identify this research definition when it is represented in other formats, or 
          * referenced in a specification, model, design or an instance.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Additional identifier for the research definition
@@ -1056,16 +1072,36 @@ public class ResearchDefinition extends DomainResource {
          * A formal identifier that is used to identify this research definition when it is represented in other formats, or 
          * referenced in a specification, model, design or an instance.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Additional identifier for the research definition
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder identifier(Collection<Identifier> identifier) {
             this.identifier = new ArrayList<>(identifier);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code version}.
+         * 
+         * @param version
+         *     Business version of the research definition
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #version(com.ibm.fhir.model.type.String)
+         */
+        public Builder version(java.lang.String version) {
+            this.version = (version == null) ? null : String.of(version);
             return this;
         }
 
@@ -1090,6 +1126,22 @@ public class ResearchDefinition extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code name}.
+         * 
+         * @param name
+         *     Name for this research definition (computer friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #name(com.ibm.fhir.model.type.String)
+         */
+        public Builder name(java.lang.String name) {
+            this.name = (name == null) ? null : String.of(name);
+            return this;
+        }
+
+        /**
          * A natural language name identifying the research definition. This name should be usable as an identifier for the 
          * module by machine processing applications such as code generation.
          * 
@@ -1101,6 +1153,22 @@ public class ResearchDefinition extends DomainResource {
          */
         public Builder name(String name) {
             this.name = name;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code title}.
+         * 
+         * @param title
+         *     Name for this research definition (human friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #title(com.ibm.fhir.model.type.String)
+         */
+        public Builder title(java.lang.String title) {
+            this.title = (title == null) ? null : String.of(title);
             return this;
         }
 
@@ -1119,6 +1187,22 @@ public class ResearchDefinition extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code shortTitle}.
+         * 
+         * @param shortTitle
+         *     Title for use in informal contexts
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #shortTitle(com.ibm.fhir.model.type.String)
+         */
+        public Builder shortTitle(java.lang.String shortTitle) {
+            this.shortTitle = (shortTitle == null) ? null : String.of(shortTitle);
+            return this;
+        }
+
+        /**
          * The short title provides an alternate title for use in informal descriptive contexts where the full, formal title is 
          * not necessary.
          * 
@@ -1130,6 +1214,22 @@ public class ResearchDefinition extends DomainResource {
          */
         public Builder shortTitle(String shortTitle) {
             this.shortTitle = shortTitle;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code subtitle}.
+         * 
+         * @param subtitle
+         *     Subordinate title of the ResearchDefinition
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #subtitle(com.ibm.fhir.model.type.String)
+         */
+        public Builder subtitle(java.lang.String subtitle) {
+            this.subtitle = (subtitle == null) ? null : String.of(subtitle);
             return this;
         }
 
@@ -1160,6 +1260,22 @@ public class ResearchDefinition extends DomainResource {
          */
         public Builder status(PublicationStatus status) {
             this.status = status;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code experimental}.
+         * 
+         * @param experimental
+         *     For testing purposes, not real usage
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #experimental(com.ibm.fhir.model.type.Boolean)
+         */
+        public Builder experimental(java.lang.Boolean experimental) {
+            this.experimental = (experimental == null) ? null : Boolean.of(experimental);
             return this;
         }
 
@@ -1221,6 +1337,22 @@ public class ResearchDefinition extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code publisher}.
+         * 
+         * @param publisher
+         *     Name of the publisher (organization or individual)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #publisher(com.ibm.fhir.model.type.String)
+         */
+        public Builder publisher(java.lang.String publisher) {
+            this.publisher = (publisher == null) ? null : String.of(publisher);
+            return this;
+        }
+
+        /**
          * The name of the organization or individual that published the research definition.
          * 
          * @param publisher
@@ -1237,7 +1369,8 @@ public class ResearchDefinition extends DomainResource {
         /**
          * Contact details to assist a user in finding and communicating with the publisher.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contact
          *     Contact details for the publisher
@@ -1255,13 +1388,17 @@ public class ResearchDefinition extends DomainResource {
         /**
          * Contact details to assist a user in finding and communicating with the publisher.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contact
          *     Contact details for the publisher
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder contact(Collection<ContactDetail> contact) {
             this.contact = new ArrayList<>(contact);
@@ -1283,9 +1420,31 @@ public class ResearchDefinition extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code comment}.
+         * 
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
+         * 
+         * @param comment
+         *     Used for footnotes or explanatory notes
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #comment(com.ibm.fhir.model.type.String)
+         */
+        public Builder comment(java.lang.String... comment) {
+            for (java.lang.String value : comment) {
+                this.comment.add((value == null) ? null : String.of(value));
+            }
+            return this;
+        }
+
+        /**
          * A human-readable string to clarify or explain concepts about the resource.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param comment
          *     Used for footnotes or explanatory notes
@@ -1303,13 +1462,17 @@ public class ResearchDefinition extends DomainResource {
         /**
          * A human-readable string to clarify or explain concepts about the resource.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param comment
          *     Used for footnotes or explanatory notes
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder comment(Collection<String> comment) {
             this.comment = new ArrayList<>(comment);
@@ -1321,7 +1484,8 @@ public class ResearchDefinition extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate research definition instances.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param useContext
          *     The context that the content is intended to support
@@ -1341,13 +1505,17 @@ public class ResearchDefinition extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate research definition instances.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param useContext
          *     The context that the content is intended to support
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder useContext(Collection<UsageContext> useContext) {
             this.useContext = new ArrayList<>(useContext);
@@ -1357,7 +1525,8 @@ public class ResearchDefinition extends DomainResource {
         /**
          * A legal or geographic region in which the research definition is intended to be used.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param jurisdiction
          *     Intended jurisdiction for research definition (if applicable)
@@ -1375,13 +1544,17 @@ public class ResearchDefinition extends DomainResource {
         /**
          * A legal or geographic region in which the research definition is intended to be used.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param jurisdiction
          *     Intended jurisdiction for research definition (if applicable)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder jurisdiction(Collection<CodeableConcept> jurisdiction) {
             this.jurisdiction = new ArrayList<>(jurisdiction);
@@ -1399,6 +1572,22 @@ public class ResearchDefinition extends DomainResource {
          */
         public Builder purpose(Markdown purpose) {
             this.purpose = purpose;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code usage}.
+         * 
+         * @param usage
+         *     Describes the clinical usage of the ResearchDefinition
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #usage(com.ibm.fhir.model.type.String)
+         */
+        public Builder usage(java.lang.String usage) {
+            this.usage = (usage == null) ? null : String.of(usage);
             return this;
         }
 
@@ -1432,6 +1621,22 @@ public class ResearchDefinition extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code approvalDate}.
+         * 
+         * @param approvalDate
+         *     When the research definition was approved by publisher
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #approvalDate(com.ibm.fhir.model.type.Date)
+         */
+        public Builder approvalDate(java.time.LocalDate approvalDate) {
+            this.approvalDate = (approvalDate == null) ? null : Date.of(approvalDate);
+            return this;
+        }
+
+        /**
          * The date on which the resource content was approved by the publisher. Approval happens once when the content is 
          * officially approved for usage.
          * 
@@ -1443,6 +1648,22 @@ public class ResearchDefinition extends DomainResource {
          */
         public Builder approvalDate(Date approvalDate) {
             this.approvalDate = approvalDate;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code lastReviewDate}.
+         * 
+         * @param lastReviewDate
+         *     When the research definition was last reviewed
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #lastReviewDate(com.ibm.fhir.model.type.Date)
+         */
+        public Builder lastReviewDate(java.time.LocalDate lastReviewDate) {
+            this.lastReviewDate = (lastReviewDate == null) ? null : Date.of(lastReviewDate);
             return this;
         }
 
@@ -1479,7 +1700,8 @@ public class ResearchDefinition extends DomainResource {
          * Descriptive topics related to the content of the ResearchDefinition. Topics provide a high-level categorization 
          * grouping types of ResearchDefinitions that can be useful for filtering and searching.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param topic
          *     The category of the ResearchDefinition, such as Education, Treatment, Assessment, etc.
@@ -1498,13 +1720,17 @@ public class ResearchDefinition extends DomainResource {
          * Descriptive topics related to the content of the ResearchDefinition. Topics provide a high-level categorization 
          * grouping types of ResearchDefinitions that can be useful for filtering and searching.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param topic
          *     The category of the ResearchDefinition, such as Education, Treatment, Assessment, etc.
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder topic(Collection<CodeableConcept> topic) {
             this.topic = new ArrayList<>(topic);
@@ -1514,7 +1740,8 @@ public class ResearchDefinition extends DomainResource {
         /**
          * An individiual or organization primarily involved in the creation and maintenance of the content.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param author
          *     Who authored the content
@@ -1532,13 +1759,17 @@ public class ResearchDefinition extends DomainResource {
         /**
          * An individiual or organization primarily involved in the creation and maintenance of the content.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param author
          *     Who authored the content
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder author(Collection<ContactDetail> author) {
             this.author = new ArrayList<>(author);
@@ -1548,7 +1779,8 @@ public class ResearchDefinition extends DomainResource {
         /**
          * An individual or organization primarily responsible for internal coherence of the content.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param editor
          *     Who edited the content
@@ -1566,13 +1798,17 @@ public class ResearchDefinition extends DomainResource {
         /**
          * An individual or organization primarily responsible for internal coherence of the content.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param editor
          *     Who edited the content
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder editor(Collection<ContactDetail> editor) {
             this.editor = new ArrayList<>(editor);
@@ -1582,7 +1818,8 @@ public class ResearchDefinition extends DomainResource {
         /**
          * An individual or organization primarily responsible for review of some aspect of the content.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param reviewer
          *     Who reviewed the content
@@ -1600,13 +1837,17 @@ public class ResearchDefinition extends DomainResource {
         /**
          * An individual or organization primarily responsible for review of some aspect of the content.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param reviewer
          *     Who reviewed the content
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder reviewer(Collection<ContactDetail> reviewer) {
             this.reviewer = new ArrayList<>(reviewer);
@@ -1616,7 +1857,8 @@ public class ResearchDefinition extends DomainResource {
         /**
          * An individual or organization responsible for officially endorsing the content for use in some setting.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param endorser
          *     Who endorsed the content
@@ -1634,13 +1876,17 @@ public class ResearchDefinition extends DomainResource {
         /**
          * An individual or organization responsible for officially endorsing the content for use in some setting.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param endorser
          *     Who endorsed the content
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder endorser(Collection<ContactDetail> endorser) {
             this.endorser = new ArrayList<>(endorser);
@@ -1650,7 +1896,8 @@ public class ResearchDefinition extends DomainResource {
         /**
          * Related artifacts such as additional documentation, justification, or bibliographic references.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param relatedArtifact
          *     Additional documentation, citations, etc.
@@ -1668,13 +1915,17 @@ public class ResearchDefinition extends DomainResource {
         /**
          * Related artifacts such as additional documentation, justification, or bibliographic references.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param relatedArtifact
          *     Additional documentation, citations, etc.
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder relatedArtifact(Collection<RelatedArtifact> relatedArtifact) {
             this.relatedArtifact = new ArrayList<>(relatedArtifact);
@@ -1684,7 +1935,8 @@ public class ResearchDefinition extends DomainResource {
         /**
          * A reference to a Library resource containing the formal logic used by the ResearchDefinition.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param library
          *     Logic used by the ResearchDefinition
@@ -1702,13 +1954,17 @@ public class ResearchDefinition extends DomainResource {
         /**
          * A reference to a Library resource containing the formal logic used by the ResearchDefinition.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param library
          *     Logic used by the ResearchDefinition
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder library(Collection<Canonical> library) {
             this.library = new ArrayList<>(library);

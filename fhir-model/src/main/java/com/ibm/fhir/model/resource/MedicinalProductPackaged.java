@@ -377,7 +377,8 @@ public class MedicinalProductPackaged extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -394,13 +395,17 @@ public class MedicinalProductPackaged extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -413,7 +418,8 @@ public class MedicinalProductPackaged extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -432,13 +438,17 @@ public class MedicinalProductPackaged extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -456,7 +466,8 @@ public class MedicinalProductPackaged extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -480,13 +491,17 @@ public class MedicinalProductPackaged extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -496,7 +511,8 @@ public class MedicinalProductPackaged extends DomainResource {
         /**
          * Unique identifier.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Unique identifier
@@ -514,13 +530,17 @@ public class MedicinalProductPackaged extends DomainResource {
         /**
          * Unique identifier.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Unique identifier
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder identifier(Collection<Identifier> identifier) {
             this.identifier = new ArrayList<>(identifier);
@@ -530,7 +550,8 @@ public class MedicinalProductPackaged extends DomainResource {
         /**
          * The product with this is a pack for.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -553,7 +574,8 @@ public class MedicinalProductPackaged extends DomainResource {
         /**
          * The product with this is a pack for.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -565,9 +587,28 @@ public class MedicinalProductPackaged extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder subject(Collection<Reference> subject) {
             this.subject = new ArrayList<>(subject);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code description}.
+         * 
+         * @param description
+         *     Textual description
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #description(com.ibm.fhir.model.type.String)
+         */
+        public Builder description(java.lang.String description) {
+            this.description = (description == null) ? null : String.of(description);
             return this;
         }
 
@@ -602,7 +643,8 @@ public class MedicinalProductPackaged extends DomainResource {
         /**
          * Marketing information.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param marketingStatus
          *     Marketing information
@@ -620,13 +662,17 @@ public class MedicinalProductPackaged extends DomainResource {
         /**
          * Marketing information.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param marketingStatus
          *     Marketing information
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder marketingStatus(Collection<MarketingStatus> marketingStatus) {
             this.marketingStatus = new ArrayList<>(marketingStatus);
@@ -655,7 +701,8 @@ public class MedicinalProductPackaged extends DomainResource {
         /**
          * Manufacturer of this Package Item.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -678,7 +725,8 @@ public class MedicinalProductPackaged extends DomainResource {
         /**
          * Manufacturer of this Package Item.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -690,6 +738,9 @@ public class MedicinalProductPackaged extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder manufacturer(Collection<Reference> manufacturer) {
             this.manufacturer = new ArrayList<>(manufacturer);
@@ -699,7 +750,8 @@ public class MedicinalProductPackaged extends DomainResource {
         /**
          * Batch numbering.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param batchIdentifier
          *     Batch numbering
@@ -717,13 +769,17 @@ public class MedicinalProductPackaged extends DomainResource {
         /**
          * Batch numbering.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param batchIdentifier
          *     Batch numbering
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder batchIdentifier(Collection<BatchIdentifier> batchIdentifier) {
             this.batchIdentifier = new ArrayList<>(batchIdentifier);
@@ -733,7 +789,8 @@ public class MedicinalProductPackaged extends DomainResource {
         /**
          * A packaging item, as a contained for medicine, possibly with other packaging items within.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>This element is required.
          * 
@@ -753,7 +810,8 @@ public class MedicinalProductPackaged extends DomainResource {
         /**
          * A packaging item, as a contained for medicine, possibly with other packaging items within.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>This element is required.
          * 
@@ -762,6 +820,9 @@ public class MedicinalProductPackaged extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder packageItem(Collection<PackageItem> packageItem) {
             this.packageItem = new ArrayList<>(packageItem);
@@ -949,7 +1010,8 @@ public class MedicinalProductPackaged extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -968,13 +1030,17 @@ public class MedicinalProductPackaged extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -992,7 +1058,8 @@ public class MedicinalProductPackaged extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1016,13 +1083,17 @@ public class MedicinalProductPackaged extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1411,7 +1482,8 @@ public class MedicinalProductPackaged extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1430,13 +1502,17 @@ public class MedicinalProductPackaged extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1454,7 +1530,8 @@ public class MedicinalProductPackaged extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1478,13 +1555,17 @@ public class MedicinalProductPackaged extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1494,7 +1575,8 @@ public class MedicinalProductPackaged extends DomainResource {
             /**
              * Including possibly Data Carrier Identifier.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param identifier
              *     Including possibly Data Carrier Identifier
@@ -1512,13 +1594,17 @@ public class MedicinalProductPackaged extends DomainResource {
             /**
              * Including possibly Data Carrier Identifier.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param identifier
              *     Including possibly Data Carrier Identifier
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder identifier(Collection<Identifier> identifier) {
                 this.identifier = new ArrayList<>(identifier);
@@ -1560,7 +1646,8 @@ public class MedicinalProductPackaged extends DomainResource {
             /**
              * Material type of the package item.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param material
              *     Material type of the package item
@@ -1578,13 +1665,17 @@ public class MedicinalProductPackaged extends DomainResource {
             /**
              * Material type of the package item.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param material
              *     Material type of the package item
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder material(Collection<CodeableConcept> material) {
                 this.material = new ArrayList<>(material);
@@ -1594,7 +1685,8 @@ public class MedicinalProductPackaged extends DomainResource {
             /**
              * A possible alternate material for the packaging.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param alternateMaterial
              *     A possible alternate material for the packaging
@@ -1612,13 +1704,17 @@ public class MedicinalProductPackaged extends DomainResource {
             /**
              * A possible alternate material for the packaging.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param alternateMaterial
              *     A possible alternate material for the packaging
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder alternateMaterial(Collection<CodeableConcept> alternateMaterial) {
                 this.alternateMaterial = new ArrayList<>(alternateMaterial);
@@ -1628,7 +1724,8 @@ public class MedicinalProductPackaged extends DomainResource {
             /**
              * A device accompanying a medicinal product.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>Allowed resource types for the references:
              * <ul>
@@ -1651,7 +1748,8 @@ public class MedicinalProductPackaged extends DomainResource {
             /**
              * A device accompanying a medicinal product.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>Allowed resource types for the references:
              * <ul>
@@ -1663,6 +1761,9 @@ public class MedicinalProductPackaged extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder device(Collection<Reference> device) {
                 this.device = new ArrayList<>(device);
@@ -1672,7 +1773,8 @@ public class MedicinalProductPackaged extends DomainResource {
             /**
              * The manufactured item as contained in the packaged medicinal product.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>Allowed resource types for the references:
              * <ul>
@@ -1695,7 +1797,8 @@ public class MedicinalProductPackaged extends DomainResource {
             /**
              * The manufactured item as contained in the packaged medicinal product.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>Allowed resource types for the references:
              * <ul>
@@ -1707,6 +1810,9 @@ public class MedicinalProductPackaged extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder manufacturedItem(Collection<Reference> manufacturedItem) {
                 this.manufacturedItem = new ArrayList<>(manufacturedItem);
@@ -1716,7 +1822,8 @@ public class MedicinalProductPackaged extends DomainResource {
             /**
              * Allows containers within containers.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param packageItem
              *     Allows containers within containers
@@ -1734,13 +1841,17 @@ public class MedicinalProductPackaged extends DomainResource {
             /**
              * Allows containers within containers.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param packageItem
              *     Allows containers within containers
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder packageItem(Collection<MedicinalProductPackaged.PackageItem> packageItem) {
                 this.packageItem = new ArrayList<>(packageItem);
@@ -1764,7 +1875,8 @@ public class MedicinalProductPackaged extends DomainResource {
             /**
              * Other codeable characteristics.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param otherCharacteristics
              *     Other codeable characteristics
@@ -1782,13 +1894,17 @@ public class MedicinalProductPackaged extends DomainResource {
             /**
              * Other codeable characteristics.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param otherCharacteristics
              *     Other codeable characteristics
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder otherCharacteristics(Collection<CodeableConcept> otherCharacteristics) {
                 this.otherCharacteristics = new ArrayList<>(otherCharacteristics);
@@ -1798,7 +1914,8 @@ public class MedicinalProductPackaged extends DomainResource {
             /**
              * Shelf Life and storage information.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param shelfLifeStorage
              *     Shelf Life and storage information
@@ -1816,13 +1933,17 @@ public class MedicinalProductPackaged extends DomainResource {
             /**
              * Shelf Life and storage information.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param shelfLifeStorage
              *     Shelf Life and storage information
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder shelfLifeStorage(Collection<ProductShelfLife> shelfLifeStorage) {
                 this.shelfLifeStorage = new ArrayList<>(shelfLifeStorage);
@@ -1832,7 +1953,8 @@ public class MedicinalProductPackaged extends DomainResource {
             /**
              * Manufacturer of this Package Item.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>Allowed resource types for the references:
              * <ul>
@@ -1855,7 +1977,8 @@ public class MedicinalProductPackaged extends DomainResource {
             /**
              * Manufacturer of this Package Item.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>Allowed resource types for the references:
              * <ul>
@@ -1867,6 +1990,9 @@ public class MedicinalProductPackaged extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder manufacturer(Collection<Reference> manufacturer) {
                 this.manufacturer = new ArrayList<>(manufacturer);

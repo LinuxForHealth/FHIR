@@ -268,7 +268,8 @@ public class Timing extends BackboneElement {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -287,13 +288,17 @@ public class Timing extends BackboneElement {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -311,7 +316,8 @@ public class Timing extends BackboneElement {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored even if unrecognized
@@ -335,13 +341,17 @@ public class Timing extends BackboneElement {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored even if unrecognized
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -351,7 +361,8 @@ public class Timing extends BackboneElement {
         /**
          * Identifies specific times when the event occurs.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param event
          *     When the event occurs
@@ -369,13 +380,17 @@ public class Timing extends BackboneElement {
         /**
          * Identifies specific times when the event occurs.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param event
          *     When the event occurs
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder event(Collection<DateTime> event) {
             this.event = new ArrayList<>(event);
@@ -529,7 +544,7 @@ public class Timing extends BackboneElement {
          * end limits of the timing schedule.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link Duration}, {@link Range} or {@link Period} that may be null.
          */
         public Element getBounds() {
             return bounds;
@@ -845,7 +860,8 @@ public class Timing extends BackboneElement {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -864,13 +880,17 @@ public class Timing extends BackboneElement {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -887,7 +907,8 @@ public class Timing extends BackboneElement {
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -910,13 +931,17 @@ public class Timing extends BackboneElement {
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1096,7 +1121,8 @@ public class Timing extends BackboneElement {
             /**
              * If one or more days of week is provided, then the action happens only on the specified day(s).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param dayOfWeek
              *     mon | tue | wed | thu | fri | sat | sun
@@ -1114,13 +1140,17 @@ public class Timing extends BackboneElement {
             /**
              * If one or more days of week is provided, then the action happens only on the specified day(s).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param dayOfWeek
              *     mon | tue | wed | thu | fri | sat | sun
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder dayOfWeek(Collection<DayOfWeek> dayOfWeek) {
                 this.dayOfWeek = new ArrayList<>(dayOfWeek);
@@ -1128,9 +1158,31 @@ public class Timing extends BackboneElement {
             }
 
             /**
+             * Convenience method for setting {@code timeOfDay}.
+             * 
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
+             * 
+             * @param timeOfDay
+             *     Time of day for action
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #timeOfDay(com.ibm.fhir.model.type.Time)
+             */
+            public Builder timeOfDay(java.time.LocalTime... timeOfDay) {
+                for (java.time.LocalTime value : timeOfDay) {
+                    this.timeOfDay.add((value == null) ? null : Time.of(value));
+                }
+                return this;
+            }
+
+            /**
              * Specified time of day for action to take place.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param timeOfDay
              *     Time of day for action
@@ -1148,13 +1200,17 @@ public class Timing extends BackboneElement {
             /**
              * Specified time of day for action to take place.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param timeOfDay
              *     Time of day for action
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder timeOfDay(Collection<Time> timeOfDay) {
                 this.timeOfDay = new ArrayList<>(timeOfDay);
@@ -1165,7 +1221,8 @@ public class Timing extends BackboneElement {
              * An approximate time period during the day, potentially linked to an event of daily living that indicates when the 
              * action should occur.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param when
              *     Code for time period of occurrence
@@ -1184,13 +1241,17 @@ public class Timing extends BackboneElement {
              * An approximate time period during the day, potentially linked to an event of daily living that indicates when the 
              * action should occur.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param when
              *     Code for time period of occurrence
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder when(Collection<EventTiming> when) {
                 this.when = new ArrayList<>(when);

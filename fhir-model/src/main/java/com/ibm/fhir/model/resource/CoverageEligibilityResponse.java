@@ -189,7 +189,7 @@ public class CoverageEligibilityResponse extends DomainResource {
      * The date or dates when the enclosed suite of services were performed or completed.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Date} or {@link Period} that may be null.
      */
     public Element getServiced() {
         return serviced;
@@ -530,7 +530,8 @@ public class CoverageEligibilityResponse extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -547,13 +548,17 @@ public class CoverageEligibilityResponse extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -566,7 +571,8 @@ public class CoverageEligibilityResponse extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -585,13 +591,17 @@ public class CoverageEligibilityResponse extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -609,7 +619,8 @@ public class CoverageEligibilityResponse extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -633,13 +644,17 @@ public class CoverageEligibilityResponse extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -649,7 +664,8 @@ public class CoverageEligibilityResponse extends DomainResource {
         /**
          * A unique identifier assigned to this coverage eligiblity request.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Business Identifier for coverage eligiblity request
@@ -667,13 +683,17 @@ public class CoverageEligibilityResponse extends DomainResource {
         /**
          * A unique identifier assigned to this coverage eligiblity request.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Business Identifier for coverage eligiblity request
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder identifier(Collection<Identifier> identifier) {
             this.identifier = new ArrayList<>(identifier);
@@ -701,7 +721,8 @@ public class CoverageEligibilityResponse extends DomainResource {
          * benefits for coverages specified or discovered; discovery and return of coverages for the patient; and/or validation 
          * that the specified coverage is in-force at the date/period specified or 'now' if not specified.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>This element is required.
          * 
@@ -723,7 +744,8 @@ public class CoverageEligibilityResponse extends DomainResource {
          * benefits for coverages specified or discovered; discovery and return of coverages for the patient; and/or validation 
          * that the specified coverage is in-force at the date/period specified or 'now' if not specified.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>This element is required.
          * 
@@ -732,6 +754,9 @@ public class CoverageEligibilityResponse extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder purpose(Collection<EligibilityResponsePurpose> purpose) {
             this.purpose = new ArrayList<>(purpose);
@@ -756,6 +781,22 @@ public class CoverageEligibilityResponse extends DomainResource {
          */
         public Builder patient(Reference patient) {
             this.patient = patient;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code serviced} with choice type Date.
+         * 
+         * @param serviced
+         *     Estimated date or dates of service
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #serviced(Element)
+         */
+        public Builder serviced(java.time.LocalDate serviced) {
+            this.serviced = (serviced == null) ? null : Date.of(serviced);
             return this;
         }
 
@@ -854,6 +895,22 @@ public class CoverageEligibilityResponse extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code disposition}.
+         * 
+         * @param disposition
+         *     Disposition Message
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #disposition(com.ibm.fhir.model.type.String)
+         */
+        public Builder disposition(java.lang.String disposition) {
+            this.disposition = (disposition == null) ? null : String.of(disposition);
+            return this;
+        }
+
+        /**
          * A human readable description of the status of the adjudication.
          * 
          * @param disposition
@@ -891,7 +948,8 @@ public class CoverageEligibilityResponse extends DomainResource {
         /**
          * Financial instruments for reimbursement for the health care products and services.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param insurance
          *     Patient insurance information
@@ -909,16 +967,36 @@ public class CoverageEligibilityResponse extends DomainResource {
         /**
          * Financial instruments for reimbursement for the health care products and services.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param insurance
          *     Patient insurance information
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder insurance(Collection<Insurance> insurance) {
             this.insurance = new ArrayList<>(insurance);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code preAuthRef}.
+         * 
+         * @param preAuthRef
+         *     Preauthorization reference
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #preAuthRef(com.ibm.fhir.model.type.String)
+         */
+        public Builder preAuthRef(java.lang.String preAuthRef) {
+            this.preAuthRef = (preAuthRef == null) ? null : String.of(preAuthRef);
             return this;
         }
 
@@ -954,7 +1032,8 @@ public class CoverageEligibilityResponse extends DomainResource {
         /**
          * Errors encountered during the processing of the request.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param error
          *     Processing errors
@@ -972,13 +1051,17 @@ public class CoverageEligibilityResponse extends DomainResource {
         /**
          * Errors encountered during the processing of the request.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param error
          *     Processing errors
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder error(Collection<Error> error) {
             this.error = new ArrayList<>(error);
@@ -1220,7 +1303,8 @@ public class CoverageEligibilityResponse extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1239,13 +1323,17 @@ public class CoverageEligibilityResponse extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1263,7 +1351,8 @@ public class CoverageEligibilityResponse extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1287,13 +1376,17 @@ public class CoverageEligibilityResponse extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1319,6 +1412,22 @@ public class CoverageEligibilityResponse extends DomainResource {
              */
             public Builder coverage(Reference coverage) {
                 this.coverage = coverage;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code inforce}.
+             * 
+             * @param inforce
+             *     Coverage inforce indicator
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #inforce(com.ibm.fhir.model.type.Boolean)
+             */
+            public Builder inforce(java.lang.Boolean inforce) {
+                this.inforce = (inforce == null) ? null : Boolean.of(inforce);
                 return this;
             }
 
@@ -1354,7 +1463,8 @@ public class CoverageEligibilityResponse extends DomainResource {
             /**
              * Benefits and optionally current balances, and authorization details by category or service.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param item
              *     Benefits and authorization details
@@ -1372,13 +1482,17 @@ public class CoverageEligibilityResponse extends DomainResource {
             /**
              * Benefits and optionally current balances, and authorization details by category or service.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param item
              *     Benefits and authorization details
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder item(Collection<Item> item) {
                 this.item = new ArrayList<>(item);
@@ -1801,7 +1915,8 @@ public class CoverageEligibilityResponse extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -1820,13 +1935,17 @@ public class CoverageEligibilityResponse extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -1844,7 +1963,8 @@ public class CoverageEligibilityResponse extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -1868,13 +1988,17 @@ public class CoverageEligibilityResponse extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1912,7 +2036,8 @@ public class CoverageEligibilityResponse extends DomainResource {
                 /**
                  * Item typification or modifiers codes to convey additional context for the product or service.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifier
                  *     Product or service billing modifiers
@@ -1930,13 +2055,17 @@ public class CoverageEligibilityResponse extends DomainResource {
                 /**
                  * Item typification or modifiers codes to convey additional context for the product or service.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifier
                  *     Product or service billing modifiers
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder modifier(Collection<CodeableConcept> modifier) {
                     this.modifier = new ArrayList<>(modifier);
@@ -1964,6 +2093,22 @@ public class CoverageEligibilityResponse extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting {@code excluded}.
+                 * 
+                 * @param excluded
+                 *     Excluded from the plan
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #excluded(com.ibm.fhir.model.type.Boolean)
+                 */
+                public Builder excluded(java.lang.Boolean excluded) {
+                    this.excluded = (excluded == null) ? null : Boolean.of(excluded);
+                    return this;
+                }
+
+                /**
                  * True if the indicated class of service is excluded from the plan, missing or False indicates the product or service is 
                  * included in the coverage.
                  * 
@@ -1979,6 +2124,22 @@ public class CoverageEligibilityResponse extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting {@code name}.
+                 * 
+                 * @param name
+                 *     Short name for the benefit
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #name(com.ibm.fhir.model.type.String)
+                 */
+                public Builder name(java.lang.String name) {
+                    this.name = (name == null) ? null : String.of(name);
+                    return this;
+                }
+
+                /**
                  * A short name or tag for the benefit.
                  * 
                  * @param name
@@ -1989,6 +2150,22 @@ public class CoverageEligibilityResponse extends DomainResource {
                  */
                 public Builder name(String name) {
                     this.name = name;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code description}.
+                 * 
+                 * @param description
+                 *     Description of the benefit or services covered
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #description(com.ibm.fhir.model.type.String)
+                 */
+                public Builder description(java.lang.String description) {
+                    this.description = (description == null) ? null : String.of(description);
                     return this;
                 }
 
@@ -2051,7 +2228,8 @@ public class CoverageEligibilityResponse extends DomainResource {
                 /**
                  * Benefits used to date.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param benefit
                  *     Benefit Summary
@@ -2069,16 +2247,36 @@ public class CoverageEligibilityResponse extends DomainResource {
                 /**
                  * Benefits used to date.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param benefit
                  *     Benefit Summary
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder benefit(Collection<Benefit> benefit) {
                     this.benefit = new ArrayList<>(benefit);
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code authorizationRequired}.
+                 * 
+                 * @param authorizationRequired
+                 *     Authorization required flag
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #authorizationRequired(com.ibm.fhir.model.type.Boolean)
+                 */
+                public Builder authorizationRequired(java.lang.Boolean authorizationRequired) {
+                    this.authorizationRequired = (authorizationRequired == null) ? null : Boolean.of(authorizationRequired);
                     return this;
                 }
 
@@ -2099,7 +2297,8 @@ public class CoverageEligibilityResponse extends DomainResource {
                 /**
                  * Codes or comments regarding information or actions associated with the preauthorization.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param authorizationSupporting
                  *     Type of required supporting materials
@@ -2117,13 +2316,17 @@ public class CoverageEligibilityResponse extends DomainResource {
                 /**
                  * Codes or comments regarding information or actions associated with the preauthorization.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param authorizationSupporting
                  *     Type of required supporting materials
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder authorizationSupporting(Collection<CodeableConcept> authorizationSupporting) {
                     this.authorizationSupporting = new ArrayList<>(authorizationSupporting);
@@ -2228,7 +2431,7 @@ public class CoverageEligibilityResponse extends DomainResource {
                  * The quantity of the benefit which is permitted under the coverage.
                  * 
                  * @return
-                 *     An immutable object of type {@link Element} that may be null.
+                 *     An immutable object of type {@link UnsignedInt}, {@link String} or {@link Money} that may be null.
                  */
                 public Element getAllowed() {
                     return allowed;
@@ -2238,7 +2441,7 @@ public class CoverageEligibilityResponse extends DomainResource {
                  * The quantity of the benefit which have been consumed to date.
                  * 
                  * @return
-                 *     An immutable object of type {@link Element} that may be null.
+                 *     An immutable object of type {@link UnsignedInt}, {@link String} or {@link Money} that may be null.
                  */
                 public Element getUsed() {
                     return used;
@@ -2344,7 +2547,8 @@ public class CoverageEligibilityResponse extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -2363,13 +2567,17 @@ public class CoverageEligibilityResponse extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     @Override
                     public Builder extension(Collection<Extension> extension) {
@@ -2387,7 +2595,8 @@ public class CoverageEligibilityResponse extends DomainResource {
                      * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -2411,13 +2620,17 @@ public class CoverageEligibilityResponse extends DomainResource {
                      * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2441,6 +2654,22 @@ public class CoverageEligibilityResponse extends DomainResource {
                     }
 
                     /**
+                     * Convenience method for setting {@code allowed} with choice type String.
+                     * 
+                     * @param allowed
+                     *     Benefits allowed
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #allowed(Element)
+                     */
+                    public Builder allowed(java.lang.String allowed) {
+                        this.allowed = (allowed == null) ? null : String.of(allowed);
+                        return this;
+                    }
+
+                    /**
                      * The quantity of the benefit which is permitted under the coverage.
                      * 
                      * <p>This is a choice element with the following allowed types:
@@ -2458,6 +2687,22 @@ public class CoverageEligibilityResponse extends DomainResource {
                      */
                     public Builder allowed(Element allowed) {
                         this.allowed = allowed;
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting {@code used} with choice type String.
+                     * 
+                     * @param used
+                     *     Benefits used
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #used(Element)
+                     */
+                    public Builder used(java.lang.String used) {
+                        this.used = (used == null) ? null : String.of(used);
                         return this;
                     }
 
@@ -2642,7 +2887,8 @@ public class CoverageEligibilityResponse extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2661,13 +2907,17 @@ public class CoverageEligibilityResponse extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2685,7 +2935,8 @@ public class CoverageEligibilityResponse extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2709,13 +2960,17 @@ public class CoverageEligibilityResponse extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {

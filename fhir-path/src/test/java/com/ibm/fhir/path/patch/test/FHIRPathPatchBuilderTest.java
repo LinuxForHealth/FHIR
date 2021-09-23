@@ -227,11 +227,11 @@ public class FHIRPathPatchBuilderTest {
     private Patient deleteViaBuilder(Patient patient) {
         List<HumanName> names = new ArrayList<>(patient.getName());
         names.add(0, names.remove(0).toBuilder()
-            .given(Collections.emptySet())
-            .build());
+                .given(Collections.emptySet())
+                .build());
         return patient.toBuilder()
                 .identifier(Collections.emptySet())
-                .active(null)
+                .active((Boolean)null)
                 .name(names)
                 .build();
     }

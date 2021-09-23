@@ -782,7 +782,8 @@ public class SearchParameter extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -799,13 +800,17 @@ public class SearchParameter extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -818,7 +823,8 @@ public class SearchParameter extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -837,13 +843,17 @@ public class SearchParameter extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -861,7 +871,8 @@ public class SearchParameter extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -885,13 +896,17 @@ public class SearchParameter extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -918,6 +933,22 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code version}.
+         * 
+         * @param version
+         *     Business version of the search parameter
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #version(com.ibm.fhir.model.type.String)
+         */
+        public Builder version(java.lang.String version) {
+            this.version = (version == null) ? null : String.of(version);
+            return this;
+        }
+
+        /**
          * The identifier that is used to identify this version of the search parameter when it is referenced in a specification, 
          * model, design or instance. This is an arbitrary value managed by the search parameter author and is not expected to be 
          * globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available. There is 
@@ -931,6 +962,24 @@ public class SearchParameter extends DomainResource {
          */
         public Builder version(String version) {
             this.version = version;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code name}.
+         * 
+         * <p>This element is required.
+         * 
+         * @param name
+         *     Name for this search parameter (computer friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #name(com.ibm.fhir.model.type.String)
+         */
+        public Builder name(java.lang.String name) {
+            this.name = (name == null) ? null : String.of(name);
             return this;
         }
 
@@ -984,6 +1033,22 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code experimental}.
+         * 
+         * @param experimental
+         *     For testing purposes, not real usage
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #experimental(com.ibm.fhir.model.type.Boolean)
+         */
+        public Builder experimental(java.lang.Boolean experimental) {
+            this.experimental = (experimental == null) ? null : Boolean.of(experimental);
+            return this;
+        }
+
+        /**
          * A Boolean value to indicate that this search parameter is authored for testing purposes (or 
          * education/evaluation/marketing) and is not intended to be used for genuine usage.
          * 
@@ -1015,6 +1080,22 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code publisher}.
+         * 
+         * @param publisher
+         *     Name of the publisher (organization or individual)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #publisher(com.ibm.fhir.model.type.String)
+         */
+        public Builder publisher(java.lang.String publisher) {
+            this.publisher = (publisher == null) ? null : String.of(publisher);
+            return this;
+        }
+
+        /**
          * The name of the organization or individual that published the search parameter.
          * 
          * @param publisher
@@ -1031,7 +1112,8 @@ public class SearchParameter extends DomainResource {
         /**
          * Contact details to assist a user in finding and communicating with the publisher.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contact
          *     Contact details for the publisher
@@ -1049,13 +1131,17 @@ public class SearchParameter extends DomainResource {
         /**
          * Contact details to assist a user in finding and communicating with the publisher.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contact
          *     Contact details for the publisher
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder contact(Collection<ContactDetail> contact) {
             this.contact = new ArrayList<>(contact);
@@ -1083,7 +1169,8 @@ public class SearchParameter extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate search parameter instances.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param useContext
          *     The context that the content is intended to support
@@ -1103,13 +1190,17 @@ public class SearchParameter extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate search parameter instances.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param useContext
          *     The context that the content is intended to support
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder useContext(Collection<UsageContext> useContext) {
             this.useContext = new ArrayList<>(useContext);
@@ -1119,7 +1210,8 @@ public class SearchParameter extends DomainResource {
         /**
          * A legal or geographic region in which the search parameter is intended to be used.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param jurisdiction
          *     Intended jurisdiction for search parameter (if applicable)
@@ -1137,13 +1229,17 @@ public class SearchParameter extends DomainResource {
         /**
          * A legal or geographic region in which the search parameter is intended to be used.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param jurisdiction
          *     Intended jurisdiction for search parameter (if applicable)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder jurisdiction(Collection<CodeableConcept> jurisdiction) {
             this.jurisdiction = new ArrayList<>(jurisdiction);
@@ -1183,7 +1279,8 @@ public class SearchParameter extends DomainResource {
         /**
          * The base resource type(s) that this search parameter can be used against.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>This element is required.
          * 
@@ -1203,7 +1300,8 @@ public class SearchParameter extends DomainResource {
         /**
          * The base resource type(s) that this search parameter can be used against.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>This element is required.
          * 
@@ -1212,6 +1310,9 @@ public class SearchParameter extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder base(Collection<ResourceType> base) {
             this.base = new ArrayList<>(base);
@@ -1235,6 +1336,22 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code expression}.
+         * 
+         * @param expression
+         *     FHIRPath expression that extracts the values
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #expression(com.ibm.fhir.model.type.String)
+         */
+        public Builder expression(java.lang.String expression) {
+            this.expression = (expression == null) ? null : String.of(expression);
+            return this;
+        }
+
+        /**
          * A FHIRPath expression that returns a set of elements for the search parameter.
          * 
          * @param expression
@@ -1245,6 +1362,22 @@ public class SearchParameter extends DomainResource {
          */
         public Builder expression(String expression) {
             this.expression = expression;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code xpath}.
+         * 
+         * @param xpath
+         *     XPath that extracts the values
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #xpath(com.ibm.fhir.model.type.String)
+         */
+        public Builder xpath(java.lang.String xpath) {
+            this.xpath = (xpath == null) ? null : String.of(xpath);
             return this;
         }
 
@@ -1279,7 +1412,8 @@ public class SearchParameter extends DomainResource {
         /**
          * Types of resource (if a resource is referenced).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param target
          *     Types of resource (if a resource reference)
@@ -1297,16 +1431,36 @@ public class SearchParameter extends DomainResource {
         /**
          * Types of resource (if a resource is referenced).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param target
          *     Types of resource (if a resource reference)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder target(Collection<ResourceType> target) {
             this.target = new ArrayList<>(target);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code multipleOr}.
+         * 
+         * @param multipleOr
+         *     Allow multiple values per parameter (or)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #multipleOr(com.ibm.fhir.model.type.Boolean)
+         */
+        public Builder multipleOr(java.lang.Boolean multipleOr) {
+            this.multipleOr = (multipleOr == null) ? null : Boolean.of(multipleOr);
             return this;
         }
 
@@ -1322,6 +1476,22 @@ public class SearchParameter extends DomainResource {
          */
         public Builder multipleOr(Boolean multipleOr) {
             this.multipleOr = multipleOr;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code multipleAnd}.
+         * 
+         * @param multipleAnd
+         *     Allow multiple parameters (and)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #multipleAnd(com.ibm.fhir.model.type.Boolean)
+         */
+        public Builder multipleAnd(java.lang.Boolean multipleAnd) {
+            this.multipleAnd = (multipleAnd == null) ? null : Boolean.of(multipleAnd);
             return this;
         }
 
@@ -1343,7 +1513,8 @@ public class SearchParameter extends DomainResource {
         /**
          * Comparators supported for the search parameter.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param comparator
          *     eq | ne | gt | lt | ge | le | sa | eb | ap
@@ -1361,13 +1532,17 @@ public class SearchParameter extends DomainResource {
         /**
          * Comparators supported for the search parameter.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param comparator
          *     eq | ne | gt | lt | ge | le | sa | eb | ap
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder comparator(Collection<SearchComparator> comparator) {
             this.comparator = new ArrayList<>(comparator);
@@ -1377,7 +1552,8 @@ public class SearchParameter extends DomainResource {
         /**
          * A modifier supported for the search parameter.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifier
          *     missing | exact | contains | not | text | in | not-in | below | above | type | identifier | ofType
@@ -1395,16 +1571,41 @@ public class SearchParameter extends DomainResource {
         /**
          * A modifier supported for the search parameter.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifier
          *     missing | exact | contains | not | text | in | not-in | below | above | type | identifier | ofType
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder modifier(Collection<SearchModifierCode> modifier) {
             this.modifier = new ArrayList<>(modifier);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code chain}.
+         * 
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
+         * 
+         * @param chain
+         *     Chained names supported
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #chain(com.ibm.fhir.model.type.String)
+         */
+        public Builder chain(java.lang.String... chain) {
+            for (java.lang.String value : chain) {
+                this.chain.add((value == null) ? null : String.of(value));
+            }
             return this;
         }
 
@@ -1414,7 +1615,8 @@ public class SearchParameter extends DomainResource {
          * they contain a reference to a resource which matches the chained parameter value. Values for this field should be 
          * drawn from SearchParameter.code for a parameter on the target resource type.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param chain
          *     Chained names supported
@@ -1435,13 +1637,17 @@ public class SearchParameter extends DomainResource {
          * they contain a reference to a resource which matches the chained parameter value. Values for this field should be 
          * drawn from SearchParameter.code for a parameter on the target resource type.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param chain
          *     Chained names supported
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder chain(Collection<String> chain) {
             this.chain = new ArrayList<>(chain);
@@ -1451,7 +1657,8 @@ public class SearchParameter extends DomainResource {
         /**
          * Used to define the parts of a composite search parameter.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param component
          *     For Composite resources to define the parts
@@ -1469,13 +1676,17 @@ public class SearchParameter extends DomainResource {
         /**
          * Used to define the parts of a composite search parameter.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param component
          *     For Composite resources to define the parts
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder component(Collection<Component> component) {
             this.component = new ArrayList<>(component);
@@ -1692,7 +1903,8 @@ public class SearchParameter extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1711,13 +1923,17 @@ public class SearchParameter extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1735,7 +1951,8 @@ public class SearchParameter extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1759,13 +1976,17 @@ public class SearchParameter extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1785,6 +2006,24 @@ public class SearchParameter extends DomainResource {
              */
             public Builder definition(Canonical definition) {
                 this.definition = definition;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code expression}.
+             * 
+             * <p>This element is required.
+             * 
+             * @param expression
+             *     Subexpression relative to main expression
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #expression(com.ibm.fhir.model.type.String)
+             */
+            public Builder expression(java.lang.String expression) {
+                this.expression = (expression == null) ? null : String.of(expression);
                 return this;
             }
 

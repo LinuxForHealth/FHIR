@@ -283,7 +283,7 @@ public class FamilyMemberHistory extends DomainResource {
      * The actual or approximate date of birth of the relative.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Period}, {@link Date} or {@link String} that may be null.
      */
     public Element getBorn() {
         return born;
@@ -293,7 +293,7 @@ public class FamilyMemberHistory extends DomainResource {
      * The age of the relative at the time the family member history is recorded.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Age}, {@link Range} or {@link String} that may be null.
      */
     public Element getAge() {
         return age;
@@ -314,7 +314,8 @@ public class FamilyMemberHistory extends DomainResource {
      * record.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Boolean}, {@link Age}, {@link Range}, {@link Date} or {@link String} that may be 
+     *     null.
      */
     public Element getDeceased() {
         return deceased;
@@ -613,7 +614,8 @@ public class FamilyMemberHistory extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -630,13 +632,17 @@ public class FamilyMemberHistory extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -649,7 +655,8 @@ public class FamilyMemberHistory extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -668,13 +675,17 @@ public class FamilyMemberHistory extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -692,7 +703,8 @@ public class FamilyMemberHistory extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -716,13 +728,17 @@ public class FamilyMemberHistory extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -733,7 +749,8 @@ public class FamilyMemberHistory extends DomainResource {
          * Business identifiers assigned to this family member history by the performer or other systems which remain constant as 
          * the resource is updated and propagates from server to server.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     External Id(s) for this record
@@ -752,13 +769,17 @@ public class FamilyMemberHistory extends DomainResource {
          * Business identifiers assigned to this family member history by the performer or other systems which remain constant as 
          * the resource is updated and propagates from server to server.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     External Id(s) for this record
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder identifier(Collection<Identifier> identifier) {
             this.identifier = new ArrayList<>(identifier);
@@ -769,7 +790,8 @@ public class FamilyMemberHistory extends DomainResource {
          * The URL pointing to a FHIR-defined protocol, guideline, orderset or other definition that is adhered to in whole or in 
          * part by this FamilyMemberHistory.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param instantiatesCanonical
          *     Instantiates FHIR protocol or definition
@@ -788,13 +810,17 @@ public class FamilyMemberHistory extends DomainResource {
          * The URL pointing to a FHIR-defined protocol, guideline, orderset or other definition that is adhered to in whole or in 
          * part by this FamilyMemberHistory.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param instantiatesCanonical
          *     Instantiates FHIR protocol or definition
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder instantiatesCanonical(Collection<Canonical> instantiatesCanonical) {
             this.instantiatesCanonical = new ArrayList<>(instantiatesCanonical);
@@ -805,7 +831,8 @@ public class FamilyMemberHistory extends DomainResource {
          * The URL pointing to an externally maintained protocol, guideline, orderset or other definition that is adhered to in 
          * whole or in part by this FamilyMemberHistory.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param instantiatesUri
          *     Instantiates external protocol or definition
@@ -824,13 +851,17 @@ public class FamilyMemberHistory extends DomainResource {
          * The URL pointing to an externally maintained protocol, guideline, orderset or other definition that is adhered to in 
          * whole or in part by this FamilyMemberHistory.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param instantiatesUri
          *     Instantiates external protocol or definition
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder instantiatesUri(Collection<Uri> instantiatesUri) {
             this.instantiatesUri = new ArrayList<>(instantiatesUri);
@@ -903,6 +934,22 @@ public class FamilyMemberHistory extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code name}.
+         * 
+         * @param name
+         *     The family member described
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #name(com.ibm.fhir.model.type.String)
+         */
+        public Builder name(java.lang.String name) {
+            this.name = (name == null) ? null : String.of(name);
+            return this;
+        }
+
+        /**
          * This will either be a name or a description; e.g. "Aunt Susan", "my cousin with the red hair".
          * 
          * @param name
@@ -947,6 +994,38 @@ public class FamilyMemberHistory extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code born} with choice type Date.
+         * 
+         * @param born
+         *     (approximate) date of birth
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #born(Element)
+         */
+        public Builder born(java.time.LocalDate born) {
+            this.born = (born == null) ? null : Date.of(born);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code born} with choice type String.
+         * 
+         * @param born
+         *     (approximate) date of birth
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #born(Element)
+         */
+        public Builder born(java.lang.String born) {
+            this.born = (born == null) ? null : String.of(born);
+            return this;
+        }
+
+        /**
          * The actual or approximate date of birth of the relative.
          * 
          * <p>This is a choice element with the following allowed types:
@@ -964,6 +1043,22 @@ public class FamilyMemberHistory extends DomainResource {
          */
         public Builder born(Element born) {
             this.born = born;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code age} with choice type String.
+         * 
+         * @param age
+         *     (approximate) age
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #age(Element)
+         */
+        public Builder age(java.lang.String age) {
+            this.age = (age == null) ? null : String.of(age);
             return this;
         }
 
@@ -989,6 +1084,22 @@ public class FamilyMemberHistory extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code estimatedAge}.
+         * 
+         * @param estimatedAge
+         *     Age is estimated?
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #estimatedAge(com.ibm.fhir.model.type.Boolean)
+         */
+        public Builder estimatedAge(java.lang.Boolean estimatedAge) {
+            this.estimatedAge = (estimatedAge == null) ? null : Boolean.of(estimatedAge);
+            return this;
+        }
+
+        /**
          * If true, indicates that the age value specified is an estimated value.
          * 
          * @param estimatedAge
@@ -999,6 +1110,54 @@ public class FamilyMemberHistory extends DomainResource {
          */
         public Builder estimatedAge(Boolean estimatedAge) {
             this.estimatedAge = estimatedAge;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code deceased} with choice type Boolean.
+         * 
+         * @param deceased
+         *     Dead? How old/when?
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #deceased(Element)
+         */
+        public Builder deceased(java.lang.Boolean deceased) {
+            this.deceased = (deceased == null) ? null : Boolean.of(deceased);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code deceased} with choice type Date.
+         * 
+         * @param deceased
+         *     Dead? How old/when?
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #deceased(Element)
+         */
+        public Builder deceased(java.time.LocalDate deceased) {
+            this.deceased = (deceased == null) ? null : Date.of(deceased);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code deceased} with choice type String.
+         * 
+         * @param deceased
+         *     Dead? How old/when?
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #deceased(Element)
+         */
+        public Builder deceased(java.lang.String deceased) {
+            this.deceased = (deceased == null) ? null : String.of(deceased);
             return this;
         }
 
@@ -1029,7 +1188,8 @@ public class FamilyMemberHistory extends DomainResource {
         /**
          * Describes why the family member history occurred in coded or textual form.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param reasonCode
          *     Why was family member history performed?
@@ -1047,13 +1207,17 @@ public class FamilyMemberHistory extends DomainResource {
         /**
          * Describes why the family member history occurred in coded or textual form.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param reasonCode
          *     Why was family member history performed?
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder reasonCode(Collection<CodeableConcept> reasonCode) {
             this.reasonCode = new ArrayList<>(reasonCode);
@@ -1064,7 +1228,8 @@ public class FamilyMemberHistory extends DomainResource {
          * Indicates a Condition, Observation, AllergyIntolerance, or QuestionnaireResponse that justifies this family member 
          * history event.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1093,7 +1258,8 @@ public class FamilyMemberHistory extends DomainResource {
          * Indicates a Condition, Observation, AllergyIntolerance, or QuestionnaireResponse that justifies this family member 
          * history event.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1110,6 +1276,9 @@ public class FamilyMemberHistory extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder reasonReference(Collection<Reference> reasonReference) {
             this.reasonReference = new ArrayList<>(reasonReference);
@@ -1120,7 +1289,8 @@ public class FamilyMemberHistory extends DomainResource {
          * This property allows a non condition-specific note to the made about the related person. Ideally, the note would be in 
          * the condition property, but this is not always possible.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param note
          *     General note about related person
@@ -1139,13 +1309,17 @@ public class FamilyMemberHistory extends DomainResource {
          * This property allows a non condition-specific note to the made about the related person. Ideally, the note would be in 
          * the condition property, but this is not always possible.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param note
          *     General note about related person
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder note(Collection<Annotation> note) {
             this.note = new ArrayList<>(note);
@@ -1157,7 +1331,8 @@ public class FamilyMemberHistory extends DomainResource {
          * represent more than one condition per resource, though there is nothing stopping multiple resources - one per 
          * condition.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param condition
          *     Condition that the related person had
@@ -1177,13 +1352,17 @@ public class FamilyMemberHistory extends DomainResource {
          * represent more than one condition per resource, though there is nothing stopping multiple resources - one per 
          * condition.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param condition
          *     Condition that the related person had
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder condition(Collection<Condition> condition) {
             this.condition = new ArrayList<>(condition);
@@ -1330,7 +1509,7 @@ public class FamilyMemberHistory extends DomainResource {
          * occurrences, this describes the first known occurrence.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link Age}, {@link Range}, {@link Period} or {@link String} that may be null.
          */
         public Element getOnset() {
             return onset;
@@ -1456,7 +1635,8 @@ public class FamilyMemberHistory extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1475,13 +1655,17 @@ public class FamilyMemberHistory extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1499,7 +1683,8 @@ public class FamilyMemberHistory extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1523,13 +1708,17 @@ public class FamilyMemberHistory extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1569,6 +1758,22 @@ public class FamilyMemberHistory extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code contributedToDeath}.
+             * 
+             * @param contributedToDeath
+             *     Whether the condition contributed to the cause of death
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #contributedToDeath(com.ibm.fhir.model.type.Boolean)
+             */
+            public Builder contributedToDeath(java.lang.Boolean contributedToDeath) {
+                this.contributedToDeath = (contributedToDeath == null) ? null : Boolean.of(contributedToDeath);
+                return this;
+            }
+
+            /**
              * This condition contributed to the cause of death of the related person. If contributedToDeath is not populated, then 
              * it is unknown.
              * 
@@ -1580,6 +1785,22 @@ public class FamilyMemberHistory extends DomainResource {
              */
             public Builder contributedToDeath(Boolean contributedToDeath) {
                 this.contributedToDeath = contributedToDeath;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code onset} with choice type String.
+             * 
+             * @param onset
+             *     When condition first manifested
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #onset(Element)
+             */
+            public Builder onset(java.lang.String onset) {
+                this.onset = (onset == null) ? null : String.of(onset);
                 return this;
             }
 
@@ -1609,7 +1830,8 @@ public class FamilyMemberHistory extends DomainResource {
             /**
              * An area where general notes can be placed about this specific condition.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param note
              *     Extra information about condition
@@ -1627,13 +1849,17 @@ public class FamilyMemberHistory extends DomainResource {
             /**
              * An area where general notes can be placed about this specific condition.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param note
              *     Extra information about condition
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder note(Collection<Annotation> note) {
                 this.note = new ArrayList<>(note);

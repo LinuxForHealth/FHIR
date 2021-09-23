@@ -362,7 +362,7 @@ public class PlanDefinition extends DomainResource {
      * A code or group definition that describes the intended subject of the plan definition.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link CodeableConcept} or {@link Reference} that may be null.
      */
     public Element getSubject() {
         return subject;
@@ -901,7 +901,8 @@ public class PlanDefinition extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -918,13 +919,17 @@ public class PlanDefinition extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -937,7 +942,8 @@ public class PlanDefinition extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -956,13 +962,17 @@ public class PlanDefinition extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -980,7 +990,8 @@ public class PlanDefinition extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -1004,13 +1015,17 @@ public class PlanDefinition extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1038,7 +1053,8 @@ public class PlanDefinition extends DomainResource {
          * A formal identifier that is used to identify this plan definition when it is represented in other formats, or 
          * referenced in a specification, model, design or an instance.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Additional identifier for the plan definition
@@ -1057,16 +1073,36 @@ public class PlanDefinition extends DomainResource {
          * A formal identifier that is used to identify this plan definition when it is represented in other formats, or 
          * referenced in a specification, model, design or an instance.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Additional identifier for the plan definition
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder identifier(Collection<Identifier> identifier) {
             this.identifier = new ArrayList<>(identifier);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code version}.
+         * 
+         * @param version
+         *     Business version of the plan definition
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #version(com.ibm.fhir.model.type.String)
+         */
+        public Builder version(java.lang.String version) {
+            this.version = (version == null) ? null : String.of(version);
             return this;
         }
 
@@ -1091,6 +1127,22 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code name}.
+         * 
+         * @param name
+         *     Name for this plan definition (computer friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #name(com.ibm.fhir.model.type.String)
+         */
+        public Builder name(java.lang.String name) {
+            this.name = (name == null) ? null : String.of(name);
+            return this;
+        }
+
+        /**
          * A natural language name identifying the plan definition. This name should be usable as an identifier for the module by 
          * machine processing applications such as code generation.
          * 
@@ -1106,6 +1158,22 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code title}.
+         * 
+         * @param title
+         *     Name for this plan definition (human friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #title(com.ibm.fhir.model.type.String)
+         */
+        public Builder title(java.lang.String title) {
+            this.title = (title == null) ? null : String.of(title);
+            return this;
+        }
+
+        /**
          * A short, descriptive, user-friendly title for the plan definition.
          * 
          * @param title
@@ -1116,6 +1184,22 @@ public class PlanDefinition extends DomainResource {
          */
         public Builder title(String title) {
             this.title = title;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code subtitle}.
+         * 
+         * @param subtitle
+         *     Subordinate title of the plan definition
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #subtitle(com.ibm.fhir.model.type.String)
+         */
+        public Builder subtitle(java.lang.String subtitle) {
+            this.subtitle = (subtitle == null) ? null : String.of(subtitle);
             return this;
         }
 
@@ -1161,6 +1245,22 @@ public class PlanDefinition extends DomainResource {
          */
         public Builder status(PublicationStatus status) {
             this.status = status;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code experimental}.
+         * 
+         * @param experimental
+         *     For testing purposes, not real usage
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #experimental(com.ibm.fhir.model.type.Boolean)
+         */
+        public Builder experimental(java.lang.Boolean experimental) {
+            this.experimental = (experimental == null) ? null : Boolean.of(experimental);
             return this;
         }
 
@@ -1221,6 +1321,22 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code publisher}.
+         * 
+         * @param publisher
+         *     Name of the publisher (organization or individual)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #publisher(com.ibm.fhir.model.type.String)
+         */
+        public Builder publisher(java.lang.String publisher) {
+            this.publisher = (publisher == null) ? null : String.of(publisher);
+            return this;
+        }
+
+        /**
          * The name of the organization or individual that published the plan definition.
          * 
          * @param publisher
@@ -1237,7 +1353,8 @@ public class PlanDefinition extends DomainResource {
         /**
          * Contact details to assist a user in finding and communicating with the publisher.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contact
          *     Contact details for the publisher
@@ -1255,13 +1372,17 @@ public class PlanDefinition extends DomainResource {
         /**
          * Contact details to assist a user in finding and communicating with the publisher.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contact
          *     Contact details for the publisher
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder contact(Collection<ContactDetail> contact) {
             this.contact = new ArrayList<>(contact);
@@ -1287,7 +1408,8 @@ public class PlanDefinition extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate plan definition instances.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param useContext
          *     The context that the content is intended to support
@@ -1307,13 +1429,17 @@ public class PlanDefinition extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate plan definition instances.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param useContext
          *     The context that the content is intended to support
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder useContext(Collection<UsageContext> useContext) {
             this.useContext = new ArrayList<>(useContext);
@@ -1323,7 +1449,8 @@ public class PlanDefinition extends DomainResource {
         /**
          * A legal or geographic region in which the plan definition is intended to be used.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param jurisdiction
          *     Intended jurisdiction for plan definition (if applicable)
@@ -1341,13 +1468,17 @@ public class PlanDefinition extends DomainResource {
         /**
          * A legal or geographic region in which the plan definition is intended to be used.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param jurisdiction
          *     Intended jurisdiction for plan definition (if applicable)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder jurisdiction(Collection<CodeableConcept> jurisdiction) {
             this.jurisdiction = new ArrayList<>(jurisdiction);
@@ -1365,6 +1496,22 @@ public class PlanDefinition extends DomainResource {
          */
         public Builder purpose(Markdown purpose) {
             this.purpose = purpose;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code usage}.
+         * 
+         * @param usage
+         *     Describes the clinical usage of the plan
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #usage(com.ibm.fhir.model.type.String)
+         */
+        public Builder usage(java.lang.String usage) {
+            this.usage = (usage == null) ? null : String.of(usage);
             return this;
         }
 
@@ -1398,6 +1545,22 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code approvalDate}.
+         * 
+         * @param approvalDate
+         *     When the plan definition was approved by publisher
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #approvalDate(com.ibm.fhir.model.type.Date)
+         */
+        public Builder approvalDate(java.time.LocalDate approvalDate) {
+            this.approvalDate = (approvalDate == null) ? null : Date.of(approvalDate);
+            return this;
+        }
+
+        /**
          * The date on which the resource content was approved by the publisher. Approval happens once when the content is 
          * officially approved for usage.
          * 
@@ -1409,6 +1572,22 @@ public class PlanDefinition extends DomainResource {
          */
         public Builder approvalDate(Date approvalDate) {
             this.approvalDate = approvalDate;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code lastReviewDate}.
+         * 
+         * @param lastReviewDate
+         *     When the plan definition was last reviewed
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #lastReviewDate(com.ibm.fhir.model.type.Date)
+         */
+        public Builder lastReviewDate(java.time.LocalDate lastReviewDate) {
+            this.lastReviewDate = (lastReviewDate == null) ? null : Date.of(lastReviewDate);
             return this;
         }
 
@@ -1445,7 +1624,8 @@ public class PlanDefinition extends DomainResource {
          * Descriptive topics related to the content of the plan definition. Topics provide a high-level categorization of the 
          * definition that can be useful for filtering and searching.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param topic
          *     E.g. Education, Treatment, Assessment
@@ -1464,13 +1644,17 @@ public class PlanDefinition extends DomainResource {
          * Descriptive topics related to the content of the plan definition. Topics provide a high-level categorization of the 
          * definition that can be useful for filtering and searching.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param topic
          *     E.g. Education, Treatment, Assessment
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder topic(Collection<CodeableConcept> topic) {
             this.topic = new ArrayList<>(topic);
@@ -1480,7 +1664,8 @@ public class PlanDefinition extends DomainResource {
         /**
          * An individiual or organization primarily involved in the creation and maintenance of the content.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param author
          *     Who authored the content
@@ -1498,13 +1683,17 @@ public class PlanDefinition extends DomainResource {
         /**
          * An individiual or organization primarily involved in the creation and maintenance of the content.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param author
          *     Who authored the content
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder author(Collection<ContactDetail> author) {
             this.author = new ArrayList<>(author);
@@ -1514,7 +1703,8 @@ public class PlanDefinition extends DomainResource {
         /**
          * An individual or organization primarily responsible for internal coherence of the content.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param editor
          *     Who edited the content
@@ -1532,13 +1722,17 @@ public class PlanDefinition extends DomainResource {
         /**
          * An individual or organization primarily responsible for internal coherence of the content.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param editor
          *     Who edited the content
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder editor(Collection<ContactDetail> editor) {
             this.editor = new ArrayList<>(editor);
@@ -1548,7 +1742,8 @@ public class PlanDefinition extends DomainResource {
         /**
          * An individual or organization primarily responsible for review of some aspect of the content.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param reviewer
          *     Who reviewed the content
@@ -1566,13 +1761,17 @@ public class PlanDefinition extends DomainResource {
         /**
          * An individual or organization primarily responsible for review of some aspect of the content.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param reviewer
          *     Who reviewed the content
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder reviewer(Collection<ContactDetail> reviewer) {
             this.reviewer = new ArrayList<>(reviewer);
@@ -1582,7 +1781,8 @@ public class PlanDefinition extends DomainResource {
         /**
          * An individual or organization responsible for officially endorsing the content for use in some setting.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param endorser
          *     Who endorsed the content
@@ -1600,13 +1800,17 @@ public class PlanDefinition extends DomainResource {
         /**
          * An individual or organization responsible for officially endorsing the content for use in some setting.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param endorser
          *     Who endorsed the content
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder endorser(Collection<ContactDetail> endorser) {
             this.endorser = new ArrayList<>(endorser);
@@ -1616,7 +1820,8 @@ public class PlanDefinition extends DomainResource {
         /**
          * Related artifacts such as additional documentation, justification, or bibliographic references.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param relatedArtifact
          *     Additional documentation, citations
@@ -1634,13 +1839,17 @@ public class PlanDefinition extends DomainResource {
         /**
          * Related artifacts such as additional documentation, justification, or bibliographic references.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param relatedArtifact
          *     Additional documentation, citations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder relatedArtifact(Collection<RelatedArtifact> relatedArtifact) {
             this.relatedArtifact = new ArrayList<>(relatedArtifact);
@@ -1650,7 +1859,8 @@ public class PlanDefinition extends DomainResource {
         /**
          * A reference to a Library resource containing any formal logic used by the plan definition.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param library
          *     Logic used by the plan definition
@@ -1668,13 +1878,17 @@ public class PlanDefinition extends DomainResource {
         /**
          * A reference to a Library resource containing any formal logic used by the plan definition.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param library
          *     Logic used by the plan definition
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder library(Collection<Canonical> library) {
             this.library = new ArrayList<>(library);
@@ -1685,7 +1899,8 @@ public class PlanDefinition extends DomainResource {
          * Goals that describe what the activities within the plan are intended to achieve. For example, weight loss, restoring 
          * an activity of daily living, obtaining herd immunity via immunization, meeting a process improvement objective, etc.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param goal
          *     What the plan is trying to accomplish
@@ -1704,13 +1919,17 @@ public class PlanDefinition extends DomainResource {
          * Goals that describe what the activities within the plan are intended to achieve. For example, weight loss, restoring 
          * an activity of daily living, obtaining herd immunity via immunization, meeting a process improvement objective, etc.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param goal
          *     What the plan is trying to accomplish
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder goal(Collection<Goal> goal) {
             this.goal = new ArrayList<>(goal);
@@ -1720,7 +1939,8 @@ public class PlanDefinition extends DomainResource {
         /**
          * An action or group of actions to be taken as part of the plan.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param action
          *     Action defined by the plan
@@ -1738,13 +1958,17 @@ public class PlanDefinition extends DomainResource {
         /**
          * An action or group of actions to be taken as part of the plan.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param action
          *     Action defined by the plan
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder action(Collection<Action> action) {
             this.action = new ArrayList<>(action);
@@ -2077,7 +2301,8 @@ public class PlanDefinition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2096,13 +2321,17 @@ public class PlanDefinition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2120,7 +2349,8 @@ public class PlanDefinition extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2144,13 +2374,17 @@ public class PlanDefinition extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2219,7 +2453,8 @@ public class PlanDefinition extends DomainResource {
             /**
              * Identifies problems, conditions, issues, or concerns the goal is intended to address.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param addresses
              *     What does the goal address
@@ -2237,13 +2472,17 @@ public class PlanDefinition extends DomainResource {
             /**
              * Identifies problems, conditions, issues, or concerns the goal is intended to address.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param addresses
              *     What does the goal address
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder addresses(Collection<CodeableConcept> addresses) {
                 this.addresses = new ArrayList<>(addresses);
@@ -2254,7 +2493,8 @@ public class PlanDefinition extends DomainResource {
              * Didactic or other informational resources associated with the goal that provide further supporting information about 
              * the goal. Information resources can include inline text commentary and links to web resources.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param documentation
              *     Supporting documentation for the goal
@@ -2273,13 +2513,17 @@ public class PlanDefinition extends DomainResource {
              * Didactic or other informational resources associated with the goal that provide further supporting information about 
              * the goal. Information resources can include inline text commentary and links to web resources.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param documentation
              *     Supporting documentation for the goal
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder documentation(Collection<RelatedArtifact> documentation) {
                 this.documentation = new ArrayList<>(documentation);
@@ -2289,7 +2533,8 @@ public class PlanDefinition extends DomainResource {
             /**
              * Indicates what should be done and within what timeframe.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param target
              *     Target outcome for the goal
@@ -2307,13 +2552,17 @@ public class PlanDefinition extends DomainResource {
             /**
              * Indicates what should be done and within what timeframe.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param target
              *     Target outcome for the goal
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder target(Collection<Target> target) {
                 this.target = new ArrayList<>(target);
@@ -2403,7 +2652,7 @@ public class PlanDefinition extends DomainResource {
              * is achieved at any value at or above the low value.
              * 
              * @return
-             *     An immutable object of type {@link Element} that may be null.
+             *     An immutable object of type {@link Quantity}, {@link Range} or {@link CodeableConcept} that may be null.
              */
             public Element getDetail() {
                 return detail;
@@ -2519,7 +2768,8 @@ public class PlanDefinition extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2538,13 +2788,17 @@ public class PlanDefinition extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2562,7 +2816,8 @@ public class PlanDefinition extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2586,13 +2841,17 @@ public class PlanDefinition extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2898,7 +3157,7 @@ public class PlanDefinition extends DomainResource {
          * A code or group definition that describes the intended subject of the action and its children, if any.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link CodeableConcept} or {@link Reference} that may be null.
          */
         public Element getSubject() {
             return subject;
@@ -2958,7 +3217,8 @@ public class PlanDefinition extends DomainResource {
          * An optional value describing when the action should be performed.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link DateTime}, {@link Age}, {@link Period}, {@link Duration}, {@link Range} or {@link 
+         *     Timing} that may be null.
          */
         public Element getTiming() {
             return timing;
@@ -3039,7 +3299,7 @@ public class PlanDefinition extends DomainResource {
          * describes a series of actions to be taken.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link Canonical} or {@link Uri} that may be null.
          */
         public Element getDefinition() {
             return definition;
@@ -3300,7 +3560,8 @@ public class PlanDefinition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -3319,13 +3580,17 @@ public class PlanDefinition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -3343,7 +3608,8 @@ public class PlanDefinition extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -3367,17 +3633,37 @@ public class PlanDefinition extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting {@code prefix}.
+             * 
+             * @param prefix
+             *     User-visible prefix for the action (e.g. 1. or A.)
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #prefix(com.ibm.fhir.model.type.String)
+             */
+            public Builder prefix(java.lang.String prefix) {
+                this.prefix = (prefix == null) ? null : String.of(prefix);
+                return this;
             }
 
             /**
@@ -3391,6 +3677,22 @@ public class PlanDefinition extends DomainResource {
              */
             public Builder prefix(String prefix) {
                 this.prefix = prefix;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code title}.
+             * 
+             * @param title
+             *     User-visible title
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #title(com.ibm.fhir.model.type.String)
+             */
+            public Builder title(java.lang.String title) {
+                this.title = (title == null) ? null : String.of(title);
                 return this;
             }
 
@@ -3409,6 +3711,22 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code description}.
+             * 
+             * @param description
+             *     Brief description of the action
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #description(com.ibm.fhir.model.type.String)
+             */
+            public Builder description(java.lang.String description) {
+                this.description = (description == null) ? null : String.of(description);
+                return this;
+            }
+
+            /**
              * A brief description of the action used to provide a summary to display to the user.
              * 
              * @param description
@@ -3419,6 +3737,22 @@ public class PlanDefinition extends DomainResource {
              */
             public Builder description(String description) {
                 this.description = description;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code textEquivalent}.
+             * 
+             * @param textEquivalent
+             *     Static text equivalent of the action, used if the dynamic aspects cannot be interpreted by the receiving system
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #textEquivalent(com.ibm.fhir.model.type.String)
+             */
+            public Builder textEquivalent(java.lang.String textEquivalent) {
+                this.textEquivalent = (textEquivalent == null) ? null : String.of(textEquivalent);
                 return this;
             }
 
@@ -3455,7 +3789,8 @@ public class PlanDefinition extends DomainResource {
              * A code that provides meaning for the action or action group. For example, a section may have a LOINC code for the 
              * section of a documentation template.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param code
              *     Code representing the meaning of the action or sub-actions
@@ -3474,13 +3809,17 @@ public class PlanDefinition extends DomainResource {
              * A code that provides meaning for the action or action group. For example, a section may have a LOINC code for the 
              * section of a documentation template.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param code
              *     Code representing the meaning of the action or sub-actions
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder code(Collection<CodeableConcept> code) {
                 this.code = new ArrayList<>(code);
@@ -3490,7 +3829,8 @@ public class PlanDefinition extends DomainResource {
             /**
              * A description of why this action is necessary or appropriate.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param reason
              *     Why the action should be performed
@@ -3508,13 +3848,17 @@ public class PlanDefinition extends DomainResource {
             /**
              * A description of why this action is necessary or appropriate.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param reason
              *     Why the action should be performed
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder reason(Collection<CodeableConcept> reason) {
                 this.reason = new ArrayList<>(reason);
@@ -3525,7 +3869,8 @@ public class PlanDefinition extends DomainResource {
              * Didactic or other informational resources associated with the action that can be provided to the CDS recipient. 
              * Information resources can include inline text commentary and links to web resources.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param documentation
              *     Supporting documentation for the intended performer of the action
@@ -3544,13 +3889,17 @@ public class PlanDefinition extends DomainResource {
              * Didactic or other informational resources associated with the action that can be provided to the CDS recipient. 
              * Information resources can include inline text commentary and links to web resources.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param documentation
              *     Supporting documentation for the intended performer of the action
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder documentation(Collection<RelatedArtifact> documentation) {
                 this.documentation = new ArrayList<>(documentation);
@@ -3561,7 +3910,8 @@ public class PlanDefinition extends DomainResource {
              * Identifies goals that this action supports. The reference must be to a goal element defined within this plan 
              * definition.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param goalId
              *     What goals this action supports
@@ -3580,13 +3930,17 @@ public class PlanDefinition extends DomainResource {
              * Identifies goals that this action supports. The reference must be to a goal element defined within this plan 
              * definition.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param goalId
              *     What goals this action supports
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder goalId(Collection<Id> goalId) {
                 this.goalId = new ArrayList<>(goalId);
@@ -3621,7 +3975,8 @@ public class PlanDefinition extends DomainResource {
             /**
              * A description of when the action should be triggered.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param trigger
              *     When the action should be triggered
@@ -3639,13 +3994,17 @@ public class PlanDefinition extends DomainResource {
             /**
              * A description of when the action should be triggered.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param trigger
              *     When the action should be triggered
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder trigger(Collection<TriggerDefinition> trigger) {
                 this.trigger = new ArrayList<>(trigger);
@@ -3655,7 +4014,8 @@ public class PlanDefinition extends DomainResource {
             /**
              * An expression that describes applicability criteria or start/stop conditions for the action.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param condition
              *     Whether or not the action is applicable
@@ -3673,13 +4033,17 @@ public class PlanDefinition extends DomainResource {
             /**
              * An expression that describes applicability criteria or start/stop conditions for the action.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param condition
              *     Whether or not the action is applicable
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder condition(Collection<Condition> condition) {
                 this.condition = new ArrayList<>(condition);
@@ -3689,7 +4053,8 @@ public class PlanDefinition extends DomainResource {
             /**
              * Defines input data requirements for the action.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param input
              *     Input data requirements
@@ -3707,13 +4072,17 @@ public class PlanDefinition extends DomainResource {
             /**
              * Defines input data requirements for the action.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param input
              *     Input data requirements
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder input(Collection<DataRequirement> input) {
                 this.input = new ArrayList<>(input);
@@ -3723,7 +4092,8 @@ public class PlanDefinition extends DomainResource {
             /**
              * Defines the outputs of the action, if any.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param output
              *     Output data definition
@@ -3741,13 +4111,17 @@ public class PlanDefinition extends DomainResource {
             /**
              * Defines the outputs of the action, if any.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param output
              *     Output data definition
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder output(Collection<DataRequirement> output) {
                 this.output = new ArrayList<>(output);
@@ -3757,7 +4131,8 @@ public class PlanDefinition extends DomainResource {
             /**
              * A relationship to another action such as "before" or "30-60 minutes after start of".
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param relatedAction
              *     Relationship to another action
@@ -3775,13 +4150,17 @@ public class PlanDefinition extends DomainResource {
             /**
              * A relationship to another action such as "before" or "30-60 minutes after start of".
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param relatedAction
              *     Relationship to another action
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder relatedAction(Collection<RelatedAction> relatedAction) {
                 this.relatedAction = new ArrayList<>(relatedAction);
@@ -3815,7 +4194,8 @@ public class PlanDefinition extends DomainResource {
             /**
              * Indicates who should participate in performing the action described.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param participant
              *     Who should participate in the action
@@ -3833,13 +4213,17 @@ public class PlanDefinition extends DomainResource {
             /**
              * Indicates who should participate in performing the action described.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param participant
              *     Who should participate in the action
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder participant(Collection<Participant> participant) {
                 this.participant = new ArrayList<>(participant);
@@ -3971,7 +4355,8 @@ public class PlanDefinition extends DomainResource {
              * must be computed based on the patient's weight, a customization would be used to specify an expression that calculated 
              * the weight, and the path on the resource that would contain the result.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param dynamicValue
              *     Dynamic aspects of the definition
@@ -3991,13 +4376,17 @@ public class PlanDefinition extends DomainResource {
              * must be computed based on the patient's weight, a customization would be used to specify an expression that calculated 
              * the weight, and the path on the resource that would contain the result.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param dynamicValue
              *     Dynamic aspects of the definition
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder dynamicValue(Collection<DynamicValue> dynamicValue) {
                 this.dynamicValue = new ArrayList<>(dynamicValue);
@@ -4009,7 +4398,8 @@ public class PlanDefinition extends DomainResource {
              * actions. For example, a selection behavior of at-most-one indicates that of the sub-actions, at most one may be chosen 
              * as part of realizing the action definition.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param action
              *     A sub-action
@@ -4029,13 +4419,17 @@ public class PlanDefinition extends DomainResource {
              * actions. For example, a selection behavior of at-most-one indicates that of the sub-actions, at most one may be chosen 
              * as part of realizing the action definition.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param action
              *     A sub-action
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder action(Collection<PlanDefinition.Action> action) {
                 this.action = new ArrayList<>(action);
@@ -4248,7 +4642,8 @@ public class PlanDefinition extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -4267,13 +4662,17 @@ public class PlanDefinition extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -4291,7 +4690,8 @@ public class PlanDefinition extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -4315,13 +4715,17 @@ public class PlanDefinition extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -4443,7 +4847,7 @@ public class PlanDefinition extends DomainResource {
              * A duration or range of durations to apply to the relationship. For example, 30-60 minutes before.
              * 
              * @return
-             *     An immutable object of type {@link Element} that may be null.
+             *     An immutable object of type {@link Duration} or {@link Range} that may be null.
              */
             public Element getOffset() {
                 return offset;
@@ -4549,7 +4953,8 @@ public class PlanDefinition extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -4568,13 +4973,17 @@ public class PlanDefinition extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -4592,7 +5001,8 @@ public class PlanDefinition extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -4616,13 +5026,17 @@ public class PlanDefinition extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -4864,7 +5278,8 @@ public class PlanDefinition extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -4883,13 +5298,17 @@ public class PlanDefinition extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -4907,7 +5326,8 @@ public class PlanDefinition extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -4931,13 +5351,17 @@ public class PlanDefinition extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -5145,7 +5569,8 @@ public class PlanDefinition extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -5164,13 +5589,17 @@ public class PlanDefinition extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -5188,7 +5617,8 @@ public class PlanDefinition extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -5212,17 +5642,37 @@ public class PlanDefinition extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
                     return (Builder) super.modifierExtension(modifierExtension);
+                }
+
+                /**
+                 * Convenience method for setting {@code path}.
+                 * 
+                 * @param path
+                 *     The path to the element to be set dynamically
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #path(com.ibm.fhir.model.type.String)
+                 */
+                public Builder path(java.lang.String path) {
+                    this.path = (path == null) ? null : String.of(path);
+                    return this;
                 }
 
                 /**

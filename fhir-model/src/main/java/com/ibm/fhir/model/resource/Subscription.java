@@ -350,7 +350,8 @@ public class Subscription extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -367,13 +368,17 @@ public class Subscription extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -386,7 +391,8 @@ public class Subscription extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -405,13 +411,17 @@ public class Subscription extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -429,7 +439,8 @@ public class Subscription extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -453,13 +464,17 @@ public class Subscription extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -486,7 +501,8 @@ public class Subscription extends DomainResource {
          * Contact details for a human to contact about the subscription. The primary use of this for system administrator 
          * troubleshooting.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contact
          *     Contact details for source (e.g. troubleshooting)
@@ -505,16 +521,36 @@ public class Subscription extends DomainResource {
          * Contact details for a human to contact about the subscription. The primary use of this for system administrator 
          * troubleshooting.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contact
          *     Contact details for source (e.g. troubleshooting)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder contact(Collection<ContactPoint> contact) {
             this.contact = new ArrayList<>(contact);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code end}.
+         * 
+         * @param end
+         *     When to automatically delete the subscription
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #end(com.ibm.fhir.model.type.Instant)
+         */
+        public Builder end(java.time.ZonedDateTime end) {
+            this.end = (end == null) ? null : Instant.of(end);
             return this;
         }
 
@@ -529,6 +565,24 @@ public class Subscription extends DomainResource {
          */
         public Builder end(Instant end) {
             this.end = end;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code reason}.
+         * 
+         * <p>This element is required.
+         * 
+         * @param reason
+         *     Description of why this subscription was created
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #reason(com.ibm.fhir.model.type.String)
+         */
+        public Builder reason(java.lang.String reason) {
+            this.reason = (reason == null) ? null : String.of(reason);
             return this;
         }
 
@@ -549,6 +603,24 @@ public class Subscription extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code criteria}.
+         * 
+         * <p>This element is required.
+         * 
+         * @param criteria
+         *     Rule for server push
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #criteria(com.ibm.fhir.model.type.String)
+         */
+        public Builder criteria(java.lang.String criteria) {
+            this.criteria = (criteria == null) ? null : String.of(criteria);
+            return this;
+        }
+
+        /**
          * The rules that the server should use to determine when to generate notifications for this subscription.
          * 
          * <p>This element is required.
@@ -561,6 +633,22 @@ public class Subscription extends DomainResource {
          */
         public Builder criteria(String criteria) {
             this.criteria = criteria;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code error}.
+         * 
+         * @param error
+         *     Latest error note
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #error(com.ibm.fhir.model.type.String)
+         */
+        public Builder error(java.lang.String error) {
+            this.error = (error == null) ? null : String.of(error);
             return this;
         }
 
@@ -822,7 +910,8 @@ public class Subscription extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -841,13 +930,17 @@ public class Subscription extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -865,7 +958,8 @@ public class Subscription extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -889,13 +983,17 @@ public class Subscription extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -949,9 +1047,31 @@ public class Subscription extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code header}.
+             * 
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
+             * 
+             * @param header
+             *     Usage depends on the channel type
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #header(com.ibm.fhir.model.type.String)
+             */
+            public Builder header(java.lang.String... header) {
+                for (java.lang.String value : header) {
+                    this.header.add((value == null) ? null : String.of(value));
+                }
+                return this;
+            }
+
+            /**
              * Additional headers / information to send as part of the notification.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param header
              *     Usage depends on the channel type
@@ -969,13 +1089,17 @@ public class Subscription extends DomainResource {
             /**
              * Additional headers / information to send as part of the notification.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param header
              *     Usage depends on the channel type
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder header(Collection<String> header) {
                 this.header = new ArrayList<>(header);

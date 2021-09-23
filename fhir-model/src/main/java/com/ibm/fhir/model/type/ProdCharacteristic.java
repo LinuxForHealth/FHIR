@@ -328,7 +328,8 @@ public class ProdCharacteristic extends BackboneElement {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -347,13 +348,17 @@ public class ProdCharacteristic extends BackboneElement {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -371,7 +376,8 @@ public class ProdCharacteristic extends BackboneElement {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored even if unrecognized
@@ -395,13 +401,17 @@ public class ProdCharacteristic extends BackboneElement {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored even if unrecognized
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -517,6 +527,23 @@ public class ProdCharacteristic extends BackboneElement {
         }
 
         /**
+         * Convenience method for setting {@code shape}.
+         * 
+         * @param shape
+         *     Where applicable, the shape can be specified An appropriate controlled vocabulary shall be used The term and the term 
+         *     identifier shall be used
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #shape(com.ibm.fhir.model.type.String)
+         */
+        public Builder shape(java.lang.String shape) {
+            this.shape = (shape == null) ? null : String.of(shape);
+            return this;
+        }
+
+        /**
          * Where applicable, the shape can be specified An appropriate controlled vocabulary shall be used The term and the term 
          * identifier shall be used.
          * 
@@ -533,10 +560,33 @@ public class ProdCharacteristic extends BackboneElement {
         }
 
         /**
+         * Convenience method for setting {@code color}.
+         * 
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
+         * 
+         * @param color
+         *     Where applicable, the color can be specified An appropriate controlled vocabulary shall be used The term and the term 
+         *     identifier shall be used
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #color(com.ibm.fhir.model.type.String)
+         */
+        public Builder color(java.lang.String... color) {
+            for (java.lang.String value : color) {
+                this.color.add((value == null) ? null : String.of(value));
+            }
+            return this;
+        }
+
+        /**
          * Where applicable, the color can be specified An appropriate controlled vocabulary shall be used The term and the term 
          * identifier shall be used.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param color
          *     Where applicable, the color can be specified An appropriate controlled vocabulary shall be used The term and the term 
@@ -556,7 +606,8 @@ public class ProdCharacteristic extends BackboneElement {
          * Where applicable, the color can be specified An appropriate controlled vocabulary shall be used The term and the term 
          * identifier shall be used.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param color
          *     Where applicable, the color can be specified An appropriate controlled vocabulary shall be used The term and the term 
@@ -564,6 +615,9 @@ public class ProdCharacteristic extends BackboneElement {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder color(Collection<String> color) {
             this.color = new ArrayList<>(color);
@@ -571,9 +625,31 @@ public class ProdCharacteristic extends BackboneElement {
         }
 
         /**
+         * Convenience method for setting {@code imprint}.
+         * 
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
+         * 
+         * @param imprint
+         *     Where applicable, the imprint can be specified as text
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #imprint(com.ibm.fhir.model.type.String)
+         */
+        public Builder imprint(java.lang.String... imprint) {
+            for (java.lang.String value : imprint) {
+                this.imprint.add((value == null) ? null : String.of(value));
+            }
+            return this;
+        }
+
+        /**
          * Where applicable, the imprint can be specified as text.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param imprint
          *     Where applicable, the imprint can be specified as text
@@ -591,13 +667,17 @@ public class ProdCharacteristic extends BackboneElement {
         /**
          * Where applicable, the imprint can be specified as text.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param imprint
          *     Where applicable, the imprint can be specified as text
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder imprint(Collection<String> imprint) {
             this.imprint = new ArrayList<>(imprint);
@@ -608,7 +688,8 @@ public class ProdCharacteristic extends BackboneElement {
          * Where applicable, the image can be provided The format of the image attachment shall be specified by regional 
          * implementations.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param image
          *     Where applicable, the image can be provided The format of the image attachment shall be specified by regional 
@@ -628,7 +709,8 @@ public class ProdCharacteristic extends BackboneElement {
          * Where applicable, the image can be provided The format of the image attachment shall be specified by regional 
          * implementations.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param image
          *     Where applicable, the image can be provided The format of the image attachment shall be specified by regional 
@@ -636,6 +718,9 @@ public class ProdCharacteristic extends BackboneElement {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder image(Collection<Attachment> image) {
             this.image = new ArrayList<>(image);

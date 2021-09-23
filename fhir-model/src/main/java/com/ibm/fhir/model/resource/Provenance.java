@@ -143,7 +143,7 @@ public class Provenance extends DomainResource {
      * The period during which the activity occurred.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Period} or {@link DateTime} that may be null.
      */
     public Element getOccurred() {
         return occurred;
@@ -442,7 +442,8 @@ public class Provenance extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -459,13 +460,17 @@ public class Provenance extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -478,7 +483,8 @@ public class Provenance extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -497,13 +503,17 @@ public class Provenance extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -521,7 +531,8 @@ public class Provenance extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -545,13 +556,17 @@ public class Provenance extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -562,7 +577,8 @@ public class Provenance extends DomainResource {
          * The Reference(s) that were generated or updated by the activity described in this resource. A provenance can point to 
          * more than one target if multiple resources were created/updated by the same activity.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>This element is required.
          * 
@@ -583,7 +599,8 @@ public class Provenance extends DomainResource {
          * The Reference(s) that were generated or updated by the activity described in this resource. A provenance can point to 
          * more than one target if multiple resources were created/updated by the same activity.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>This element is required.
          * 
@@ -592,6 +609,9 @@ public class Provenance extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder target(Collection<Reference> target) {
             this.target = new ArrayList<>(target);
@@ -619,6 +639,24 @@ public class Provenance extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code recorded}.
+         * 
+         * <p>This element is required.
+         * 
+         * @param recorded
+         *     When the activity was recorded / updated
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #recorded(com.ibm.fhir.model.type.Instant)
+         */
+        public Builder recorded(java.time.ZonedDateTime recorded) {
+            this.recorded = (recorded == null) ? null : Instant.of(recorded);
+            return this;
+        }
+
+        /**
          * The instant of time at which the activity was recorded.
          * 
          * <p>This element is required.
@@ -638,7 +676,8 @@ public class Provenance extends DomainResource {
          * Policy or plan the activity was defined by. Typically, a single activity may have multiple applicable policy 
          * documents, such as patient consent, guarantor funding, etc.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param policy
          *     Policy or plan the activity was defined by
@@ -657,13 +696,17 @@ public class Provenance extends DomainResource {
          * Policy or plan the activity was defined by. Typically, a single activity may have multiple applicable policy 
          * documents, such as patient consent, guarantor funding, etc.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param policy
          *     Policy or plan the activity was defined by
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder policy(Collection<Uri> policy) {
             this.policy = new ArrayList<>(policy);
@@ -692,7 +735,8 @@ public class Provenance extends DomainResource {
         /**
          * The reason that the activity was taking place.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param reason
          *     Reason the activity is occurring
@@ -710,13 +754,17 @@ public class Provenance extends DomainResource {
         /**
          * The reason that the activity was taking place.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param reason
          *     Reason the activity is occurring
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder reason(Collection<CodeableConcept> reason) {
             this.reason = new ArrayList<>(reason);
@@ -742,7 +790,8 @@ public class Provenance extends DomainResource {
          * An actor taking a role in an activity for which it can be assigned some degree of responsibility for the activity 
          * taking place.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>This element is required.
          * 
@@ -763,7 +812,8 @@ public class Provenance extends DomainResource {
          * An actor taking a role in an activity for which it can be assigned some degree of responsibility for the activity 
          * taking place.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>This element is required.
          * 
@@ -772,6 +822,9 @@ public class Provenance extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder agent(Collection<Agent> agent) {
             this.agent = new ArrayList<>(agent);
@@ -781,7 +834,8 @@ public class Provenance extends DomainResource {
         /**
          * An entity used in this activity.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param entity
          *     An entity used in this activity
@@ -799,13 +853,17 @@ public class Provenance extends DomainResource {
         /**
          * An entity used in this activity.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param entity
          *     An entity used in this activity
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder entity(Collection<Entity> entity) {
             this.entity = new ArrayList<>(entity);
@@ -816,7 +874,8 @@ public class Provenance extends DomainResource {
          * A digital signature on the target Reference(s). The signer should match a Provenance.agent. The purpose of the 
          * signature is indicated.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param signature
          *     Signature on target
@@ -835,13 +894,17 @@ public class Provenance extends DomainResource {
          * A digital signature on the target Reference(s). The signer should match a Provenance.agent. The purpose of the 
          * signature is indicated.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param signature
          *     Signature on target
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder signature(Collection<Signature> signature) {
             this.signature = new ArrayList<>(signature);
@@ -1082,7 +1145,8 @@ public class Provenance extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1101,13 +1165,17 @@ public class Provenance extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1125,7 +1193,8 @@ public class Provenance extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1149,13 +1218,17 @@ public class Provenance extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1180,7 +1253,8 @@ public class Provenance extends DomainResource {
              * The function of the agent with respect to the activity. The security role enabling the agent with respect to the 
              * activity.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param role
              *     What the agents role was
@@ -1199,13 +1273,17 @@ public class Provenance extends DomainResource {
              * The function of the agent with respect to the activity. The security role enabling the agent with respect to the 
              * activity.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param role
              *     What the agents role was
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder role(Collection<CodeableConcept> role) {
                 this.role = new ArrayList<>(role);
@@ -1461,7 +1539,8 @@ public class Provenance extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1480,13 +1559,17 @@ public class Provenance extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1504,7 +1587,8 @@ public class Provenance extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1528,13 +1612,17 @@ public class Provenance extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1578,7 +1666,8 @@ public class Provenance extends DomainResource {
              * agents. This description can be understood as shorthand for saying that the agent was responsible for the activity 
              * which generated the entity.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param agent
              *     Entity is attributed to this agent
@@ -1598,13 +1687,17 @@ public class Provenance extends DomainResource {
              * agents. This description can be understood as shorthand for saying that the agent was responsible for the activity 
              * which generated the entity.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param agent
              *     Entity is attributed to this agent
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder agent(Collection<Provenance.Agent> agent) {
                 this.agent = new ArrayList<>(agent);

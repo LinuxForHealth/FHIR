@@ -302,7 +302,8 @@ public class SubstanceNucleicAcid extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -319,13 +320,17 @@ public class SubstanceNucleicAcid extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -338,7 +343,8 @@ public class SubstanceNucleicAcid extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -357,13 +363,17 @@ public class SubstanceNucleicAcid extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -381,7 +391,8 @@ public class SubstanceNucleicAcid extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -405,13 +416,17 @@ public class SubstanceNucleicAcid extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -433,6 +448,24 @@ public class SubstanceNucleicAcid extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code numberOfSubunits}.
+         * 
+         * @param numberOfSubunits
+         *     The number of linear sequences of nucleotides linked through phosphodiester bonds shall be described. Subunits would 
+         *     be strands of nucleic acids that are tightly associated typically through Watson-Crick base pairing. NOTE: If not 
+         *     specified in the reference source, the assumption is that there is 1 subunit
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #numberOfSubunits(com.ibm.fhir.model.type.Integer)
+         */
+        public Builder numberOfSubunits(java.lang.Integer numberOfSubunits) {
+            this.numberOfSubunits = (numberOfSubunits == null) ? null : Integer.of(numberOfSubunits);
+            return this;
+        }
+
+        /**
          * The number of linear sequences of nucleotides linked through phosphodiester bonds shall be described. Subunits would 
          * be strands of nucleic acids that are tightly associated typically through Watson-Crick base pairing. NOTE: If not 
          * specified in the reference source, the assumption is that there is 1 subunit.
@@ -447,6 +480,24 @@ public class SubstanceNucleicAcid extends DomainResource {
          */
         public Builder numberOfSubunits(Integer numberOfSubunits) {
             this.numberOfSubunits = numberOfSubunits;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code areaOfHybridisation}.
+         * 
+         * @param areaOfHybridisation
+         *     The area of hybridisation shall be described if applicable for double stranded RNA or DNA. The number associated with 
+         *     the subunit followed by the number associated to the residue shall be specified in increasing order. The underscore “” 
+         *     shall be used as separator as follows: “Subunitnumber Residue”
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #areaOfHybridisation(com.ibm.fhir.model.type.String)
+         */
+        public Builder areaOfHybridisation(java.lang.String areaOfHybridisation) {
+            this.areaOfHybridisation = (areaOfHybridisation == null) ? null : String.of(areaOfHybridisation);
             return this;
         }
 
@@ -486,7 +537,8 @@ public class SubstanceNucleicAcid extends DomainResource {
          * Subunits are listed in order of decreasing length; sequences of the same length will be ordered by molecular weight; 
          * subunits that have identical sequences will be repeated multiple times.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param subunit
          *     Subunits are listed in order of decreasing length; sequences of the same length will be ordered by molecular weight; 
@@ -506,7 +558,8 @@ public class SubstanceNucleicAcid extends DomainResource {
          * Subunits are listed in order of decreasing length; sequences of the same length will be ordered by molecular weight; 
          * subunits that have identical sequences will be repeated multiple times.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param subunit
          *     Subunits are listed in order of decreasing length; sequences of the same length will be ordered by molecular weight; 
@@ -514,6 +567,9 @@ public class SubstanceNucleicAcid extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder subunit(Collection<Subunit> subunit) {
             this.subunit = new ArrayList<>(subunit);
@@ -798,7 +854,8 @@ public class SubstanceNucleicAcid extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -817,13 +874,17 @@ public class SubstanceNucleicAcid extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -841,7 +902,8 @@ public class SubstanceNucleicAcid extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -865,17 +927,38 @@ public class SubstanceNucleicAcid extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting {@code subunit}.
+             * 
+             * @param subunit
+             *     Index of linear sequences of nucleic acids in order of decreasing length. Sequences of the same length will be ordered 
+             *     by molecular weight. Subunits that have identical sequences will be repeated and have sequential subscripts
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #subunit(com.ibm.fhir.model.type.Integer)
+             */
+            public Builder subunit(java.lang.Integer subunit) {
+                this.subunit = (subunit == null) ? null : Integer.of(subunit);
+                return this;
             }
 
             /**
@@ -895,6 +978,23 @@ public class SubstanceNucleicAcid extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code sequence}.
+             * 
+             * @param sequence
+             *     Actual nucleotide sequence notation from 5' to 3' end using standard single letter codes. In addition to the base 
+             *     sequence, sugar and type of phosphate or non-phosphate linkage should also be captured
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #sequence(com.ibm.fhir.model.type.String)
+             */
+            public Builder sequence(java.lang.String sequence) {
+                this.sequence = (sequence == null) ? null : String.of(sequence);
+                return this;
+            }
+
+            /**
              * Actual nucleotide sequence notation from 5' to 3' end using standard single letter codes. In addition to the base 
              * sequence, sugar and type of phosphate or non-phosphate linkage should also be captured.
              * 
@@ -907,6 +1007,22 @@ public class SubstanceNucleicAcid extends DomainResource {
              */
             public Builder sequence(String sequence) {
                 this.sequence = sequence;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code length}.
+             * 
+             * @param length
+             *     The length of the sequence shall be captured
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #length(com.ibm.fhir.model.type.Integer)
+             */
+            public Builder length(java.lang.Integer length) {
+                this.length = (length == null) ? null : Integer.of(length);
                 return this;
             }
 
@@ -977,7 +1093,8 @@ public class SubstanceNucleicAcid extends DomainResource {
             /**
              * The linkages between sugar residues will also be captured.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param linkage
              *     The linkages between sugar residues will also be captured
@@ -995,13 +1112,17 @@ public class SubstanceNucleicAcid extends DomainResource {
             /**
              * The linkages between sugar residues will also be captured.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param linkage
              *     The linkages between sugar residues will also be captured
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder linkage(Collection<Linkage> linkage) {
                 this.linkage = new ArrayList<>(linkage);
@@ -1011,7 +1132,8 @@ public class SubstanceNucleicAcid extends DomainResource {
             /**
              * 5.3.6.8.1 Sugar ID (Mandatory).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param sugar
              *     5.3.6.8.1 Sugar ID (Mandatory)
@@ -1029,13 +1151,17 @@ public class SubstanceNucleicAcid extends DomainResource {
             /**
              * 5.3.6.8.1 Sugar ID (Mandatory).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param sugar
              *     5.3.6.8.1 Sugar ID (Mandatory)
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder sugar(Collection<Sugar> sugar) {
                 this.sugar = new ArrayList<>(sugar);
@@ -1249,7 +1375,8 @@ public class SubstanceNucleicAcid extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -1268,13 +1395,17 @@ public class SubstanceNucleicAcid extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -1292,7 +1423,8 @@ public class SubstanceNucleicAcid extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -1316,17 +1448,39 @@ public class SubstanceNucleicAcid extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
                     return (Builder) super.modifierExtension(modifierExtension);
+                }
+
+                /**
+                 * Convenience method for setting {@code connectivity}.
+                 * 
+                 * @param connectivity
+                 *     The entity that links the sugar residues together should also be captured for nearly all naturally occurring nucleic 
+                 *     acid the linkage is a phosphate group. For many synthetic oligonucleotides phosphorothioate linkages are often seen. 
+                 *     Linkage connectivity is assumed to be 3’-5’. If the linkage is either 3’-3’ or 5’-5’ this should be specified
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #connectivity(com.ibm.fhir.model.type.String)
+                 */
+                public Builder connectivity(java.lang.String connectivity) {
+                    this.connectivity = (connectivity == null) ? null : String.of(connectivity);
+                    return this;
                 }
 
                 /**
@@ -1362,6 +1516,23 @@ public class SubstanceNucleicAcid extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting {@code name}.
+                 * 
+                 * @param name
+                 *     Each linkage will be registered as a fragment and have at least one name. A single name shall be assigned to each 
+                 *     linkage
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #name(com.ibm.fhir.model.type.String)
+                 */
+                public Builder name(java.lang.String name) {
+                    this.name = (name == null) ? null : String.of(name);
+                    return this;
+                }
+
+                /**
                  * Each linkage will be registered as a fragment and have at least one name. A single name shall be assigned to each 
                  * linkage.
                  * 
@@ -1374,6 +1545,22 @@ public class SubstanceNucleicAcid extends DomainResource {
                  */
                 public Builder name(String name) {
                     this.name = name;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code residueSite}.
+                 * 
+                 * @param residueSite
+                 *     Residues shall be captured as described in 5.3.6.8.3
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #residueSite(com.ibm.fhir.model.type.String)
+                 */
+                public Builder residueSite(java.lang.String residueSite) {
+                    this.residueSite = (residueSite == null) ? null : String.of(residueSite);
                     return this;
                 }
 
@@ -1573,7 +1760,8 @@ public class SubstanceNucleicAcid extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -1592,13 +1780,17 @@ public class SubstanceNucleicAcid extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -1616,7 +1808,8 @@ public class SubstanceNucleicAcid extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -1640,13 +1833,17 @@ public class SubstanceNucleicAcid extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1668,6 +1865,22 @@ public class SubstanceNucleicAcid extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting {@code name}.
+                 * 
+                 * @param name
+                 *     The name of the sugar or sugar-like component that make up the nucleotide
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #name(com.ibm.fhir.model.type.String)
+                 */
+                public Builder name(java.lang.String name) {
+                    this.name = (name == null) ? null : String.of(name);
+                    return this;
+                }
+
+                /**
                  * The name of the sugar or sugar-like component that make up the nucleotide.
                  * 
                  * @param name
@@ -1678,6 +1891,23 @@ public class SubstanceNucleicAcid extends DomainResource {
                  */
                 public Builder name(String name) {
                     this.name = name;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code residueSite}.
+                 * 
+                 * @param residueSite
+                 *     The residues that contain a given sugar will be captured. The order of given residues will be captured in the 5‘-3
+                 *     ‘direction consistent with the base sequences listed above
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #residueSite(com.ibm.fhir.model.type.String)
+                 */
+                public Builder residueSite(java.lang.String residueSite) {
+                    this.residueSite = (residueSite == null) ? null : String.of(residueSite);
                     return this;
                 }
 

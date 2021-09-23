@@ -713,7 +713,8 @@ public class HealthcareService extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -730,13 +731,17 @@ public class HealthcareService extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -749,7 +754,8 @@ public class HealthcareService extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -768,13 +774,17 @@ public class HealthcareService extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -792,7 +802,8 @@ public class HealthcareService extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -816,13 +827,17 @@ public class HealthcareService extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -832,7 +847,8 @@ public class HealthcareService extends DomainResource {
         /**
          * External identifiers for this item.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     External identifiers for this item
@@ -850,16 +866,36 @@ public class HealthcareService extends DomainResource {
         /**
          * External identifiers for this item.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     External identifiers for this item
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder identifier(Collection<Identifier> identifier) {
             this.identifier = new ArrayList<>(identifier);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code active}.
+         * 
+         * @param active
+         *     Whether this HealthcareService record is in active use
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #active(com.ibm.fhir.model.type.Boolean)
+         */
+        public Builder active(java.lang.Boolean active) {
+            this.active = (active == null) ? null : Boolean.of(active);
             return this;
         }
 
@@ -900,7 +936,8 @@ public class HealthcareService extends DomainResource {
         /**
          * Identifies the broad category of service being performed or delivered.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param category
          *     Broad category of service being performed or delivered
@@ -918,13 +955,17 @@ public class HealthcareService extends DomainResource {
         /**
          * Identifies the broad category of service being performed or delivered.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param category
          *     Broad category of service being performed or delivered
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder category(Collection<CodeableConcept> category) {
             this.category = new ArrayList<>(category);
@@ -934,7 +975,8 @@ public class HealthcareService extends DomainResource {
         /**
          * The specific type of service that may be delivered or performed.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param type
          *     Type of service that may be delivered or performed
@@ -952,13 +994,17 @@ public class HealthcareService extends DomainResource {
         /**
          * The specific type of service that may be delivered or performed.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param type
          *     Type of service that may be delivered or performed
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder type(Collection<CodeableConcept> type) {
             this.type = new ArrayList<>(type);
@@ -968,7 +1014,8 @@ public class HealthcareService extends DomainResource {
         /**
          * Collection of specialties handled by the service site. This is more of a medical term.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param specialty
          *     Specialties handled by the HealthcareService
@@ -986,13 +1033,17 @@ public class HealthcareService extends DomainResource {
         /**
          * Collection of specialties handled by the service site. This is more of a medical term.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param specialty
          *     Specialties handled by the HealthcareService
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder specialty(Collection<CodeableConcept> specialty) {
             this.specialty = new ArrayList<>(specialty);
@@ -1002,7 +1053,8 @@ public class HealthcareService extends DomainResource {
         /**
          * The location(s) where this healthcare service may be provided.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1025,7 +1077,8 @@ public class HealthcareService extends DomainResource {
         /**
          * The location(s) where this healthcare service may be provided.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1037,9 +1090,28 @@ public class HealthcareService extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder location(Collection<Reference> location) {
             this.location = new ArrayList<>(location);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code name}.
+         * 
+         * @param name
+         *     Description of service as presented to a consumer while searching
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #name(com.ibm.fhir.model.type.String)
+         */
+        public Builder name(java.lang.String name) {
+            this.name = (name == null) ? null : String.of(name);
             return this;
         }
 
@@ -1054,6 +1126,22 @@ public class HealthcareService extends DomainResource {
          */
         public Builder name(String name) {
             this.name = name;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code comment}.
+         * 
+         * @param comment
+         *     Additional description and/or any specific issues not covered elsewhere
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #comment(com.ibm.fhir.model.type.String)
+         */
+        public Builder comment(java.lang.String comment) {
+            this.comment = (comment == null) ? null : String.of(comment);
             return this;
         }
 
@@ -1104,7 +1192,8 @@ public class HealthcareService extends DomainResource {
         /**
          * List of contacts related to this specific healthcare service.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param telecom
          *     Contacts related to the healthcare service
@@ -1122,13 +1211,17 @@ public class HealthcareService extends DomainResource {
         /**
          * List of contacts related to this specific healthcare service.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param telecom
          *     Contacts related to the healthcare service
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder telecom(Collection<ContactPoint> telecom) {
             this.telecom = new ArrayList<>(telecom);
@@ -1138,7 +1231,8 @@ public class HealthcareService extends DomainResource {
         /**
          * The location(s) that this service is available to (not where the service is provided).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1161,7 +1255,8 @@ public class HealthcareService extends DomainResource {
         /**
          * The location(s) that this service is available to (not where the service is provided).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1173,6 +1268,9 @@ public class HealthcareService extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder coverageArea(Collection<Reference> coverageArea) {
             this.coverageArea = new ArrayList<>(coverageArea);
@@ -1182,7 +1280,8 @@ public class HealthcareService extends DomainResource {
         /**
          * The code(s) that detail the conditions under which the healthcare service is available/offered.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param serviceProvisionCode
          *     Conditions under which service is available/offered
@@ -1200,13 +1299,17 @@ public class HealthcareService extends DomainResource {
         /**
          * The code(s) that detail the conditions under which the healthcare service is available/offered.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param serviceProvisionCode
          *     Conditions under which service is available/offered
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder serviceProvisionCode(Collection<CodeableConcept> serviceProvisionCode) {
             this.serviceProvisionCode = new ArrayList<>(serviceProvisionCode);
@@ -1216,7 +1319,8 @@ public class HealthcareService extends DomainResource {
         /**
          * Does this service have specific eligibility requirements that need to be met in order to use the service?
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param eligibility
          *     Specific eligibility requirements required to use the service
@@ -1234,13 +1338,17 @@ public class HealthcareService extends DomainResource {
         /**
          * Does this service have specific eligibility requirements that need to be met in order to use the service?
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param eligibility
          *     Specific eligibility requirements required to use the service
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder eligibility(Collection<Eligibility> eligibility) {
             this.eligibility = new ArrayList<>(eligibility);
@@ -1250,7 +1358,8 @@ public class HealthcareService extends DomainResource {
         /**
          * Programs that this service is applicable to.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param program
          *     Programs that this service is applicable to
@@ -1268,13 +1377,17 @@ public class HealthcareService extends DomainResource {
         /**
          * Programs that this service is applicable to.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param program
          *     Programs that this service is applicable to
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder program(Collection<CodeableConcept> program) {
             this.program = new ArrayList<>(program);
@@ -1284,7 +1397,8 @@ public class HealthcareService extends DomainResource {
         /**
          * Collection of characteristics (attributes).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param characteristic
          *     Collection of characteristics (attributes)
@@ -1302,13 +1416,17 @@ public class HealthcareService extends DomainResource {
         /**
          * Collection of characteristics (attributes).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param characteristic
          *     Collection of characteristics (attributes)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder characteristic(Collection<CodeableConcept> characteristic) {
             this.characteristic = new ArrayList<>(characteristic);
@@ -1320,7 +1438,8 @@ public class HealthcareService extends DomainResource {
          * languages this is offered in. Typically this is only provided where a service operates in communities with mixed 
          * languages used.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param communication
          *     The language that this service is offered in
@@ -1340,13 +1459,17 @@ public class HealthcareService extends DomainResource {
          * languages this is offered in. Typically this is only provided where a service operates in communities with mixed 
          * languages used.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param communication
          *     The language that this service is offered in
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder communication(Collection<CodeableConcept> communication) {
             this.communication = new ArrayList<>(communication);
@@ -1356,7 +1479,8 @@ public class HealthcareService extends DomainResource {
         /**
          * Ways that the service accepts referrals, if this is not provided then it is implied that no referral is required.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param referralMethod
          *     Ways that the service accepts referrals
@@ -1374,16 +1498,36 @@ public class HealthcareService extends DomainResource {
         /**
          * Ways that the service accepts referrals, if this is not provided then it is implied that no referral is required.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param referralMethod
          *     Ways that the service accepts referrals
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder referralMethod(Collection<CodeableConcept> referralMethod) {
             this.referralMethod = new ArrayList<>(referralMethod);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code appointmentRequired}.
+         * 
+         * @param appointmentRequired
+         *     If an appointment is required for access to this service
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #appointmentRequired(com.ibm.fhir.model.type.Boolean)
+         */
+        public Builder appointmentRequired(java.lang.Boolean appointmentRequired) {
+            this.appointmentRequired = (appointmentRequired == null) ? null : Boolean.of(appointmentRequired);
             return this;
         }
 
@@ -1405,7 +1549,8 @@ public class HealthcareService extends DomainResource {
         /**
          * A collection of times that the Service Site is available.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param availableTime
          *     Times the Service Site is available
@@ -1423,13 +1568,17 @@ public class HealthcareService extends DomainResource {
         /**
          * A collection of times that the Service Site is available.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param availableTime
          *     Times the Service Site is available
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder availableTime(Collection<AvailableTime> availableTime) {
             this.availableTime = new ArrayList<>(availableTime);
@@ -1439,7 +1588,8 @@ public class HealthcareService extends DomainResource {
         /**
          * The HealthcareService is not available during this period of time due to the provided reason.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param notAvailable
          *     Not available during this time due to provided reason
@@ -1457,16 +1607,36 @@ public class HealthcareService extends DomainResource {
         /**
          * The HealthcareService is not available during this period of time due to the provided reason.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param notAvailable
          *     Not available during this time due to provided reason
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder notAvailable(Collection<NotAvailable> notAvailable) {
             this.notAvailable = new ArrayList<>(notAvailable);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code availabilityExceptions}.
+         * 
+         * @param availabilityExceptions
+         *     Description of availability exceptions
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #availabilityExceptions(com.ibm.fhir.model.type.String)
+         */
+        public Builder availabilityExceptions(java.lang.String availabilityExceptions) {
+            this.availabilityExceptions = (availabilityExceptions == null) ? null : String.of(availabilityExceptions);
             return this;
         }
 
@@ -1489,7 +1659,8 @@ public class HealthcareService extends DomainResource {
          * Technical endpoints providing access to services operated for the specific healthcare services defined at this 
          * resource.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1513,7 +1684,8 @@ public class HealthcareService extends DomainResource {
          * Technical endpoints providing access to services operated for the specific healthcare services defined at this 
          * resource.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1525,6 +1697,9 @@ public class HealthcareService extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder endpoint(Collection<Reference> endpoint) {
             this.endpoint = new ArrayList<>(endpoint);
@@ -1736,7 +1911,8 @@ public class HealthcareService extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1755,13 +1931,17 @@ public class HealthcareService extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1779,7 +1959,8 @@ public class HealthcareService extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1803,13 +1984,17 @@ public class HealthcareService extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2043,7 +2228,8 @@ public class HealthcareService extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2062,13 +2248,17 @@ public class HealthcareService extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2086,7 +2276,8 @@ public class HealthcareService extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2110,13 +2301,17 @@ public class HealthcareService extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2126,7 +2321,8 @@ public class HealthcareService extends DomainResource {
             /**
              * Indicates which days of the week are available between the start and end Times.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param daysOfWeek
              *     mon | tue | wed | thu | fri | sat | sun
@@ -2144,16 +2340,36 @@ public class HealthcareService extends DomainResource {
             /**
              * Indicates which days of the week are available between the start and end Times.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param daysOfWeek
              *     mon | tue | wed | thu | fri | sat | sun
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder daysOfWeek(Collection<DaysOfWeek> daysOfWeek) {
                 this.daysOfWeek = new ArrayList<>(daysOfWeek);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code allDay}.
+             * 
+             * @param allDay
+             *     Always available? e.g. 24 hour service
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #allDay(com.ibm.fhir.model.type.Boolean)
+             */
+            public Builder allDay(java.lang.Boolean allDay) {
+                this.allDay = (allDay == null) ? null : Boolean.of(allDay);
                 return this;
             }
 
@@ -2172,6 +2388,22 @@ public class HealthcareService extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code availableStartTime}.
+             * 
+             * @param availableStartTime
+             *     Opening time of day (ignored if allDay = true)
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #availableStartTime(com.ibm.fhir.model.type.Time)
+             */
+            public Builder availableStartTime(java.time.LocalTime availableStartTime) {
+                this.availableStartTime = (availableStartTime == null) ? null : Time.of(availableStartTime);
+                return this;
+            }
+
+            /**
              * The opening time of day. Note: If the AllDay flag is set, then this time is ignored.
              * 
              * @param availableStartTime
@@ -2182,6 +2414,22 @@ public class HealthcareService extends DomainResource {
              */
             public Builder availableStartTime(Time availableStartTime) {
                 this.availableStartTime = availableStartTime;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code availableEndTime}.
+             * 
+             * @param availableEndTime
+             *     Closing time of day (ignored if allDay = true)
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #availableEndTime(com.ibm.fhir.model.type.Time)
+             */
+            public Builder availableEndTime(java.time.LocalTime availableEndTime) {
+                this.availableEndTime = (availableEndTime == null) ? null : Time.of(availableEndTime);
                 return this;
             }
 
@@ -2362,7 +2610,8 @@ public class HealthcareService extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2381,13 +2630,17 @@ public class HealthcareService extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2405,7 +2658,8 @@ public class HealthcareService extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2429,17 +2683,39 @@ public class HealthcareService extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting {@code description}.
+             * 
+             * <p>This element is required.
+             * 
+             * @param description
+             *     Reason presented to the user explaining why time not available
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #description(com.ibm.fhir.model.type.String)
+             */
+            public Builder description(java.lang.String description) {
+                this.description = (description == null) ? null : String.of(description);
+                return this;
             }
 
             /**

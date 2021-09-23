@@ -578,7 +578,8 @@ public class NutritionOrder extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -595,13 +596,17 @@ public class NutritionOrder extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -614,7 +619,8 @@ public class NutritionOrder extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -633,13 +639,17 @@ public class NutritionOrder extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -657,7 +667,8 @@ public class NutritionOrder extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -681,13 +692,17 @@ public class NutritionOrder extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -697,7 +712,8 @@ public class NutritionOrder extends DomainResource {
         /**
          * Identifiers assigned to this order by the order sender or by the order receiver.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Identifiers assigned to this order
@@ -715,13 +731,17 @@ public class NutritionOrder extends DomainResource {
         /**
          * Identifiers assigned to this order by the order sender or by the order receiver.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Identifiers assigned to this order
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder identifier(Collection<Identifier> identifier) {
             this.identifier = new ArrayList<>(identifier);
@@ -732,7 +752,8 @@ public class NutritionOrder extends DomainResource {
          * The URL pointing to a FHIR-defined protocol, guideline, orderset or other definition that is adhered to in whole or in 
          * part by this NutritionOrder.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param instantiatesCanonical
          *     Instantiates FHIR protocol or definition
@@ -751,13 +772,17 @@ public class NutritionOrder extends DomainResource {
          * The URL pointing to a FHIR-defined protocol, guideline, orderset or other definition that is adhered to in whole or in 
          * part by this NutritionOrder.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param instantiatesCanonical
          *     Instantiates FHIR protocol or definition
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder instantiatesCanonical(Collection<Canonical> instantiatesCanonical) {
             this.instantiatesCanonical = new ArrayList<>(instantiatesCanonical);
@@ -768,7 +793,8 @@ public class NutritionOrder extends DomainResource {
          * The URL pointing to an externally maintained protocol, guideline, orderset or other definition that is adhered to in 
          * whole or in part by this NutritionOrder.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param instantiatesUri
          *     Instantiates external protocol or definition
@@ -787,13 +813,17 @@ public class NutritionOrder extends DomainResource {
          * The URL pointing to an externally maintained protocol, guideline, orderset or other definition that is adhered to in 
          * whole or in part by this NutritionOrder.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param instantiatesUri
          *     Instantiates external protocol or definition
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder instantiatesUri(Collection<Uri> instantiatesUri) {
             this.instantiatesUri = new ArrayList<>(instantiatesUri);
@@ -804,7 +834,8 @@ public class NutritionOrder extends DomainResource {
          * The URL pointing to a protocol, guideline, orderset or other definition that is adhered to in whole or in part by this 
          * NutritionOrder.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param instantiates
          *     Instantiates protocol or definition
@@ -823,13 +854,17 @@ public class NutritionOrder extends DomainResource {
          * The URL pointing to a protocol, guideline, orderset or other definition that is adhered to in whole or in part by this 
          * NutritionOrder.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param instantiates
          *     Instantiates protocol or definition
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder instantiates(Collection<Uri> instantiates) {
             this.instantiates = new ArrayList<>(instantiates);
@@ -949,7 +984,8 @@ public class NutritionOrder extends DomainResource {
         /**
          * A link to a record of allergies or intolerances which should be included in the nutrition order.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -972,7 +1008,8 @@ public class NutritionOrder extends DomainResource {
         /**
          * A link to a record of allergies or intolerances which should be included in the nutrition order.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -984,6 +1021,9 @@ public class NutritionOrder extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder allergyIntolerance(Collection<Reference> allergyIntolerance) {
             this.allergyIntolerance = new ArrayList<>(allergyIntolerance);
@@ -995,7 +1035,8 @@ public class NutritionOrder extends DomainResource {
          * derived from patient allergies, intolerances, or preferences such as Halal, Vegan or Kosher. This modifier applies to 
          * the entire nutrition order inclusive of the oral diet, nutritional supplements and enteral formula feedings.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param foodPreferenceModifier
          *     Order-specific modifier about the type of food that should be given
@@ -1015,13 +1056,17 @@ public class NutritionOrder extends DomainResource {
          * derived from patient allergies, intolerances, or preferences such as Halal, Vegan or Kosher. This modifier applies to 
          * the entire nutrition order inclusive of the oral diet, nutritional supplements and enteral formula feedings.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param foodPreferenceModifier
          *     Order-specific modifier about the type of food that should be given
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder foodPreferenceModifier(Collection<CodeableConcept> foodPreferenceModifier) {
             this.foodPreferenceModifier = new ArrayList<>(foodPreferenceModifier);
@@ -1036,7 +1081,8 @@ public class NutritionOrder extends DomainResource {
          * specificity related to foods that should be eliminated from the patient’s diet for any reason. This modifier applies 
          * to the entire nutrition order inclusive of the oral diet, nutritional supplements and enteral formula feedings.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param excludeFoodModifier
          *     Order-specific modifier about the type of food that should not be given
@@ -1059,13 +1105,17 @@ public class NutritionOrder extends DomainResource {
          * specificity related to foods that should be eliminated from the patient’s diet for any reason. This modifier applies 
          * to the entire nutrition order inclusive of the oral diet, nutritional supplements and enteral formula feedings.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param excludeFoodModifier
          *     Order-specific modifier about the type of food that should not be given
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder excludeFoodModifier(Collection<CodeableConcept> excludeFoodModifier) {
             this.excludeFoodModifier = new ArrayList<>(excludeFoodModifier);
@@ -1089,7 +1139,8 @@ public class NutritionOrder extends DomainResource {
         /**
          * Oral nutritional products given in order to add further nutritional value to the patient's diet.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param supplement
          *     Supplement components
@@ -1107,13 +1158,17 @@ public class NutritionOrder extends DomainResource {
         /**
          * Oral nutritional products given in order to add further nutritional value to the patient's diet.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param supplement
          *     Supplement components
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder supplement(Collection<Supplement> supplement) {
             this.supplement = new ArrayList<>(supplement);
@@ -1138,7 +1193,8 @@ public class NutritionOrder extends DomainResource {
         /**
          * Comments made about the {{title}} by the requester, performer, subject or other participants.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param note
          *     Comments
@@ -1156,13 +1212,17 @@ public class NutritionOrder extends DomainResource {
         /**
          * Comments made about the {{title}} by the requester, performer, subject or other participants.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param note
          *     Comments
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder note(Collection<Annotation> note) {
             this.note = new ArrayList<>(note);
@@ -1450,7 +1510,8 @@ public class NutritionOrder extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1469,13 +1530,17 @@ public class NutritionOrder extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1493,7 +1558,8 @@ public class NutritionOrder extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1517,13 +1583,17 @@ public class NutritionOrder extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1533,7 +1603,8 @@ public class NutritionOrder extends DomainResource {
             /**
              * The kind of diet or dietary restriction such as fiber restricted diet or diabetic diet.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param type
              *     Type of oral diet or diet restrictions that describe what can be consumed orally
@@ -1551,13 +1622,17 @@ public class NutritionOrder extends DomainResource {
             /**
              * The kind of diet or dietary restriction such as fiber restricted diet or diabetic diet.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param type
              *     Type of oral diet or diet restrictions that describe what can be consumed orally
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder type(Collection<CodeableConcept> type) {
                 this.type = new ArrayList<>(type);
@@ -1568,7 +1643,8 @@ public class NutritionOrder extends DomainResource {
              * The time period and frequency at which the diet should be given. The diet should be given for the combination of all 
              * schedules if more than one schedule is present.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param schedule
              *     Scheduled frequency of diet
@@ -1587,13 +1663,17 @@ public class NutritionOrder extends DomainResource {
              * The time period and frequency at which the diet should be given. The diet should be given for the combination of all 
              * schedules if more than one schedule is present.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param schedule
              *     Scheduled frequency of diet
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder schedule(Collection<Timing> schedule) {
                 this.schedule = new ArrayList<>(schedule);
@@ -1604,7 +1684,8 @@ public class NutritionOrder extends DomainResource {
              * Class that defines the quantity and type of nutrient modifications (for example carbohydrate, fiber or sodium) 
              * required for the oral diet.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param nutrient
              *     Required nutrient modifications
@@ -1623,13 +1704,17 @@ public class NutritionOrder extends DomainResource {
              * Class that defines the quantity and type of nutrient modifications (for example carbohydrate, fiber or sodium) 
              * required for the oral diet.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param nutrient
              *     Required nutrient modifications
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder nutrient(Collection<Nutrient> nutrient) {
                 this.nutrient = new ArrayList<>(nutrient);
@@ -1639,7 +1724,8 @@ public class NutritionOrder extends DomainResource {
             /**
              * Class that describes any texture modifications required for the patient to safely consume various types of solid foods.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param texture
              *     Required texture modifications
@@ -1657,13 +1743,17 @@ public class NutritionOrder extends DomainResource {
             /**
              * Class that describes any texture modifications required for the patient to safely consume various types of solid foods.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param texture
              *     Required texture modifications
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder texture(Collection<Texture> texture) {
                 this.texture = new ArrayList<>(texture);
@@ -1673,7 +1763,8 @@ public class NutritionOrder extends DomainResource {
             /**
              * The required consistency (e.g. honey-thick, nectar-thick, thin, thickened.) of liquids or fluids served to the patient.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param fluidConsistencyType
              *     The required consistency of fluids and liquids provided to the patient
@@ -1691,16 +1782,36 @@ public class NutritionOrder extends DomainResource {
             /**
              * The required consistency (e.g. honey-thick, nectar-thick, thin, thickened.) of liquids or fluids served to the patient.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param fluidConsistencyType
              *     The required consistency of fluids and liquids provided to the patient
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder fluidConsistencyType(Collection<CodeableConcept> fluidConsistencyType) {
                 this.fluidConsistencyType = new ArrayList<>(fluidConsistencyType);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code instruction}.
+             * 
+             * @param instruction
+             *     Instructions or additional information about the oral diet
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #instruction(com.ibm.fhir.model.type.String)
+             */
+            public Builder instruction(java.lang.String instruction) {
+                this.instruction = (instruction == null) ? null : String.of(instruction);
                 return this;
             }
 
@@ -1892,7 +2003,8 @@ public class NutritionOrder extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -1911,13 +2023,17 @@ public class NutritionOrder extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -1935,7 +2051,8 @@ public class NutritionOrder extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -1959,13 +2076,17 @@ public class NutritionOrder extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2171,7 +2292,8 @@ public class NutritionOrder extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2190,13 +2312,17 @@ public class NutritionOrder extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2214,7 +2340,8 @@ public class NutritionOrder extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2238,13 +2365,17 @@ public class NutritionOrder extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2499,7 +2630,8 @@ public class NutritionOrder extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2518,13 +2650,17 @@ public class NutritionOrder extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2542,7 +2678,8 @@ public class NutritionOrder extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2566,13 +2703,17 @@ public class NutritionOrder extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2594,6 +2735,22 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code productName}.
+             * 
+             * @param productName
+             *     Product or brand name of the nutritional supplement
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #productName(com.ibm.fhir.model.type.String)
+             */
+            public Builder productName(java.lang.String productName) {
+                this.productName = (productName == null) ? null : String.of(productName);
+                return this;
+            }
+
+            /**
              * The product or brand name of the nutritional supplement such as "Acme Protein Shake".
              * 
              * @param productName
@@ -2611,7 +2768,8 @@ public class NutritionOrder extends DomainResource {
              * The time period and frequency at which the supplement(s) should be given. The supplement should be given for the 
              * combination of all schedules if more than one schedule is present.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param schedule
              *     Scheduled frequency of supplement
@@ -2630,13 +2788,17 @@ public class NutritionOrder extends DomainResource {
              * The time period and frequency at which the supplement(s) should be given. The supplement should be given for the 
              * combination of all schedules if more than one schedule is present.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param schedule
              *     Scheduled frequency of supplement
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder schedule(Collection<Timing> schedule) {
                 this.schedule = new ArrayList<>(schedule);
@@ -2654,6 +2816,22 @@ public class NutritionOrder extends DomainResource {
              */
             public Builder quantity(SimpleQuantity quantity) {
                 this.quantity = quantity;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code instruction}.
+             * 
+             * @param instruction
+             *     Instructions or additional information about the oral supplement
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #instruction(com.ibm.fhir.model.type.String)
+             */
+            public Builder instruction(java.lang.String instruction) {
+                this.instruction = (instruction == null) ? null : String.of(instruction);
                 return this;
             }
 
@@ -2981,7 +3159,8 @@ public class NutritionOrder extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -3000,13 +3179,17 @@ public class NutritionOrder extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -3024,7 +3207,8 @@ public class NutritionOrder extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -3048,13 +3232,17 @@ public class NutritionOrder extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3072,6 +3260,22 @@ public class NutritionOrder extends DomainResource {
              */
             public Builder baseFormulaType(CodeableConcept baseFormulaType) {
                 this.baseFormulaType = baseFormulaType;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code baseFormulaProductName}.
+             * 
+             * @param baseFormulaProductName
+             *     Product or brand name of the enteral or infant formula
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #baseFormulaProductName(com.ibm.fhir.model.type.String)
+             */
+            public Builder baseFormulaProductName(java.lang.String baseFormulaProductName) {
+                this.baseFormulaProductName = (baseFormulaProductName == null) ? null : String.of(baseFormulaProductName);
                 return this;
             }
 
@@ -3101,6 +3305,22 @@ public class NutritionOrder extends DomainResource {
              */
             public Builder additiveType(CodeableConcept additiveType) {
                 this.additiveType = additiveType;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code additiveProductName}.
+             * 
+             * @param additiveProductName
+             *     Product or brand name of the modular additive
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #additiveProductName(com.ibm.fhir.model.type.String)
+             */
+            public Builder additiveProductName(java.lang.String additiveProductName) {
+                this.additiveProductName = (additiveProductName == null) ? null : String.of(additiveProductName);
                 return this;
             }
 
@@ -3154,7 +3374,8 @@ public class NutritionOrder extends DomainResource {
              * administration rate or volume over time for both bolus and continuous feeding. An example of this would be an 
              * instruction to increase the rate of continuous feeding every 2 hours.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param administration
              *     Formula feeding instruction as structured data
@@ -3174,13 +3395,17 @@ public class NutritionOrder extends DomainResource {
              * administration rate or volume over time for both bolus and continuous feeding. An example of this would be an 
              * instruction to increase the rate of continuous feeding every 2 hours.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param administration
              *     Formula feeding instruction as structured data
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder administration(Collection<Administration> administration) {
                 this.administration = new ArrayList<>(administration);
@@ -3199,6 +3424,22 @@ public class NutritionOrder extends DomainResource {
              */
             public Builder maxVolumeToDeliver(SimpleQuantity maxVolumeToDeliver) {
                 this.maxVolumeToDeliver = maxVolumeToDeliver;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code administrationInstruction}.
+             * 
+             * @param administrationInstruction
+             *     Formula feeding instructions expressed as text
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #administrationInstruction(com.ibm.fhir.model.type.String)
+             */
+            public Builder administrationInstruction(java.lang.String administrationInstruction) {
+                this.administrationInstruction = (administrationInstruction == null) ? null : String.of(administrationInstruction);
                 return this;
             }
 
@@ -3296,7 +3537,7 @@ public class NutritionOrder extends DomainResource {
              * The rate of administration of formula via a feeding pump, e.g. 60 mL per hour, according to the specified schedule.
              * 
              * @return
-             *     An immutable object of type {@link Element} that may be null.
+             *     An immutable object of type {@link SimpleQuantity} or {@link Ratio} that may be null.
              */
             public Element getRate() {
                 return rate;
@@ -3402,7 +3643,8 @@ public class NutritionOrder extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -3421,13 +3663,17 @@ public class NutritionOrder extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -3445,7 +3691,8 @@ public class NutritionOrder extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3469,13 +3716,17 @@ public class NutritionOrder extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {

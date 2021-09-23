@@ -114,7 +114,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
 
         // create a copy of the patient and update it using the model API
         Patient.Builder patientBuilder = patient.toBuilder();
-        patientBuilder.active(null);
+        patientBuilder.active((Boolean)null);
 
         JsonArray array = Json.createPatchBuilder()
                 .remove("/active")
@@ -150,7 +150,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
 
         // create a copy of the patient and update it using the model API
         Patient.Builder patientBuilder = patient.toBuilder();
-        patientBuilder.active(null);
+        patientBuilder.active((Boolean)null);
 
         JsonArray array = Json.createPatchBuilder()
                 .remove("/active")
@@ -183,7 +183,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
 
         // create a copy of the patient and update it using the model API
         Patient.Builder patientBuilder = patient.toBuilder();
-        patientBuilder.active(null);
+        patientBuilder.active((Boolean)null);
 
         JsonArray array = Json.createArrayBuilder()
                 .add(Json.createObjectBuilder()
@@ -212,7 +212,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
 
         // create a copy of the patient and update it using the model API
         Patient.Builder patientBuilder = patient.toBuilder();
-        patientBuilder.active(null);
+        patientBuilder.active((Boolean)null);
 
         JsonArray array = Json.createArrayBuilder()
                 .add(Json.createObjectBuilder()
@@ -241,7 +241,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
 
         // create a copy of the patient and update it using the model API
         Patient.Builder patientBuilder = patient.toBuilder();
-        patientBuilder.active(null);
+        patientBuilder.active((Boolean)null);
 
         // https://datatracker.ietf.org/doc/html/rfc6902#section-4.5
         // ‘[{“op”:“copy”,“from”:“/name/0/given/0",“path”:“/name/0/given/1"}]
@@ -273,7 +273,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
 
         // create a copy of the patient and update it using the model API
         Patient.Builder patientBuilder = patient.toBuilder();
-        patientBuilder.active(null);
+        patientBuilder.active((Boolean)null);
 
         // https://datatracker.ietf.org/doc/html/rfc6902#section-4.5
         // ‘[{“op”:“copy”,“from”:“/name/0/given/0",“path”:“/name/0/given/1"}]
@@ -312,7 +312,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
 
         // create a copy of the patient and update it using the model API
         Patient.Builder patientBuilder = patient.toBuilder();
-        patientBuilder.active(null);
+        patientBuilder.active((Boolean)null);
 
         // https://datatracker.ietf.org/doc/html/rfc6902#section-4.4
         // [{“op”:“move”,“from”:“/name/0/given/0",“path”:“/name/0/given/1"}]
@@ -357,7 +357,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
 
         // create a copy of the patient and update it using the model API
         Patient.Builder patientBuilder = patient.toBuilder();
-        patientBuilder.active(null);
+        patientBuilder.active((Boolean)null);
 
         // https://datatracker.ietf.org/doc/html/rfc6902#section-4.4
         // [{“op”:“move”,“from”:“/name/0/given/0",“path”:“/name/0/given/4"}]
@@ -389,7 +389,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
 
         // create a copy of the patient and update it using the model API
         Patient.Builder patientBuilder = patient.toBuilder();
-        patientBuilder.active(null);
+        patientBuilder.active((Boolean)null);
 
         // https://datatracker.ietf.org/doc/html/rfc6902#section-4.6
         // [{"op":"test","path":"/name/0/given/0","value":"Jack"}]
@@ -427,7 +427,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
 
         // create a copy of the patient and update it using the model API
         Patient.Builder patientBuilder = patient.toBuilder();
-        patientBuilder.active(null);
+        patientBuilder.active((Boolean)null);
 
         // https://datatracker.ietf.org/doc/html/rfc6902#section-4.6
         // [{"op":"test","path":"/name/0/given/0","value":"Jack"}]
@@ -710,7 +710,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
 
         // create a copy of the patient and update it using the model API
         Patient.Builder patientBuilder = patient.toBuilder();
-        patientBuilder.active(null);
+        patientBuilder.active((Boolean)null);
 
         Parameters patch = Parameters.builder()
                 .parameter(Parameter.builder()

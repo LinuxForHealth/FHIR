@@ -16,6 +16,7 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.model.patch.exception.FHIRPatchException;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.type.Boolean;
+import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.HumanName;
 import com.ibm.fhir.path.util.FHIRPathUtil;
 
@@ -149,7 +150,7 @@ public class FHIRPathUtilTest {
                 .build();
 
         Patient builderPatient = patient.toBuilder()
-                .deceased(null)
+                .deceased((Element)null)
                 .name(Collections.emptySet())
                 .build();
 

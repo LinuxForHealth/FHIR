@@ -389,7 +389,8 @@ public class AppointmentResponse extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -406,13 +407,17 @@ public class AppointmentResponse extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -425,7 +430,8 @@ public class AppointmentResponse extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -444,13 +450,17 @@ public class AppointmentResponse extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -468,7 +478,8 @@ public class AppointmentResponse extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -492,13 +503,17 @@ public class AppointmentResponse extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -509,7 +524,8 @@ public class AppointmentResponse extends DomainResource {
          * This records identifiers associated with this appointment response concern that are defined by business processes and/ 
          * or used to refer to it when a direct URL reference to the resource itself is not appropriate.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     External Ids for this item
@@ -528,13 +544,17 @@ public class AppointmentResponse extends DomainResource {
          * This records identifiers associated with this appointment response concern that are defined by business processes and/ 
          * or used to refer to it when a direct URL reference to the resource itself is not appropriate.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     External Ids for this item
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder identifier(Collection<Identifier> identifier) {
             this.identifier = new ArrayList<>(identifier);
@@ -563,6 +583,22 @@ public class AppointmentResponse extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code start}.
+         * 
+         * @param start
+         *     Time from appointment, or requested new start time
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #start(com.ibm.fhir.model.type.Instant)
+         */
+        public Builder start(java.time.ZonedDateTime start) {
+            this.start = (start == null) ? null : Instant.of(start);
+            return this;
+        }
+
+        /**
          * Date/Time that the appointment is to take place, or requested new start time.
          * 
          * @param start
@@ -573,6 +609,22 @@ public class AppointmentResponse extends DomainResource {
          */
         public Builder start(Instant start) {
             this.start = start;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code end}.
+         * 
+         * @param end
+         *     Time from appointment, or requested new end time
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #end(com.ibm.fhir.model.type.Instant)
+         */
+        public Builder end(java.time.ZonedDateTime end) {
+            this.end = (end == null) ? null : Instant.of(end);
             return this;
         }
 
@@ -594,7 +646,8 @@ public class AppointmentResponse extends DomainResource {
         /**
          * Role of participant in the appointment.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param participantType
          *     Role of participant in the appointment
@@ -612,13 +665,17 @@ public class AppointmentResponse extends DomainResource {
         /**
          * Role of participant in the appointment.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param participantType
          *     Role of participant in the appointment
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder participantType(Collection<CodeableConcept> participantType) {
             this.participantType = new ArrayList<>(participantType);
@@ -665,6 +722,22 @@ public class AppointmentResponse extends DomainResource {
          */
         public Builder participantStatus(ParticipantStatus participantStatus) {
             this.participantStatus = participantStatus;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code comment}.
+         * 
+         * @param comment
+         *     Additional comments
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #comment(com.ibm.fhir.model.type.String)
+         */
+        public Builder comment(java.lang.String comment) {
+            this.comment = (comment == null) ? null : String.of(comment);
             return this;
         }
 

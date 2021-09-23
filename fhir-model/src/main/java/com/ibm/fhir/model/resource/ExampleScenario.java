@@ -562,7 +562,8 @@ public class ExampleScenario extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -579,13 +580,17 @@ public class ExampleScenario extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -598,7 +603,8 @@ public class ExampleScenario extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -617,13 +623,17 @@ public class ExampleScenario extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -641,7 +651,8 @@ public class ExampleScenario extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -665,13 +676,17 @@ public class ExampleScenario extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -699,7 +714,8 @@ public class ExampleScenario extends DomainResource {
          * A formal identifier that is used to identify this example scenario when it is represented in other formats, or 
          * referenced in a specification, model, design or an instance.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Additional identifier for the example scenario
@@ -718,16 +734,36 @@ public class ExampleScenario extends DomainResource {
          * A formal identifier that is used to identify this example scenario when it is represented in other formats, or 
          * referenced in a specification, model, design or an instance.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Additional identifier for the example scenario
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder identifier(Collection<Identifier> identifier) {
             this.identifier = new ArrayList<>(identifier);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code version}.
+         * 
+         * @param version
+         *     Business version of the example scenario
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #version(com.ibm.fhir.model.type.String)
+         */
+        public Builder version(java.lang.String version) {
+            this.version = (version == null) ? null : String.of(version);
             return this;
         }
 
@@ -745,6 +781,22 @@ public class ExampleScenario extends DomainResource {
          */
         public Builder version(String version) {
             this.version = version;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code name}.
+         * 
+         * @param name
+         *     Name for this example scenario (computer friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #name(com.ibm.fhir.model.type.String)
+         */
+        public Builder name(java.lang.String name) {
+            this.name = (name == null) ? null : String.of(name);
             return this;
         }
 
@@ -780,6 +832,22 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code experimental}.
+         * 
+         * @param experimental
+         *     For testing purposes, not real usage
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #experimental(com.ibm.fhir.model.type.Boolean)
+         */
+        public Builder experimental(java.lang.Boolean experimental) {
+            this.experimental = (experimental == null) ? null : Boolean.of(experimental);
+            return this;
+        }
+
+        /**
          * A Boolean value to indicate that this example scenario is authored for testing purposes (or 
          * education/evaluation/marketing) and is not intended to be used for genuine usage.
          * 
@@ -811,6 +879,22 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code publisher}.
+         * 
+         * @param publisher
+         *     Name of the publisher (organization or individual)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #publisher(com.ibm.fhir.model.type.String)
+         */
+        public Builder publisher(java.lang.String publisher) {
+            this.publisher = (publisher == null) ? null : String.of(publisher);
+            return this;
+        }
+
+        /**
          * The name of the organization or individual that published the example scenario.
          * 
          * @param publisher
@@ -827,7 +911,8 @@ public class ExampleScenario extends DomainResource {
         /**
          * Contact details to assist a user in finding and communicating with the publisher.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contact
          *     Contact details for the publisher
@@ -845,13 +930,17 @@ public class ExampleScenario extends DomainResource {
         /**
          * Contact details to assist a user in finding and communicating with the publisher.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contact
          *     Contact details for the publisher
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder contact(Collection<ContactDetail> contact) {
             this.contact = new ArrayList<>(contact);
@@ -863,7 +952,8 @@ public class ExampleScenario extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate example scenario instances.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param useContext
          *     The context that the content is intended to support
@@ -883,13 +973,17 @@ public class ExampleScenario extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate example scenario instances.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param useContext
          *     The context that the content is intended to support
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder useContext(Collection<UsageContext> useContext) {
             this.useContext = new ArrayList<>(useContext);
@@ -899,7 +993,8 @@ public class ExampleScenario extends DomainResource {
         /**
          * A legal or geographic region in which the example scenario is intended to be used.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param jurisdiction
          *     Intended jurisdiction for example scenario (if applicable)
@@ -917,13 +1012,17 @@ public class ExampleScenario extends DomainResource {
         /**
          * A legal or geographic region in which the example scenario is intended to be used.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param jurisdiction
          *     Intended jurisdiction for example scenario (if applicable)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder jurisdiction(Collection<CodeableConcept> jurisdiction) {
             this.jurisdiction = new ArrayList<>(jurisdiction);
@@ -963,7 +1062,8 @@ public class ExampleScenario extends DomainResource {
         /**
          * Actor participating in the resource.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param actor
          *     Actor participating in the resource
@@ -981,13 +1081,17 @@ public class ExampleScenario extends DomainResource {
         /**
          * Actor participating in the resource.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param actor
          *     Actor participating in the resource
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder actor(Collection<Actor> actor) {
             this.actor = new ArrayList<>(actor);
@@ -997,7 +1101,8 @@ public class ExampleScenario extends DomainResource {
         /**
          * Each resource and each version that is present in the workflow.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param instance
          *     Each resource and each version that is present in the workflow
@@ -1015,13 +1120,17 @@ public class ExampleScenario extends DomainResource {
         /**
          * Each resource and each version that is present in the workflow.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param instance
          *     Each resource and each version that is present in the workflow
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder instance(Collection<Instance> instance) {
             this.instance = new ArrayList<>(instance);
@@ -1031,7 +1140,8 @@ public class ExampleScenario extends DomainResource {
         /**
          * Each major process - a group of operations.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param process
          *     Each major process - a group of operations
@@ -1049,13 +1159,17 @@ public class ExampleScenario extends DomainResource {
         /**
          * Each major process - a group of operations.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param process
          *     Each major process - a group of operations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder process(Collection<Process> process) {
             this.process = new ArrayList<>(process);
@@ -1065,7 +1179,8 @@ public class ExampleScenario extends DomainResource {
         /**
          * Another nested workflow.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param workflow
          *     Another nested workflow
@@ -1083,13 +1198,17 @@ public class ExampleScenario extends DomainResource {
         /**
          * Another nested workflow.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param workflow
          *     Another nested workflow
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder workflow(Collection<Canonical> workflow) {
             this.workflow = new ArrayList<>(workflow);
@@ -1324,7 +1443,8 @@ public class ExampleScenario extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1343,13 +1463,17 @@ public class ExampleScenario extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1367,7 +1491,8 @@ public class ExampleScenario extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1391,17 +1516,39 @@ public class ExampleScenario extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting {@code actorId}.
+             * 
+             * <p>This element is required.
+             * 
+             * @param actorId
+             *     ID or acronym of the actor
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #actorId(com.ibm.fhir.model.type.String)
+             */
+            public Builder actorId(java.lang.String actorId) {
+                this.actorId = (actorId == null) ? null : String.of(actorId);
+                return this;
             }
 
             /**
@@ -1433,6 +1580,22 @@ public class ExampleScenario extends DomainResource {
              */
             public Builder type(ExampleScenarioActorType type) {
                 this.type = type;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code name}.
+             * 
+             * @param name
+             *     The name of the actor as shown in the page
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #name(com.ibm.fhir.model.type.String)
+             */
+            public Builder name(java.lang.String name) {
+                this.name = (name == null) ? null : String.of(name);
                 return this;
             }
 
@@ -1709,7 +1872,8 @@ public class ExampleScenario extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1728,13 +1892,17 @@ public class ExampleScenario extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1752,7 +1920,8 @@ public class ExampleScenario extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1776,17 +1945,39 @@ public class ExampleScenario extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting {@code resourceId}.
+             * 
+             * <p>This element is required.
+             * 
+             * @param resourceId
+             *     The id of the resource for referencing
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #resourceId(com.ibm.fhir.model.type.String)
+             */
+            public Builder resourceId(java.lang.String resourceId) {
+                this.resourceId = (resourceId == null) ? null : String.of(resourceId);
+                return this;
             }
 
             /**
@@ -1822,6 +2013,22 @@ public class ExampleScenario extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code name}.
+             * 
+             * @param name
+             *     A short name for the resource instance
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #name(com.ibm.fhir.model.type.String)
+             */
+            public Builder name(java.lang.String name) {
+                this.name = (name == null) ? null : String.of(name);
+                return this;
+            }
+
+            /**
              * A short name for the resource instance.
              * 
              * @param name
@@ -1852,7 +2059,8 @@ public class ExampleScenario extends DomainResource {
             /**
              * A specific version of the resource.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param version
              *     A specific version of the resource
@@ -1870,13 +2078,17 @@ public class ExampleScenario extends DomainResource {
             /**
              * A specific version of the resource.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param version
              *     A specific version of the resource
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder version(Collection<Version> version) {
                 this.version = new ArrayList<>(version);
@@ -1886,7 +2098,8 @@ public class ExampleScenario extends DomainResource {
             /**
              * Resources contained in the instance (e.g. the observations contained in a bundle).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param containedInstance
              *     Resources contained in the instance
@@ -1904,13 +2117,17 @@ public class ExampleScenario extends DomainResource {
             /**
              * Resources contained in the instance (e.g. the observations contained in a bundle).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param containedInstance
              *     Resources contained in the instance
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder containedInstance(Collection<ContainedInstance> containedInstance) {
                 this.containedInstance = new ArrayList<>(containedInstance);
@@ -2091,7 +2308,8 @@ public class ExampleScenario extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2110,13 +2328,17 @@ public class ExampleScenario extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2134,7 +2356,8 @@ public class ExampleScenario extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2158,17 +2381,39 @@ public class ExampleScenario extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
                     return (Builder) super.modifierExtension(modifierExtension);
+                }
+
+                /**
+                 * Convenience method for setting {@code versionId}.
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param versionId
+                 *     The identifier of a specific version of a resource
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #versionId(com.ibm.fhir.model.type.String)
+                 */
+                public Builder versionId(java.lang.String versionId) {
+                    this.versionId = (versionId == null) ? null : String.of(versionId);
+                    return this;
                 }
 
                 /**
@@ -2371,7 +2616,8 @@ public class ExampleScenario extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2390,13 +2636,17 @@ public class ExampleScenario extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2414,7 +2664,8 @@ public class ExampleScenario extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2438,17 +2689,39 @@ public class ExampleScenario extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
                     return (Builder) super.modifierExtension(modifierExtension);
+                }
+
+                /**
+                 * Convenience method for setting {@code resourceId}.
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param resourceId
+                 *     Each resource contained in the instance
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #resourceId(com.ibm.fhir.model.type.String)
+                 */
+                public Builder resourceId(java.lang.String resourceId) {
+                    this.resourceId = (resourceId == null) ? null : String.of(resourceId);
+                    return this;
                 }
 
                 /**
@@ -2464,6 +2737,22 @@ public class ExampleScenario extends DomainResource {
                  */
                 public Builder resourceId(String resourceId) {
                     this.resourceId = resourceId;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code versionId}.
+                 * 
+                 * @param versionId
+                 *     A specific version of a resource contained in the instance
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #versionId(com.ibm.fhir.model.type.String)
+                 */
+                public Builder versionId(java.lang.String versionId) {
+                    this.versionId = (versionId == null) ? null : String.of(versionId);
                     return this;
                 }
 
@@ -2700,7 +2989,8 @@ public class ExampleScenario extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2719,13 +3009,17 @@ public class ExampleScenario extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2743,7 +3037,8 @@ public class ExampleScenario extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2767,17 +3062,39 @@ public class ExampleScenario extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting {@code title}.
+             * 
+             * <p>This element is required.
+             * 
+             * @param title
+             *     The diagram title of the group of operations
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #title(com.ibm.fhir.model.type.String)
+             */
+            public Builder title(java.lang.String title) {
+                this.title = (title == null) ? null : String.of(title);
+                return this;
             }
 
             /**
@@ -2841,7 +3158,8 @@ public class ExampleScenario extends DomainResource {
             /**
              * Each step of the process.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param step
              *     Each step of the process
@@ -2859,13 +3177,17 @@ public class ExampleScenario extends DomainResource {
             /**
              * Each step of the process.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param step
              *     Each step of the process
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder step(Collection<Step> step) {
                 this.step = new ArrayList<>(step);
@@ -3075,7 +3397,8 @@ public class ExampleScenario extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -3094,13 +3417,17 @@ public class ExampleScenario extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -3118,7 +3445,8 @@ public class ExampleScenario extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3142,13 +3470,17 @@ public class ExampleScenario extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3158,7 +3490,8 @@ public class ExampleScenario extends DomainResource {
                 /**
                  * Nested process.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param process
                  *     Nested process
@@ -3176,16 +3509,36 @@ public class ExampleScenario extends DomainResource {
                 /**
                  * Nested process.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param process
                  *     Nested process
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder process(Collection<ExampleScenario.Process> process) {
                     this.process = new ArrayList<>(process);
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code pause}.
+                 * 
+                 * @param pause
+                 *     If there is a pause in the flow
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #pause(com.ibm.fhir.model.type.Boolean)
+                 */
+                public Builder pause(java.lang.Boolean pause) {
+                    this.pause = (pause == null) ? null : Boolean.of(pause);
                     return this;
                 }
 
@@ -3221,7 +3574,8 @@ public class ExampleScenario extends DomainResource {
                  * Indicates an alternative step that can be taken instead of the operations on the base step in exceptional/atypical 
                  * circumstances.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param alternative
                  *     Alternate non-typical step action
@@ -3240,13 +3594,17 @@ public class ExampleScenario extends DomainResource {
                  * Indicates an alternative step that can be taken instead of the operations on the base step in exceptional/atypical 
                  * circumstances.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param alternative
                  *     Alternate non-typical step action
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder alternative(Collection<Alternative> alternative) {
                     this.alternative = new ArrayList<>(alternative);
@@ -3552,7 +3910,8 @@ public class ExampleScenario extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -3571,13 +3930,17 @@ public class ExampleScenario extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     @Override
                     public Builder extension(Collection<Extension> extension) {
@@ -3595,7 +3958,8 @@ public class ExampleScenario extends DomainResource {
                      * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -3619,17 +3983,39 @@ public class ExampleScenario extends DomainResource {
                      * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
                         return (Builder) super.modifierExtension(modifierExtension);
+                    }
+
+                    /**
+                     * Convenience method for setting {@code number}.
+                     * 
+                     * <p>This element is required.
+                     * 
+                     * @param number
+                     *     The sequential number of the interaction
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #number(com.ibm.fhir.model.type.String)
+                     */
+                    public Builder number(java.lang.String number) {
+                        this.number = (number == null) ? null : String.of(number);
+                        return this;
                     }
 
                     /**
@@ -3649,6 +4035,22 @@ public class ExampleScenario extends DomainResource {
                     }
 
                     /**
+                     * Convenience method for setting {@code type}.
+                     * 
+                     * @param type
+                     *     The type of operation - CRUD
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #type(com.ibm.fhir.model.type.String)
+                     */
+                    public Builder type(java.lang.String type) {
+                        this.type = (type == null) ? null : String.of(type);
+                        return this;
+                    }
+
+                    /**
                      * The type of operation - CRUD.
                      * 
                      * @param type
@@ -3659,6 +4061,22 @@ public class ExampleScenario extends DomainResource {
                      */
                     public Builder type(String type) {
                         this.type = type;
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting {@code name}.
+                     * 
+                     * @param name
+                     *     The human-friendly name of the interaction
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #name(com.ibm.fhir.model.type.String)
+                     */
+                    public Builder name(java.lang.String name) {
+                        this.name = (name == null) ? null : String.of(name);
                         return this;
                     }
 
@@ -3677,6 +4095,22 @@ public class ExampleScenario extends DomainResource {
                     }
 
                     /**
+                     * Convenience method for setting {@code initiator}.
+                     * 
+                     * @param initiator
+                     *     Who starts the transaction
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #initiator(com.ibm.fhir.model.type.String)
+                     */
+                    public Builder initiator(java.lang.String initiator) {
+                        this.initiator = (initiator == null) ? null : String.of(initiator);
+                        return this;
+                    }
+
+                    /**
                      * Who starts the transaction.
                      * 
                      * @param initiator
@@ -3687,6 +4121,22 @@ public class ExampleScenario extends DomainResource {
                      */
                     public Builder initiator(String initiator) {
                         this.initiator = initiator;
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting {@code receiver}.
+                     * 
+                     * @param receiver
+                     *     Who receives the transaction
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #receiver(com.ibm.fhir.model.type.String)
+                     */
+                    public Builder receiver(java.lang.String receiver) {
+                        this.receiver = (receiver == null) ? null : String.of(receiver);
                         return this;
                     }
 
@@ -3719,6 +4169,22 @@ public class ExampleScenario extends DomainResource {
                     }
 
                     /**
+                     * Convenience method for setting {@code initiatorActive}.
+                     * 
+                     * @param initiatorActive
+                     *     Whether the initiator is deactivated right after the transaction
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #initiatorActive(com.ibm.fhir.model.type.Boolean)
+                     */
+                    public Builder initiatorActive(java.lang.Boolean initiatorActive) {
+                        this.initiatorActive = (initiatorActive == null) ? null : Boolean.of(initiatorActive);
+                        return this;
+                    }
+
+                    /**
                      * Whether the initiator is deactivated right after the transaction.
                      * 
                      * @param initiatorActive
@@ -3729,6 +4195,22 @@ public class ExampleScenario extends DomainResource {
                      */
                     public Builder initiatorActive(Boolean initiatorActive) {
                         this.initiatorActive = initiatorActive;
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting {@code receiverActive}.
+                     * 
+                     * @param receiverActive
+                     *     Whether the receiver is deactivated right after the transaction
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #receiverActive(com.ibm.fhir.model.type.Boolean)
+                     */
+                    public Builder receiverActive(java.lang.Boolean receiverActive) {
+                        this.receiverActive = (receiverActive == null) ? null : Boolean.of(receiverActive);
                         return this;
                     }
 
@@ -3967,7 +4449,8 @@ public class ExampleScenario extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -3986,13 +4469,17 @@ public class ExampleScenario extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     @Override
                     public Builder extension(Collection<Extension> extension) {
@@ -4010,7 +4497,8 @@ public class ExampleScenario extends DomainResource {
                      * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -4034,17 +4522,39 @@ public class ExampleScenario extends DomainResource {
                      * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
                         return (Builder) super.modifierExtension(modifierExtension);
+                    }
+
+                    /**
+                     * Convenience method for setting {@code title}.
+                     * 
+                     * <p>This element is required.
+                     * 
+                     * @param title
+                     *     Label for alternative
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #title(com.ibm.fhir.model.type.String)
+                     */
+                    public Builder title(java.lang.String title) {
+                        this.title = (title == null) ? null : String.of(title);
+                        return this;
                     }
 
                     /**
@@ -4081,7 +4591,8 @@ public class ExampleScenario extends DomainResource {
                     /**
                      * What happens in each alternative option.
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param step
                      *     What happens in each alternative option
@@ -4099,13 +4610,17 @@ public class ExampleScenario extends DomainResource {
                     /**
                      * What happens in each alternative option.
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param step
                      *     What happens in each alternative option
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     public Builder step(Collection<ExampleScenario.Process.Step> step) {
                         this.step = new ArrayList<>(step);

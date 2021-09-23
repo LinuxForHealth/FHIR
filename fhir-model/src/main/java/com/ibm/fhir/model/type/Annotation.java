@@ -44,7 +44,7 @@ public class Annotation extends Element {
      * The individual responsible for making the annotation.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Reference} or {@link String} that may be null.
      */
     public Element getAuthor() {
         return author;
@@ -167,7 +167,8 @@ public class Annotation extends Element {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -186,17 +187,37 @@ public class Annotation extends Element {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
             return (Builder) super.extension(extension);
+        }
+
+        /**
+         * Convenience method for setting {@code author} with choice type String.
+         * 
+         * @param author
+         *     Individual responsible for the annotation
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #author(Element)
+         */
+        public Builder author(java.lang.String author) {
+            this.author = (author == null) ? null : String.of(author);
+            return this;
         }
 
         /**

@@ -296,7 +296,7 @@ public class MedicationRequest extends DomainResource {
      * truth record. It may also indicate the source of the report.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Boolean} or {@link Reference} that may be null.
      */
     public Element getReported() {
         return reported;
@@ -308,7 +308,7 @@ public class MedicationRequest extends DomainResource {
      * of medications.
      * 
      * @return
-     *     An immutable object of type {@link Element} that is non-null.
+     *     An immutable object of type {@link CodeableConcept} or {@link Reference} that is non-null.
      */
     public Element getMedication() {
         return medication;
@@ -876,7 +876,8 @@ public class MedicationRequest extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -893,13 +894,17 @@ public class MedicationRequest extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -912,7 +917,8 @@ public class MedicationRequest extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -931,13 +937,17 @@ public class MedicationRequest extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -955,7 +965,8 @@ public class MedicationRequest extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -979,13 +990,17 @@ public class MedicationRequest extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -998,7 +1013,8 @@ public class MedicationRequest extends DomainResource {
          * resource by the performer or other systems and remain constant as the resource is updated and propagates from server 
          * to server.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     External ids for this request
@@ -1019,13 +1035,17 @@ public class MedicationRequest extends DomainResource {
          * resource by the performer or other systems and remain constant as the resource is updated and propagates from server 
          * to server.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     External ids for this request
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder identifier(Collection<Identifier> identifier) {
             this.identifier = new ArrayList<>(identifier);
@@ -1082,7 +1102,8 @@ public class MedicationRequest extends DomainResource {
          * Indicates the type of medication request (for example, where the medication is expected to be consumed or administered 
          * (i.e. inpatient or outpatient)).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param category
          *     Type of medication usage
@@ -1101,13 +1122,17 @@ public class MedicationRequest extends DomainResource {
          * Indicates the type of medication request (for example, where the medication is expected to be consumed or administered 
          * (i.e. inpatient or outpatient)).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param category
          *     Type of medication usage
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder category(Collection<CodeableConcept> category) {
             this.category = new ArrayList<>(category);
@@ -1129,6 +1154,22 @@ public class MedicationRequest extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code doNotPerform}.
+         * 
+         * @param doNotPerform
+         *     True if request is prohibiting action
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #doNotPerform(com.ibm.fhir.model.type.Boolean)
+         */
+        public Builder doNotPerform(java.lang.Boolean doNotPerform) {
+            this.doNotPerform = (doNotPerform == null) ? null : Boolean.of(doNotPerform);
+            return this;
+        }
+
+        /**
          * If true indicates that the provider is asking for the medication request not to occur.
          * 
          * @param doNotPerform
@@ -1139,6 +1180,22 @@ public class MedicationRequest extends DomainResource {
          */
         public Builder doNotPerform(Boolean doNotPerform) {
             this.doNotPerform = doNotPerform;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code reported} with choice type Boolean.
+         * 
+         * @param reported
+         *     Reported rather than primary record
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #reported(Element)
+         */
+        public Builder reported(java.lang.Boolean reported) {
+            this.reported = (reported == null) ? null : Boolean.of(reported);
             return this;
         }
 
@@ -1245,7 +1302,8 @@ public class MedicationRequest extends DomainResource {
         /**
          * Include additional information (for example, patient height and weight) that supports the ordering of the medication.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param supportingInformation
          *     Information to support ordering of the medication
@@ -1263,13 +1321,17 @@ public class MedicationRequest extends DomainResource {
         /**
          * Include additional information (for example, patient height and weight) that supports the ordering of the medication.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param supportingInformation
          *     Information to support ordering of the medication
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder supportingInformation(Collection<Reference> supportingInformation) {
             this.supportingInformation = new ArrayList<>(supportingInformation);
@@ -1377,7 +1439,8 @@ public class MedicationRequest extends DomainResource {
         /**
          * The reason or the indication for ordering or not ordering the medication.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param reasonCode
          *     Reason or indication for ordering or not ordering the medication
@@ -1395,13 +1458,17 @@ public class MedicationRequest extends DomainResource {
         /**
          * The reason or the indication for ordering or not ordering the medication.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param reasonCode
          *     Reason or indication for ordering or not ordering the medication
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder reasonCode(Collection<CodeableConcept> reasonCode) {
             this.reasonCode = new ArrayList<>(reasonCode);
@@ -1411,7 +1478,8 @@ public class MedicationRequest extends DomainResource {
         /**
          * Condition or observation that supports why the medication was ordered.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1435,7 +1503,8 @@ public class MedicationRequest extends DomainResource {
         /**
          * Condition or observation that supports why the medication was ordered.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1448,6 +1517,9 @@ public class MedicationRequest extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder reasonReference(Collection<Reference> reasonReference) {
             this.reasonReference = new ArrayList<>(reasonReference);
@@ -1458,7 +1530,8 @@ public class MedicationRequest extends DomainResource {
          * The URL pointing to a protocol, guideline, orderset, or other definition that is adhered to in whole or in part by 
          * this MedicationRequest.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param instantiatesCanonical
          *     Instantiates FHIR protocol or definition
@@ -1477,13 +1550,17 @@ public class MedicationRequest extends DomainResource {
          * The URL pointing to a protocol, guideline, orderset, or other definition that is adhered to in whole or in part by 
          * this MedicationRequest.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param instantiatesCanonical
          *     Instantiates FHIR protocol or definition
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder instantiatesCanonical(Collection<Canonical> instantiatesCanonical) {
             this.instantiatesCanonical = new ArrayList<>(instantiatesCanonical);
@@ -1494,7 +1571,8 @@ public class MedicationRequest extends DomainResource {
          * The URL pointing to an externally maintained protocol, guideline, orderset or other definition that is adhered to in 
          * whole or in part by this MedicationRequest.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param instantiatesUri
          *     Instantiates external protocol or definition
@@ -1513,13 +1591,17 @@ public class MedicationRequest extends DomainResource {
          * The URL pointing to an externally maintained protocol, guideline, orderset or other definition that is adhered to in 
          * whole or in part by this MedicationRequest.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param instantiatesUri
          *     Instantiates external protocol or definition
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder instantiatesUri(Collection<Uri> instantiatesUri) {
             this.instantiatesUri = new ArrayList<>(instantiatesUri);
@@ -1529,7 +1611,8 @@ public class MedicationRequest extends DomainResource {
         /**
          * A plan or request that is fulfilled in whole or in part by this medication request.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1555,7 +1638,8 @@ public class MedicationRequest extends DomainResource {
         /**
          * A plan or request that is fulfilled in whole or in part by this medication request.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1570,6 +1654,9 @@ public class MedicationRequest extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder basedOn(Collection<Reference> basedOn) {
             this.basedOn = new ArrayList<>(basedOn);
@@ -1609,7 +1696,8 @@ public class MedicationRequest extends DomainResource {
          * Insurance plans, coverage extensions, pre-authorizations and/or pre-determinations that may be required for delivering 
          * the requested service.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1634,7 +1722,8 @@ public class MedicationRequest extends DomainResource {
          * Insurance plans, coverage extensions, pre-authorizations and/or pre-determinations that may be required for delivering 
          * the requested service.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1647,6 +1736,9 @@ public class MedicationRequest extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder insurance(Collection<Reference> insurance) {
             this.insurance = new ArrayList<>(insurance);
@@ -1656,7 +1748,8 @@ public class MedicationRequest extends DomainResource {
         /**
          * Extra information about the prescription that could not be conveyed by the other attributes.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param note
          *     Information about the prescription
@@ -1674,13 +1767,17 @@ public class MedicationRequest extends DomainResource {
         /**
          * Extra information about the prescription that could not be conveyed by the other attributes.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param note
          *     Information about the prescription
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder note(Collection<Annotation> note) {
             this.note = new ArrayList<>(note);
@@ -1690,7 +1787,8 @@ public class MedicationRequest extends DomainResource {
         /**
          * Indicates how the medication is to be used by the patient.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param dosageInstruction
          *     How the medication should be taken
@@ -1708,13 +1806,17 @@ public class MedicationRequest extends DomainResource {
         /**
          * Indicates how the medication is to be used by the patient.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param dosageInstruction
          *     How the medication should be taken
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder dosageInstruction(Collection<Dosage> dosageInstruction) {
             this.dosageInstruction = new ArrayList<>(dosageInstruction);
@@ -1777,7 +1879,8 @@ public class MedicationRequest extends DomainResource {
          * Indicates an actual or potential clinical issue with or between one or more active or proposed clinical actions for a 
          * patient; e.g. Drug-drug interaction, duplicate therapy, dosage alert etc.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1801,7 +1904,8 @@ public class MedicationRequest extends DomainResource {
          * Indicates an actual or potential clinical issue with or between one or more active or proposed clinical actions for a 
          * patient; e.g. Drug-drug interaction, duplicate therapy, dosage alert etc.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1813,6 +1917,9 @@ public class MedicationRequest extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder detectedIssue(Collection<Reference> detectedIssue) {
             this.detectedIssue = new ArrayList<>(detectedIssue);
@@ -1824,7 +1931,8 @@ public class MedicationRequest extends DomainResource {
          * key state transitions or updates that are likely to be relevant to a user looking at the current version of the 
          * resource.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1849,7 +1957,8 @@ public class MedicationRequest extends DomainResource {
          * key state transitions or updates that are likely to be relevant to a user looking at the current version of the 
          * resource.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1861,6 +1970,9 @@ public class MedicationRequest extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder eventHistory(Collection<Reference> eventHistory) {
             this.eventHistory = new ArrayList<>(eventHistory);
@@ -2187,7 +2299,8 @@ public class MedicationRequest extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2206,13 +2319,17 @@ public class MedicationRequest extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2230,7 +2347,8 @@ public class MedicationRequest extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2254,13 +2372,17 @@ public class MedicationRequest extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2539,7 +2661,8 @@ public class MedicationRequest extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2558,13 +2681,17 @@ public class MedicationRequest extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2582,7 +2709,8 @@ public class MedicationRequest extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2606,13 +2734,17 @@ public class MedicationRequest extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2712,7 +2844,7 @@ public class MedicationRequest extends DomainResource {
          * True if the prescriber allows a different drug to be dispensed from what was prescribed.
          * 
          * @return
-         *     An immutable object of type {@link Element} that is non-null.
+         *     An immutable object of type {@link Boolean} or {@link CodeableConcept} that is non-null.
          */
         public Element getAllowed() {
             return allowed;
@@ -2823,7 +2955,8 @@ public class MedicationRequest extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2842,13 +2975,17 @@ public class MedicationRequest extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2866,7 +3003,8 @@ public class MedicationRequest extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2890,17 +3028,39 @@ public class MedicationRequest extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting {@code allowed} with choice type Boolean.
+             * 
+             * <p>This element is required.
+             * 
+             * @param allowed
+             *     Whether substitution is allowed or not
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #allowed(Element)
+             */
+            public Builder allowed(java.lang.Boolean allowed) {
+                this.allowed = (allowed == null) ? null : Boolean.of(allowed);
+                return this;
             }
 
             /**
