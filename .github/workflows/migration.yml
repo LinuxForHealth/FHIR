@@ -136,7 +136,7 @@ jobs:
             fhir/build/migration/.cache/db.tgz
 
       - name: Gather error logs
-        if: failure()
+        if: always()
         env:
           WORKSPACE: ${{ github.workspace }}
         run: bash fhir/build/common/gather-logs.sh migration ${{matrix.datastore}}
