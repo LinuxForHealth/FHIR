@@ -1,0 +1,39 @@
+kind: Job
+apiVersion: batch/v1
+metadata:
+  name: umls-term-graph-loader
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: umls-term-graph-loader
+        image: alvearie/umls-term-graph-loader:4.9.0
+        imagePullPolicy: Always
+        env:
+        - name: LOAD_UMLS
+          value: "true"
+        - name: LOAD_MAP
+          value: "true"
+        - name: TERM_CONFIG_PROPS
+          value: "conf/janusgraph-cassandra-elasticsearch.properties"
+        - name: TERM_STORAGE_HOSTNAME
+          value: "namespace-k8ssandra-dc1-stargate-service"
+        - name: TERM_STORAGE_USERNAME
+          value: "namespace-k8ssandra-superuser"
+        - name: TERM_STORAGE_PASSWORD
+          value: "password"
+        - name: TERM_INDEX_SEARCH_HOSTNAME
+          value: "elasticsearch"
+        - name: TERM_COS_ENDPOINT
+          value: "https://s3.us-east.cloud-object-storage.appdomain.cloud"
+        - name: TERM_COS_BUCKET_LOCATION
+          value: "us"
+        - name: TERM_COS_SERVICE_CRN
+          value: ""
+        - name: TERM_COS_API_KEY_ID
+          value: ""
+        - name: TERM_COS_AUTH_ENDPOINT
+          value: "https://iam.cloud.ibm.com/identity/token"
+        - name: TERM_COS_BUCKET_NAME
+          value: "fhir-term-graph"

@@ -40,8 +40,7 @@ public interface FHIRTermGraphLoader {
             @Override
             public Options options() {
                 return new Options()
-                    .addRequiredOption("config", null, true, "Configuration properties file")
-                    .addRequiredOption("base", null, true, "UMLS base directory")
+                    .addOption("config", null, true, "Configuration properties file")
                     .addOption("labels", null, true, "labels");
             }
         };
