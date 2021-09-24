@@ -50,7 +50,7 @@ package_logs(){
     if [ -f ${WORKSPACE}/build/${workflow}/${job}/workarea/${job}-test1.log ]
     then
         echo "Move the '${job}' Elements to the output area'"
-        cp -pr build/${workflow}/${job}/workarea/${job}-test*.log ${it_results}
+        cp -pr ${WORKSPACE}/build/${workflow}/${job}/workarea/${job}-test*.log ${it_results}
     fi
 }
 

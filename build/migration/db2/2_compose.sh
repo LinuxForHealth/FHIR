@@ -21,15 +21,15 @@ pre_integration(){
 # setup_docker - setup docker
 setup_docker(){
     pushd $(pwd) > /dev/null 
-    cd ${WORKSPACE}/fhir/build/migration/db2
-    mkdir -p ${WORKSPACE}/fhir/build/migration/db2/workarea/volumes/dist/db
+    cd ${WORKSPACE}/build/migration/db2
+    mkdir -p ${WORKSPACE}/build/migration/db2/workarea/volumes/dist/db
     docker build -t test/fhir-db2 resources/
     popd
 }
 
 # config - update configuration
 config(){
-    DIST="${WORKSPACE}/fhir/build/migration/db2/workarea/volumes/dist"
+    DIST="${WORKSPACE}/build/migration/db2/workarea/volumes/dist"
 
     echo "Create the db volume..."
     mkdir -p ${DIST}/db
@@ -128,7 +128,7 @@ bringup(){
         --allocate-tenant default --tenant-key-file tenant.key --grant-to fhirserver
 
     echo ">>> Set up the derby databases for multidatastore scenarios"
-    DB_LOC="${WORKSPACE}/fhir/build/migration/db2/workarea/volumes/dist/derby"
+    DB_LOC="${WORKSPACE}/build/migration/db2/workarea/volumes/dist/derby"
     mkdir -p ${DB_LOC}
     java -jar ${WORKSPACE}/prev/fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar \
         --db-type derby --prop db.database=${DB_LOC}/fhirDB --prop db.create=Y \
@@ -171,20 +171,6 @@ bringup(){
     echo "Docker container status:"
     docker ps -a
 
-    containerId=$(docker ps -a | grep db2_fhir_1 | cut -d ' ' -f 1)
-    if [[ -z "${containerId}" ]]
-    then
-        echo "Warning: Could not find the fhir container!!!"
-    else
-        echo "fhir container id: ${containerId}"
-
-        # Grab the container's console log
-        docker logs ${containerId} > ${pre_it_logs}/docker-console.txt
-
-        echo "Gathering pre-test server logs from docker container: ${containerId}"
-        docker cp -L ${containerId}:/logs ${pre_it_logs}
-    fi
-
     # Wait until the fhir server is up and running...
     echo "Waiting for fhir-server to complete initialization..."
     healthcheck_url='https://localhost:9443/fhir-server/api/v4/$healthcheck'
@@ -206,6 +192,20 @@ bringup(){
             sleep 30
         fi
     done
+
+    containerId=$(docker ps -a | grep db2_fhir_1 | cut -d ' ' -f 1)
+    if [[ -z "${containerId}" ]]
+    then
+        echo "Warning: Could not find the fhir container!!!"
+    else
+        echo "fhir container id: ${containerId}"
+
+        # Grab the container's console log
+        docker logs ${containerId} > ${pre_it_logs}/docker-console.txt
+
+        echo "Gathering pre-test server logs from docker container: ${containerId}"
+        docker cp -L ${containerId}:/logs ${pre_it_logs}
+    fi
 
     if [ $status -ne 200 ]
     then

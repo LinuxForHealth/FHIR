@@ -69,7 +69,7 @@ java -jar $SCHEMATOOL `
   --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Device,Organization,Location,Encounter,AllergyIntolerance,Observation,Condition,CarePlan,Provenance,Medication,MedicationAdministration,StructureDefinition,ElementDefinition,CodeSystem,ValueSet,Resource `
   --update-schema
 
-# If the Config Exists, let's wipe it outfind
+# If the Config Exists, let's wipe it out
 Write-Host 'Copying configuration to install location'
 $RM_ITEM=[string]$SIT + '\wlp\usr\servers\fhir-server\config'
 If ( Test-Path $RM_ITEM ) {

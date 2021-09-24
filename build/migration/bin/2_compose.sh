@@ -13,10 +13,10 @@ set -x
 startup_database(){
     migration="${1}"
     version="${2}"
-    if [ -f "${WORKSPACE}/fhir/build/migration/${migration}/2_compose.sh" ]
+    if [ -f "${WORKSPACE}/build/migration/${migration}/2_compose.sh" ]
     then
         echo "Running [${migration}] setting up prerequisites"
-        bash ${WORKSPACE}/fhir/build/migration/${migration}/2_compose.sh "${version}"
+        bash ${WORKSPACE}/build/migration/${migration}/2_compose.sh "${version}"
     else
         echo "Docker Compose is not up and running"
         exit 1
@@ -28,7 +28,7 @@ startup_database(){
 pushd $(pwd) > /dev/null
 
 # Change to the release directory
-cd "${WORKSPACE}/fhir"
+cd "${WORKSPACE}"
 
 startup_database "${1}" "${2}"
 

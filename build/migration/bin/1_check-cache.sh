@@ -8,10 +8,10 @@
 
 set -x
 
-if [ -d ~/fhir/build/migration/.cache ]
+if [ -d ~/build/migration/.cache ]
 then
     echo "Listing the files in the cache: "
-    find ~/fhir/build/migration/.cache
+    find ~/build/migration/.cache
 fi
 
 if [ -f "$GITHUB_ENV" ]
@@ -20,21 +20,21 @@ then
     cat "$GITHUB_ENV"
 fi
 
-if [ ! -f ~/fhir/build/migration/.cache/db.tgz ]
+if [ ! -f ~/build/migration/.cache/db.tgz ]
 then
     echo "Skipping as the cached file does not exist"
     echo "migration_skip=false" >> $GITHUB_ENV
     exit 0
 fi
 
-if [ -z ~/fhir/build/migration/.cache/db.tgz ]
+if [ -z ~/build/migration/.cache/db.tgz ]
 then
     echo "The cached file is empty"
     echo "migration_skip=false" >> $GITHUB_ENV
     exit 0
 fi
 
-if [ "$(file ~/fhir/build/migration/.cache/db.tgz | grep -q 'gzip compressed data' && echo yes || echo no)" == "no" ]
+if [ "$(file ~/build/migration/.cache/db.tgz | grep -q 'gzip compressed data' && echo yes || echo no)" == "no" ]
 then
     echo "Invalid tgz format"
     echo "migration_skip=false" >> $GITHUB_ENV
@@ -49,7 +49,7 @@ then
     cat "$GITHUB_ENV"
 fi
 
-mkdir -p ${WORSKPACE}/fhir/build/migration/integration-test-results
+mkdir -p ${WORSKPACE}/build/migration/integration-test-results
 
 # EOF
 ###############################################################################

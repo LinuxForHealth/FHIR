@@ -14,7 +14,7 @@ set -o pipefail
 pushd $(pwd) > /dev/null
 
 # Change to the migration directory
-cd "${WORKSPACE}/fhir/build/migration/${1}/"
+cd "${WORKSPACE}/build/migration/${1}/"
 
 echo "Details for the db.tgz"
 ls -al ../workarea/db.tgz

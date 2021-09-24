@@ -12,10 +12,10 @@ set -o pipefail
 # previous_teardown
 previous_teardown(){
     migration="${1}"
-    if [ -f "${WORKSPACE}/fhir/build/migration/${migration}/3_previous-teardown.sh" ]
+    if [ -f "${WORKSPACE}/build/migration/${migration}/3_previous-teardown.sh" ]
     then
         echo "Running [${migration}] setting setup prerequisites"
-        bash ${WORKSPACE}/fhir/build/migration/${migration}/3_previous-teardown.sh "${1}"
+        bash ${WORKSPACE}/build/migration/${migration}/3_previous-teardown.sh "${1}"
     fi
 }
 
@@ -24,7 +24,7 @@ previous_teardown(){
 pushd $(pwd) > /dev/null
 
 # Change to the migration/bin directory
-cd "${WORKSPACE}/fhir/build/migration/${1}/"
+cd "${WORKSPACE}/build/migration/${1}/"
 
 previous_teardown "${1}"
 

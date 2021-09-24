@@ -6,7 +6,7 @@
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
 
-set +x
+set -ex
 
 # generate_between_tag_changelog - generates the details of the changes between tags
 generate_between_tag_changelog() {
@@ -114,7 +114,6 @@ pick_version() {
 }
 
 ###############################################################################
-cd fhir/
 
 generate_between_tag_changelog
 should_run

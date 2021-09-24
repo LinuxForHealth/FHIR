@@ -22,15 +22,12 @@ jobs:
       - name: Checkout source code for main
         uses: actions/checkout@v2.3.4
         with:
-          path: fhir/
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
-      
+
       - name: Fetch the right branch
         env:
           BASE: ${{ github['base_ref'] }}
         run: |
-          cd fhir/
           git fetch --no-tags --prune --depth=1 origin +refs/heads/${BASE}:refs/remotes/origin/${BASE}
 
       - name: Setup java
@@ -41,12 +38,12 @@ jobs:
       - name: Gather the environment details
         if: always()
         run: |
-          bash fhir/build/common/gather-environment-details.sh
+          bash build/common/gather-environment-details.sh
 
       - name: Determine parameters for environment variables
         env:
           WORKSPACE: ${{ github.workspace }}
-        run: bash fhir/build/migration/bin/0_determine.sh ${{matrix.release}}
+        run: bash build/migration/bin/0_determine.sh ${{matrix.release}}
 
       - name: Restore the cache for the previous version
         if: "!contains(env.migration_skip, 'true')"
@@ -54,7 +51,7 @@ jobs:
         env:
           cache-name: migration-db-${{ matrix.datastore }}-${{ env.migration_branch }}
         with:
-            path: fhir/build/migration/.cache
+            path: build/migration/.cache
             key: ${{ env.cache-name }}-${{ hashFiles('db.tgz') }}
             restore-keys: |
               ${{ env.cache-name }}-${{ hashFiles('db.tgz') }}
@@ -64,7 +61,7 @@ jobs:
         env:
           WORKSPACE: ${{ github.workspace }}
         run: |
-          bash fhir/build/migration/bin/1_check-cache.sh ${{matrix.datastore}}
+          bash build/migration/bin/1_check-cache.sh ${{matrix.datastore}}
 
       - name: Checkout source code for previous
         if: "contains(env.migration_cache, 'false')"
@@ -80,52 +77,52 @@ jobs:
         env:
           WORKSPACE: ${{ github.workspace }}
         run: |
-          bash fhir/build/migration/bin/1_previous-setup.sh ${{matrix.datastore}}
+          bash build/migration/bin/1_previous-setup.sh ${{matrix.datastore}}
 
       - name: Setup docker-compose and database
         if: "contains(env.migration_cache, 'false')"
         env:
           WORKSPACE: ${{ github.workspace }}
         run: |
-          bash fhir/build/migration/bin/2_compose.sh ${{matrix.datastore}} ${{ env.migration_branch }}
+          bash build/migration/bin/2_compose.sh ${{matrix.datastore}} ${{ env.migration_branch }}
 
       - name: Run previous release's Integration Tests
         if: "contains(env.migration_cache, 'false')"
         env:
           WORKSPACE: ${{ github.workspace }}
         run: |
-          bash fhir/build/migration/bin/2_previous-integration-test.sh ${{matrix.datastore}}
-          bash fhir/build/migration/bin/3_previous-teardown.sh ${{matrix.datastore}}
+          bash build/migration/bin/2_previous-integration-test.sh ${{matrix.datastore}}
+          bash build/migration/bin/3_previous-teardown.sh ${{matrix.datastore}}
       
       - name: Setup previous release's cached database
         if: "contains(env.migration_cache, 'true')"
         env:
           WORKSPACE: ${{ github.workspace }}
         run: |
-          bash fhir/build/migration/bin/3_previous-cache-startup.sh ${{matrix.datastore}}
+          bash build/migration/bin/3_previous-cache-startup.sh ${{matrix.datastore}}
 
       - name: Migrate to the current release 
         if: "!contains(env.migration_skip, 'true')"
         env:
           WORKSPACE: ${{ github.workspace }}
         run: |
-          bash fhir/build/migration/bin/4_current-migrate.sh ${{matrix.datastore}}
+          bash build/migration/bin/4_current-migrate.sh ${{matrix.datastore}}
 
       - name: Run LATEST Integration Tests
         if: "!contains(env.migration_skip, 'true')"
         env:
           WORKSPACE: ${{ github.workspace }}
         run: |
-          bash fhir/build/migration/bin/5_current-pre-integration-test.sh ${{matrix.datastore}} ${{ env.migration_branch }}
-          bash fhir/build/migration/bin/6_current-reindex.sh ${{matrix.datastore}}
-          bash fhir/build/migration/bin/7_current-integration-test.sh ${{matrix.datastore}}
+          bash build/migration/bin/5_current-pre-integration-test.sh ${{matrix.datastore}} ${{ env.migration_branch }}
+          bash build/migration/bin/6_current-reindex.sh ${{matrix.datastore}}
+          bash build/migration/bin/7_current-integration-test.sh ${{matrix.datastore}}
 
       - name: Teardown and cleanup
         if: "!contains(env.migration_skip, 'true')"
         env:
           WORKSPACE: ${{ github.workspace }}
         run: |
-          bash fhir/build/migration/bin/8_teardown.sh ${{matrix.datastore}}
+          bash build/migration/bin/8_teardown.sh ${{matrix.datastore}}
 
       - name: Cache the Database
         if: "contains(env.migration_cache, 'false') && contains(env.migration_skip, 'false')"
@@ -133,17 +130,17 @@ jobs:
         with:
           key: migration-db-${{ matrix.datastore }}-${{ env.migration_branch }}
           path: | 
-            fhir/build/migration/.cache/db.tgz
+            build/migration/.cache/db.tgz
 
       - name: Gather error logs
-        if: failure()
+        if: always()
         env:
           WORKSPACE: ${{ github.workspace }}
-        run: bash fhir/build/common/gather-logs.sh migration ${{matrix.datastore}}
+        run: bash build/common/gather-logs.sh migration ${{matrix.datastore}}
 
       - name: Upload logs
         if: always()
         uses: actions/upload-artifact@v2.2.0
         with:
           name: integration-test-results-${{ matrix.datastore }}-${{ matrix.release }}
-          path: fhir/build/migration/integration-test-results
+          path: build/migration/integration-test-results

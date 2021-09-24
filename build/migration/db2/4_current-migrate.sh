@@ -16,7 +16,7 @@ set -o pipefail
 pushd $(pwd) > /dev/null
 
 # Change to the migration/bin directory
-cd "${WORKSPACE}/fhir/build/migration/db2"
+cd "${WORKSPACE}/build/migration/db2"
 
 # Startup db
 docker-compose up --remove-orphans -d db
@@ -42,27 +42,27 @@ done
 
 echo ">>> Persistence >>> current is being run"
 echo 'change-password' > tenant.key
-java -jar ${WORKSPACE}/fhir/fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar \
+java -jar ${WORKSPACE}/fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar \
     --db-type db2 --prop db.host=localhost --prop db.port=50000 --prop db.database=fhirdb \
     --prop user=db2inst1 --prop password=change-password \
     --update-schema --grant-to fhirserver
 
 echo ">>> Set up the derby databases for multidatastore scenarios"
-DB_LOC="${WORKSPACE}/fhir/build/migration/db2/workarea/volumes/dist/derby"
-rm -rf ${WORKSPACE}/fhir/build/migration/db2/workarea/volumes/dist/derby
+DB_LOC="${WORKSPACE}/build/migration/db2/workarea/volumes/dist/derby"
+rm -rf ${WORKSPACE}/build/migration/db2/workarea/volumes/dist/derby
 mkdir -p ${DB_LOC}
-java -jar ${WORKSPACE}/fhir/fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar \
+java -jar ${WORKSPACE}/fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar \
     --db-type derby --prop db.database=${DB_LOC}/fhirDB --prop db.create=Y \
     --update-schema
-java -jar ${WORKSPACE}/fhir/fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar \
+java -jar ${WORKSPACE}/fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar \
     --db-type derby --prop db.database=${DB_LOC}/profile --prop db.create=Y \
     --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Person,RelatedPerson,Organization,Location,Observation,MedicationAdministration,StructureDefinition,ElementDefinition,CodeSystem,ValueSet,Resource \
     --update-schema
-java -jar ${WORKSPACE}/fhir/fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar \
+java -jar ${WORKSPACE}/fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar \
     --db-type derby --prop db.database=${DB_LOC}/reference --prop db.create=Y \
     --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Device,Organization,Location,Medication,Observation,MedicationAdministration,StructureDefinition,ElementDefinition,CodeSystem,ValueSet,Resource \
     --update-schema
-java -jar ${WORKSPACE}/fhir/fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar \
+java -jar ${WORKSPACE}/fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar \
     --db-type derby --prop db.database=${DB_LOC}/study1 --prop db.create=Y \
     --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Device,Organization,Location,Encounter,AllergyIntolerance,Observation,Condition,CarePlan,Provenance,Medication,MedicationAdministration,StructureDefinition,ElementDefinition,CodeSystem,ValueSet,Resource \
     --update-schema

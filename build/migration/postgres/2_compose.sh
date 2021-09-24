@@ -21,15 +21,15 @@ pre_integration(){
 # setup_docker - setup docker
 setup_docker(){
     pushd $(pwd) > /dev/null 
-    cd ${WORKSPACE}/fhir/build/migration/postgres
-    mkdir -p ${WORKSPACE}/fhir/build/migration/postgres/workarea/volumes/dist/db
+    cd ${WORKSPACE}/build/migration/postgres
+    mkdir -p ${WORKSPACE}/build/migration/postgres/workarea/volumes/dist/db
     docker build -t test/fhir-postgres:snapshot .
     popd
 }
 
 # config - update configuration
 config(){
-    DIST="${WORKSPACE}/fhir/build/migration/postgres/workarea/volumes/dist"
+    DIST="${WORKSPACE}/build/migration/postgres/workarea/volumes/dist"
 
     echo "Create the db volumes..."
     mkdir -p ${DIST}/db
@@ -92,8 +92,8 @@ bringup(){
     # In order not to hit this after packaging everything up,w e want to run this before we start up the db.
     # waiting for server to start....2021-07-16 20:42:03.136 UTC [9] FATAL:  data directory "/db/data" has invalid permissions
     # 2021-07-16 20:42:03.136 UTC [9] DETAIL:  Permissions should be u=rwx (0700) or u=rwx,g=rx (0750).
-    sudo chown -R 70:70 ${WORKSPACE}/fhir/build/migration/postgres/workarea/volumes/dist/db
-    sudo chmod -R 0750 ${WORKSPACE}/fhir/build/migration/postgres/workarea/volumes/dist/db
+    sudo chown -R 70:70 ${WORKSPACE}/build/migration/postgres/workarea/volumes/dist/db
+    sudo chmod -R 0750 ${WORKSPACE}/build/migration/postgres/workarea/volumes/dist/db
 
     export IMAGE_VERSION="${PREVIOUS_VERSION}"
     IMAGE_VERSION="${PREVIOUS_VERSION}" docker-compose build
@@ -140,7 +140,7 @@ bringup(){
         --schema-name FHIRDATA --grant-to FHIRSERVER --pool-size 1
 
     echo ">>> Set up the derby databases for multidatastore scenarios"
-    DB_LOC="${WORKSPACE}/fhir/build/migration/postgres/workarea/volumes/dist/derby"
+    DB_LOC="${WORKSPACE}/build/migration/postgres/workarea/volumes/dist/derby"
     mkdir -p ${DB_LOC}
     java -jar ${WORKSPACE}/prev/fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar \
         --db-type derby --prop db.database=${DB_LOC}/fhirDB --prop db.create=Y \
@@ -181,20 +181,6 @@ bringup(){
     echo "Docker container status:"
     docker ps -a
 
-    containerId=$(docker ps -a | grep postgres_fhir_1 | cut -d ' ' -f 1)
-    if [[ -z "${containerId}" ]]
-    then
-        echo "Warning: Could not find the fhir container!!!"
-    else
-        echo "fhir container id: ${containerId}"
-
-        # Grab the container's console log
-        docker logs ${containerId} > ${pre_it_logs}/docker-console.txt
-
-        echo "Gathering pre-test server logs from docker container: ${containerId}"
-        docker cp -L ${containerId}:/logs ${pre_it_logs}
-    fi
-
     # Wait until the fhir server is up and running...
     echo "Waiting for fhir-server to complete initialization..."
     healthcheck_url='https://localhost:9443/fhir-server/api/v4/$healthcheck'
@@ -216,6 +202,20 @@ bringup(){
             sleep 30
         fi
     done
+
+    containerId=$(docker ps -a | grep postgres_fhir_1 | cut -d ' ' -f 1)
+    if [[ -z "${containerId}" ]]
+    then
+        echo "Warning: Could not find the fhir container!!!"
+    else
+        echo "fhir container id: ${containerId}"
+
+        # Grab the container's console log
+        docker logs ${containerId} > ${pre_it_logs}/docker-console.txt
+
+        echo "Gathering pre-test server logs from docker container: ${containerId}"
+        docker cp -L ${containerId}:/logs ${pre_it_logs}
+    fi
 
     if [ $status -ne 200 ]
     then

@@ -15,7 +15,7 @@ run_tests(){
     if [ ! -z "${migration}" ] && [ -f "build/migration/${migration}/2_previous-integration-test.sh" ]
     then 
         echo "Running [${migration}] previouos specific integration tests"
-        bash ${WORKSPACE}/fhir/build/migration/${migration}/2_previous-integration-test.sh
+        bash ${WORKSPACE}/build/migration/${migration}/2_previous-integration-test.sh
     else
         # Runs the migration tests
         echo "Running containers are:"
@@ -26,10 +26,10 @@ run_tests(){
         docker container inspect $(docker container ls | grep fhir_1 | awk '{print $NF}' ) | jq -r '.[]'
         echo ""
     
-        mkdir -p ${WORKSPACE}/fhir/build/migration/integration-test-results
+        mkdir -p ${WORKSPACE}/build/migration/integration-test-results
         echo "Running Integration tests: "
         mvn -B test -f fhir-server-test -DskipWebSocketTest=true --no-transfer-progress \
-            -DskipTests=false | tee ${WORKSPACE}/fhir/build/migration/integration-test-results/prev-integration-tests.log
+            -DskipTests=false | tee ${WORKSPACE}/build/migration/integration-test-results/prev-integration-tests.log
         # Add || docker container logs "$(docker container ls | grep fhir_1 | awk '{print $NF}' )"
         echo "Done Running Tests"
         echo ""
@@ -46,7 +46,7 @@ pushd $(pwd) > /dev/null
 # Change to the migration/bin directory
 cd "prev/"
 
-bash ${WORKSPACE}/fhir/build/common/wait_for_it.sh
+bash ${WORKSPACE}/build/common/wait_for_it.sh
 run_tests "${1}"
 
 # Reset to Original Directory

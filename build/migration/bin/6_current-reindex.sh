@@ -11,14 +11,14 @@ set -x
 run_reindex(){
     migration="${1}"
 
-    if [ ! -z "${migration}" ] && [ -f "${WORKSPACE}/fhir/build/migration/${migration}/6_current-reindex.sh" ]
+    if [ ! -z "${migration}" ] && [ -f "${WORKSPACE}/build/migration/${migration}/6_current-reindex.sh" ]
     then 
         echo "Running [${migration}] specific integration tests"
-        bash ${WORKSPACE}/fhir/build/migration/${migration}/6_current-reindex.sh
+        bash ${WORKSPACE}/build/migration/${migration}/6_current-reindex.sh
     else
         # Run the $reindex
         i=1
-        bash ${WORKSPACE}/fhir/build/common/wait_for_it.sh
+        bash ${WORKSPACE}/build/common/wait_for_it.sh
         # Date YYYY-MM-DDTHH:MM:SSZ
         DATE_ISO=$(date +%Y-%m-%dT%H:%M:%SZ)
         status=$(curl -k -X POST -o reindex.json -i -w '%{http_code}' -u 'fhiruser:change-password' 'https://localhost:9443/fhir-server/api/v4/$reindex' \
@@ -67,9 +67,6 @@ run_reindex(){
 
 # Store the current directory to reset to
 pushd $(pwd) > /dev/null
-
-# Change to the migration/bin directory
-cd "fhir/"
 
 run_reindex "${1}"
 

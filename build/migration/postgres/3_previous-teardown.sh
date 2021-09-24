@@ -15,7 +15,7 @@ set -o pipefail
 pushd $(pwd) > /dev/null
 
 # Change to the migration directory
-cd "${WORKSPACE}/fhir/build/migration/${1}/"
+cd "${WORKSPACE}/build/migration/${1}/"
 
 docker-compose down
 
@@ -33,11 +33,11 @@ do
 done
 
 echo "Creating the database cache"
-sudo chmod -R 755 ${WORKSPACE}/fhir/build/migration/${1}/workarea/volumes/dist/db
-tar czf ${WORKSPACE}/fhir/build/migration/${1}/workarea/db.tgz ${WORKSPACE}/fhir/build/migration/${1}/workarea/volumes/dist/db
+sudo chmod -R 755 ${WORKSPACE}/build/migration/${1}/workarea/volumes/dist/db
+tar czf ${WORKSPACE}/build/migration/${1}/workarea/db.tgz ${WORKSPACE}/build/migration/${1}/workarea/volumes/dist/db
 
 echo "Details for the db.tgz"
-ls -al ${WORKSPACE}/fhir/build/migration/${1}/workarea/db.tgz
+ls -al ${WORKSPACE}/build/migration/${1}/workarea/db.tgz
 
 # Reset to Original Directory
 popd > /dev/null

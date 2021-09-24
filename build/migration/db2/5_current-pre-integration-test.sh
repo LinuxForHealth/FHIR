@@ -16,7 +16,7 @@ pre_integration(){
 
 # config - update configuration
 config(){
-    DIST="${WORKSPACE}/fhir/build/migration/db2/workarea/volumes/dist"
+    DIST="${WORKSPACE}/build/migration/db2/workarea/volumes/dist"
 
     echo "Create the db volume..."
     mkdir -p ${DIST}/db
@@ -25,25 +25,25 @@ config(){
     echo "Copying fhir configuration files..."
     rm -rf ${DIST}/config
     mkdir -p ${DIST}/config
-    cp -pr ${WORKSPACE}/fhir/fhir-server-webapp/src/main/liberty/config/config $DIST
-    cp -pr ${WORKSPACE}/fhir/fhir-server/liberty-config-tenants/config/* $DIST/config
+    cp -pr ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/config $DIST
+    cp -pr ${WORKSPACE}/fhir-server/liberty-config-tenants/config/* $DIST/config
 
     echo "Copying test artifacts to install location..."
     USERLIB="${DIST}/userlib"
     rm -rf ${DIST}/userlib
     mkdir -p "${USERLIB}"
-    find ${WORKSPACE}/fhir/conformance -iname 'fhir-ig*.jar' -not -iname 'fhir*-tests.jar' -not -iname 'fhir*-test-*.jar' -exec cp -f {} ${USERLIB} \;
-    find ${WORKSPACE}/fhir/operation/fhir-operation-test/target -iname '*.jar' -exec cp -f {} ${USERLIB} \;
-    if [ -d ${WORKSPACE}/fhir/operation/fhir-operation-term-cache/target ]
+    find ${WORKSPACE}/conformance -iname 'fhir-ig*.jar' -not -iname 'fhir*-tests.jar' -not -iname 'fhir*-test-*.jar' -exec cp -f {} ${USERLIB} \;
+    find ${WORKSPACE}/operation/fhir-operation-test/target -iname '*.jar' -exec cp -f {} ${USERLIB} \;
+    if [ -d ${WORKSPACE}/operation/fhir-operation-term-cache/target ]
     then
-        find ${WORKSPACE}/fhir/operation/fhir-operation-term-cache/target -iname '*.jar' -exec cp -f {} ${USERLIB} \;
+        find ${WORKSPACE}/operation/fhir-operation-term-cache/target -iname '*.jar' -exec cp -f {} ${USERLIB} \;
     fi
 
     echo "Remove the old overrides, and copy the current overrides for the datasource"
     rm -rf ${DIST}/overrides
     mkdir -p ${DIST}/overrides
-    cp -p ${WORKSPACE}/fhir/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/datasource-db2.xml ${DIST}/overrides
-    cp -p ${WORKSPACE}/fhir/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/datasource-derby.xml ${DIST}/overrides
+    cp -p ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/datasource-db2.xml ${DIST}/overrides
+    cp -p ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/datasource-derby.xml ${DIST}/overrides
 
     # Move over the test configurations
     echo "Copying over the fhir-server-config.json and updating publishing"
@@ -59,7 +59,7 @@ config(){
 
 # bringup
 bringup(){
-    cd ${WORKSPACE}/fhir/build/migration/db2
+    cd ${WORKSPACE}/build/migration/db2
     echo "Bringing up containers >>> Current time: " $(date)
     # Startup db
     export IMAGE_VERSION="snapshot"
@@ -105,7 +105,7 @@ bringup(){
 
 ###############################################################################
 
-cd ${WORKSPACE}/fhir/build/migration/db2
+cd ${WORKSPACE}/build/migration/db2
 pre_integration
 
 # EOF

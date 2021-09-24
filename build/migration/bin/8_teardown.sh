@@ -11,15 +11,13 @@ set -ex
 # migration_post - executes for each migration post integration steps
 migration_post(){
     migration="${1}"
-    if [ ! -z "${migration}" ] && [ -f ${WORKSPACE}/fhir/build/migration/${migration}/8_teardown.sh ]
+    if [ ! -z "${migration}" ] && [ -f ${WORKSPACE}/build/migration/${migration}/8_teardown.sh ]
     then 
         echo "Running [${migration}] teardown"
-        bash ${WORKSPACE}/fhir/build/migration/${migration}/8_teardown.sh
+        bash ${WORKSPACE}/build/migration/${migration}/8_teardown.sh
     else
-        cd ${WORKSPACE}/fhir/build/migration/${migration}/
-        docker-compose down --remove-orphans --rmi local -v --timeout 30
-        docker system df
-        docker system prune -f
+        cd ${WORKSPACE}/build/migration/${migration}/
+        docker-compose stop -v --timeout 30
     fi
 }
 

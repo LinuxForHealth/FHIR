@@ -14,7 +14,7 @@ run_migrate(){
 
     echo "Building the current docker image and the current java artifacts"
     pushd $(pwd) > /dev/null
-    cd "${WORKSPACE}/fhir"
+    cd "${WORKSPACE}"
     mvn -T2C -B install --file fhir-examples --no-transfer-progress
     mvn -T2C -B install --file fhir-parent -DskipTests -P include-fhir-igs,integration --no-transfer-progress
 
@@ -23,10 +23,10 @@ run_migrate(){
     cd ..
     popd > /dev/null
 
-    if [ ! -z "${migration}" ] && [ -f "${WORKSPACE}/fhir/build/migration/${migration}/4_current-migrate.sh" ]
+    if [ ! -z "${migration}" ] && [ -f "${WORKSPACE}/build/migration/${migration}/4_current-migrate.sh" ]
     then 
         echo "Running [${migration}] migration"
-        bash ${WORKSPACE}/fhir/build/migration/${migration}/4_current-migrate.sh
+        bash ${WORKSPACE}/build/migration/${migration}/4_current-migrate.sh
     fi
 }
 
@@ -34,9 +34,6 @@ run_migrate(){
 
 # Store the current directory to reset to
 pushd $(pwd) > /dev/null
-
-# Change to the migration/bin directory
-cd "fhir/"
 
 run_migrate "${1}"
 
