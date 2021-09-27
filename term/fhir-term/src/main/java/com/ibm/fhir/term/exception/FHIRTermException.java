@@ -16,7 +16,8 @@ import com.ibm.fhir.term.util.ConceptMapSupport;
 import com.ibm.fhir.term.util.ValueSetSupport;
 
 /**
- * A runtime exception class intended to be thrown by the {@link CodeSystemSupport}, {@link ConceptMapSupport}, and {@link ValueSetSupport} utility classes
+ * A runtime exception class intended to be thrown by the {@link CodeSystemSupport}, {@link ConceptMapSupport},
+ * and {@link ValueSetSupport} utility classes
  */
 public class FHIRTermException extends RuntimeException {
     private static final long serialVersionUID = 1L;
