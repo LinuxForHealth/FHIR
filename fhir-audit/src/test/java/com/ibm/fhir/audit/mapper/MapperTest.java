@@ -5,14 +5,10 @@
  */
 package com.ibm.fhir.audit.mapper;
 
-import static org.junit.Assert.assertNotNull;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
 
 import org.testng.annotations.Test;
-
-import com.ibm.fhir.audit.mapper.Mapper;
-import com.ibm.fhir.audit.mapper.MapperFactory;
-import com.ibm.fhir.audit.mapper.MapperType;
 
 /**
  * Mapper Related Tests for MapperType, MapperFactory

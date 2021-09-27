@@ -7,9 +7,9 @@
 package com.ibm.fhir.persistence.test.common;
 
 import static com.ibm.fhir.model.type.String.string;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertNull;
 
 import java.util.ArrayList;
 import java.util.List;

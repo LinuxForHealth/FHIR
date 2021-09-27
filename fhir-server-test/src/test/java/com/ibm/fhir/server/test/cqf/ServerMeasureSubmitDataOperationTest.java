@@ -6,7 +6,7 @@
 package com.ibm.fhir.server.test.cqf;
 
 import static com.ibm.fhir.model.type.String.string;
-import static org.junit.Assert.assertNotNull;
+import static org.testng.Assert.assertNotNull;
 
 import java.io.StringReader;
 
@@ -47,21 +47,21 @@ public class ServerMeasureSubmitDataOperationTest extends BaseMeasureOperationTe
                 .type(MeasureReportType.INDIVIDUAL)
                 .period(Period.builder().start(DateTime.of("2001-01-01")).end(DateTime.of("2001-01-01")).build())
                 .build();
-        
+
         Patient patient = Patient.builder()
                 .id("submitdata-patient")
                 .name(HumanName.builder().family(string("Machina")).given(string("Deus Ex")).build())
                 .birthDate(Date.of("1970-01-01"))
                 .gender(AdministrativeGender.OTHER)
                 .build();
-        
+
         Encounter encounter = Encounter.builder()
                 .id("submitdata-encounter")
                 .status(EncounterStatus.FINISHED)
                 .clazz(Coding.builder().code(Code.of("wellness")).build())
                 .subject( Reference.builder().reference(string("Patient/" + patient.getId())).build() )
                 .build();
-        
+
         Parameters parameters = Parameters.builder()
                 .parameter(Parameter.builder()
                     .name(string("measureReport"))
@@ -74,7 +74,7 @@ public class ServerMeasureSubmitDataOperationTest extends BaseMeasureOperationTe
                     .name(string("resource"))
                     .resource(encounter).build())
                 .build();
-        
+
         Response response =
                 getWebTarget().path("/Measure/{id}/$submit-data")
                     .resolveTemplate("id", TEST_MEASURE_ID)
