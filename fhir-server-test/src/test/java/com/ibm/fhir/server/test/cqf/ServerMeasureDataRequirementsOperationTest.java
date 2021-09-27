@@ -5,7 +5,7 @@
  */
 package com.ibm.fhir.server.test.cqf;
 
-import static org.junit.Assert.assertNotNull;
+import static org.testng.Assert.assertNotNull;
 
 import java.io.StringReader;
 

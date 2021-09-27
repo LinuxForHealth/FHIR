@@ -7,9 +7,9 @@
 package com.ibm.fhir.server.test.operation;
 
 import static com.ibm.fhir.model.type.String.string;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 

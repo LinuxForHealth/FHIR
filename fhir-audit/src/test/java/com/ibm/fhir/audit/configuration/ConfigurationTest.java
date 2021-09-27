@@ -5,18 +5,18 @@
  */
 package com.ibm.fhir.audit.configuration;
 
-import static org.junit.Assert.assertNotNull;
 import static org.testng.Assert.assertEquals;
-
-import jakarta.json.Json;
-import jakarta.json.JsonBuilderFactory;
-import jakarta.json.JsonObject;
+import static org.testng.Assert.assertNotNull;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.audit.mapper.MapperType;
 import com.ibm.fhir.config.PropertyGroup;
+
+import jakarta.json.Json;
+import jakarta.json.JsonBuilderFactory;
+import jakarta.json.JsonObject;
 
 /**
  * Configuration Tests

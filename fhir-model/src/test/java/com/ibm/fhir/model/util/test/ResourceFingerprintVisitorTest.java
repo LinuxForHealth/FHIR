@@ -6,8 +6,8 @@
 package com.ibm.fhir.model.util.test;
 
 import static com.ibm.fhir.model.type.String.string;
-import static org.junit.Assert.assertNotEquals;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotEquals;
 
 import java.util.stream.Collectors;
 

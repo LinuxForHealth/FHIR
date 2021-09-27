@@ -5,7 +5,7 @@
  */
 package com.ibm.fhir.server.test.cqf;
 
-import static org.junit.Assert.assertNotNull;
+import static org.testng.Assert.assertNotNull;
 
 import java.io.StringReader;
 
@@ -21,7 +21,7 @@ public class ServerLibraryDataRequirementsOperationTest extends BaseMeasureOpera
     public static final String TEST_LIBRARY_ID = "8-auq9X1o0TxTYLhRGlt8ISNC1w7ELS5sKyhmUTj4SE";
     public static final String TEST_LIBRARY_URL = "http://ibm.com/health/Library/EXM74";
 
-    
+
     @Test
     public void testLibraryDataRequirementsInstance() throws Exception {
         Response response =
@@ -35,7 +35,7 @@ public class ServerLibraryDataRequirementsOperationTest extends BaseMeasureOpera
         Library module = (Library) FHIRParser.parser(Format.JSON).parse(new StringReader(responseBody));
         assertNotNull(module);
     }
-    
+
     @Test
     public void testLibraryDataRequirementsSystem() throws Exception {
         Response response =
