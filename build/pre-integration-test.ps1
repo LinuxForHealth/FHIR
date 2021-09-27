@@ -118,7 +118,7 @@ If (!(Test-Path -Path $USERLIB_DIR) ) {
 }
 Copy-Item $CP_ITEM -Destination $USERLIB_DST
 
-$CP_ITEM=[string]$DIR_WORKSPACE + '\operation\fhir-operation-term-cache\target\fhir-operation-term-cache-*.jar'
+$CP_ITEM=[string]$DIR_WORKSPACE + '\term\operation\fhir-operation-term-cache\target\fhir-operation-term-cache-*.jar'
 Copy-Item $CP_ITEM -Destination $USERLIB_DST
 
 # Start up the fhir server

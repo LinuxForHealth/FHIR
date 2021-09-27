@@ -55,6 +55,10 @@ config(){
     then
         find ${WORKSPACE}/prev/operation/fhir-operation-term-cache/target -iname '*.jar' -exec cp -f {} ${USERLIB} \;
     fi
+    if [ -d ${WORKSPACE}/prev/term/operation/fhir-operation-term-cache/target ]
+    then
+        find ${WORKSPACE}/prev/term/operation/fhir-operation-term-cache/target -iname '*.jar' -exec cp -f {} ${USERLIB} \;
+    fi
     # Move over the test configurations
     echo "Copying over the fhir-server-config.json and updating publishing"
     cp -f ${DIST}/config/default/fhir-server-config-postgresql.json ${DIST}/config/default/fhir-server-config.json

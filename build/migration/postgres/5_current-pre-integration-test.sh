@@ -34,6 +34,7 @@ config(){
     mkdir -p "${USERLIB}"
     find ${WORKSPACE}/fhir/conformance -iname 'fhir-ig*.jar' -not -iname 'fhir*-tests.jar' -not -iname 'fhir*-test-*.jar' -exec cp -f {} ${USERLIB} \;
     find ${WORKSPACE}/fhir/operation/fhir-operation-test/target -iname '*.jar' -exec cp -f {} ${USERLIB} \;
+    find ${WORKSPACE}/fhir/operation/fhir-operation-test/target -iname '*.jar' -exec cp -f {} ${USERLIB} \;
 
     echo "Copying over the overrides for the datasource"
     mkdir -p ${DIST}/overrides
@@ -42,6 +43,11 @@ config(){
     if [ -d ${WORKSPACE}/fhir/operation/fhir-operation-term-cache/target ]
     then
         find ${WORKSPACE}/fhir/operation/fhir-operation-term-cache/target -iname '*.jar' -exec cp -f {} ${USERLIB} \;
+    fi
+
+    if [ -d ${WORKSPACE}/fhir/term/operation/fhir-operation-term-cache/target ]
+    then
+        find ${WORKSPACE}/fhir/term/operation/fhir-operation-term-cache/target -iname '*.jar' -exec cp -f {} ${USERLIB} \;
     fi
     # Move over the test configurations
     echo "Copying over the fhir-server-config.json and updating publishing"
