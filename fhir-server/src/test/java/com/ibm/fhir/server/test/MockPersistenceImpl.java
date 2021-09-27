@@ -35,20 +35,28 @@ public class MockPersistenceImpl implements FHIRPersistence {
 
     @Override
     public <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException {
-        return create(context, resource, generateResourceId(), 1, Instant.now());
+        throw new IllegalStateException("API no longer used; provided for backward compatibility only");
+        // return create(context, resource, generateResourceId(), 1, Instant.now());
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource, String logicalId, int versionNumber,
         Instant lastUpdated) throws FHIRPersistenceException {
-        T updatedResource = (T) resource.toBuilder()
-                .id(generateResourceId())
-                .meta(Meta.builder().versionId(Id.of(Integer.toString(versionNumber))).lastUpdated(lastUpdated).build())
-                .build();
+        
+        // since 1869 the persistence layer no longer modifies the resource. But we can do
+        // a quick check here to make sure that the logicalId and version match our meta
+        if (!resource.getId().equals(logicalId)) {
+            throw new IllegalStateException("Resource.id '" + resource.getId() + "' does not match given logicalId: '" + logicalId + "'");
+        }
+        
+        String versionStr = Integer.toString(versionNumber);
+        if (!versionStr.equals(resource.getMeta().getVersionId().getValue())) {
+            throw new IllegalStateException("Resource.meta.versionId '" + resource.getMeta().getVersionId() + "' does not match given versionNumber: '" + versionStr + "'");
+        }
+        
         SingleResourceResult.Builder<T> resultBuilder = new SingleResourceResult.Builder<T>()
                 .success(true)
-                .resource(updatedResource);
+                .resource(resource);
         return resultBuilder.build();
     }
 
@@ -56,6 +64,7 @@ public class MockPersistenceImpl implements FHIRPersistence {
     @Override
     public <T extends Resource> SingleResourceResult<T> read(FHIRPersistenceContext context, Class<T> resourceType, String logicalId)
         throws FHIRPersistenceException, FHIRPersistenceResourceDeletedException {
+        // TODO. Why this logic? Definitely worthy of a comment
         if (logicalId.startsWith("generated")) {
             return new SingleResourceResult.Builder<T>()
                     .success(true)
@@ -87,19 +96,27 @@ public class MockPersistenceImpl implements FHIRPersistence {
     @SuppressWarnings("unchecked")
     @Override
     public <T extends Resource> SingleResourceResult<T> update(FHIRPersistenceContext context, String logicalId, T resource) throws FHIRPersistenceException {
-        T updatedResource;
+        // For this mock, the versionId doesn't matter
+        return update(context, logicalId, -1, resource);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T extends Resource> SingleResourceResult<T> update(FHIRPersistenceContext context, String logicalId, int newVersionId, T resource)
+        throws FHIRPersistenceException {
+//        final T updatedResource;
         OperationOutcome operationOutcome = null;
         if (resource.getLanguage() != null && resource.getLanguage().getValue().equals("en-US")) {
             operationOutcome = FHIRRestHelperTest.ID_SPECIFIED;
         }
-        if (resource.getId().startsWith("generated")) {
-            updatedResource = (T) resource.toBuilder().meta(Meta.builder().versionId(Id.of("1")).build()).build();
-        } else {
-            updatedResource = (T) resource.toBuilder().meta(Meta.builder().versionId(Id.of("2")).build()).build();
-        }
+//        if (resource.getId().startsWith("generated")) {
+//            updatedResource = (T) resource.toBuilder().meta(Meta.builder().versionId(Id.of("1")).build()).build();
+//        } else {
+//            updatedResource = (T) resource.toBuilder().meta(Meta.builder().versionId(Id.of("2")).build()).build();
+//        }
         SingleResourceResult.Builder<T> resultBuilder = new SingleResourceResult.Builder<T>()
                 .success(true)
-                .resource(updatedResource)
+                .resource(resource) // persistence layer should no longer change the resource!
                 .outcome(operationOutcome);
         return resultBuilder.build();
     }

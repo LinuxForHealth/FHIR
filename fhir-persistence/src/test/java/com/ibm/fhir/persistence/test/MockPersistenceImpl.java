@@ -110,4 +110,10 @@ public class MockPersistenceImpl implements FHIRPersistence {
     public List<Long> retrieveIndex(int count, java.time.Instant notModifiedAfter, Long afterIndexId, String resourceTypeName) throws FHIRPersistenceException {
         return Collections.emptyList();
     }
+
+    @Override
+    public <T extends Resource> SingleResourceResult<T> update(FHIRPersistenceContext context, String logicalId, int newVersionId, T resource)
+        throws FHIRPersistenceException {
+        return null;
+    }
 }

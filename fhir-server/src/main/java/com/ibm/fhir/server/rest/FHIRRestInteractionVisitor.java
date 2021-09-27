@@ -6,11 +6,14 @@
  
 package com.ibm.fhir.server.rest;
 
+import java.util.List;
+
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response.Status;
 
 import com.ibm.fhir.model.patch.FHIRPatch;
 import com.ibm.fhir.model.resource.Bundle.Entry;
+import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.server.operation.spi.FHIRRestOperationResponse;
@@ -19,7 +22,7 @@ import com.ibm.fhir.server.util.FHIRUrlParser;
 /**
  * Defines operations which can be performed on the persistence layer
  */
-public interface FHIRRestOperationVisitor {
+public interface FHIRRestInteractionVisitor {
 
     /**
      * Performs heavy lifting associated with a 'search' operation.
@@ -100,6 +103,8 @@ public interface FHIRRestOperationVisitor {
      *
      * @param type
      *            the resource type specified as part of the request URL
+     * @param warnings
+     *            the list of warning issues accumulated for this entry
      * @param resource
      *            the Resource to be stored.
      * @param ifNoneExist
@@ -107,7 +112,7 @@ public interface FHIRRestOperationVisitor {
      * @return a FHIRRestOperationResponse object containing the results of the operation
      * @throws Exception
      */
-    FHIRRestOperationResponse doCreate(int entryIndex, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, Resource resource, String ifNoneExist, String localIdentifier, String logicalId) throws Exception;
+    FHIRRestOperationResponse doCreate(int entryIndex, List<Issue> warnings, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, Resource resource, String ifNoneExist, String localIdentifier) throws Exception;
     
     /**
      * Performs an update operation (a new version of the Resource will be stored).
@@ -118,6 +123,8 @@ public interface FHIRRestOperationVisitor {
      *            the id of the Resource being updated
      * @param newResource
      *            the new resource to be stored
+     * @param prevResource
+     *            the old resource value if we have it
      * @param ifMatchValue
      *            an optional "If-Match" header value to request a version-aware update
      * @param searchQueryString
@@ -125,11 +132,18 @@ public interface FHIRRestOperationVisitor {
      * @param skippableUpdate
      *            if true, and the resource content in the update matches the existing resource on the server, then skip the update;
      *            if false, then always attempt the update
+     * @param localIdentifier
+     *            if not null, represents the local identifier within the bundle used to support local references
+     * @param warnings
+     *            the accumulated list of warnings gathered while processing the interaction
+     * @param isDeleted
+     *            flag to indicate if the resource is currently deleted
      * @return a FHIRRestOperationResponse that contains the results of the operation
      * @throws Exception
      */
-    FHIRRestOperationResponse doUpdate(int entryIndex, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String id, Resource newResource, String ifMatchValue,
-        String searchQueryString, boolean skippableUpdate, String localIdentifier) throws Exception;
+    FHIRRestOperationResponse doUpdate(int entryIndex, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, 
+        long initialTime, String type, String id, Resource newResource, Resource prevResource, String ifMatchValue,
+        String searchQueryString, boolean skippableUpdate, String localIdentifier, List<Issue> warnings, boolean isDeleted) throws Exception;
     
     /**
      * Performs a patch operation (a new version of the Resource will be stored).
@@ -138,6 +152,10 @@ public interface FHIRRestOperationVisitor {
      *            the type of the resource to be updated
      * @param id
      *            the id of the Resource being updated
+     * @param newResource
+     *            the latest value of the resource
+     * @param prevResource
+     *            the value of the resource before any changes
      * @param patch
      *            the patch to apply
      * @param ifMatchValue
@@ -150,8 +168,10 @@ public interface FHIRRestOperationVisitor {
      * @return a FHIRRestOperationResponse that contains the results of the operation
      * @throws Exception
      */
-    FHIRRestOperationResponse doPatch(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String id, FHIRPatch patch, String ifMatchValue,
-        String searchQueryString, boolean skippableUpdate) throws Exception;
+    FHIRRestOperationResponse doPatch(int entryIndex, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime, 
+        String type, String id, Resource newResource, Resource prevResource,
+        FHIRPatch patch, String ifMatchValue,
+        String searchQueryString, boolean skippableUpdate, List<Issue> warnings) throws Exception;
     
     /**
      * Helper method which invokes a custom operation.

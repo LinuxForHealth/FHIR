@@ -6,13 +6,17 @@
  
 package com.ibm.fhir.server.rest;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.server.util.FHIRUrlParser;
 
 /**
- * Base for {@link FHIRRestOperation} implementations, providing
+ * Base for {@link FHIRRestInteraction} implementations, providing
  * common functions
  */
-public abstract class FHIRRestOperationBase implements FHIRRestOperation {
+public abstract class FHIRRestInteractionBase implements FHIRRestInteraction {
     
     // The index of the entry related to this operation in the original bundle
     private final int entryIndex;
@@ -25,6 +29,9 @@ public abstract class FHIRRestOperationBase implements FHIRRestOperation {
 
     // The time we started processing this request
     private final long initialTime;
+
+    // Any warnings collected when processing this entry
+    private final List<Issue> warnings;
     
     /**
      * Protected constructor
@@ -32,16 +39,15 @@ public abstract class FHIRRestOperationBase implements FHIRRestOperation {
      * @param requestDescription
      * @param initialTime
      */
-    protected FHIRRestOperationBase(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long initialTime) {
+    protected FHIRRestInteractionBase(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long initialTime) {
         this.entryIndex = entryIndex;
         this.requestDescription = requestDescription;
         this.requestURL = requestURL;
         this.initialTime = initialTime;
+        this.warnings = new ArrayList<>();
     }
 
-    /**
-     * @return the entryIndex
-     */
+    @Override
     public int getEntryIndex() {
         return entryIndex;
     }
@@ -65,5 +71,12 @@ public abstract class FHIRRestOperationBase implements FHIRRestOperation {
      */
     public FHIRUrlParser getRequestURL() {
         return requestURL;
+    }
+
+    /**
+     * @return the warnings list
+     */
+    public List<Issue> getWarnings() {
+        return this.warnings;
     }
 }

@@ -374,8 +374,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         final String logicalId = generateResourceId();
         
         // Set the resource id and meta fields.
-        int newVersionNumber = 1;
-        Instant lastUpdated = Instant.now(ZoneOffset.UTC);
+        final int newVersionNumber = 1;
+        final Instant lastUpdated = Instant.now(ZoneOffset.UTC);
         T updatedResource = copyAndSetResourceMetaFields(resource, logicalId, newVersionNumber, lastUpdated);
         return create(context, updatedResource, logicalId, newVersionNumber, lastUpdated);
     }
@@ -595,87 +595,46 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     }
 
     @Override
-    public <T extends Resource> SingleResourceResult<T> update(FHIRPersistenceContext context, String logicalId, T resource)
+    public <T extends Resource> SingleResourceResult<T> update(FHIRPersistenceContext context, String logicalId, T resource) 
+            throws FHIRPersistenceException {
+
+        // legacy implementation (before issue 1869) provided for API compatibility.
+        final com.ibm.fhir.model.type.Instant lastUpdated = com.ibm.fhir.model.type.Instant.now(ZoneOffset.UTC);
+        final int newVersionId = Integer.parseInt(resource.getMeta().getVersionId().getValue()) + 1;
+        resource = copyAndSetResourceMetaFields(resource, logicalId, newVersionId, lastUpdated);
+        return update(context, logicalId, newVersionId, resource);
+    }
+    
+    @Override
+    public <T extends Resource> SingleResourceResult<T> update(FHIRPersistenceContext context, String logicalId, int newVersionId, T resource)
             throws FHIRPersistenceException {
         final String METHODNAME = "update";
         log.entering(CLASSNAME, METHODNAME);
-
-        Class<? extends Resource> resourceType = resource.getClass();
-        com.ibm.fhir.persistence.jdbc.dto.Resource existingResourceDTO;
 
         try (Connection connection = openConnection()) {
             ResourceDAO resourceDao = makeResourceDAO(connection);
             ParameterDAO parameterDao = makeParameterDAO(connection);
 
+            // Since 1869, the resource is already correctly configured so no need to modify it
             // Assume we have no existing resource.
-            int existingVersion = 0;
-
-            // Compute the new version # from the existing version #.
-
-            // If the "previous resource" is set in the persistence event, then get the
-            // existing version # from that.
-            if (context.getPersistenceEvent() != null && context.getPersistenceEvent().isPrevFhirResourceSet()) {
-                Resource existingResource = context.getPersistenceEvent().getPrevFhirResource();
-                if (existingResource != null) {
-                    log.fine("Using pre-fetched 'previous' resource.");
-                    String version = existingResource.getMeta().getVersionId().getValue();
-                    existingVersion = Integer.valueOf(version);
-                }
-            }
-
-            // Otherwise, go ahead and read the resource from the datastore and get the
-            // existing version # from it.
-            else {
-                log.fine("Fetching 'previous' resource for update.");
-                existingResourceDTO = resourceDao.read(logicalId, resourceType.getSimpleName());
-                if (existingResourceDTO != null) {
-                    existingVersion = existingResourceDTO.getVersionId();
-                }
-            }
-
-            // If this logical resource didn't exist and the "updateCreate" feature is not enabled,
-            // then this is an error.
-            if (existingVersion == 0 && !updateCreateEnabled) {
-                String msg = "Resource '" + resourceType.getSimpleName() + "/" + logicalId + "' not found.";
-                log.log(Level.SEVERE, msg);
-                throw new FHIRPersistenceResourceNotFoundException(msg);
-            }
-
-            // Bump up the existing version # to get the new version.
-            int newVersionNumber = existingVersion + 1;
-
-            if (log.isLoggable(Level.FINE)) {
-                if (existingVersion != 0) {
-                    log.fine("Updating FHIR Resource '" + resource.getClass().getSimpleName() + "/" + logicalId + "', version=" + existingVersion);
-                }
-                log.fine("Storing new FHIR Resource '" + resource.getClass().getSimpleName() + "/" + logicalId + "', version=" + newVersionNumber);
-            }
-
-            // Set the resource id and meta fields.
-            Instant lastUpdated = Instant.now(ZoneOffset.UTC);
-            T updatedResource = copyAndSetResourceMetaFields(resource, resource.getId(), newVersionNumber, lastUpdated);
+            int newVersionNumber = Integer.parseInt(resource.getMeta().getVersionId().getValue());
 
             // Create the new Resource DTO instance.
             com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO =
-                    createResourceDTO(logicalId, newVersionNumber, lastUpdated, updatedResource);
+                    createResourceDTO(resource.getId(), newVersionNumber, resource.getMeta().getLastUpdated(), resource);
 
             // Persist the Resource DTO.
             resourceDao.setPersistenceContext(context);
-            ExtractedSearchParameters searchParameters = this.extractSearchParameters(updatedResource, resourceDTO);
+            ExtractedSearchParameters searchParameters = this.extractSearchParameters(resource, resourceDTO);
             resourceDao.insert(resourceDTO, searchParameters.getParameters(), searchParameters.getParameterHashB64(), parameterDao);
             if (log.isLoggable(Level.FINE)) {
                 log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
                             + ", version=" + resourceDTO.getVersionId());
             }
             
-            if (this.payloadPersistence != null) {
-                // Resource payload is stored outside the RDBMS
-                storePayload(updatedResource, resourceDTO);
-            }
-
             SingleResourceResult.Builder<T> resultBuilder = new SingleResourceResult.Builder<T>()
                     .success(true)
-                    .resource(updatedResource);
+                    .resource(resource);
 
             // Add supplemental issues to an OperationOutcome
             if (!supplementalIssues.isEmpty()) {
@@ -2936,5 +2895,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         } finally {
             log.exiting(CLASSNAME, METHODNAME);
         }
+    }
+    
+    @Override
+    public boolean isUpdateCreateEnabled() {
+        return this.updateCreateEnabled;
     }
 }

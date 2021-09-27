@@ -131,6 +131,11 @@ public class MockPersistenceImpl implements FHIRPersistence {
     public <T extends Resource> SingleResourceResult<T> update(FHIRPersistenceContext context, String logicalId, T resource) throws FHIRPersistenceException {
     	return null;
     }
+    
+    @Override
+    public <T extends Resource> SingleResourceResult<T> update(FHIRPersistenceContext context, String logicalId, int newVersionId, T resource) throws FHIRPersistenceException {
+        return null;
+    }
 
     @Override
     public <T extends Resource> MultiResourceResult<T> history(FHIRPersistenceContext context, Class<T> resourceType, String logicalId) throws FHIRPersistenceException {

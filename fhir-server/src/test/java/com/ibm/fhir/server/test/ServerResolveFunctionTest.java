@@ -351,6 +351,14 @@ public class ServerResolveFunctionTest {
                 T resource) throws FHIRPersistenceException {
             return createOrUpdate(resource);
         }
+        
+        @Override
+        public <T extends Resource> SingleResourceResult<T> update(
+                FHIRPersistenceContext context,
+                String logicalId, int newVersionId,
+                T resource) throws FHIRPersistenceException {
+            return createOrUpdate(resource);
+        }
 
         @SuppressWarnings("unchecked")
         @Override

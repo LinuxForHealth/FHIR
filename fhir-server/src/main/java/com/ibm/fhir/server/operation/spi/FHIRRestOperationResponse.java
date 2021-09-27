@@ -26,6 +26,10 @@ public class FHIRRestOperationResponse {
     private OperationOutcome operationOutcome;
     private int versionNumber;
     private Instant lastUpdated;
+    private boolean deleted;
+    
+    // Flag to indicate the request is complete and can be returned as-is
+    private boolean completed;
     
     // A nested response we may get when offloading payload storage (e.g. in COS, Cassandra)
     private Future<FHIRRestOperationResponse> storePayloadResponse;
@@ -96,5 +100,33 @@ public class FHIRRestOperationResponse {
      */
     public String getResourceId() {
         return this.resourceId;
+    }
+
+    /**
+     * @return the deleted
+     */
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    /**
+     * @param deleted the deleted to set
+     */
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    /**
+     * @return the completed
+     */
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    /**
+     * @param completed the completed to set
+     */
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
     }
 }

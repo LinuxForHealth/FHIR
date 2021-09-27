@@ -7,11 +7,15 @@
 package com.ibm.fhir.server.rest;
 
 import static com.ibm.fhir.model.type.String.string;
+import static javax.servlet.http.HttpServletResponse.SC_GONE;
+import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 
 import java.time.ZoneOffset;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,49 +26,43 @@ import javax.ws.rs.core.Response.Status;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.patch.FHIRPatch;
 import com.ibm.fhir.model.resource.Bundle.Entry;
-import com.ibm.fhir.model.resource.Resource.Builder;
 import com.ibm.fhir.model.type.CodeableConcept;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Instant;
-import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.CollectingVisitor;
+import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.ModelSupport;
-import com.ibm.fhir.model.util.ReferenceMappingVisitor;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
+import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.fhir.search.SearchConstants;
+import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.OperationOutcome;
+import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.server.exception.FHIRRestBundledRequestException;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
 import com.ibm.fhir.server.operation.spi.FHIRRestOperationResponse;
 import com.ibm.fhir.server.util.FHIRUrlParser;
+import com.ibm.fhir.server.util.IssueTypeToHttpStatusMapper;
+import com.ibm.fhir.server.util.FHIRRestHelper.Interaction;
 
 /**
- * Used to prepare bundle entries before they hit the persistence layer. The prepare phase
- * consists of 3 actions:
- *   1. Generate a system-assigned identifier for the resource if it doesn't have one
- *   2. Look up any conditional references
- *   3. Update References in the resource which are conditional or local
- * If the resource is modified, it is returned inside the FHIRRestOperationResponse.
- * 
- * If the bundle type is a transaction, the persistence layer transaction must be started
- * before this visitor is used
+ * Perform any conditional create searches. In order to correctly resolve all
+ * the local references within a bundle, we need to process all conditional
+ * create searches first so that we have the ids we need in the localRefMap
+ * before we start to update any references.
  */
-public class FHIRRestOperationVisitorPrepare implements FHIRRestOperationVisitor {
-    private static final Logger log = Logger.getLogger(FHIRRestOperationVisitorImpl.class.getName());
+public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBase {
+    private static final Logger log = Logger.getLogger(FHIRRestInteractionVisitorPersist.class.getName());
     
-    // the helper we use to do most of the heavy lifting
-    private final FHIRResourceHelpers helpers;
-        
-    private final String bundleRequestCorrelationId;
-
-    // Used to resolve local references
-    final Map<String, String> localRefMap;
+    private static final boolean DO_VALIDATION = true;
     
     // Set if there's a bundle-level transaction, null otherwise
     final FHIRTransactionHelper txn;
@@ -73,11 +71,9 @@ public class FHIRRestOperationVisitorPrepare implements FHIRRestOperationVisitor
      * Public constructor
      * @param helpers
      */
-    public FHIRRestOperationVisitorPrepare(FHIRTransactionHelper txn, FHIRResourceHelpers helpers, String bundleRequestCorrelationId, Map<String, String> localRefMap) {
+    public FHIRRestInteractionVisitorMeta(FHIRTransactionHelper txn, FHIRResourceHelpers helpers, Map<String, String> localRefMap, Entry[] responseBundleEntries) {
+        super(helpers, localRefMap, responseBundleEntries);
         this.txn = txn;
-        this.helpers = helpers;
-        this.bundleRequestCorrelationId = bundleRequestCorrelationId;
-        this.localRefMap = localRefMap;
     }
 
     @Override
@@ -113,69 +109,102 @@ public class FHIRRestOperationVisitorPrepare implements FHIRRestOperationVisitor
     }
 
     @Override
-    public FHIRRestOperationResponse doCreate(int entryIndex, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, Resource resource, String ifNoneExist, String localIdentifier, String logicalId) throws Exception {
+    public FHIRRestOperationResponse doCreate(int entryIndex, List<Issue> warnings, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, Resource resource, String ifNoneExist, String localIdentifier) throws Exception {
         logStart(entryIndex, requestDescription, requestURL);
-        if (txn != null) {
-            beginTransactionIfRequired();
-            resolveConditionalReferences(resource, localRefMap);
+
+        // Skip CREATE if validation failed
+        // TODO the logic in the old buildLocalRefMap uses SC_OK_STRING
+        if (validationResponseEntry != null && !validationResponseEntry.getResponse().getStatus().equals(SC_ACCEPTED_STRING)) {
+            return null;
         }
         
-        // Determine if we have a pre-generated resource ID
-        String resourceId = retrieveGeneratedIdentifier(localRefMap, localIdentifier);
-        if (resourceId == null) {
-            // A resource id hasn't yet been assigned, so create one now
-            resourceId = helpers.generateResourceId();
+        // Use doInteraction so we can implement common exception handling in one place
+        return doInteraction(entryIndex, txn != null, requestDescription, initialTime, () -> {
             
-            if (localIdentifier != null) {
-                addLocalRefMapping(localRefMap, localIdentifier, resourceId, null);
+            // Validate that interaction is allowed for given resource type
+            helpers.validateInteraction(Interaction.CREATE, type);
+    
+            FHIRPersistenceEvent event =
+                    new FHIRPersistenceEvent(resource, helpers.buildPersistenceEventProperties(type, null, null, null));
+            
+            // Inject the meta to the resource after optionally checking for ifNoneExist
+            FHIRRestOperationResponse prepResponse = helpers.doCreateMeta(txn, event, warnings, type, resource, ifNoneExist, !DO_VALIDATION);
+            if (prepResponse != null) {
+                // ifNoneExist returned a result record it in the response bundle then no more
+                // processing required
+                Entry entry = buildResponseBundleEntry(prepResponse, null, requestDescription, initialTime);
+                setResponseEntry(entryIndex, entry);
+                
+                if (localIdentifier != null && !localRefMap.containsKey(localIdentifier)) {
+                    addLocalRefMapping(localIdentifier, prepResponse.getResource());
+                }
+                
+                return null;
             }
-        }
-        
-        // Convert any local references found within the resource to their corresponding external reference.
-        ReferenceMappingVisitor<Resource> visitor = new ReferenceMappingVisitor<Resource>(localRefMap);
-        resource.accept(visitor);
-        resource = visitor.getResult();
-
-        // TODO: perhaps make this part of the above visitor so that we only rebuild the resource once.
-        final Instant lastUpdated = getCurrentInstant();
-        final int newVersionNumber = 1;
-        resource = copyAndSetResourceMetaFields(resource, logicalId, newVersionNumber, lastUpdated);
-        
-        // TODO: If the persistence layer supports offloading, we can store now. The offloadResponse
-        // will be null if offloading is not supported
-        Future<FHIRRestOperationResponse> offloadResponse = storePayload(resource, logicalId, newVersionNumber, lastUpdated);
-        
-        // Pass back the updated resource so it can be used in the next phase
-        return new FHIRRestOperationResponse(resource, resourceId, newVersionNumber, lastUpdated, offloadResponse);
+            
+            // Get the updated resource with the meta info
+            Resource resourceWithMeta = event.getFhirResource();
+            
+            if (txn != null) {
+                resolveConditionalReferences(resourceWithMeta);
+            }
+                
+            final int newVersionNumber = Integer.parseInt(resourceWithMeta.getMeta().getVersionId().getValue());
+            final Instant lastUpdated = resourceWithMeta.getMeta().getLastUpdated();
+            final String logicalId = resourceWithMeta.getId();
+            
+            // Add the mapping between localIdentifier and the new logicalId from the resource
+            if (localIdentifier != null && !localRefMap.containsKey(localIdentifier)) {
+                addLocalRefMapping(localIdentifier, resourceWithMeta);
+            }
+            
+            // Pass back the updated resource so it can be used in the next phase if required
+            return new FHIRRestOperationResponse(resourceWithMeta, logicalId, newVersionNumber, lastUpdated, null);
+        });
     }
 
     @Override
-    public FHIRRestOperationResponse doUpdate(int entryIndex, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String id, Resource newResource, String ifMatchValue, String searchQueryString,
-        boolean skippableUpdate, String localIdentifier) throws Exception {
+    public FHIRRestOperationResponse doUpdate(int entryIndex, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime, 
+        String type, String id, Resource resource, Resource prevResource, String ifMatchValue, String searchQueryString,
+        boolean skippableUpdate, String localIdentifier, List<Issue> warnings, boolean isDeleted) throws Exception {
         logStart(entryIndex, requestDescription, requestURL);
-        
-        if (txn != null) {
-            beginTransactionIfRequired();
-            resolveConditionalReferences(newResource, localRefMap);
+
+        // Skip UPDATE if validation failed
+        // TODO the logic in the old buildLocalRefMap uses SC_OK_STRING
+        if (validationResponseEntry != null && !validationResponseEntry.getResponse().getStatus().equals(SC_ACCEPTED_STRING)) {
+            return null;
         }
-        
-        // Convert any local references found within the resource to their corresponding external reference.
-        ReferenceMappingVisitor<Resource> visitor = new ReferenceMappingVisitor<Resource>(localRefMap);
-        newResource.accept(visitor);
-        newResource = visitor.getResult();
-        
-        if (localIdentifier != null && localRefMap.get(localIdentifier) == null) {
-            // TODO. The original version used the resource returned by the persistence update operation. But what's the difference?
-            addLocalRefMapping(localRefMap, localIdentifier, null, newResource);
-        }
-        
-        // Pass back the updated resource so it can be used in the next phase
-        return new FHIRRestOperationResponse(null, null, newResource);
+
+        // Process the first (meta) phase of the update interaction
+        return doInteraction(entryIndex, txn != null, requestDescription, initialTime, () -> {
+            FHIRRestOperationResponse metaResponse = helpers.doUpdateMeta(type, id, null, resource, ifMatchValue, searchQueryString, skippableUpdate, !DO_VALIDATION, warnings);
+
+            // Get the updated resource with the meta info
+            Resource resourceWithMeta = metaResponse.getResource();
+            
+            if (txn != null) {
+                resolveConditionalReferences(resourceWithMeta);
+            }
+                
+//            final int newVersionNumber = Integer.parseInt(resourceWithMeta.getMeta().getVersionId().getValue());
+//            final Instant lastUpdated = resourceWithMeta.getMeta().getLastUpdated();
+//            final String logicalId = resourceWithMeta.getId();
+            
+            // Add the mapping between localIdentifier and the new logicalId from the resource
+            if (localIdentifier != null && !localRefMap.containsKey(localIdentifier)) {
+                addLocalRefMapping(localIdentifier, resourceWithMeta);
+            }
+            
+            // Pass back the updated resource so it can be used in the next phase if required
+            return metaResponse;
+            // return new FHIRRestOperationResponse(resourceWithMeta, logicalId, newVersionNumber, lastUpdated, null);
+        });
     }
 
     @Override
-    public FHIRRestOperationResponse doPatch(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String id, FHIRPatch patch, String ifMatchValue, String searchQueryString,
-        boolean skippableUpdate) throws Exception {
+    public FHIRRestOperationResponse doPatch(int entryIndex, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime, 
+        String type, String id, Resource newResource, Resource prevResource, FHIRPatch patch, String ifMatchValue, String searchQueryString,
+        boolean skippableUpdate, List<Issue> warnings) throws Exception {
         logStart(entryIndex, requestDescription, requestURL);
         // TODO Auto-generated method stub
         return null;
@@ -248,15 +277,14 @@ public class FHIRRestOperationVisitorPrepare implements FHIRRestOperationVisitor
      * Scan the resource for any conditional references. For each one we find, perform the search
      * and add the result to the localRefMap.
      * @param resource
-     * @param localRefMap
      * @throws Exception
      */
-    private void resolveConditionalReferences(Resource resource, Map<String, String> localRefMap) throws Exception {
+    private void resolveConditionalReferences(Resource resource) throws Exception {
         for (String conditionalReference : getConditionalReferences(resource)) {
             if (localRefMap.containsKey(conditionalReference)) {
                 continue;
             }
-
+            
             FHIRUrlParser parser = new FHIRUrlParser(conditionalReference);
             String type = parser.getPathTokens()[0];
 
@@ -269,6 +297,9 @@ public class FHIRRestOperationVisitorPrepare implements FHIRRestOperationVisitor
                 throw buildRestException("Invalid conditional reference: only filtering parameters are allowed", IssueType.INVALID);
             }
 
+            // We need to be in a transaction before we can do a search
+            beginTransactionIfRequired();
+            
             queryParameters.add("_summary", "true");
             queryParameters.add("_count", "1");
 
@@ -309,80 +340,6 @@ public class FHIRRestOperationVisitorPrepare implements FHIRRestOperationVisitor
     }
     
     /**
-     * This method will add a mapping to the local-to-external identifier map if the specified localIdentifier is
-     * non-null.
-     *
-     * @param localRefMap
-     *            the map containing the local-to-external identifier mappings
-     * @param localIdentifier
-     *            the localIdentifier previously obtained for the resource
-     * @param externalIdentifier
-     *            the externalIdentifier previously obtained for the resource (may be null
-     *            if resource is not null)
-     * @param resource
-     *            the resource for which an external identifier will be built (may be null
-     *            if externalIdentifier is not null)
-     */
-    private void addLocalRefMapping(Map<String, String> localRefMap, String localIdentifier, String externalIdentifier, Resource resource) {
-        if (localIdentifier != null) {
-            if (externalIdentifier == null) {
-                externalIdentifier = ModelSupport.getTypeName(resource.getClass()) + "/" + resource.getId();
-            }
-            localRefMap.put(localIdentifier, externalIdentifier);
-            if (log.isLoggable(Level.FINER)) {
-                log.finer("Added local/ext identifier mapping: " + localIdentifier + " --> " + externalIdentifier);
-            }
-        }
-    }
-    
-    /**
-     * This method will retrieve the generated identifier associated with the specified local identifier from the
-     * local ref map, or return null if there is no mapping for the local identifier.
-     *
-     * @param localRefMap
-     *            the map containing the local-to-external identifier mappings
-     * @param localIdentifier
-     *            the localIdentifier previously obtained for the resource
-     * @return the generated identifier
-     */
-    private String retrieveGeneratedIdentifier(Map<String, String> localRefMap, String localIdentifier) {
-        String generatedIdentifier = null;
-        String externalIdentifier = localRefMap.get(localIdentifier);
-        if (externalIdentifier != null) {
-            int index = externalIdentifier.indexOf("/");
-            if (index > -1) {
-                generatedIdentifier = externalIdentifier.substring(index+1);
-            }
-        }
-        return generatedIdentifier;
-    }
-    
-    /**
-     * Creates and returns a copy of the passed resource with the {@code Resource.id}
-     * {@code Resource.meta.versionId}, and {@code Resource.meta.lastUpdated} elements replaced.
-     *
-     * @param resource
-     * @param logicalId
-     * @param newVersionNumber
-     * @param lastUpdated
-     * @return the updated resource
-     */
-    @SuppressWarnings("unchecked")
-    private <T extends Resource> T copyAndSetResourceMetaFields(T resource, String logicalId, int newVersionNumber, Instant lastUpdated) {
-        Meta meta = resource.getMeta();
-        Meta.Builder metaBuilder = meta == null ? Meta.builder() : meta.toBuilder();
-        metaBuilder.versionId(Id.of(Integer.toString(newVersionNumber)));
-        metaBuilder.lastUpdated(lastUpdated);
-
-        Builder resourceBuilder = resource.toBuilder();
-        resourceBuilder.setValidating(false);
-        return (T) resourceBuilder
-                .id(logicalId)
-                .meta(metaBuilder.build())
-                .build();
-    }
-
-    /**
      * Get the current time which can be used for the lastUpdated field
      * @return current time in UTC
      */
@@ -414,5 +371,72 @@ public class FHIRRestOperationVisitorPrepare implements FHIRRestOperationVisitor
         if (txn != null && !txn.hasBegun()) {
             txn.begin();
         }
+    }
+
+    /**
+     * Unified exception handling for each of the interaction calls
+     * @param entryIndex
+     * @param v
+     * @param failFast
+     * @param requestDescription
+     * @param initialTime
+     * @throws Exception
+     */
+    private FHIRRestOperationResponse doInteraction(int entryIndex, boolean failFast, String requestDescription, long initialTime, Callable<FHIRRestOperationResponse> v) throws Exception {
+        try {
+            return v.call();
+        } catch (FHIRPersistenceResourceNotFoundException e) {
+            if (failFast) {
+                String msg = "Error while processing request bundle.";
+                throw new FHIRRestBundledRequestException(msg, e).withIssue(e.getIssues());
+            }
+
+            // Record the error as an entry in the result bundle
+            Entry entry = Entry.builder()
+                    .resource(FHIRUtil.buildOperationOutcome(e, false))
+                    .response(Entry.Response.builder()
+                        .status(SC_NOT_FOUND_STRING)
+                        .build())
+                    .build();
+            setResponseEntry(entryIndex, entry);
+            logBundledRequestCompletedMsg(requestDescription.toString(), initialTime, SC_NOT_FOUND);
+        } catch (FHIRPersistenceResourceDeletedException e) {
+            if (failFast) {
+                String msg = "Error while processing request bundle.";
+                throw new FHIRRestBundledRequestException(msg, e).withIssue(e.getIssues());
+            }
+
+            Entry entry = Entry.builder()
+                    .resource(FHIRUtil.buildOperationOutcome(e, false))
+                    .response(Entry.Response.builder()
+                        .status(SC_GONE_STRING)
+                        .build())
+                    .build();
+            setResponseEntry(entryIndex, entry);
+            logBundledRequestCompletedMsg(requestDescription.toString(), initialTime, SC_GONE);
+        } catch (FHIROperationException e) {
+            if (failFast) {
+                String msg = "Error while processing request bundle.";
+                throw new FHIRRestBundledRequestException(msg, e).withIssue(e.getIssues());
+            }
+
+            Status status;
+            if (e instanceof FHIRSearchException) {
+                status = Status.BAD_REQUEST;
+            } else {
+                status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            }
+
+            Entry entry = Entry.builder()
+                    .resource(FHIRUtil.buildOperationOutcome(e, false))
+                    .response(Entry.Response.builder()
+                        .status(string(Integer.toString(status.getStatusCode())))
+                        .build())
+                    .build();
+            setResponseEntry(entryIndex, entry);
+            logBundledRequestCompletedMsg(requestDescription.toString(), initialTime, status.getStatusCode());
+        }
+        
+        return null;
     }
 }

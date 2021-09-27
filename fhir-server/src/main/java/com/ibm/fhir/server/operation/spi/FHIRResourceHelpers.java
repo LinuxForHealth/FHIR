@@ -8,6 +8,7 @@ package com.ibm.fhir.server.operation.spi;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Future;
 
 import javax.ws.rs.core.MultivaluedMap;
@@ -17,10 +18,16 @@ import com.ibm.fhir.model.patch.FHIRPatch;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.fhir.persistence.ResourceEraseRecord;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.erase.EraseDTO;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
+import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
+import com.ibm.fhir.search.context.FHIRSearchContext;
+import com.ibm.fhir.server.util.FHIRRestHelper.Interaction;
 
 /**
  * This interface describes the set of helper methods from the FHIR REST layer that are used by custom operation
@@ -32,6 +39,33 @@ public interface FHIRResourceHelpers {
     // Constant for indicating whether an update can be skipped when the requested update resource matches the existing one
     public static final boolean SKIPPABLE_UPDATE = true;
 
+    /**
+     * Validate an interaction for a specified resource type.
+     *
+     * @param interaction
+     *            the interaction to be performed
+     * @param resourceType
+     *            the resource type against which the interaction is to be performed
+     * @throws FHIROperationException
+     */
+    void validateInteraction(Interaction interaction, String resourceType) throws FHIROperationException;
+
+    /**
+     * Performs the heavy lifting associated with a 'create' interaction.
+     *
+     * @param type
+     *            the resource type specified as part of the request URL
+     * @param resource
+     *            the Resource to be stored.
+     * @param ifNoneExist
+     *            whether to create the resource if none exists
+     * @param doValidation
+     *            if true, validate the resource; if false, assume the resource has already been validated
+     * @return a FHIRRestOperationResponse object containing the results of the operation
+     * @throws Exception
+     */
+    FHIRRestOperationResponse doCreate(String type, Resource resource, String ifNoneExist, boolean doValidation) throws Exception;
+    
     /**
      * Performs the heavy lifting associated with a 'create' interaction. Validates the resource.
      *
@@ -49,21 +83,87 @@ public interface FHIRResourceHelpers {
     }
 
     /**
-     * Performs the heavy lifting associated with a 'create' interaction.
-     *
+     * 1st phase of CREATE. Perform the search for conditional create (ifNoneExist) interactions
+     * @param txn
+     * @param event
+     * @param warnings
      * @param type
-     *            the resource type specified as part of the request URL
      * @param resource
-     *            the Resource to be stored.
+     * @param localRefMap
+     * @param localIdentifier
      * @param ifNoneExist
-     *            whether to create the resource if none exists
      * @param doValidation
-     *            if true, validate the resource; if false, assume the resource has already been validated
-     * @return a FHIRRestOperationResponse object containing the results of the operation
+     * @return
      * @throws Exception
      */
-    FHIRRestOperationResponse doCreate(String type, Resource resource, String ifNoneExist, boolean doValidation) throws Exception;
+    FHIRRestOperationResponse doCreateMeta(FHIRTransactionHelper txn, FHIRPersistenceEvent event, List<Issue> warnings, String type, Resource resource, 
+        String ifNoneExist, boolean doValidation) throws Exception;
 
+    /**
+     * 3rd phase of resource create. Persist the resource using the configured persistence layer. Does not modify
+     * the resource.
+     * @param event
+     * @param warnings
+     * @param type
+     * @param resource
+     * @return
+     * @throws Exception
+     */
+    FHIRRestOperationResponse doCreatePersist(FHIRPersistenceEvent event, List<Issue> warnings, String type, Resource resource) throws Exception;
+
+    /**
+     * 1st phase of update interaction. 
+     * @param event
+     * @param type
+     * @param id
+     * @param patch
+     * @param newResource
+     * @param ifMatchValue
+     * @param searchQueryString
+     * @param skippableUpdate
+     * @param doValidation
+     * @return
+     * @throws Exception
+     */
+    FHIRRestOperationResponse doUpdateMeta(String type, String id, FHIRPatch patch, Resource newResource, String ifMatchValue,
+        String searchQueryString, boolean skippableUpdate, boolean doValidation, List<Issue> warnings) throws Exception;
+
+    /**
+     * Persist the newResource value for patch or update interactions
+     * @param type
+     * @param id
+     * @param patch
+     * @param newResource
+     * @param prevResource
+     * @param ifMatchValue
+     * @param searchQueryString
+     * @param skippableUpdate
+     * @param warnings
+     * @param isDeleted
+     * @return
+     * @throws Exception
+     */
+    public FHIRRestOperationResponse doPatchOrUpdate(String type, String id, FHIRPatch patch,
+        Resource newResource, Resource prevResource, String ifMatchValue, String searchQueryString,
+        boolean skippableUpdate, List<Issue> warnings, boolean isDeleted) throws Exception;
+    
+    /**
+     * Builds a collection of properties that will be passed to the persistence interceptors.
+     *
+     * @param type
+     *            the resource type
+     * @param id
+     *            the resource logical ID
+     * @param version
+     *            the resource version
+     * @param searchContext
+     *            the request search context
+     * @return a map of persistence event properties
+     * @throws FHIRPersistenceException
+     */
+    Map<String, Object> buildPersistenceEventProperties(String type, String id,
+        String version, FHIRSearchContext searchContext) throws FHIRPersistenceException;
+    
     /**
      * Performs an update operation (a new version of the Resource will be stored). Validates the resource.
      *

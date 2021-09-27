@@ -16,20 +16,20 @@ import com.ibm.fhir.server.util.FHIRUrlParser;
  * Captures the fact that an issue occurred while translating a bundle entry.
  * Record the issue so that it can be added to the result bundle later
  */
-public class FHIRRestOperationIssue extends FHIRRestOperationBase {
+public class FHIRRestInteractionIssue extends FHIRRestInteractionBase {
     final Status status;
     
     // The Entry capturing the response. Can be null.
     final Entry responseEntry;
     
-    public FHIRRestOperationIssue(int entryIndex, long initialTime, Status status, Entry responseEntry) {
+    public FHIRRestInteractionIssue(int entryIndex, long initialTime, Status status, Entry responseEntry) {
         super(entryIndex, null, null, initialTime);
         this.status = status;
         this.responseEntry = responseEntry;
     }
     
     @Override
-    public FHIRRestOperationResponse accept(FHIRRestOperationVisitor visitor) throws Exception {
+    public FHIRRestOperationResponse accept(FHIRRestInteractionVisitor visitor) throws Exception {
         return visitor.issue(getEntryIndex(), getInitialTime(), status, responseEntry);
     }
 }

@@ -16,7 +16,7 @@ import com.ibm.fhir.server.util.FHIRUrlParser;
 /**
  * Executes a search operation on the visitor
  */
-public class FHIRRestOperationSearch extends FHIRRestOperationBase {
+public class FHIRRestInteractionSearch extends FHIRRestInteractionBase {
 
     private final String type;
     private final String compartment;
@@ -26,7 +26,7 @@ public class FHIRRestOperationSearch extends FHIRRestOperationBase {
     private final Resource contextResource;
     private final boolean checkInteractionAllowed;
     
-    public FHIRRestOperationSearch(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String compartment, String compartmentId,
+    public FHIRRestInteractionSearch(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String compartment, String compartmentId,
         MultivaluedMap<String, String> queryParameters, String requestUri,
         Resource contextResource, boolean checkInteractionAllowed) {
         super(entryIndex, requestDescription, requestURL, initialTime);
@@ -40,7 +40,7 @@ public class FHIRRestOperationSearch extends FHIRRestOperationBase {
     }
 
     @Override
-    public FHIRRestOperationResponse accept(FHIRRestOperationVisitor visitor) throws Exception {
+    public FHIRRestOperationResponse accept(FHIRRestInteractionVisitor visitor) throws Exception {
         return visitor.doSearch(getEntryIndex(), getRequestDescription(), getRequestURL(), getInitialTime(), type, compartment, compartmentId, queryParameters, requestUri, contextResource, checkInteractionAllowed);
     }
 }

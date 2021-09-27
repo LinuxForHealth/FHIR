@@ -15,14 +15,14 @@ import com.ibm.fhir.server.util.FHIRUrlParser;
 /**
  * Executes a VREAD (version read) operation on the visitor
  */
-public class FHIRRestOperationVRead extends FHIRRestOperationBase {
+public class FHIRRestInteractionVRead extends FHIRRestInteractionBase {
 
     private final String type;
     private final String id;
     private final String versionId;
     private final MultivaluedMap<String, String> queryParameters;
     
-    public FHIRRestOperationVRead(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String id, String versionId, MultivaluedMap<String, String> queryParameters) {
+    public FHIRRestInteractionVRead(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String id, String versionId, MultivaluedMap<String, String> queryParameters) {
         super(entryIndex, requestDescription, requestURL, initialTime);
         this.type = type;
         this.id = id;
@@ -31,7 +31,7 @@ public class FHIRRestOperationVRead extends FHIRRestOperationBase {
     }
     
     @Override
-    public FHIRRestOperationResponse accept(FHIRRestOperationVisitor visitor) throws Exception {
+    public FHIRRestOperationResponse accept(FHIRRestInteractionVisitor visitor) throws Exception {
         return visitor.doVRead(getEntryIndex(), getRequestDescription(), getRequestURL(), getInitialTime(), type, id, versionId, queryParameters);
     }
 }

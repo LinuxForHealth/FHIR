@@ -16,7 +16,7 @@ import com.ibm.fhir.server.util.FHIRUrlParser;
 /**
  * Executes a read operation on the visitor
  */
-public class FHIRRestOperationRead extends FHIRRestOperationBase {
+public class FHIRRestInteractionRead extends FHIRRestInteractionBase {
 
     private final String type;
     private final String id;
@@ -26,7 +26,7 @@ public class FHIRRestOperationRead extends FHIRRestOperationBase {
     private final MultivaluedMap<String, String> queryParameters;
     private final boolean checkInteractionAllowed;
     
-    public FHIRRestOperationRead(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String id, boolean throwExcOnNull, boolean includeDeleted,
+    public FHIRRestInteractionRead(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String id, boolean throwExcOnNull, boolean includeDeleted,
         Resource contextResource, MultivaluedMap<String, String> queryParameters, boolean checkInteractionAllowed) {
         super(entryIndex, requestDescription, requestURL, initialTime);
         this.type = type;
@@ -39,7 +39,7 @@ public class FHIRRestOperationRead extends FHIRRestOperationBase {
     }
     
     @Override
-    public FHIRRestOperationResponse accept(FHIRRestOperationVisitor visitor) throws Exception {
+    public FHIRRestOperationResponse accept(FHIRRestInteractionVisitor visitor) throws Exception {
         return visitor.doRead(getEntryIndex(), getRequestDescription(), getRequestURL(), getInitialTime(), type, id, throwExcOnNull, includeDeleted, contextResource, queryParameters, checkInteractionAllowed);
     }
 }

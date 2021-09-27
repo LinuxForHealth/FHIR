@@ -11,6 +11,7 @@ import static org.testng.Assert.assertTrue;
 import static org.testng.AssertJUnit.assertNotNull;
 
 import java.io.InputStream;
+import java.time.ZoneOffset;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +29,10 @@ import org.testng.annotations.BeforeMethod;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.resource.Resource.Builder;
+import com.ibm.fhir.model.type.Id;
+import com.ibm.fhir.model.type.Instant;
+import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.MultiResourceResult;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
@@ -237,5 +242,43 @@ public abstract class AbstractPersistenceTest {
         MultiResourceResult<Resource> result = persistence.search(persistenceContext, resourceType);
         assertNotNull(result.getResource());
         return result.getResource();
+    }
+    
+    /**
+     * Creates and returns a copy of the passed resource with the {@code Resource.id}
+     * {@code Resource.meta.versionId}, and {@code Resource.meta.lastUpdated} elements replaced.
+     *
+     * @param resource
+     * @param logicalId
+     * @param newVersionNumber
+     * @param lastUpdated
+     * @return the updated resource
+     */
+    @SuppressWarnings("unchecked")
+    protected <T extends Resource> T copyAndSetResourceMetaFields(T resource, String logicalId, int newVersionNumber, Instant lastUpdated) {
+        Meta meta = resource.getMeta();
+        Meta.Builder metaBuilder = meta == null ? Meta.builder() : meta.toBuilder();
+        metaBuilder.versionId(Id.of(Integer.toString(newVersionNumber)));
+        metaBuilder.lastUpdated(lastUpdated);
+
+        Builder resourceBuilder = resource.toBuilder();
+        resourceBuilder.setValidating(false);
+        return (T) resourceBuilder
+                .id(logicalId)
+                .meta(metaBuilder.build())
+                .build();
+    }
+
+    /**
+     * Convenience function to update the meta for the given resource with new version
+     * and lastUpdated fields
+     * @param <T>
+     * @param resource
+     * @return
+     */
+    protected <T extends Resource> T updateVersionMeta(T resource) {
+        final com.ibm.fhir.model.type.Instant lastUpdated = com.ibm.fhir.model.type.Instant.now(ZoneOffset.UTC);
+        final int newVersionId = Integer.parseInt(resource.getMeta().getVersionId().getValue()) + 1;
+        return copyAndSetResourceMetaFields(resource, resource.getId(), newVersionId, lastUpdated);
     }
 }

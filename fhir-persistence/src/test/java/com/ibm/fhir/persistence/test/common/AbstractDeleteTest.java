@@ -12,6 +12,7 @@ import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 import static org.testng.AssertJUnit.assertNull;
 
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Map;
 
@@ -152,9 +153,14 @@ public abstract class AbstractDeleteTest extends AbstractPersistenceTest {
         // Delete previously created device
         persistence.delete(getDefaultPersistenceContext(), Device.class, this.deviceId2);
         
+        // Update the meta so that the version matches
+        final com.ibm.fhir.model.type.Instant lastUpdated = com.ibm.fhir.model.type.Instant.now(ZoneOffset.UTC);
+        final int newVersionId = Integer.parseInt(device.getMeta().getVersionId().getValue()) + 2; // skip the version created by delete
+        device = copyAndSetResourceMetaFields(device, device.getId(), newVersionId, lastUpdated);
+
         // Then update deleted device
         device = device.toBuilder().udiCarrier(UdiCarrier.builder().deviceIdentifier(string(updatedUdiValue)).build()).build();
-        persistence.update(getDefaultPersistenceContext(), deviceId2, device);
+        persistence.update(getDefaultPersistenceContext(), deviceId2, newVersionId, device);
         
         // Verify device history
         List<Device> resources = persistence.history(context, Device.class, this.deviceId2).getResource();

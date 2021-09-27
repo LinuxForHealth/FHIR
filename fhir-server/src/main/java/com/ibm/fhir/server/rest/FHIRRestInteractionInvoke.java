@@ -18,7 +18,7 @@ import com.ibm.fhir.server.util.FHIRUrlParser;
 /**
  * Executes an invoke (custom) operation on the visitor
  */
-public class FHIRRestOperationInvoke extends FHIRRestOperationResource {
+public class FHIRRestInteractionInvoke extends FHIRRestInteractionResource {
 
     private final FHIROperationContext operationContext;
     private final String method;
@@ -26,7 +26,6 @@ public class FHIRRestOperationInvoke extends FHIRRestOperationResource {
     private String logicalId;
     private String versionId;
     private String operationName;
-    private Resource resource;
     private MultivaluedMap<String, String> queryParameters;
 
     /**
@@ -39,23 +38,22 @@ public class FHIRRestOperationInvoke extends FHIRRestOperationResource {
      * @param resource
      * @param queryParameters
      */
-    public FHIRRestOperationInvoke(int entryIndex, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime, FHIROperationContext operationContext, String method,
+    public FHIRRestInteractionInvoke(int entryIndex, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime, FHIROperationContext operationContext, String method,
         String resourceTypeName,
         String logicalId, String versionId, String operationName,
         Resource resource, MultivaluedMap<String, String> queryParameters) {
-        super(entryIndex, validationResponseEntry, requestDescription, requestURL, initialTime);
+        super(entryIndex, resource, validationResponseEntry, requestDescription, requestURL, initialTime);
         this.operationContext = operationContext;
         this.method = method;
         this.resourceTypeName = resourceTypeName;
         this.logicalId = logicalId;
         this.versionId = versionId;
         this.operationName = operationName;
-        this.resource = resource;
         this.queryParameters = queryParameters;
     }
 
     @Override
-    public FHIRRestOperationResponse accept(FHIRRestOperationVisitor visitor) throws Exception {
+    public FHIRRestOperationResponse accept(FHIRRestInteractionVisitor visitor) throws Exception {
 
         // Make sure the context is configured correctly before we call invoke
         FHIRRequestContext requestContext = FHIRRequestContext.get();
@@ -66,6 +64,6 @@ public class FHIRRestOperationInvoke extends FHIRRestOperationResource {
         operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, method);
         
         
-        return visitor.doInvoke(this.method, getEntryIndex(), getValidationResponseEntry(), getRequestDescription(), getRequestURL(), getInitialTime(), operationContext, resourceTypeName, logicalId, versionId, operationName, resource, queryParameters);
+        return visitor.doInvoke(this.method, getEntryIndex(), getValidationResponseEntry(), getRequestDescription(), getRequestURL(), getInitialTime(), operationContext, resourceTypeName, logicalId, versionId, operationName, getResource(), queryParameters);
     }
 }

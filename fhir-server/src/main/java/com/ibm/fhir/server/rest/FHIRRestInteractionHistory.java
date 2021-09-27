@@ -15,14 +15,14 @@ import com.ibm.fhir.server.util.FHIRUrlParser;
 /**
  * Executes a history operation on the visitor
  */
-public class FHIRRestOperationHistory extends FHIRRestOperationBase {
+public class FHIRRestInteractionHistory extends FHIRRestInteractionBase {
     
     private final String type;
     private final String id;
     private final MultivaluedMap<String, String> queryParameters;
     private final String requestUri;
     
-    public FHIRRestOperationHistory(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String id, MultivaluedMap<String, String> queryParameters, String requestUri) {
+    public FHIRRestInteractionHistory(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String id, MultivaluedMap<String, String> queryParameters, String requestUri) {
         super(entryIndex, requestDescription, requestURL, initialTime);
         this.type = type;
         this.id = id;
@@ -31,7 +31,7 @@ public class FHIRRestOperationHistory extends FHIRRestOperationBase {
     }
 
     @Override
-    public FHIRRestOperationResponse accept(FHIRRestOperationVisitor visitor) throws Exception {
+    public FHIRRestOperationResponse accept(FHIRRestInteractionVisitor visitor) throws Exception {
         return visitor.doHistory(getEntryIndex(), getRequestDescription(), getRequestURL(), getInitialTime(), type, id, queryParameters, requestUri);
     }
 }
