@@ -8,7 +8,7 @@
         <version>4.10.0-SNAPSHOT</version>
         <relativePath>../</relativePath>
     </parent>
-    <artifactId>fhir-term-loader</artifactId>
+    <artifactId>fhir-term-graph-loader</artifactId>
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
