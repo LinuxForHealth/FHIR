@@ -1,0 +1,52 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.ibm.fhir</groupId>
+        <artifactId>fhir-parent</artifactId>
+        <version>4.10.0-SNAPSHOT</version>
+        <relativePath>../fhir-parent</relativePath>
+    </parent>
+
+    <artifactId>fhir-term-parent</artifactId>
+    <packaging>pom</packaging>
+
+    <url>https://github.com/ibm/fhir</url>
+    <organization>
+        <name>IBM</name>
+        <url>https://github.com/ibm/fhir</url>
+    </organization>
+    <issueManagement>
+        <url>https://github.com/ibm/fhir/issues</url>
+    </issueManagement>
+    <ciManagement>
+        <url>https://github.com/ibm/fhir/actions</url>
+    </ciManagement>
+    <description>The IBM® FHIR® Server is a modular Java implementation of version 4 of the HL7 FHIR specification with a focus on performance and configurability.</description>
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <name>IBM Watson Health Development</name>
+            <email>fhirci@us.ibm.com</email>
+            <url>https://www.ibm.com/</url>
+            <organization>IBM Watson Health</organization>
+            <organizationUrl>http://www.ibm.com</organizationUrl>
+        </developer>
+    </developers>
+
+    <modules>
+        <module>fhir-term</module>
+        <module>fhir-term-graph</module>
+        <module>fhir-term-remote</module>
+        <module>fhir-term-graph-loader</module>
+        <module>operation/fhir-operation-term</module>
+        <module>operation/fhir-operation-term-cache</module>
+    </modules>
+</project>

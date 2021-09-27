@@ -49,6 +49,10 @@ config(){
     then
         find ${WORKSPACE}/prev/operation/fhir-operation-term-cache/target -iname '*.jar' -exec cp -f {} ${USERLIB} \;
     fi
+    if [ -d ${WORKSPACE}/prev/term/operation/fhir-operation-term-cache/target ]
+    then
+        find ${WORKSPACE}/prev/term/operation/fhir-operation-term-cache/target -iname '*.jar' -exec cp -f {} ${USERLIB} \;
+    fi
 
     echo "Copying over the overrides for the datasource"
     mkdir -p ${DIST}/overrides

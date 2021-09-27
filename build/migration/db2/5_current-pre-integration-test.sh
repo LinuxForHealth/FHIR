@@ -38,6 +38,10 @@ config(){
     then
         find ${WORKSPACE}/fhir/operation/fhir-operation-term-cache/target -iname '*.jar' -exec cp -f {} ${USERLIB} \;
     fi
+    if [ -d ${WORKSPACE}/fhir/term/operation/fhir-operation-term-cache/target ]
+    then
+        find ${WORKSPACE}/fhir/term/operation/fhir-operation-term-cache/target -iname '*.jar' -exec cp -f {} ${USERLIB} \;
+    fi
 
     echo "Remove the old overrides, and copy the current overrides for the datasource"
     rm -rf ${DIST}/overrides
