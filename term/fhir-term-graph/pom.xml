@@ -4,9 +4,9 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.ibm.fhir</groupId>
-        <artifactId>fhir-parent</artifactId>
+        <artifactId>fhir-term-parent</artifactId>
         <version>4.10.0-SNAPSHOT</version>
-        <relativePath>../fhir-term-parent</relativePath>
+        <relativePath>../</relativePath>
     </parent>
     <artifactId>fhir-term-graph</artifactId>
     <dependencies>
