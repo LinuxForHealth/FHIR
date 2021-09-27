@@ -1,14 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <licenses>
-        <license>
-            <name>IBM International License Agreement for Non-Warranted Programs</name>
-            <url>http://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/wasdev/maven/licenses/L-JTHS-8SZMHX/HTML/</url>
-            <distribution>repo</distribution>
-            <comments>Additional notices http://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/wasdev/maven/licenses/L-JTHS-8SZMHX/HTML/notices.html</comments>
-        </license>
-    </licenses>
-
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -90,7 +81,6 @@
         <dependency>
             <groupId>org.apache.derby</groupId>
             <artifactId>derby</artifactId>
-            <version>${derby.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -108,29 +98,14 @@
                 <groupId>io.openliberty.tools</groupId>
                 <artifactId>liberty-maven-plugin</artifactId>
                 <configuration>
-                    <!-- <verifyTimeout>120</verifyTimeout> -->
-                    <!-- <bootstrapProperties>
-                        <default.http.port>9080</default.http.port>
-                        <default.https.port>9443</default.https.port>
-                    </bootstrapProperties> -->
+                    <copyDependencies>
+                        <dependency>
+                            <groupId>org.apache.derby</groupId>
+                            <artifactId>derby</artifactId>
+                        </dependency>
+                        <location>${project.build.directory}/liberty/wlp/usr/shared/resources/lib/derby/</location>
+                    </copyDependencies>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy-derby-dependency</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                        <configuration>
-                            <includeArtifactIds>derby</includeArtifactIds>
-                            <outputDirectory>${project.build.directory}/liberty/wlp/usr/shared/lib/derby/</outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
