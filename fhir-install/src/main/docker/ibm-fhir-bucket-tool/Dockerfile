@@ -3,7 +3,6 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 # ----------------------------------------------------------------------------
-
 # Stage: Base
 
 # IBM Semeru Runtimes provides Non-official docker images as part of this repo. These are maintained by IBM.
@@ -11,10 +10,10 @@
 FROM ibmsemeruruntime/open-11-jdk:ubi_min-jre-latest as base
 
 # Create the base working directory
-RUN mkdir -p /opt/ibm/fhir/graph/loader/workarea
+RUN mkdir -p /opt/ibm/fhir/bucket/workarea
 
 # Copy in the relevant artifacts in a single command
-COPY ./run.sh ./target/fhir-term-graph-loader-*-cli.jar ./target/LICENSE ./target/ftg/ /opt/ibm/fhir/graph/loader/
+COPY ./run.sh ./target/fhir-bucket-*-cli.jar ./target/LICENSE /opt/ibm/fhir/bucket/
 
 # ----------------------------------------------------------------------------
 # Stage: Runnable
@@ -24,11 +23,11 @@ FROM registry.access.redhat.com/ubi8/ubi-minimal
 ARG FHIR_VERSION=4.10.0
 
 # The following labels are required: 
-LABEL name='IBM FHIR Term Graph Loader Tool'
+LABEL name='IBM FHIR Bucket Tool'
 LABEL vendor='IBM'
 LABEL version="$FHIR_VERSION"
-LABEL summary="Image for IBM FHIR Term Graph Loader Tool with OpenJ9 and UBI 8"
-LABEL description="The IBM FHIR Term Graph Loader Tool is designed to load the terminology graph."
+LABEL summary="Image for IBM FHIR Bucket Tool with OpenJ9 and UBI 8"
+LABEL description="The IBM FHIR Bucket Tool manages the IBM FHIR Server and generate synthetic load."
 
 # Environment variables
 ENV SKIP false
@@ -39,27 +38,26 @@ ENV LANGUAGE='en_US:en'
 ENV LC_ALL='en_US.UTF-8'
 ENV TZ 'UTC'
 
-WORKDIR /opt/schematool
+WORKDIR /opt/ibm/fhir/bucket/workarea
 
 COPY --chown=1001:0 --from=base /opt/ /opt/
 
-RUN chmod -R 755 /opt/ibm/fhir/graph/loader/run.sh && \
+RUN chmod -R 755 /opt/ibm/fhir/bucketrun.sh && \
     mkdir -p /licenses && \
-    mv /opt/ibm/fhir/graph/loader/LICENSE /licenses && \
+    mv /opt/ibm/fhir/bucketLICENSE /licenses && \
     microdnf update -y && \
     microdnf install -y nc tzdata openssl curl ca-certificates fontconfig glibc-langpack-en gzip tar findutils shadow-utils && \
     groupadd -r fhirschemaadmin -g 1001 && \
-    useradd -u 1001 -r -g 1001 -m -d /opt/ibm/fhir/graph/loader/home -s /sbin/nologin fhirschemaadmin && \
+    useradd -u 1001 -r -g 1001 -m -d /opt/ibm/fhir/buckethome -s /sbin/nologin fhirbucketadmin && \
     chmod -R 755 /opt/schematool && \
     rm -rf /var/cache/yum && \
     rm -f /@System.solv && \
     microdnf clean all && \
     rm -rf /var/tmp/* && \
     rm -rf /tmp/* && \
-    mkdir -p /opt/ibm/fhir/graph/loader/workarea && \
-    chmod -R 775 /opt/ibm/fhir/graph/loader/workarea
+    mkdir -p /opt/ibm/fhir/bucket/workarea && \
+    chmod -R 775 /opt/ibm/fhir/bucket/workarea
 
 USER 1001
 
-ENTRYPOINT ["/opt/ibm/fhir/graph/loader/run.sh"]
-# EOF
+ENTRYPOINT ["/opt/ibm/fhir/bucket/run.sh"]

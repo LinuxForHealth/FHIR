@@ -14,6 +14,10 @@ docker login -u "${DOCKERHUB_USERNAME}" -p "${DOCKERHUB_TOKEN}"
 export WORKSPACE=$(pwd)
 bash ${WORKSPACE}/fhir-install/src/main/docker/ibm-fhir-schematool/build.sh
 
+bash ${WORKSPACE}/fhir-install/src/main/docker/ibm-fhir-term-graph-loader/build.sh
+
+bash ${WORKSPACE}/fhir-install/src/main/docker/ibm-fhir-bucket-tool/build.sh
+
 # create and remove a 1 GB file to make sure we have the room needed later
 df -h
 dd if=/dev/urandom oflag=direct of=balloon.dat bs=1024k count=1000
