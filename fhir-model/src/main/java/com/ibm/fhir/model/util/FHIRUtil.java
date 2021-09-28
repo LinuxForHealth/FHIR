@@ -569,13 +569,12 @@ public class FHIRUtil {
      * @return
      */
     public static boolean anyFailureInIssues(List<OperationOutcome.Issue> issues) {
-        boolean hasFailure = false;
         for (OperationOutcome.Issue issue : issues) {
-            if (FHIRUtil.isFailure(issue.getSeverity())) {
-                hasFailure = true;
+            if (isFailure(issue.getSeverity())) {
+                return true;
             }
         }
-        return hasFailure;
+        return false;
     }
 
     /**

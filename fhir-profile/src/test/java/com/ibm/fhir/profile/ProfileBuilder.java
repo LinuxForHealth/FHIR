@@ -50,7 +50,7 @@ public class ProfileBuilder {
     protected final String version;
     protected final List<ElementDefinition> element;
     protected final Map<String, ElementDefinition> elementDefinitionMap;
-    protected final Context context;
+    protected final List<Context> context = new ArrayList<>();
 
     public ProfileBuilder(Class<?> type, String url, String version) {
         this.type = type;
@@ -59,17 +59,6 @@ public class ProfileBuilder {
         this.version = version;
         element = new ArrayList<>(structureDefinition.getSnapshot().getElement());
         elementDefinitionMap = buildElementDefinitionMap(structureDefinition);
-        context = null;
-    }
-
-    public ProfileBuilder(Class<?> type, String url, String version, Context context) {
-        this.type = type;
-        structureDefinition = ProfileSupport.getStructureDefinition(type);
-        this.url = url;
-        this.version = version;
-        element = new ArrayList<>(structureDefinition.getSnapshot().getElement());
-        elementDefinitionMap = buildElementDefinitionMap(structureDefinition);
-        this.context = context;
     }
 
     /**
@@ -105,7 +94,7 @@ public class ProfileBuilder {
             .type(Uri.of(type.getSimpleName()))
             .status(PublicationStatus.DRAFT)
             .kind(structureDefinition.getKind())
-            .context(context != null ? Collections.singleton(context) : Collections.emptyList())
+            .context(context)
             .baseDefinition(Canonical.of(structureDefinition.getUrl().getValue()))
             .derivation(TypeDerivationRule.CONSTRAINT)
             .snapshot(structureDefinition.getSnapshot().toBuilder()

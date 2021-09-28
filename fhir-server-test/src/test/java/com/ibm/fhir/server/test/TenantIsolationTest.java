@@ -36,11 +36,11 @@ import com.ibm.fhir.profile.ExtensionBuilder;
 public class TenantIsolationTest extends FHIRServerTestBase {
     @BeforeClass
     public void createArtifactsInDefaultTenant() throws Exception {
-        Context context = Context.builder()
-                .type(ExtensionContextType.ELEMENT)
-                .expression("Element")
-                .build();
-        StructureDefinition extension = new ExtensionBuilder("http://ibm.com/fhir/StructureDefinition/favorite-team", "0.0.1", context, "string")
+        StructureDefinition extension = new ExtensionBuilder("http://ibm.com/fhir/StructureDefinition/favorite-team", "0.0.1", "string")
+                .context(Context.builder()
+                    .type(ExtensionContextType.ELEMENT)
+                    .expression("Element")
+                    .build())
                 .build();
         createResourceAndReturnTheLogicalId("StructureDefinition", extension);
 
