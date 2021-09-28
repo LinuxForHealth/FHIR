@@ -34,11 +34,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import javax.crypto.KeyGenerator;
-import jakarta.json.Json;
-import jakarta.json.JsonBuilderFactory;
-import jakarta.json.JsonObject;
-import jakarta.json.JsonObjectBuilder;
-import jakarta.json.JsonValue;
 
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.exception.FHIROperationException;
@@ -66,6 +61,12 @@ import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.visitor.Visitable;
+
+import jakarta.json.Json;
+import jakarta.json.JsonBuilderFactory;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
+import jakarta.json.JsonValue;
 
 /**
  * Utility methods for working with the FHIR object model.
@@ -559,6 +560,22 @@ public class FHIRUtil {
         return Arrays.stream(ResourceType.Value.values())
                 .map(ResourceType.Value::value)
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * Determine if any of the issues in the list of issues are failure issues
+     *
+     * @param issues
+     * @return
+     */
+    public static boolean anyFailureInIssues(List<OperationOutcome.Issue> issues) {
+        boolean hasFailure = false;
+        for (OperationOutcome.Issue issue : issues) {
+            if (FHIRUtil.isFailure(issue.getSeverity())) {
+                hasFailure = true;
+            }
+        }
+        return hasFailure;
     }
 
     /**

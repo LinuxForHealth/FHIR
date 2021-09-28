@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 
 import com.ibm.fhir.model.resource.CapabilityStatement.Rest.Resource;
 import com.ibm.fhir.model.resource.StructureDefinition;
+import com.ibm.fhir.model.resource.StructureDefinition.Context;
 import com.ibm.fhir.model.resource.StructureDefinition.Snapshot;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Element;
@@ -43,12 +44,13 @@ import com.ibm.fhir.model.util.ModelSupport;
  * A utility class for building profiles from a base structure definition
  */
 public class ProfileBuilder {
-    private final Class<?> type;
-    private final StructureDefinition structureDefinition;
-    private final String url;
-    private final String version;
-    private final List<ElementDefinition> element;
-    private final Map<String, ElementDefinition> elementDefinitionMap;
+    protected final Class<?> type;
+    protected final StructureDefinition structureDefinition;
+    protected final String url;
+    protected final String version;
+    protected final List<ElementDefinition> element;
+    protected final Map<String, ElementDefinition> elementDefinitionMap;
+    protected final Context context;
 
     public ProfileBuilder(Class<?> type, String url, String version) {
         this.type = type;
@@ -57,6 +59,17 @@ public class ProfileBuilder {
         this.version = version;
         element = new ArrayList<>(structureDefinition.getSnapshot().getElement());
         elementDefinitionMap = buildElementDefinitionMap(structureDefinition);
+        context = null;
+    }
+
+    public ProfileBuilder(Class<?> type, String url, String version, Context context) {
+        this.type = type;
+        structureDefinition = ProfileSupport.getStructureDefinition(type);
+        this.url = url;
+        this.version = version;
+        element = new ArrayList<>(structureDefinition.getSnapshot().getElement());
+        elementDefinitionMap = buildElementDefinitionMap(structureDefinition);
+        this.context = context;
     }
 
     /**
@@ -92,6 +105,7 @@ public class ProfileBuilder {
             .type(Uri.of(type.getSimpleName()))
             .status(PublicationStatus.DRAFT)
             .kind(structureDefinition.getKind())
+            .context(context != null ? Collections.singleton(context) : Collections.emptyList())
             .baseDefinition(Canonical.of(structureDefinition.getUrl().getValue()))
             .derivation(TypeDerivationRule.CONSTRAINT)
             .snapshot(structureDefinition.getSnapshot().toBuilder()
