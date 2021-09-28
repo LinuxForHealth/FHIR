@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020,2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -22,22 +22,22 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
  * Command to merge a collection of resources
  */
 public class MergeResources implements IDatabaseStatement {
-    private static final Logger logger = Logger.getLogger(RegisterLoaderInstance.class.getName());
+    private static final Logger logger = Logger.getLogger(MergeResources.class.getName());
 
     // The list of resource types we want to add
     private final List<ResourceRec> resources;
-    
+
     /**
      * Public constructor
      * @param resourceType
      */
     public MergeResources(Collection<ResourceRec> resources) {
-        this.resources = new ArrayList<ResourceRec>(resources); // copy for safety
+        this.resources = new ArrayList<>(resources); // copy for safety
     }
 
     @Override
     public void run(IDatabaseTranslator translator, Connection c) {
-        
+
         // Support for PostgreSQL as well as Derby/Db2
         final String currentTimestamp = translator.currentTimestampString();
         final String dual = translator.dualTableName();
@@ -50,7 +50,7 @@ public class MergeResources implements IDatabaseStatement {
                 + "    ON tgt.resource_type_id = ? AND tgt.logical_id = ? "
                 + " WHEN NOT MATCHED THEN INSERT (resource_type_id, logical_id, resource_bundle_load_id, line_number, "
                 + "   created_tstamp, response_time_ms) VALUES (?, ?, ?, ?, " + currentTimestamp + ", NULL)";
-        
+
         try (PreparedStatement ps = c.prepareStatement(merge)) {
             // Assume the list is small enough to process in one batch
             for (ResourceRec resource: resources) {

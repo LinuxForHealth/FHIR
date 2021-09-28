@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020,2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -27,7 +27,7 @@ import com.ibm.fhir.database.utils.model.DbType;
  * Does not support: PostgreSQL
  */
 public class MergeResourceTypes implements IDatabaseStatement {
-    private static final Logger logger = Logger.getLogger(RegisterLoaderInstance.class.getName());
+    private static final Logger logger = Logger.getLogger(MergeResourceTypes.class.getName());
 
     private final String schemaName;
 
@@ -42,7 +42,7 @@ public class MergeResourceTypes implements IDatabaseStatement {
     public MergeResourceTypes(String schemaName, Collection<String> resourceTypes) {
         this.schemaName = schemaName;
         // copy the list for safety
-        this.resourceTypes = new ArrayList<String>(resourceTypes);
+        this.resourceTypes = new ArrayList<>(resourceTypes);
     }
 
     @Override

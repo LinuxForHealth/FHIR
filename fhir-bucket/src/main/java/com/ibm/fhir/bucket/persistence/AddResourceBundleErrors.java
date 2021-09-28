@@ -29,7 +29,7 @@ import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
  * in the schema
  */
 public class AddResourceBundleErrors implements IDatabaseStatement {
-    private static final Logger logger = Logger.getLogger(RegisterLoaderInstance.class.getName());
+    private static final Logger logger = Logger.getLogger(AddResourceBundleErrors.class.getName());
 
     // The schema with the FHIRBUCKET tables
     private final String schemaName;
