@@ -122,8 +122,15 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.ibm.fhir</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>fhir-persistence</artifactId>
+            <version>${project.version}</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>fhir-profile</artifactId>
             <version>${project.version}</version>
             <type>test-jar</type>
             <scope>test</scope>

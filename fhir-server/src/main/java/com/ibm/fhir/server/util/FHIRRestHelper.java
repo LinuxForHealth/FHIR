@@ -1243,20 +1243,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     }
 
     /**
-     * @param issues
-     * @return
-     */
-    private boolean anyFailureInIssues(List<OperationOutcome.Issue> issues) {
-        boolean hasFailure = false;
-        for (OperationOutcome.Issue issue : issues) {
-            if (FHIRUtil.isFailure(issue.getSeverity())) {
-                hasFailure = true;
-            }
-        }
-        return hasFailure;
-    }
-
-    /**
      * Performs validation of a request Bundle and returns a Map of entry indices to error / warning
      * response entries that correspond to the entries in the request Bundle.
      *
@@ -1352,7 +1338,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         List<Issue> issues = validateResource(resource);
                         if (!issues.isEmpty()) {
                             OperationOutcome oo = FHIRUtil.buildOperationOutcome(issues);
-                            if (anyFailureInIssues(issues)) {
+                            if (FHIRUtil.anyFailureInIssues(issues)) {
                                 if (requestType == BundleType.Value.TRANSACTION) {
                                     issueList.addAll(issues);
                                 } else {
