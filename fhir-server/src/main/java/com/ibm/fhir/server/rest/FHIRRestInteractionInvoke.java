@@ -12,11 +12,10 @@ import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.Bundle.Entry;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
-import com.ibm.fhir.server.operation.spi.FHIRRestOperationResponse;
 import com.ibm.fhir.server.util.FHIRUrlParser;
 
 /**
- * Executes an invoke (custom) operation on the visitor
+ * Represents a FHIR REST custom operation interaction
  */
 public class FHIRRestInteractionInvoke extends FHIRRestInteractionResource {
 
@@ -30,7 +29,13 @@ public class FHIRRestInteractionInvoke extends FHIRRestInteractionResource {
 
     /**
      * Public constructor
+     * @param entryIndex
+     * @param validationResponseEntry
+     * @param requestDescription
+     * @param requestURL
+     * @param initialTime
      * @param operationContext
+     * @param method
      * @param resourceTypeName
      * @param logicalId
      * @param versionId
@@ -53,7 +58,7 @@ public class FHIRRestInteractionInvoke extends FHIRRestInteractionResource {
     }
 
     @Override
-    public FHIRRestOperationResponse accept(FHIRRestInteractionVisitor visitor) throws Exception {
+    public void accept(FHIRRestInteractionVisitor visitor) throws Exception {
 
         // Make sure the context is configured correctly before we call invoke
         FHIRRequestContext requestContext = FHIRRequestContext.get();
@@ -63,7 +68,6 @@ public class FHIRRestInteractionInvoke extends FHIRRestInteractionResource {
         operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_REQUEST, requestContext.getExtendedOperationProperties(FHIROperationContext.PROPNAME_HTTP_REQUEST));
         operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, method);
         
-        
-        return visitor.doInvoke(this.method, getEntryIndex(), getValidationResponseEntry(), getRequestDescription(), getRequestURL(), getInitialTime(), operationContext, resourceTypeName, logicalId, versionId, operationName, getNewResource(), queryParameters);
+        visitor.doInvoke(this.method, getEntryIndex(), getValidationResponseEntry(), getRequestDescription(), getRequestURL(), getInitialTime(), operationContext, resourceTypeName, logicalId, versionId, operationName, getNewResource(), queryParameters);
     }
 }

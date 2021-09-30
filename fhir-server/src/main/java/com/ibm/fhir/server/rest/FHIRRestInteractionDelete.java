@@ -6,11 +6,10 @@
  
 package com.ibm.fhir.server.rest;
 
-import com.ibm.fhir.server.operation.spi.FHIRRestOperationResponse;
 import com.ibm.fhir.server.util.FHIRUrlParser;
 
 /**
- * Executes a delete operation on the visitor
+ * Represents a FHIR REST DELETE interaction
  */
 public class FHIRRestInteractionDelete extends FHIRRestInteractionBase {
     
@@ -18,6 +17,16 @@ public class FHIRRestInteractionDelete extends FHIRRestInteractionBase {
     final String id;
     final String searchQueryString;
     
+    /**
+     * Public constructor
+     * @param entryIndex
+     * @param requestDescription
+     * @param requestURL
+     * @param initialTime
+     * @param type
+     * @param id
+     * @param searchQueryString
+     */
     public FHIRRestInteractionDelete(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String id, String searchQueryString) {
         super(entryIndex, requestDescription, requestURL, initialTime);
         this.type = type;
@@ -26,7 +35,7 @@ public class FHIRRestInteractionDelete extends FHIRRestInteractionBase {
     }
 
     @Override
-    public FHIRRestOperationResponse accept(FHIRRestInteractionVisitor visitor) throws Exception {
-        return visitor.doDelete(getEntryIndex(), getRequestDescription(), getRequestURL(), getInitialTime(), type, id, searchQueryString);        
+    public void accept(FHIRRestInteractionVisitor visitor) throws Exception {
+        visitor.doDelete(getEntryIndex(), getRequestDescription(), getRequestURL(), getInitialTime(), type, id, searchQueryString);        
     }
 }

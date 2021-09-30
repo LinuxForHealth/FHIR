@@ -8,12 +8,10 @@ package com.ibm.fhir.server.rest;
 
 import javax.ws.rs.core.MultivaluedMap;
 
-import com.ibm.fhir.model.resource.Bundle.Entry;
-import com.ibm.fhir.server.operation.spi.FHIRRestOperationResponse;
 import com.ibm.fhir.server.util.FHIRUrlParser;
 
 /**
- * Executes a history operation on the visitor
+ * Represents a FHIR REST HISTORY read interaction
  */
 public class FHIRRestInteractionHistory extends FHIRRestInteractionBase {
     
@@ -21,7 +19,18 @@ public class FHIRRestInteractionHistory extends FHIRRestInteractionBase {
     private final String id;
     private final MultivaluedMap<String, String> queryParameters;
     private final String requestUri;
-    
+
+    /**
+     * Public constructor
+     * @param entryIndex
+     * @param requestDescription
+     * @param requestURL
+     * @param initialTime
+     * @param type
+     * @param id
+     * @param queryParameters
+     * @param requestUri
+     */
     public FHIRRestInteractionHistory(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String id, MultivaluedMap<String, String> queryParameters, String requestUri) {
         super(entryIndex, requestDescription, requestURL, initialTime);
         this.type = type;
@@ -31,7 +40,7 @@ public class FHIRRestInteractionHistory extends FHIRRestInteractionBase {
     }
 
     @Override
-    public FHIRRestOperationResponse accept(FHIRRestInteractionVisitor visitor) throws Exception {
-        return visitor.doHistory(getEntryIndex(), getRequestDescription(), getRequestURL(), getInitialTime(), type, id, queryParameters, requestUri);
+    public void accept(FHIRRestInteractionVisitor visitor) throws Exception {
+        visitor.doHistory(getEntryIndex(), getRequestDescription(), getRequestURL(), getInitialTime(), type, id, queryParameters, requestUri);
     }
 }

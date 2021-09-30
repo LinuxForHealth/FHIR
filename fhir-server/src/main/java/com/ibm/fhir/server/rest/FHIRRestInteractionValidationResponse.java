@@ -7,7 +7,6 @@
 package com.ibm.fhir.server.rest;
 
 import com.ibm.fhir.model.resource.Bundle.Entry;
-import com.ibm.fhir.server.operation.spi.FHIRRestOperationResponse;
 
 /**
  * Captures the fact that a particular entry failed validation.
@@ -24,7 +23,7 @@ public class FHIRRestInteractionValidationResponse extends FHIRRestInteractionRe
     }
     
     @Override
-    public FHIRRestOperationResponse accept(FHIRRestInteractionVisitor visitor) throws Exception {
-        return visitor.validationResponse(getEntryIndex(), getValidationResponseEntry());
+    public void accept(FHIRRestInteractionVisitor visitor) throws Exception {
+        visitor.validationResponse(getEntryIndex(), getValidationResponseEntry());
     }
 }

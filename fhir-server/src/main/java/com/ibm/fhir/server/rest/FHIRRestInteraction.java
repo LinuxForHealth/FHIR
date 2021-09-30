@@ -6,21 +6,21 @@
  
 package com.ibm.fhir.server.rest;
 
-import com.ibm.fhir.server.operation.spi.FHIRRestOperationResponse;
-
 /**
- * Defines an operation the REST layer wants to perform against the
- * persistence layer
+ * Defines a FHIR REST interaction. Implementations do not need to
+ * be immutable. Some may update their internal state based on the
+ * result of calling the interaction on the visitor in the {@link #accept(FHIRRestInteractionVisitor)}
+ * method.
  */
 public interface FHIRRestInteraction {
     
     /**
-     * Visit this interaction
+     * Perform this interaction on the given visitor. Some implementations may chose to
+     * update their internal state based on the interaction.
      * @param visitor
-     * @return
      * @throws Exception
      */
-    FHIRRestOperationResponse accept(FHIRRestInteractionVisitor visitor) throws Exception;
+    void accept(FHIRRestInteractionVisitor visitor) throws Exception;
     
     /**
      * Get the index for the response bundle entry

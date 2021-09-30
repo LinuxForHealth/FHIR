@@ -15,39 +15,24 @@ import static javax.servlet.http.HttpServletResponse.SC_OK;
 
 import java.net.URI;
 import java.util.Map;
-import java.util.concurrent.Callable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.Response.Status;
 
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.core.HTTPReturnPreference;
 import com.ibm.fhir.exception.FHIROperationException;
-import com.ibm.fhir.model.patch.FHIRPatch;
 import com.ibm.fhir.model.resource.Bundle.Entry;
 import com.ibm.fhir.model.type.Uri;
-import com.ibm.fhir.model.type.code.IssueType;
-import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.ModelSupport;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
-import com.ibm.fhir.search.SearchConstants;
-import com.ibm.fhir.search.exception.FHIRSearchException;
-import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.server.exception.FHIRRestBundledRequestException;
-import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
 import com.ibm.fhir.server.operation.spi.FHIRRestOperationResponse;
-import com.ibm.fhir.server.util.FHIRUrlParser;
-import com.ibm.fhir.server.util.IssueTypeToHttpStatusMapper;
-
 
 /**
- * Abstract base class of the {@link FHIRRestInteractionVisitor}
+ * Abstract base class of the {@link FHIRRestInteractionVisitor}. Manages access to the
+ * map managing local references (localRefMap) and the array of response Entry objects 
+ * (responseBundleEntries).
  */
 public abstract class FHIRRestInteractionVisitorBase implements FHIRRestInteractionVisitor {
     private static final Logger log = Logger.getLogger(FHIRRestInteractionVisitorBase.class.getName());
@@ -138,7 +123,6 @@ public abstract class FHIRRestInteractionVisitorBase implements FHIRRestInteract
             bundleEntryBuilder.resource(operationResponse.getOperationOutcome());
         }
     
-        // TODO logBundledRequestCompletedMsg(requestDescription, initialTime, httpStatus);
         return bundleEntryBuilder.response(entryResponseBuilder.build()).build();
     }
     

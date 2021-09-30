@@ -9,12 +9,10 @@ package com.ibm.fhir.server.rest;
 import javax.ws.rs.core.MultivaluedMap;
 
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.model.resource.Bundle.Entry;
-import com.ibm.fhir.server.operation.spi.FHIRRestOperationResponse;
 import com.ibm.fhir.server.util.FHIRUrlParser;
 
 /**
- * Executes a search operation on the visitor
+ * Represents a FHIR REST SEARCH interaction
  */
 public class FHIRRestInteractionSearch extends FHIRRestInteractionBase {
 
@@ -26,6 +24,20 @@ public class FHIRRestInteractionSearch extends FHIRRestInteractionBase {
     private final Resource contextResource;
     private final boolean checkInteractionAllowed;
     
+    /**
+     * Public constructor
+     * @param entryIndex
+     * @param requestDescription
+     * @param requestURL
+     * @param initialTime
+     * @param type
+     * @param compartment
+     * @param compartmentId
+     * @param queryParameters
+     * @param requestUri
+     * @param contextResource
+     * @param checkInteractionAllowed
+     */
     public FHIRRestInteractionSearch(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String compartment, String compartmentId,
         MultivaluedMap<String, String> queryParameters, String requestUri,
         Resource contextResource, boolean checkInteractionAllowed) {
@@ -40,7 +52,7 @@ public class FHIRRestInteractionSearch extends FHIRRestInteractionBase {
     }
 
     @Override
-    public FHIRRestOperationResponse accept(FHIRRestInteractionVisitor visitor) throws Exception {
-        return visitor.doSearch(getEntryIndex(), getRequestDescription(), getRequestURL(), getInitialTime(), type, compartment, compartmentId, queryParameters, requestUri, contextResource, checkInteractionAllowed);
+    public void accept(FHIRRestInteractionVisitor visitor) throws Exception {
+        visitor.doSearch(getEntryIndex(), getRequestDescription(), getRequestURL(), getInitialTime(), type, compartment, compartmentId, queryParameters, requestUri, contextResource, checkInteractionAllowed);
     }
 }

@@ -12,7 +12,7 @@ import com.ibm.fhir.server.operation.spi.FHIRRestOperationResponse;
 import com.ibm.fhir.server.util.FHIRUrlParser;
 
 /**
- * Executes a patch operation on the visitor
+ * Represents a FHIR REST PATCH interaction
  */
 public class FHIRRestInteractionPatch extends FHIRRestInteractionResource {
 
@@ -24,6 +24,20 @@ public class FHIRRestInteractionPatch extends FHIRRestInteractionResource {
     private final boolean skippableUpdate;
     private final String localIdentifier;
     
+    /**
+     * Public constructor
+     * @param entryIndex
+     * @param requestDescription
+     * @param requestURL
+     * @param initialTime
+     * @param type
+     * @param id
+     * @param patch
+     * @param ifMatchValue
+     * @param searchQueryString
+     * @param skippableUpdate
+     * @param localIdentifier
+     */
     public FHIRRestInteractionPatch(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String id, FHIRPatch patch, String ifMatchValue,
         String searchQueryString, boolean skippableUpdate, String localIdentifier) {
         super(entryIndex, null, null, requestDescription, requestURL, initialTime);
@@ -37,7 +51,7 @@ public class FHIRRestInteractionPatch extends FHIRRestInteractionResource {
     }
     
     @Override
-    public FHIRRestOperationResponse accept(FHIRRestInteractionVisitor visitor) throws Exception {
+    public void accept(FHIRRestInteractionVisitor visitor) throws Exception {
         FHIRRestOperationResponse result = visitor.doPatch(getEntryIndex(), getValidationResponseEntry(), getRequestDescription(), 
             getRequestURL(), getInitialTime(), type, id, getNewResource(), getPrevResource(), patch, ifMatchValue, searchQueryString, skippableUpdate, getWarnings(), localIdentifier);
 
@@ -52,7 +66,5 @@ public class FHIRRestInteractionPatch extends FHIRRestInteractionResource {
                 setPrevResource(result.getPrevResource());
             }
         }
-
-        return result;
     }
 }

@@ -12,7 +12,7 @@ import com.ibm.fhir.server.operation.spi.FHIRRestOperationResponse;
 import com.ibm.fhir.server.util.FHIRUrlParser;
 
 /**
- * Executes a create operation on the visitor
+ * Represents a FHIR REST CREATE interaction
  */
 public class FHIRRestInteractionCreate extends FHIRRestInteractionResource {
     
@@ -20,6 +20,18 @@ public class FHIRRestInteractionCreate extends FHIRRestInteractionResource {
     private final String ifNoneExist;
     private final String localIdentifier;
     
+    /**
+     * Public constructor
+     * @param entryIndex
+     * @param validationResponseEntry
+     * @param requestDescription
+     * @param requestURL
+     * @param initialTime
+     * @param type
+     * @param resource
+     * @param ifNoneExist
+     * @param localIdentifier
+     */
     public FHIRRestInteractionCreate(int entryIndex, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, Resource resource, String ifNoneExist, String localIdentifier) {
         super(entryIndex, resource, validationResponseEntry, requestDescription, requestURL, initialTime);
         this.type = type;
@@ -28,14 +40,12 @@ public class FHIRRestInteractionCreate extends FHIRRestInteractionResource {
     }
 
     @Override
-    public FHIRRestOperationResponse accept(FHIRRestInteractionVisitor visitor) throws Exception {
+    public void accept(FHIRRestInteractionVisitor visitor) throws Exception {
         FHIRRestOperationResponse result = visitor.doCreate(getEntryIndex(), getWarnings(), getValidationResponseEntry(), getRequestDescription(), getRequestURL(), getInitialTime(), type, getNewResource(), ifNoneExist, localIdentifier);
         
         // update the resource so we can use it when called in the next processing phase
         if (result != null && result.getResource() != null) {
             setNewResource(result.getResource());
         }
-        
-        return result;
     }
 }

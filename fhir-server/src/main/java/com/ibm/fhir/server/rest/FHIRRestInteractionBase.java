@@ -37,6 +37,7 @@ public abstract class FHIRRestInteractionBase implements FHIRRestInteraction {
      * Protected constructor
      * @param entryIndex
      * @param requestDescription
+     * @param requestURL
      * @param initialTime
      */
     protected FHIRRestInteractionBase(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long initialTime) {

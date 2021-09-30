@@ -8,8 +8,6 @@ package com.ibm.fhir.server.rest;
 
 import javax.ws.rs.core.MultivaluedMap;
 
-import com.ibm.fhir.model.resource.Bundle.Entry;
-import com.ibm.fhir.server.operation.spi.FHIRRestOperationResponse;
 import com.ibm.fhir.server.util.FHIRUrlParser;
 
 /**
@@ -22,6 +20,17 @@ public class FHIRRestInteractionVRead extends FHIRRestInteractionBase {
     private final String versionId;
     private final MultivaluedMap<String, String> queryParameters;
     
+    /**
+     * Public constructor
+     * @param entryIndex
+     * @param requestDescription
+     * @param requestURL
+     * @param initialTime
+     * @param type
+     * @param id
+     * @param versionId
+     * @param queryParameters
+     */
     public FHIRRestInteractionVRead(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String id, String versionId, MultivaluedMap<String, String> queryParameters) {
         super(entryIndex, requestDescription, requestURL, initialTime);
         this.type = type;
@@ -31,7 +40,7 @@ public class FHIRRestInteractionVRead extends FHIRRestInteractionBase {
     }
     
     @Override
-    public FHIRRestOperationResponse accept(FHIRRestInteractionVisitor visitor) throws Exception {
-        return visitor.doVRead(getEntryIndex(), getRequestDescription(), getRequestURL(), getInitialTime(), type, id, versionId, queryParameters);
+    public void accept(FHIRRestInteractionVisitor visitor) throws Exception {
+        visitor.doVRead(getEntryIndex(), getRequestDescription(), getRequestURL(), getInitialTime(), type, id, versionId, queryParameters);
     }
 }

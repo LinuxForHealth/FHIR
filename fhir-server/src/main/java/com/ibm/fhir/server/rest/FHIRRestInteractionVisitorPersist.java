@@ -9,12 +9,10 @@ package com.ibm.fhir.server.rest;
 import static com.ibm.fhir.model.type.String.string;
 import static javax.servlet.http.HttpServletResponse.SC_GONE;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
-import static javax.servlet.http.HttpServletResponse.SC_OK;
 
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
-import java.util.logging.Logger;
 
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response.Status;
@@ -48,12 +46,6 @@ import com.ibm.fhir.server.util.IssueTypeToHttpStatusMapper;
  * performed by the implementation behind {@link FHIRResourceHelpers}.
  */
 public class FHIRRestInteractionVisitorPersist extends FHIRRestInteractionVisitorBase {
-    private static final Logger log = Logger.getLogger(FHIRRestInteractionVisitorPersist.class.getName());
-    
-    private final String bundleRequestCorrelationId;
-    
-    // Constant to make it clear when we're asking for validation
-    private static final boolean DO_VALIDATION = true;
 
     // True if the bundle type is TRANSACTION
     final boolean transaction;
@@ -61,13 +53,12 @@ public class FHIRRestInteractionVisitorPersist extends FHIRRestInteractionVisito
     /**
      * Public constructor
      * @param helpers
-     * @param bundleRequestCorrelationId
      * @param localRefMap
      * @param responseBundleEntries
+     * @param transaction
      */
-    public FHIRRestInteractionVisitorPersist(FHIRResourceHelpers helpers, String bundleRequestCorrelationId, Map<String, String> localRefMap, Entry[] responseBundleEntries, boolean transaction) {
+    public FHIRRestInteractionVisitorPersist(FHIRResourceHelpers helpers, Map<String, String> localRefMap, Entry[] responseBundleEntries, boolean transaction) {
         super(helpers, localRefMap, responseBundleEntries);
-        this.bundleRequestCorrelationId = bundleRequestCorrelationId;
         this.transaction = transaction;
     }
 

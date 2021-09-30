@@ -33,11 +33,8 @@ import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.CollectingVisitor;
 import com.ibm.fhir.model.util.FHIRUtil;
-import com.ibm.fhir.model.util.ModelSupport;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
-import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
 import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.exception.FHIRSearchException;
@@ -54,10 +51,11 @@ import com.ibm.fhir.server.util.IssueTypeToHttpStatusMapper;
 import com.ibm.fhir.server.util.FHIRRestHelper.Interaction;
 
 /**
- * Perform any conditional create searches. In order to correctly resolve all
- * the local references within a bundle, we need to process all conditional
- * create searches first so that we have the ids we need in the localRefMap
- * before we start to update any references.
+ * Used to prepare bundle entries before they hit the persistence layer. For write operations
+ * (CREATE, UPDATE, PATCH), the meta phase is responsible for establishing the identity of any 
+ * incoming resource, and updating the meta element accordingly. For other operations it is
+ * currently a NOP, but in the future may be used for optimistic async reads when the payload
+ * has been offloaded to another system.
  */
 public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBase {
     private static final Logger log = Logger.getLogger(FHIRRestInteractionVisitorPersist.class.getName());
@@ -170,9 +168,7 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
         logStart(entryIndex, requestDescription, requestURL);
 
         // Skip UPDATE if validation failed
-        // TODO the logic in the old buildLocalRefMap uses SC_OK_STRING
         if (validationResponseEntry != null && !validationResponseEntry.getResponse().getStatus().equals(SC_ACCEPTED_STRING)) {
-            log.info("Skipping entry[" + entryIndex + "] - validation status: '" + validationResponseEntry.getResponse().getStatus() + "'");
             return null;
         }
 

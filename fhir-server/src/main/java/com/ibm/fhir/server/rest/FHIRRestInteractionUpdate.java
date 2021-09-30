@@ -12,7 +12,7 @@ import com.ibm.fhir.server.operation.spi.FHIRRestOperationResponse;
 import com.ibm.fhir.server.util.FHIRUrlParser;
 
 /**
- * Executes an update operation on the visitor
+ * Represents a FHIR REST UPDATE interaction
  */
 public class FHIRRestInteractionUpdate extends FHIRRestInteractionResource {
 
@@ -26,6 +26,21 @@ public class FHIRRestInteractionUpdate extends FHIRRestInteractionResource {
     // The deleted flag status when we read the current resource value
     private boolean deleted;
     
+    /**
+     * Public constructor
+     * @param entryIndex
+     * @param validationResponseEntry
+     * @param requestDescription
+     * @param requestURL
+     * @param initialTime
+     * @param type
+     * @param id
+     * @param newResource
+     * @param ifMatchValue
+     * @param searchQueryString
+     * @param skippableUpdate
+     * @param localIdentifier
+     */
     public FHIRRestInteractionUpdate(int entryIndex, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, 
         long initialTime, String type, String id, Resource newResource, String ifMatchValue,
         String searchQueryString, boolean skippableUpdate, String localIdentifier) {
@@ -39,7 +54,7 @@ public class FHIRRestInteractionUpdate extends FHIRRestInteractionResource {
     }
     
     @Override
-    public FHIRRestOperationResponse accept(FHIRRestInteractionVisitor visitor) throws Exception {
+    public void accept(FHIRRestInteractionVisitor visitor) throws Exception {
         
         FHIRRestOperationResponse result = visitor.doUpdate(getEntryIndex(), getValidationResponseEntry(), getRequestDescription(), getRequestURL(), 
             getInitialTime(), type, id, getNewResource(), getPrevResource(), ifMatchValue, searchQueryString, skippableUpdate, localIdentifier,
@@ -56,7 +71,5 @@ public class FHIRRestInteractionUpdate extends FHIRRestInteractionResource {
                 setPrevResource(result.getPrevResource());
             }
         }
-        
-        return result;
     }
 }

@@ -23,7 +23,16 @@ public abstract class FHIRRestInteractionResource extends FHIRRestInteractionBas
     // The previous resource (e.g. if read from the database
     private Resource prevResource;
     
-    public FHIRRestInteractionResource(int entryIndex, Resource newResource, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime) {
+    /**
+     * Protected constructor
+     * @param entryIndex
+     * @param newResource
+     * @param validationResponseEntry
+     * @param requestDescription
+     * @param requestURL
+     * @param initialTime
+     */
+    protected FHIRRestInteractionResource(int entryIndex, Resource newResource, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime) {
         super(entryIndex, requestDescription, requestURL, initialTime);
         this.newResource = newResource;
         this.validationResponseEntry = validationResponseEntry;
