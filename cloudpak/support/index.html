@@ -2,12 +2,12 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>Support - IBM FHIR Server - 1.1.0</title>
+<!-- begin _includes/seo.html --><title>Support - IBM FHIR Server</title>
 <meta name="description" content="FHIR Server Documents">
 
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
-<meta property="og:site_name" content="IBM FHIR Server - 1.1.0">
+<meta property="og:site_name" content="IBM FHIR Server">
 <meta property="og:url" content="https://ibm.github.io/FHIR/cloudpak/support/" />
 <meta property="og:title" content="Support | Support" />
 <meta property="og:description" content="FHIR Server Documents" />
@@ -66,7 +66,7 @@
 <!-- end _includes/seo.html -->
 
 
-<link href="/FHIR/cloudpak/feed.xml" type="application/atom+xml" rel="alternate" title="IBM FHIR Server - 1.1.0 Feed">
+<link href="/FHIR/cloudpak/feed.xml" type="application/atom+xml" rel="alternate" title="IBM FHIR Server Feed">
 
 <!-- http://t.co/dKP3o1e -->
 <meta name="HandheldFriendly" content="True">
@@ -252,8 +252,6 @@
                           <div class="content">
                               <h1>IBM FHIR Server support</h1>
                               
-                                <p>Let us know what you think about IBM FHIR Server.</p>
-                              
                           </div>
                       </div>
                     </div>
@@ -277,8 +275,9 @@
   <thead>
     <tr>
       <th>Operator version</th>
-      <th>IBM FHIR Server version</th>
-      <th>Container platform</th>
+      <th>IBM open-source version</th>
+      <th>Red Hat OpenShift Container Platform version</th>
+      <th>Red Hat OpenShift Managed Service</th>
       <th>Systems</th>
       <th>Persistent data storage</th>
       <th> </th>
@@ -286,9 +285,19 @@
   </thead>
   <tbody>
     <tr>
+      <td>1.2.0</td>
+      <td>4.9.1</td>
+      <td>4.6.0 EUS or later</td>
+      <td>- Red Hat OpenShift on IBM Cloud <br /> - Microsoft Azure Red Hat OpenShift <br /> - Red Hat OpenShift Service on AWS</td>
+      <td>Linux® 64-bit (x86_64) systems</td>
+      <td>- Db2 11.5.5 or later <br /> - PostgreSQL 12.4 or later <br /> - Kafka 1.0 or later <br /> - S3-compliant object store or Azure blob</td>
+      <td> </td>
+    </tr>
+    <tr>
       <td>1.1.0</td>
       <td>4.6.1</td>
-      <td>Red Hat OpenShift Container Platform <br /> -4.6.0 or later</td>
+      <td>4.6.0 or later</td>
+      <td>- Red Hat OpenShift on IBM Cloud <br /></td>
       <td>Linux® 64-bit (x86_64) systems</td>
       <td>- Db2 11.5.5 or later <br /> - PostgreSQL 12.4 or later <br /> - Kafka 1.0 or later <br /> - S3-compliant object store</td>
       <td> </td>
@@ -296,7 +305,8 @@
     <tr>
       <td>1.0.1</td>
       <td>4.5.3</td>
-      <td>Red Hat OpenShift Container Platform <br /> -4.5.4 or later</td>
+      <td>4.5.4 or later</td>
+      <td>- Red Hat OpenShift on IBM Cloud <br /></td>
       <td>Linux® 64-bit (x86_64) systems</td>
       <td>- Db2 11.5.5 or later <br /> - PostgreSQL 12.4 or later <br /> - Kafka 1.0 or later</td>
       <td> </td>
@@ -304,6 +314,66 @@
   </tbody>
 </table>
 
+<h2 id="software-support-lifecycle">Software Support Lifecycle</h2>
+
+<h3 id="overview">Overview</h3>
+
+<p>The Continuous Delivery (CD) Lifecycle Policy allows some product specific flexibility while still setting a consistent base expectation for support.  The following details provide additional information specific to IBM FHIR Server.</p>
+
+<p>Please refer to the <a href="https://www.ibm.com/support/pages/ibm-continuous-delivery-support-lifecycle-policy">Continuous Delivery Lifecycle Policy</a> for additional details.</p>
+
+<h3 id="support-policy-details">Support policy details</h3>
+
+<h4 id="versioning-model">Versioning Model</h4>
+
+<p>IBM FHIR Server uses a semantic versioning format consisting of a three-digit version representing the &lt; major &gt;.&lt; minor &gt;.&lt; patch &gt; release versions:</p>
+<ul>
+  <li>Major  - A new major version may include backward incompatible changes and minor and patch level changes.</li>
+  <li>Minor – A minor version may include new backwards compatible functionality, deprecate any public API function and include patch level changes.</li>
+  <li>Patch – A patch version may include backwards compatible bug fixes and vulnerability updates.</li>
+</ul>
+
+<p>IBM FHIR Server provides fix updates for releases designated as a long term support release (LTSR). The long term support release provides a minimum of 12 months of support. 
+The update version, type, general availability date and the availability of fixes is shown in the table below.</p>
+
+<h3 id="support-and-fix-availability">Support and fix availability</h3>
+
+<p><br /></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Version</th>
+      <th>Update Type</th>
+      <th>General Availability</th>
+      <th>Fix Availability</th>
+      <th> </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1.2.0</td>
+      <td>CD</td>
+      <td>Sep 30, 2021</td>
+      <td>No</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>1.1.0</td>
+      <td>CD</td>
+      <td>Mar 31, 2021</td>
+      <td>No</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>1.0.1</td>
+      <td>Initial release</td>
+      <td>Feb 28, 2021</td>
+      <td>No</td>
+      <td> </td>
+    </tr>
+  </tbody>
+</table>
 
               </div>
 

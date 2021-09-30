@@ -2,15 +2,15 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>What’s New - IBM FHIR Server - 1.1.0</title>
-<meta name="description" content="IBM FHIR Server Release notes.">
+<!-- begin _includes/seo.html --><title>What’s New - IBM FHIR Server</title>
+<meta name="description" content="IBM FHIR Server release notes">
 
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
-<meta property="og:site_name" content="IBM FHIR Server - 1.1.0">
+<meta property="og:site_name" content="IBM FHIR Server">
 <meta property="og:url" content="https://ibm.github.io/FHIR/cloudpak/1.1/about/whats-new/" />
 <meta property="og:title" content="Documentation | What’s New" />
-<meta property="og:description" content="IBM FHIR Server Release notes." />
+<meta property="og:description" content="IBM FHIR Server release notes" />
 
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:title" content="IBM Event Streams | What’s New" />
@@ -18,7 +18,7 @@
 
 
 
-  <meta property="og:description" content="IBM FHIR Server Release notes.">
+  <meta property="og:description" content="IBM FHIR Server release notes">
 
 
 
@@ -27,7 +27,7 @@
 
 
 
-  <meta property="article:published_time" content="2021-04-02T08:34:39-04:00">
+  <meta property="article:published_time" content="2021-09-30T14:11:41-04:00">
 
 
 
@@ -70,7 +70,7 @@
 <!-- end _includes/seo.html -->
 
 
-<link href="/FHIR/cloudpak/feed.xml" type="application/atom+xml" rel="alternate" title="IBM FHIR Server - 1.1.0 Feed">
+<link href="/FHIR/cloudpak/feed.xml" type="application/atom+xml" rel="alternate" title="IBM FHIR Server Feed">
 
 <!-- http://t.co/dKP3o1e -->
 <meta name="HandheldFriendly" content="True">
@@ -309,11 +309,39 @@
                     
 
 
-                    <li class="version" data-url="https://ibm.github.io/FHIR/cloudpak/about/whats-new/" onclick="openVersion('https://ibm.github.io/FHIR/cloudpak/about/whats-new/','1.1')">
+                    <li class="version" data-url="https://ibm.github.io/FHIR/cloudpak/about/whats-new/" onclick="openVersion('https://ibm.github.io/FHIR/cloudpak/about/whats-new/','1.2')">
 
                         <div class="pillContainer">
                           
-                          <a tabindex="-1" href="https://ibm.github.io/FHIR/cloudpak/about/whats-new/" class="versionPill active">1.1</a>
+                          <a tabindex="-1" href="https://ibm.github.io/FHIR/cloudpak/about/whats-new/" class="versionPill inactive">1.2</a>
+                        </div>
+                        <div class="activeContainer">
+                            
+                        </div>
+                        <div class="latest">
+                            Latest
+                        </div>
+                      </li>
+
+                
+
+                        
+
+
+                    
+
+                    <!--  -->
+
+                    
+
+                    
+
+
+                    <li class="version" data-url="https://ibm.github.io/FHIR/cloudpak/1.1/about/whats-new/" onclick="openVersion('https://ibm.github.io/FHIR/cloudpak/1.1/about/whats-new/','1.1')">
+
+                        <div class="pillContainer">
+                          
+                          <a tabindex="-1" href="https://ibm.github.io/FHIR/cloudpak/1.1/about/whats-new/" class="versionPill active">1.1</a>
                         </div>
                         <div class="activeContainer">
                             
@@ -321,7 +349,7 @@
                             
                         </div>
                         <div class="latest">
-                            Latest
+                            
                         </div>
                       </li>
 
@@ -420,7 +448,7 @@
 
                     
 
-              <a href="/FHIR/cloudpak/1.1/about/whats-new/" class="">What's New</a>
+              <a href="/FHIR/cloudpak/1.1/about/whats-new/" class="active">What's New</a>
             </li>
           
             
@@ -737,7 +765,11 @@
 <ul>
   <li>Enhancements to search capabilities and performance.</li>
   <li>Overall improvements to query performance.</li>
-  <li>Bulk data function.</li>
+  <li>Bulk data function.
+    <ul>
+      <li>When Amazon AWS S3, you should use the endpointUrls. e.g. https://s3.us-east-2.amazonaws.com and not https://sbucketname.3.us-east-2.amazonaws.com</li>
+    </ul>
+  </li>
   <li>Datasource configuration uses Liberty configDropins. Refer to <a href="../../installing/upgrading">Upgrading</a> for more details.</li>
   <li>Database schema changes when upgrading from prior release.</li>
 </ul>
