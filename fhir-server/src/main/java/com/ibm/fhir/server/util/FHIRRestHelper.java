@@ -202,18 +202,16 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         
         // Don't start the transaction yet...it will be started by prepare only if needed
         FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
+        txn.begin();
 
         FHIRRestOperationResponse response;
         try {
             // Run the meta phase to handle ifNoneExist and update the resource meta-data
-            response = doCreateMeta(txn, event, warnings, type, resource, ifNoneExist, doValidation);
+            response = doCreateMeta(event, warnings, type, resource, ifNoneExist, doValidation);
     
+            // If we get a response back from doCreateMeta it means conditional create found
+            // a match so we can skip further processing
             if (response == null) {
-                // start the transaction if it hasn't already been started during doCreatePrepare above
-                if (!txn.hasBegun()) {
-                    txn.begin();
-                }
-
                 // Make sure we use the recently updated value for the resource
                 resource = event.getFhirResource();
                 response = doCreatePersist(event, warnings, type, resource);
@@ -225,7 +223,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         } finally {
             // If the transaction is still active and we started it, then roll it back because something
             // has gone wrong
-            if (txn != null && txn.hasBegun()) {
+            if (txn != null) {
                 txn.rollback();
             }
         }
@@ -234,9 +232,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     }
 
     @Override
-    public FHIRRestOperationResponse doCreateMeta(FHIRTransactionHelper txn, FHIRPersistenceEvent event, List<Issue> warnings, String type, Resource resource, 
+    public FHIRRestOperationResponse doCreateMeta(FHIRPersistenceEvent event, List<Issue> warnings, String type, Resource resource, 
         String ifNoneExist, boolean doValidation) throws Exception {
-        log.entering(this.getClass().getName(), "doCreateSearch");
+        log.entering(this.getClass().getName(), "doCreateMeta");
         
         // Validate that interaction is allowed for given resource type
         validateInteraction(Interaction.CREATE, type);
@@ -256,11 +254,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             // Check to see if we're supposed to perform a conditional 'create'.
             if (ifNoneExist != null && !ifNoneExist.isEmpty()) {
-                // We need a transaction here if we don't yet have one
-                if (!txn.hasBegun()) {
-                    txn.begin();
-                }
-                
                 if (log.isLoggable(Level.FINE)) {
                     log.fine("Performing conditional create with search criteria: " + ifNoneExist);
                 }
@@ -295,6 +288,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     ior.setLocationURI(FHIRUtil.buildLocationURI(type, matchedResource));
                     ior.setStatus(Response.Status.OK);
                     ior.setResource(matchedResource);
+                    ior.setCompleted(true);
                     ior.setOperationOutcome(FHIRUtil.buildOperationOutcome("Found a single match; check the Location header",
                             IssueType.INFORMATIONAL, IssueSeverity.INFORMATION));
                     if (log.isLoggable(Level.FINE)) {
@@ -334,7 +328,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             // Restore the original request context.
             FHIRRequestContext.set(requestContext);
 
-            log.exiting(this.getClass().getName(), "doCreateSearch");
+            log.exiting(this.getClass().getName(), "doCreateMeta");
         }
         
         return null;
@@ -374,6 +368,11 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
+        
+        // We'll only start a new transaction here if we don't have one. We'll only
+        // commit at the end if we started one here
+        FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
+        txn.begin();
 
         try {
             // If there were no validation errors, then create the resource and return the location header.
@@ -398,8 +397,15 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             // Invoke the 'afterCreate' interceptor methods.
             getInterceptorMgr().fireAfterCreateEvent(event);
 
+            // Commit the transaction if we started it (batch bundle)
+            txn.commit();
+            txn = null;
+
             return ior;
         } finally {
+            if (txn != null) {
+                txn.rollback();
+            }
             // Restore the original request context.
             FHIRRequestContext.set(requestContext);
             log.exiting(this.getClass().getName(), "doCreatePersist");
@@ -587,15 +593,16 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         throw buildRestException(msg, IssueType.VALUE);
                     }
 
-                    // If the id of the input resource is different from the id of the search result,
-                    // then throw exception.
                     if (newResource.getId() != null) {
+                        // If the id of the input resource is provided, it MUST match the id of the previous resource
+                        // found by the search
                         if (!newResource.getId().equals(id)) {
                             String msg = "Input resource 'id' attribute must match the id of the search result resource.";
                             throw buildRestException(msg, IssueType.VALUE);
                         }
                     } else {
-                        // Make sure the id of the newResource is not null and is the same as the id of the found resource.
+                        // The new resource does not contain an id, so we set it using the id of the
+                        // previous resource found by the search
                         newResource = newResource.toBuilder().id(id).build();
                     }
 
@@ -608,6 +615,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 }
 
             } else {
+                // searchQueryString == null
+
                 // Make sure an id value was passed in.
                 if (id == null) {
                     String msg = "The 'id' parameter is required for an update/patch operation.";
@@ -739,6 +748,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         }
     }
     
+    @Override
     public FHIRRestOperationResponse doPatchOrUpdate(String type, String id, FHIRPatch patch,
             Resource newResource, Resource prevResource, String ifMatchValue, String searchQueryString,
             boolean skippableUpdate, List<Issue> warnings, boolean isDeleted) throws Exception {
@@ -793,16 +803,16 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 }
             }
 
-            // Commit our transaction if we started one before.
-            txn.commit();
-            txn = null;
-
             // If the deleted resource is updated, then simply return 201 instead of 200 to pass Touchstone test.
             // We don't set the previous resource to null in above codes if the resource was deleted, otherwise
             // it will break the code logic of the resource versioning.
             if (isDeleted && ior.getStatus() == Response.Status.OK) {
                 ior.setStatus(Response.Status.CREATED);
             }
+            
+            // Commit our transaction if we started one before.
+            txn.commit();
+            txn = null;
 
             return ior;
         } finally {
@@ -1810,9 +1820,10 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             
             // Translate the entries in the bundle to a list of FHIRRestOperation commands which we
             // then process in order
+            final boolean isTransactionBundle = bundleType == BundleType.Value.TRANSACTION;
             FHIRRestBundleHelper bundleHelper = new FHIRRestBundleHelper();
-            List<FHIRRestInteraction> bundleOps = bundleHelper.translateBundleEntries(requestBundle, validationResponseEntries, skippableUpdates, bundleRequestCorrelationId, skippableUpdates);
-            List<Entry> responseEntries = processBundleOperations(bundleOps, validationResponseEntries, bundleType == BundleType.Value.TRANSACTION);
+            List<FHIRRestInteraction> bundleInteractions = bundleHelper.translateBundleEntries(requestBundle, validationResponseEntries, isTransactionBundle, bundleRequestCorrelationId, skippableUpdates);
+            List<Entry> responseEntries = processBundleInteractions(bundleInteractions, validationResponseEntries, isTransactionBundle);
 
             // Build the response bundle.
             // TODO add support for posting history bundles
@@ -1838,9 +1849,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         }
     }
     
-    private List<Entry> processBundleOperations(List<FHIRRestInteraction> bundleOps, Map<Integer, Entry> validationResponseEntries, boolean transaction) throws Exception {
-        assert(bundleOps.size() > 0);
-        Entry[] responseEntries = new Entry[bundleOps.size()];
+    private List<Entry> processBundleInteractions(List<FHIRRestInteraction> bundleInteractions, Map<Integer, Entry> validationResponseEntries, boolean transaction) throws Exception {
+        assert(bundleInteractions.size() > 0);
+        Entry[] responseEntries = new Entry[bundleInteractions.size()];
         Map<String, String> localRefMap = new HashMap<>();
         
         // Run the prepare for all the bundle operations first. This allows us to perform
@@ -1849,41 +1860,40 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         // for large bundles.
         FHIRTransactionHelper txn = null;
         try {
-            if (transaction) {
-                // Get ready for a bundle-level transaction. We don't call begin yet because we may
-                // not need to start the transaction during the prepare phase.
-                txn = new FHIRTransactionHelper(getTransaction());
-            }
+            // Always start the transaction here because we may need it to handle searches and reads
+            // during the phase 1 loop. This is read-only
+            txn = new FHIRTransactionHelper(getTransaction());
+            txn.begin();
             
             // Phase 1: Do any ifNoneExist search and assign new id and meta info. If there is an
             // ifNoneExist hit, it is added to the corresponding responseEntries slot
-            FHIRRestInteractionVisitorMeta meta = new FHIRRestInteractionVisitorMeta(txn, this, localRefMap, responseEntries);
-            for (FHIRRestInteraction interaction: bundleOps) {
+            FHIRRestInteractionVisitorMeta meta = new FHIRRestInteractionVisitorMeta(transaction, this, localRefMap, responseEntries);
+            for (FHIRRestInteraction interaction: bundleInteractions) {
                 interaction.accept(meta);
+            }
+
+            // When the bundle type is batch, we close out the current transaction so that each interaction
+            // will start its own. For transaction bundles, we use a single transaction until the end
+            if (!transaction) {
+                txn.commit();
+                txn = null;
             }
 
             // Phase 2: Now we have id values for each resource we can update any local references. At this point,
             // the localRefMap should be fixed, so let's enforce that here
             localRefMap = Collections.unmodifiableMap(localRefMap);
-            FHIRRestInteractionVisitorReferenceMapping refMapper = new FHIRRestInteractionVisitorReferenceMapping(txn, this, bundleRequestCorrelationId, localRefMap, responseEntries);
-            for (FHIRRestInteraction interaction: bundleOps) {
+            FHIRRestInteractionVisitorReferenceMapping refMapper = new FHIRRestInteractionVisitorReferenceMapping(transaction, this, bundleRequestCorrelationId, localRefMap, responseEntries);
+            for (FHIRRestInteraction interaction: bundleInteractions) {
                 // Only process stuff we don't yet have a response for
                 if (responseEntries[interaction.getEntryIndex()] == null) {
                     interaction.accept(refMapper);
                 }
             }
-
-            // If this is a transaction bundle, make sure we have started the transaction before we
-            // process the persistence phase. Note that the transaction may have been already started
-            // during the meta phase above
-            if (txn != null && !txn.hasBegun()) {
-                txn.begin();
-            }
             
             // Phase 3: Now run all the persistence operations in the correct order, injecting each result into the
             // appropriate position in the responseEntries array. At the end of the loop, each slot will be filled.
             FHIRRestInteractionVisitorPersist persist = new FHIRRestInteractionVisitorPersist(this, bundleRequestCorrelationId, localRefMap, responseEntries, transaction);
-            for (FHIRRestInteraction interaction: bundleOps) {
+            for (FHIRRestInteraction interaction: bundleInteractions) {
                 // Only process stuff we don't yet have a response for
                 if (responseEntries[interaction.getEntryIndex()] == null) {
                     interaction.accept(persist);

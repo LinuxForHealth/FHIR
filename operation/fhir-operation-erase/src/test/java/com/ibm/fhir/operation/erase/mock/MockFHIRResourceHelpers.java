@@ -198,7 +198,7 @@ public class MockFHIRResourceHelpers implements FHIRResourceHelpers {
     }
 
     @Override
-    public FHIRRestOperationResponse doCreateMeta(FHIRTransactionHelper txn, FHIRPersistenceEvent event, List<Issue> warnings, String type, Resource resource,
+    public FHIRRestOperationResponse doCreateMeta(FHIRPersistenceEvent event, List<Issue> warnings, String type, Resource resource,
         String ifNoneExist, boolean doValidation) throws Exception {
         return null;
     }

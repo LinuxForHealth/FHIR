@@ -17,18 +17,15 @@ public abstract class FHIRRestInteractionResource extends FHIRRestInteractionBas
     
     private final Entry validationResponseEntry;
     
-    // The initial resource
-    private final Resource originalResource;
+    // The new resource
+    private Resource newResource;
     
     // The previous resource (e.g. if read from the database
     private Resource prevResource;
     
-    // The resource after it has been updated
-    private Resource updatedResource;
-    
-    public FHIRRestInteractionResource(int entryIndex, Resource originalResource, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime) {
+    public FHIRRestInteractionResource(int entryIndex, Resource newResource, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime) {
         super(entryIndex, requestDescription, requestURL, initialTime);
-        this.originalResource = originalResource;
+        this.newResource = newResource;
         this.validationResponseEntry = validationResponseEntry;
     }
 
@@ -38,28 +35,21 @@ public abstract class FHIRRestInteractionResource extends FHIRRestInteractionBas
     public Entry getValidationResponseEntry() {
         return validationResponseEntry;
     }
-
-    /**
-     * @return the originalResource
-     */
-    public Resource getOriginalResource() {
-        return originalResource;
-    }
     
     /**
      * Setter for updatedResource
      * @param resource
      */
-    public void setUpdatedResource(Resource resource) {
-        this.updatedResource = resource;
+    public void setNewResource(Resource resource) {
+        this.newResource = resource;
     }
 
     /**
      * Get the updated resource, or if null, the original resource.
      * @return the most recent instance of the resource
      */
-    public Resource getResource() {
-        return updatedResource != null ? updatedResource : originalResource;
+    public Resource getNewResource() {
+        return newResource;
     }
     
     /**

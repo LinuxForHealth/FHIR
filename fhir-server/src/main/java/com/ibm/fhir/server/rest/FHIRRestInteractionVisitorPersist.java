@@ -182,11 +182,14 @@ public class FHIRRestInteractionVisitorPersist extends FHIRRestInteractionVisito
     @Override
     public FHIRRestOperationResponse doPatch(int entryIndex, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime, 
         String type, String id, Resource newResource, Resource prevResource, FHIRPatch patch, String ifMatchValue, String searchQueryString,
-        boolean skippableUpdate, List<Issue> warnings) throws Exception {
+        boolean skippableUpdate, List<Issue> warnings, String localIdentifier) throws Exception {
 
-        // For patch, if the original resource was deleted, we'd have already thrown an error
+        // For patch, if the original resource was deleted, we'd have already thrown an error.
+        // Note that the patch will have already been applied to the resource...so this is
+        // really just an update as far as the persistence layer is concerned
         doInteraction(entryIndex, transaction, requestDescription, initialTime, () -> {
-            FHIRRestOperationResponse ior = helpers.doPatchOrUpdate(type, id, null, newResource, prevResource, ifMatchValue, searchQueryString, skippableUpdate, warnings, false);
+            FHIRRestOperationResponse ior = helpers.doPatchOrUpdate(type, id, patch, newResource, prevResource, ifMatchValue, searchQueryString, 
+                skippableUpdate, warnings, false);
             OperationOutcome validationOutcome = null;
             if (validationResponseEntry != null && validationResponseEntry.getResponse() != null) {
                 validationOutcome = validationResponseEntry.getResponse().getOutcome().as(OperationOutcome.class);

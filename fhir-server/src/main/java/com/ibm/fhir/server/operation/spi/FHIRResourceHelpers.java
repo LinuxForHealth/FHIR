@@ -84,7 +84,6 @@ public interface FHIRResourceHelpers {
 
     /**
      * 1st phase of CREATE. Perform the search for conditional create (ifNoneExist) interactions
-     * @param txn
      * @param event
      * @param warnings
      * @param type
@@ -96,7 +95,7 @@ public interface FHIRResourceHelpers {
      * @return
      * @throws Exception
      */
-    FHIRRestOperationResponse doCreateMeta(FHIRTransactionHelper txn, FHIRPersistenceEvent event, List<Issue> warnings, String type, Resource resource, 
+    FHIRRestOperationResponse doCreateMeta(FHIRPersistenceEvent event, List<Issue> warnings, String type, Resource resource, 
         String ifNoneExist, boolean doValidation) throws Exception;
 
     /**

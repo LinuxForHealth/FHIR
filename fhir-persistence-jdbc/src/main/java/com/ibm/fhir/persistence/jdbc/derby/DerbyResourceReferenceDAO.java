@@ -38,7 +38,7 @@ import com.ibm.fhir.persistence.jdbc.postgres.PostgresResourceReferenceDAO;
  * some SQL syntax and Postgres concurrency issues
  */
 public class DerbyResourceReferenceDAO extends ResourceReferenceDAO {
-    private static final Logger logger = Logger.getLogger(PostgresResourceReferenceDAO.class.getName());
+    private static final Logger logger = Logger.getLogger(DerbyResourceReferenceDAO.class.getName());
 
     private static final int BATCH_SIZE = 100;
 

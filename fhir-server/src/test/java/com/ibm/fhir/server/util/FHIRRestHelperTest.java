@@ -11,6 +11,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.fail;
 
@@ -2065,5 +2066,53 @@ public class FHIRRestHelperTest {
         helper.doUpdate("Patient", "123", patientWithId, null, null, false);
         Mockito.verify(persistence).update(any(), any(), anyInt(), patientCaptor.capture());
         assertEquals(patientCaptor.getValue().getMeta().getTag().get(0), TAG);
+    }
+    
+    /**
+     * Test processing for a batch bundle where the resource does not match
+     * the given URL endpoint
+     */
+    @Test
+    public void testBatchBundleResourceUrlMismatch() throws Exception {
+        FHIRPersistence persistence = new MockPersistenceImpl();
+        FHIRRestHelper helper = new FHIRRestHelper(persistence);
+
+        Patient patient = Patient.builder()
+                .generalPractitioner(Reference.builder()
+                    .reference(string("Practitioner/1"))
+                    .build())
+                .text(Narrative.builder()
+                    .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">Some narrative</div>"))
+                    .status(NarrativeStatus.GENERATED)
+                    .build())
+                .build();
+
+        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.POST)
+                .url(Uri.of("Observation")) // should be Patient
+                .build();
+        Bundle.Entry bundleEntry = Bundle.Entry.builder()
+                .resource(patient)
+                .request(bundleEntryRequest)
+                .build();
+
+        Bundle requestBundle = Bundle.builder()
+                .id("bundle1")
+                .type(BundleType.BATCH)
+                .entry(bundleEntry)
+                .build();
+
+        // Process bundle
+        FHIRRequestContext.get().setOriginalRequestUri("test");
+        FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
+        Bundle responseBundle = helper.doBundle(requestBundle, false);
+
+        // Validate results
+        assertNotNull(responseBundle);
+        assertEquals(1, responseBundle.getEntry().size());
+        Bundle.Entry entry = responseBundle.getEntry().get(0);
+        assertNotEquals(entry.getResource(), ALL_OK);
+        Bundle.Entry.Response response = entry.getResponse();
+        assertEquals(response.getStatus().getValue(), "400");
     }
 }

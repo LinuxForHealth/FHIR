@@ -64,16 +64,16 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
     
     private static final boolean DO_VALIDATION = true;
     
-    // Set if there's a bundle-level transaction, null otherwise
-    final FHIRTransactionHelper txn;
+    // True if the bundle is a transaction bundle, false if it's a batch bundle
+    final boolean transaction;
     
     /**
      * Public constructor
      * @param helpers
      */
-    public FHIRRestInteractionVisitorMeta(FHIRTransactionHelper txn, FHIRResourceHelpers helpers, Map<String, String> localRefMap, Entry[] responseBundleEntries) {
+    public FHIRRestInteractionVisitorMeta(boolean transaction, FHIRResourceHelpers helpers, Map<String, String> localRefMap, Entry[] responseBundleEntries) {
         super(helpers, localRefMap, responseBundleEntries);
-        this.txn = txn;
+        this.transaction = transaction;
     }
 
     @Override
@@ -119,7 +119,7 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
         }
         
         // Use doInteraction so we can implement common exception handling in one place
-        return doInteraction(entryIndex, txn != null, requestDescription, initialTime, () -> {
+        return doInteraction(entryIndex, requestDescription, initialTime, () -> {
             
             // Validate that interaction is allowed for given resource type
             helpers.validateInteraction(Interaction.CREATE, type);
@@ -128,10 +128,10 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
                     new FHIRPersistenceEvent(resource, helpers.buildPersistenceEventProperties(type, null, null, null));
             
             // Inject the meta to the resource after optionally checking for ifNoneExist
-            FHIRRestOperationResponse prepResponse = helpers.doCreateMeta(txn, event, warnings, type, resource, ifNoneExist, !DO_VALIDATION);
+            FHIRRestOperationResponse prepResponse = helpers.doCreateMeta(event, warnings, type, resource, ifNoneExist, !DO_VALIDATION);
             if (prepResponse != null) {
-                // ifNoneExist returned a result record it in the response bundle then no more
-                // processing required
+                // ifNoneExist returned a result then add it to the result bundle which also
+                // means this entry is complete.
                 Entry entry = buildResponseBundleEntry(prepResponse, null, requestDescription, initialTime);
                 setResponseEntry(entryIndex, entry);
                 
@@ -145,7 +145,7 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
             // Get the updated resource with the meta info
             Resource resourceWithMeta = event.getFhirResource();
             
-            if (txn != null) {
+            if (this.transaction) {
                 resolveConditionalReferences(resourceWithMeta);
             }
                 
@@ -172,17 +172,24 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
         // Skip UPDATE if validation failed
         // TODO the logic in the old buildLocalRefMap uses SC_OK_STRING
         if (validationResponseEntry != null && !validationResponseEntry.getResponse().getStatus().equals(SC_ACCEPTED_STRING)) {
+            log.info("Skipping entry[" + entryIndex + "] - validation status: '" + validationResponseEntry.getResponse().getStatus() + "'");
             return null;
         }
 
         // Process the first (meta) phase of the update interaction
-        return doInteraction(entryIndex, txn != null, requestDescription, initialTime, () -> {
+        return doInteraction(entryIndex, requestDescription, initialTime, () -> {
             FHIRRestOperationResponse metaResponse = helpers.doUpdateMeta(type, id, null, resource, ifMatchValue, searchQueryString, skippableUpdate, !DO_VALIDATION, warnings);
 
+            // If the update was skippable we might be able to skip the future persistence step
+            if (metaResponse.isCompleted()) {
+                Entry entry = buildResponseBundleEntry(metaResponse, null, requestDescription, initialTime);
+                setResponseEntry(entryIndex, entry);
+            }
+            
             // Get the updated resource with the meta info
             Resource resourceWithMeta = metaResponse.getResource();
             
-            if (txn != null) {
+            if (this.transaction) {
                 resolveConditionalReferences(resourceWithMeta);
             }
                 
@@ -197,17 +204,45 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
             
             // Pass back the updated resource so it can be used in the next phase if required
             return metaResponse;
-            // return new FHIRRestOperationResponse(resourceWithMeta, logicalId, newVersionNumber, lastUpdated, null);
         });
     }
 
     @Override
     public FHIRRestOperationResponse doPatch(int entryIndex, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime, 
         String type, String id, Resource newResource, Resource prevResource, FHIRPatch patch, String ifMatchValue, String searchQueryString,
-        boolean skippableUpdate, List<Issue> warnings) throws Exception {
+        boolean skippableUpdate, List<Issue> warnings, String localIdentifier) throws Exception {
         logStart(entryIndex, requestDescription, requestURL);
-        // TODO Auto-generated method stub
-        return null;
+        // Skip UPDATE if validation failed
+        // TODO the logic in the old buildLocalRefMap uses SC_OK_STRING
+        if (validationResponseEntry != null && !validationResponseEntry.getResponse().getStatus().equals(SC_ACCEPTED_STRING)) {
+            return null;
+        }
+
+        // Process the first (meta) phase of the update interaction
+        return doInteraction(entryIndex, requestDescription, initialTime, () -> {
+            FHIRRestOperationResponse metaResponse = helpers.doUpdateMeta(type, id, patch, null, ifMatchValue, searchQueryString, skippableUpdate, !DO_VALIDATION, warnings);
+
+            // If the update was skippable we might be able to skip the future persistence step
+            if (metaResponse.isCompleted()) {
+                Entry entry = buildResponseBundleEntry(metaResponse, null, requestDescription, initialTime);
+                setResponseEntry(entryIndex, entry);
+            }
+            
+            // Get the updated resource with the meta info
+            Resource resourceWithMeta = metaResponse.getResource();
+            
+            if (this.transaction) {
+                resolveConditionalReferences(resourceWithMeta);
+            }
+                
+            // Add the mapping between localIdentifier and the new logicalId from the resource
+            if (localIdentifier != null && !localRefMap.containsKey(localIdentifier)) {
+                addLocalRefMapping(localIdentifier, resourceWithMeta);
+            }
+            
+            // Pass back the updated resource so it can be used in the next phase if required
+            return metaResponse;
+        });
     }
 
     @Override
@@ -296,9 +331,6 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
             if (queryParameters.keySet().stream().anyMatch(key -> SearchConstants.SEARCH_RESULT_PARAMETER_NAMES.contains(key))) {
                 throw buildRestException("Invalid conditional reference: only filtering parameters are allowed", IssueType.INVALID);
             }
-
-            // We need to be in a transaction before we can do a search
-            beginTransactionIfRequired();
             
             queryParameters.add("_summary", "true");
             queryParameters.add("_count", "1");
@@ -364,16 +396,6 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
     }
     
     /**
-     * If we are transactional, start the transaction if it hasn't been started already
-     * @throws FHIRPersistenceException
-     */
-    private void beginTransactionIfRequired() throws FHIRPersistenceException {
-        if (txn != null && !txn.hasBegun()) {
-            txn.begin();
-        }
-    }
-
-    /**
      * Unified exception handling for each of the interaction calls
      * @param entryIndex
      * @param v
@@ -382,7 +404,9 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
      * @param initialTime
      * @throws Exception
      */
-    private FHIRRestOperationResponse doInteraction(int entryIndex, boolean failFast, String requestDescription, long initialTime, Callable<FHIRRestOperationResponse> v) throws Exception {
+    private FHIRRestOperationResponse doInteraction(int entryIndex, String requestDescription, long initialTime, Callable<FHIRRestOperationResponse> v) throws Exception {
+        // If we're a transaction bundle, we want to fail as soon as we hit a problem
+        final boolean failFast = transaction;
         try {
             return v.call();
         } catch (FHIRPersistenceResourceNotFoundException e) {

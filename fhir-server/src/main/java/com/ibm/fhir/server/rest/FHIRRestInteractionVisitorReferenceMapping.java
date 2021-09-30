@@ -57,16 +57,16 @@ public class FHIRRestInteractionVisitorReferenceMapping extends FHIRRestInteract
     
     private final String bundleRequestCorrelationId;
 
-    // Set if there's a bundle-level transaction, null otherwise
-    final FHIRTransactionHelper txn;
+    // True if there's a bundle-level transaction, null otherwise
+    final boolean transaction;
     
     /**
      * Public constructor
      * @param helpers
      */
-    public FHIRRestInteractionVisitorReferenceMapping(FHIRTransactionHelper txn, FHIRResourceHelpers helpers, String bundleRequestCorrelationId, Map<String, String> localRefMap, Entry[] responseBundleEntries) {
+    public FHIRRestInteractionVisitorReferenceMapping(boolean transaction, FHIRResourceHelpers helpers, String bundleRequestCorrelationId, Map<String, String> localRefMap, Entry[] responseBundleEntries) {
         super(helpers, localRefMap, responseBundleEntries);
-        this.txn = txn;
+        this.transaction = transaction;
         this.bundleRequestCorrelationId = bundleRequestCorrelationId;
     }
 
@@ -107,7 +107,7 @@ public class FHIRRestInteractionVisitorReferenceMapping extends FHIRRestInteract
         logStart(entryIndex, requestDescription, requestURL);
         
         // Use doOperation so we can implement common exception handling in one place
-        return doOperation(entryIndex, txn != null, requestDescription, initialTime, () -> {
+        return doOperation(entryIndex, requestDescription, initialTime, () -> {
                 
             // Convert any local references found within the resource to their corresponding external reference.
             ReferenceMappingVisitor<Resource> visitor = new ReferenceMappingVisitor<Resource>(localRefMap);
@@ -136,7 +136,7 @@ public class FHIRRestInteractionVisitorReferenceMapping extends FHIRRestInteract
         logStart(entryIndex, requestDescription, requestURL);
 
         // Use doOperation for common exception handling
-        return doOperation(entryIndex, txn != null, requestDescription, initialTime, () -> {
+        return doOperation(entryIndex, requestDescription, initialTime, () -> {
             
             // Convert any local references found within the resource to their corresponding external reference.
             ReferenceMappingVisitor<Resource> visitor = new ReferenceMappingVisitor<Resource>(localRefMap);
@@ -154,11 +154,24 @@ public class FHIRRestInteractionVisitorReferenceMapping extends FHIRRestInteract
 
     @Override
     public FHIRRestOperationResponse doPatch(int entryIndex, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime, 
-        String type, String id, Resource newResource, Resource prevResource, FHIRPatch patch, String ifMatchValue, String searchQueryString,
-        boolean skippableUpdate, List<Issue> warnings) throws Exception {
+        String type, String id, Resource resource, Resource prevResource, FHIRPatch patch, String ifMatchValue, String searchQueryString,
+        boolean skippableUpdate, List<Issue> warnings, String localIdentifier) throws Exception {
         logStart(entryIndex, requestDescription, requestURL);
-        // TODO Auto-generated method stub
-        return null;
+        // Use doOperation for common exception handling
+        return doOperation(entryIndex, requestDescription, initialTime, () -> {
+            
+            // Convert any local references found within the resource to their corresponding external reference.
+            ReferenceMappingVisitor<Resource> visitor = new ReferenceMappingVisitor<Resource>(localRefMap);
+            resource.accept(visitor);
+            Resource newResource = visitor.getResult();
+            
+            if (localIdentifier != null && localRefMap.get(localIdentifier) == null) {
+                addLocalRefMapping(localIdentifier, newResource);
+            }
+            
+            // Pass back the updated resource so it can be used in the next phase
+            return new FHIRRestOperationResponse(null, null, newResource);
+        });
     }
 
     @Override
@@ -233,7 +246,8 @@ public class FHIRRestInteractionVisitorReferenceMapping extends FHIRRestInteract
      * @param initialTime
      * @throws Exception
      */
-    private FHIRRestOperationResponse doOperation(int entryIndex, boolean failFast, String requestDescription, long initialTime, Callable<FHIRRestOperationResponse> v) throws Exception {
+    private FHIRRestOperationResponse doOperation(int entryIndex, String requestDescription, long initialTime, Callable<FHIRRestOperationResponse> v) throws Exception {
+        final boolean failFast = transaction;
         try {
             return v.call();
         } catch (FHIRPersistenceResourceNotFoundException e) {

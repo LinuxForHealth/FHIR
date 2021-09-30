@@ -226,10 +226,10 @@ public class BundleTest extends FHIRServerTestBase {
                 .add("entry", entryArray).build();
         Entity<JsonObject> entity = Entity.entity(bundleWithEntry, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
-        assertEquals(200, response.getStatus());
+        assertEquals(response.getStatus(), 200);
 
         Bundle responseBundle = response.readEntity(Bundle.class);
-        assertEquals("400", responseBundle.getEntry().get(0).getResponse().getStatus().getValue());
+        assertEquals(responseBundle.getEntry().get(0).getResponse().getStatus().getValue(), "400");
     }
 
     @Test(groups = { "batch" })
@@ -1411,6 +1411,50 @@ public class BundleTest extends FHIRServerTestBase {
         bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientT2.getId(), null,
                 patientT2);
         // This will cause a failure - url mismatch with resource type.
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Observation/1", null,
+                TestUtil.readLocalResource("Patient_DavidOrtiz.json"));
+
+        printBundle(method, "request", bundle);
+
+        Entity<Bundle> entity = Entity.entity(bundle, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response = target.request().post(entity, Response.class);
+        assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
+
+        OperationOutcome oo = response.readEntity(OperationOutcome.class);
+
+        assertNotNull(oo);
+        assertEquals(oo.getIssue().get(0).getCode().getValueAsEnum(), IssueType.Value.INVALID);
+
+        assertSearchResults(target, family1, 1);
+        assertSearchResults(target, family2, 1);
+
+        assertHistoryResults(target, "Patient/" + patientT1.getId() + "/_history", 2);
+        assertHistoryResults(target, "Patient/" + patientT2.getId() + "/_history", 2);
+    }
+    
+    @Test(groups = { "transaction" }, dependsOnMethods = { "testTransactionUpdates" })
+    public void testTransactionInvalidRequestError() throws Exception {
+        String method = "testTransactionInvalidRequestError";
+        assertNotNull(transactionSupported);
+        if (!transactionSupported.booleanValue()) {
+            return;
+        }
+
+        WebTarget target = getWebTarget();
+
+        // Retrieve the family names of the resources to be updated.
+        String family1 = patientT1.getName().get(0).getFamily().getValue();
+        String family2 = patientT2.getName().get(0).getFamily().getValue();
+
+        Bundle bundle = buildBundle(BundleType.TRANSACTION);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientT1.getId(), null,
+                patientT1);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientT2.getId(), null,
+                patientT2);
+        
+        
+        // the URL does not have an id and nor is it a conditional update, so this is an error
+        // which should be picked up when translating the bundle entry into an interaction
         bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Observation", null,
                 TestUtil.readLocalResource("Patient_DavidOrtiz.json"));
 
@@ -1549,7 +1593,7 @@ public class BundleTest extends FHIRServerTestBase {
             assertNotNull(obs.getSubject().getReference());
             String actualReference = obs.getSubject().getReference().getValue();
             assertNotNull(actualReference);
-            assertEquals(expectedReference, actualReference);
+            assertEquals(actualReference, expectedReference);
         }
     }
 
@@ -1608,7 +1652,7 @@ public class BundleTest extends FHIRServerTestBase {
             assertNotNull(obs.getSubject().getReference());
             String actualReference = obs.getSubject().getReference().getValue();
             assertNotNull(actualReference);
-            assertEquals(expectedReference, actualReference);
+            assertEquals(actualReference, expectedReference);
         }
     }
 
@@ -1692,14 +1736,14 @@ public class BundleTest extends FHIRServerTestBase {
             assertNotNull(obs.getSubject().getReference());
             String actualReference = obs.getSubject().getReference().getValue();
             assertNotNull(actualReference);
-            assertEquals(expectedReference, actualReference);
+            assertEquals(actualReference, expectedReference);
 
             // Verify the "related-patient" reference in the extension attribute.
             assertNotNull(obs.getExtension().get(0));
             assertNotNull(obs.getExtension().get(0).getValue());
             Reference extRef = (Reference) obs.getExtension().get(0).getValue();
             String actualExtReference = extRef.getReference().getValue();
-            assertEquals(expectedReference, actualExtReference);
+            assertEquals(actualExtReference, expectedReference);
         }
     }
 
@@ -1819,14 +1863,14 @@ public class BundleTest extends FHIRServerTestBase {
             assertNotNull(obs.getSubject().getReference());
             String actualReference = obs.getSubject().getReference().getValue();
             assertNotNull(actualReference);
-            assertEquals(expectedPatientReference, actualReference);
+            assertEquals(actualReference, expectedPatientReference);
 
             // Verify the "org" reference in the extension attribute.
             assertNotNull(obs.getExtension().get(0));
             assertNotNull(obs.getExtension().get(0).getValue());
             Reference orgRef = (Reference) obs.getExtension().get(0).getValue();
             String actualOrgReference = orgRef.getReference().getValue();
-            assertEquals(expectedOrgReference, actualOrgReference);
+            assertEquals(actualOrgReference, expectedOrgReference);
         }
     }
 
@@ -2131,7 +2175,10 @@ public class BundleTest extends FHIRServerTestBase {
 
         Bundle bundle = buildBundle(BundleType.BATCH);
         bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, urlString, null, patient);
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, urlString, null, patient.toBuilder().id(null).build());
+        
+        // Removed for 1869. We no longer support bundles with multiple updates for the same resource.
+        // bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, urlString, null, patient.toBuilder().id(null).build());
+        
         bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, multipleMatches, null, patient);
         bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, badSearch, null, patient);
 
@@ -2142,21 +2189,22 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.getResource(Bundle.class);
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 4);
-        assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.CREATED.getStatusCode());
-        assertGoodPostPutResponse(responseBundle.getEntry().get(1), Status.OK.getStatusCode());
-        assertBadResponse(responseBundle.getEntry().get(2), Status.PRECONDITION_FAILED.getStatusCode(),
+        assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 3);
+        int item = 0;
+        assertGoodPostPutResponse(responseBundle.getEntry().get(item++), Status.CREATED.getStatusCode());
+        // assertGoodPostPutResponse(responseBundle.getEntry().get(1), Status.OK.getStatusCode()); REMOVED in 1869
+        assertBadResponse(responseBundle.getEntry().get(item++), Status.PRECONDITION_FAILED.getStatusCode(),
                 "returned multiple matches");
-        assertBadResponse(responseBundle.getEntry().get(3), Status.BAD_REQUEST.getStatusCode(),
+        assertBadResponse(responseBundle.getEntry().get(item++), Status.BAD_REQUEST.getStatusCode(),
                 "Search parameter 'NOTASEARCH' for resource type 'Patient' was not found.");
 
-        // Next, verify that we have two versions of the Patient resource.
+        // Next, verify that we have one version of the Patient resource.
         response = client.history("Patient", patientId, null);
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle historyBundle = response.getResource(Bundle.class);
         assertNotNull(historyBundle);
-        assertEquals(2, historyBundle.getTotal().getValue().intValue());
+        assertEquals(historyBundle.getTotal().getValue().intValue(), 1);
     }
 
     @Test(groups = { "batch" }, dependsOnMethods = { "testBatchCreates" })
@@ -2335,7 +2383,13 @@ public class BundleTest extends FHIRServerTestBase {
     }
 
     /**
-     * Sets UPDATE_IF_MODIFIED_HEADER_NAME  and posts a transaction bundle with an update and a patch; both should be skipped on the server
+     * To test UPDATE_IF_MODIFIED_HEADER_NAME we must use multiple requests because:
+     *   "A resource can only appear in a transaction once (by identity)."
+     * Transaction requests:
+     *   1. Bundle with PUT Patient/randomId (update-as-create)
+     *   2. Bundle with PUT Patient/randomId (skip update)
+     *   3. Bundle with PATCH Patient/randomId (skip update)
+     * and posts a transaction bundle with an update and a patch; both should be skipped on the server
      * Procedure has local reference to Patient.
      */
     @Test
@@ -2354,12 +2408,61 @@ public class BundleTest extends FHIRServerTestBase {
                 .resource(patient)
                 .request(bundleEntryRequest)
                 .build();
+
+        Bundle requestBundle = Bundle.builder()
+                .id("bundle1")
+                .type(BundleType.TRANSACTION)
+                .entry(bundleEntry)
+                .build();
+
+        // Process bundle
+        FHIRRequestHeader returnPref = FHIRRequestHeader.header(PREFER_HEADER_NAME, PREFER_HEADER_RETURN_REPRESENTATION);
+        FHIRRequestHeader updateOnlyIfModified = FHIRRequestHeader.header(UPDATE_IF_MODIFIED_HEADER_NAME, true);
+        FHIRResponse response = client.transaction(requestBundle, returnPref, updateOnlyIfModified);
+        assertNotNull(response);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle responseBundle = response.getResource(Bundle.class);
+        printBundle("PUT", "response", responseBundle);
+
+        // Validate results
+        assertNotNull(responseBundle);
+        assertEquals(responseBundle.getEntry().size(), 1);
+
+        Bundle.Entry entry1 = responseBundle.getEntry().get(0);
+        assertNotNull(entry1.getResource());
+        assertEquals(entry1.getResponse().getStatus().getValue(), "201");
+        assertEquals(entry1.getResponse().getLocation().getValue(), "Patient/"+randomId+"/_history/1");
+        Patient responsePatient = entry1.getResource().as(Patient.class);
+
+        
+        // Transaction 2. PUT the same patient again. Should be skipped because the resource matches
         Bundle.Entry bundleEntry2 = Bundle.Entry.builder()
                 .fullUrl(Uri.of("urn:2"))
                 .resource(patient)
                 .request(bundleEntryRequest)
                 .build();
+        requestBundle = Bundle.builder()
+                .id("bundle2")
+                .type(BundleType.TRANSACTION)
+                .entry(bundleEntry2)
+                .build();
 
+        // Process bundle
+        FHIRResponse response2 = client.transaction(requestBundle, returnPref, updateOnlyIfModified);
+        assertNotNull(response2);
+        assertResponse(response2.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle responseBundle2 = response2.getResource(Bundle.class);
+        printBundle("PUT", "response", responseBundle2);
+
+        // Validate results
+        assertNotNull(responseBundle2);
+        assertEquals(responseBundle2.getEntry().size(), 1);
+        Bundle.Entry entry2 = responseBundle2.getEntry().get(0);
+        assertEquals(entry2.getResponse().getStatus().getValue(), "200");
+        assertEquals(entry2.getResponse().getLocation().getValue(), "Patient/"+randomId+"/_history/1");
+        assertEquals(entry2.getResource(), responsePatient);
+
+        // Transaction 3. PATCH the same patient with a NOP patch - should be skipped
         Bundle.Entry.Request patchRequest = Bundle.Entry.Request.builder()
                 .method(HTTPVerb.PATCH)
                 .url(Uri.of("Patient/"+randomId))
@@ -2386,38 +2489,19 @@ public class BundleTest extends FHIRServerTestBase {
                 .resource(nopPatch)
                 .request(patchRequest)
                 .build();
-
-        Bundle requestBundle = Bundle.builder()
-                .id("bundle1")
+        requestBundle = Bundle.builder()
+                .id("bundle3")
                 .type(BundleType.TRANSACTION)
-                .entry(bundleEntry, bundleEntry2, bundleEntry3)
+                .entry(bundleEntry3)
                 .build();
 
-        // Process bundle
-        FHIRRequestHeader returnPref = FHIRRequestHeader.header(PREFER_HEADER_NAME, PREFER_HEADER_RETURN_REPRESENTATION);
-        FHIRRequestHeader updateOnlyIfModified = FHIRRequestHeader.header(UPDATE_IF_MODIFIED_HEADER_NAME, true);
-        FHIRResponse response = client.transaction(requestBundle, returnPref, updateOnlyIfModified);
-        assertNotNull(response);
-        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
-        Bundle responseBundle = response.getResource(Bundle.class);
-        printBundle("PUT", "response", responseBundle);
-
-        // Validate results
-        assertNotNull(responseBundle);
-        assertEquals(3, responseBundle.getEntry().size());
-
-        Bundle.Entry entry1 = responseBundle.getEntry().get(0);
-        assertNotNull(entry1.getResource());
-        assertEquals(entry1.getResponse().getStatus().getValue(), "201");
-        assertEquals(entry1.getResponse().getLocation().getValue(), "Patient/"+randomId+"/_history/1");
-        Patient responsePatient = entry1.getResource().as(Patient.class);
-
-        Bundle.Entry entry2 = responseBundle.getEntry().get(1);
-        assertEquals(entry2.getResponse().getStatus().getValue(), "200");
-        assertEquals(entry2.getResponse().getLocation().getValue(), "Patient/"+randomId+"/_history/1");
-        assertEquals(entry2.getResource(), responsePatient);
-
-        Bundle.Entry entry3 = responseBundle.getEntry().get(2);
+        // Process the bundle request and check that the patch was skipped
+        FHIRResponse response3 = client.transaction(requestBundle, returnPref, updateOnlyIfModified);
+        assertNotNull(response3);
+        assertResponse(response3.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle responseBundle3 = response3.getResource(Bundle.class);
+        printBundle("PUT", "response", responseBundle3);
+        Bundle.Entry entry3 = responseBundle3.getEntry().get(0);
         assertEquals(entry3.getResponse().getStatus().getValue(), "200");
         assertEquals(entry3.getResponse().getLocation().getValue(), "Patient/"+randomId+"/_history/1");
         assertEquals(entry3.getResource(), responsePatient);
@@ -2468,7 +2552,7 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
-        assertEquals(expectedResults, bundle.getEntry().size());
+        assertEquals(bundle.getEntry().size(), expectedResults);
     }
 
     private void assertHistoryResults(WebTarget target, String url, int expectedResults) {
@@ -2476,7 +2560,7 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
-        assertEquals(expectedResults, bundle.getEntry().size());
+        assertEquals(bundle.getEntry().size(), expectedResults);
     }
 
     private void assertGoodGetResponse(Bundle.Entry entry, int expectedStatusCode) throws Exception {
@@ -2489,7 +2573,9 @@ public class BundleTest extends FHIRServerTestBase {
         assertNotNull(response);
 
         assertNotNull(response.getStatus());
-        assertEquals(Integer.toString(expectedStatusCode), response.getStatus().getValue());
+        
+        // TestNG: ACTUAL, EXPECTED
+        assertEquals(response.getStatus().getValue(), Integer.toString(expectedStatusCode));
 
         if (returnPref != null && !returnPref.equals(HTTPReturnPreference.MINIMAL)) {
             Resource rc = entry.getResource();
@@ -2520,7 +2606,7 @@ public class BundleTest extends FHIRServerTestBase {
         Bundle.Entry.Response response = entry.getResponse();
         assertNotNull(response);
         assertNotNull(response.getStatus());
-        assertEquals(Integer.toString(expectedStatusCode), response.getStatus().getValue());
+        assertEquals(response.getStatus().getValue(), Integer.toString(expectedStatusCode));
 
         OperationOutcome oo = (OperationOutcome) entry.getResource();
         assertNotNull(oo);

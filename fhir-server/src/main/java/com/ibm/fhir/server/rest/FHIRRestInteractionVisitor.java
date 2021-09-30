@@ -171,7 +171,7 @@ public interface FHIRRestInteractionVisitor {
     FHIRRestOperationResponse doPatch(int entryIndex, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime, 
         String type, String id, Resource newResource, Resource prevResource,
         FHIRPatch patch, String ifMatchValue,
-        String searchQueryString, boolean skippableUpdate, List<Issue> warnings) throws Exception;
+        String searchQueryString, boolean skippableUpdate, List<Issue> warnings, String localIdentifier) throws Exception;
     
     /**
      * Helper method which invokes a custom operation.

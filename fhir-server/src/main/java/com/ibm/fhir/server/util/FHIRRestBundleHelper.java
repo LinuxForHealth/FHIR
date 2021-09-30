@@ -147,7 +147,7 @@ import com.ibm.fhir.validation.exception.FHIRValidationException;
  */
 public class FHIRRestBundleHelper {
     private static final Logger log =
-            java.util.logging.Logger.getLogger(FHIRRestHelper.class.getName());
+            java.util.logging.Logger.getLogger(FHIRRestBundleHelper.class.getName());
 
     private static final SecureRandom RANDOM = new SecureRandom();
 
@@ -377,7 +377,7 @@ public class FHIRRestBundleHelper {
                     }
                 } // end foreach method entry
                 if (log.isLoggable(Level.FINER)) {
-                    log.finer("Finished processing for method: " + httpMethod);
+                    log.finer("Finished translation for method: " + httpMethod);
                 }
             } // end foreach method
             
@@ -438,10 +438,13 @@ public class FHIRRestBundleHelper {
 
         Parameters parameters = requestEntry.getResource().as(Parameters.class);
         FHIRPatch patch = FHIRPathPatch.from(parameters);
+        
+        // Extract the local identifier which may be used by other resources in the bundle to reference this resource
+        String localIdentifier = retrieveLocalIdentifier(requestEntry);
 
         // We don't perform the actual operation here, just generate the command
         // we want to execute later
-        return new FHIRRestInteractionPatch(entryIndex, requestDescription, requestURL, initialTime, resourceType, resourceId, patch, null, null, skippableUpdate);
+        return new FHIRRestInteractionPatch(entryIndex, requestDescription, requestURL, initialTime, resourceType, resourceId, patch, null, null, skippableUpdate, localIdentifier);
     }
 
     /**
@@ -634,6 +637,12 @@ public class FHIRRestBundleHelper {
             String ifNoneExist = request.getIfNoneExist() != null
                     && request.getIfNoneExist().getValue() != null
                     && !request.getIfNoneExist().getValue().isEmpty() ? request.getIfNoneExist().getValue() : null;
+
+            
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("Creating CREATE interaction for bundle entry[" + entryIndex + "]: " + requestDescription + "; validationResponseEntry: "
+                    + validationResponseEntry);
+            }
             result = new FHIRRestInteractionCreate(entryIndex, validationResponseEntry, requestDescription, requestURL, initialTime, pathTokens[0], resource, ifNoneExist, localIdentifier);
         } else {
             String msg = "Request URL for bundled create requests should have a path with exactly one token (<resourceType>).";
@@ -711,6 +720,10 @@ public class FHIRRestBundleHelper {
         String localIdentifier = retrieveLocalIdentifier(requestEntry);
         
         // Build the UPDATE interaction command
+        if (log.isLoggable(Level.FINE)) {
+            log.fine("Creating UPDATE interaction for bundle entry[" + entryIndex + "]: " + requestDescription + "; validationResponseEntry: "
+                + validationResponseEntry);
+        }
         result = new FHIRRestInteractionUpdate(entryIndex, validationResponseEntry, requestDescription, requestURL, initialTime, 
             type, id, resource, ifMatchBundleValue, requestURL.getQuery(), skippableUpdate, localIdentifier);
 
@@ -755,6 +768,9 @@ public class FHIRRestBundleHelper {
         checkResourceType(type);
 
         // Perform the 'delete' operation.
+        if (log.isLoggable(Level.FINE)) {
+            log.fine("Creating DELETE interaction for bundle entry[" + entryIndex + "]: " + requestDescription);
+        }
         result = new FHIRRestInteractionDelete(entryIndex, requestDescription, requestURL, initialTime, type, id, requestURL.getQuery());
         return result;
     }

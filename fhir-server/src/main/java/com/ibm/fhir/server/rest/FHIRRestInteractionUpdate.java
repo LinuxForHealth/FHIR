@@ -26,7 +26,8 @@ public class FHIRRestInteractionUpdate extends FHIRRestInteractionResource {
     // The deleted flag status when we read the current resource value
     private boolean deleted;
     
-    public FHIRRestInteractionUpdate(int entryIndex, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String id, Resource newResource, String ifMatchValue,
+    public FHIRRestInteractionUpdate(int entryIndex, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, 
+        long initialTime, String type, String id, Resource newResource, String ifMatchValue,
         String searchQueryString, boolean skippableUpdate, String localIdentifier) {
         super(entryIndex, newResource, validationResponseEntry, requestDescription, requestURL, initialTime);
         this.type = type;
@@ -41,13 +42,13 @@ public class FHIRRestInteractionUpdate extends FHIRRestInteractionResource {
     public FHIRRestOperationResponse accept(FHIRRestInteractionVisitor visitor) throws Exception {
         
         FHIRRestOperationResponse result = visitor.doUpdate(getEntryIndex(), getValidationResponseEntry(), getRequestDescription(), getRequestURL(), 
-            getInitialTime(), type, id, getResource(), getPrevResource(), ifMatchValue, searchQueryString, skippableUpdate, localIdentifier,
+            getInitialTime(), type, id, getNewResource(), getPrevResource(), ifMatchValue, searchQueryString, skippableUpdate, localIdentifier,
             getWarnings(), deleted);
         
         // update the resource so we can use it when called in the next processing phase
         if (result != null) {
             if (result.getResource() != null) {
-                setUpdatedResource(result.getResource());
+                setNewResource(result.getResource());
                 this.deleted = result.isDeleted();
             }
             
@@ -57,6 +58,5 @@ public class FHIRRestInteractionUpdate extends FHIRRestInteractionResource {
         }
         
         return result;
-        
     }
 }
