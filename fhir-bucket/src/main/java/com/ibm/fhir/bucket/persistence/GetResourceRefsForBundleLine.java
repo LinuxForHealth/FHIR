@@ -25,7 +25,7 @@ import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
  * line of a bundle.
  */
 public class GetResourceRefsForBundleLine implements IDatabaseSupplier<List<ResourceRef>> {
-    private static final Logger logger = Logger.getLogger(RegisterLoaderInstance.class.getName());
+    private static final Logger logger = Logger.getLogger(GetResourceRefsForBundleLine.class.getName());
 
     private final String schemaName;
 

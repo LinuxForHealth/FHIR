@@ -32,6 +32,8 @@ import com.ibm.fhir.model.resource.Resource;
 public class ServerDrivenReindexOperation extends DriveReindexOperation {
     private static final Logger logger = Logger.getLogger(ServerDrivenReindexOperation.class.getName());
 
+    private static final String URL = "$reindex";
+
     // the maximum number of requests we permit
     private final int maxConcurrentRequests;
 
@@ -47,8 +49,6 @@ public class ServerDrivenReindexOperation extends DriveReindexOperation {
     private final ExecutorService pool = Executors.newCachedThreadPool();
 
     private final FHIRBucketClient fhirClient;
-
-    private final String url = "$reindex";
 
     // The serialized Parameters resource sent with each POST
     private final String requestBody;
@@ -214,7 +214,7 @@ public class ServerDrivenReindexOperation extends DriveReindexOperation {
 
         // tell the FHIR Server to reindex a number of resources
         long start = System.nanoTime();
-        FhirServerResponse response = fhirClient.post(url, requestBody);
+        FhirServerResponse response = fhirClient.post(URL, requestBody);
         long end = System.nanoTime();
 
         double elapsed = (end - start) / 1e9;
