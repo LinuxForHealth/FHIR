@@ -250,7 +250,8 @@ public class Meta extends Element {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -269,13 +270,17 @@ public class Meta extends Element {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -294,6 +299,22 @@ public class Meta extends Element {
          */
         public Builder versionId(Id versionId) {
             this.versionId = versionId;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code lastUpdated}.
+         * 
+         * @param lastUpdated
+         *     When the resource version last changed
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #lastUpdated(com.ibm.fhir.model.type.Instant)
+         */
+        public Builder lastUpdated(java.time.ZonedDateTime lastUpdated) {
+            this.lastUpdated = (lastUpdated == null) ? null : Instant.of(lastUpdated);
             return this;
         }
 
@@ -332,7 +353,8 @@ public class Meta extends Element {
          * claims to conform to. The URL is a reference to [StructureDefinition.url](structuredefinition-definitions.
          * html#StructureDefinition.url).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param profile
          *     Profiles this resource claims to conform to
@@ -352,13 +374,17 @@ public class Meta extends Element {
          * claims to conform to. The URL is a reference to [StructureDefinition.url](structuredefinition-definitions.
          * html#StructureDefinition.url).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param profile
          *     Profiles this resource claims to conform to
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder profile(Collection<Canonical> profile) {
             this.profile = new ArrayList<>(profile);
@@ -369,7 +395,8 @@ public class Meta extends Element {
          * Security labels applied to this resource. These tags connect specific resources to the overall security policy and 
          * infrastructure.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param security
          *     Security Labels applied to this resource
@@ -388,13 +415,17 @@ public class Meta extends Element {
          * Security labels applied to this resource. These tags connect specific resources to the overall security policy and 
          * infrastructure.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param security
          *     Security Labels applied to this resource
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder security(Collection<Coding> security) {
             this.security = new ArrayList<>(security);
@@ -405,7 +436,8 @@ public class Meta extends Element {
          * Tags applied to this resource. Tags are intended to be used to identify and relate resources to process and workflow, 
          * and applications are not required to consider the tags when interpreting the meaning of a resource.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param tag
          *     Tags applied to this resource
@@ -424,13 +456,17 @@ public class Meta extends Element {
          * Tags applied to this resource. Tags are intended to be used to identify and relate resources to process and workflow, 
          * and applications are not required to consider the tags when interpreting the meaning of a resource.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param tag
          *     Tags applied to this resource
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder tag(Collection<Coding> tag) {
             this.tag = new ArrayList<>(tag);

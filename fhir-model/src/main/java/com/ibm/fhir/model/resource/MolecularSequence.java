@@ -551,7 +551,8 @@ public class MolecularSequence extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -568,13 +569,17 @@ public class MolecularSequence extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -587,7 +592,8 @@ public class MolecularSequence extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -606,13 +612,17 @@ public class MolecularSequence extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -630,7 +640,8 @@ public class MolecularSequence extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -654,13 +665,17 @@ public class MolecularSequence extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -670,7 +685,8 @@ public class MolecularSequence extends DomainResource {
         /**
          * A unique identifier for this particular sequence instance. This is a FHIR-defined id.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Unique ID for this particular sequence. This is a FHIR-defined id
@@ -688,13 +704,17 @@ public class MolecularSequence extends DomainResource {
         /**
          * A unique identifier for this particular sequence instance. This is a FHIR-defined id.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Unique ID for this particular sequence. This is a FHIR-defined id
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder identifier(Collection<Identifier> identifier) {
             this.identifier = new ArrayList<>(identifier);
@@ -712,6 +732,25 @@ public class MolecularSequence extends DomainResource {
          */
         public Builder type(SequenceType type) {
             this.type = type;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code coordinateSystem}.
+         * 
+         * <p>This element is required.
+         * 
+         * @param coordinateSystem
+         *     Base number of coordinate system (0 for 0-based numbering or coordinates, inclusive start, exclusive end, 1 for 1-
+         *     based numbering, inclusive start, inclusive end)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #coordinateSystem(com.ibm.fhir.model.type.Integer)
+         */
+        public Builder coordinateSystem(java.lang.Integer coordinateSystem) {
+            this.coordinateSystem = (coordinateSystem == null) ? null : Integer.of(coordinateSystem);
             return this;
         }
 
@@ -843,7 +882,8 @@ public class MolecularSequence extends DomainResource {
          * insertion,deletion,SNP,etc.) It can represent some complex mutation or segment variation with the assist of CIGAR 
          * string.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param variant
          *     Variant in sequence
@@ -864,16 +904,36 @@ public class MolecularSequence extends DomainResource {
          * insertion,deletion,SNP,etc.) It can represent some complex mutation or segment variation with the assist of CIGAR 
          * string.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param variant
          *     Variant in sequence
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder variant(Collection<Variant> variant) {
             this.variant = new ArrayList<>(variant);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code observedSeq}.
+         * 
+         * @param observedSeq
+         *     Sequence that was observed
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #observedSeq(com.ibm.fhir.model.type.String)
+         */
+        public Builder observedSeq(java.lang.String observedSeq) {
+            this.observedSeq = (observedSeq == null) ? null : String.of(observedSeq);
             return this;
         }
 
@@ -896,7 +956,8 @@ public class MolecularSequence extends DomainResource {
          * An experimental feature attribute that defines the quality of the feature in a quantitative way, such as a phred 
          * quality score ([SO:0001686](http://www.sequenceontology.org/browser/current_svn/term/SO:0001686)).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param quality
          *     An set of value as quality of sequence
@@ -915,16 +976,36 @@ public class MolecularSequence extends DomainResource {
          * An experimental feature attribute that defines the quality of the feature in a quantitative way, such as a phred 
          * quality score ([SO:0001686](http://www.sequenceontology.org/browser/current_svn/term/SO:0001686)).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param quality
          *     An set of value as quality of sequence
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder quality(Collection<Quality> quality) {
             this.quality = new ArrayList<>(quality);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code readCoverage}.
+         * 
+         * @param readCoverage
+         *     Average number of reads representing a given nucleotide in the reconstructed sequence
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #readCoverage(com.ibm.fhir.model.type.Integer)
+         */
+        public Builder readCoverage(java.lang.Integer readCoverage) {
+            this.readCoverage = (readCoverage == null) ? null : Integer.of(readCoverage);
             return this;
         }
 
@@ -947,7 +1028,8 @@ public class MolecularSequence extends DomainResource {
          * Configurations of the external repository. The repository shall store target's observedSeq or records related with 
          * target's observedSeq.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param repository
          *     External repository which contains detailed report related with observedSeq in this resource
@@ -966,13 +1048,17 @@ public class MolecularSequence extends DomainResource {
          * Configurations of the external repository. The repository shall store target's observedSeq or records related with 
          * target's observedSeq.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param repository
          *     External repository which contains detailed report related with observedSeq in this resource
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder repository(Collection<Repository> repository) {
             this.repository = new ArrayList<>(repository);
@@ -982,7 +1068,8 @@ public class MolecularSequence extends DomainResource {
         /**
          * Pointer to next atomic sequence which at most contains one variant.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1005,7 +1092,8 @@ public class MolecularSequence extends DomainResource {
         /**
          * Pointer to next atomic sequence which at most contains one variant.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1017,6 +1105,9 @@ public class MolecularSequence extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder pointer(Collection<Reference> pointer) {
             this.pointer = new ArrayList<>(pointer);
@@ -1026,7 +1117,8 @@ public class MolecularSequence extends DomainResource {
         /**
          * Information about chromosome structure variation.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param structureVariant
          *     Structural variant
@@ -1044,13 +1136,17 @@ public class MolecularSequence extends DomainResource {
         /**
          * Information about chromosome structure variation.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param structureVariant
          *     Structural variant
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder structureVariant(Collection<StructureVariant> structureVariant) {
             this.structureVariant = new ArrayList<>(structureVariant);
@@ -1408,7 +1504,8 @@ public class MolecularSequence extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1427,13 +1524,17 @@ public class MolecularSequence extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1451,7 +1552,8 @@ public class MolecularSequence extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1475,13 +1577,17 @@ public class MolecularSequence extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1501,6 +1607,22 @@ public class MolecularSequence extends DomainResource {
              */
             public Builder chromosome(CodeableConcept chromosome) {
                 this.chromosome = chromosome;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code genomeBuild}.
+             * 
+             * @param genomeBuild
+             *     The Genome Build used for reference, following GRCh build versions e.g. 'GRCh 37'
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #genomeBuild(com.ibm.fhir.model.type.String)
+             */
+            public Builder genomeBuild(java.lang.String genomeBuild) {
+                this.genomeBuild = (genomeBuild == null) ? null : String.of(genomeBuild);
                 return this;
             }
 
@@ -1570,6 +1692,22 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code referenceSeqString}.
+             * 
+             * @param referenceSeqString
+             *     A string to represent reference sequence
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #referenceSeqString(com.ibm.fhir.model.type.String)
+             */
+            public Builder referenceSeqString(java.lang.String referenceSeqString) {
+                this.referenceSeqString = (referenceSeqString == null) ? null : String.of(referenceSeqString);
+                return this;
+            }
+
+            /**
              * A string like "ACGT".
              * 
              * @param referenceSeqString
@@ -1599,6 +1737,22 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code windowStart}.
+             * 
+             * @param windowStart
+             *     Start position of the window on the reference sequence
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #windowStart(com.ibm.fhir.model.type.Integer)
+             */
+            public Builder windowStart(java.lang.Integer windowStart) {
+                this.windowStart = (windowStart == null) ? null : Integer.of(windowStart);
+                return this;
+            }
+
+            /**
              * Start position of the window on the reference sequence. If the coordinate system is either 0-based or 1-based, then 
              * start position is inclusive.
              * 
@@ -1610,6 +1764,22 @@ public class MolecularSequence extends DomainResource {
              */
             public Builder windowStart(Integer windowStart) {
                 this.windowStart = windowStart;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code windowEnd}.
+             * 
+             * @param windowEnd
+             *     End position of the window on the reference sequence
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #windowEnd(com.ibm.fhir.model.type.Integer)
+             */
+            public Builder windowEnd(java.lang.Integer windowEnd) {
+                this.windowEnd = (windowEnd == null) ? null : Integer.of(windowEnd);
                 return this;
             }
 
@@ -1886,7 +2056,8 @@ public class MolecularSequence extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1905,13 +2076,17 @@ public class MolecularSequence extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1929,7 +2104,8 @@ public class MolecularSequence extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1953,17 +2129,37 @@ public class MolecularSequence extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting {@code start}.
+             * 
+             * @param start
+             *     Start position of the variant on the reference sequence
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #start(com.ibm.fhir.model.type.Integer)
+             */
+            public Builder start(java.lang.Integer start) {
+                this.start = (start == null) ? null : Integer.of(start);
+                return this;
             }
 
             /**
@@ -1982,6 +2178,22 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code end}.
+             * 
+             * @param end
+             *     End position of the variant on the reference sequence
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #end(com.ibm.fhir.model.type.Integer)
+             */
+            public Builder end(java.lang.Integer end) {
+                this.end = (end == null) ? null : Integer.of(end);
+                return this;
+            }
+
+            /**
              * End position of the variant on the reference sequence. If the coordinate system is 0-based then end is exclusive and 
              * does not include the last position. If the coordinate system is 1-base, then end is inclusive and includes the last 
              * position.
@@ -1994,6 +2206,22 @@ public class MolecularSequence extends DomainResource {
              */
             public Builder end(Integer end) {
                 this.end = end;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code observedAllele}.
+             * 
+             * @param observedAllele
+             *     Allele that was observed
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #observedAllele(com.ibm.fhir.model.type.String)
+             */
+            public Builder observedAllele(java.lang.String observedAllele) {
+                this.observedAllele = (observedAllele == null) ? null : String.of(observedAllele);
                 return this;
             }
 
@@ -2015,6 +2243,22 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code referenceAllele}.
+             * 
+             * @param referenceAllele
+             *     Allele in the reference sequence
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #referenceAllele(com.ibm.fhir.model.type.String)
+             */
+            public Builder referenceAllele(java.lang.String referenceAllele) {
+                this.referenceAllele = (referenceAllele == null) ? null : String.of(referenceAllele);
+                return this;
+            }
+
+            /**
              * An allele is one of a set of coexisting sequence variants of a gene ([SO:0001023](http://www.sequenceontology.
              * org/browser/current_svn/term/SO:0001023)). Nucleotide(s)/amino acids from start position of sequence to stop position 
              * of sequence on the positive (+) strand of the reference sequence. When the sequence type is DNA, it should be the 
@@ -2028,6 +2272,22 @@ public class MolecularSequence extends DomainResource {
              */
             public Builder referenceAllele(String referenceAllele) {
                 this.referenceAllele = referenceAllele;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code cigar}.
+             * 
+             * @param cigar
+             *     Extended CIGAR string for aligning the sequence with reference bases
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #cigar(com.ibm.fhir.model.type.String)
+             */
+            public Builder cigar(java.lang.String cigar) {
+                this.cigar = (cigar == null) ? null : String.of(cigar);
                 return this;
             }
 
@@ -2498,7 +2758,8 @@ public class MolecularSequence extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2517,13 +2778,17 @@ public class MolecularSequence extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2541,7 +2806,8 @@ public class MolecularSequence extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2565,13 +2831,17 @@ public class MolecularSequence extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2609,6 +2879,22 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code start}.
+             * 
+             * @param start
+             *     Start position of the sequence
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #start(com.ibm.fhir.model.type.Integer)
+             */
+            public Builder start(java.lang.Integer start) {
+                this.start = (start == null) ? null : Integer.of(start);
+                return this;
+            }
+
+            /**
              * Start position of the sequence. If the coordinate system is either 0-based or 1-based, then start position is 
              * inclusive.
              * 
@@ -2620,6 +2906,22 @@ public class MolecularSequence extends DomainResource {
              */
             public Builder start(Integer start) {
                 this.start = start;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code end}.
+             * 
+             * @param end
+             *     End position of the sequence
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #end(com.ibm.fhir.model.type.Integer)
+             */
+            public Builder end(java.lang.Integer end) {
+                this.end = (end == null) ? null : Integer.of(end);
                 return this;
             }
 
@@ -3070,7 +3372,8 @@ public class MolecularSequence extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -3089,13 +3392,17 @@ public class MolecularSequence extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -3113,7 +3420,8 @@ public class MolecularSequence extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3137,13 +3445,17 @@ public class MolecularSequence extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3151,9 +3463,31 @@ public class MolecularSequence extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting {@code score}.
+                 * 
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
+                 * 
+                 * @param score
+                 *     Genotype quality score
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #score(com.ibm.fhir.model.type.Integer)
+                 */
+                public Builder score(java.lang.Integer... score) {
+                    for (java.lang.Integer value : score) {
+                        this.score.add((value == null) ? null : Integer.of(value));
+                    }
+                    return this;
+                }
+
+                /**
                  * Invidual data point representing the GQ (genotype quality) score threshold.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param score
                  *     Genotype quality score
@@ -3171,13 +3505,17 @@ public class MolecularSequence extends DomainResource {
                 /**
                  * Invidual data point representing the GQ (genotype quality) score threshold.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param score
                  *     Genotype quality score
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder score(Collection<Integer> score) {
                     this.score = new ArrayList<>(score);
@@ -3185,9 +3523,31 @@ public class MolecularSequence extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting {@code numTP}.
+                 * 
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
+                 * 
+                 * @param numTP
+                 *     Roc score true positive numbers
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #numTP(com.ibm.fhir.model.type.Integer)
+                 */
+                public Builder numTP(java.lang.Integer... numTP) {
+                    for (java.lang.Integer value : numTP) {
+                        this.numTP.add((value == null) ? null : Integer.of(value));
+                    }
+                    return this;
+                }
+
+                /**
                  * The number of true positives if the GQ score threshold was set to "score" field value.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param numTP
                  *     Roc score true positive numbers
@@ -3205,13 +3565,17 @@ public class MolecularSequence extends DomainResource {
                 /**
                  * The number of true positives if the GQ score threshold was set to "score" field value.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param numTP
                  *     Roc score true positive numbers
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder numTP(Collection<Integer> numTP) {
                     this.numTP = new ArrayList<>(numTP);
@@ -3219,9 +3583,31 @@ public class MolecularSequence extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting {@code numFP}.
+                 * 
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
+                 * 
+                 * @param numFP
+                 *     Roc score false positive numbers
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #numFP(com.ibm.fhir.model.type.Integer)
+                 */
+                public Builder numFP(java.lang.Integer... numFP) {
+                    for (java.lang.Integer value : numFP) {
+                        this.numFP.add((value == null) ? null : Integer.of(value));
+                    }
+                    return this;
+                }
+
+                /**
                  * The number of false positives if the GQ score threshold was set to "score" field value.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param numFP
                  *     Roc score false positive numbers
@@ -3239,13 +3625,17 @@ public class MolecularSequence extends DomainResource {
                 /**
                  * The number of false positives if the GQ score threshold was set to "score" field value.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param numFP
                  *     Roc score false positive numbers
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder numFP(Collection<Integer> numFP) {
                     this.numFP = new ArrayList<>(numFP);
@@ -3253,9 +3643,31 @@ public class MolecularSequence extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting {@code numFN}.
+                 * 
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
+                 * 
+                 * @param numFN
+                 *     Roc score false negative numbers
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #numFN(com.ibm.fhir.model.type.Integer)
+                 */
+                public Builder numFN(java.lang.Integer... numFN) {
+                    for (java.lang.Integer value : numFN) {
+                        this.numFN.add((value == null) ? null : Integer.of(value));
+                    }
+                    return this;
+                }
+
+                /**
                  * The number of false negatives if the GQ score threshold was set to "score" field value.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param numFN
                  *     Roc score false negative numbers
@@ -3273,13 +3685,17 @@ public class MolecularSequence extends DomainResource {
                 /**
                  * The number of false negatives if the GQ score threshold was set to "score" field value.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param numFN
                  *     Roc score false negative numbers
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder numFN(Collection<Integer> numFN) {
                     this.numFN = new ArrayList<>(numFN);
@@ -3289,7 +3705,8 @@ public class MolecularSequence extends DomainResource {
                 /**
                  * Calculated precision if the GQ score threshold was set to "score" field value.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param precision
                  *     Precision of the GQ score
@@ -3307,13 +3724,17 @@ public class MolecularSequence extends DomainResource {
                 /**
                  * Calculated precision if the GQ score threshold was set to "score" field value.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param precision
                  *     Precision of the GQ score
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder precision(Collection<Decimal> precision) {
                     this.precision = new ArrayList<>(precision);
@@ -3323,7 +3744,8 @@ public class MolecularSequence extends DomainResource {
                 /**
                  * Calculated sensitivity if the GQ score threshold was set to "score" field value.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param sensitivity
                  *     Sensitivity of the GQ score
@@ -3341,13 +3763,17 @@ public class MolecularSequence extends DomainResource {
                 /**
                  * Calculated sensitivity if the GQ score threshold was set to "score" field value.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param sensitivity
                  *     Sensitivity of the GQ score
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder sensitivity(Collection<Decimal> sensitivity) {
                     this.sensitivity = new ArrayList<>(sensitivity);
@@ -3357,7 +3783,8 @@ public class MolecularSequence extends DomainResource {
                 /**
                  * Calculated fScore if the GQ score threshold was set to "score" field value.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param fMeasure
                  *     FScore of the GQ score
@@ -3375,13 +3802,17 @@ public class MolecularSequence extends DomainResource {
                 /**
                  * Calculated fScore if the GQ score threshold was set to "score" field value.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param fMeasure
                  *     FScore of the GQ score
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder fMeasure(Collection<Decimal> fMeasure) {
                     this.fMeasure = new ArrayList<>(fMeasure);
@@ -3644,7 +4075,8 @@ public class MolecularSequence extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -3663,13 +4095,17 @@ public class MolecularSequence extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -3687,7 +4123,8 @@ public class MolecularSequence extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -3711,13 +4148,17 @@ public class MolecularSequence extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3755,6 +4196,22 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code name}.
+             * 
+             * @param name
+             *     Repository's name
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #name(com.ibm.fhir.model.type.String)
+             */
+            public Builder name(java.lang.String name) {
+                this.name = (name == null) ? null : String.of(name);
+                return this;
+            }
+
+            /**
              * URI of an external repository which contains further details about the genetics data.
              * 
              * @param name
@@ -3765,6 +4222,22 @@ public class MolecularSequence extends DomainResource {
              */
             public Builder name(String name) {
                 this.name = name;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code datasetId}.
+             * 
+             * @param datasetId
+             *     Id of the dataset that used to call for dataset in repository
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #datasetId(com.ibm.fhir.model.type.String)
+             */
+            public Builder datasetId(java.lang.String datasetId) {
+                this.datasetId = (datasetId == null) ? null : String.of(datasetId);
                 return this;
             }
 
@@ -3784,6 +4257,22 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code variantsetId}.
+             * 
+             * @param variantsetId
+             *     Id of the variantset that used to call for variantset in repository
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #variantsetId(com.ibm.fhir.model.type.String)
+             */
+            public Builder variantsetId(java.lang.String variantsetId) {
+                this.variantsetId = (variantsetId == null) ? null : String.of(variantsetId);
+                return this;
+            }
+
+            /**
              * Id of the variantset in this external repository. The server will understand how to use this id to call for more info 
              * about variantsets in external repository.
              * 
@@ -3795,6 +4284,22 @@ public class MolecularSequence extends DomainResource {
              */
             public Builder variantsetId(String variantsetId) {
                 this.variantsetId = variantsetId;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code readsetId}.
+             * 
+             * @param readsetId
+             *     Id of the read
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #readsetId(com.ibm.fhir.model.type.String)
+             */
+            public Builder readsetId(java.lang.String readsetId) {
+                this.readsetId = (readsetId == null) ? null : String.of(readsetId);
                 return this;
             }
 
@@ -4043,7 +4548,8 @@ public class MolecularSequence extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -4062,13 +4568,17 @@ public class MolecularSequence extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -4086,7 +4596,8 @@ public class MolecularSequence extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -4110,13 +4621,17 @@ public class MolecularSequence extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -4138,6 +4653,22 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code exact}.
+             * 
+             * @param exact
+             *     Does the structural variant have base pair resolution breakpoints?
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #exact(com.ibm.fhir.model.type.Boolean)
+             */
+            public Builder exact(java.lang.Boolean exact) {
+                this.exact = (exact == null) ? null : Boolean.of(exact);
+                return this;
+            }
+
+            /**
              * Used to indicate if the outer and inner start-end values have the same meaning.
              * 
              * @param exact
@@ -4148,6 +4679,22 @@ public class MolecularSequence extends DomainResource {
              */
             public Builder exact(Boolean exact) {
                 this.exact = exact;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code length}.
+             * 
+             * @param length
+             *     Structural variant length
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #length(com.ibm.fhir.model.type.Integer)
+             */
+            public Builder length(java.lang.Integer length) {
+                this.length = (length == null) ? null : Integer.of(length);
                 return this;
             }
 
@@ -4358,7 +4905,8 @@ public class MolecularSequence extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -4377,13 +4925,17 @@ public class MolecularSequence extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -4401,7 +4953,8 @@ public class MolecularSequence extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -4425,17 +4978,37 @@ public class MolecularSequence extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
                     return (Builder) super.modifierExtension(modifierExtension);
+                }
+
+                /**
+                 * Convenience method for setting {@code start}.
+                 * 
+                 * @param start
+                 *     Structural variant outer start
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #start(com.ibm.fhir.model.type.Integer)
+                 */
+                public Builder start(java.lang.Integer start) {
+                    this.start = (start == null) ? null : Integer.of(start);
+                    return this;
                 }
 
                 /**
@@ -4450,6 +5023,22 @@ public class MolecularSequence extends DomainResource {
                  */
                 public Builder start(Integer start) {
                     this.start = start;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code end}.
+                 * 
+                 * @param end
+                 *     Structural variant outer end
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #end(com.ibm.fhir.model.type.Integer)
+                 */
+                public Builder end(java.lang.Integer end) {
+                    this.end = (end == null) ? null : Integer.of(end);
                     return this;
                 }
 
@@ -4631,7 +5220,8 @@ public class MolecularSequence extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -4650,13 +5240,17 @@ public class MolecularSequence extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -4674,7 +5268,8 @@ public class MolecularSequence extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -4698,17 +5293,37 @@ public class MolecularSequence extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
                     return (Builder) super.modifierExtension(modifierExtension);
+                }
+
+                /**
+                 * Convenience method for setting {@code start}.
+                 * 
+                 * @param start
+                 *     Structural variant inner start
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #start(com.ibm.fhir.model.type.Integer)
+                 */
+                public Builder start(java.lang.Integer start) {
+                    this.start = (start == null) ? null : Integer.of(start);
+                    return this;
                 }
 
                 /**
@@ -4723,6 +5338,22 @@ public class MolecularSequence extends DomainResource {
                  */
                 public Builder start(Integer start) {
                     this.start = start;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code end}.
+                 * 
+                 * @param end
+                 *     Structural variant inner end
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #end(com.ibm.fhir.model.type.Integer)
+                 */
+                public Builder end(java.lang.Integer end) {
+                    this.end = (end == null) ? null : Integer.of(end);
                     return this;
                 }
 

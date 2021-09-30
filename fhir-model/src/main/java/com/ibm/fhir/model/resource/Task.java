@@ -885,7 +885,8 @@ public class Task extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -902,13 +903,17 @@ public class Task extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -921,7 +926,8 @@ public class Task extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -940,13 +946,17 @@ public class Task extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -964,7 +974,8 @@ public class Task extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -988,13 +999,17 @@ public class Task extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1004,7 +1019,8 @@ public class Task extends DomainResource {
         /**
          * The business identifier for this task.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Task Instance Identifier
@@ -1022,13 +1038,17 @@ public class Task extends DomainResource {
         /**
          * The business identifier for this task.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Task Instance Identifier
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder identifier(Collection<Identifier> identifier) {
             this.identifier = new ArrayList<>(identifier);
@@ -1072,7 +1092,8 @@ public class Task extends DomainResource {
          * on a ServiceRequest (= BasedOn), a task is created to fulfill a procedureRequest ( = FocusOn ) to collect a specimen 
          * from a patient.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param basedOn
          *     Request fulfilled by this task
@@ -1094,13 +1115,17 @@ public class Task extends DomainResource {
          * on a ServiceRequest (= BasedOn), a task is created to fulfill a procedureRequest ( = FocusOn ) to collect a specimen 
          * from a patient.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param basedOn
          *     Request fulfilled by this task
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder basedOn(Collection<Reference> basedOn) {
             this.basedOn = new ArrayList<>(basedOn);
@@ -1124,7 +1149,8 @@ public class Task extends DomainResource {
         /**
          * Task that this particular task is part of.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1147,7 +1173,8 @@ public class Task extends DomainResource {
         /**
          * Task that this particular task is part of.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1159,6 +1186,9 @@ public class Task extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder partOf(Collection<Reference> partOf) {
             this.partOf = new ArrayList<>(partOf);
@@ -1251,6 +1281,22 @@ public class Task extends DomainResource {
          */
         public Builder code(CodeableConcept code) {
             this.code = code;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code description}.
+         * 
+         * @param description
+         *     Human-readable explanation of task
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #description(com.ibm.fhir.model.type.String)
+         */
+        public Builder description(java.lang.String description) {
+            this.description = (description == null) ? null : String.of(description);
             return this;
         }
 
@@ -1385,7 +1431,8 @@ public class Task extends DomainResource {
         /**
          * The kind of participant that should perform the task.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param performerType
          *     Requested performer
@@ -1403,13 +1450,17 @@ public class Task extends DomainResource {
         /**
          * The kind of participant that should perform the task.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param performerType
          *     Requested performer
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder performerType(Collection<CodeableConcept> performerType) {
             this.performerType = new ArrayList<>(performerType);
@@ -1492,7 +1543,8 @@ public class Task extends DomainResource {
         /**
          * Insurance plans, coverage extensions, pre-authorizations and/or pre-determinations that may be relevant to the Task.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1516,7 +1568,8 @@ public class Task extends DomainResource {
         /**
          * Insurance plans, coverage extensions, pre-authorizations and/or pre-determinations that may be relevant to the Task.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1529,6 +1582,9 @@ public class Task extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder insurance(Collection<Reference> insurance) {
             this.insurance = new ArrayList<>(insurance);
@@ -1538,7 +1594,8 @@ public class Task extends DomainResource {
         /**
          * Free-text information captured about the task as it progresses.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param note
          *     Comments made about the task
@@ -1556,13 +1613,17 @@ public class Task extends DomainResource {
         /**
          * Free-text information captured about the task as it progresses.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param note
          *     Comments made about the task
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder note(Collection<Annotation> note) {
             this.note = new ArrayList<>(note);
@@ -1573,7 +1634,8 @@ public class Task extends DomainResource {
          * Links to Provenance records for past versions of this Task that identify key state transitions or updates that are 
          * likely to be relevant to a user looking at the current version of the task.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1597,7 +1659,8 @@ public class Task extends DomainResource {
          * Links to Provenance records for past versions of this Task that identify key state transitions or updates that are 
          * likely to be relevant to a user looking at the current version of the task.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1609,6 +1672,9 @@ public class Task extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder relevantHistory(Collection<Reference> relevantHistory) {
             this.relevantHistory = new ArrayList<>(relevantHistory);
@@ -1633,7 +1699,8 @@ public class Task extends DomainResource {
         /**
          * Additional information that may be needed in the execution of the task.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param input
          *     Information used to perform task
@@ -1651,13 +1718,17 @@ public class Task extends DomainResource {
         /**
          * Additional information that may be needed in the execution of the task.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param input
          *     Information used to perform task
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder input(Collection<Input> input) {
             this.input = new ArrayList<>(input);
@@ -1667,7 +1738,8 @@ public class Task extends DomainResource {
         /**
          * Outputs produced by the Task.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param output
          *     Information produced as part of task
@@ -1685,13 +1757,17 @@ public class Task extends DomainResource {
         /**
          * Outputs produced by the Task.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param output
          *     Information produced as part of task
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder output(Collection<Output> output) {
             this.output = new ArrayList<>(output);
@@ -1927,7 +2003,8 @@ public class Task extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1946,13 +2023,17 @@ public class Task extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1970,7 +2051,8 @@ public class Task extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1994,13 +2076,17 @@ public class Task extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2038,7 +2124,8 @@ public class Task extends DomainResource {
             /**
              * For requests that are targeted to more than on potential recipient/target, for whom is fulfillment sought?
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>Allowed resource types for the references:
              * <ul>
@@ -2066,7 +2153,8 @@ public class Task extends DomainResource {
             /**
              * For requests that are targeted to more than on potential recipient/target, for whom is fulfillment sought?
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>Allowed resource types for the references:
              * <ul>
@@ -2083,6 +2171,9 @@ public class Task extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder recipient(Collection<Reference> recipient) {
                 this.recipient = new ArrayList<>(recipient);
@@ -2158,7 +2249,15 @@ public class Task extends DomainResource {
          * The value of the input parameter as a basic type.
          * 
          * @return
-         *     An immutable object of type {@link Element} that is non-null.
+         *     An immutable object of type {@link Base64Binary}, {@link Boolean}, {@link Canonical}, {@link Code}, {@link Date}, 
+         *     {@link DateTime}, {@link Decimal}, {@link Id}, {@link Instant}, {@link Integer}, {@link Markdown}, {@link Oid}, {@link 
+         *     PositiveInt}, {@link String}, {@link Time}, {@link UnsignedInt}, {@link Uri}, {@link Url}, {@link Uuid}, {@link 
+         *     Address}, {@link Age}, {@link Annotation}, {@link Attachment}, {@link CodeableConcept}, {@link Coding}, {@link 
+         *     ContactPoint}, {@link Count}, {@link Distance}, {@link Duration}, {@link HumanName}, {@link Identifier}, {@link 
+         *     Money}, {@link Period}, {@link Quantity}, {@link Range}, {@link Ratio}, {@link Reference}, {@link SampledData}, {@link 
+         *     Signature}, {@link Timing}, {@link ContactDetail}, {@link Contributor}, {@link DataRequirement}, {@link Expression}, 
+         *     {@link ParameterDefinition}, {@link RelatedArtifact}, {@link TriggerDefinition}, {@link UsageContext}, {@link Dosage} 
+         *     or {@link Meta} that is non-null.
          */
         public Element getValue() {
             return value;
@@ -2259,7 +2358,8 @@ public class Task extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2278,13 +2378,17 @@ public class Task extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2302,7 +2406,8 @@ public class Task extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2326,13 +2431,17 @@ public class Task extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2352,6 +2461,114 @@ public class Task extends DomainResource {
              */
             public Builder type(CodeableConcept type) {
                 this.type = type;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type Boolean.
+             * 
+             * <p>This element is required.
+             * 
+             * @param value
+             *     Content to use in performing the task
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.lang.Boolean value) {
+                this.value = (value == null) ? null : Boolean.of(value);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type Date.
+             * 
+             * <p>This element is required.
+             * 
+             * @param value
+             *     Content to use in performing the task
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.time.LocalDate value) {
+                this.value = (value == null) ? null : Date.of(value);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type Instant.
+             * 
+             * <p>This element is required.
+             * 
+             * @param value
+             *     Content to use in performing the task
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.time.ZonedDateTime value) {
+                this.value = (value == null) ? null : Instant.of(value);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type Integer.
+             * 
+             * <p>This element is required.
+             * 
+             * @param value
+             *     Content to use in performing the task
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.lang.Integer value) {
+                this.value = (value == null) ? null : Integer.of(value);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type String.
+             * 
+             * <p>This element is required.
+             * 
+             * @param value
+             *     Content to use in performing the task
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.lang.String value) {
+                this.value = (value == null) ? null : String.of(value);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type Time.
+             * 
+             * <p>This element is required.
+             * 
+             * @param value
+             *     Content to use in performing the task
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.time.LocalTime value) {
+                this.value = (value == null) ? null : Time.of(value);
                 return this;
             }
 
@@ -2499,7 +2716,15 @@ public class Task extends DomainResource {
          * The value of the Output parameter as a basic type.
          * 
          * @return
-         *     An immutable object of type {@link Element} that is non-null.
+         *     An immutable object of type {@link Base64Binary}, {@link Boolean}, {@link Canonical}, {@link Code}, {@link Date}, 
+         *     {@link DateTime}, {@link Decimal}, {@link Id}, {@link Instant}, {@link Integer}, {@link Markdown}, {@link Oid}, {@link 
+         *     PositiveInt}, {@link String}, {@link Time}, {@link UnsignedInt}, {@link Uri}, {@link Url}, {@link Uuid}, {@link 
+         *     Address}, {@link Age}, {@link Annotation}, {@link Attachment}, {@link CodeableConcept}, {@link Coding}, {@link 
+         *     ContactPoint}, {@link Count}, {@link Distance}, {@link Duration}, {@link HumanName}, {@link Identifier}, {@link 
+         *     Money}, {@link Period}, {@link Quantity}, {@link Range}, {@link Ratio}, {@link Reference}, {@link SampledData}, {@link 
+         *     Signature}, {@link Timing}, {@link ContactDetail}, {@link Contributor}, {@link DataRequirement}, {@link Expression}, 
+         *     {@link ParameterDefinition}, {@link RelatedArtifact}, {@link TriggerDefinition}, {@link UsageContext}, {@link Dosage} 
+         *     or {@link Meta} that is non-null.
          */
         public Element getValue() {
             return value;
@@ -2600,7 +2825,8 @@ public class Task extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2619,13 +2845,17 @@ public class Task extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2643,7 +2873,8 @@ public class Task extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2667,13 +2898,17 @@ public class Task extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2693,6 +2928,114 @@ public class Task extends DomainResource {
              */
             public Builder type(CodeableConcept type) {
                 this.type = type;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type Boolean.
+             * 
+             * <p>This element is required.
+             * 
+             * @param value
+             *     Result of output
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.lang.Boolean value) {
+                this.value = (value == null) ? null : Boolean.of(value);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type Date.
+             * 
+             * <p>This element is required.
+             * 
+             * @param value
+             *     Result of output
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.time.LocalDate value) {
+                this.value = (value == null) ? null : Date.of(value);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type Instant.
+             * 
+             * <p>This element is required.
+             * 
+             * @param value
+             *     Result of output
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.time.ZonedDateTime value) {
+                this.value = (value == null) ? null : Instant.of(value);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type Integer.
+             * 
+             * <p>This element is required.
+             * 
+             * @param value
+             *     Result of output
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.lang.Integer value) {
+                this.value = (value == null) ? null : Integer.of(value);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type String.
+             * 
+             * <p>This element is required.
+             * 
+             * @param value
+             *     Result of output
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.lang.String value) {
+                this.value = (value == null) ? null : String.of(value);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type Time.
+             * 
+             * <p>This element is required.
+             * 
+             * @param value
+             *     Result of output
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.time.LocalTime value) {
+                this.value = (value == null) ? null : Time.of(value);
                 return this;
             }
 

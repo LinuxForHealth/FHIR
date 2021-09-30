@@ -107,6 +107,12 @@ public class SearchConstants {
     // _source
     public static final String SOURCE = "_source";
     
+    // url
+    public static final String URL = "url";
+    
+    // version
+    public static final String VERSION = "version";
+    
     public static final String IMPLICIT_SYSTEM_EXT_URL = FHIRConstants.EXT_BASE + "implicit-system";
 
     // Extracted search parameter suffix for :identifier modifier
@@ -119,6 +125,11 @@ public class SearchConstants {
 
     // Extracted search parameter suffix for :text modifier
     public static final String TEXT_MODIFIER_SUFFIX = ":text";
+    
+    // Extracted search parameter suffixes for canonical values
+    public static final String CANONICAL_SUFFIX = "_canonical";
+    public static final String CANONICAL_COMPONENT_URI = "uri";
+    public static final String CANONICAL_COMPONENT_VERSION = "version";
 
     // set as unmodifiable
     public static final Set<String> SEARCH_RESULT_PARAMETER_NAMES =

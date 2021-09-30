@@ -48,36 +48,9 @@ public class ReferenceVersionRules extends Code {
 
     /**
      * Get the value of this ReferenceVersionRules as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this ReferenceVersionRules as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating ReferenceVersionRules objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static ReferenceVersionRules of(ValueSet value) {
-        switch (value) {
-        case EITHER:
-            return EITHER;
-        case INDEPENDENT:
-            return INDEPENDENT;
-        case SPECIFIC:
-            return SPECIFIC;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -191,14 +164,6 @@ public class ReferenceVersionRules extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -227,61 +192,6 @@ public class ReferenceVersionRules extends Code {
         protected Builder from(ReferenceVersionRules referenceVersionRules) {
             super.from(referenceVersionRules);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Either Specific or independent
-         * 
-         * <p>The reference may be either version independent or version specific.
-         */
-        EITHER("either"),
-
-        /**
-         * Version independent
-         * 
-         * <p>The reference must be version independent.
-         */
-        INDEPENDENT("independent"),
-
-        /**
-         * Version Specific
-         * 
-         * <p>The reference must be version specific.
-         */
-        SPECIFIC("specific");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating ReferenceVersionRules.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

@@ -101,7 +101,7 @@ curl -o cache-repo/jersey-container-servlet-2.30.1.jar -L https://repo1.maven.or
 curl -L -o cache-repo/netty-all-4.1.51.Final.jar https://repo1.maven.org/maven2/io/netty/netty-all/4.1.51.Final/netty-all-4.1.51.Final.jar
 curl -L -o cache-repo/spark-catalyst_2.12-3.1.2.jar https://repo1.maven.org/maven2/org/apache/spark/spark-catalyst_2.12/3.1.2/spark-catalyst_2.12-3.1.2.jar
 curl -L -o cache-repo/spark-core_2.12-3.1.2.jar https://repo1.maven.org/maven2/org/apache/spark/spark-core_2.12/3.1.2/spark-core_2.12-3.1.2.jar
-curl -L -o cache-repo/spark-hive_2.12-3.1.2.jar https://repo1.maven.org/maven2/org/apache/spark/spark-hive.12/3.1.2/spark-hive.12-3.1.2.jar
+curl -L -o cache-repo/spark-hive_2.12-3.1.2.jar https://repo1.maven.org/maven2/org/apache/spark/spark-hive_2.12/3.1.2/spark-hive_2.12-3.1.2.jar
 curl -L -o cache-repo/spark-kvstore_2.12-3.1.2.jar https://repo1.maven.org/maven2/org/apache/spark/spark-kvstore_2.12/3.1.2/spark-kvstore_2.12-3.1.2.jar
 curl -L -o cache-repo/spark-launcher_2.12-3.1.2.jar https://repo1.maven.org/maven2/org/apache/spark/spark-launcher_2.12/3.1.2/spark-launcher_2.12-3.1.2.jar
 curl -L -o cache-repo/spark-mllib_2.12-3.1.2.jar https://repo1.maven.org/maven2/org/apache/spark/spark-mllib_2.12/3.1.2/spark-mllib_2.12-3.1.2.jar

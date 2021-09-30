@@ -895,15 +895,18 @@ public class SearchUtil {
                     // Build list of processed query parameters
                     List<QueryParameter> curParameterList = new ArrayList<>();
                     for (String paramValueString : params) {
-                        List<QueryParameterValue> queryParameterValues =
-                                processQueryParameterValueString(resourceType, searchParameter, modifier, modifierResourceTypeName, paramValueString);
                         QueryParameter parameter;
-                        // Internally treat search with :of-type modifier as composite search
                         if (Modifier.OF_TYPE.equals(modifier)) {
+                            // Internally treat search with :of-type modifier as composite search
                             parameter = new QueryParameter(Type.COMPOSITE, parameterCode + SearchConstants.OF_TYPE_MODIFIER_SUFFIX, null, null);
+                        } else if (Type.REFERENCE.equals(type) && isCanonicalSearchParm(resourceType, searchParameter.getExpression().getValue())) {
+                            // Internally treat canonical search parameters as type URI
+                            parameter = new QueryParameter(Type.URI, parameterCode, modifier, modifierResourceTypeName, false, false, true);
                         } else {
                             parameter = new QueryParameter(type, parameterCode, modifier, modifierResourceTypeName);
                         }
+                        List<QueryParameterValue> queryParameterValues = processQueryParameterValueString(resourceType, searchParameter,
+                            modifier, modifierResourceTypeName, paramValueString, parameter.isCanonical());
                         parameter.getValues().addAll(queryParameterValues);
                         curParameterList.add(parameter);
                         parameters.add(parameter);
@@ -1144,7 +1147,7 @@ public class SearchUtil {
      * Common logic from handling a single queryParameterValueString based on its type
      */
     private static List<QueryParameterValue> processQueryParameterValueString(Class<?> resourceType, SearchParameter searchParameter, Modifier modifier,
-        String modifierResourceTypeName, String queryParameterValueString) throws FHIRSearchException, Exception {
+            String modifierResourceTypeName, String queryParameterValueString, boolean isCanonical) throws FHIRSearchException, Exception {
         String parameterCode = searchParameter.getCode().getValue();
         Type type = Type.fromValue(searchParameter.getType().getValue());
         List<QueryParameterValue> queryParameterValues;
@@ -1166,7 +1169,8 @@ public class SearchUtil {
             }
 
             if (Modifier.MISSING.equals(modifier)) {
-                queryParameterValues = parseQueryParameterValuesString(searchParameter, Type.TOKEN, modifier, modifierResourceTypeName, queryParameterValueString);
+                queryParameterValues = parseQueryParameterValuesString(searchParameter, Type.TOKEN, modifier, modifierResourceTypeName,
+                    queryParameterValueString, isCanonical);
                 // Still need to populate the components for the query builder to properly build the SQL
                 for (QueryParameterValue queryParameterValue : queryParameterValues) {
                     for (int i=0; i<compTypes.size(); i++) {
@@ -1181,9 +1185,11 @@ public class SearchUtil {
             }
         } else if (Modifier.MISSING.equals(modifier)) {
             // FHIR search considers booleans a special case of token for some reason...
-            queryParameterValues = parseQueryParameterValuesString(searchParameter, Type.TOKEN, modifier, modifierResourceTypeName, queryParameterValueString);
+            queryParameterValues = parseQueryParameterValuesString(searchParameter, Type.TOKEN, modifier, modifierResourceTypeName, queryParameterValueString,
+                isCanonical);
         } else {
-            queryParameterValues = parseQueryParameterValuesString(searchParameter, type, modifier, modifierResourceTypeName, queryParameterValueString);
+            queryParameterValues = parseQueryParameterValuesString(searchParameter, type, modifier, modifierResourceTypeName, queryParameterValueString,
+                isCanonical);
         }
         return queryParameterValues;
     }
@@ -1201,7 +1207,8 @@ public class SearchUtil {
             }
             QueryParameterValue parameterValue = new QueryParameterValue();
             for (int i = 0; i < compTypes.size(); i++) {
-                List<QueryParameterValue> values = parseQueryParameterValuesString(searchParameter, compTypes.get(i), null, null, componentValueStrings[i]);
+                List<QueryParameterValue> values = parseQueryParameterValuesString(searchParameter, compTypes.get(i), null, null,
+                    componentValueStrings[i], false);
                 if (values.isEmpty()) {
                     throw new FHIRSearchException("Component values cannot be empty");
                 } else if (values.size() > 1) {
@@ -1222,7 +1229,8 @@ public class SearchUtil {
     }
 
     private static List<QueryParameterValue> parseQueryParameterValuesString(SearchParameter searchParameter, Type type,
-        Modifier modifier, String modifierResourceTypeName, String queryParameterValuesString) throws FHIRSearchException {
+            Modifier modifier, String modifierResourceTypeName, String queryParameterValuesString,
+            boolean isCanonical) throws FHIRSearchException {
         List<QueryParameterValue> parameterValues = new ArrayList<>();
 
         // BACKSLASH_NEGATIVE_LOOKBEHIND means it won't split on ',' that are preceded by a '\'
@@ -1260,7 +1268,7 @@ public class SearchUtil {
                 // [parameter]=[type]/[id] - relative local reference
                 // [parameter]=[base]/[type]/[id] - absolute local reference
                 // [parameter]=[id] - relativel local reference
-                // [parameter]=[literal|version#fragment] - canonical url - currently not supported
+                // [parameter]=[literal|version#fragment] - canonical url
                 // [parameter]:identifier=[system|code] - token search of identifier field
                 if (Modifier.IDENTIFIER.equals(modifier)) {
                     String[] parts = v.split(SearchConstants.BACKSLASH_NEGATIVE_LOOKBEHIND + "\\|");
@@ -1270,6 +1278,8 @@ public class SearchUtil {
                     } else {
                         parameterValue.setValueCode(unescapeSearchParm(v));
                     }
+                } else if (isCanonical) {
+                    parameterValue.setValueString(unescapeSearchParm(v));
                 } else {
                     String valueString = unescapeSearchParm(v);
                     valueString = extractReferenceValue(valueString);
@@ -1445,7 +1455,7 @@ public class SearchUtil {
     }
 
     /**
-     * Convert the string to a reference value useable by the persistence
+     * Convert the string to a reference value usable by the persistence
      * layer. This simply involves removing the URL prefix if it matches
      * the originalUri in the request context
      * @param valueString
@@ -1798,7 +1808,10 @@ public class SearchUtil {
                     modifierResourceTypeName = modifierResourceTypeNameForResourceTypes.iterator().next();
                 }
 
-                QueryParameter parameter = new QueryParameter(type, parameterName, modifier, modifierResourceTypeName);
+                boolean isCanonical = Type.REFERENCE.equals(type) &&
+                        isCanonicalSearchParm(resourceType, searchParameter.getExpression().getValue());
+                QueryParameter parameter = new QueryParameter(isCanonical && (currentIndex == lastIndex) ? Type.URI : type,
+                        parameterName, modifier, modifierResourceTypeName, false, false, isCanonical);
                 if (rootParameter == null) {
                     rootParameter = parameter;
                 } else {
@@ -1820,8 +1833,8 @@ public class SearchUtil {
                 currentIndex++;
             } // end for loop
 
-            List<QueryParameterValue> valueList =
-                    processQueryParameterValueString(resourceType, searchParameter, modifier, rootParameter.getModifierResourceTypeName(), valuesString);
+            List<QueryParameterValue> valueList = processQueryParameterValueString(resourceType, searchParameter, modifier,
+                rootParameter.getModifierResourceTypeName(), valuesString, rootParameter.getChain().getLast().isCanonical());
 
             if (checkForLogicalId) {
                 // For last search parameter, if type REFERENCE and not scoped to single target resource type, check if
@@ -1914,7 +1927,10 @@ public class SearchUtil {
                     modifier                 = Modifier.TYPE;
                 }
 
-                QueryParameter parameter = new QueryParameter(type, parameterName, modifier, modifierResourceTypeName);
+                boolean isCanonical = Type.REFERENCE.equals(type) &&
+                        isCanonicalSearchParm(resourceType, searchParameter.getExpression().getValue());
+                QueryParameter parameter = new QueryParameter(isCanonical && (currentIndex == lastIndex) ? Type.URI : type,
+                        parameterName, modifier, modifierResourceTypeName, false, false, isCanonical);
                 if (rootParameter == null) {
                     rootParameter = parameter;
                 } else {
@@ -1935,8 +1951,8 @@ public class SearchUtil {
                 currentIndex++;
             } // end for loop
 
-            List<QueryParameterValue> valueList =
-                    processQueryParameterValueString(resourceType, searchParameter, modifier, rootParameter.getModifierResourceTypeName(), valuesString);
+            List<QueryParameterValue> valueList = processQueryParameterValueString(resourceType, searchParameter, modifier,
+                rootParameter.getModifierResourceTypeName(), valuesString, rootParameter.getChain().getLast().isCanonical());
 
             if (checkForLogicalId) {
                 // For last search parameter, if type REFERENCE and not scoped to single target resource type, check if
@@ -2029,7 +2045,9 @@ public class SearchUtil {
                 }
 
                 // Create new QueryParameter
-                QueryParameter parameter = new QueryParameter(Type.REFERENCE, referenceSearchParameterName, Modifier.TYPE, referencedByResourceTypeName, false, true);
+                boolean isCanonical = isCanonicalSearchParm(resourceType, referenceSearchParameter.getExpression().getValue());
+                QueryParameter parameter = new QueryParameter(Type.REFERENCE, referenceSearchParameterName,
+                        Modifier.TYPE, referencedByResourceTypeName, false, true, isCanonical);
                 if (rootParameter == null) {
                     rootParameter = parameter;
                 } else if (rootParameter.getChain().isEmpty()) {
@@ -2082,9 +2100,14 @@ public class SearchUtil {
                             }
                         }
 
+                        isCanonical = Type.REFERENCE.equals(type) &&
+                                isCanonicalSearchParm(resourceType, searchParameter.getExpression().getValue());
+                        QueryParameter lastParameter = new QueryParameter(isCanonical ? Type.URI : type, parameterName, modifier,
+                                modifierResourceTypeName, false, false, isCanonical);
+
                         // Process value string
                         List<QueryParameterValue> valueList = processQueryParameterValueString(referencedByResourceType, searchParameter,
-                            modifier, modifierResourceTypeName, valuesString);
+                            modifier, modifierResourceTypeName, valuesString, isCanonical);
 
                         if (Type.REFERENCE == type && searchParameter.getTarget().size() > 1 && modifierResourceTypeName == null) {
                             // For last search parameter, if type REFERENCE and not scoped to single target resource type, check if
@@ -2092,7 +2115,7 @@ public class SearchUtil {
                             checkQueryParameterValuesForLogicalIdOnly(parameterName, valueList, context);
                         }
 
-                        QueryParameter lastParameter = new QueryParameter(type, parameterName, modifier, modifierResourceTypeName, valueList);
+                        lastParameter.getValues().addAll(valueList);
                         if (rootParameter.getChain().isEmpty()) {
                             rootParameter.setNextParameter(lastParameter);
                         } else {
@@ -2401,6 +2424,7 @@ public class SearchUtil {
 
         List<InclusionParameter> inclusionParameters = new ArrayList<>();
         String searchParameterCode = searchParm.getCode().getValue();
+        boolean isCanonical = isCanonicalSearchParm(resourceType, searchParm.getExpression().getValue());
 
         // If no searchParameterTargetType was specified, and if an :iterate parameter, create
         // an InclusionParameter instance for each of the search parameter's defined target types.
@@ -2410,23 +2434,24 @@ public class SearchUtil {
                 boolean userSpecified = (SearchConstants.INCLUDE.equals(inclusionKeyword) || searchParm.getTarget().size() > 1) ? false : true;
                 // Create an InclusionParameter instance for each of the search parameter's defined target types
                 for (Code targetType : searchParm.getTarget()) {
-                    inclusionParameters
-                        .add(new InclusionParameter(joinResourceType, searchParameterCode, targetType.getValue(), modifier, userSpecified));
+                    inclusionParameters.add(new InclusionParameter(
+                        joinResourceType, searchParameterCode, targetType.getValue(), modifier, userSpecified, isCanonical));
                 }
             } else {
                 // This is a _revinclude without :iterate. If the primary search resource type is a valid target
                 // type for the search parameter, create a single InclusionParameter instance with
                 // searchParameterTargetType set to the primary search resource type.
                 if (isValidTargetType(resourceType.getSimpleName(), searchParm)) {
-                    inclusionParameters
-                        .add(new InclusionParameter(joinResourceType, searchParameterCode, resourceType.getSimpleName(), modifier, false));
+                    inclusionParameters.add(new InclusionParameter(
+                        joinResourceType, searchParameterCode, resourceType.getSimpleName(), modifier, false, isCanonical));
                 } else {
                     manageException(INVALID_TARGET_TYPE_EXCEPTION, IssueType.INVALID, context, true);
                 }
             }
         } else {
             // Create a single InclusionParameter instance using the specified searchParameterTargetType
-            inclusionParameters.add(new InclusionParameter(joinResourceType, searchParameterCode, searchParameterTargetType, modifier, true));
+            inclusionParameters.add(new InclusionParameter(
+                joinResourceType, searchParameterCode, searchParameterTargetType, modifier, true, isCanonical));
         }
         return inclusionParameters;
     }
@@ -2831,4 +2856,47 @@ public class SearchUtil {
         return result;
     }
 
+    /**
+     * Determine if a search parameter expression references an element of type Canonical.
+     * @param resourceType
+     * @param expression
+     * @return
+     */
+    private static boolean isCanonicalSearchParm(Class<?> resourceType, String expression) {
+        // Parse the expression to determine element type it refers to.
+        // First split by union operator.
+        for (String subExpression : expression.split("\\|")) {
+            Class<?> dataType = resourceType;
+            
+            // Strip any enclosing parens
+            subExpression = subExpression.trim();
+            if (subExpression.startsWith("(") && subExpression.endsWith(")")) {
+                subExpression = subExpression.substring(1, subExpression.length()-1);
+            }
+            
+            // Strip out '.where()' functions, handling nested parentheses
+            subExpression = subExpression
+                    .replaceAll("\\.where(?=\\()(?:(?=.*?\\((?!.*?\\1)(.*\\)(?!.*\\2).*))(?=.*?\\)(?!.*?\\2)(.*)).)+?.*?(?=\\1)[^(]*(?=\\2$)", "");
+            
+            // Split into components
+            for (String component : subExpression.split("\\.")) {
+                component = component.trim();
+                if (dataType == null || !component.equals(dataType.getSimpleName())) {
+                    if (component.contains(" as ")) {
+                        dataType = ModelSupport.getDataType(component.substring(component.indexOf(" as ") + 4));
+                    } else if (component.startsWith("as(")) {
+                        dataType = ModelSupport.getDataType(component.substring(3, component.indexOf(")")).trim());
+                    } else if (ModelSupport.isResourceType(component)) {
+                        dataType = ModelSupport.getResourceType(component);
+                    } else {
+                        dataType = ModelSupport.getElementType(dataType, component);
+                    }
+                }
+            }
+            if (Canonical.class.getSimpleName().equals(dataType.getSimpleName())) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

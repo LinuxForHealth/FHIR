@@ -124,6 +124,11 @@ public abstract class FHIRPathAbstractTemporalValue extends FHIRPathAbstractSyst
             FHIRPathTemporalValue temporalValue = (other instanceof FHIRPathTemporalValue) ?
                     (FHIRPathTemporalValue) other : (FHIRPathTemporalValue) other.getValue();
 
+            if ((temporalAccessor instanceof LocalTime && !(temporalValue.temporalAccessor() instanceof LocalTime))
+                    || (!(temporalAccessor instanceof LocalTime) && temporalValue.temporalAccessor() instanceof LocalTime)) {
+                return false;
+            }
+
             int startIndex = 0;
 
             if (temporalAccessor instanceof LocalTime && temporalValue.temporalAccessor() instanceof LocalTime) {

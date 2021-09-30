@@ -94,48 +94,9 @@ public class SearchParamType extends Code {
 
     /**
      * Get the value of this SearchParamType as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this SearchParamType as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating SearchParamType objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static SearchParamType of(ValueSet value) {
-        switch (value) {
-        case NUMBER:
-            return NUMBER;
-        case DATE:
-            return DATE;
-        case STRING:
-            return STRING;
-        case TOKEN:
-            return TOKEN;
-        case REFERENCE:
-            return REFERENCE;
-        case COMPOSITE:
-            return COMPOSITE;
-        case QUANTITY:
-            return QUANTITY;
-        case URI:
-            return URI;
-        case SPECIAL:
-            return SPECIAL;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -261,14 +222,6 @@ public class SearchParamType extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -297,107 +250,6 @@ public class SearchParamType extends Code {
         protected Builder from(SearchParamType searchParamType) {
             super.from(searchParamType);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Number
-         * 
-         * <p>Search parameter SHALL be a number (a whole number, or a decimal).
-         */
-        NUMBER("number"),
-
-        /**
-         * Date/DateTime
-         * 
-         * <p>Search parameter is on a date/time. The date format is the standard XML format, though other formats may be 
-         * supported.
-         */
-        DATE("date"),
-
-        /**
-         * String
-         * 
-         * <p>Search parameter is a simple string, like a name part. Search is case-insensitive and accent-insensitive. May match 
-         * just the start of a string. String parameters may contain spaces.
-         */
-        STRING("string"),
-
-        /**
-         * Token
-         * 
-         * <p>Search parameter on a coded element or identifier. May be used to search through the text, display, code and 
-         * code/codesystem (for codes) and label, system and key (for identifier). Its value is either a string or a pair of 
-         * namespace and value, separated by a "|", depending on the modifier used.
-         */
-        TOKEN("token"),
-
-        /**
-         * Reference
-         * 
-         * <p>A reference to another resource (Reference or canonical).
-         */
-        REFERENCE("reference"),
-
-        /**
-         * Composite
-         * 
-         * <p>A composite search parameter that combines a search on two values together.
-         */
-        COMPOSITE("composite"),
-
-        /**
-         * Quantity
-         * 
-         * <p>A search parameter that searches on a quantity.
-         */
-        QUANTITY("quantity"),
-
-        /**
-         * URI
-         * 
-         * <p>A search parameter that searches on a URI (RFC 3986).
-         */
-        URI("uri"),
-
-        /**
-         * Special
-         * 
-         * <p>Special logic applies to this parameter per the description of the search parameter.
-         */
-        SPECIAL("special");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating SearchParamType.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

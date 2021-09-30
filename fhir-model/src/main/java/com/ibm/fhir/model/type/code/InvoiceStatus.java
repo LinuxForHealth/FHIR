@@ -62,40 +62,9 @@ public class InvoiceStatus extends Code {
 
     /**
      * Get the value of this InvoiceStatus as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this InvoiceStatus as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating InvoiceStatus objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static InvoiceStatus of(ValueSet value) {
-        switch (value) {
-        case DRAFT:
-            return DRAFT;
-        case ISSUED:
-            return ISSUED;
-        case BALANCED:
-            return BALANCED;
-        case CANCELLED:
-            return CANCELLED;
-        case ENTERED_IN_ERROR:
-            return ENTERED_IN_ERROR;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -213,14 +182,6 @@ public class InvoiceStatus extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -249,75 +210,6 @@ public class InvoiceStatus extends Code {
         protected Builder from(InvoiceStatus invoiceStatus) {
             super.from(invoiceStatus);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * draft
-         * 
-         * <p>the invoice has been prepared but not yet finalized.
-         */
-        DRAFT("draft"),
-
-        /**
-         * issued
-         * 
-         * <p>the invoice has been finalized and sent to the recipient.
-         */
-        ISSUED("issued"),
-
-        /**
-         * balanced
-         * 
-         * <p>the invoice has been balaced / completely paid.
-         */
-        BALANCED("balanced"),
-
-        /**
-         * cancelled
-         * 
-         * <p>the invoice was cancelled.
-         */
-        CANCELLED("cancelled"),
-
-        /**
-         * entered in error
-         * 
-         * <p>the invoice was determined as entered in error before it was issued.
-         */
-        ENTERED_IN_ERROR("entered-in-error");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating InvoiceStatus.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

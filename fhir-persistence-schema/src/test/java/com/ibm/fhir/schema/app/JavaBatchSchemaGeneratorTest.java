@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020,2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,6 +7,7 @@
 package com.ibm.fhir.schema.app;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 
 import java.io.InputStream;
 import java.io.Reader;
@@ -46,7 +47,22 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.database.utils.common.JdbcTarget;
 import com.ibm.fhir.database.utils.db2.Db2Adapter;
+import com.ibm.fhir.database.utils.model.AlterSequenceStartWith;
+import com.ibm.fhir.database.utils.model.AlterTableIdentityCache;
+import com.ibm.fhir.database.utils.model.BaseObject;
+import com.ibm.fhir.database.utils.model.CreateIndex;
+import com.ibm.fhir.database.utils.model.DataModelVisitorBase;
+import com.ibm.fhir.database.utils.model.DatabaseObject;
+import com.ibm.fhir.database.utils.model.ForeignKeyConstraint;
+import com.ibm.fhir.database.utils.model.FunctionDef;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
+import com.ibm.fhir.database.utils.model.ProcedureDef;
+import com.ibm.fhir.database.utils.model.RowArrayType;
+import com.ibm.fhir.database.utils.model.RowType;
+import com.ibm.fhir.database.utils.model.Sequence;
+import com.ibm.fhir.database.utils.model.SessionVariableDef;
+import com.ibm.fhir.database.utils.model.Table;
+import com.ibm.fhir.database.utils.model.Tablespace;
 import com.ibm.fhir.database.utils.postgres.PostgresAdapter;
 import com.ibm.fhir.database.utils.version.CreateVersionHistory;
 import com.ibm.fhir.database.utils.version.VersionHistoryService;
@@ -113,8 +129,126 @@ public class JavaBatchSchemaGeneratorTest {
             }
         }
 
-        assertEquals(commands.size(), 24);
+        assertEquals(commands.size(), 38);
         commands.clear();
+    }
+
+    @Test
+    public void testJavaBatchSchemaGeneratorCheckTags() {
+        PrintConnection connection = new PrintConnection();
+        JdbcTarget target = new JdbcTarget(connection);
+        Db2Adapter adapter = new Db2Adapter(target);
+
+        // Set up the version history service first if it doesn't yet exist
+        CreateVersionHistory.createTableIfNeeded(Main.ADMIN_SCHEMANAME, adapter);
+
+        // Current version history for the database. This is used by applyWithHistory
+        // to determine which updates to apply and to record the new changes as they
+        // are applied
+        VersionHistoryService vhs = new VersionHistoryService(Main.ADMIN_SCHEMANAME, Main.DATA_SCHEMANAME, Main.OAUTH_SCHEMANAME, Main.BATCH_SCHEMANAME);
+        vhs.setTarget(adapter);
+
+        PhysicalDataModel pdm = new PhysicalDataModel();
+        JavaBatchSchemaGenerator generator = new JavaBatchSchemaGenerator(Main.BATCH_SCHEMANAME);
+        generator.buildJavaBatchSchema(pdm);
+        pdm.apply(adapter);
+        pdm.applyFunctions(adapter);
+        pdm.applyProcedures(adapter);
+
+        pdm.visit(new ConfirmTagsVisitor());
+
+    }
+
+    public static class ConfirmTagsVisitor extends DataModelVisitorBase {
+
+        @Override
+        public void visited(Table fromChildTable, ForeignKeyConstraint fk) {
+            checkObjectTags(fromChildTable);
+            super.visited(fromChildTable, fk);
+        }
+
+        @Override
+        public void visited(Table tbl) {
+            checkObjectTags(tbl);
+            super.visited(tbl);
+        }
+
+        @Override
+        public void visited(ProcedureDef procedureDef) {
+            checkObjectTags(procedureDef);
+            super.visited(procedureDef);
+        }
+
+        @Override
+        public void visited(RowArrayType rowArrayType) {
+            checkObjectTags(rowArrayType);
+            super.visited(rowArrayType);
+        }
+
+        @Override
+        public void visited(RowType rowType) {
+            checkObjectTags(rowType);
+            super.visited(rowType);
+        }
+
+        @Override
+        public void visited(Sequence sequence) {
+            checkObjectTags(sequence);
+            super.visited(sequence);
+        }
+
+        @Override
+        public void visited(SessionVariableDef sessionVariableDef) {
+            checkObjectTags(sessionVariableDef);
+            super.visited(sessionVariableDef);
+        }
+
+        @Override
+        public void visited(Tablespace tablespace) {
+            checkObjectTags(tablespace);
+            super.visited(tablespace);
+        }
+
+        @Override
+        public void visited(FunctionDef functionDef) {
+            checkObjectTags(functionDef);
+            super.visited(functionDef);
+        }
+
+        @Override
+        public void visited(AlterSequenceStartWith alterSequence) {
+            checkObjectTags(alterSequence);
+            super.visited(alterSequence);
+        }
+
+        @Override
+        public void visited(AlterTableIdentityCache alterTable) {
+            checkObjectTags(alterTable);
+            super.visited(alterTable);
+        }
+
+        @Override
+        public void visited(CreateIndex createIndex) {
+            checkObjectTags(createIndex);
+            super.visited(createIndex);
+        }
+
+        public void checkObjectTags(BaseObject base) {
+            // NotEmpty
+            Map<String, String> tags = base.getTags();
+            /*
+             * These are helpful for debugging.
+             * System.out.println(base.getName());
+             * System.out.println(base.getObjectType());
+             */
+            assertFalse(tags.isEmpty(), base.getName());
+        }
+
+        public void checkObjectTags(DatabaseObject base) {
+            // NotEmpty
+            Map<String, String> tags = base.getTags();
+            assertFalse(tags.isEmpty(), base.getName());
+        }
     }
 
     // Map is used so we can split by type if we wanted. LinkedHashSet is also OK.

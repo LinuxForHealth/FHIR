@@ -41,34 +41,9 @@ public class ParameterUse extends Code {
 
     /**
      * Get the value of this ParameterUse as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this ParameterUse as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating ParameterUse objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static ParameterUse of(ValueSet value) {
-        switch (value) {
-        case IN:
-            return IN;
-        case OUT:
-            return OUT;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -180,14 +155,6 @@ public class ParameterUse extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -216,54 +183,6 @@ public class ParameterUse extends Code {
         protected Builder from(ParameterUse parameterUse) {
             super.from(parameterUse);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * In
-         * 
-         * <p>This is an input parameter.
-         */
-        IN("in"),
-
-        /**
-         * Out
-         * 
-         * <p>This is an output parameter.
-         */
-        OUT("out");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating ParameterUse.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

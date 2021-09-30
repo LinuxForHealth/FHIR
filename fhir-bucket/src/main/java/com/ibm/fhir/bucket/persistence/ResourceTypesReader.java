@@ -24,7 +24,7 @@ import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
  * in the schema
  */
 public class ResourceTypesReader implements IDatabaseSupplier<List<ResourceTypeRec>> {
-    private static final Logger logger = Logger.getLogger(RegisterLoaderInstance.class.getName());
+    private static final Logger logger = Logger.getLogger(ResourceTypesReader.class.getName());
 
     private final String schemaName;
 

@@ -111,54 +111,9 @@ public class AssertionResponseTypes extends Code {
 
     /**
      * Get the value of this AssertionResponseTypes as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this AssertionResponseTypes as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating AssertionResponseTypes objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static AssertionResponseTypes of(ValueSet value) {
-        switch (value) {
-        case OKAY:
-            return OKAY;
-        case CREATED:
-            return CREATED;
-        case NO_CONTENT:
-            return NO_CONTENT;
-        case NOT_MODIFIED:
-            return NOT_MODIFIED;
-        case BAD:
-            return BAD;
-        case FORBIDDEN:
-            return FORBIDDEN;
-        case NOT_FOUND:
-            return NOT_FOUND;
-        case METHOD_NOT_ALLOWED:
-            return METHOD_NOT_ALLOWED;
-        case CONFLICT:
-            return CONFLICT;
-        case GONE:
-            return GONE;
-        case PRECONDITION_FAILED:
-            return PRECONDITION_FAILED;
-        case UNPROCESSABLE:
-            return UNPROCESSABLE;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -290,14 +245,6 @@ public class AssertionResponseTypes extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -326,124 +273,6 @@ public class AssertionResponseTypes extends Code {
         protected Builder from(AssertionResponseTypes assertionResponseTypes) {
             super.from(assertionResponseTypes);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * okay
-         * 
-         * <p>Response code is 200.
-         */
-        OKAY("okay"),
-
-        /**
-         * created
-         * 
-         * <p>Response code is 201.
-         */
-        CREATED("created"),
-
-        /**
-         * noContent
-         * 
-         * <p>Response code is 204.
-         */
-        NO_CONTENT("noContent"),
-
-        /**
-         * notModified
-         * 
-         * <p>Response code is 304.
-         */
-        NOT_MODIFIED("notModified"),
-
-        /**
-         * bad
-         * 
-         * <p>Response code is 400.
-         */
-        BAD("bad"),
-
-        /**
-         * forbidden
-         * 
-         * <p>Response code is 403.
-         */
-        FORBIDDEN("forbidden"),
-
-        /**
-         * notFound
-         * 
-         * <p>Response code is 404.
-         */
-        NOT_FOUND("notFound"),
-
-        /**
-         * methodNotAllowed
-         * 
-         * <p>Response code is 405.
-         */
-        METHOD_NOT_ALLOWED("methodNotAllowed"),
-
-        /**
-         * conflict
-         * 
-         * <p>Response code is 409.
-         */
-        CONFLICT("conflict"),
-
-        /**
-         * gone
-         * 
-         * <p>Response code is 410.
-         */
-        GONE("gone"),
-
-        /**
-         * preconditionFailed
-         * 
-         * <p>Response code is 412.
-         */
-        PRECONDITION_FAILED("preconditionFailed"),
-
-        /**
-         * unprocessable
-         * 
-         * <p>Response code is 422.
-         */
-        UNPROCESSABLE("unprocessable");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating AssertionResponseTypes.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

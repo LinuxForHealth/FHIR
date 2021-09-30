@@ -12,6 +12,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,6 +33,9 @@ public class InitializeLogicalResourceDenorms implements IDatabaseStatement {
     private static final Logger logger = Logger.getLogger(InitializeLogicalResourceDenorms.class.getName());
     private final String schemaName;
     private final String resourceTypeName;
+    
+    // Do not make static. Calendar is not thread-safe
+    private final Calendar UTC = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 
     /**
      * Public constructor
@@ -101,7 +106,7 @@ public class InitializeLogicalResourceDenorms implements IDatabaseStatement {
             while (rs.next()) {
                 long logicalResourceId = rs.getLong(1);
                 String isDeleted = rs.getString(2);
-                Timestamp lastUpdated = rs.getTimestamp(3, SchemaConstants.UTC);
+                Timestamp lastUpdated = rs.getTimestamp(3, UTC);
                 int versionId = rs.getInt(4);
 
                 if (logger.isLoggable(Level.FINEST)) {
@@ -113,7 +118,7 @@ public class InitializeLogicalResourceDenorms implements IDatabaseStatement {
                         + " WHERE logical_resource_id = " + logicalResourceId);
                 }
                 updateStatement.setString(1, isDeleted);
-                updateStatement.setTimestamp(2, lastUpdated, SchemaConstants.UTC);
+                updateStatement.setTimestamp(2, lastUpdated, UTC);
                 updateStatement.setInt(3, versionId);
                 updateStatement.setLong(4, logicalResourceId);
                 updateStatement.addBatch();

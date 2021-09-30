@@ -69,42 +69,9 @@ public class UDIEntryType extends Code {
 
     /**
      * Get the value of this UDIEntryType as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this UDIEntryType as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating UDIEntryType objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static UDIEntryType of(ValueSet value) {
-        switch (value) {
-        case BARCODE:
-            return BARCODE;
-        case RFID:
-            return RFID;
-        case MANUAL:
-            return MANUAL;
-        case CARD:
-            return CARD;
-        case SELF_REPORTED:
-            return SELF_REPORTED;
-        case UNKNOWN:
-            return UNKNOWN;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -224,14 +191,6 @@ public class UDIEntryType extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -260,82 +219,6 @@ public class UDIEntryType extends Code {
         protected Builder from(UDIEntryType uDIEntryType) {
             super.from(uDIEntryType);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Barcode
-         * 
-         * <p>a barcodescanner captured the data from the device label.
-         */
-        BARCODE("barcode"),
-
-        /**
-         * RFID
-         * 
-         * <p>An RFID chip reader captured the data from the device label.
-         */
-        RFID("rfid"),
-
-        /**
-         * Manual
-         * 
-         * <p>The data was read from the label by a person and manually entered. (e.g. via a keyboard).
-         */
-        MANUAL("manual"),
-
-        /**
-         * Card
-         * 
-         * <p>The data originated from a patient's implant card and was read by an operator.
-         */
-        CARD("card"),
-
-        /**
-         * Self Reported
-         * 
-         * <p>The data originated from a patient source and was not directly scanned or read from a label or card.
-         */
-        SELF_REPORTED("self-reported"),
-
-        /**
-         * Unknown
-         * 
-         * <p>The method of data capture has not been determined.
-         */
-        UNKNOWN("unknown");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating UDIEntryType.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

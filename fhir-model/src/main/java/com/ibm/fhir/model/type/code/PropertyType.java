@@ -77,44 +77,9 @@ public class PropertyType extends Code {
 
     /**
      * Get the value of this PropertyType as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this PropertyType as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating PropertyType objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static PropertyType of(ValueSet value) {
-        switch (value) {
-        case CODE:
-            return CODE;
-        case CODING:
-            return CODING;
-        case STRING:
-            return STRING;
-        case INTEGER:
-            return INTEGER;
-        case BOOLEAN:
-            return BOOLEAN;
-        case DATE_TIME:
-            return DATE_TIME;
-        case DECIMAL:
-            return DECIMAL;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -236,14 +201,6 @@ public class PropertyType extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -272,90 +229,6 @@ public class PropertyType extends Code {
         protected Builder from(PropertyType propertyType) {
             super.from(propertyType);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * code (internal reference)
-         * 
-         * <p>The property value is a code that identifies a concept defined in the code system.
-         */
-        CODE("code"),
-
-        /**
-         * Coding (external reference)
-         * 
-         * <p>The property value is a code defined in an external code system. This may be used for translations, but is not the 
-         * intent.
-         */
-        CODING("Coding"),
-
-        /**
-         * string
-         * 
-         * <p>The property value is a string.
-         */
-        STRING("string"),
-
-        /**
-         * integer
-         * 
-         * <p>The property value is a string (often used to assign ranking values to concepts for supporting score assessments).
-         */
-        INTEGER("integer"),
-
-        /**
-         * boolean
-         * 
-         * <p>The property value is a boolean true | false.
-         */
-        BOOLEAN("boolean"),
-
-        /**
-         * dateTime
-         * 
-         * <p>The property is a date or a date + time.
-         */
-        DATE_TIME("dateTime"),
-
-        /**
-         * decimal
-         * 
-         * <p>The property value is a decimal number.
-         */
-        DECIMAL("decimal");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating PropertyType.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

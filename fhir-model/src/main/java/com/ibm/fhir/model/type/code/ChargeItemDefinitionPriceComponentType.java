@@ -69,42 +69,9 @@ public class ChargeItemDefinitionPriceComponentType extends Code {
 
     /**
      * Get the value of this ChargeItemDefinitionPriceComponentType as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this ChargeItemDefinitionPriceComponentType as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating ChargeItemDefinitionPriceComponentType objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static ChargeItemDefinitionPriceComponentType of(ValueSet value) {
-        switch (value) {
-        case BASE:
-            return BASE;
-        case SURCHARGE:
-            return SURCHARGE;
-        case DEDUCTION:
-            return DEDUCTION;
-        case DISCOUNT:
-            return DISCOUNT;
-        case TAX:
-            return TAX;
-        case INFORMATIONAL:
-            return INFORMATIONAL;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -224,14 +191,6 @@ public class ChargeItemDefinitionPriceComponentType extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -260,82 +219,6 @@ public class ChargeItemDefinitionPriceComponentType extends Code {
         protected Builder from(ChargeItemDefinitionPriceComponentType chargeItemDefinitionPriceComponentType) {
             super.from(chargeItemDefinitionPriceComponentType);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * base price
-         * 
-         * <p>the amount is the base price used for calculating the total price before applying surcharges, discount or taxes.
-         */
-        BASE("base"),
-
-        /**
-         * surcharge
-         * 
-         * <p>the amount is a surcharge applied on the base price.
-         */
-        SURCHARGE("surcharge"),
-
-        /**
-         * deduction
-         * 
-         * <p>the amount is a deduction applied on the base price.
-         */
-        DEDUCTION("deduction"),
-
-        /**
-         * discount
-         * 
-         * <p>the amount is a discount applied on the base price.
-         */
-        DISCOUNT("discount"),
-
-        /**
-         * tax
-         * 
-         * <p>the amount is the tax component of the total price.
-         */
-        TAX("tax"),
-
-        /**
-         * informational
-         * 
-         * <p>the amount is of informational character, it has not been applied in the calculation of the total price.
-         */
-        INFORMATIONAL("informational");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating ChargeItemDefinitionPriceComponentType.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

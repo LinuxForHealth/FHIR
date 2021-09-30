@@ -48,36 +48,9 @@ public class ConceptMapGroupUnmappedMode extends Code {
 
     /**
      * Get the value of this ConceptMapGroupUnmappedMode as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this ConceptMapGroupUnmappedMode as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating ConceptMapGroupUnmappedMode objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static ConceptMapGroupUnmappedMode of(ValueSet value) {
-        switch (value) {
-        case PROVIDED:
-            return PROVIDED;
-        case FIXED:
-            return FIXED;
-        case OTHER_MAP:
-            return OTHER_MAP;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -191,14 +164,6 @@ public class ConceptMapGroupUnmappedMode extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -227,61 +192,6 @@ public class ConceptMapGroupUnmappedMode extends Code {
         protected Builder from(ConceptMapGroupUnmappedMode conceptMapGroupUnmappedMode) {
             super.from(conceptMapGroupUnmappedMode);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Provided Code
-         * 
-         * <p>Use the code as provided in the $translate request.
-         */
-        PROVIDED("provided"),
-
-        /**
-         * Fixed Code
-         * 
-         * <p>Use the code explicitly provided in the group.unmapped.
-         */
-        FIXED("fixed"),
-
-        /**
-         * Other Map
-         * 
-         * <p>Use the map identified by the canonical URL in the url element.
-         */
-        OTHER_MAP("other-map");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating ConceptMapGroupUnmappedMode.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

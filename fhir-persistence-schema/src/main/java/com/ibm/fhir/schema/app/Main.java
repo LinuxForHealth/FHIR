@@ -158,6 +158,9 @@ public class Main {
     private boolean dropJavaBatchSchema = false;
     private boolean grantJavaBatchSchema = false;
 
+    // Tenant Key
+    private boolean skipIfTenantExists = false;
+
     // The database user we will grant tenant data access privileges to
     private String grantTo;
 
@@ -277,6 +280,10 @@ public class Main {
             default:
                 throw new IllegalStateException("Unsupported db type: " + dbType);
             }
+        } else if (dropAdmin) {
+            // Add the tenant and tenant_keys tables and any other admin schema stuff
+            FhirSchemaGenerator gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), schema.getSchemaName(), isMultitenant());
+            gen.buildAdminSchema(pdm);
         }
 
         // Build/update the Liberty OAuth-related tables
@@ -477,9 +484,19 @@ public class Main {
         // which is apparently related to max_locks_per_transaction. It may not be possible
         // to increase this value (e.g. in cloud databases) and so to work around this, before
         // dropping the schema objects, we knock out all the FOREIGN KEY constraints first.
-        if (dropFhirSchema || dropOauthSchema || dropJavaBatchSchema) {
+        if (dropFhirSchema) {
             logger.info("Dropping FK constraints in the data schema: " + this.schema.getSchemaName());
             dropForeignKeyConstraints(pdm, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
+        }
+
+        if (dropOauthSchema) {
+            logger.info("Dropping FK constraints in the OAuth schema: " + this.schema.getOauthSchemaName());
+            dropForeignKeyConstraints(pdm, FhirSchemaGenerator.SCHEMA_GROUP_TAG, OAuthSchemaGenerator.OAUTH_GROUP);
+        }
+
+        if (dropJavaBatchSchema) {
+            logger.info("Dropping FK constraints in the Batch schema: " + this.schema.getJavaBatchSchemaName());
+            dropForeignKeyConstraints(pdm, FhirSchemaGenerator.SCHEMA_GROUP_TAG, JavaBatchSchemaGenerator.BATCH_GROUP);
         }
 
         if (dropAdmin) {
@@ -499,8 +516,19 @@ public class Main {
                         pdm.drop(adapter, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
                     }
 
+                    if (dropOauthSchema) {
+                        // Just drop the objects associated with the OAUTH schema group
+                        pdm.drop(adapter, FhirSchemaGenerator.SCHEMA_GROUP_TAG, OAuthSchemaGenerator.OAUTH_GROUP);
+                    }
+
+                    if (dropJavaBatchSchema) {
+                        // Just drop the objects associated with the BATCH schema group
+                        pdm.drop(adapter, FhirSchemaGenerator.SCHEMA_GROUP_TAG, JavaBatchSchemaGenerator.BATCH_GROUP);
+                    }
+
                     if (dropAdmin) {
                         // Just drop the objects associated with the ADMIN schema group
+                        CreateVersionHistory.generateTable(pdm, ADMIN_SCHEMANAME, true);
                         pdm.drop(adapter, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.ADMIN_GROUP);
                     }
                 } catch (Exception x) {
@@ -655,7 +683,7 @@ public class Main {
         final String tenantSalt = getRandomKey();
 
         Db2Adapter adapter = new Db2Adapter(connectionPool);
-        checkIfTenantNameAndTenantKeyExists(adapter, tenantName, tenantKey);
+        checkIfTenantNameAndTenantKeyExists(adapter, tenantName, tenantKey, false);
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             try {
                 GetTenantDAO tid = new GetTenantDAO(schema.getAdminSchemaName(), addKeyForTenant);
@@ -698,8 +726,14 @@ public class Main {
      *            the tenant's name
      * @param tenantKey
      *            tenant key
+     * @param skip
+     *            whether or not to skip over cases where this tenantName/tenantKey combination already exists
+     *
+     * @throws IllegalArgumentException if the tenantName/tenantKey combination already exists and the {@code skip} argument is false
+     *
+     * @return indicates if the tenantName/tenantKey exists
      */
-    protected void checkIfTenantNameAndTenantKeyExists(Db2Adapter adapter, String tenantName, String tenantKey) {
+    protected boolean checkIfTenantNameAndTenantKeyExists(Db2Adapter adapter, String tenantName, String tenantKey, boolean skip) {
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             try {
                 final String sql =
@@ -712,7 +746,11 @@ public class Main {
                     if (stmt.execute()) {
                         try (ResultSet resultSet = stmt.getResultSet();) {
                             if (resultSet.next()) {
-                                throw new IllegalArgumentException("tenantName and tenantKey already exists");
+                                if (skip) {
+                                    return true;
+                                } else {
+                                    throw new IllegalArgumentException("tenantName and tenantKey already exists");
+                                }
                             }
                         }
                     } else {
@@ -727,6 +765,7 @@ public class Main {
                 throw x;
             }
         }
+        return false;
     }
 
     /**
@@ -757,7 +796,12 @@ public class Main {
         final String tenantSalt = getRandomKey();
 
         Db2Adapter adapter = new Db2Adapter(connectionPool);
-        checkIfTenantNameAndTenantKeyExists(adapter, tenantName, tenantKey);
+
+        // Conditionally skip if the tenant name and key exist (this enables idempotency)
+        boolean skip = checkIfTenantNameAndTenantKeyExists(adapter, tenantName, tenantKey, skipIfTenantExists);
+        if (skip) {
+            return;
+        }
 
         if (tenantKeyFileName == null) {
             logger.info("Allocating new tenant: " + tenantName + " [key=" + tenantKey + "]");
@@ -1644,6 +1688,10 @@ public class Main {
                 default:
                     break;
                 }
+                break;
+            // Skips the allocateTenant action if the tenant exists (e.g. a shortcircuit)
+            case "--skip-allocate-if-tenant-exists":
+                skipIfTenantExists = true;
                 break;
             default:
                 throw new IllegalArgumentException("Invalid argument: '" + arg + "'");

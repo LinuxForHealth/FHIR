@@ -62,8 +62,12 @@ public class ServerRegistryResourceProvider extends AbstractRegistryResourceProv
     protected List<FHIRRegistryResource> getRegistryResources(Class<? extends Resource> resourceType, String url) {
         String dataStoreId = FHIRRequestContext.get().getDataStoreId();
         CacheKey key = key(dataStoreId, url);
-        Map<CacheKey, List<FHIRRegistryResource>> cacheAsMap = CacheManager.getCacheAsMap(REGISTRY_RESOURCE_CACHE_NAME, REGISTRY_RESOURCE_CACHE_CONFIGURATION);
-        return cacheAsMap.computeIfAbsent(key, k -> computeRegistryResources(resourceType, url));
+        try {
+            Map<CacheKey, List<FHIRRegistryResource>> cacheAsMap = CacheManager.getCacheAsMap(REGISTRY_RESOURCE_CACHE_NAME, REGISTRY_RESOURCE_CACHE_CONFIGURATION);
+            return cacheAsMap.computeIfAbsent(key, k -> computeRegistryResources(resourceType, url));
+        } finally {
+            CacheManager.reportCacheStats(log, REGISTRY_RESOURCE_CACHE_NAME);
+        }
     }
 
     @Override

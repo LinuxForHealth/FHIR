@@ -248,7 +248,7 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("CodeableConcept-validCodeAndSystem", "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation|");
 
         // This shouldn't return any results because the CodeableConcept has a system
-//        assertSearchDoesntReturnSavedResource("CodeableConcept", "|code");
+        assertSearchDoesntReturnSavedResource("CodeableConcept", "|code");
     }
 
     @Test
@@ -268,9 +268,7 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
     public void testSearchToken_CodeableConcept_chained() throws Exception {
         assertSearchReturnsComposition("subject:Basic.CodeableConcept", "code");
         assertSearchReturnsComposition("subject:Basic.CodeableConcept", "http://example.org/codesystem|code");
-
-        // system-only token search is not working for chained searches yet (https://github.com/IBM/FHIR/issues/2553)
-//        assertSearchReturnsComposition("subject:Basic.CodeableConcept", "http://example.org/codesystem|");
+        assertSearchReturnsComposition("subject:Basic.CodeableConcept", "http://example.org/codesystem|");
 
         // This shouldn't return any results because the CodeableConcept has a system
         assertSearchDoesntReturnComposition("subject:Basic.CodeableConcept", "|code");
@@ -400,9 +398,7 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
     public void testSearchToken_Coding_chained() throws Exception {
         assertSearchReturnsComposition("subject:Basic.Coding", "code");
         assertSearchReturnsComposition("subject:Basic.Coding", "http://example.org/codesystem|code");
-
-        // system-only token search is not working for chained searches yet (https://github.com/IBM/FHIR/issues/2553)
-//        assertSearchReturnsComposition("subject:Basic.Coding", "http://example.org/codesystem|");
+        assertSearchReturnsComposition("subject:Basic.Coding", "http://example.org/codesystem|");
 
         // This shouldn't return any results because the Coding has a system
         assertSearchDoesntReturnComposition("subject:Basic.Coding", "|code");
@@ -523,16 +519,14 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("Identifier-validValueAndSystem", "http://hl7.org/fhir/identifier-use|");
 
         // This shouldn't return any results because the Identifier has a system
-//        assertSearchDoesntReturnSavedResource("Identifier", "|code");
+        assertSearchDoesntReturnSavedResource("Identifier", "|code");
     }
 
     @Test
     public void testSearchToken_Identifier_chained() throws Exception {
         assertSearchReturnsComposition("subject:Basic.Identifier", "code");
         assertSearchReturnsComposition("subject:Basic.Identifier", "http://example.org/identifiersystem|code");
-
-        // system-only token search is not working for chained searches yet (https://github.com/IBM/FHIR/issues/2553)
-//        assertSearchReturnsComposition("subject:Basic.Identifier", "http://example.org/identifiersystem|");
+        assertSearchReturnsComposition("subject:Basic.Identifier", "http://example.org/identifiersystem|");
 
         // This shouldn't return any results because the Identifier has a system
         assertSearchDoesntReturnComposition("subject:Basic.Identifier", "|code");

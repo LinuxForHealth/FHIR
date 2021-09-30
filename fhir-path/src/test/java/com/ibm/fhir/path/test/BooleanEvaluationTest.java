@@ -6,7 +6,6 @@
 
 package com.ibm.fhir.path.test;
 
-import static com.ibm.fhir.path.evaluator.FHIRPathEvaluator.SINGLETON_FALSE;
 import static com.ibm.fhir.path.evaluator.FHIRPathEvaluator.SINGLETON_TRUE;
 import static org.testng.Assert.assertEquals;
 
@@ -23,12 +22,5 @@ public class BooleanEvaluationTest {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
         Collection<FHIRPathNode> result = evaluator.evaluate("true and 'foo'");
         assertEquals(result, SINGLETON_TRUE);
-    }
-
-    @Test
-    public void testBooleanEvaluation2() throws Exception {
-        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
-        Collection<FHIRPathNode> result = evaluator.evaluate("(true | 'foo').allTrue()");
-        assertEquals(result, SINGLETON_FALSE);
     }
 }

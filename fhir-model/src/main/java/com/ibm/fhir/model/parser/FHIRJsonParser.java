@@ -24,7 +24,7 @@ import java.util.StringJoiner;
 
 import javax.annotation.Generated;
 
-import org.glassfish.json.api.JsonConfig;
+import org.eclipse.parsson.api.JsonConfig;
 
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
@@ -62,6 +62,20 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         return parseAndFilter(in, null);
     }
 
+    /**
+     * Read a resource from the passed InputStream and filter its top-level elements to the collection of elementsToInclude.
+     * This method does not close the passed InputStream.
+     * 
+     * @param <T>
+     *     The resource type to read
+     * @param in
+     *     An input stream with the JSON contents of a FHIR resource
+     * @param elementsToInclude
+     *     The top-level elements to include or null to indicate that no filter should be applied
+     * @return
+     * @throws FHIRParserException
+     *     if the resource could not be parsed for any reason
+     */
     public <T extends Resource> T parseAndFilter(InputStream in, Collection<java.lang.String> elementsToInclude) throws FHIRParserException {
         try (JsonReader jsonReader = JSON_READER_FACTORY.createReader(nonClosingInputStream(in), StandardCharsets.UTF_8)) {
             JsonObject jsonObject = jsonReader.readObject();
@@ -78,6 +92,20 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         return parseAndFilter(reader, null);
     }
 
+    /**
+     * Read a resource using the passed Reader and filter its top-level elements to the collection of elementsToInclude.
+     * This method does not close the passed InputStream.
+     * 
+     * @param <T>
+     *     The resource type to read
+     * @param reader
+     *     A reader with the JSON contents of a FHIR resource
+     * @param elementsToInclude
+     *     The top-level elements to include or null to indicate that no filter should be applied
+     * @return
+     * @throws FHIRParserException
+     *     if the resource could not be parsed for any reason
+     */
     public <T extends Resource> T parseAndFilter(Reader reader, Collection<java.lang.String> elementsToInclude) throws FHIRParserException {
         try (JsonReader jsonReader = JSON_READER_FACTORY.createReader(nonClosingReader(reader))) {
             JsonObject jsonObject = jsonReader.readObject();
@@ -89,10 +117,35 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         }
     }
 
+    /**
+     * Read a resource from a JsonObject. This method does not close the passed InputStream.
+     * 
+     * @param <T>
+     *     The resource type to read
+     * @param jsonObject
+     *     A JsonObject with the contents of a FHIR resource
+     * @return
+     * @throws FHIRParserException
+     *     if the resource could not be parsed for any reason
+     */
     public <T extends Resource> T parse(JsonObject jsonObject) throws FHIRParserException {
         return parseAndFilter(jsonObject, null);
     }
 
+    /**
+     * Read a resource from a JsonObject and filter its top-level elements to the collection of elementsToInclude.
+     * This method does not close the passed InputStream.
+     * 
+     * @param <T>
+     *     The resource type to read
+     * @param jsonObject
+     *     A JsonObject with the contents of a FHIR resource
+     * @param elementsToInclude
+     *     The top-level elements to include or null to indicate that no filter should be applied
+     * @return
+     * @throws FHIRParserException
+     *     if the resource could not be parsed for any reason
+     */
     @SuppressWarnings("unchecked")
     public <T extends Resource> T parseAndFilter(JsonObject jsonObject, Collection<java.lang.String> elementsToInclude) throws FHIRParserException {
         try {

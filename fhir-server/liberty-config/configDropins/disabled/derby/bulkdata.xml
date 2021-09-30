@@ -1,0 +1,43 @@
+<server description="fhir-server">
+    <!-- 
+        This configDropin work with Derby
+    -->
+    <featureManager>
+        <feature>batch-1.0</feature>
+        <feature>batchManagement-1.0</feature>
+        <feature>jdbc-4.1</feature>
+        <feature>servlet-4.0</feature>
+        <feature>transportSecurity-1.0</feature>
+    </featureManager>
+
+    <authorization-roles id="com.ibm.ws.batch">
+        <security-role id="batchAdmin" name="batchAdmin">
+            <user id="batchAdminUser" name="fhiradmin"/>
+        </security-role>
+        <security-role id="batchSubmitter" name="batchSubmitter">
+            <user id="batchSubmitterUser" name="fhiruser"/>
+        </security-role>
+        <security-role id="batchMonitor" name="batchMonitor">
+            <user id="batchMonitorUser1" name="fhiradmin"/>
+            <user id="batchMonitorUser2" name="fhiruser"/>
+        </security-role>
+    </authorization-roles>
+
+    <webApplication id="fhir-bulkdata-webapp" location="fhir-bulkdata-webapp.war" name="fhir-bulkdata-webapp">
+        <classloader privateLibraryRef="configResources,fhirUserLib"/>
+        <application-bnd>
+            <security-role id="users" name="FHIRUsers">
+                <group id="bulkUsersGroup" name="FHIRUsers"/>
+            </security-role>
+        </application-bnd>
+    </webApplication>
+
+    <dataSource id="fhirbatchDS" jndiName="jdbc/fhirbatchDB" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true" validationTimeout="30s">
+        <jdbcDriver javax.sql.XADataSource="org.apache.derby.jdbc.EmbeddedXADataSource" libraryRef="sharedLibDerby"/>
+        <properties.derby.embedded databaseName="derby/fhirDB"/>
+        <connectionManager maxPoolSize="50" minPoolSize="10"/>
+    </dataSource>
+
+   <batchPersistence jobStoreRef="BatchDatabaseStore"/>
+   <databaseStore id="BatchDatabaseStore" dataSourceRef="fhirbatchDS" schema="${BATCH_DB_SCHEMA}" tablePrefix="" createTables="false"/>
+</server>

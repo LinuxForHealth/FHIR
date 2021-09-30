@@ -40,6 +40,7 @@ import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.PositiveInt;
 import com.ibm.fhir.operation.bulkdata.OperationConstants;
@@ -224,7 +225,7 @@ public class BulkDataExportUtilTest {
 
         // parameters
         List<Parameter> parameters = new ArrayList<>();
-        parameters.add(Parameter.builder().name(string("_since")).value(null).build());
+        parameters.add(Parameter.builder().name(string("_since")).value((Element)null).build());
         Parameters.Builder builder = Parameters.builder();
         builder.id(UUID.randomUUID().toString());
         builder.parameter(parameters);
@@ -329,7 +330,7 @@ public class BulkDataExportUtilTest {
         BulkDataExportUtil util = new BulkDataExportUtil();
         // parameters
         List<Parameter> parameters = new ArrayList<>();
-        parameters.add(Parameter.builder().name(string("_type")).value(null).build());
+        parameters.add(Parameter.builder().name(string("_type")).value((Element)null).build());
         Parameters.Builder builder = Parameters.builder();
         builder.id(UUID.randomUUID().toString());
         builder.parameter(parameters);
@@ -528,7 +529,7 @@ public class BulkDataExportUtilTest {
     public void testCheckAndValidateTypeFiltersParametersTypesNull() throws FHIROperationException {
         // parameters
         List<Parameter> parameters = new ArrayList<>();
-        parameters.add(Parameter.builder().name(string("_typeFilter")).value(null).build());
+        parameters.add(Parameter.builder().name(string("_typeFilter")).value((Element)null).build());
         Parameters.Builder builder = Parameters.builder();
         builder.id(UUID.randomUUID().toString());
         builder.parameter(parameters);
@@ -543,7 +544,7 @@ public class BulkDataExportUtilTest {
         BulkDataExportUtil util = new BulkDataExportUtil();
         // parameters
         List<Parameter> parameters = new ArrayList<>();
-        parameters.add(Parameter.builder().name(string("job")).value(null).build());
+        parameters.add(Parameter.builder().name(string("job")).value((Element)null).build());
         Parameters.Builder builder = Parameters.builder();
         builder.id(UUID.randomUUID().toString());
         builder.parameter(parameters);

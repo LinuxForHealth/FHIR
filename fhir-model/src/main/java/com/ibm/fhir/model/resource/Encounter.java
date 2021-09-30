@@ -752,7 +752,8 @@ public class Encounter extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -769,13 +770,17 @@ public class Encounter extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -788,7 +793,8 @@ public class Encounter extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -807,13 +813,17 @@ public class Encounter extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -831,7 +841,8 @@ public class Encounter extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -855,13 +866,17 @@ public class Encounter extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -871,7 +886,8 @@ public class Encounter extends DomainResource {
         /**
          * Identifier(s) by which this encounter is known.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Identifier(s) by which this encounter is known
@@ -889,13 +905,17 @@ public class Encounter extends DomainResource {
         /**
          * Identifier(s) by which this encounter is known.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Identifier(s) by which this encounter is known
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder identifier(Collection<Identifier> identifier) {
             this.identifier = new ArrayList<>(identifier);
@@ -922,7 +942,8 @@ public class Encounter extends DomainResource {
          * The status history permits the encounter resource to contain the status history without needing to read through the 
          * historical versions of the resource, or even have the server store them.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param statusHistory
          *     List of past encounter statuses
@@ -941,13 +962,17 @@ public class Encounter extends DomainResource {
          * The status history permits the encounter resource to contain the status history without needing to read through the 
          * historical versions of the resource, or even have the server store them.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param statusHistory
          *     List of past encounter statuses
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder statusHistory(Collection<StatusHistory> statusHistory) {
             this.statusHistory = new ArrayList<>(statusHistory);
@@ -978,7 +1003,8 @@ public class Encounter extends DomainResource {
          * easily follow the patient and not require re-processing and not get lost or cancelled during a kind of discharge from 
          * emergency to inpatient.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param classHistory
          *     List of past encounter classes
@@ -1000,13 +1026,17 @@ public class Encounter extends DomainResource {
          * easily follow the patient and not require re-processing and not get lost or cancelled during a kind of discharge from 
          * emergency to inpatient.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param classHistory
          *     List of past encounter classes
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder classHistory(Collection<ClassHistory> classHistory) {
             this.classHistory = new ArrayList<>(classHistory);
@@ -1016,7 +1046,8 @@ public class Encounter extends DomainResource {
         /**
          * Specific type of encounter (e.g. e-mail consultation, surgical day-care, skilled nursing, rehabilitation).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param type
          *     Specific type of encounter
@@ -1034,13 +1065,17 @@ public class Encounter extends DomainResource {
         /**
          * Specific type of encounter (e.g. e-mail consultation, surgical day-care, skilled nursing, rehabilitation).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param type
          *     Specific type of encounter
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder type(Collection<CodeableConcept> type) {
             this.type = new ArrayList<>(type);
@@ -1102,7 +1137,8 @@ public class Encounter extends DomainResource {
          * typically created after the episode of care and grouped on entry rather than editing the episode of care to append 
          * another encounter to it (the episode of care could span years).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1129,7 +1165,8 @@ public class Encounter extends DomainResource {
          * typically created after the episode of care and grouped on entry rather than editing the episode of care to append 
          * another encounter to it (the episode of care could span years).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1141,6 +1178,9 @@ public class Encounter extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder episodeOfCare(Collection<Reference> episodeOfCare) {
             this.episodeOfCare = new ArrayList<>(episodeOfCare);
@@ -1150,7 +1190,8 @@ public class Encounter extends DomainResource {
         /**
          * The request this encounter satisfies (e.g. incoming referral or procedure request).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1173,7 +1214,8 @@ public class Encounter extends DomainResource {
         /**
          * The request this encounter satisfies (e.g. incoming referral or procedure request).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1185,6 +1227,9 @@ public class Encounter extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder basedOn(Collection<Reference> basedOn) {
             this.basedOn = new ArrayList<>(basedOn);
@@ -1194,7 +1239,8 @@ public class Encounter extends DomainResource {
         /**
          * The list of people responsible for providing the service.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param participant
          *     List of participants involved in the encounter
@@ -1212,13 +1258,17 @@ public class Encounter extends DomainResource {
         /**
          * The list of people responsible for providing the service.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param participant
          *     List of participants involved in the encounter
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder participant(Collection<Participant> participant) {
             this.participant = new ArrayList<>(participant);
@@ -1228,7 +1278,8 @@ public class Encounter extends DomainResource {
         /**
          * The appointment that scheduled this encounter.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1251,7 +1302,8 @@ public class Encounter extends DomainResource {
         /**
          * The appointment that scheduled this encounter.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1263,6 +1315,9 @@ public class Encounter extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder appointment(Collection<Reference> appointment) {
             this.appointment = new ArrayList<>(appointment);
@@ -1301,7 +1356,8 @@ public class Encounter extends DomainResource {
          * Reason the encounter takes place, expressed as a code. For admissions, this can be used for a coded admission 
          * diagnosis.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param reasonCode
          *     Coded reason the encounter takes place
@@ -1320,13 +1376,17 @@ public class Encounter extends DomainResource {
          * Reason the encounter takes place, expressed as a code. For admissions, this can be used for a coded admission 
          * diagnosis.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param reasonCode
          *     Coded reason the encounter takes place
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder reasonCode(Collection<CodeableConcept> reasonCode) {
             this.reasonCode = new ArrayList<>(reasonCode);
@@ -1337,7 +1397,8 @@ public class Encounter extends DomainResource {
          * Reason the encounter takes place, expressed as a code. For admissions, this can be used for a coded admission 
          * diagnosis.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1364,7 +1425,8 @@ public class Encounter extends DomainResource {
          * Reason the encounter takes place, expressed as a code. For admissions, this can be used for a coded admission 
          * diagnosis.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1379,6 +1441,9 @@ public class Encounter extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder reasonReference(Collection<Reference> reasonReference) {
             this.reasonReference = new ArrayList<>(reasonReference);
@@ -1388,7 +1453,8 @@ public class Encounter extends DomainResource {
         /**
          * The list of diagnosis relevant to this encounter.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param diagnosis
          *     The list of diagnosis relevant to this encounter
@@ -1406,13 +1472,17 @@ public class Encounter extends DomainResource {
         /**
          * The list of diagnosis relevant to this encounter.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param diagnosis
          *     The list of diagnosis relevant to this encounter
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder diagnosis(Collection<Diagnosis> diagnosis) {
             this.diagnosis = new ArrayList<>(diagnosis);
@@ -1422,7 +1492,8 @@ public class Encounter extends DomainResource {
         /**
          * The set of accounts that may be used for billing for this Encounter.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1445,7 +1516,8 @@ public class Encounter extends DomainResource {
         /**
          * The set of accounts that may be used for billing for this Encounter.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1457,6 +1529,9 @@ public class Encounter extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder account(Collection<Reference> account) {
             this.account = new ArrayList<>(account);
@@ -1480,7 +1555,8 @@ public class Encounter extends DomainResource {
         /**
          * List of locations where the patient has been during this encounter.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param location
          *     List of locations where the patient has been
@@ -1498,13 +1574,17 @@ public class Encounter extends DomainResource {
         /**
          * List of locations where the patient has been during this encounter.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param location
          *     List of locations where the patient has been
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder location(Collection<Location> location) {
             this.location = new ArrayList<>(location);
@@ -1768,7 +1848,8 @@ public class Encounter extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1787,13 +1868,17 @@ public class Encounter extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1811,7 +1896,8 @@ public class Encounter extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1835,13 +1921,17 @@ public class Encounter extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2059,7 +2149,8 @@ public class Encounter extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2078,13 +2169,17 @@ public class Encounter extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2102,7 +2197,8 @@ public class Encounter extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2126,13 +2222,17 @@ public class Encounter extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2365,7 +2465,8 @@ public class Encounter extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2384,13 +2485,17 @@ public class Encounter extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2408,7 +2513,8 @@ public class Encounter extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2432,13 +2538,17 @@ public class Encounter extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2448,7 +2558,8 @@ public class Encounter extends DomainResource {
             /**
              * Role of participant in encounter.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param type
              *     Role of participant in encounter
@@ -2466,13 +2577,17 @@ public class Encounter extends DomainResource {
             /**
              * Role of participant in encounter.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param type
              *     Role of participant in encounter
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder type(Collection<CodeableConcept> type) {
                 this.type = new ArrayList<>(type);
@@ -2705,7 +2820,8 @@ public class Encounter extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2724,13 +2840,17 @@ public class Encounter extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2748,7 +2868,8 @@ public class Encounter extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2772,13 +2893,17 @@ public class Encounter extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3162,7 +3287,8 @@ public class Encounter extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -3181,13 +3307,17 @@ public class Encounter extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -3205,7 +3335,8 @@ public class Encounter extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -3229,13 +3360,17 @@ public class Encounter extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3308,7 +3443,8 @@ public class Encounter extends DomainResource {
             /**
              * Diet preferences reported by the patient.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param dietPreference
              *     Diet preferences reported by the patient
@@ -3326,13 +3462,17 @@ public class Encounter extends DomainResource {
             /**
              * Diet preferences reported by the patient.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param dietPreference
              *     Diet preferences reported by the patient
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder dietPreference(Collection<CodeableConcept> dietPreference) {
                 this.dietPreference = new ArrayList<>(dietPreference);
@@ -3342,7 +3482,8 @@ public class Encounter extends DomainResource {
             /**
              * Special courtesies (VIP, board member).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param specialCourtesy
              *     Special courtesies (VIP, board member)
@@ -3360,13 +3501,17 @@ public class Encounter extends DomainResource {
             /**
              * Special courtesies (VIP, board member).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param specialCourtesy
              *     Special courtesies (VIP, board member)
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder specialCourtesy(Collection<CodeableConcept> specialCourtesy) {
                 this.specialCourtesy = new ArrayList<>(specialCourtesy);
@@ -3377,7 +3522,8 @@ public class Encounter extends DomainResource {
              * Any special requests that have been made for this hospitalization encounter, such as the provision of specific 
              * equipment or other things.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param specialArrangement
              *     Wheelchair, translator, stretcher, etc.
@@ -3396,13 +3542,17 @@ public class Encounter extends DomainResource {
              * Any special requests that have been made for this hospitalization encounter, such as the provision of specific 
              * equipment or other things.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param specialArrangement
              *     Wheelchair, translator, stretcher, etc.
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder specialArrangement(Collection<CodeableConcept> specialArrangement) {
                 this.specialArrangement = new ArrayList<>(specialArrangement);
@@ -3664,7 +3814,8 @@ public class Encounter extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -3683,13 +3834,17 @@ public class Encounter extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -3707,7 +3862,8 @@ public class Encounter extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -3731,13 +3887,17 @@ public class Encounter extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {

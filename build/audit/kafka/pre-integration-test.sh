@@ -38,8 +38,8 @@ config(){
     USERLIB="${DIST}/userlib"
     mkdir -p $USERLIB
     find ${WORKSPACE}/conformance -iname 'fhir-ig*.jar' -not -iname 'fhir*-tests.jar' -not -iname 'fhir*-test-*.jar' -exec cp -f {} ${USERLIB} \;
-    cp -pr ${WORKSPACE}/operation/fhir-operation-test/target/fhir-operation-*-tests.jar ${USERLIB}
-    cp -pr ${WORKSPACE}/operation/fhir-operation-term-cache/target/fhir-operation-*.jar ${USERLIB}
+    cp -pr ${WORKSPACE}/fhir-operation-test/target/fhir-operation-*-tests.jar ${USERLIB}
+    cp -pr ${WORKSPACE}/term/operation/fhir-operation-term-cache/target/fhir-operation-*.jar ${USERLIB}
     echo "Finished copying fhir-server dependencies..."
 
     # Move over the test configurations

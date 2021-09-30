@@ -65,40 +65,9 @@ public class ProvenanceEntityRole extends Code {
 
     /**
      * Get the value of this ProvenanceEntityRole as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this ProvenanceEntityRole as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating ProvenanceEntityRole objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static ProvenanceEntityRole of(ValueSet value) {
-        switch (value) {
-        case DERIVATION:
-            return DERIVATION;
-        case REVISION:
-            return REVISION;
-        case QUOTATION:
-            return QUOTATION;
-        case SOURCE:
-            return SOURCE;
-        case REMOVAL:
-            return REMOVAL;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -216,14 +185,6 @@ public class ProvenanceEntityRole extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -252,78 +213,6 @@ public class ProvenanceEntityRole extends Code {
         protected Builder from(ProvenanceEntityRole provenanceEntityRole) {
             super.from(provenanceEntityRole);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Derivation
-         * 
-         * <p>A transformation of an entity into another, an update of an entity resulting in a new one, or the construction of a 
-         * new entity based on a pre-existing entity.
-         */
-        DERIVATION("derivation"),
-
-        /**
-         * Revision
-         * 
-         * <p>A derivation for which the resulting entity is a revised version of some original.
-         */
-        REVISION("revision"),
-
-        /**
-         * Quotation
-         * 
-         * <p>The repeat of (some or all of) an entity, such as text or image, by someone who might or might not be its original 
-         * author.
-         */
-        QUOTATION("quotation"),
-
-        /**
-         * Source
-         * 
-         * <p>A primary source for a topic refers to something produced by some agent with direct experience and knowledge about 
-         * the topic, at the time of the topic's study, without benefit from hindsight.
-         */
-        SOURCE("source"),
-
-        /**
-         * Removal
-         * 
-         * <p>A derivation for which the entity is removed from accessibility usually through the use of the Delete operation.
-         */
-        REMOVAL("removal");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating ProvenanceEntityRole.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

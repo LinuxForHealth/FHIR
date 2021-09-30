@@ -300,7 +300,8 @@ public class SubstanceReferenceInformation extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -317,13 +318,17 @@ public class SubstanceReferenceInformation extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -336,7 +341,8 @@ public class SubstanceReferenceInformation extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -355,13 +361,17 @@ public class SubstanceReferenceInformation extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -379,7 +389,8 @@ public class SubstanceReferenceInformation extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -403,17 +414,37 @@ public class SubstanceReferenceInformation extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
             return (Builder) super.modifierExtension(modifierExtension);
+        }
+
+        /**
+         * Convenience method for setting {@code comment}.
+         * 
+         * @param comment
+         *     Todo
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #comment(com.ibm.fhir.model.type.String)
+         */
+        public Builder comment(java.lang.String comment) {
+            this.comment = (comment == null) ? null : String.of(comment);
+            return this;
         }
 
         /**
@@ -433,7 +464,8 @@ public class SubstanceReferenceInformation extends DomainResource {
         /**
          * Todo.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param gene
          *     Todo
@@ -451,13 +483,17 @@ public class SubstanceReferenceInformation extends DomainResource {
         /**
          * Todo.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param gene
          *     Todo
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder gene(Collection<Gene> gene) {
             this.gene = new ArrayList<>(gene);
@@ -467,7 +503,8 @@ public class SubstanceReferenceInformation extends DomainResource {
         /**
          * Todo.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param geneElement
          *     Todo
@@ -485,13 +522,17 @@ public class SubstanceReferenceInformation extends DomainResource {
         /**
          * Todo.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param geneElement
          *     Todo
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder geneElement(Collection<GeneElement> geneElement) {
             this.geneElement = new ArrayList<>(geneElement);
@@ -501,7 +542,8 @@ public class SubstanceReferenceInformation extends DomainResource {
         /**
          * Todo.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param classification
          *     Todo
@@ -519,13 +561,17 @@ public class SubstanceReferenceInformation extends DomainResource {
         /**
          * Todo.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param classification
          *     Todo
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder classification(Collection<Classification> classification) {
             this.classification = new ArrayList<>(classification);
@@ -535,7 +581,8 @@ public class SubstanceReferenceInformation extends DomainResource {
         /**
          * Todo.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param target
          *     Todo
@@ -553,13 +600,17 @@ public class SubstanceReferenceInformation extends DomainResource {
         /**
          * Todo.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param target
          *     Todo
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder target(Collection<Target> target) {
             this.target = new ArrayList<>(target);
@@ -751,7 +802,8 @@ public class SubstanceReferenceInformation extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -770,13 +822,17 @@ public class SubstanceReferenceInformation extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -794,7 +850,8 @@ public class SubstanceReferenceInformation extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -818,13 +875,17 @@ public class SubstanceReferenceInformation extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -862,7 +923,8 @@ public class SubstanceReferenceInformation extends DomainResource {
             /**
              * Todo.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>Allowed resource types for the references:
              * <ul>
@@ -885,7 +947,8 @@ public class SubstanceReferenceInformation extends DomainResource {
             /**
              * Todo.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>Allowed resource types for the references:
              * <ul>
@@ -897,6 +960,9 @@ public class SubstanceReferenceInformation extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder source(Collection<Reference> source) {
                 this.source = new ArrayList<>(source);
@@ -1086,7 +1152,8 @@ public class SubstanceReferenceInformation extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1105,13 +1172,17 @@ public class SubstanceReferenceInformation extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1129,7 +1200,8 @@ public class SubstanceReferenceInformation extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1153,13 +1225,17 @@ public class SubstanceReferenceInformation extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1197,7 +1273,8 @@ public class SubstanceReferenceInformation extends DomainResource {
             /**
              * Todo.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>Allowed resource types for the references:
              * <ul>
@@ -1220,7 +1297,8 @@ public class SubstanceReferenceInformation extends DomainResource {
             /**
              * Todo.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>Allowed resource types for the references:
              * <ul>
@@ -1232,6 +1310,9 @@ public class SubstanceReferenceInformation extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder source(Collection<Reference> source) {
                 this.source = new ArrayList<>(source);
@@ -1439,7 +1520,8 @@ public class SubstanceReferenceInformation extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1458,13 +1540,17 @@ public class SubstanceReferenceInformation extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1482,7 +1568,8 @@ public class SubstanceReferenceInformation extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1506,13 +1593,17 @@ public class SubstanceReferenceInformation extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1550,7 +1641,8 @@ public class SubstanceReferenceInformation extends DomainResource {
             /**
              * Todo.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param subtype
              *     Todo
@@ -1568,13 +1660,17 @@ public class SubstanceReferenceInformation extends DomainResource {
             /**
              * Todo.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param subtype
              *     Todo
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder subtype(Collection<CodeableConcept> subtype) {
                 this.subtype = new ArrayList<>(subtype);
@@ -1584,7 +1680,8 @@ public class SubstanceReferenceInformation extends DomainResource {
             /**
              * Todo.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>Allowed resource types for the references:
              * <ul>
@@ -1607,7 +1704,8 @@ public class SubstanceReferenceInformation extends DomainResource {
             /**
              * Todo.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>Allowed resource types for the references:
              * <ul>
@@ -1619,6 +1717,9 @@ public class SubstanceReferenceInformation extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder source(Collection<Reference> source) {
                 this.source = new ArrayList<>(source);
@@ -1750,7 +1851,7 @@ public class SubstanceReferenceInformation extends DomainResource {
          * Todo.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link Quantity}, {@link Range} or {@link String} that may be null.
          */
         public Element getAmount() {
             return amount;
@@ -1901,7 +2002,8 @@ public class SubstanceReferenceInformation extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1920,13 +2022,17 @@ public class SubstanceReferenceInformation extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1944,7 +2050,8 @@ public class SubstanceReferenceInformation extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1968,13 +2075,17 @@ public class SubstanceReferenceInformation extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2052,6 +2163,22 @@ public class SubstanceReferenceInformation extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code amount} with choice type String.
+             * 
+             * @param amount
+             *     Todo
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #amount(Element)
+             */
+            public Builder amount(java.lang.String amount) {
+                this.amount = (amount == null) ? null : String.of(amount);
+                return this;
+            }
+
+            /**
              * Todo.
              * 
              * <p>This is a choice element with the following allowed types:
@@ -2089,7 +2216,8 @@ public class SubstanceReferenceInformation extends DomainResource {
             /**
              * Todo.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>Allowed resource types for the references:
              * <ul>
@@ -2112,7 +2240,8 @@ public class SubstanceReferenceInformation extends DomainResource {
             /**
              * Todo.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>Allowed resource types for the references:
              * <ul>
@@ -2124,6 +2253,9 @@ public class SubstanceReferenceInformation extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder source(Collection<Reference> source) {
                 this.source = new ArrayList<>(source);

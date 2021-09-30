@@ -249,7 +249,8 @@ public class HumanName extends Element {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -268,13 +269,17 @@ public class HumanName extends Element {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -296,6 +301,22 @@ public class HumanName extends Element {
         }
 
         /**
+         * Convenience method for setting {@code text}.
+         * 
+         * @param text
+         *     Text representation of the full name
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #text(com.ibm.fhir.model.type.String)
+         */
+        public Builder text(java.lang.String text) {
+            this.text = (text == null) ? null : String.of(text);
+            return this;
+        }
+
+        /**
          * Specifies the entire name as it should be displayed e.g. on an application UI. This may be provided instead of or as 
          * well as the specific parts.
          * 
@@ -307,6 +328,22 @@ public class HumanName extends Element {
          */
         public Builder text(String text) {
             this.text = text;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code family}.
+         * 
+         * @param family
+         *     Family name (often called 'Surname')
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #family(com.ibm.fhir.model.type.String)
+         */
+        public Builder family(java.lang.String family) {
+            this.family = (family == null) ? null : String.of(family);
             return this;
         }
 
@@ -326,9 +363,31 @@ public class HumanName extends Element {
         }
 
         /**
+         * Convenience method for setting {@code given}.
+         * 
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
+         * 
+         * @param given
+         *     Given names (not always 'first'). Includes middle names
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #given(com.ibm.fhir.model.type.String)
+         */
+        public Builder given(java.lang.String... given) {
+            for (java.lang.String value : given) {
+                this.given.add((value == null) ? null : String.of(value));
+            }
+            return this;
+        }
+
+        /**
          * Given name.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param given
          *     Given names (not always 'first'). Includes middle names
@@ -346,13 +405,17 @@ public class HumanName extends Element {
         /**
          * Given name.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param given
          *     Given names (not always 'first'). Includes middle names
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder given(Collection<String> given) {
             this.given = new ArrayList<>(given);
@@ -360,10 +423,32 @@ public class HumanName extends Element {
         }
 
         /**
+         * Convenience method for setting {@code prefix}.
+         * 
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
+         * 
+         * @param prefix
+         *     Parts that come before the name
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #prefix(com.ibm.fhir.model.type.String)
+         */
+        public Builder prefix(java.lang.String... prefix) {
+            for (java.lang.String value : prefix) {
+                this.prefix.add((value == null) ? null : String.of(value));
+            }
+            return this;
+        }
+
+        /**
          * Part of the name that is acquired as a title due to academic, legal, employment or nobility status, etc. and that 
          * appears at the start of the name.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param prefix
          *     Parts that come before the name
@@ -382,13 +467,17 @@ public class HumanName extends Element {
          * Part of the name that is acquired as a title due to academic, legal, employment or nobility status, etc. and that 
          * appears at the start of the name.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param prefix
          *     Parts that come before the name
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder prefix(Collection<String> prefix) {
             this.prefix = new ArrayList<>(prefix);
@@ -396,10 +485,32 @@ public class HumanName extends Element {
         }
 
         /**
+         * Convenience method for setting {@code suffix}.
+         * 
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
+         * 
+         * @param suffix
+         *     Parts that come after the name
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #suffix(com.ibm.fhir.model.type.String)
+         */
+        public Builder suffix(java.lang.String... suffix) {
+            for (java.lang.String value : suffix) {
+                this.suffix.add((value == null) ? null : String.of(value));
+            }
+            return this;
+        }
+
+        /**
          * Part of the name that is acquired as a title due to academic, legal, employment or nobility status, etc. and that 
          * appears at the end of the name.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param suffix
          *     Parts that come after the name
@@ -418,13 +529,17 @@ public class HumanName extends Element {
          * Part of the name that is acquired as a title due to academic, legal, employment or nobility status, etc. and that 
          * appears at the end of the name.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param suffix
          *     Parts that come after the name
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder suffix(Collection<String> suffix) {
             this.suffix = new ArrayList<>(suffix);

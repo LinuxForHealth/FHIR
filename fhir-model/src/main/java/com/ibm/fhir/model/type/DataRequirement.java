@@ -126,7 +126,7 @@ public class DataRequirement extends Element {
      * The intended subjects of the data requirement. If this element is not provided, a Patient subject is assumed.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link CodeableConcept} or {@link Reference} that may be null.
      */
     public Element getSubject() {
         return subject;
@@ -312,7 +312,8 @@ public class DataRequirement extends Element {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -331,13 +332,17 @@ public class DataRequirement extends Element {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -364,7 +369,8 @@ public class DataRequirement extends Element {
         /**
          * The profile of the required data, specified as the uri of the profile definition.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param profile
          *     The profile of the required data
@@ -382,13 +388,17 @@ public class DataRequirement extends Element {
         /**
          * The profile of the required data, specified as the uri of the profile definition.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param profile
          *     The profile of the required data
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder profile(Collection<Canonical> profile) {
             this.profile = new ArrayList<>(profile);
@@ -421,6 +431,27 @@ public class DataRequirement extends Element {
         }
 
         /**
+         * Convenience method for setting {@code mustSupport}.
+         * 
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
+         * 
+         * @param mustSupport
+         *     Indicates specific structure elements that are referenced by the knowledge module
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #mustSupport(com.ibm.fhir.model.type.String)
+         */
+        public Builder mustSupport(java.lang.String... mustSupport) {
+            for (java.lang.String value : mustSupport) {
+                this.mustSupport.add((value == null) ? null : String.of(value));
+            }
+            return this;
+        }
+
+        /**
          * Indicates that specific elements of the type are referenced by the knowledge module and must be supported by the 
          * consumer in order to obtain an effective evaluation. This does not mean that a value is required for this element, 
          * only that the consuming system must understand the element and be able to provide values for it if they are available. 
@@ -429,7 +460,8 @@ public class DataRequirement extends Element {
          * only of identifiers, constant indexers, and .resolve() (see the [Simple FHIRPath Profile](fhirpath.html#simple) for 
          * full details).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param mustSupport
          *     Indicates specific structure elements that are referenced by the knowledge module
@@ -453,13 +485,17 @@ public class DataRequirement extends Element {
          * only of identifiers, constant indexers, and .resolve() (see the [Simple FHIRPath Profile](fhirpath.html#simple) for 
          * full details).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param mustSupport
          *     Indicates specific structure elements that are referenced by the knowledge module
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder mustSupport(Collection<String> mustSupport) {
             this.mustSupport = new ArrayList<>(mustSupport);
@@ -470,7 +506,8 @@ public class DataRequirement extends Element {
          * Code filters specify additional constraints on the data, specifying the value set of interest for a particular element 
          * of the data. Each code filter defines an additional constraint on the data, i.e. code filters are AND'ed, not OR'ed.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param codeFilter
          *     What codes are expected
@@ -489,13 +526,17 @@ public class DataRequirement extends Element {
          * Code filters specify additional constraints on the data, specifying the value set of interest for a particular element 
          * of the data. Each code filter defines an additional constraint on the data, i.e. code filters are AND'ed, not OR'ed.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param codeFilter
          *     What codes are expected
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder codeFilter(Collection<CodeFilter> codeFilter) {
             this.codeFilter = new ArrayList<>(codeFilter);
@@ -506,7 +547,8 @@ public class DataRequirement extends Element {
          * Date filters specify additional constraints on the data in terms of the applicable date range for specific elements. 
          * Each date filter specifies an additional constraint on the data, i.e. date filters are AND'ed, not OR'ed.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param dateFilter
          *     What dates/date ranges are expected
@@ -525,13 +567,17 @@ public class DataRequirement extends Element {
          * Date filters specify additional constraints on the data in terms of the applicable date range for specific elements. 
          * Each date filter specifies an additional constraint on the data, i.e. date filters are AND'ed, not OR'ed.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param dateFilter
          *     What dates/date ranges are expected
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder dateFilter(Collection<DateFilter> dateFilter) {
             this.dateFilter = new ArrayList<>(dateFilter);
@@ -555,7 +601,8 @@ public class DataRequirement extends Element {
         /**
          * Specifies the order of the results to be returned.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param sort
          *     Order of the results
@@ -573,13 +620,17 @@ public class DataRequirement extends Element {
         /**
          * Specifies the order of the results to be returned.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param sort
          *     Order of the results
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder sort(Collection<Sort> sort) {
             this.sort = new ArrayList<>(sort);
@@ -811,7 +862,8 @@ public class DataRequirement extends Element {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -830,13 +882,17 @@ public class DataRequirement extends Element {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -853,7 +909,8 @@ public class DataRequirement extends Element {
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -876,17 +933,37 @@ public class DataRequirement extends Element {
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting {@code path}.
+             * 
+             * @param path
+             *     A code-valued attribute to filter on
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #path(com.ibm.fhir.model.type.String)
+             */
+            public Builder path(java.lang.String path) {
+                this.path = (path == null) ? null : String.of(path);
+                return this;
             }
 
             /**
@@ -904,6 +981,22 @@ public class DataRequirement extends Element {
              */
             public Builder path(String path) {
                 this.path = path;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code searchParam}.
+             * 
+             * @param searchParam
+             *     A coded (token) parameter to search on
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #searchParam(com.ibm.fhir.model.type.String)
+             */
+            public Builder searchParam(java.lang.String searchParam) {
+                this.searchParam = (searchParam == null) ? null : String.of(searchParam);
                 return this;
             }
 
@@ -943,7 +1036,8 @@ public class DataRequirement extends Element {
              * valued attribute specified by the path has a value that is one of the specified codes. If codes are specified in 
              * addition to a value set, the filter returns items matching a code in the value set or one of the specified codes.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param code
              *     What code is expected
@@ -963,13 +1057,17 @@ public class DataRequirement extends Element {
              * valued attribute specified by the path has a value that is one of the specified codes. If codes are specified in 
              * addition to a value set, the filter returns items matching a code in the value set or one of the specified codes.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param code
              *     What code is expected
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder code(Collection<Coding> code) {
                 this.code = new ArrayList<>(code);
@@ -1062,7 +1160,7 @@ public class DataRequirement extends Element {
          * only those data items that fall within Duration before now.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link DateTime}, {@link Period} or {@link Duration} that may be null.
          */
         public Element getValue() {
             return value;
@@ -1168,7 +1266,8 @@ public class DataRequirement extends Element {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1187,13 +1286,17 @@ public class DataRequirement extends Element {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1210,7 +1313,8 @@ public class DataRequirement extends Element {
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1233,17 +1337,37 @@ public class DataRequirement extends Element {
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting {@code path}.
+             * 
+             * @param path
+             *     A date-valued attribute to filter on
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #path(com.ibm.fhir.model.type.String)
+             */
+            public Builder path(java.lang.String path) {
+                this.path = (path == null) ? null : String.of(path);
+                return this;
             }
 
             /**
@@ -1261,6 +1385,22 @@ public class DataRequirement extends Element {
              */
             public Builder path(String path) {
                 this.path = path;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code searchParam}.
+             * 
+             * @param searchParam
+             *     A date valued parameter to search on
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #searchParam(com.ibm.fhir.model.type.String)
+             */
+            public Builder searchParam(java.lang.String searchParam) {
+                this.searchParam = (searchParam == null) ? null : String.of(searchParam);
                 return this;
             }
 
@@ -1476,7 +1616,8 @@ public class DataRequirement extends Element {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1495,13 +1636,17 @@ public class DataRequirement extends Element {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1518,7 +1663,8 @@ public class DataRequirement extends Element {
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1541,17 +1687,39 @@ public class DataRequirement extends Element {
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting {@code path}.
+             * 
+             * <p>This element is required.
+             * 
+             * @param path
+             *     The name of the attribute to perform the sort
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #path(com.ibm.fhir.model.type.String)
+             */
+            public Builder path(java.lang.String path) {
+                this.path = (path == null) ? null : String.of(path);
+                return this;
             }
 
             /**

@@ -647,7 +647,8 @@ public class StructureMap extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -664,13 +665,17 @@ public class StructureMap extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -683,7 +688,8 @@ public class StructureMap extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -702,13 +708,17 @@ public class StructureMap extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -726,7 +736,8 @@ public class StructureMap extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -750,13 +761,17 @@ public class StructureMap extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -786,7 +801,8 @@ public class StructureMap extends DomainResource {
          * A formal identifier that is used to identify this structure map when it is represented in other formats, or referenced 
          * in a specification, model, design or an instance.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Additional identifier for the structure map
@@ -805,16 +821,36 @@ public class StructureMap extends DomainResource {
          * A formal identifier that is used to identify this structure map when it is represented in other formats, or referenced 
          * in a specification, model, design or an instance.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Additional identifier for the structure map
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder identifier(Collection<Identifier> identifier) {
             this.identifier = new ArrayList<>(identifier);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code version}.
+         * 
+         * @param version
+         *     Business version of the structure map
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #version(com.ibm.fhir.model.type.String)
+         */
+        public Builder version(java.lang.String version) {
+            this.version = (version == null) ? null : String.of(version);
             return this;
         }
 
@@ -836,6 +872,24 @@ public class StructureMap extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code name}.
+         * 
+         * <p>This element is required.
+         * 
+         * @param name
+         *     Name for this structure map (computer friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #name(com.ibm.fhir.model.type.String)
+         */
+        public Builder name(java.lang.String name) {
+            this.name = (name == null) ? null : String.of(name);
+            return this;
+        }
+
+        /**
          * A natural language name identifying the structure map. This name should be usable as an identifier for the module by 
          * machine processing applications such as code generation.
          * 
@@ -849,6 +903,22 @@ public class StructureMap extends DomainResource {
          */
         public Builder name(String name) {
             this.name = name;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code title}.
+         * 
+         * @param title
+         *     Name for this structure map (human friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #title(com.ibm.fhir.model.type.String)
+         */
+        public Builder title(java.lang.String title) {
+            this.title = (title == null) ? null : String.of(title);
             return this;
         }
 
@@ -879,6 +949,22 @@ public class StructureMap extends DomainResource {
          */
         public Builder status(PublicationStatus status) {
             this.status = status;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code experimental}.
+         * 
+         * @param experimental
+         *     For testing purposes, not real usage
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #experimental(com.ibm.fhir.model.type.Boolean)
+         */
+        public Builder experimental(java.lang.Boolean experimental) {
+            this.experimental = (experimental == null) ? null : Boolean.of(experimental);
             return this;
         }
 
@@ -914,6 +1000,22 @@ public class StructureMap extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code publisher}.
+         * 
+         * @param publisher
+         *     Name of the publisher (organization or individual)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #publisher(com.ibm.fhir.model.type.String)
+         */
+        public Builder publisher(java.lang.String publisher) {
+            this.publisher = (publisher == null) ? null : String.of(publisher);
+            return this;
+        }
+
+        /**
          * The name of the organization or individual that published the structure map.
          * 
          * @param publisher
@@ -930,7 +1032,8 @@ public class StructureMap extends DomainResource {
         /**
          * Contact details to assist a user in finding and communicating with the publisher.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contact
          *     Contact details for the publisher
@@ -948,13 +1051,17 @@ public class StructureMap extends DomainResource {
         /**
          * Contact details to assist a user in finding and communicating with the publisher.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contact
          *     Contact details for the publisher
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder contact(Collection<ContactDetail> contact) {
             this.contact = new ArrayList<>(contact);
@@ -980,7 +1087,8 @@ public class StructureMap extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate structure map instances.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param useContext
          *     The context that the content is intended to support
@@ -1000,13 +1108,17 @@ public class StructureMap extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate structure map instances.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param useContext
          *     The context that the content is intended to support
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder useContext(Collection<UsageContext> useContext) {
             this.useContext = new ArrayList<>(useContext);
@@ -1016,7 +1128,8 @@ public class StructureMap extends DomainResource {
         /**
          * A legal or geographic region in which the structure map is intended to be used.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param jurisdiction
          *     Intended jurisdiction for structure map (if applicable)
@@ -1034,13 +1147,17 @@ public class StructureMap extends DomainResource {
         /**
          * A legal or geographic region in which the structure map is intended to be used.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param jurisdiction
          *     Intended jurisdiction for structure map (if applicable)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder jurisdiction(Collection<CodeableConcept> jurisdiction) {
             this.jurisdiction = new ArrayList<>(jurisdiction);
@@ -1080,7 +1197,8 @@ public class StructureMap extends DomainResource {
          * A structure definition used by this map. The structure definition may describe instances that are converted, or the 
          * instances that are produced.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param structure
          *     Structure Definition used by this map
@@ -1099,13 +1217,17 @@ public class StructureMap extends DomainResource {
          * A structure definition used by this map. The structure definition may describe instances that are converted, or the 
          * instances that are produced.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param structure
          *     Structure Definition used by this map
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder structure(Collection<Structure> structure) {
             this.structure = new ArrayList<>(structure);
@@ -1115,7 +1237,8 @@ public class StructureMap extends DomainResource {
         /**
          * Other maps used by this map (canonical URLs).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param _import
          *     Other maps used by this map (canonical URLs)
@@ -1133,13 +1256,17 @@ public class StructureMap extends DomainResource {
         /**
          * Other maps used by this map (canonical URLs).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param _import
          *     Other maps used by this map (canonical URLs)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder _import(Collection<Canonical> _import) {
             this._import = new ArrayList<>(_import);
@@ -1149,7 +1276,8 @@ public class StructureMap extends DomainResource {
         /**
          * Organizes the mapping into manageable chunks for human review/ease of maintenance.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>This element is required.
          * 
@@ -1169,7 +1297,8 @@ public class StructureMap extends DomainResource {
         /**
          * Organizes the mapping into manageable chunks for human review/ease of maintenance.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>This element is required.
          * 
@@ -1178,6 +1307,9 @@ public class StructureMap extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder group(Collection<Group> group) {
             this.group = new ArrayList<>(group);
@@ -1421,7 +1553,8 @@ public class StructureMap extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1440,13 +1573,17 @@ public class StructureMap extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1464,7 +1601,8 @@ public class StructureMap extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1488,13 +1626,17 @@ public class StructureMap extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1534,6 +1676,22 @@ public class StructureMap extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code alias}.
+             * 
+             * @param alias
+             *     Name for type in this map
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #alias(com.ibm.fhir.model.type.String)
+             */
+            public Builder alias(java.lang.String alias) {
+                this.alias = (alias == null) ? null : String.of(alias);
+                return this;
+            }
+
+            /**
              * The name used for this type in the map.
              * 
              * @param alias
@@ -1544,6 +1702,22 @@ public class StructureMap extends DomainResource {
              */
             public Builder alias(String alias) {
                 this.alias = alias;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code documentation}.
+             * 
+             * @param documentation
+             *     Documentation on use of structure
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #documentation(com.ibm.fhir.model.type.String)
+             */
+            public Builder documentation(java.lang.String documentation) {
+                this.documentation = (documentation == null) ? null : String.of(documentation);
                 return this;
             }
 
@@ -1814,7 +1988,8 @@ public class StructureMap extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1833,13 +2008,17 @@ public class StructureMap extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1857,7 +2036,8 @@ public class StructureMap extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1881,13 +2061,17 @@ public class StructureMap extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1941,6 +2125,22 @@ public class StructureMap extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code documentation}.
+             * 
+             * @param documentation
+             *     Additional description/explanation for group
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #documentation(com.ibm.fhir.model.type.String)
+             */
+            public Builder documentation(java.lang.String documentation) {
+                this.documentation = (documentation == null) ? null : String.of(documentation);
+                return this;
+            }
+
+            /**
              * Additional supporting documentation that explains the purpose of the group and the types of mappings within it.
              * 
              * @param documentation
@@ -1957,7 +2157,8 @@ public class StructureMap extends DomainResource {
             /**
              * A name assigned to an instance of data. The instance must be provided when the mapping is invoked.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>This element is required.
              * 
@@ -1977,7 +2178,8 @@ public class StructureMap extends DomainResource {
             /**
              * A name assigned to an instance of data. The instance must be provided when the mapping is invoked.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>This element is required.
              * 
@@ -1986,6 +2188,9 @@ public class StructureMap extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder input(Collection<Input> input) {
                 this.input = new ArrayList<>(input);
@@ -1995,7 +2200,8 @@ public class StructureMap extends DomainResource {
             /**
              * Transform Rule from source to target.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>This element is required.
              * 
@@ -2015,7 +2221,8 @@ public class StructureMap extends DomainResource {
             /**
              * Transform Rule from source to target.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>This element is required.
              * 
@@ -2024,6 +2231,9 @@ public class StructureMap extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder rule(Collection<Rule> rule) {
                 this.rule = new ArrayList<>(rule);
@@ -2249,7 +2459,8 @@ public class StructureMap extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2268,13 +2479,17 @@ public class StructureMap extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2292,7 +2507,8 @@ public class StructureMap extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2316,13 +2532,17 @@ public class StructureMap extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2342,6 +2562,22 @@ public class StructureMap extends DomainResource {
                  */
                 public Builder name(Id name) {
                     this.name = name;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code type}.
+                 * 
+                 * @param type
+                 *     Type for this instance of data
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #type(com.ibm.fhir.model.type.String)
+                 */
+                public Builder type(java.lang.String type) {
+                    this.type = (type == null) ? null : String.of(type);
                     return this;
                 }
 
@@ -2372,6 +2608,22 @@ public class StructureMap extends DomainResource {
                  */
                 public Builder mode(StructureMapInputMode mode) {
                     this.mode = mode;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code documentation}.
+                 * 
+                 * @param documentation
+                 *     Documentation for this instance of data
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #documentation(com.ibm.fhir.model.type.String)
+                 */
+                public Builder documentation(java.lang.String documentation) {
+                    this.documentation = (documentation == null) ? null : String.of(documentation);
                     return this;
                 }
 
@@ -2633,7 +2885,8 @@ public class StructureMap extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2652,13 +2905,17 @@ public class StructureMap extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2676,7 +2933,8 @@ public class StructureMap extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2700,13 +2958,17 @@ public class StructureMap extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2732,7 +2994,8 @@ public class StructureMap extends DomainResource {
                 /**
                  * Source inputs to the mapping.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * <p>This element is required.
                  * 
@@ -2752,7 +3015,8 @@ public class StructureMap extends DomainResource {
                 /**
                  * Source inputs to the mapping.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * <p>This element is required.
                  * 
@@ -2761,6 +3025,9 @@ public class StructureMap extends DomainResource {
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder source(Collection<Source> source) {
                     this.source = new ArrayList<>(source);
@@ -2770,7 +3037,8 @@ public class StructureMap extends DomainResource {
                 /**
                  * Content to create because of this mapping rule.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param target
                  *     Content to create because of this mapping rule
@@ -2788,13 +3056,17 @@ public class StructureMap extends DomainResource {
                 /**
                  * Content to create because of this mapping rule.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param target
                  *     Content to create because of this mapping rule
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder target(Collection<Target> target) {
                     this.target = new ArrayList<>(target);
@@ -2804,7 +3076,8 @@ public class StructureMap extends DomainResource {
                 /**
                  * Rules contained in this rule.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param rule
                  *     Rules contained in this rule
@@ -2822,13 +3095,17 @@ public class StructureMap extends DomainResource {
                 /**
                  * Rules contained in this rule.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param rule
                  *     Rules contained in this rule
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder rule(Collection<StructureMap.Group.Rule> rule) {
                     this.rule = new ArrayList<>(rule);
@@ -2838,7 +3115,8 @@ public class StructureMap extends DomainResource {
                 /**
                  * Which other rules to apply in the context of this rule.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param dependent
                  *     Which other rules to apply in the context of this rule
@@ -2856,16 +3134,36 @@ public class StructureMap extends DomainResource {
                 /**
                  * Which other rules to apply in the context of this rule.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param dependent
                  *     Which other rules to apply in the context of this rule
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder dependent(Collection<Dependent> dependent) {
                     this.dependent = new ArrayList<>(dependent);
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code documentation}.
+                 * 
+                 * @param documentation
+                 *     Documentation for this instance of data
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #documentation(com.ibm.fhir.model.type.String)
+                 */
+                public Builder documentation(java.lang.String documentation) {
+                    this.documentation = (documentation == null) ? null : String.of(documentation);
                     return this;
                 }
 
@@ -3024,7 +3322,15 @@ public class StructureMap extends DomainResource {
                  * A value to use if there is no existing value in the source object.
                  * 
                  * @return
-                 *     An immutable object of type {@link Element} that may be null.
+                 *     An immutable object of type {@link Base64Binary}, {@link Boolean}, {@link Canonical}, {@link Code}, {@link Date}, 
+                 *     {@link DateTime}, {@link Decimal}, {@link Id}, {@link Instant}, {@link Integer}, {@link Markdown}, {@link Oid}, {@link 
+                 *     PositiveInt}, {@link String}, {@link Time}, {@link UnsignedInt}, {@link Uri}, {@link Url}, {@link Uuid}, {@link 
+                 *     Address}, {@link Age}, {@link Annotation}, {@link Attachment}, {@link CodeableConcept}, {@link Coding}, {@link 
+                 *     ContactPoint}, {@link Count}, {@link Distance}, {@link Duration}, {@link HumanName}, {@link Identifier}, {@link 
+                 *     Money}, {@link Period}, {@link Quantity}, {@link Range}, {@link Ratio}, {@link Reference}, {@link SampledData}, {@link 
+                 *     Signature}, {@link Timing}, {@link ContactDetail}, {@link Contributor}, {@link DataRequirement}, {@link Expression}, 
+                 *     {@link ParameterDefinition}, {@link RelatedArtifact}, {@link TriggerDefinition}, {@link UsageContext}, {@link Dosage} 
+                 *     or {@link Meta} that may be null.
                  */
                 public Element getDefaultValue() {
                     return defaultValue;
@@ -3231,7 +3537,8 @@ public class StructureMap extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -3250,13 +3557,17 @@ public class StructureMap extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     @Override
                     public Builder extension(Collection<Extension> extension) {
@@ -3274,7 +3585,8 @@ public class StructureMap extends DomainResource {
                      * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -3298,13 +3610,17 @@ public class StructureMap extends DomainResource {
                      * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3328,6 +3644,22 @@ public class StructureMap extends DomainResource {
                     }
 
                     /**
+                     * Convenience method for setting {@code min}.
+                     * 
+                     * @param min
+                     *     Specified minimum cardinality
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #min(com.ibm.fhir.model.type.Integer)
+                     */
+                    public Builder min(java.lang.Integer min) {
+                        this.min = (min == null) ? null : Integer.of(min);
+                        return this;
+                    }
+
+                    /**
                      * Specified minimum cardinality for the element. This is optional; if present, it acts an implicit check on the input 
                      * content.
                      * 
@@ -3339,6 +3671,22 @@ public class StructureMap extends DomainResource {
                      */
                     public Builder min(Integer min) {
                         this.min = min;
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting {@code max}.
+                     * 
+                     * @param max
+                     *     Specified maximum cardinality (number or *)
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #max(com.ibm.fhir.model.type.String)
+                     */
+                    public Builder max(java.lang.String max) {
+                        this.max = (max == null) ? null : String.of(max);
                         return this;
                     }
 
@@ -3358,6 +3706,22 @@ public class StructureMap extends DomainResource {
                     }
 
                     /**
+                     * Convenience method for setting {@code type}.
+                     * 
+                     * @param type
+                     *     Rule only applies if source has this type
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #type(com.ibm.fhir.model.type.String)
+                     */
+                    public Builder type(java.lang.String type) {
+                        this.type = (type == null) ? null : String.of(type);
+                        return this;
+                    }
+
+                    /**
                      * Specified type for the element. This works as a condition on the mapping - use for polymorphic elements.
                      * 
                      * @param type
@@ -3368,6 +3732,102 @@ public class StructureMap extends DomainResource {
                      */
                     public Builder type(String type) {
                         this.type = type;
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting {@code defaultValue} with choice type Boolean.
+                     * 
+                     * @param defaultValue
+                     *     Default value if no value exists
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #defaultValue(Element)
+                     */
+                    public Builder defaultValue(java.lang.Boolean defaultValue) {
+                        this.defaultValue = (defaultValue == null) ? null : Boolean.of(defaultValue);
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting {@code defaultValue} with choice type Date.
+                     * 
+                     * @param defaultValue
+                     *     Default value if no value exists
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #defaultValue(Element)
+                     */
+                    public Builder defaultValue(java.time.LocalDate defaultValue) {
+                        this.defaultValue = (defaultValue == null) ? null : Date.of(defaultValue);
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting {@code defaultValue} with choice type Instant.
+                     * 
+                     * @param defaultValue
+                     *     Default value if no value exists
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #defaultValue(Element)
+                     */
+                    public Builder defaultValue(java.time.ZonedDateTime defaultValue) {
+                        this.defaultValue = (defaultValue == null) ? null : Instant.of(defaultValue);
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting {@code defaultValue} with choice type Integer.
+                     * 
+                     * @param defaultValue
+                     *     Default value if no value exists
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #defaultValue(Element)
+                     */
+                    public Builder defaultValue(java.lang.Integer defaultValue) {
+                        this.defaultValue = (defaultValue == null) ? null : Integer.of(defaultValue);
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting {@code defaultValue} with choice type String.
+                     * 
+                     * @param defaultValue
+                     *     Default value if no value exists
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #defaultValue(Element)
+                     */
+                    public Builder defaultValue(java.lang.String defaultValue) {
+                        this.defaultValue = (defaultValue == null) ? null : String.of(defaultValue);
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting {@code defaultValue} with choice type Time.
+                     * 
+                     * @param defaultValue
+                     *     Default value if no value exists
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #defaultValue(Element)
+                     */
+                    public Builder defaultValue(java.time.LocalTime defaultValue) {
+                        this.defaultValue = (defaultValue == null) ? null : Time.of(defaultValue);
                         return this;
                     }
 
@@ -3440,6 +3900,22 @@ public class StructureMap extends DomainResource {
                     }
 
                     /**
+                     * Convenience method for setting {@code element}.
+                     * 
+                     * @param element
+                     *     Optional field for this source
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #element(com.ibm.fhir.model.type.String)
+                     */
+                    public Builder element(java.lang.String element) {
+                        this.element = (element == null) ? null : String.of(element);
+                        return this;
+                    }
+
+                    /**
                      * Optional field for this source.
                      * 
                      * @param element
@@ -3482,6 +3958,22 @@ public class StructureMap extends DomainResource {
                     }
 
                     /**
+                     * Convenience method for setting {@code condition}.
+                     * 
+                     * @param condition
+                     *     FHIRPath expression - must be true or the rule does not apply
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #condition(com.ibm.fhir.model.type.String)
+                     */
+                    public Builder condition(java.lang.String condition) {
+                        this.condition = (condition == null) ? null : String.of(condition);
+                        return this;
+                    }
+
+                    /**
                      * FHIRPath expression - must be true or the rule does not apply.
                      * 
                      * @param condition
@@ -3496,6 +3988,22 @@ public class StructureMap extends DomainResource {
                     }
 
                     /**
+                     * Convenience method for setting {@code check}.
+                     * 
+                     * @param check
+                     *     FHIRPath expression - must be true or the mapping engine throws an error instead of completing
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #check(com.ibm.fhir.model.type.String)
+                     */
+                    public Builder check(java.lang.String check) {
+                        this.check = (check == null) ? null : String.of(check);
+                        return this;
+                    }
+
+                    /**
                      * FHIRPath expression - must be true or the mapping engine throws an error instead of completing.
                      * 
                      * @param check
@@ -3506,6 +4014,22 @@ public class StructureMap extends DomainResource {
                      */
                     public Builder check(String check) {
                         this.check = check;
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting {@code logMessage}.
+                     * 
+                     * @param logMessage
+                     *     Message to put in log if source exists (FHIRPath)
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #logMessage(com.ibm.fhir.model.type.String)
+                     */
+                    public Builder logMessage(java.lang.String logMessage) {
+                        this.logMessage = (logMessage == null) ? null : String.of(logMessage);
                         return this;
                     }
 
@@ -3827,7 +4351,8 @@ public class StructureMap extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -3846,13 +4371,17 @@ public class StructureMap extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     @Override
                     public Builder extension(Collection<Extension> extension) {
@@ -3870,7 +4399,8 @@ public class StructureMap extends DomainResource {
                      * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -3894,13 +4424,17 @@ public class StructureMap extends DomainResource {
                      * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3936,6 +4470,22 @@ public class StructureMap extends DomainResource {
                     }
 
                     /**
+                     * Convenience method for setting {@code element}.
+                     * 
+                     * @param element
+                     *     Field to create in the context
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #element(com.ibm.fhir.model.type.String)
+                     */
+                    public Builder element(java.lang.String element) {
+                        this.element = (element == null) ? null : String.of(element);
+                        return this;
+                    }
+
+                    /**
                      * Field to create in the context.
                      * 
                      * @param element
@@ -3966,7 +4516,8 @@ public class StructureMap extends DomainResource {
                     /**
                      * If field is a list, how to manage the list.
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param listMode
                      *     first | share | last | collate
@@ -3984,13 +4535,17 @@ public class StructureMap extends DomainResource {
                     /**
                      * If field is a list, how to manage the list.
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param listMode
                      *     first | share | last | collate
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     public Builder listMode(Collection<StructureMapTargetListMode> listMode) {
                         this.listMode = new ArrayList<>(listMode);
@@ -4028,7 +4583,8 @@ public class StructureMap extends DomainResource {
                     /**
                      * Parameters to the transform.
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param parameter
                      *     Parameters to the transform
@@ -4046,13 +4602,17 @@ public class StructureMap extends DomainResource {
                     /**
                      * Parameters to the transform.
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param parameter
                      *     Parameters to the transform
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     public Builder parameter(Collection<Parameter> parameter) {
                         this.parameter = new ArrayList<>(parameter);
@@ -4115,7 +4675,8 @@ public class StructureMap extends DomainResource {
                      * Parameter value - variable or literal.
                      * 
                      * @return
-                     *     An immutable object of type {@link Element} that is non-null.
+                     *     An immutable object of type {@link Id}, {@link String}, {@link Boolean}, {@link Integer} or {@link Decimal} that is 
+                     *     non-null.
                      */
                     public Element getValue() {
                         return value;
@@ -4211,7 +4772,8 @@ public class StructureMap extends DomainResource {
                          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                          * of the definition of the extension.
                          * 
-                         * <p>Adds new element(s) to the existing list
+                         * <p>Adds new element(s) to the existing list.
+                         * If any of the elements are null, calling {@link #build()} will fail.
                          * 
                          * @param extension
                          *     Additional content defined by implementations
@@ -4230,13 +4792,17 @@ public class StructureMap extends DomainResource {
                          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                          * of the definition of the extension.
                          * 
-                         * <p>Replaces the existing list with a new one containing elements from the Collection
+                         * <p>Replaces the existing list with a new one containing elements from the Collection.
+                         * If any of the elements are null, calling {@link #build()} will fail.
                          * 
                          * @param extension
                          *     Additional content defined by implementations
                          * 
                          * @return
                          *     A reference to this Builder instance
+                         * 
+                         * @throws NullPointerException
+                         *     If the passed collection is null
                          */
                         @Override
                         public Builder extension(Collection<Extension> extension) {
@@ -4254,7 +4820,8 @@ public class StructureMap extends DomainResource {
                          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                          * change the meaning of modifierExtension itself).
                          * 
-                         * <p>Adds new element(s) to the existing list
+                         * <p>Adds new element(s) to the existing list.
+                         * If any of the elements are null, calling {@link #build()} will fail.
                          * 
                          * @param modifierExtension
                          *     Extensions that cannot be ignored even if unrecognized
@@ -4278,17 +4845,75 @@ public class StructureMap extends DomainResource {
                          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                          * change the meaning of modifierExtension itself).
                          * 
-                         * <p>Replaces the existing list with a new one containing elements from the Collection
+                         * <p>Replaces the existing list with a new one containing elements from the Collection.
+                         * If any of the elements are null, calling {@link #build()} will fail.
                          * 
                          * @param modifierExtension
                          *     Extensions that cannot be ignored even if unrecognized
                          * 
                          * @return
                          *     A reference to this Builder instance
+                         * 
+                         * @throws NullPointerException
+                         *     If the passed collection is null
                          */
                         @Override
                         public Builder modifierExtension(Collection<Extension> modifierExtension) {
                             return (Builder) super.modifierExtension(modifierExtension);
+                        }
+
+                        /**
+                         * Convenience method for setting {@code value} with choice type String.
+                         * 
+                         * <p>This element is required.
+                         * 
+                         * @param value
+                         *     Parameter value - variable or literal
+                         * 
+                         * @return
+                         *     A reference to this Builder instance
+                         * 
+                         * @see #value(Element)
+                         */
+                        public Builder value(java.lang.String value) {
+                            this.value = (value == null) ? null : String.of(value);
+                            return this;
+                        }
+
+                        /**
+                         * Convenience method for setting {@code value} with choice type Boolean.
+                         * 
+                         * <p>This element is required.
+                         * 
+                         * @param value
+                         *     Parameter value - variable or literal
+                         * 
+                         * @return
+                         *     A reference to this Builder instance
+                         * 
+                         * @see #value(Element)
+                         */
+                        public Builder value(java.lang.Boolean value) {
+                            this.value = (value == null) ? null : Boolean.of(value);
+                            return this;
+                        }
+
+                        /**
+                         * Convenience method for setting {@code value} with choice type Integer.
+                         * 
+                         * <p>This element is required.
+                         * 
+                         * @param value
+                         *     Parameter value - variable or literal
+                         * 
+                         * @return
+                         *     A reference to this Builder instance
+                         * 
+                         * @see #value(Element)
+                         */
+                        public Builder value(java.lang.Integer value) {
+                            this.value = (value == null) ? null : Integer.of(value);
+                            return this;
                         }
 
                         /**
@@ -4485,7 +5110,8 @@ public class StructureMap extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -4504,13 +5130,17 @@ public class StructureMap extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     @Override
                     public Builder extension(Collection<Extension> extension) {
@@ -4528,7 +5158,8 @@ public class StructureMap extends DomainResource {
                      * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -4552,13 +5183,17 @@ public class StructureMap extends DomainResource {
                      * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -4582,9 +5217,33 @@ public class StructureMap extends DomainResource {
                     }
 
                     /**
+                     * Convenience method for setting {@code variable}.
+                     * 
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
+                     * 
+                     * <p>This element is required.
+                     * 
+                     * @param variable
+                     *     Variable to pass to the rule or group
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #variable(com.ibm.fhir.model.type.String)
+                     */
+                    public Builder variable(java.lang.String... variable) {
+                        for (java.lang.String value : variable) {
+                            this.variable.add((value == null) ? null : String.of(value));
+                        }
+                        return this;
+                    }
+
+                    /**
                      * Variable to pass to the rule or group.
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * <p>This element is required.
                      * 
@@ -4604,7 +5263,8 @@ public class StructureMap extends DomainResource {
                     /**
                      * Variable to pass to the rule or group.
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * <p>This element is required.
                      * 
@@ -4613,6 +5273,9 @@ public class StructureMap extends DomainResource {
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     public Builder variable(Collection<String> variable) {
                         this.variable = new ArrayList<>(variable);

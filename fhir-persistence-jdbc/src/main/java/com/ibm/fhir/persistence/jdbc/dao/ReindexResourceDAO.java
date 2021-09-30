@@ -33,6 +33,7 @@ import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterVisitorBatchDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
 import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
+import com.ibm.fhir.persistence.jdbc.util.CalendarHelper;
 import com.ibm.fhir.persistence.jdbc.util.ParameterTableSupport;
 
 /**
@@ -148,7 +149,7 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
             if (logicalResourceId != null) {
                 // specific resource by logical resource ID (primary key)
                 stmt.setLong(1, logicalResourceId);
-                stmt.setTimestamp(2, Timestamp.from(reindexTstamp));
+                stmt.setTimestamp(2, Timestamp.from(reindexTstamp), CalendarHelper.getCalendarForUTC());
             }
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
@@ -208,13 +209,13 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
                 if (resourceTypeId != null && logicalId != null) {
                     stmt.setInt(1, resourceTypeId);
                     stmt.setString(2, logicalId);
-                    stmt.setTimestamp(3, Timestamp.from(reindexTstamp));
+                    stmt.setTimestamp(3, Timestamp.from(reindexTstamp), CalendarHelper.getCalendarForUTC());
                 } else if (resourceTypeId != null) {
                     stmt.setInt(1, resourceTypeId);
-                    stmt.setTimestamp(2, Timestamp.from(reindexTstamp));
+                    stmt.setTimestamp(2, Timestamp.from(reindexTstamp), CalendarHelper.getCalendarForUTC());
                     stmt.setInt(3, offset);
                 } else {
-                    stmt.setTimestamp(1, Timestamp.from(reindexTstamp));
+                    stmt.setTimestamp(1, Timestamp.from(reindexTstamp), CalendarHelper.getCalendarForUTC());
                     stmt.setInt(2, offset);
                 }
                 ResultSet rs = stmt.executeQuery();
@@ -237,7 +238,7 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
                         + "    AND reindex_txid = ? "; // make sure we have the txid we selected above
 
                 try (PreparedStatement stmt = connection.prepareStatement(UPDATE)) {
-                    stmt.setTimestamp(1, Timestamp.from(reindexTstamp));
+                    stmt.setTimestamp(1, Timestamp.from(reindexTstamp), CalendarHelper.getCalendarForUTC());
                     stmt.setLong(2, result.getTransactionId() + 1L);
                     stmt.setLong(3, result.getLogicalResourceId());
                     stmt.setLong(4, result.getTransactionId());

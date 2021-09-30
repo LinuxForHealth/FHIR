@@ -47,6 +47,7 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
+import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.misc.ParseCancellationException;
 
 import com.ibm.fhir.model.patch.exception.FHIRPatchException;
@@ -127,14 +128,6 @@ public final class FHIRPathUtil {
     private FHIRPathUtil() { }
 
     public static ExpressionContext compile(String expr) {
-        int startIndex = -1;
-        for (int i = 0; i < expr.length(); i++) {
-            if (!Character.isWhitespace(expr.charAt(i))) {
-                startIndex = i;
-                break;
-            }
-        }
-
         int stopIndex = -1;
         for (int i = expr.length() - 1; i >= 0; i--) {
             if (!Character.isWhitespace(expr.charAt(i))) {
@@ -143,7 +136,7 @@ public final class FHIRPathUtil {
             }
         }
 
-        if (startIndex == -1 || stopIndex == -1) {
+        if (stopIndex == -1) {
             throw new IllegalArgumentException("Invalid FHIRPath expression: '" + expr + "'");
         }
 
@@ -158,12 +151,8 @@ public final class FHIRPathUtil {
         parser.addErrorListener(SYNTAX_ERROR_LISTENER);
 
         ExpressionContext expressionContext = parser.expression();
-
-        if (expressionContext.getStart() == null || expressionContext.getStop() == null) {
-            throw new IllegalArgumentException("FHIRPath expression was parsed but start and/or stop token was null");
-        }
-
-        if (expressionContext.getStart().getStartIndex() != startIndex || expressionContext.getStop().getStopIndex() != stopIndex) {
+        List<Token> hiddenTokensToRight = tokens.getHiddenTokensToRight(expressionContext.getStop().getTokenIndex());
+        if (hiddenTokensToRight == null && expressionContext.getStop().getStopIndex() != stopIndex) {
             throw new IllegalArgumentException("FHIRPath expression parsing error at: '" + expr.charAt(expressionContext.getStop().getStopIndex() + 1) + "'");
         }
 

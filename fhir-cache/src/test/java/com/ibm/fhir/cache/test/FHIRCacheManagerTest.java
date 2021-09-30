@@ -8,6 +8,7 @@ package com.ibm.fhir.cache.test;
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
+import java.util.logging.Logger;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -18,6 +19,7 @@ import com.ibm.fhir.cache.CacheManager;
 import com.ibm.fhir.cache.CacheManager.Configuration;
 
 public class FHIRCacheManagerTest {
+    private static final Logger LOG = Logger.getLogger(FHIRCacheManagerTest.class.getName());
     @Test
     public void testTimeBasedEvictionCache() throws InterruptedException {
         Cache<String, Integer> cache = CacheManager.getCache("testCache", Configuration.of(Duration.of(1000, ChronoUnit.MILLIS)));
@@ -66,6 +68,8 @@ public class FHIRCacheManagerTest {
         cacheStats = cache.stats();
         Assert.assertEquals(cacheStats.hitCount(), 1);
         Assert.assertEquals(cacheStats.missCount(), 1);
+
+        CacheManager.reportCacheStats(LOG, "testCache");
 
         CacheManager.removeCache("testCache");
         Assert.assertNull(CacheManager.getCache("testCache"));

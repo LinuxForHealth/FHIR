@@ -462,7 +462,8 @@ public class TestReport extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -479,13 +480,17 @@ public class TestReport extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -498,7 +503,8 @@ public class TestReport extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -517,13 +523,17 @@ public class TestReport extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -541,7 +551,8 @@ public class TestReport extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -565,13 +576,17 @@ public class TestReport extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -589,6 +604,22 @@ public class TestReport extends DomainResource {
          */
         public Builder identifier(Identifier identifier) {
             this.identifier = identifier;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code name}.
+         * 
+         * @param name
+         *     Informal name of the executed TestScript
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #name(com.ibm.fhir.model.type.String)
+         */
+        public Builder name(java.lang.String name) {
+            this.name = (name == null) ? null : String.of(name);
             return this;
         }
 
@@ -675,6 +706,22 @@ public class TestReport extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code tester}.
+         * 
+         * @param tester
+         *     Name of the tester producing this report (Organization or individual)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #tester(com.ibm.fhir.model.type.String)
+         */
+        public Builder tester(java.lang.String tester) {
+            this.tester = (tester == null) ? null : String.of(tester);
+            return this;
+        }
+
+        /**
          * Name of the tester producing this report (Organization or individual).
          * 
          * @param tester
@@ -705,7 +752,8 @@ public class TestReport extends DomainResource {
         /**
          * A participant in the test execution, either the execution engine, a client, or a server.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param participant
          *     A participant in the test execution, either the execution engine, a client, or a server
@@ -723,13 +771,17 @@ public class TestReport extends DomainResource {
         /**
          * A participant in the test execution, either the execution engine, a client, or a server.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param participant
          *     A participant in the test execution, either the execution engine, a client, or a server
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder participant(Collection<Participant> participant) {
             this.participant = new ArrayList<>(participant);
@@ -753,7 +805,8 @@ public class TestReport extends DomainResource {
         /**
          * A test executed from the test script.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param test
          *     A test executed from the test script
@@ -771,13 +824,17 @@ public class TestReport extends DomainResource {
         /**
          * A test executed from the test script.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param test
          *     A test executed from the test script
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder test(Collection<Test> test) {
             this.test = new ArrayList<>(test);
@@ -1004,7 +1061,8 @@ public class TestReport extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1023,13 +1081,17 @@ public class TestReport extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1047,7 +1109,8 @@ public class TestReport extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1071,13 +1134,17 @@ public class TestReport extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1113,6 +1180,22 @@ public class TestReport extends DomainResource {
              */
             public Builder uri(Uri uri) {
                 this.uri = uri;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code display}.
+             * 
+             * @param display
+             *     The display name of the participant
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #display(com.ibm.fhir.model.type.String)
+             */
+            public Builder display(java.lang.String display) {
+                this.display = (display == null) ? null : String.of(display);
                 return this;
             }
 
@@ -1282,7 +1365,8 @@ public class TestReport extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1301,13 +1385,17 @@ public class TestReport extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1325,7 +1413,8 @@ public class TestReport extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1349,13 +1438,17 @@ public class TestReport extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1365,7 +1458,8 @@ public class TestReport extends DomainResource {
             /**
              * Action would contain either an operation or an assertion.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>This element is required.
              * 
@@ -1385,7 +1479,8 @@ public class TestReport extends DomainResource {
             /**
              * Action would contain either an operation or an assertion.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>This element is required.
              * 
@@ -1394,6 +1489,9 @@ public class TestReport extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder action(Collection<Action> action) {
                 this.action = new ArrayList<>(action);
@@ -1563,7 +1661,8 @@ public class TestReport extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -1582,13 +1681,17 @@ public class TestReport extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -1606,7 +1709,8 @@ public class TestReport extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -1630,13 +1734,17 @@ public class TestReport extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1853,7 +1961,8 @@ public class TestReport extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -1872,13 +1981,17 @@ public class TestReport extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     @Override
                     public Builder extension(Collection<Extension> extension) {
@@ -1896,7 +2009,8 @@ public class TestReport extends DomainResource {
                      * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -1920,13 +2034,17 @@ public class TestReport extends DomainResource {
                      * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2167,7 +2285,8 @@ public class TestReport extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -2186,13 +2305,17 @@ public class TestReport extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     @Override
                     public Builder extension(Collection<Extension> extension) {
@@ -2210,7 +2333,8 @@ public class TestReport extends DomainResource {
                      * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -2234,13 +2358,17 @@ public class TestReport extends DomainResource {
                      * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2274,6 +2402,22 @@ public class TestReport extends DomainResource {
                      */
                     public Builder message(Markdown message) {
                         this.message = message;
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting {@code detail}.
+                     * 
+                     * @param detail
+                     *     A link to further details on the result
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #detail(com.ibm.fhir.model.type.String)
+                     */
+                    public Builder detail(java.lang.String detail) {
+                        this.detail = (detail == null) ? null : String.of(detail);
                         return this;
                     }
 
@@ -2477,7 +2621,8 @@ public class TestReport extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2496,13 +2641,17 @@ public class TestReport extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2520,7 +2669,8 @@ public class TestReport extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2544,17 +2694,37 @@ public class TestReport extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting {@code name}.
+             * 
+             * @param name
+             *     Tracking/logging name of this test
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #name(com.ibm.fhir.model.type.String)
+             */
+            public Builder name(java.lang.String name) {
+                this.name = (name == null) ? null : String.of(name);
+                return this;
             }
 
             /**
@@ -2568,6 +2738,22 @@ public class TestReport extends DomainResource {
              */
             public Builder name(String name) {
                 this.name = name;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code description}.
+             * 
+             * @param description
+             *     Tracking/reporting short description of the test
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #description(com.ibm.fhir.model.type.String)
+             */
+            public Builder description(java.lang.String description) {
+                this.description = (description == null) ? null : String.of(description);
                 return this;
             }
 
@@ -2588,7 +2774,8 @@ public class TestReport extends DomainResource {
             /**
              * Action would contain either an operation or an assertion.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>This element is required.
              * 
@@ -2608,7 +2795,8 @@ public class TestReport extends DomainResource {
             /**
              * Action would contain either an operation or an assertion.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>This element is required.
              * 
@@ -2617,6 +2805,9 @@ public class TestReport extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder action(Collection<Action> action) {
                 this.action = new ArrayList<>(action);
@@ -2788,7 +2979,8 @@ public class TestReport extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2807,13 +2999,17 @@ public class TestReport extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2831,7 +3027,8 @@ public class TestReport extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2855,13 +3052,17 @@ public class TestReport extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3041,7 +3242,8 @@ public class TestReport extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -3060,13 +3262,17 @@ public class TestReport extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -3084,7 +3290,8 @@ public class TestReport extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -3108,13 +3315,17 @@ public class TestReport extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3124,7 +3335,8 @@ public class TestReport extends DomainResource {
             /**
              * The teardown action will only contain an operation.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>This element is required.
              * 
@@ -3144,7 +3356,8 @@ public class TestReport extends DomainResource {
             /**
              * The teardown action will only contain an operation.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>This element is required.
              * 
@@ -3153,6 +3366,9 @@ public class TestReport extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder action(Collection<Action> action) {
                 this.action = new ArrayList<>(action);
@@ -3306,7 +3522,8 @@ public class TestReport extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -3325,13 +3542,17 @@ public class TestReport extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -3349,7 +3570,8 @@ public class TestReport extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3373,13 +3595,17 @@ public class TestReport extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {

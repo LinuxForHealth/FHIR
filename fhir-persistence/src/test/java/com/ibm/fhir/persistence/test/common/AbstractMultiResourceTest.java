@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2018,2019
+ * (C) Copyright IBM Corp. 2018, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -30,16 +30,16 @@ import com.ibm.fhir.persistence.SingleResourceResult;
  */
 public abstract class AbstractMultiResourceTest extends AbstractPersistenceTest {
     String commonId = UUID.randomUUID().toString();
-    
+
     /**
-     * Create two different resources with the same id 
+     * Create two different resources with the same id
      */
     @BeforeClass
     public void createResources() throws Exception {
         
         final com.ibm.fhir.model.type.Instant lastUpdated = com.ibm.fhir.model.type.Instant.now(ZoneOffset.UTC);
         final int versionId = 1;
-        Encounter encounter = TestUtil.readExampleResource("json/ibm/minimal/Encounter-1.json");
+        Encounter encounter = TestUtil.getMinimalResource(Encounter.class);
         
         // Update the id on the resource
         encounter = encounter.toBuilder().id(commonId).build();
@@ -53,8 +53,8 @@ public abstract class AbstractMultiResourceTest extends AbstractPersistenceTest 
         assertNotNull(encounter.getMeta());
         assertNotNull(encounter.getMeta().getVersionId().getValue());
         assertEquals("1", encounter.getMeta().getVersionId().getValue());
-        
-        Observation observation = TestUtil.readExampleResource("json/ibm/minimal/Observation-1.json");
+
+        Observation observation = TestUtil.getMinimalResource(Observation.class);
 
         // update the id on the resource
         observation = observation.toBuilder().id(commonId).build();
@@ -65,43 +65,43 @@ public abstract class AbstractMultiResourceTest extends AbstractPersistenceTest 
         assertNotNull(observation.getMeta());
         assertNotNull(observation.getMeta().getVersionId().getValue());
         assertEquals("1", observation.getMeta().getVersionId().getValue());
-    } 
-    
+    }
+
     /**
      * Tests a normal read when a different resource type has the same id
      */
     @Test
     public void testRead() throws Exception {
         SingleResourceResult<? extends Resource> result;
-        
+
         result = persistence.read(getDefaultPersistenceContext(), Encounter.class, commonId);
         assertTrue(result.isSuccess());
         assertNotNull(result.getResource());
         assertTrue(result.getResource() instanceof Encounter);
-        
+
         result = persistence.read(getDefaultPersistenceContext(), Observation.class, commonId);
         assertTrue(result.isSuccess());
         assertNotNull(result.getResource());
         assertTrue(result.getResource() instanceof Observation);
     }
-    
+
     /**
      * Tests searching by id when a different resource type has the same id
      */
     @Test
     public void testSearchById() throws Exception {
         List<Resource> resources;
-        
+
         resources = runQueryTest(Encounter.class, "_id", commonId);
         assertNotNull(resources);
         assertTrue(resources.size() == 1);
         assertTrue(resources.get(0) instanceof Encounter);
-        
+
         resources = runQueryTest(Observation.class, "_id", commonId);
         assertNotNull(resources);
         assertTrue(resources.size() == 1);
         assertTrue(resources.get(0) instanceof Observation);
-        
+
         resources = runQueryTest(Resource.class, "_id", commonId);
         assertNotNull(resources);
         assertTrue(resources.size() == 2);

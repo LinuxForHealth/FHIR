@@ -16,10 +16,40 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.model.patch.exception.FHIRPatchException;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.type.Boolean;
+import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.HumanName;
 import com.ibm.fhir.path.util.FHIRPathUtil;
 
 public class FHIRPathUtilTest {
+
+    @Test (expectedExceptions = IllegalArgumentException.class)
+    void testCompileWithFailure1() throws Exception {
+        FHIRPathUtil.compile("@T14:34:28Z.is(Time)");
+    }
+
+    @Test (expectedExceptions = IllegalArgumentException.class)
+    void testCompileWithFailure2() throws Exception {
+        FHIRPathUtil.compile("@T14:34:28Z.is(Time) //Still invalid");
+    }
+
+    @Test (expectedExceptions = IllegalArgumentException.class)
+    void testCompileWithFailure3() throws Exception {
+        FHIRPathUtil.compile("@T14:34:28 //Still invalid\n + @T14:34:28Z");
+    }
+
+    @Test
+    void testCompileWithSuccess() throws Exception {
+        FHIRPathUtil.compile("//Comment \n 2 + 2");
+        FHIRPathUtil.compile("2 + 2 \n //Comment \n + 2");
+        FHIRPathUtil.compile("2 + 2 //Comment + 4");
+
+        FHIRPathUtil.compile("/*Comment*/ \n 2 + 2");
+        FHIRPathUtil.compile("/*Comment \n */ 2 + 2");
+        FHIRPathUtil.compile("2 + 2 \n /*Comment*/ \n + 2");
+        FHIRPathUtil.compile("2 + 2 /* \nComment\n/ */ + 2");
+        FHIRPathUtil.compile("2 + 2 /*Comment + 4*/");
+    }
+
     @Test
     void testAdd() throws Exception {
         HumanName name1 = HumanName.builder()
@@ -40,7 +70,7 @@ public class FHIRPathUtilTest {
         fhirpathPatient = FHIRPathUtil.add(fhirpathPatient, "Patient", "deceased", Boolean.TRUE);
         fhirpathPatient = FHIRPathUtil.add(fhirpathPatient, "Patient", "name", name1);
         fhirpathPatient = FHIRPathUtil.add(fhirpathPatient, "Patient", "name", name2);
-        
+
         assertEquals(fhirpathPatient, builderPatient);
     }
 
@@ -120,7 +150,7 @@ public class FHIRPathUtilTest {
                 .build();
 
         Patient builderPatient = patient.toBuilder()
-                .deceased(null)
+                .deceased((Element)null)
                 .name(Collections.emptySet())
                 .build();
 
@@ -140,7 +170,7 @@ public class FHIRPathUtilTest {
                 .deceased(Boolean.TRUE)
                 .name(name1)
                 .build();
-        
+
         Patient builderPatient = patient.toBuilder()
                 .deceased(Boolean.FALSE)
                 .name(Collections.singleton(patient.getName().get(0).toBuilder()
@@ -175,4 +205,5 @@ public class FHIRPathUtilTest {
 
         assertEquals(fhirpathPatient, builderPatient);
     }
+
 }

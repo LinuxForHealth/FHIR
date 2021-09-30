@@ -89,46 +89,9 @@ public class MediaStatus extends Code {
 
     /**
      * Get the value of this MediaStatus as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this MediaStatus as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating MediaStatus objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static MediaStatus of(ValueSet value) {
-        switch (value) {
-        case PREPARATION:
-            return PREPARATION;
-        case IN_PROGRESS:
-            return IN_PROGRESS;
-        case NOT_DONE:
-            return NOT_DONE;
-        case ON_HOLD:
-            return ON_HOLD;
-        case STOPPED:
-            return STOPPED;
-        case COMPLETED:
-            return COMPLETED;
-        case ENTERED_IN_ERROR:
-            return ENTERED_IN_ERROR;
-        case UNKNOWN:
-            return UNKNOWN;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -252,14 +215,6 @@ public class MediaStatus extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -288,102 +243,6 @@ public class MediaStatus extends Code {
         protected Builder from(MediaStatus mediaStatus) {
             super.from(mediaStatus);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Preparation
-         * 
-         * <p>The core event has not started yet, but some staging activities have begun (e.g. surgical suite preparation). 
-         * Preparation stages may be tracked for billing purposes.
-         */
-        PREPARATION("preparation"),
-
-        /**
-         * In Progress
-         * 
-         * <p>The event is currently occurring.
-         */
-        IN_PROGRESS("in-progress"),
-
-        /**
-         * Not Done
-         * 
-         * <p>The event was terminated prior to any activity beyond preparation. I.e. The 'main' activity has not yet begun. The 
-         * boundary between preparatory and the 'main' activity is context-specific.
-         */
-        NOT_DONE("not-done"),
-
-        /**
-         * On Hold
-         * 
-         * <p>The event has been temporarily stopped but is expected to resume in the future.
-         */
-        ON_HOLD("on-hold"),
-
-        /**
-         * Stopped
-         * 
-         * <p>The event was terminated prior to the full completion of the intended activity but after at least some of the 
-         * 'main' activity (beyond preparation) has occurred.
-         */
-        STOPPED("stopped"),
-
-        /**
-         * Completed
-         * 
-         * <p>The event has now concluded.
-         */
-        COMPLETED("completed"),
-
-        /**
-         * Entered in Error
-         * 
-         * <p>This electronic record should never have existed, though it is possible that real-world decisions were based on it. 
-         * (If real-world activity has occurred, the status should be "stopped" rather than "entered-in-error".).
-         */
-        ENTERED_IN_ERROR("entered-in-error"),
-
-        /**
-         * Unknown
-         * 
-         * <p>The authoring/source system does not know which of the status values currently applies for this event. Note: This 
-         * concept is not to be used for "other" - one of the listed statuses is presumed to apply, but the authoring/source 
-         * system does not know which.
-         */
-        UNKNOWN("unknown");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating MediaStatus.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

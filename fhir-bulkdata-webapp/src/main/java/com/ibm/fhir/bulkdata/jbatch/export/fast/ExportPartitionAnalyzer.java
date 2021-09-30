@@ -35,7 +35,9 @@ public class ExportPartitionAnalyzer implements PartitionAnalyzer {
 
     @Override
     public void analyzeStatus(BatchStatus batchStatus, String exitStatus) {
-        // do nothing.
+        if (BatchStatus.FAILED.equals(batchStatus) && "NO_SUCH_BUCKET".equals(exitStatus)) {
+            jobContext.setExitStatus("NO_SUCH_BUCKET");
+        }
     }
 
     @Override

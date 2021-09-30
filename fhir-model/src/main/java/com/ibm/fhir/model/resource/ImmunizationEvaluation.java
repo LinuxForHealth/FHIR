@@ -235,7 +235,7 @@ public class ImmunizationEvaluation extends DomainResource {
      * Nominal position in a series.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link PositiveInt} or {@link String} that may be null.
      */
     public Element getDoseNumber() {
         return doseNumber;
@@ -245,7 +245,7 @@ public class ImmunizationEvaluation extends DomainResource {
      * The recommended number of doses to achieve immunity.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link PositiveInt} or {@link String} that may be null.
      */
     public Element getSeriesDoses() {
         return seriesDoses;
@@ -475,7 +475,8 @@ public class ImmunizationEvaluation extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -492,13 +493,17 @@ public class ImmunizationEvaluation extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -511,7 +516,8 @@ public class ImmunizationEvaluation extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -530,13 +536,17 @@ public class ImmunizationEvaluation extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -554,7 +564,8 @@ public class ImmunizationEvaluation extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -578,13 +589,17 @@ public class ImmunizationEvaluation extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -594,7 +609,8 @@ public class ImmunizationEvaluation extends DomainResource {
         /**
          * A unique identifier assigned to this immunization evaluation record.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Business identifier
@@ -612,13 +628,17 @@ public class ImmunizationEvaluation extends DomainResource {
         /**
          * A unique identifier assigned to this immunization evaluation record.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Business identifier
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder identifier(Collection<Identifier> identifier) {
             this.identifier = new ArrayList<>(identifier);
@@ -752,7 +772,8 @@ public class ImmunizationEvaluation extends DomainResource {
          * Provides an explanation as to why the vaccine administration event is valid or not relative to the published 
          * recommendations.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param doseStatusReason
          *     Reason for the dose status
@@ -771,16 +792,36 @@ public class ImmunizationEvaluation extends DomainResource {
          * Provides an explanation as to why the vaccine administration event is valid or not relative to the published 
          * recommendations.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param doseStatusReason
          *     Reason for the dose status
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder doseStatusReason(Collection<CodeableConcept> doseStatusReason) {
             this.doseStatusReason = new ArrayList<>(doseStatusReason);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code description}.
+         * 
+         * @param description
+         *     Evaluation notes
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #description(com.ibm.fhir.model.type.String)
+         */
+        public Builder description(java.lang.String description) {
+            this.description = (description == null) ? null : String.of(description);
             return this;
         }
 
@@ -799,6 +840,22 @@ public class ImmunizationEvaluation extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code series}.
+         * 
+         * @param series
+         *     Name of vaccine series
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #series(com.ibm.fhir.model.type.String)
+         */
+        public Builder series(java.lang.String series) {
+            this.series = (series == null) ? null : String.of(series);
+            return this;
+        }
+
+        /**
          * One possible path to achieve presumed immunity against a disease - within the context of an authority.
          * 
          * @param series
@@ -809,6 +866,22 @@ public class ImmunizationEvaluation extends DomainResource {
          */
         public Builder series(String series) {
             this.series = series;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code doseNumber} with choice type String.
+         * 
+         * @param doseNumber
+         *     Dose number within series
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #doseNumber(Element)
+         */
+        public Builder doseNumber(java.lang.String doseNumber) {
+            this.doseNumber = (doseNumber == null) ? null : String.of(doseNumber);
             return this;
         }
 
@@ -829,6 +902,22 @@ public class ImmunizationEvaluation extends DomainResource {
          */
         public Builder doseNumber(Element doseNumber) {
             this.doseNumber = doseNumber;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code seriesDoses} with choice type String.
+         * 
+         * @param seriesDoses
+         *     Recommended number of doses for immunity
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #seriesDoses(Element)
+         */
+        public Builder seriesDoses(java.lang.String seriesDoses) {
+            this.seriesDoses = (seriesDoses == null) ? null : String.of(seriesDoses);
             return this;
         }
 

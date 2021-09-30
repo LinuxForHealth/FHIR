@@ -4,7 +4,10 @@
 # SPDX-License-Identifier: Apache-2.0
 # ----------------------------------------------------------------------------
 # Stage: Base
-FROM adoptopenjdk/openjdk11-openj9:ubi-minimal-jre as base
+
+# IBM Semeru Runtimes provides Non-official docker images as part of this repo. These are maintained by IBM.
+# The link to Semeru is at https://hub.docker.com/r/ibmsemeruruntime/open-11-jdk
+FROM ibmsemeruruntime/open-11-jdk:ubi_min-jre-latest as base
 
 # Create the base working directory
 RUN mkdir -p /opt/schematool/workarea

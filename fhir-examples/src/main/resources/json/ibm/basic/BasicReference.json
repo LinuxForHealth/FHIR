@@ -40,6 +40,14 @@
       "valueReference": {
         "display": "text alternative for the resource"
       }
+    },
+    {
+      "url": "http://example.org/canonical",
+      "valueCanonical": "http://example.org/canonical"
+    },
+    {
+      "url": "http://example.org/canonical-version",
+      "valueCanonical": "http://example.org/canonical-version|1.0"
     }
   ]
 }

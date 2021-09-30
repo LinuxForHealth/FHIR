@@ -93,48 +93,9 @@ public class MedicationDispenseStatus extends Code {
 
     /**
      * Get the value of this MedicationDispenseStatus as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this MedicationDispenseStatus as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating MedicationDispenseStatus objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static MedicationDispenseStatus of(ValueSet value) {
-        switch (value) {
-        case PREPARATION:
-            return PREPARATION;
-        case IN_PROGRESS:
-            return IN_PROGRESS;
-        case CANCELLED:
-            return CANCELLED;
-        case ON_HOLD:
-            return ON_HOLD;
-        case COMPLETED:
-            return COMPLETED;
-        case ENTERED_IN_ERROR:
-            return ENTERED_IN_ERROR;
-        case STOPPED:
-            return STOPPED;
-        case DECLINED:
-            return DECLINED;
-        case UNKNOWN:
-            return UNKNOWN;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -260,14 +221,6 @@ public class MedicationDispenseStatus extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -296,106 +249,6 @@ public class MedicationDispenseStatus extends Code {
         protected Builder from(MedicationDispenseStatus medicationDispenseStatus) {
             super.from(medicationDispenseStatus);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Preparation
-         * 
-         * <p>The core event has not started yet, but some staging activities have begun (e.g. initial compounding or packaging 
-         * of medication). Preparation stages may be tracked for billing purposes.
-         */
-        PREPARATION("preparation"),
-
-        /**
-         * In Progress
-         * 
-         * <p>The dispensed product is ready for pickup.
-         */
-        IN_PROGRESS("in-progress"),
-
-        /**
-         * Cancelled
-         * 
-         * <p>The dispensed product was not and will never be picked up by the patient.
-         */
-        CANCELLED("cancelled"),
-
-        /**
-         * On Hold
-         * 
-         * <p>The dispense process is paused while waiting for an external event to reactivate the dispense. For example, new 
-         * stock has arrived or the prescriber has called.
-         */
-        ON_HOLD("on-hold"),
-
-        /**
-         * Completed
-         * 
-         * <p>The dispensed product has been picked up.
-         */
-        COMPLETED("completed"),
-
-        /**
-         * Entered in Error
-         * 
-         * <p>The dispense was entered in error and therefore nullified.
-         */
-        ENTERED_IN_ERROR("entered-in-error"),
-
-        /**
-         * Stopped
-         * 
-         * <p>Actions implied by the dispense have been permanently halted, before all of them occurred.
-         */
-        STOPPED("stopped"),
-
-        /**
-         * Declined
-         * 
-         * <p>The dispense was declined and not performed.
-         */
-        DECLINED("declined"),
-
-        /**
-         * Unknown
-         * 
-         * <p>The authoring system does not know which of the status values applies for this medication dispense. Note: this 
-         * concept is not to be used for other - one of the listed statuses is presumed to apply, it's just now known which one.
-         */
-        UNKNOWN("unknown");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating MedicationDispenseStatus.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

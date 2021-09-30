@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -31,6 +31,7 @@ public class QueryParameter {
     private QueryParameter nextParameter = null;
     private boolean isInclusionCriteria = false;
     private boolean isReverseChained = false;
+    private boolean isCanonical = false;
 
     public QueryParameter(Type type, String code, Modifier modifier, String modifierResourceTypeName) {
         this.type = type;
@@ -48,6 +49,12 @@ public class QueryParameter {
     public QueryParameter(Type type, String code, Modifier modifier, String modifierResourceTypeName, boolean isInclusionCriteria, boolean isReverseChained) {
         this(type, code, modifier, modifierResourceTypeName, isInclusionCriteria);
         this.isReverseChained = isReverseChained;
+    }
+
+    public QueryParameter(Type type, String code, Modifier modifier, String modifierResourceTypeName, boolean isInclusionCriteria, boolean isReverseChained,
+            boolean isCanonical) {
+        this(type, code, modifier, modifierResourceTypeName, isInclusionCriteria, isReverseChained);
+        this.isCanonical = isCanonical;
     }
 
     public QueryParameter(Type type, String code, Modifier modifier, String modifierResourceTypeName, List<QueryParameterValue> parmValues) {
@@ -122,6 +129,11 @@ public class QueryParameter {
         buffer.append(inclusionCriteria);
         buffer.append(NL);
 
+        boolean canonical = this.isCanonical();
+        buffer.append("canonical: ");
+        buffer.append(canonical);
+        buffer.append(NL);
+
         List<QueryParameterValue> values = getValues();
         for (QueryParameterValue value : values) {
             Prefix prefix = value.getPrefix();
@@ -190,5 +202,9 @@ public class QueryParameter {
 
     public boolean isReverseChained() {
         return isReverseChained;
+    }
+
+    public boolean isCanonical() {
+        return isCanonical;
     }
 }

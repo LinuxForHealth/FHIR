@@ -76,44 +76,9 @@ public class QuestionnaireItemOperator extends Code {
 
     /**
      * Get the value of this QuestionnaireItemOperator as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this QuestionnaireItemOperator as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating QuestionnaireItemOperator objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static QuestionnaireItemOperator of(ValueSet value) {
-        switch (value) {
-        case EXISTS:
-            return EXISTS;
-        case EQUALS:
-            return EQUALS;
-        case NOT_EQUALS:
-            return NOT_EQUALS;
-        case GREATER_THAN:
-            return GREATER_THAN;
-        case LESS_THAN:
-            return LESS_THAN;
-        case GREATER_OR_EQUALS:
-            return GREATER_OR_EQUALS;
-        case LESS_OR_EQUALS:
-            return LESS_OR_EQUALS;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -235,14 +200,6 @@ public class QuestionnaireItemOperator extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -271,89 +228,6 @@ public class QuestionnaireItemOperator extends Code {
         protected Builder from(QuestionnaireItemOperator questionnaireItemOperator) {
             super.from(questionnaireItemOperator);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Exists
-         * 
-         * <p>True if whether an answer exists is equal to the enableWhen answer (which must be a boolean).
-         */
-        EXISTS("exists"),
-
-        /**
-         * Equals
-         * 
-         * <p>True if whether at least one answer has a value that is equal to the enableWhen answer.
-         */
-        EQUALS("="),
-
-        /**
-         * Not Equals
-         * 
-         * <p>True if whether at least no answer has a value that is equal to the enableWhen answer.
-         */
-        NOT_EQUALS("!="),
-
-        /**
-         * Greater Than
-         * 
-         * <p>True if whether at least no answer has a value that is greater than the enableWhen answer.
-         */
-        GREATER_THAN(">"),
-
-        /**
-         * Less Than
-         * 
-         * <p>True if whether at least no answer has a value that is less than the enableWhen answer.
-         */
-        LESS_THAN("<"),
-
-        /**
-         * Greater or Equals
-         * 
-         * <p>True if whether at least no answer has a value that is greater or equal to the enableWhen answer.
-         */
-        GREATER_OR_EQUALS(">="),
-
-        /**
-         * Less or Equals
-         * 
-         * <p>True if whether at least no answer has a value that is less or equal to the enableWhen answer.
-         */
-        LESS_OR_EQUALS("<=");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating QuestionnaireItemOperator.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

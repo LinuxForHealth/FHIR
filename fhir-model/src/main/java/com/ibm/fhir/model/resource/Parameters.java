@@ -248,7 +248,8 @@ public class Parameters extends Resource {
         /**
          * A parameter passed to or received from the operation.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param parameter
          *     Operation Parameter
@@ -266,13 +267,17 @@ public class Parameters extends Resource {
         /**
          * A parameter passed to or received from the operation.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param parameter
          *     Operation Parameter
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder parameter(Collection<Parameter> parameter) {
             this.parameter = new ArrayList<>(parameter);
@@ -345,7 +350,15 @@ public class Parameters extends Resource {
          * If the parameter is a data type.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link Base64Binary}, {@link Boolean}, {@link Canonical}, {@link Code}, {@link Date}, 
+         *     {@link DateTime}, {@link Decimal}, {@link Id}, {@link Instant}, {@link Integer}, {@link Markdown}, {@link Oid}, {@link 
+         *     PositiveInt}, {@link String}, {@link Time}, {@link UnsignedInt}, {@link Uri}, {@link Url}, {@link Uuid}, {@link 
+         *     Address}, {@link Age}, {@link Annotation}, {@link Attachment}, {@link CodeableConcept}, {@link Coding}, {@link 
+         *     ContactPoint}, {@link Count}, {@link Distance}, {@link Duration}, {@link HumanName}, {@link Identifier}, {@link 
+         *     Money}, {@link Period}, {@link Quantity}, {@link Range}, {@link Ratio}, {@link Reference}, {@link SampledData}, {@link 
+         *     Signature}, {@link Timing}, {@link ContactDetail}, {@link Contributor}, {@link DataRequirement}, {@link Expression}, 
+         *     {@link ParameterDefinition}, {@link RelatedArtifact}, {@link TriggerDefinition}, {@link UsageContext}, {@link Dosage} 
+         *     or {@link Meta} that may be null.
          */
         public Element getValue() {
             return value;
@@ -476,7 +489,8 @@ public class Parameters extends Resource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -495,13 +509,17 @@ public class Parameters extends Resource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -519,7 +537,8 @@ public class Parameters extends Resource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -543,17 +562,39 @@ public class Parameters extends Resource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting {@code name}.
+             * 
+             * <p>This element is required.
+             * 
+             * @param name
+             *     Name from the definition
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #name(com.ibm.fhir.model.type.String)
+             */
+            public Builder name(java.lang.String name) {
+                this.name = (name == null) ? null : String.of(name);
+                return this;
             }
 
             /**
@@ -569,6 +610,102 @@ public class Parameters extends Resource {
              */
             public Builder name(String name) {
                 this.name = name;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type Boolean.
+             * 
+             * @param value
+             *     If parameter is a data type
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.lang.Boolean value) {
+                this.value = (value == null) ? null : Boolean.of(value);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type Date.
+             * 
+             * @param value
+             *     If parameter is a data type
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.time.LocalDate value) {
+                this.value = (value == null) ? null : Date.of(value);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type Instant.
+             * 
+             * @param value
+             *     If parameter is a data type
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.time.ZonedDateTime value) {
+                this.value = (value == null) ? null : Instant.of(value);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type Integer.
+             * 
+             * @param value
+             *     If parameter is a data type
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.lang.Integer value) {
+                this.value = (value == null) ? null : Integer.of(value);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type String.
+             * 
+             * @param value
+             *     If parameter is a data type
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.lang.String value) {
+                this.value = (value == null) ? null : String.of(value);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type Time.
+             * 
+             * @param value
+             *     If parameter is a data type
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.time.LocalTime value) {
+                this.value = (value == null) ? null : Time.of(value);
                 return this;
             }
 
@@ -657,7 +794,8 @@ public class Parameters extends Resource {
             /**
              * A named part of a multi-part parameter.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param part
              *     Named part of a multi-part parameter
@@ -675,13 +813,17 @@ public class Parameters extends Resource {
             /**
              * A named part of a multi-part parameter.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param part
              *     Named part of a multi-part parameter
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder part(Collection<Parameters.Parameter> part) {
                 this.part = new ArrayList<>(part);

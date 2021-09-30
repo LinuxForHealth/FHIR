@@ -55,9 +55,10 @@ The IBM FHIR Server is modular and extensible. The following tables provide an o
 |------|-----------|----------|
 |fhir-model|An object model generated from the FHIR R4 specification and corresponding parsers and generators for XML and JSON|true|
 |fhir-registry|A resource registry, registry provider interfaces, and pre-registered resources shipped with the FHIR specification|false|
-|fhir-term|A terminology service provider interface with a default implementation that implements terminology services from fully-defined CodeSystems in the registry|false|
-|fhir-term-graph|A terminology service provider that implements terminology services using JanusGraph|false|
-|fhir-term-remote|A terminology service provider that connects to an external service using a REST client to access code system content|false|
+|term/fhir-term|A terminology service provider interface with a default implementation that implements terminology services from fully-defined CodeSystems in the registry|false|
+|term/fhir-term-graph|A terminology service provider that implements terminology services using JanusGraph|false|
+|term/fhir-term-graph-loader|Populates the terminology service backend when using JanusGraph|false|
+|term/fhir-term-remote|A terminology service provider that connects to an external service using a REST client to access code system content|false|
 |fhir-profile|Helper methods for validating ValueSet membership and Profile conformance|false|
 |fhir-path|An implementation of version 2.0.0 of the FHIRPath specification assumed by FHIR R4|false|
 |fhir-validation|Validation utility for validating resource instances against the base specification and/or configured profiles|false|
@@ -92,7 +93,6 @@ The IBM FHIR Server is modular and extensible. The following tables provide an o
 |Module|Description|Java API-stable|
 |------|-----------|----------|
 |fhir-operation-test|Sample operations for testing Extended Operations as describe at https://www.hl7.org/fhir/R4/operations.html |false|
-|fhir-operation-apply|A naive implementation of the `$apply` operation defined at https://www.hl7.org/fhir/operation-activitydefinition-apply.html |false|
 |fhir-operation-bulkdata|`$import` and `$export` implementations which translate bulk data requests into JSR352 Java Batch jobs|false|
 |fhir-bulkdata-webapp|Standalone web application for serving bulk import and export requests via JSR352 Java Batch jobs|false|
 |fhir-operation-convert|A limited implementation of the FHIR [$convert operation](https://www.hl7.org/fhir/R4/resource-operation-convert.html), able to convert between JSON and XML but *not* between FHIR versions|false|
@@ -108,6 +108,18 @@ The IBM FHIR Server is modular and extensible. The following tables provide an o
 |Module|Description|Java API-stable|
 |------|-----------|----------|
 |fhir-client|A FHIR Client that re-uses the IBM FHIR Server model and its JAX-RS Providers|false|
+
+#### Clinical Quality
+
+|Module|Description|Java API-stable|
+|------|-----------|----------|
+|cql/fhir-cql|Foundation classes for implementing the CQL Engine backend in IBM FHIR Server|false|
+|cql/fhir-cql-rest|REST Client-based implementation of CQL Engine backend|false|
+|cql/fhir-cql-server|Internal API-based implementation of CQL Engine backend|false|
+|cql/fhir-quality-measure|FHIR Quality Measure evaluation logic|false|
+|cql/operation/fhir-operation-cpg|*Optional* module that implements CQL operations|false|
+|cql/operation/fhir-operation-cqf|*Optional* module that implements CQF operation|false|
+|cql/operation/fhir-operation-apply|A naive implementation of the `$apply` operation defined at https://www.hl7.org/fhir/operation-activitydefinition-apply.html |false|
 
 #### Tools and Utilities
 |Module|Description|Java API-stable|

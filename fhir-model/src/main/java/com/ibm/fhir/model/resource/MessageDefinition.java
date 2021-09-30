@@ -387,7 +387,7 @@ public class MessageDefinition extends DomainResource {
      * Event code or link to the EventDefinition.
      * 
      * @return
-     *     An immutable object of type {@link Element} that is non-null.
+     *     An immutable object of type {@link Coding} or {@link Uri} that is non-null.
      */
     public Element getEvent() {
         return event;
@@ -725,7 +725,8 @@ public class MessageDefinition extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -742,13 +743,17 @@ public class MessageDefinition extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -761,7 +766,8 @@ public class MessageDefinition extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -780,13 +786,17 @@ public class MessageDefinition extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -804,7 +814,8 @@ public class MessageDefinition extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -828,13 +839,17 @@ public class MessageDefinition extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -860,7 +875,8 @@ public class MessageDefinition extends DomainResource {
          * A formal identifier that is used to identify this message definition when it is represented in other formats, or 
          * referenced in a specification, model, design or an instance.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Primary key for the message definition on a given server
@@ -879,16 +895,36 @@ public class MessageDefinition extends DomainResource {
          * A formal identifier that is used to identify this message definition when it is represented in other formats, or 
          * referenced in a specification, model, design or an instance.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Primary key for the message definition on a given server
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder identifier(Collection<Identifier> identifier) {
             this.identifier = new ArrayList<>(identifier);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code version}.
+         * 
+         * @param version
+         *     Business version of the message definition
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #version(com.ibm.fhir.model.type.String)
+         */
+        public Builder version(java.lang.String version) {
+            this.version = (version == null) ? null : String.of(version);
             return this;
         }
 
@@ -910,6 +946,22 @@ public class MessageDefinition extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code name}.
+         * 
+         * @param name
+         *     Name for this message definition (computer friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #name(com.ibm.fhir.model.type.String)
+         */
+        public Builder name(java.lang.String name) {
+            this.name = (name == null) ? null : String.of(name);
+            return this;
+        }
+
+        /**
          * A natural language name identifying the message definition. This name should be usable as an identifier for the module 
          * by machine processing applications such as code generation.
          * 
@@ -921,6 +973,22 @@ public class MessageDefinition extends DomainResource {
          */
         public Builder name(String name) {
             this.name = name;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code title}.
+         * 
+         * @param title
+         *     Name for this message definition (human friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #title(com.ibm.fhir.model.type.String)
+         */
+        public Builder title(java.lang.String title) {
+            this.title = (title == null) ? null : String.of(title);
             return this;
         }
 
@@ -941,7 +1009,8 @@ public class MessageDefinition extends DomainResource {
         /**
          * A MessageDefinition that is superseded by this definition.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param replaces
          *     Takes the place of
@@ -959,13 +1028,17 @@ public class MessageDefinition extends DomainResource {
         /**
          * A MessageDefinition that is superseded by this definition.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param replaces
          *     Takes the place of
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder replaces(Collection<Canonical> replaces) {
             this.replaces = new ArrayList<>(replaces);
@@ -985,6 +1058,22 @@ public class MessageDefinition extends DomainResource {
          */
         public Builder status(PublicationStatus status) {
             this.status = status;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code experimental}.
+         * 
+         * @param experimental
+         *     For testing purposes, not real usage
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #experimental(com.ibm.fhir.model.type.Boolean)
+         */
+        public Builder experimental(java.lang.Boolean experimental) {
+            this.experimental = (experimental == null) ? null : Boolean.of(experimental);
             return this;
         }
 
@@ -1022,6 +1111,22 @@ public class MessageDefinition extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code publisher}.
+         * 
+         * @param publisher
+         *     Name of the publisher (organization or individual)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #publisher(com.ibm.fhir.model.type.String)
+         */
+        public Builder publisher(java.lang.String publisher) {
+            this.publisher = (publisher == null) ? null : String.of(publisher);
+            return this;
+        }
+
+        /**
          * The name of the organization or individual that published the message definition.
          * 
          * @param publisher
@@ -1038,7 +1143,8 @@ public class MessageDefinition extends DomainResource {
         /**
          * Contact details to assist a user in finding and communicating with the publisher.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contact
          *     Contact details for the publisher
@@ -1056,13 +1162,17 @@ public class MessageDefinition extends DomainResource {
         /**
          * Contact details to assist a user in finding and communicating with the publisher.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contact
          *     Contact details for the publisher
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder contact(Collection<ContactDetail> contact) {
             this.contact = new ArrayList<>(contact);
@@ -1088,7 +1198,8 @@ public class MessageDefinition extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate message definition instances.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param useContext
          *     The context that the content is intended to support
@@ -1108,13 +1219,17 @@ public class MessageDefinition extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate message definition instances.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param useContext
          *     The context that the content is intended to support
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder useContext(Collection<UsageContext> useContext) {
             this.useContext = new ArrayList<>(useContext);
@@ -1124,7 +1239,8 @@ public class MessageDefinition extends DomainResource {
         /**
          * A legal or geographic region in which the message definition is intended to be used.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param jurisdiction
          *     Intended jurisdiction for message definition (if applicable)
@@ -1142,13 +1258,17 @@ public class MessageDefinition extends DomainResource {
         /**
          * A legal or geographic region in which the message definition is intended to be used.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param jurisdiction
          *     Intended jurisdiction for message definition (if applicable)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder jurisdiction(Collection<CodeableConcept> jurisdiction) {
             this.jurisdiction = new ArrayList<>(jurisdiction);
@@ -1201,7 +1321,8 @@ public class MessageDefinition extends DomainResource {
         /**
          * Identifies a protocol or workflow that this MessageDefinition represents a step in.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param parent
          *     Protocol/workflow this is part of
@@ -1219,13 +1340,17 @@ public class MessageDefinition extends DomainResource {
         /**
          * Identifies a protocol or workflow that this MessageDefinition represents a step in.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param parent
          *     Protocol/workflow this is part of
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder parent(Collection<Canonical> parent) {
             this.parent = new ArrayList<>(parent);
@@ -1272,7 +1397,8 @@ public class MessageDefinition extends DomainResource {
          * Identifies the resource (or resources) that are being addressed by the event. For example, the Encounter for an admit 
          * message or two Account records for a merge.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param focus
          *     Resource(s) that are the subject of the event
@@ -1291,13 +1417,17 @@ public class MessageDefinition extends DomainResource {
          * Identifies the resource (or resources) that are being addressed by the event. For example, the Encounter for an admit 
          * message or two Account records for a merge.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param focus
          *     Resource(s) that are the subject of the event
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder focus(Collection<Focus> focus) {
             this.focus = new ArrayList<>(focus);
@@ -1321,7 +1451,8 @@ public class MessageDefinition extends DomainResource {
         /**
          * Indicates what types of messages may be sent as an application-level response to this message.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param allowedResponse
          *     Responses to this message
@@ -1339,13 +1470,17 @@ public class MessageDefinition extends DomainResource {
         /**
          * Indicates what types of messages may be sent as an application-level response to this message.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param allowedResponse
          *     Responses to this message
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder allowedResponse(Collection<AllowedResponse> allowedResponse) {
             this.allowedResponse = new ArrayList<>(allowedResponse);
@@ -1357,7 +1492,8 @@ public class MessageDefinition extends DomainResource {
          * (graphdefinition.html) that it controls what resources are to be added to the bundle when building the document. The 
          * GraphDefinition can also specify profiles that apply to the various resources.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param graph
          *     Canonical reference to a GraphDefinition
@@ -1377,13 +1513,17 @@ public class MessageDefinition extends DomainResource {
          * (graphdefinition.html) that it controls what resources are to be added to the bundle when building the document. The 
          * GraphDefinition can also specify profiles that apply to the various resources.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param graph
          *     Canonical reference to a GraphDefinition
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder graph(Collection<Canonical> graph) {
             this.graph = new ArrayList<>(graph);
@@ -1635,7 +1775,8 @@ public class MessageDefinition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1654,13 +1795,17 @@ public class MessageDefinition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1678,7 +1823,8 @@ public class MessageDefinition extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1702,13 +1848,17 @@ public class MessageDefinition extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1759,6 +1909,22 @@ public class MessageDefinition extends DomainResource {
              */
             public Builder min(UnsignedInt min) {
                 this.min = min;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code max}.
+             * 
+             * @param max
+             *     Maximum number of focuses of this type
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #max(com.ibm.fhir.model.type.String)
+             */
+            public Builder max(java.lang.String max) {
+                this.max = (max == null) ? null : String.of(max);
                 return this;
             }
 
@@ -1948,7 +2114,8 @@ public class MessageDefinition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1967,13 +2134,17 @@ public class MessageDefinition extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1991,7 +2162,8 @@ public class MessageDefinition extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2015,13 +2187,17 @@ public class MessageDefinition extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {

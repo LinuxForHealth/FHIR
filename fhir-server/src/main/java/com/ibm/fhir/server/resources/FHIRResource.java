@@ -307,7 +307,9 @@ public class FHIRResource {
             log.log(Level.FINE, sb.toString());
         }
 
-        // Single Location to ensure the Operation Outcomes are Encode.forHtml and avoids any injections.
+        // Single location to ensure the OperationOutcome diagnostic strings are encoded for
+        // use within HTML, avoiding potential XSS / injection attacks from naive usage.
+        // However, it does NOT ensure that other fields in the OperationOutcome (e.g. OperationOutcomeIssue.details.text) are encoded.
         Collection<Issue> currentIssues = oo.getIssue();
         List<Issue> issues = new ArrayList<>();
         for (Issue current : currentIssues) {
@@ -321,6 +323,7 @@ public class FHIRResource {
                 issues.add(current);
             }
         }
+
         return Response.status(status)
                 .entity(oo.toBuilder()
                     .issue(issues)
@@ -448,7 +451,7 @@ public class FHIRResource {
     }
 
     protected FHIROperationException buildUnsupportedResourceTypeException(String resourceTypeName) {
-        String msg = "'" + resourceTypeName + "' is not a valid resource type.";
+        String msg = "'" + Encode.forHtml(resourceTypeName) + "' is not a valid resource type.";
         Issue issue = OperationOutcome.Issue.builder()
                 .severity(IssueSeverity.FATAL)
                 .code(IssueType.NOT_SUPPORTED.toBuilder()
@@ -457,7 +460,7 @@ public class FHIRResource {
                             .value(Code.of("resource"))
                             .build())
                         .build())
-                .details(CodeableConcept.builder().text(string(Encode.forHtml(msg))).build())
+                .details(CodeableConcept.builder().text(string(msg)).build())
                 .build();
         return new FHIROperationException(msg).withIssue(issue);
     }

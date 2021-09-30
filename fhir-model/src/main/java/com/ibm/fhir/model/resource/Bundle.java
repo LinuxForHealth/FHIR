@@ -435,6 +435,22 @@ public class Bundle extends Resource {
         }
 
         /**
+         * Convenience method for setting {@code timestamp}.
+         * 
+         * @param timestamp
+         *     When the bundle was assembled
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #timestamp(com.ibm.fhir.model.type.Instant)
+         */
+        public Builder timestamp(java.time.ZonedDateTime timestamp) {
+            this.timestamp = (timestamp == null) ? null : Instant.of(timestamp);
+            return this;
+        }
+
+        /**
          * The date/time that the bundle was assembled - i.e. when the resources were placed in the bundle.
          * 
          * @param timestamp
@@ -467,7 +483,8 @@ public class Bundle extends Resource {
         /**
          * A series of links that provide context to this bundle.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param link
          *     Links related to this Bundle
@@ -485,13 +502,17 @@ public class Bundle extends Resource {
         /**
          * A series of links that provide context to this bundle.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param link
          *     Links related to this Bundle
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder link(Collection<Link> link) {
             this.link = new ArrayList<>(link);
@@ -502,7 +523,8 @@ public class Bundle extends Resource {
          * An entry in a bundle resource - will either contain a resource or information about a resource (transactions and 
          * history only).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param entry
          *     Entry in the bundle - will have a resource or information
@@ -521,13 +543,17 @@ public class Bundle extends Resource {
          * An entry in a bundle resource - will either contain a resource or information about a resource (transactions and 
          * history only).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param entry
          *     Entry in the bundle - will have a resource or information
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder entry(Collection<Entry> entry) {
             this.entry = new ArrayList<>(entry);
@@ -724,7 +750,8 @@ public class Bundle extends Resource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -743,13 +770,17 @@ public class Bundle extends Resource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -767,7 +798,8 @@ public class Bundle extends Resource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -791,17 +823,39 @@ public class Bundle extends Resource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting {@code relation}.
+             * 
+             * <p>This element is required.
+             * 
+             * @param relation
+             *     See http://www.iana.org/assignments/link-relations/link-relations.xhtml#link-relations-1
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #relation(com.ibm.fhir.model.type.String)
+             */
+            public Builder relation(java.lang.String relation) {
+                this.relation = (relation == null) ? null : String.of(relation);
+                return this;
             }
 
             /**
@@ -1087,7 +1141,8 @@ public class Bundle extends Resource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1106,13 +1161,17 @@ public class Bundle extends Resource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1130,7 +1189,8 @@ public class Bundle extends Resource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1154,13 +1214,17 @@ public class Bundle extends Resource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1170,7 +1234,8 @@ public class Bundle extends Resource {
             /**
              * A series of links that provide context to this entry.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param link
              *     Links related to this entry
@@ -1188,13 +1253,17 @@ public class Bundle extends Resource {
             /**
              * A series of links that provide context to this entry.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param link
              *     Links related to this entry
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder link(Collection<Bundle.Link> link) {
                 this.link = new ArrayList<>(link);
@@ -1450,7 +1519,8 @@ public class Bundle extends Resource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -1469,13 +1539,17 @@ public class Bundle extends Resource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -1493,7 +1567,8 @@ public class Bundle extends Resource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -1517,13 +1592,17 @@ public class Bundle extends Resource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1807,7 +1886,8 @@ public class Bundle extends Resource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -1826,13 +1906,17 @@ public class Bundle extends Resource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -1850,7 +1934,8 @@ public class Bundle extends Resource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -1874,13 +1959,17 @@ public class Bundle extends Resource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1921,6 +2010,22 @@ public class Bundle extends Resource {
                 }
 
                 /**
+                 * Convenience method for setting {@code ifNoneMatch}.
+                 * 
+                 * @param ifNoneMatch
+                 *     For managing cache currency
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #ifNoneMatch(com.ibm.fhir.model.type.String)
+                 */
+                public Builder ifNoneMatch(java.lang.String ifNoneMatch) {
+                    this.ifNoneMatch = (ifNoneMatch == null) ? null : String.of(ifNoneMatch);
+                    return this;
+                }
+
+                /**
                  * If the ETag values match, return a 304 Not Modified status. See the API documentation for ["Conditional Read"](http.
                  * html#cread).
                  * 
@@ -1932,6 +2037,22 @@ public class Bundle extends Resource {
                  */
                 public Builder ifNoneMatch(String ifNoneMatch) {
                     this.ifNoneMatch = ifNoneMatch;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code ifModifiedSince}.
+                 * 
+                 * @param ifModifiedSince
+                 *     For managing cache currency
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #ifModifiedSince(com.ibm.fhir.model.type.Instant)
+                 */
+                public Builder ifModifiedSince(java.time.ZonedDateTime ifModifiedSince) {
+                    this.ifModifiedSince = (ifModifiedSince == null) ? null : Instant.of(ifModifiedSince);
                     return this;
                 }
 
@@ -1951,6 +2072,22 @@ public class Bundle extends Resource {
                 }
 
                 /**
+                 * Convenience method for setting {@code ifMatch}.
+                 * 
+                 * @param ifMatch
+                 *     For managing update contention
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #ifMatch(com.ibm.fhir.model.type.String)
+                 */
+                public Builder ifMatch(java.lang.String ifMatch) {
+                    this.ifMatch = (ifMatch == null) ? null : String.of(ifMatch);
+                    return this;
+                }
+
+                /**
                  * Only perform the operation if the Etag value matches. For more information, see the API section ["Managing Resource 
                  * Contention"](http.html#concurrency).
                  * 
@@ -1962,6 +2099,22 @@ public class Bundle extends Resource {
                  */
                 public Builder ifMatch(String ifMatch) {
                     this.ifMatch = ifMatch;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code ifNoneExist}.
+                 * 
+                 * @param ifNoneExist
+                 *     For conditional creates
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #ifNoneExist(com.ibm.fhir.model.type.String)
+                 */
+                public Builder ifNoneExist(java.lang.String ifNoneExist) {
+                    this.ifNoneExist = (ifNoneExist == null) ? null : String.of(ifNoneExist);
                     return this;
                 }
 
@@ -2212,7 +2365,8 @@ public class Bundle extends Resource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2231,13 +2385,17 @@ public class Bundle extends Resource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2255,7 +2413,8 @@ public class Bundle extends Resource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2279,17 +2438,39 @@ public class Bundle extends Resource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
                     return (Builder) super.modifierExtension(modifierExtension);
+                }
+
+                /**
+                 * Convenience method for setting {@code status}.
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param status
+                 *     Status response code (text optional)
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #status(com.ibm.fhir.model.type.String)
+                 */
+                public Builder status(java.lang.String status) {
+                    this.status = (status == null) ? null : String.of(status);
+                    return this;
                 }
 
                 /**
@@ -2324,6 +2505,22 @@ public class Bundle extends Resource {
                 }
 
                 /**
+                 * Convenience method for setting {@code etag}.
+                 * 
+                 * @param etag
+                 *     The Etag for the resource (if relevant)
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #etag(com.ibm.fhir.model.type.String)
+                 */
+                public Builder etag(java.lang.String etag) {
+                    this.etag = (etag == null) ? null : String.of(etag);
+                    return this;
+                }
+
+                /**
                  * The Etag for the resource, if the operation for the entry produced a versioned resource (see [Resource Metadata and 
                  * Versioning](http.html#versioning) and [Managing Resource Contention](http.html#concurrency)).
                  * 
@@ -2335,6 +2532,22 @@ public class Bundle extends Resource {
                  */
                 public Builder etag(String etag) {
                     this.etag = etag;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code lastModified}.
+                 * 
+                 * @param lastModified
+                 *     Server's date time modified
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #lastModified(com.ibm.fhir.model.type.Instant)
+                 */
+                public Builder lastModified(java.time.ZonedDateTime lastModified) {
+                    this.lastModified = (lastModified == null) ? null : Instant.of(lastModified);
                     return this;
                 }
 

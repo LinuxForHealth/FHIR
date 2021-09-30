@@ -643,13 +643,14 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     newResource = patch.apply(ior.getPrevResource());
                 } catch (FHIRPatchException e) {
                     String msg = "Invalid patch: " + e.getMessage();
+                    String path = e.getPath() != null ? e.getPath() : "<no-path>";
                     throw new FHIROperationException(msg, e).withIssue(Issue.builder()
                             .severity(IssueSeverity.ERROR)
                             .code(IssueType.INVALID)
                             .details(CodeableConcept.builder()
                                     .text(string(msg))
                                     .build())
-                            .expression(string(e.getPath()))
+                            .expression(string(path))
                             .build());
                 }
             }
@@ -663,7 +664,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             if (ior.getPrevResource() != null) {
                 performVersionAwareUpdateCheck(ior.getPrevResource(), ifMatchValue);
 
-                if (skippableUpdate && !isDeleted) {
+                // In the case of a patch, we should not be updating meaninglessly.
+                if ((skippableUpdate || patch != null) && !isDeleted) {
                     ResourceFingerprintVisitor fingerprinter = new ResourceFingerprintVisitor();
                     ior.getPrevResource().accept(fingerprinter);
                     SaltHash baseline = fingerprinter.getSaltAndHash();
@@ -1451,20 +1453,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     }
 
     /**
-     * @param issues
-     * @return
-     */
-    private boolean anyFailureInIssues(List<OperationOutcome.Issue> issues) {
-        boolean hasFailure = false;
-        for (OperationOutcome.Issue issue : issues) {
-            if (FHIRUtil.isFailure(issue.getSeverity())) {
-                hasFailure = true;
-            }
-        }
-        return hasFailure;
-    }
-
-    /**
      * Performs validation of a request Bundle and returns a Map of entry indices to error / warning
      * response entries that correspond to the entries in the request Bundle.
      *
@@ -1560,7 +1548,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         List<Issue> issues = validateResource(resource);
                         if (!issues.isEmpty()) {
                             OperationOutcome oo = FHIRUtil.buildOperationOutcome(issues);
-                            if (anyFailureInIssues(issues)) {
+                            if (FHIRUtil.anyFailureInIssues(issues)) {
                                 if (requestType == BundleType.Value.TRANSACTION) {
                                     issueList.addAll(issues);
                                 } else {
@@ -1715,7 +1703,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     }
 
     private FHIROperationException buildUnsupportedResourceTypeException(String resourceTypeName) {
-        String msg = "'" + resourceTypeName + "' is not a valid resource type.";
+        String msg = "'" + Encode.forHtml(resourceTypeName) + "' is not a valid resource type.";
         Issue issue = OperationOutcome.Issue.builder()
                 .severity(IssueSeverity.FATAL)
                 .code(IssueType.NOT_SUPPORTED.toBuilder()
@@ -1995,7 +1983,10 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             List<QueryParameter> chainedSearchParameters = new ArrayList<>();
             List<QueryParameter> logicalIdReferenceSearchParameters = new ArrayList<>();
             for (QueryParameter queryParameter : searchContext.getSearchParameters()) {
-                if (!queryParameter.isReverseChained()) {
+                // We do not need to look at canonical references here. They will not contain versions of the
+                // form '.../_history/xx' nor logical ID-only references, which is what we want to check
+                // these search parameters for.
+                if (!queryParameter.isReverseChained() && !queryParameter.isCanonical()) {
                     if (queryParameter.isChained()) {
                         chainedSearchParameters.add(queryParameter);
                     } else if (SearchConstants.Type.REFERENCE == queryParameter.getType()) {
@@ -2593,8 +2584,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 }
             }
 
-            if (log.isLoggable(Level.FINE)) {
-                log.fine("Required profile list: " + profiles);
+            if (log.isLoggable(Level.FINER)) {
+                log.finer("Required profile list: " + profiles);
             }
 
             // Build the list of profiles that didn't specify a version
@@ -2954,7 +2945,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      * This method will do a quick check of the {type} URL parameter. If the type is not a valid FHIR resource type, then
      * we'll throw an error to short-circuit the current in-progress REST API invocation.
      */
-    public void checkResourceType(String type) throws FHIROperationException {
+    private void checkResourceType(String type) throws FHIROperationException {
         if (!ModelSupport.isResourceType(type)) {
             throw buildUnsupportedResourceTypeException(type);
         }

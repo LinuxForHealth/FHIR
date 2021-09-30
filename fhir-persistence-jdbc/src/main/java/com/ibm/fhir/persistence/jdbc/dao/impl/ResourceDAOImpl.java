@@ -8,7 +8,6 @@ package com.ibm.fhir.persistence.jdbc.dao.impl;
 
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.END;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.THEN;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.UTC;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.WHEN;
 
 import java.sql.CallableStatement;
@@ -48,6 +47,7 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
 import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
+import com.ibm.fhir.persistence.jdbc.util.CalendarHelper;
 import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
 import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCacheUpdater;
 import com.ibm.fhir.persistence.jdbc.util.SqlQueryData;
@@ -262,7 +262,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             }
             resource.setId(resultSet.getLong(IDX_RESOURCE_ID));
             resource.setLogicalResourceId(resultSet.getLong(IDX_LOGICAL_RESOURCE_ID));
-            resource.setLastUpdated(resultSet.getTimestamp(IDX_LAST_UPDATED));
+            resource.setLastUpdated(resultSet.getTimestamp(IDX_LAST_UPDATED, CalendarHelper.getCalendarForUTC()));
             resource.setLogicalId(resultSet.getString(IDX_LOGICAL_ID));
             resource.setVersionId(resultSet.getInt(IDX_VERSION_ID));
             resource.setDeleted(resultSet.getString(IDX_IS_DELETED).equals("Y") ? true : false);
@@ -466,7 +466,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             for (int i = 0; i < queryData.getBindVariables().size(); i++) {
                 Object object = queryData.getBindVariables().get(i);
                 if (object instanceof Timestamp) {
-                    stmt.setTimestamp(i + 1, (Timestamp) object, JDBCConstants.UTC);
+                    stmt.setTimestamp(i + 1, (Timestamp) object, CalendarHelper.getCalendarForUTC());
                 } else {
                     stmt.setObject(i + 1, object);
                 }
@@ -594,7 +594,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             }
 
             lastUpdated = resource.getLastUpdated();
-            stmt.setTimestamp(4, lastUpdated, UTC);
+            stmt.setTimestamp(4, lastUpdated, CalendarHelper.getCalendarForUTC());
             stmt.setString(5, resource.isDeleted() ? "Y": "N");
             stmt.setInt(6, resource.getVersionId());
             stmt.setString(7, parameterHashB64);

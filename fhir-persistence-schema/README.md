@@ -432,6 +432,7 @@ The following are advanced execution arguments
 |Property|Description|Example|
 |--------|-----------|-----------|
 |`--pool-size NUM` | The number of connections used to connect to the database|`--pool-size 20`|
+|`--skip-allocate-if-tenant-exists` | whether or not to skip over allocating the tenant where this tenantName/tenantKey combination already exists |`--skip-allocate-if-tenant-exists`|
 
 ## Alternative: Manually apply the schema
 

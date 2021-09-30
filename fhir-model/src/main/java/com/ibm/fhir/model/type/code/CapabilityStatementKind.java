@@ -51,36 +51,9 @@ public class CapabilityStatementKind extends Code {
 
     /**
      * Get the value of this CapabilityStatementKind as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this CapabilityStatementKind as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating CapabilityStatementKind objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static CapabilityStatementKind of(ValueSet value) {
-        switch (value) {
-        case INSTANCE:
-            return INSTANCE;
-        case CAPABILITY:
-            return CAPABILITY;
-        case REQUIREMENTS:
-            return REQUIREMENTS;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -194,14 +167,6 @@ public class CapabilityStatementKind extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -230,64 +195,6 @@ public class CapabilityStatementKind extends Code {
         protected Builder from(CapabilityStatementKind capabilityStatementKind) {
             super.from(capabilityStatementKind);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Instance
-         * 
-         * <p>The CapabilityStatement instance represents the present capabilities of a specific system instance. This is the 
-         * kind returned by /metadata for a FHIR server end-point.
-         */
-        INSTANCE("instance"),
-
-        /**
-         * Capability
-         * 
-         * <p>The CapabilityStatement instance represents the capabilities of a system or piece of software, independent of a 
-         * particular installation.
-         */
-        CAPABILITY("capability"),
-
-        /**
-         * Requirements
-         * 
-         * <p>The CapabilityStatement instance represents a set of requirements for other systems to meet; e.g. as part of an 
-         * implementation guide or 'request for proposal'.
-         */
-        REQUIREMENTS("requirements");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating CapabilityStatementKind.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

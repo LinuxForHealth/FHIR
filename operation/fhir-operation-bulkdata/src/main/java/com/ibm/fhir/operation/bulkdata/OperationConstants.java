@@ -51,10 +51,12 @@ public class OperationConstants {
 
     // Status
     public static final List<String> SUCCESS_STATUS = Collections.unmodifiableList(Arrays.asList("COMPLETED"));
+    public static final List<String> RUNNING_STATUS = Collections.unmodifiableList(Arrays.asList("STARTING", "STARTED"));
     public static final List<String> FAILED_STATUS = Collections.unmodifiableList(Arrays.asList("FAILED", "ABANDONED"));
     public static final List<String> STOPPED_STATUS = Collections.unmodifiableList(Arrays.asList("STOPPED"));
 
     public static final String FAILED_BAD_SOURCE = "FAILED_BAD_SOURCE";
+    public static final String NO_SUCH_BUCKET = "NO_SUCH_BUCKET";
 
     // Import
     public static final String PARAM_INPUT_FORMAT = "inputFormat";

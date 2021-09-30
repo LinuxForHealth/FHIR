@@ -717,6 +717,9 @@ public class FhirSchemaGenerator {
                 })
                 .build(pdm);
 
+        tbl.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+        this.procedureDependencies.add(tbl);
+
         pdm.addTable(tbl);
         pdm.addObject(tbl);
 
@@ -753,6 +756,9 @@ public class FhirSchemaGenerator {
                     return statements;
                 })
                 .build(pdm);
+
+        tbl.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+        this.procedureDependencies.add(tbl);
 
         pdm.addTable(tbl);
         pdm.addObject(tbl);

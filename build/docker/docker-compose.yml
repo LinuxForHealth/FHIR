@@ -4,6 +4,14 @@ services:
   fhir-server:
     image: ibmcom/ibm-fhir-server
     hostname: fhir
+    environment:
+      BATCH_DB_HOSTNAME: db2
+      BATCH_DB_SCHEMA: FHIR_JBATCH
+      BATCH_DB_NAME: FHIRDB
+      BATCH_DB_PORT: "50000"
+      BATCH_DB_SSL: "false"
+      BATCH_DB_USER: fhirserver
+      BATCH_DB_PASS: change-password
     volumes:
       - type: bind
         source: ./fhir-server/volumes/config

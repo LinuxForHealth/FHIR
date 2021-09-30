@@ -190,7 +190,6 @@ function _call_db2 {
         ${SSL_STANZA} \
         --db-type db2 \
         ${INPUT} 2>&1 | tee ${SCHEMA_TOOL_LOCATION}/workarea/out.log
-    echo "$?" > response_code
     set +x
 }
 
@@ -265,7 +264,7 @@ function allocate_tenant {
             SCHEMA_FHIR="FHIRDATA"
         fi
 
-        _call_db2 "--schema-name ${SCHEMA_FHIR} --allocate-tenant ${TENANT_NAME} --tenant-key-file ${TK_FILE} --pool-size 5"
+        _call_db2 "--schema-name ${SCHEMA_FHIR} --allocate-tenant ${TENANT_NAME} --tenant-key-file ${TK_FILE} --pool-size 5 --skip-allocate-if-tenant-exists "
 
         # Tenant Key and Name already exist
         ALREADY_EXISTS=$(grep "tenantName and tenantKey already exists" ${SCHEMA_TOOL_LOCATION}/workarea/out.log)

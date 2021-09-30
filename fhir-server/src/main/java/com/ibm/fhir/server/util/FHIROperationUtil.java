@@ -125,7 +125,20 @@ public final class FHIROperationUtil {
                             } else if ("uuid".equals(typeName)) {
                                 parameterBuilder.value(Uuid.of(value));
                             } else {
-                                throw new FHIROperationException("Invalid parameter type: '" + typeName + "'");
+                                // Originally returned 500 when it should be 400 (it's on the client).
+                                FHIROperationException operationException =
+                                        new FHIROperationException("Query parameter '" + name + "' is an invalid type: '" + typeName + "'");
+
+                                List<Issue> issues = new ArrayList<>();
+                                Issue.Builder builder = Issue.builder();
+                                builder.code(IssueType.INVALID);
+                                builder.diagnostics(string("Query parameter '" + name + "' is an invalid type: '" + typeName + "'"));
+                                builder.severity(IssueSeverity.ERROR);
+                                issues.add(builder.build());
+
+                                operationException.setIssues(issues);
+
+                                throw operationException;
                             }
                             parametersBuilder.parameter(parameterBuilder.build());
                         }
@@ -159,6 +172,9 @@ public final class FHIROperationUtil {
         Parameters.Builder parametersBuilder = Parameters.builder();
         parametersBuilder.id("InputParameters");
         for (OperationDefinition.Parameter parameterDefinition : definition.getParameter()) {
+            if (parameterDefinition.getType() == null) {
+                continue;
+            }
             String parameterTypeName = parameterDefinition.getType().getValue();
             String resourceTypeName = resource.getClass().getSimpleName();
             if ((resourceTypeName.equals(parameterTypeName) || "Resource".equals(parameterTypeName))

@@ -12,6 +12,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -40,6 +42,9 @@ public class MigrateV0014LogicalResourceIsDeletedLastUpdated implements IDatabas
 
     // The database id for the resource type
     private final int resourceTypeId;
+
+    // Do not make static. Calendar is not thread-safe
+    private final Calendar UTC = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 
     /**
      * Public constructor
@@ -115,7 +120,7 @@ public class MigrateV0014LogicalResourceIsDeletedLastUpdated implements IDatabas
             while (rs.next()) {
                 long logicalResourceId = rs.getLong(1);
                 String isDeleted = rs.getString(2);
-                Timestamp lastUpdated = rs.getTimestamp(3, SchemaConstants.UTC);
+                Timestamp lastUpdated = rs.getTimestamp(3, UTC);
 
                 if (LOG.isLoggable(Level.FINEST)) {
                     // log the update in a form which is useful for debugging
@@ -125,7 +130,7 @@ public class MigrateV0014LogicalResourceIsDeletedLastUpdated implements IDatabas
                         + " WHERE logical_resource_id = " + logicalResourceId);
                 }
                 updateStatement.setString(1, isDeleted);
-                updateStatement.setTimestamp(2, lastUpdated, SchemaConstants.UTC);
+                updateStatement.setTimestamp(2, lastUpdated, UTC);
                 updateStatement.setLong(3, logicalResourceId);
                 updateStatement.addBatch();
 

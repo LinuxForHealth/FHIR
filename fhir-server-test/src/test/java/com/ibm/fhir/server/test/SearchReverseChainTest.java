@@ -20,21 +20,24 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.core.FHIRMediaType;
-import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.resource.Bundle;
+import com.ibm.fhir.model.resource.CarePlan;
 import com.ibm.fhir.model.resource.Encounter;
 import com.ibm.fhir.model.resource.Endpoint;
+import com.ibm.fhir.model.resource.Library;
 import com.ibm.fhir.model.resource.Location;
+import com.ibm.fhir.model.resource.Measure;
+import com.ibm.fhir.model.resource.MeasureReport;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Organization;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.PractitionerRole;
 import com.ibm.fhir.model.resource.Procedure;
 import com.ibm.fhir.model.test.TestUtil;
+import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
@@ -52,7 +55,6 @@ import com.ibm.fhir.model.type.code.AdministrativeGender;
 import com.ibm.fhir.model.type.code.ContactPointSystem;
 import com.ibm.fhir.model.type.code.EncounterStatus;
 import com.ibm.fhir.model.type.code.ProcedureStatus;
-import com.ibm.fhir.model.type.code.ResourceType;
 
 /**
  * The tests execute the reverse chained behavior in order to exercise reference chains.
@@ -69,6 +71,10 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
     private String endpointId;
     private String locationId;
     private String practitionerRoleId;
+    private String carePlanId;
+    private String measureReportId;
+    private String measureId;
+    private String libraryId;
     private Instant now = Instant.now();
     private String tag = Long.toString(now.toEpochMilli());
 
@@ -77,7 +83,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
        // Build a new Endpoint.
-        Endpoint endpoint = TestUtil.getMinimalResource(ResourceType.ENDPOINT, Format.JSON);
+        Endpoint endpoint = TestUtil.getMinimalResource(Endpoint.class);
         endpoint = endpoint.toBuilder().name(of(tag)).build();
 
         // Call the 'create' API.
@@ -88,6 +94,9 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         // Get the endpoint's logical id value.
         endpointId = getLocationLogicalId(response);
 
+        // Add the endpoint to the resource registry.
+        addToResourceRegistry("Endpoint", endpointId);
+        
         // Next, call the 'read' API to retrieve the new Endpoint and verify it.
         response = target.path("Endpoint/" + endpointId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -102,7 +111,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         response = target.path("Endpoint/" + endpointId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         endpoint = response.readEntity(Endpoint.class);
-        assertEquals("2", endpoint.getMeta().getVersionId().getValue());
+        assertEquals(endpoint.getMeta().getVersionId().getValue(), "2");
     }
 
     @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateEndpoint"})
@@ -110,7 +119,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new Organization.
-        Organization organization = TestUtil.getMinimalResource(ResourceType.ORGANIZATION, Format.JSON);
+        Organization organization = TestUtil.getMinimalResource(Organization.class);
         organization = organization.toBuilder()
                 .name(of(tag))
                 .endpoint(Reference.builder().reference(of("Endpoint/" + endpointId)).build())
@@ -124,6 +133,9 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         // Get the organization's logical id value.
         organization1Id = getLocationLogicalId(response);
 
+        // Add the organization to the resource registry.
+        addToResourceRegistry("Organization", organization1Id);
+        
         // Next, call the 'read' API to retrieve the new organization and verify it.
         response = target.path("Organization/" + organization1Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -134,7 +146,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
        // Build a new Organization.
-        Organization organization = TestUtil.getMinimalResource(ResourceType.ORGANIZATION, Format.JSON);
+        Organization organization = TestUtil.getMinimalResource(Organization.class);
         organization = organization.toBuilder()
                 .name(of(tag))
                 .endpoint(Reference.builder().reference(of("Endpoint/" + endpointId)).build())
@@ -148,6 +160,9 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         // Get the organization's logical id value.
         organization2Id = getLocationLogicalId(response);
 
+        // Add the organization to the resource registry.
+        addToResourceRegistry("Organization", organization2Id);
+        
         // Next, call the 'read' API to retrieve the new organization and verify it.
         response = target.path("Organization/" + organization2Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -158,14 +173,20 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new Patient and then call the 'create' API.
-        Patient patient = TestUtil.getMinimalResource(ResourceType.PATIENT, Format.JSON);
+        Patient patient = TestUtil.getMinimalResource(Patient.class);
         patient = patient.toBuilder()
                 .gender(AdministrativeGender.MALE)
                 .name(HumanName.builder()
                     .given(of("1" + tag))
                     .build())
                 .meta(Meta.builder()
+                    .profile(Canonical.of("http://ibm.com/fhir/Profile/" + tag))
                     .tag(Coding.builder()
+                        .system(Uri.of("http://ibm.com/fhir/tag/" + tag))
+                        .code(Code.of(tag))
+                        .build())
+                    .security(Coding.builder()
+                        .system(Uri.of("http://ibm.com/fhir/security/" + tag))
                         .code(Code.of(tag))
                         .build())
                     .build())
@@ -182,6 +203,9 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         // Get the patient's logical id value.
         patient1Id = getLocationLogicalId(response);
 
+        // Add the patient to the resource registry.
+        addToResourceRegistry("Patient", patient1Id);
+        
         // Next, call the 'read' API to retrieve the new patient and verify it.
         response = target.path("Patient/" + patient1Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -192,7 +216,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new Patient and then call the 'create' API.
-        Patient patient = TestUtil.getMinimalResource(ResourceType.PATIENT, Format.JSON);
+        Patient patient = TestUtil.getMinimalResource(Patient.class);
         patient = patient.toBuilder()
                 .gender(AdministrativeGender.FEMALE)
                 .name(HumanName.builder()
@@ -216,6 +240,9 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         // Get the patient's logical id value.
         patient2Id = getLocationLogicalId(response);
 
+        // Add the patient to the resource registry.
+        addToResourceRegistry("Patient", patient2Id);
+        
         // Next, call the 'read' API to retrieve the new patient and verify it.
         response = target.path("Patient/" + patient2Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -226,7 +253,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new Procedure and add subject reference to patient.
-        Procedure procedure = TestUtil.getMinimalResource(ResourceType.PROCEDURE, Format.JSON);
+        Procedure procedure = TestUtil.getMinimalResource(Procedure.class);
         procedure = procedure.toBuilder()
                 .status(ProcedureStatus.COMPLETED)
                 .subject(Reference.builder().reference(of("Patient/" + patient1Id)).build())
@@ -244,6 +271,9 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         // Get the procedure's logical id value.
         procedure1Id = getLocationLogicalId(response);
 
+        // Add the procedure to the resource registry.
+        addToResourceRegistry("Procedure", procedure1Id);
+        
         // Next, call the 'read' API to retrieve the new procedure and verify it.
         response = target.path("Procedure/" + procedure1Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -256,7 +286,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Reference reference = Reference.builder().reference(of("Patient/" + patient2Id)).build();
 
         // Build a new Procedure and add subject reference to patient.
-        Procedure procedure = TestUtil.getMinimalResource(ResourceType.PROCEDURE, Format.JSON);
+        Procedure procedure = TestUtil.getMinimalResource(Procedure.class);
         procedure = procedure.toBuilder()
                 .status(ProcedureStatus.COMPLETED)
                 .subject(reference)
@@ -274,6 +304,9 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         // Get the procedure's logical id value.
         procedure2Id = getLocationLogicalId(response);
 
+        // Add the procedure to the resource registry.
+        addToResourceRegistry("Procedure", procedure2Id);
+        
         // Next, call the 'read' API to retrieve the new procedure and verify it.
         response = target.path("Procedure/" + procedure2Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -284,7 +317,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new Encounter and add reason-reference reference to procedure.
-        Encounter encounter = TestUtil.getMinimalResource(ResourceType.ENCOUNTER, Format.JSON);
+        Encounter encounter = TestUtil.getMinimalResource(Encounter.class);
         encounter = encounter.toBuilder()
                 .status(EncounterStatus.FINISHED)
                 .reasonReference(Reference.builder().reference(of("Procedure/" + procedure1Id)).build())
@@ -302,6 +335,9 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         // Get the encounter's logical id value.
         encounter1Id = getLocationLogicalId(response);
 
+        // Add the encounter to the resource registry.
+        addToResourceRegistry("Encounter", encounter1Id);
+        
         // Next, call the 'read' API to retrieve the new encounter and verify it.
         response = target.path("Encounter/" + encounter1Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -312,7 +348,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new Encounter and add reason-reference reference to procedure.
-        Encounter encounter = TestUtil.getMinimalResource(ResourceType.ENCOUNTER, Format.JSON);
+        Encounter encounter = TestUtil.getMinimalResource(Encounter.class);
         encounter = encounter.toBuilder()
                 .status(EncounterStatus.FINISHED)
                 .reasonReference(Reference.builder().reference(of("Procedure/" + procedure2Id)).build())
@@ -330,6 +366,9 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         // Get the encounter's logical id value.
         encounter2Id = getLocationLogicalId(response);
 
+        // Add the encounter to the resource registry.
+        addToResourceRegistry("Encounter", encounter2Id);
+        
         // Next, call the 'read' API to retrieve the new encounter and verify it.
         response = target.path("Encounter/" + encounter2Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -353,6 +392,9 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         // Get the location's logical id value.
         locationId = getLocationLogicalId(response);
 
+        // Add the location to the resource registry.
+        addToResourceRegistry("Location", locationId);
+        
         // Next, call the 'read' API to retrieve the new Location and verify it.
         response   = target.path("Location/" + locationId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -375,58 +417,123 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         // Get the practitioner role's logical id value.
         practitionerRoleId = getLocationLogicalId(response);
 
+        // Add the practitionerRole to the resource registry.
+        addToResourceRegistry("PractitionerRole", practitionerRoleId);
+        
         // Next, call the 'read' API to retrieve the new PractitionerRole and verify it.
         response   = target.path("PractitionerRole/" + practitionerRoleId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
     }
 
-    @AfterClass
-    public void testDeleteResources() {
+    @Test(groups = { "server-search-reverse-chain" })
+    public void testCreateLibrary() throws Exception {
         WebTarget target = getWebTarget();
-        if (patient1Id != null) {
-            Response response   = target.path("Patient/" + patient1Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-            assertResponse(response, Response.Status.OK.getStatusCode());
-        }
-        if (patient2Id != null) {
-            Response response   = target.path("Patient/" + patient2Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-            assertResponse(response, Response.Status.OK.getStatusCode());
-        }
-        if (procedure1Id != null) {
-            Response response   = target.path("Procedure/" + procedure1Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-            assertResponse(response, Response.Status.OK.getStatusCode());
-        }
-        if (procedure2Id != null) {
-            Response response   = target.path("Procedure/" + procedure2Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-            assertResponse(response, Response.Status.OK.getStatusCode());
-        }
-        if (organization1Id != null) {
-            Response response   = target.path("Organization/" + organization1Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-            assertResponse(response, Response.Status.OK.getStatusCode());
-        }
-        if (organization2Id != null) {
-            Response response   = target.path("Organization/" + organization2Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-            assertResponse(response, Response.Status.OK.getStatusCode());
-        }
-        if (encounter1Id != null) {
-            Response response   = target.path("Encounter/" + encounter1Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-            assertResponse(response, Response.Status.OK.getStatusCode());
-        }
-        if (encounter2Id != null) {
-            Response response   = target.path("Encounter/" + encounter2Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-            assertResponse(response, Response.Status.OK.getStatusCode());
-        }
-        if (endpointId != null) {
-            Response response   = target.path("Endpoint/" + endpointId).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-            assertResponse(response, Response.Status.OK.getStatusCode());
-        }
-        if (locationId != null) {
-            Response response   = target.path("Location/" + locationId).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-            assertResponse(response, Response.Status.OK.getStatusCode());
-        }
-        if (practitionerRoleId != null) {
-            Response response   = target.path("PractitionerRole/" + practitionerRoleId).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-            assertResponse(response, Response.Status.OK.getStatusCode());
-        }
+
+        // Build a new Library and then call the 'create' API.
+        Library library = TestUtil.getMinimalResource(Library.class);
+        library = library.toBuilder()
+                .url(Uri.of("http://example.org/fhir/Library/abc"))
+                .version(com.ibm.fhir.model.type.String.string("1.0"))
+                .name(of(tag))
+                .build();
+
+        // Call the 'create' API.
+        Entity<Library> entity = Entity.entity(library, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response = target.path("Library").request().post(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+
+        // Get the library's logical id value.
+        libraryId = getLocationLogicalId(response);
+
+        // Add the library to the resource registry.
+        addToResourceRegistry("Library", libraryId);
+        
+        // Next, call the 'read' API to retrieve the new library and verify it.
+        response = target.path("Library/" + libraryId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+    }
+
+    @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateLibrary"})
+    public void testCreateMeasure() throws Exception {
+        WebTarget target = getWebTarget();
+
+        // Build a new Measure and then call the 'create' API.
+        Measure measure = TestUtil.getMinimalResource(Measure.class);
+        measure = measure.toBuilder()
+                .url(Uri.of("http://example.org/fhir/Measure/abc"))
+                .version(com.ibm.fhir.model.type.String.string("1.0"))
+                .library(Canonical.of("http://example.org/fhir/Library/abc|1.0"))
+                .name(of(tag))
+                .build();
+
+        // Call the 'create' API.
+        Entity<Measure> entity = Entity.entity(measure, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response = target.path("Measure").request().post(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+
+        // Get the measure's logical id value.
+        measureId = getLocationLogicalId(response);
+
+        // Add the measure to the resource registry.
+        addToResourceRegistry("Measure", measureId);
+        
+        // Next, call the 'read' API to retrieve the new measure and verify it.
+        response = target.path("Measure/" + measureId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+    }
+
+    @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateMeasure"})
+    public void testCreateCarePlan() throws Exception {
+        WebTarget target = getWebTarget();
+
+        // Build a new CarePlan and then call the 'create' API.
+        CarePlan carePlan = TestUtil.getMinimalResource(CarePlan.class);
+        carePlan = carePlan.toBuilder()
+                .instantiatesCanonical(Canonical.of("http://example.org/fhir/Measure/abc"))
+                .instantiatesUri(Uri.of(tag))
+                .build();
+
+        // Call the 'create' API.
+        Entity<CarePlan> entity = Entity.entity(carePlan, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response = target.path("CarePlan").request().post(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+
+        // Get the carePlan's logical id value.
+        carePlanId = getLocationLogicalId(response);
+
+        // Add the carePlan to the resource registry.
+        addToResourceRegistry("CarePlan", carePlanId);
+        
+        // Next, call the 'read' API to retrieve the new carePlan and verify it.
+        response = target.path("CarePlan/" + carePlanId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+    }
+
+    @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateMeasure"})
+    public void testCreateMeasureReport() throws Exception {
+        WebTarget target = getWebTarget();
+
+        // Build a new MeasureReport and then call the 'create' API.
+        MeasureReport measureReport = TestUtil.getMinimalResource(MeasureReport.class);
+        measureReport = measureReport.toBuilder()
+                .measure(Canonical.of("http://example.org/fhir/Measure/abc|2.0"))
+                .subject(Reference.builder().reference(of("Patient/" + tag)).build())
+                .build();
+
+        // Call the 'create' API.
+        Entity<MeasureReport> entity = Entity.entity(measureReport, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response = target.path("MeasureReport").request().post(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+
+        // Get the measureReport's logical id value.
+        measureReportId = getLocationLogicalId(response);
+
+        // Add the measureReport to the resource registry.
+        addToResourceRegistry("MeasureReport", measureReportId);
+        
+        // Next, call the 'read' API to retrieve the new measureReport and verify it.
+        response = target.path("MeasureReport/" + measureReportId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
     }
 
     @Test(groups = { "server-search-reverse-chain" })
@@ -651,7 +758,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(2, bundle.getEntry().size());
+        assertEquals(bundle.getEntry().size(), 2);
         List<String> resourceIds = new ArrayList<>();
         for (Bundle.Entry entry : bundle.getEntry()) {
             resourceIds.add(entry.getResource().getId());
@@ -673,8 +780,8 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(1, bundle.getEntry().size());
-        assertEquals(patient1Id, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), patient1Id);
     }
 
     @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateEncounter1", "testCreateEncounter2"})
@@ -690,7 +797,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(2, bundle.getEntry().size());
+        assertEquals(bundle.getEntry().size(), 2);
         List<String> resourceIds = new ArrayList<>();
         for (Bundle.Entry entry : bundle.getEntry()) {
             resourceIds.add(entry.getResource().getId());
@@ -712,8 +819,8 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(1, bundle.getEntry().size());
-        assertEquals(patient2Id, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), patient2Id);
     }
 
     @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateEncounter1", "testCreateEncounter2"})
@@ -729,7 +836,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(2, bundle.getEntry().size());
+        assertEquals(bundle.getEntry().size(), 2);
         List<String> resourceIds = new ArrayList<>();
         for (Bundle.Entry entry : bundle.getEntry()) {
             resourceIds.add(entry.getResource().getId());
@@ -751,7 +858,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(0, bundle.getEntry().size());
+        assertEquals(bundle.getEntry().size(), 0);
     }
 
     @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateEncounter1", "testCreateEncounter2"})
@@ -767,7 +874,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(2, bundle.getEntry().size());
+        assertEquals(bundle.getEntry().size(), 2);
         List<String> resourceIds = new ArrayList<>();
         for (Bundle.Entry entry : bundle.getEntry()) {
             resourceIds.add(entry.getResource().getId());
@@ -789,8 +896,8 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(1, bundle.getEntry().size());
-        assertEquals(patient1Id, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), patient1Id);
     }
 
     @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateEncounter1", "testCreateEncounter2"})
@@ -806,7 +913,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(2, bundle.getEntry().size());
+        assertEquals(bundle.getEntry().size(), 2);
         List<String> resourceIds = new ArrayList<>();
         for (Bundle.Entry entry : bundle.getEntry()) {
             resourceIds.add(entry.getResource().getId());
@@ -828,7 +935,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(1, bundle.getEntry().size());
+        assertEquals(bundle.getEntry().size(), 1);
         assertEquals(patient1Id, bundle.getEntry().get(0).getResource().getId());
     }
 
@@ -845,7 +952,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(1, bundle.getEntry().size());
+        assertEquals(bundle.getEntry().size(), 1);
         assertEquals(patient1Id, bundle.getEntry().get(0).getResource().getId());
     }
 
@@ -862,8 +969,8 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(1, bundle.getEntry().size());
-        assertEquals(patient2Id, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), patient2Id);
     }
 
     @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateProcedure1", "testCreateProcedure2"})
@@ -880,8 +987,8 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(1, bundle.getEntry().size());
-        assertEquals(patient2Id, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), patient2Id);
     }
 
     @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateProcedure1", "testCreateProcedure2"})
@@ -896,8 +1003,8 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(1, bundle.getEntry().size());
-        assertEquals(patient1Id, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), patient1Id);
     }
 
     @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateProcedure1", "testCreateProcedure2"})
@@ -912,8 +1019,8 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(1, bundle.getEntry().size());
-        assertEquals(patient2Id, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), patient2Id);
     }
 
     @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateProcedure1", "testCreateProcedure2"})
@@ -928,8 +1035,8 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(1, bundle.getEntry().size());
-        assertEquals(patient1Id, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), patient1Id);
     }
 
     @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateProcedure1", "testCreateProcedure2"})
@@ -944,8 +1051,8 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(1, bundle.getEntry().size());
-        assertEquals(patient2Id, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), patient2Id);
     }
 
     @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateEncounter1", "testCreateEncounter2"})
@@ -960,8 +1067,8 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(1, bundle.getEntry().size());
-        assertEquals(patient1Id, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), patient1Id);
     }
 
     @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateEncounter1", "testCreateEncounter2"})
@@ -976,8 +1083,8 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(1, bundle.getEntry().size());
-        assertEquals(patient2Id, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), patient2Id);
     }
 
     @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateEncounter1", "testCreateEncounter2"})
@@ -992,8 +1099,8 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(1, bundle.getEntry().size());
-        assertEquals(patient1Id, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), patient1Id);
     }
 
     @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateEncounter1", "testCreateEncounter2"})
@@ -1008,8 +1115,8 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(1, bundle.getEntry().size());
-        assertEquals(patient2Id, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), patient2Id);
     }
 
     @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = { "testCreateLocation" })
@@ -1024,8 +1131,8 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(1, bundle.getEntry().size());
-        assertEquals(endpointId, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), endpointId);
     }
 
     @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateProcedure1", "testCreateProcedure2"})
@@ -1041,7 +1148,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(2, bundle.getEntry().size());
+        assertEquals(bundle.getEntry().size(), 2);
         List<String> resourceIds = new ArrayList<>();
         for (Bundle.Entry entry : bundle.getEntry()) {
             resourceIds.add(entry.getResource().getId());
@@ -1063,7 +1170,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(2, bundle.getEntry().size());
+        assertEquals(bundle.getEntry().size(), 2);
         List<String> resourceIds = new ArrayList<>();
         for (Bundle.Entry entry : bundle.getEntry()) {
             resourceIds.add(entry.getResource().getId());
@@ -1085,8 +1192,8 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(1, bundle.getEntry().size());
-        assertEquals(organization1Id, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), organization1Id);
     }
 
     @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateLocation"})
@@ -1102,8 +1209,8 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(1, bundle.getEntry().size());
-        assertEquals(endpointId, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), endpointId);
     }
 
     @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreatePractitionerRole"})
@@ -1119,7 +1226,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(0, bundle.getEntry().size());
+        assertEquals(bundle.getEntry().size(), 0);
     }
 
     @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateProcedure1", "testCreateProcedure2"})
@@ -1135,7 +1242,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(0, bundle.getEntry().size());
+        assertEquals(bundle.getEntry().size(), 0);
     }
 
     @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateProcedure1", "testCreateProcedure2"})
@@ -1151,8 +1258,8 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(1, bundle.getEntry().size());
-        assertEquals(patient1Id, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), patient1Id);
         assertTrue(bundle.getLink().size() == 1);
         assertTrue(bundle.getLink().get(0).getUrl().getValue().contains("status:missing=false"));
     }
@@ -1170,7 +1277,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(0, bundle.getEntry().size());
+        assertEquals(bundle.getEntry().size(), 0);
     }
 
     @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateProcedure1", "testCreateProcedure2"})
@@ -1186,8 +1293,155 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(1, bundle.getEntry().size());
-        assertEquals(patient1Id, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), patient1Id);
+    }
+
+    @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateMeasure"})
+    public void testSearchCanonicalSingleReverseChainSingleResult() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Library")
+                .queryParam("name", tag)
+                .queryParam("_has:Measure:depends-on:name", tag)
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), libraryId);
+    }
+
+    @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateCarePlan"})
+    public void testSearchCanonicalSingleReverseChainNoVersionSingleResult() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Measure")
+                .queryParam("name", tag)
+                .queryParam("_has:CarePlan:instantiates-canonical:instantiates-uri", tag)
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), measureId);
+    }
+
+    @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateMeasureReport"})
+    public void testSearchCanonicalSingleReverseChainWrongVersionNoResult() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Measure")
+                .queryParam("name", tag)
+                .queryParam("_has:MeasureReport:measure:patient", "Patient/" + tag)
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertEquals(bundle.getEntry().size(), 0);
+    }
+
+    @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateCarePlan"})
+    public void testSearchCanonicalMultipleReverseChainSingleResult() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Library")
+                .queryParam("name", tag)
+                .queryParam("_has:Measure:depends-on:_has:CarePlan:instantiates-canonical:instantiates-uri", tag)
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), libraryId);
+    }
+
+    @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreatePatient1"})
+    public void testSearchSingleReverseChainWithTagParm() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Organization")
+                .queryParam("_has:Patient:organization:_tag", "http://ibm.com/fhir/tag/" + tag + "|" + tag)
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), organization1Id);
+    }
+
+    @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreatePatient1"})
+    public void testSearchSingleReverseChainWithTagParmSystemOnly() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Organization")
+                .queryParam("_has:Patient:organization:_tag", "http://ibm.com/fhir/tag/" + tag + "|")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), organization1Id);
+    }
+
+    @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreatePatient1"})
+    public void testSearchSingleReverseChainWithSecurityParm() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Organization")
+                .queryParam("_has:Patient:organization:_security", "http://ibm.com/fhir/security/" + tag + "|" + tag)
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), organization1Id);
+    }
+
+    @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreatePatient1"})
+    public void testSearchSingleReverseChainWithSecurityParmSystemOnly() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Organization")
+                .queryParam("_has:Patient:organization:_security", "http://ibm.com/fhir/security/" + tag + "|")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), organization1Id);
+    }
+
+    @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreatePatient1"})
+    public void testSearchSingleReverseChainWithProfileParm() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Organization")
+                .queryParam("_has:Patient:organization:_profile", "http://ibm.com/fhir/Profile/" + tag)
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), organization1Id);
     }
 
 }

@@ -57,38 +57,9 @@ public class EligibilityRequestPurpose extends Code {
 
     /**
      * Get the value of this EligibilityRequestPurpose as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this EligibilityRequestPurpose as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating EligibilityRequestPurpose objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static EligibilityRequestPurpose of(ValueSet value) {
-        switch (value) {
-        case AUTH_REQUIREMENTS:
-            return AUTH_REQUIREMENTS;
-        case BENEFITS:
-            return BENEFITS;
-        case DISCOVERY:
-            return DISCOVERY;
-        case VALIDATION:
-            return VALIDATION;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -204,14 +175,6 @@ public class EligibilityRequestPurpose extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -240,70 +203,6 @@ public class EligibilityRequestPurpose extends Code {
         protected Builder from(EligibilityRequestPurpose eligibilityRequestPurpose) {
             super.from(eligibilityRequestPurpose);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Coverage auth-requirements
-         * 
-         * <p>The prior authorization requirements for the listed, or discovered if specified, converages for the categories of 
-         * service and/or specifed biling codes are requested.
-         */
-        AUTH_REQUIREMENTS("auth-requirements"),
-
-        /**
-         * Coverage benefits
-         * 
-         * <p>The plan benefits and optionally benefits consumed for the listed, or discovered if specified, converages are 
-         * requested.
-         */
-        BENEFITS("benefits"),
-
-        /**
-         * Coverage Discovery
-         * 
-         * <p>The insurer is requested to report on any coverages which they are aware of in addition to any specifed.
-         */
-        DISCOVERY("discovery"),
-
-        /**
-         * Coverage Validation
-         * 
-         * <p>A check that the specified coverages are in-force is requested.
-         */
-        VALIDATION("validation");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating EligibilityRequestPurpose.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

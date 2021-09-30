@@ -37,7 +37,7 @@ public class S3Transformer implements PartitionSourceTransformer {
         }
 
         String loc = location.trim();
-        LOG.fine(() -> "Location being verified is'" + loc + "'");
+        LOG.fine(() -> "Location being verified is '" + loc + "'");
 
         String continuationToken = null;
         ListObjectsV2Result result = null;

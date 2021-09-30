@@ -69,42 +69,9 @@ public class DeviceNameType extends Code {
 
     /**
      * Get the value of this DeviceNameType as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this DeviceNameType as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating DeviceNameType objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static DeviceNameType of(ValueSet value) {
-        switch (value) {
-        case UDI_LABEL_NAME:
-            return UDI_LABEL_NAME;
-        case USER_FRIENDLY_NAME:
-            return USER_FRIENDLY_NAME;
-        case PATIENT_REPORTED_NAME:
-            return PATIENT_REPORTED_NAME;
-        case MANUFACTURER_NAME:
-            return MANUFACTURER_NAME;
-        case MODEL_NAME:
-            return MODEL_NAME;
-        case OTHER:
-            return OTHER;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -224,14 +191,6 @@ public class DeviceNameType extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -260,82 +219,6 @@ public class DeviceNameType extends Code {
         protected Builder from(DeviceNameType deviceNameType) {
             super.from(deviceNameType);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * UDI Label name
-         * 
-         * <p>UDI Label name.
-         */
-        UDI_LABEL_NAME("udi-label-name"),
-
-        /**
-         * User Friendly name
-         * 
-         * <p>User Friendly name.
-         */
-        USER_FRIENDLY_NAME("user-friendly-name"),
-
-        /**
-         * Patient Reported name
-         * 
-         * <p>Patient Reported name.
-         */
-        PATIENT_REPORTED_NAME("patient-reported-name"),
-
-        /**
-         * Manufacturer name
-         * 
-         * <p>Manufacturer name.
-         */
-        MANUFACTURER_NAME("manufacturer-name"),
-
-        /**
-         * Model name
-         * 
-         * <p>Model name.
-         */
-        MODEL_NAME("model-name"),
-
-        /**
-         * other
-         * 
-         * <p>other.
-         */
-        OTHER("other");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating DeviceNameType.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

@@ -323,7 +323,7 @@ public class Consent extends DomainResource {
      * original consent document.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Attachment} or {@link Reference} that may be null.
      */
     public Element getSource() {
         return source;
@@ -595,7 +595,8 @@ public class Consent extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -612,13 +613,17 @@ public class Consent extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -631,7 +636,8 @@ public class Consent extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -650,13 +656,17 @@ public class Consent extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -674,7 +684,8 @@ public class Consent extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -698,13 +709,17 @@ public class Consent extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -714,7 +729,8 @@ public class Consent extends DomainResource {
         /**
          * Unique identifier for this copy of the Consent Statement.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Identifier for this record (external references)
@@ -732,13 +748,17 @@ public class Consent extends DomainResource {
         /**
          * Unique identifier for this copy of the Consent Statement.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Identifier for this record (external references)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder identifier(Collection<Identifier> identifier) {
             this.identifier = new ArrayList<>(identifier);
@@ -781,7 +801,8 @@ public class Consent extends DomainResource {
          * A classification of the type of consents found in the statement. This element supports indexing and retrieval of 
          * consent statements.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>This element is required.
          * 
@@ -802,7 +823,8 @@ public class Consent extends DomainResource {
          * A classification of the type of consents found in the statement. This element supports indexing and retrieval of 
          * consent statements.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>This element is required.
          * 
@@ -811,6 +833,9 @@ public class Consent extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder category(Collection<CodeableConcept> category) {
             this.category = new ArrayList<>(category);
@@ -855,7 +880,8 @@ public class Consent extends DomainResource {
          * Grantee, which is the entity responsible for complying with the Consent Directive, including any obligations or 
          * limitations on authorizations and enforcement of prohibitions.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -884,7 +910,8 @@ public class Consent extends DomainResource {
          * Grantee, which is the entity responsible for complying with the Consent Directive, including any obligations or 
          * limitations on authorizations and enforcement of prohibitions.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -900,6 +927,9 @@ public class Consent extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder performer(Collection<Reference> performer) {
             this.performer = new ArrayList<>(performer);
@@ -909,7 +939,8 @@ public class Consent extends DomainResource {
         /**
          * The organization that manages the consent, and the framework within which it is executed.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -932,7 +963,8 @@ public class Consent extends DomainResource {
         /**
          * The organization that manages the consent, and the framework within which it is executed.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -944,6 +976,9 @@ public class Consent extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder organization(Collection<Reference> organization) {
             this.organization = new ArrayList<>(organization);
@@ -984,7 +1019,8 @@ public class Consent extends DomainResource {
          * The references to the policies that are included in this consent scope. Policies may be organizational, but are often 
          * defined jurisdictionally, or in law.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param policy
          *     Policies covered by this consent
@@ -1003,13 +1039,17 @@ public class Consent extends DomainResource {
          * The references to the policies that are included in this consent scope. Policies may be organizational, but are often 
          * defined jurisdictionally, or in law.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param policy
          *     Policies covered by this consent
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder policy(Collection<Policy> policy) {
             this.policy = new ArrayList<>(policy);
@@ -1034,7 +1074,8 @@ public class Consent extends DomainResource {
          * Whether a treatment instruction (e.g. artificial respiration yes or no) was verified with the patient, his/her family 
          * or another authorized person.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param verification
          *     Consent Verified by patient or family
@@ -1053,13 +1094,17 @@ public class Consent extends DomainResource {
          * Whether a treatment instruction (e.g. artificial respiration yes or no) was verified with the patient, his/her family 
          * or another authorized person.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param verification
          *     Consent Verified by patient or family
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder verification(Collection<Verification> verification) {
             this.verification = new ArrayList<>(verification);
@@ -1271,7 +1316,8 @@ public class Consent extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1290,13 +1336,17 @@ public class Consent extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1314,7 +1364,8 @@ public class Consent extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1338,13 +1389,17 @@ public class Consent extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1561,7 +1616,8 @@ public class Consent extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1580,13 +1636,17 @@ public class Consent extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1604,7 +1664,8 @@ public class Consent extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1628,17 +1689,39 @@ public class Consent extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting {@code verified}.
+             * 
+             * <p>This element is required.
+             * 
+             * @param verified
+             *     Has been verified
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #verified(com.ibm.fhir.model.type.Boolean)
+             */
+            public Builder verified(java.lang.Boolean verified) {
+                this.verified = (verified == null) ? null : Boolean.of(verified);
+                return this;
             }
 
             /**
@@ -2060,7 +2143,8 @@ public class Consent extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2079,13 +2163,17 @@ public class Consent extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2103,7 +2191,8 @@ public class Consent extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2127,13 +2216,17 @@ public class Consent extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2173,7 +2266,8 @@ public class Consent extends DomainResource {
              * Who or what is controlled by this rule. Use group to identify a set of actors by some property they share (e.g. 
              * 'admitting officers').
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param actor
              *     Who|what controlled by this rule (or group, by role)
@@ -2192,13 +2286,17 @@ public class Consent extends DomainResource {
              * Who or what is controlled by this rule. Use group to identify a set of actors by some property they share (e.g. 
              * 'admitting officers').
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param actor
              *     Who|what controlled by this rule (or group, by role)
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder actor(Collection<Actor> actor) {
                 this.actor = new ArrayList<>(actor);
@@ -2208,7 +2306,8 @@ public class Consent extends DomainResource {
             /**
              * Actions controlled by this Rule.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param action
              *     Actions controlled by this rule
@@ -2226,13 +2325,17 @@ public class Consent extends DomainResource {
             /**
              * Actions controlled by this Rule.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param action
              *     Actions controlled by this rule
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder action(Collection<CodeableConcept> action) {
                 this.action = new ArrayList<>(action);
@@ -2243,7 +2346,8 @@ public class Consent extends DomainResource {
              * A security label, comprised of 0..* security label fields (Privacy tags), which define which resources are controlled 
              * by this exception.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param securityLabel
              *     Security Labels that define affected resources
@@ -2262,13 +2366,17 @@ public class Consent extends DomainResource {
              * A security label, comprised of 0..* security label fields (Privacy tags), which define which resources are controlled 
              * by this exception.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param securityLabel
              *     Security Labels that define affected resources
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder securityLabel(Collection<Coding> securityLabel) {
                 this.securityLabel = new ArrayList<>(securityLabel);
@@ -2278,7 +2386,8 @@ public class Consent extends DomainResource {
             /**
              * The context of the activities a user is taking - why the user is accessing the data - that are controlled by this rule.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param purpose
              *     Context of activities covered by this rule
@@ -2296,13 +2405,17 @@ public class Consent extends DomainResource {
             /**
              * The context of the activities a user is taking - why the user is accessing the data - that are controlled by this rule.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param purpose
              *     Context of activities covered by this rule
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder purpose(Collection<Coding> purpose) {
                 this.purpose = new ArrayList<>(purpose);
@@ -2313,7 +2426,8 @@ public class Consent extends DomainResource {
              * The class of information covered by this rule. The type can be a FHIR resource type, a profile on a type, or a CDA 
              * document, or some other type that indicates what sort of information the consent relates to.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param clazz
              *     e.g. Resource Type, Profile, CDA, etc.
@@ -2332,13 +2446,17 @@ public class Consent extends DomainResource {
              * The class of information covered by this rule. The type can be a FHIR resource type, a profile on a type, or a CDA 
              * document, or some other type that indicates what sort of information the consent relates to.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param clazz
              *     e.g. Resource Type, Profile, CDA, etc.
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder clazz(Collection<Coding> clazz) {
                 this.clazz = new ArrayList<>(clazz);
@@ -2348,7 +2466,8 @@ public class Consent extends DomainResource {
             /**
              * If this code is found in an instance, then the rule applies.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param code
              *     e.g. LOINC or SNOMED CT code, etc. in the content
@@ -2366,13 +2485,17 @@ public class Consent extends DomainResource {
             /**
              * If this code is found in an instance, then the rule applies.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param code
              *     e.g. LOINC or SNOMED CT code, etc. in the content
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder code(Collection<CodeableConcept> code) {
                 this.code = new ArrayList<>(code);
@@ -2396,7 +2519,8 @@ public class Consent extends DomainResource {
             /**
              * The resources controlled by this rule if specific resources are referenced.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param data
              *     Data controlled by this rule
@@ -2414,13 +2538,17 @@ public class Consent extends DomainResource {
             /**
              * The resources controlled by this rule if specific resources are referenced.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param data
              *     Data controlled by this rule
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder data(Collection<Data> data) {
                 this.data = new ArrayList<>(data);
@@ -2430,7 +2558,8 @@ public class Consent extends DomainResource {
             /**
              * Rules which provide exceptions to the base rule or subrules.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param provision
              *     Nested Exception Rules
@@ -2448,13 +2577,17 @@ public class Consent extends DomainResource {
             /**
              * Rules which provide exceptions to the base rule or subrules.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param provision
              *     Nested Exception Rules
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder provision(Collection<Consent.Provision> provision) {
                 this.provision = new ArrayList<>(provision);
@@ -2647,7 +2780,8 @@ public class Consent extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2666,13 +2800,17 @@ public class Consent extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2690,7 +2828,8 @@ public class Consent extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2714,13 +2853,17 @@ public class Consent extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2950,7 +3093,8 @@ public class Consent extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2969,13 +3113,17 @@ public class Consent extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2993,7 +3141,8 @@ public class Consent extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3017,13 +3166,17 @@ public class Consent extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {

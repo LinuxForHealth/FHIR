@@ -146,6 +146,7 @@ public class Capabilities extends FHIRResource {
             Configuration configuration = Configuration.of(Duration.of(cacheTimeout, ChronoUnit.MINUTES));
 
             Map<String, Resource> cacheAsMap = CacheManager.getCacheAsMap(CAPABILITY_STATEMENT_CACHE_NAME, configuration);
+            CacheManager.reportCacheStats(log, CAPABILITY_STATEMENT_CACHE_NAME);
             Resource capabilityStatement = cacheAsMap.computeIfAbsent(mode, k -> computeCapabilityStatement(mode));
 
             RestAuditLogger.logMetadata(httpServletRequest, startTime, new Date(), Response.Status.OK);

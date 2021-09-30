@@ -63,40 +63,9 @@ public class AuditEventAction extends Code {
 
     /**
      * Get the value of this AuditEventAction as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this AuditEventAction as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating AuditEventAction objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static AuditEventAction of(ValueSet value) {
-        switch (value) {
-        case C:
-            return C;
-        case R:
-            return R;
-        case U:
-            return U;
-        case D:
-            return D;
-        case E:
-            return E;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -214,14 +183,6 @@ public class AuditEventAction extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -250,76 +211,6 @@ public class AuditEventAction extends Code {
         protected Builder from(AuditEventAction auditEventAction) {
             super.from(auditEventAction);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Create
-         * 
-         * <p>Create a new database object, such as placing an order.
-         */
-        C("C"),
-
-        /**
-         * Read/View/Print
-         * 
-         * <p>Display or print data, such as a doctor census.
-         */
-        R("R"),
-
-        /**
-         * Update
-         * 
-         * <p>Update data, such as revise patient information.
-         */
-        U("U"),
-
-        /**
-         * Delete
-         * 
-         * <p>Delete items, such as a doctor master file record.
-         */
-        D("D"),
-
-        /**
-         * Execute
-         * 
-         * <p>Perform a system or application function such as log-on, program execution or use of an object's method, or perform 
-         * a query/search operation.
-         */
-        E("E");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating AuditEventAction.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

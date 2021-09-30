@@ -69,42 +69,9 @@ public class GuidanceResponseStatus extends Code {
 
     /**
      * Get the value of this GuidanceResponseStatus as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this GuidanceResponseStatus as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating GuidanceResponseStatus objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static GuidanceResponseStatus of(ValueSet value) {
-        switch (value) {
-        case SUCCESS:
-            return SUCCESS;
-        case DATA_REQUESTED:
-            return DATA_REQUESTED;
-        case DATA_REQUIRED:
-            return DATA_REQUIRED;
-        case IN_PROGRESS:
-            return IN_PROGRESS;
-        case FAILURE:
-            return FAILURE;
-        case ENTERED_IN_ERROR:
-            return ENTERED_IN_ERROR;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -224,14 +191,6 @@ public class GuidanceResponseStatus extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -260,82 +219,6 @@ public class GuidanceResponseStatus extends Code {
         protected Builder from(GuidanceResponseStatus guidanceResponseStatus) {
             super.from(guidanceResponseStatus);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Success
-         * 
-         * <p>The request was processed successfully.
-         */
-        SUCCESS("success"),
-
-        /**
-         * Data Requested
-         * 
-         * <p>The request was processed successfully, but more data may result in a more complete evaluation.
-         */
-        DATA_REQUESTED("data-requested"),
-
-        /**
-         * Data Required
-         * 
-         * <p>The request was processed, but more data is required to complete the evaluation.
-         */
-        DATA_REQUIRED("data-required"),
-
-        /**
-         * In Progress
-         * 
-         * <p>The request is currently being processed.
-         */
-        IN_PROGRESS("in-progress"),
-
-        /**
-         * Failure
-         * 
-         * <p>The request was not processed successfully.
-         */
-        FAILURE("failure"),
-
-        /**
-         * Entered In Error
-         * 
-         * <p>The response was entered in error.
-         */
-        ENTERED_IN_ERROR("entered-in-error");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating GuidanceResponseStatus.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

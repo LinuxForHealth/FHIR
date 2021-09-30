@@ -57,38 +57,9 @@ public class FHIRDeviceStatus extends Code {
 
     /**
      * Get the value of this FHIRDeviceStatus as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this FHIRDeviceStatus as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating FHIRDeviceStatus objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static FHIRDeviceStatus of(ValueSet value) {
-        switch (value) {
-        case ACTIVE:
-            return ACTIVE;
-        case INACTIVE:
-            return INACTIVE;
-        case ENTERED_IN_ERROR:
-            return ENTERED_IN_ERROR;
-        case UNKNOWN:
-            return UNKNOWN;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -204,14 +175,6 @@ public class FHIRDeviceStatus extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -240,70 +203,6 @@ public class FHIRDeviceStatus extends Code {
         protected Builder from(FHIRDeviceStatus fHIRDeviceStatus) {
             super.from(fHIRDeviceStatus);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Active
-         * 
-         * <p>The device is available for use. Note: For *implanted devices* this means that the device is implanted in the 
-         * patient.
-         */
-        ACTIVE("active"),
-
-        /**
-         * Inactive
-         * 
-         * <p>The device is no longer available for use (e.g. lost, expired, damaged). Note: For *implanted devices* this means 
-         * that the device has been removed from the patient.
-         */
-        INACTIVE("inactive"),
-
-        /**
-         * Entered in Error
-         * 
-         * <p>The device was entered in error and voided.
-         */
-        ENTERED_IN_ERROR("entered-in-error"),
-
-        /**
-         * Unknown
-         * 
-         * <p>The status of the device has not been determined.
-         */
-        UNKNOWN("unknown");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating FHIRDeviceStatus.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

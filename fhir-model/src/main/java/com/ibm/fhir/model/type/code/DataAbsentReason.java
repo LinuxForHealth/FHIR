@@ -132,60 +132,9 @@ public class DataAbsentReason extends Code {
 
     /**
      * Get the value of this DataAbsentReason as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this DataAbsentReason as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating DataAbsentReason objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static DataAbsentReason of(ValueSet value) {
-        switch (value) {
-        case UNKNOWN:
-            return UNKNOWN;
-        case ASKED_UNKNOWN:
-            return ASKED_UNKNOWN;
-        case TEMP_UNKNOWN:
-            return TEMP_UNKNOWN;
-        case NOT_ASKED:
-            return NOT_ASKED;
-        case ASKED_DECLINED:
-            return ASKED_DECLINED;
-        case MASKED:
-            return MASKED;
-        case NOT_APPLICABLE:
-            return NOT_APPLICABLE;
-        case UNSUPPORTED:
-            return UNSUPPORTED;
-        case AS_TEXT:
-            return AS_TEXT;
-        case ERROR:
-            return ERROR;
-        case NOT_A_NUMBER:
-            return NOT_A_NUMBER;
-        case NEGATIVE_INFINITY:
-            return NEGATIVE_INFINITY;
-        case POSITIVE_INFINITY:
-            return POSITIVE_INFINITY;
-        case NOT_PERFORMED:
-            return NOT_PERFORMED;
-        case NOT_PERMITTED:
-            return NOT_PERMITTED;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -323,14 +272,6 @@ public class DataAbsentReason extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -359,145 +300,6 @@ public class DataAbsentReason extends Code {
         protected Builder from(DataAbsentReason dataAbsentReason) {
             super.from(dataAbsentReason);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Unknown
-         * 
-         * <p>The value is expected to exist but is not known.
-         */
-        UNKNOWN("unknown"),
-
-        /**
-         * Asked But Unknown
-         * 
-         * <p>The source was asked but does not know the value.
-         */
-        ASKED_UNKNOWN("asked-unknown"),
-
-        /**
-         * Temporarily Unknown
-         * 
-         * <p>There is reason to expect (from the workflow) that the value may become known.
-         */
-        TEMP_UNKNOWN("temp-unknown"),
-
-        /**
-         * Not Asked
-         * 
-         * <p>The workflow didn't lead to this value being known.
-         */
-        NOT_ASKED("not-asked"),
-
-        /**
-         * Asked But Declined
-         * 
-         * <p>The source was asked but declined to answer.
-         */
-        ASKED_DECLINED("asked-declined"),
-
-        /**
-         * Masked
-         * 
-         * <p>The information is not available due to security, privacy or related reasons.
-         */
-        MASKED("masked"),
-
-        /**
-         * Not Applicable
-         * 
-         * <p>There is no proper value for this element (e.g. last menstrual period for a male).
-         */
-        NOT_APPLICABLE("not-applicable"),
-
-        /**
-         * Unsupported
-         * 
-         * <p>The source system wasn't capable of supporting this element.
-         */
-        UNSUPPORTED("unsupported"),
-
-        /**
-         * As Text
-         * 
-         * <p>The content of the data is represented in the resource narrative.
-         */
-        AS_TEXT("as-text"),
-
-        /**
-         * Error
-         * 
-         * <p>Some system or workflow process error means that the information is not available.
-         */
-        ERROR("error"),
-
-        /**
-         * Not a Number (NaN)
-         * 
-         * <p>The numeric value is undefined or unrepresentable due to a floating point processing error.
-         */
-        NOT_A_NUMBER("not-a-number"),
-
-        /**
-         * Negative Infinity (NINF)
-         * 
-         * <p>The numeric value is excessively low and unrepresentable due to a floating point processing error.
-         */
-        NEGATIVE_INFINITY("negative-infinity"),
-
-        /**
-         * Positive Infinity (PINF)
-         * 
-         * <p>The numeric value is excessively high and unrepresentable due to a floating point processing error.
-         */
-        POSITIVE_INFINITY("positive-infinity"),
-
-        /**
-         * Not Performed
-         * 
-         * <p>The value is not available because the observation procedure (test, etc.) was not performed.
-         */
-        NOT_PERFORMED("not-performed"),
-
-        /**
-         * Not Permitted
-         * 
-         * <p>The value is not permitted in this context (e.g. due to profiles, or the base data types).
-         */
-        NOT_PERMITTED("not-permitted");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating DataAbsentReason.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

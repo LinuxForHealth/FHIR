@@ -7,9 +7,9 @@
 package com.ibm.fhir.persistence.test.common;
 
 import static com.ibm.fhir.model.type.String.string;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +71,7 @@ public abstract class AbstractEraseTest extends AbstractPersistenceTest {
         // We need the all so we can set the Erase on all tables
         FHIRRequestContext.get().setTenantId("all");
 
-        Basic resource = TestUtil.readExampleResource("json/ibm/minimal/Basic-1.json");
+        Basic resource = TestUtil.getMinimalResource(Basic.class);
         allTypesBuilder = resource.toBuilder();
 
         // Number

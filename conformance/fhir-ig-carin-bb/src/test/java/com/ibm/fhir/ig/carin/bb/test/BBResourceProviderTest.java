@@ -6,7 +6,7 @@
 
 package com.ibm.fhir.ig.carin.bb.test;
 
-import static org.junit.Assert.assertNotNull;
+import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
 import java.util.Collection;

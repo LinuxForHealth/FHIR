@@ -67,40 +67,9 @@ public class CodeSystemContentMode extends Code {
 
     /**
      * Get the value of this CodeSystemContentMode as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this CodeSystemContentMode as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating CodeSystemContentMode objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static CodeSystemContentMode of(ValueSet value) {
-        switch (value) {
-        case NOT_PRESENT:
-            return NOT_PRESENT;
-        case EXAMPLE:
-            return EXAMPLE;
-        case FRAGMENT:
-            return FRAGMENT;
-        case COMPLETE:
-            return COMPLETE;
-        case SUPPLEMENT:
-            return SUPPLEMENT;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -218,14 +187,6 @@ public class CodeSystemContentMode extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -254,80 +215,6 @@ public class CodeSystemContentMode extends Code {
         protected Builder from(CodeSystemContentMode codeSystemContentMode) {
             super.from(codeSystemContentMode);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Not Present
-         * 
-         * <p>None of the concepts defined by the code system are included in the code system resource.
-         */
-        NOT_PRESENT("not-present"),
-
-        /**
-         * Example
-         * 
-         * <p>A few representative concepts are included in the code system resource. There is no useful intent in the subset 
-         * choice and there's no process to make it workable: it's not intended to be workable.
-         */
-        EXAMPLE("example"),
-
-        /**
-         * Fragment
-         * 
-         * <p>A subset of the code system concepts are included in the code system resource. This is a curated subset released 
-         * for a specific purpose under the governance of the code system steward, and that the intent, bounds and consequences 
-         * of the fragmentation are clearly defined in the fragment or the code system documentation. Fragments are also known as 
-         * partitions.
-         */
-        FRAGMENT("fragment"),
-
-        /**
-         * Complete
-         * 
-         * <p>All the concepts defined by the code system are included in the code system resource.
-         */
-        COMPLETE("complete"),
-
-        /**
-         * Supplement
-         * 
-         * <p>The resource doesn't define any new concepts; it just provides additional designations and properties to another 
-         * code system.
-         */
-        SUPPLEMENT("supplement");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating CodeSystemContentMode.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

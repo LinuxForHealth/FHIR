@@ -8,7 +8,7 @@
     <parent>
         <groupId>com.ibm.fhir</groupId>
         <artifactId>fhir-parent</artifactId>
-        <version>4.9.0-SNAPSHOT</version>
+        <version>4.10.0-SNAPSHOT</version>
         <relativePath>../fhir-parent</relativePath>
     </parent>
       
@@ -57,7 +57,7 @@
             <artifactId>ibm-cos-java-sdk</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.glassfish</groupId>
+            <groupId>org.eclipse.parsson</groupId>
             <artifactId>jakarta.json</artifactId>
         </dependency>
         <dependency>

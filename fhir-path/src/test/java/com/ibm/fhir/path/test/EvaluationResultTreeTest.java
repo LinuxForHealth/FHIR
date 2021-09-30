@@ -23,6 +23,7 @@ import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Observation.Component;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.type.CodeableConcept;
+import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.path.FHIRPathNode;
@@ -45,7 +46,7 @@ public class EvaluationResultTreeTest {
 
         List<Component> component = new ArrayList<>(observation.getComponent());
         component.set(0, component.get(0).toBuilder()
-            .value(null)
+            .value((Element)null)
             .build());
         observation = observation.toBuilder()
             .component(component)

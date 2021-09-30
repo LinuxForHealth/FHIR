@@ -398,7 +398,7 @@ public class Measure extends DomainResource {
      * of the measure can be anything.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link CodeableConcept} or {@link Reference} that may be null.
      */
     public Element getSubject() {
         return subject;
@@ -1105,7 +1105,8 @@ public class Measure extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -1122,13 +1123,17 @@ public class Measure extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -1141,7 +1146,8 @@ public class Measure extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -1160,13 +1166,17 @@ public class Measure extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -1184,7 +1194,8 @@ public class Measure extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -1208,13 +1219,17 @@ public class Measure extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1242,7 +1257,8 @@ public class Measure extends DomainResource {
          * A formal identifier that is used to identify this measure when it is represented in other formats, or referenced in a 
          * specification, model, design or an instance.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Additional identifier for the measure
@@ -1261,16 +1277,36 @@ public class Measure extends DomainResource {
          * A formal identifier that is used to identify this measure when it is represented in other formats, or referenced in a 
          * specification, model, design or an instance.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Additional identifier for the measure
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder identifier(Collection<Identifier> identifier) {
             this.identifier = new ArrayList<>(identifier);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code version}.
+         * 
+         * @param version
+         *     Business version of the measure
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #version(com.ibm.fhir.model.type.String)
+         */
+        public Builder version(java.lang.String version) {
+            this.version = (version == null) ? null : String.of(version);
             return this;
         }
 
@@ -1295,6 +1331,22 @@ public class Measure extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code name}.
+         * 
+         * @param name
+         *     Name for this measure (computer friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #name(com.ibm.fhir.model.type.String)
+         */
+        public Builder name(java.lang.String name) {
+            this.name = (name == null) ? null : String.of(name);
+            return this;
+        }
+
+        /**
          * A natural language name identifying the measure. This name should be usable as an identifier for the module by machine 
          * processing applications such as code generation.
          * 
@@ -1310,6 +1362,22 @@ public class Measure extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code title}.
+         * 
+         * @param title
+         *     Name for this measure (human friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #title(com.ibm.fhir.model.type.String)
+         */
+        public Builder title(java.lang.String title) {
+            this.title = (title == null) ? null : String.of(title);
+            return this;
+        }
+
+        /**
          * A short, descriptive, user-friendly title for the measure.
          * 
          * @param title
@@ -1320,6 +1388,22 @@ public class Measure extends DomainResource {
          */
         public Builder title(String title) {
             this.title = title;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code subtitle}.
+         * 
+         * @param subtitle
+         *     Subordinate title of the measure
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #subtitle(com.ibm.fhir.model.type.String)
+         */
+        public Builder subtitle(java.lang.String subtitle) {
+            this.subtitle = (subtitle == null) ? null : String.of(subtitle);
             return this;
         }
 
@@ -1350,6 +1434,22 @@ public class Measure extends DomainResource {
          */
         public Builder status(PublicationStatus status) {
             this.status = status;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code experimental}.
+         * 
+         * @param experimental
+         *     For testing purposes, not real usage
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #experimental(com.ibm.fhir.model.type.Boolean)
+         */
+        public Builder experimental(java.lang.Boolean experimental) {
+            this.experimental = (experimental == null) ? null : Boolean.of(experimental);
             return this;
         }
 
@@ -1411,6 +1511,22 @@ public class Measure extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code publisher}.
+         * 
+         * @param publisher
+         *     Name of the publisher (organization or individual)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #publisher(com.ibm.fhir.model.type.String)
+         */
+        public Builder publisher(java.lang.String publisher) {
+            this.publisher = (publisher == null) ? null : String.of(publisher);
+            return this;
+        }
+
+        /**
          * The name of the organization or individual that published the measure.
          * 
          * @param publisher
@@ -1427,7 +1543,8 @@ public class Measure extends DomainResource {
         /**
          * Contact details to assist a user in finding and communicating with the publisher.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contact
          *     Contact details for the publisher
@@ -1445,13 +1562,17 @@ public class Measure extends DomainResource {
         /**
          * Contact details to assist a user in finding and communicating with the publisher.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contact
          *     Contact details for the publisher
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder contact(Collection<ContactDetail> contact) {
             this.contact = new ArrayList<>(contact);
@@ -1477,7 +1598,8 @@ public class Measure extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate measure instances.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param useContext
          *     The context that the content is intended to support
@@ -1497,13 +1619,17 @@ public class Measure extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate measure instances.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param useContext
          *     The context that the content is intended to support
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder useContext(Collection<UsageContext> useContext) {
             this.useContext = new ArrayList<>(useContext);
@@ -1513,7 +1639,8 @@ public class Measure extends DomainResource {
         /**
          * A legal or geographic region in which the measure is intended to be used.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param jurisdiction
          *     Intended jurisdiction for measure (if applicable)
@@ -1531,13 +1658,17 @@ public class Measure extends DomainResource {
         /**
          * A legal or geographic region in which the measure is intended to be used.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param jurisdiction
          *     Intended jurisdiction for measure (if applicable)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder jurisdiction(Collection<CodeableConcept> jurisdiction) {
             this.jurisdiction = new ArrayList<>(jurisdiction);
@@ -1555,6 +1686,22 @@ public class Measure extends DomainResource {
          */
         public Builder purpose(Markdown purpose) {
             this.purpose = purpose;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code usage}.
+         * 
+         * @param usage
+         *     Describes the clinical usage of the measure
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #usage(com.ibm.fhir.model.type.String)
+         */
+        public Builder usage(java.lang.String usage) {
+            this.usage = (usage == null) ? null : String.of(usage);
             return this;
         }
 
@@ -1588,6 +1735,22 @@ public class Measure extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code approvalDate}.
+         * 
+         * @param approvalDate
+         *     When the measure was approved by publisher
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #approvalDate(com.ibm.fhir.model.type.Date)
+         */
+        public Builder approvalDate(java.time.LocalDate approvalDate) {
+            this.approvalDate = (approvalDate == null) ? null : Date.of(approvalDate);
+            return this;
+        }
+
+        /**
          * The date on which the resource content was approved by the publisher. Approval happens once when the content is 
          * officially approved for usage.
          * 
@@ -1599,6 +1762,22 @@ public class Measure extends DomainResource {
          */
         public Builder approvalDate(Date approvalDate) {
             this.approvalDate = approvalDate;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code lastReviewDate}.
+         * 
+         * @param lastReviewDate
+         *     When the measure was last reviewed
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #lastReviewDate(com.ibm.fhir.model.type.Date)
+         */
+        public Builder lastReviewDate(java.time.LocalDate lastReviewDate) {
+            this.lastReviewDate = (lastReviewDate == null) ? null : Date.of(lastReviewDate);
             return this;
         }
 
@@ -1635,7 +1814,8 @@ public class Measure extends DomainResource {
          * Descriptive topics related to the content of the measure. Topics provide a high-level categorization grouping types of 
          * measures that can be useful for filtering and searching.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param topic
          *     The category of the measure, such as Education, Treatment, Assessment, etc.
@@ -1654,13 +1834,17 @@ public class Measure extends DomainResource {
          * Descriptive topics related to the content of the measure. Topics provide a high-level categorization grouping types of 
          * measures that can be useful for filtering and searching.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param topic
          *     The category of the measure, such as Education, Treatment, Assessment, etc.
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder topic(Collection<CodeableConcept> topic) {
             this.topic = new ArrayList<>(topic);
@@ -1670,7 +1854,8 @@ public class Measure extends DomainResource {
         /**
          * An individiual or organization primarily involved in the creation and maintenance of the content.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param author
          *     Who authored the content
@@ -1688,13 +1873,17 @@ public class Measure extends DomainResource {
         /**
          * An individiual or organization primarily involved in the creation and maintenance of the content.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param author
          *     Who authored the content
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder author(Collection<ContactDetail> author) {
             this.author = new ArrayList<>(author);
@@ -1704,7 +1893,8 @@ public class Measure extends DomainResource {
         /**
          * An individual or organization primarily responsible for internal coherence of the content.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param editor
          *     Who edited the content
@@ -1722,13 +1912,17 @@ public class Measure extends DomainResource {
         /**
          * An individual or organization primarily responsible for internal coherence of the content.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param editor
          *     Who edited the content
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder editor(Collection<ContactDetail> editor) {
             this.editor = new ArrayList<>(editor);
@@ -1738,7 +1932,8 @@ public class Measure extends DomainResource {
         /**
          * An individual or organization primarily responsible for review of some aspect of the content.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param reviewer
          *     Who reviewed the content
@@ -1756,13 +1951,17 @@ public class Measure extends DomainResource {
         /**
          * An individual or organization primarily responsible for review of some aspect of the content.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param reviewer
          *     Who reviewed the content
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder reviewer(Collection<ContactDetail> reviewer) {
             this.reviewer = new ArrayList<>(reviewer);
@@ -1772,7 +1971,8 @@ public class Measure extends DomainResource {
         /**
          * An individual or organization responsible for officially endorsing the content for use in some setting.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param endorser
          *     Who endorsed the content
@@ -1790,13 +1990,17 @@ public class Measure extends DomainResource {
         /**
          * An individual or organization responsible for officially endorsing the content for use in some setting.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param endorser
          *     Who endorsed the content
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder endorser(Collection<ContactDetail> endorser) {
             this.endorser = new ArrayList<>(endorser);
@@ -1806,7 +2010,8 @@ public class Measure extends DomainResource {
         /**
          * Related artifacts such as additional documentation, justification, or bibliographic references.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param relatedArtifact
          *     Additional documentation, citations, etc.
@@ -1824,13 +2029,17 @@ public class Measure extends DomainResource {
         /**
          * Related artifacts such as additional documentation, justification, or bibliographic references.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param relatedArtifact
          *     Additional documentation, citations, etc.
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder relatedArtifact(Collection<RelatedArtifact> relatedArtifact) {
             this.relatedArtifact = new ArrayList<>(relatedArtifact);
@@ -1840,7 +2049,8 @@ public class Measure extends DomainResource {
         /**
          * A reference to a Library resource containing the formal logic used by the measure.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param library
          *     Logic used by the measure
@@ -1858,13 +2068,17 @@ public class Measure extends DomainResource {
         /**
          * A reference to a Library resource containing the formal logic used by the measure.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param library
          *     Logic used by the measure
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder library(Collection<Canonical> library) {
             this.library = new ArrayList<>(library);
@@ -1920,7 +2134,8 @@ public class Measure extends DomainResource {
          * Indicates whether the measure is used to examine a process, an outcome over time, a patient-reported outcome, or a 
          * structure measure such as utilization.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param type
          *     process | outcome | structure | patient-reported-outcome | composite
@@ -1939,16 +2154,36 @@ public class Measure extends DomainResource {
          * Indicates whether the measure is used to examine a process, an outcome over time, a patient-reported outcome, or a 
          * structure measure such as utilization.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param type
          *     process | outcome | structure | patient-reported-outcome | composite
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder type(Collection<CodeableConcept> type) {
             this.type = new ArrayList<>(type);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code riskAdjustment}.
+         * 
+         * @param riskAdjustment
+         *     How risk adjustment is applied for this measure
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #riskAdjustment(com.ibm.fhir.model.type.String)
+         */
+        public Builder riskAdjustment(java.lang.String riskAdjustment) {
+            this.riskAdjustment = (riskAdjustment == null) ? null : String.of(riskAdjustment);
             return this;
         }
 
@@ -1964,6 +2199,22 @@ public class Measure extends DomainResource {
          */
         public Builder riskAdjustment(String riskAdjustment) {
             this.riskAdjustment = riskAdjustment;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code rateAggregation}.
+         * 
+         * @param rateAggregation
+         *     How is rate aggregation performed for this measure
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #rateAggregation(com.ibm.fhir.model.type.String)
+         */
+        public Builder rateAggregation(java.lang.String rateAggregation) {
+            this.rateAggregation = (rateAggregation == null) ? null : String.of(rateAggregation);
             return this;
         }
 
@@ -2029,7 +2280,8 @@ public class Measure extends DomainResource {
         /**
          * Provides a description of an individual term used within the measure.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param definition
          *     Defined terms used in the measure documentation
@@ -2047,13 +2299,17 @@ public class Measure extends DomainResource {
         /**
          * Provides a description of an individual term used within the measure.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param definition
          *     Defined terms used in the measure documentation
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder definition(Collection<Markdown> definition) {
             this.definition = new ArrayList<>(definition);
@@ -2077,7 +2333,8 @@ public class Measure extends DomainResource {
         /**
          * A group of population criteria for the measure.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param group
          *     Population criteria group
@@ -2095,13 +2352,17 @@ public class Measure extends DomainResource {
         /**
          * A group of population criteria for the measure.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param group
          *     Population criteria group
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder group(Collection<Group> group) {
             this.group = new ArrayList<>(group);
@@ -2112,7 +2373,8 @@ public class Measure extends DomainResource {
          * The supplemental data criteria for the measure report, specified as either the name of a valid CQL expression within a 
          * referenced library, or a valid FHIR Resource Path.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param supplementalData
          *     What other data should be reported with the measure
@@ -2131,13 +2393,17 @@ public class Measure extends DomainResource {
          * The supplemental data criteria for the measure report, specified as either the name of a valid CQL expression within a 
          * referenced library, or a valid FHIR Resource Path.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param supplementalData
          *     What other data should be reported with the measure
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder supplementalData(Collection<SupplementalData> supplementalData) {
             this.supplementalData = new ArrayList<>(supplementalData);
@@ -2400,7 +2666,8 @@ public class Measure extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2419,13 +2686,17 @@ public class Measure extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2443,7 +2714,8 @@ public class Measure extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2467,13 +2739,17 @@ public class Measure extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2496,6 +2772,22 @@ public class Measure extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code description}.
+             * 
+             * @param description
+             *     Summary description
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #description(com.ibm.fhir.model.type.String)
+             */
+            public Builder description(java.lang.String description) {
+                this.description = (description == null) ? null : String.of(description);
+                return this;
+            }
+
+            /**
              * The human readable description of this population group.
              * 
              * @param description
@@ -2512,7 +2804,8 @@ public class Measure extends DomainResource {
             /**
              * A population criteria for the measure.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param population
              *     Population criteria
@@ -2530,13 +2823,17 @@ public class Measure extends DomainResource {
             /**
              * A population criteria for the measure.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param population
              *     Population criteria
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder population(Collection<Population> population) {
                 this.population = new ArrayList<>(population);
@@ -2547,7 +2844,8 @@ public class Measure extends DomainResource {
              * The stratifier criteria for the measure report, specified as either the name of a valid CQL expression defined within 
              * a referenced library or a valid FHIR Resource Path.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param stratifier
              *     Stratifier criteria for the measure
@@ -2566,13 +2864,17 @@ public class Measure extends DomainResource {
              * The stratifier criteria for the measure report, specified as either the name of a valid CQL expression defined within 
              * a referenced library or a valid FHIR Resource Path.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param stratifier
              *     Stratifier criteria for the measure
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder stratifier(Collection<Stratifier> stratifier) {
                 this.stratifier = new ArrayList<>(stratifier);
@@ -2765,7 +3067,8 @@ public class Measure extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2784,13 +3087,17 @@ public class Measure extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -2808,7 +3115,8 @@ public class Measure extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2832,13 +3140,17 @@ public class Measure extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2857,6 +3169,22 @@ public class Measure extends DomainResource {
                  */
                 public Builder code(CodeableConcept code) {
                     this.code = code;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code description}.
+                 * 
+                 * @param description
+                 *     The human readable description of this population criteria
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #description(com.ibm.fhir.model.type.String)
+                 */
+                public Builder description(java.lang.String description) {
+                    this.description = (description == null) ? null : String.of(description);
                     return this;
                 }
 
@@ -3094,7 +3422,8 @@ public class Measure extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -3113,13 +3442,17 @@ public class Measure extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -3137,7 +3470,8 @@ public class Measure extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3161,13 +3495,17 @@ public class Measure extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3186,6 +3524,22 @@ public class Measure extends DomainResource {
                  */
                 public Builder code(CodeableConcept code) {
                     this.code = code;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code description}.
+                 * 
+                 * @param description
+                 *     The human readable description of this stratifier
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #description(com.ibm.fhir.model.type.String)
+                 */
+                public Builder description(java.lang.String description) {
+                    this.description = (description == null) ? null : String.of(description);
                     return this;
                 }
 
@@ -3222,7 +3576,8 @@ public class Measure extends DomainResource {
                  * A component of the stratifier criteria for the measure report, specified as either the name of a valid CQL expression 
                  * defined within a referenced library or a valid FHIR Resource Path.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param component
                  *     Stratifier criteria component for the measure
@@ -3241,13 +3596,17 @@ public class Measure extends DomainResource {
                  * A component of the stratifier criteria for the measure report, specified as either the name of a valid CQL expression 
                  * defined within a referenced library or a valid FHIR Resource Path.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param component
                  *     Stratifier criteria component for the measure
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder component(Collection<Component> component) {
                     this.component = new ArrayList<>(component);
@@ -3436,7 +3795,8 @@ public class Measure extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -3455,13 +3815,17 @@ public class Measure extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     @Override
                     public Builder extension(Collection<Extension> extension) {
@@ -3479,7 +3843,8 @@ public class Measure extends DomainResource {
                      * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -3503,13 +3868,17 @@ public class Measure extends DomainResource {
                      * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3528,6 +3897,22 @@ public class Measure extends DomainResource {
                      */
                     public Builder code(CodeableConcept code) {
                         this.code = code;
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting {@code description}.
+                     * 
+                     * @param description
+                     *     The human readable description of this stratifier component
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #description(com.ibm.fhir.model.type.String)
+                     */
+                    public Builder description(java.lang.String description) {
+                        this.description = (description == null) ? null : String.of(description);
                         return this;
                     }
 
@@ -3778,7 +4163,8 @@ public class Measure extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -3797,13 +4183,17 @@ public class Measure extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -3821,7 +4211,8 @@ public class Measure extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -3845,13 +4236,17 @@ public class Measure extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3879,7 +4274,8 @@ public class Measure extends DomainResource {
              * additional information requested to augment the measure information. Risk adjustment factor indicates the data is 
              * additional information used to calculate risk adjustment factors when applying a risk model to the measure calculation.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param usage
              *     supplemental-data | risk-adjustment-factor
@@ -3899,16 +4295,36 @@ public class Measure extends DomainResource {
              * additional information requested to augment the measure information. Risk adjustment factor indicates the data is 
              * additional information used to calculate risk adjustment factors when applying a risk model to the measure calculation.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param usage
              *     supplemental-data | risk-adjustment-factor
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder usage(Collection<CodeableConcept> usage) {
                 this.usage = new ArrayList<>(usage);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code description}.
+             * 
+             * @param description
+             *     The human readable description of this supplemental data
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #description(com.ibm.fhir.model.type.String)
+             */
+            public Builder description(java.lang.String description) {
+                this.description = (description == null) ? null : String.of(description);
                 return this;
             }
 

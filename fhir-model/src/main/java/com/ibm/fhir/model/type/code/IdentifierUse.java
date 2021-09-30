@@ -66,40 +66,9 @@ public class IdentifierUse extends Code {
 
     /**
      * Get the value of this IdentifierUse as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this IdentifierUse as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating IdentifierUse objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static IdentifierUse of(ValueSet value) {
-        switch (value) {
-        case USUAL:
-            return USUAL;
-        case OFFICIAL:
-            return OFFICIAL;
-        case TEMP:
-            return TEMP;
-        case SECONDARY:
-            return SECONDARY;
-        case OLD:
-            return OLD;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -217,14 +186,6 @@ public class IdentifierUse extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -253,79 +214,6 @@ public class IdentifierUse extends Code {
         protected Builder from(IdentifierUse identifierUse) {
             super.from(identifierUse);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Usual
-         * 
-         * <p>The identifier recommended for display and use in real-world interactions.
-         */
-        USUAL("usual"),
-
-        /**
-         * Official
-         * 
-         * <p>The identifier considered to be most trusted for the identification of this item. Sometimes also known as "primary" 
-         * and "main". The determination of "official" is subjective and implementation guides often provide additional 
-         * guidelines for use.
-         */
-        OFFICIAL("official"),
-
-        /**
-         * Temp
-         * 
-         * <p>A temporary identifier.
-         */
-        TEMP("temp"),
-
-        /**
-         * Secondary
-         * 
-         * <p>An identifier that was assigned in secondary use - it serves to identify the object in a relative context, but 
-         * cannot be consistently assigned to the same object again in a different context.
-         */
-        SECONDARY("secondary"),
-
-        /**
-         * Old
-         * 
-         * <p>The identifier id no longer considered valid, but may be relevant for search purposes. E.g. Changes to identifier 
-         * schemes, account merges, etc.
-         */
-        OLD("old");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating IdentifierUse.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

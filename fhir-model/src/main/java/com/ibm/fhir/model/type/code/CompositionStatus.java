@@ -59,38 +59,9 @@ public class CompositionStatus extends Code {
 
     /**
      * Get the value of this CompositionStatus as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this CompositionStatus as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating CompositionStatus objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static CompositionStatus of(ValueSet value) {
-        switch (value) {
-        case PRELIMINARY:
-            return PRELIMINARY;
-        case FINAL:
-            return FINAL;
-        case AMENDED:
-            return AMENDED;
-        case ENTERED_IN_ERROR:
-            return ENTERED_IN_ERROR;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -206,14 +177,6 @@ public class CompositionStatus extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -242,72 +205,6 @@ public class CompositionStatus extends Code {
         protected Builder from(CompositionStatus compositionStatus) {
             super.from(compositionStatus);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Preliminary
-         * 
-         * <p>This is a preliminary composition or document (also known as initial or interim). The content may be incomplete or 
-         * unverified.
-         */
-        PRELIMINARY("preliminary"),
-
-        /**
-         * Final
-         * 
-         * <p>This version of the composition is complete and verified by an appropriate person and no further work is planned. 
-         * Any subsequent updates would be on a new version of the composition.
-         */
-        FINAL("final"),
-
-        /**
-         * Amended
-         * 
-         * <p>The composition content or the referenced resources have been modified (edited or added to) subsequent to being 
-         * released as "final" and the composition is complete and verified by an authorized person.
-         */
-        AMENDED("amended"),
-
-        /**
-         * Entered in Error
-         * 
-         * <p>The composition or document was originally created/issued in error, and this is an amendment that marks that the 
-         * entire series should not be considered as valid.
-         */
-        ENTERED_IN_ERROR("entered-in-error");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating CompositionStatus.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

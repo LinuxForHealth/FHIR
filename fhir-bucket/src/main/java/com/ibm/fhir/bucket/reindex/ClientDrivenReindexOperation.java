@@ -310,36 +310,45 @@ public class ClientDrivenReindexOperation extends DriveReindexOperation {
         Parameters parameters = builder.build();
         String requestBody = FHIRBucketClientUtil.resourceToString(parameters);
 
-        // Get index IDs of resources available to be reindexed
-        long start = System.nanoTime();
-        FhirServerResponse response = fhirClient.post(RETRIEVE_INDEX_URL, requestBody);
-        long end = System.nanoTime();
+        /*
+         * @see ServerDrivenReindexOperation.callReindexOperation which captures the throwables
+         * in order to indicate that this thread is not working properly, and fails the whole
+         * FHIRBucket operation.
+         */
+        try {
+            // Get index IDs of resources available to be reindexed
+            long start = System.nanoTime();
+            FhirServerResponse response = fhirClient.post(RETRIEVE_INDEX_URL, requestBody);
+            long end = System.nanoTime();
 
-        double elapsed = (end - start) / 1e9;
-        String afterIndexIdString = lastIndexId != null ? (" (" + AFTER_INDEX_ID_PARAM + "=" + lastIndexId + ")") : "";
-        logger.info(String.format("called $retrieve-index%s: %d %s [took %5.3f s]", afterIndexIdString, response.getStatusCode(), response.getStatusMessage(), elapsed));
+            double elapsed = (end - start) / 1e9;
+            String afterIndexIdString = lastIndexId != null ? (" (" + AFTER_INDEX_ID_PARAM + "=" + lastIndexId + ")") : "";
+            logger.info(String.format("called $retrieve-index%s: %d %s [took %5.3f s]", afterIndexIdString, response.getStatusCode(), response.getStatusMessage(), elapsed));
 
-        if (response.getStatusCode() == HttpStatus.SC_OK) {
-            Resource resource = response.getResource();
-            if (resource != null) {
-                if (resource.is(Parameters.class)) {
-                    // Check the result to see if we should keep running
-                    result = extractIndexIds((Parameters) resource);
-                    if (!result) {
-                        logger.info("No more index IDs to retrieve");
+            if (response.getStatusCode() == HttpStatus.SC_OK) {
+                Resource resource = response.getResource();
+                if (resource != null) {
+                    if (resource.is(Parameters.class)) {
+                        // Check the result to see if we should keep running
+                        result = extractIndexIds((Parameters) resource);
+                        if (!result) {
+                            logger.info("No more index IDs to retrieve");
+                        }
+                        successRetrieving = true;
+                    } else {
+                        logger.severe("FHIR Server retrieve-index response is not an Parameters: " + response.getStatusCode() + " " + response.getStatusMessage());
+                        logger.severe("Actual response: " + FHIRBucketClientUtil.resourceToString(resource));
                     }
-                    successRetrieving = true;
                 } else {
-                    logger.severe("FHIR Server retrieve-index response is not an Parameters: " + response.getStatusCode() + " " + response.getStatusMessage());
-                    logger.severe("Actual response: " + FHIRBucketClientUtil.resourceToString(resource));
+                    // This would be a bit weird
+                    logger.severe("FHIR Server retrieve-index operation returned no Parameters: " + response.getStatusCode() + " " + response.getStatusMessage());
                 }
             } else {
-                // This would be a bit weird
-                logger.severe("FHIR Server retrieve-index operation returned no Parameters: " + response.getStatusCode() + " " + response.getStatusMessage());
+                // Stop as soon as we hit an error
+                logger.severe("FHIR Server retrieve-index operation returned an error: " + response.getStatusCode() + " " + response.getStatusMessage());
             }
-        } else {
-            // Stop as soon as we hit an error
-            logger.severe("FHIR Server retrieve-index operation returned an error: " + response.getStatusCode() + " " + response.getStatusMessage());
+        } catch(Throwable t) {
+            logger.log(Level.SEVERE, "Throwable caught. FHIR client thread will exit", t);
         }
 
         return result;

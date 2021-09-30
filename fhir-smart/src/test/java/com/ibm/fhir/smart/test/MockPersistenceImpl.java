@@ -19,7 +19,6 @@ import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Reference;
-import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.fhir.persistence.MultiResourceResult;
@@ -49,7 +48,7 @@ public class MockPersistenceImpl implements FHIRPersistence {
         this.observation = observation;
 
 
-        encounter_not_in_patient_compartment = TestUtil.getMinimalResource(ResourceType.ENCOUNTER);
+        encounter_not_in_patient_compartment = TestUtil.getMinimalResource(Encounter.class);
         encounter_in_patient_compartment = encounter_not_in_patient_compartment.toBuilder()
                 .id(ENCOUNTER_ID_GOOD)
                 .subject(Reference.builder()

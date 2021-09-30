@@ -133,60 +133,9 @@ public class ActivityDefinitionKind extends Code {
 
     /**
      * Get the value of this ActivityDefinitionKind as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this ActivityDefinitionKind as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating ActivityDefinitionKind objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static ActivityDefinitionKind of(ValueSet value) {
-        switch (value) {
-        case APPOINTMENT:
-            return APPOINTMENT;
-        case APPOINTMENT_RESPONSE:
-            return APPOINTMENT_RESPONSE;
-        case CARE_PLAN:
-            return CARE_PLAN;
-        case CLAIM:
-            return CLAIM;
-        case COMMUNICATION_REQUEST:
-            return COMMUNICATION_REQUEST;
-        case CONTRACT:
-            return CONTRACT;
-        case DEVICE_REQUEST:
-            return DEVICE_REQUEST;
-        case ENROLLMENT_REQUEST:
-            return ENROLLMENT_REQUEST;
-        case IMMUNIZATION_RECOMMENDATION:
-            return IMMUNIZATION_RECOMMENDATION;
-        case MEDICATION_REQUEST:
-            return MEDICATION_REQUEST;
-        case NUTRITION_ORDER:
-            return NUTRITION_ORDER;
-        case SERVICE_REQUEST:
-            return SERVICE_REQUEST;
-        case SUPPLY_REQUEST:
-            return SUPPLY_REQUEST;
-        case TASK:
-            return TASK;
-        case VISION_PRESCRIPTION:
-            return VISION_PRESCRIPTION;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -324,14 +273,6 @@ public class ActivityDefinitionKind extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -360,146 +301,6 @@ public class ActivityDefinitionKind extends Code {
         protected Builder from(ActivityDefinitionKind activityDefinitionKind) {
             super.from(activityDefinitionKind);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Appointment
-         * 
-         * <p>A booking of a healthcare event among patient(s), practitioner(s), related person(s) and/or device(s) for a 
-         * specific date/time. This may result in one or more Encounter(s).
-         */
-        APPOINTMENT("Appointment"),
-
-        /**
-         * AppointmentResponse
-         * 
-         * <p>A reply to an appointment request for a patient and/or practitioner(s), such as a confirmation or rejection.
-         */
-        APPOINTMENT_RESPONSE("AppointmentResponse"),
-
-        /**
-         * CarePlan
-         * 
-         * <p>Healthcare plan for patient or group.
-         */
-        CARE_PLAN("CarePlan"),
-
-        /**
-         * Claim
-         * 
-         * <p>Claim, Pre-determination or Pre-authorization.
-         */
-        CLAIM("Claim"),
-
-        /**
-         * CommunicationRequest
-         * 
-         * <p>A request for information to be sent to a receiver.
-         */
-        COMMUNICATION_REQUEST("CommunicationRequest"),
-
-        /**
-         * Contract
-         * 
-         * <p>Legal Agreement.
-         */
-        CONTRACT("Contract"),
-
-        /**
-         * DeviceRequest
-         * 
-         * <p>Medical device request.
-         */
-        DEVICE_REQUEST("DeviceRequest"),
-
-        /**
-         * EnrollmentRequest
-         * 
-         * <p>Enrollment request.
-         */
-        ENROLLMENT_REQUEST("EnrollmentRequest"),
-
-        /**
-         * ImmunizationRecommendation
-         * 
-         * <p>Guidance or advice relating to an immunization.
-         */
-        IMMUNIZATION_RECOMMENDATION("ImmunizationRecommendation"),
-
-        /**
-         * MedicationRequest
-         * 
-         * <p>Ordering of medication for patient or group.
-         */
-        MEDICATION_REQUEST("MedicationRequest"),
-
-        /**
-         * NutritionOrder
-         * 
-         * <p>Diet, formula or nutritional supplement request.
-         */
-        NUTRITION_ORDER("NutritionOrder"),
-
-        /**
-         * ServiceRequest
-         * 
-         * <p>A record of a request for service such as diagnostic investigations, treatments, or operations to be performed.
-         */
-        SERVICE_REQUEST("ServiceRequest"),
-
-        /**
-         * SupplyRequest
-         * 
-         * <p>Request for a medication, substance or device.
-         */
-        SUPPLY_REQUEST("SupplyRequest"),
-
-        /**
-         * Task
-         * 
-         * <p>A task to be performed.
-         */
-        TASK("Task"),
-
-        /**
-         * VisionPrescription
-         * 
-         * <p>Prescription for vision correction products for a patient.
-         */
-        VISION_PRESCRIPTION("VisionPrescription");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating ActivityDefinitionKind.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

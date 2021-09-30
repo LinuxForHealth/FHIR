@@ -55,38 +55,9 @@ public class RemittanceOutcome extends Code {
 
     /**
      * Get the value of this RemittanceOutcome as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this RemittanceOutcome as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating RemittanceOutcome objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static RemittanceOutcome of(ValueSet value) {
-        switch (value) {
-        case QUEUED:
-            return QUEUED;
-        case COMPLETE:
-            return COMPLETE;
-        case ERROR:
-            return ERROR;
-        case PARTIAL:
-            return PARTIAL;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -202,14 +173,6 @@ public class RemittanceOutcome extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -238,68 +201,6 @@ public class RemittanceOutcome extends Code {
         protected Builder from(RemittanceOutcome remittanceOutcome) {
             super.from(remittanceOutcome);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Queued
-         * 
-         * <p>The Claim/Pre-authorization/Pre-determination has been received but processing has not begun.
-         */
-        QUEUED("queued"),
-
-        /**
-         * Processing Complete
-         * 
-         * <p>The processing has completed without errors
-         */
-        COMPLETE("complete"),
-
-        /**
-         * Error
-         * 
-         * <p>One or more errors have been detected in the Claim
-         */
-        ERROR("error"),
-
-        /**
-         * Partial Processing
-         * 
-         * <p>No errors have been detected in the Claim and some of the adjudication has been performed.
-         */
-        PARTIAL("partial");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating RemittanceOutcome.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

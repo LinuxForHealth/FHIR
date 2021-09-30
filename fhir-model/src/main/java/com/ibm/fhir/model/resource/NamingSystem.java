@@ -526,7 +526,8 @@ public class NamingSystem extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -543,13 +544,17 @@ public class NamingSystem extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -562,7 +567,8 @@ public class NamingSystem extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -581,13 +587,17 @@ public class NamingSystem extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -605,7 +615,8 @@ public class NamingSystem extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -629,17 +640,39 @@ public class NamingSystem extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
             return (Builder) super.modifierExtension(modifierExtension);
+        }
+
+        /**
+         * Convenience method for setting {@code name}.
+         * 
+         * <p>This element is required.
+         * 
+         * @param name
+         *     Name for this naming system (computer friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #name(com.ibm.fhir.model.type.String)
+         */
+        public Builder name(java.lang.String name) {
+            this.name = (name == null) ? null : String.of(name);
+            return this;
         }
 
         /**
@@ -710,6 +743,22 @@ public class NamingSystem extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code publisher}.
+         * 
+         * @param publisher
+         *     Name of the publisher (organization or individual)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #publisher(com.ibm.fhir.model.type.String)
+         */
+        public Builder publisher(java.lang.String publisher) {
+            this.publisher = (publisher == null) ? null : String.of(publisher);
+            return this;
+        }
+
+        /**
          * The name of the organization or individual that published the naming system.
          * 
          * @param publisher
@@ -726,7 +775,8 @@ public class NamingSystem extends DomainResource {
         /**
          * Contact details to assist a user in finding and communicating with the publisher.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contact
          *     Contact details for the publisher
@@ -744,16 +794,36 @@ public class NamingSystem extends DomainResource {
         /**
          * Contact details to assist a user in finding and communicating with the publisher.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contact
          *     Contact details for the publisher
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder contact(Collection<ContactDetail> contact) {
             this.contact = new ArrayList<>(contact);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code responsible}.
+         * 
+         * @param responsible
+         *     Who maintains system namespace?
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #responsible(com.ibm.fhir.model.type.String)
+         */
+        public Builder responsible(java.lang.String responsible) {
+            this.responsible = (responsible == null) ? null : String.of(responsible);
             return this;
         }
 
@@ -806,7 +876,8 @@ public class NamingSystem extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate naming system instances.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param useContext
          *     The context that the content is intended to support
@@ -826,13 +897,17 @@ public class NamingSystem extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate naming system instances.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param useContext
          *     The context that the content is intended to support
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder useContext(Collection<UsageContext> useContext) {
             this.useContext = new ArrayList<>(useContext);
@@ -842,7 +917,8 @@ public class NamingSystem extends DomainResource {
         /**
          * A legal or geographic region in which the naming system is intended to be used.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param jurisdiction
          *     Intended jurisdiction for naming system (if applicable)
@@ -860,16 +936,36 @@ public class NamingSystem extends DomainResource {
         /**
          * A legal or geographic region in which the naming system is intended to be used.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param jurisdiction
          *     Intended jurisdiction for naming system (if applicable)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder jurisdiction(Collection<CodeableConcept> jurisdiction) {
             this.jurisdiction = new ArrayList<>(jurisdiction);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code usage}.
+         * 
+         * @param usage
+         *     How/where is it used
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #usage(com.ibm.fhir.model.type.String)
+         */
+        public Builder usage(java.lang.String usage) {
+            this.usage = (usage == null) ? null : String.of(usage);
             return this;
         }
 
@@ -891,7 +987,8 @@ public class NamingSystem extends DomainResource {
         /**
          * Indicates how the system may be identified when referenced in electronic exchange.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>This element is required.
          * 
@@ -911,7 +1008,8 @@ public class NamingSystem extends DomainResource {
         /**
          * Indicates how the system may be identified when referenced in electronic exchange.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>This element is required.
          * 
@@ -920,6 +1018,9 @@ public class NamingSystem extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder uniqueId(Collection<UniqueId> uniqueId) {
             this.uniqueId = new ArrayList<>(uniqueId);
@@ -1173,7 +1274,8 @@ public class NamingSystem extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1192,13 +1294,17 @@ public class NamingSystem extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1216,7 +1322,8 @@ public class NamingSystem extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1240,13 +1347,17 @@ public class NamingSystem extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1270,6 +1381,24 @@ public class NamingSystem extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code value}.
+             * 
+             * <p>This element is required.
+             * 
+             * @param value
+             *     The unique identifier
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(com.ibm.fhir.model.type.String)
+             */
+            public Builder value(java.lang.String value) {
+                this.value = (value == null) ? null : String.of(value);
+                return this;
+            }
+
+            /**
              * The string that should be sent over the wire to identify the code system or identifier system.
              * 
              * <p>This element is required.
@@ -1286,6 +1415,22 @@ public class NamingSystem extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code preferred}.
+             * 
+             * @param preferred
+             *     Is this the id that should be used for this type
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #preferred(com.ibm.fhir.model.type.Boolean)
+             */
+            public Builder preferred(java.lang.Boolean preferred) {
+                this.preferred = (preferred == null) ? null : Boolean.of(preferred);
+                return this;
+            }
+
+            /**
              * Indicates whether this identifier is the "preferred" identifier of this type.
              * 
              * @param preferred
@@ -1296,6 +1441,22 @@ public class NamingSystem extends DomainResource {
              */
             public Builder preferred(Boolean preferred) {
                 this.preferred = preferred;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code comment}.
+             * 
+             * @param comment
+             *     Notes about identifier usage
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #comment(com.ibm.fhir.model.type.String)
+             */
+            public Builder comment(java.lang.String comment) {
+                this.comment = (comment == null) ? null : String.of(comment);
                 return this;
             }
 

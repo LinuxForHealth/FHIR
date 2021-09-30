@@ -80,9 +80,9 @@ public class AuthzPolicyEnforcementTest {
 
         interceptor = new AuthzPolicyEnforcementPersistenceInterceptor();
 
-        Provenance provenanceBase = TestUtil.getMinimalResource(ResourceType.PROVENANCE);
+        Provenance provenanceBase = TestUtil.getMinimalResource(Provenance.class);
 
-        patient = TestUtil.getMinimalResource(ResourceType.PATIENT);
+        patient = TestUtil.getMinimalResource(Patient.class);
         patient = patient.toBuilder()
                 .id(PATIENT_ID)
                 .build();
@@ -93,7 +93,7 @@ public class AuthzPolicyEnforcementTest {
                     .build())
                 .build();
 
-        observation = TestUtil.getMinimalResource(ResourceType.OBSERVATION);
+        observation = TestUtil.getMinimalResource(Observation.class);
         observation = observation.toBuilder()
                 .id(OBSERVATION_ID)
                 .subject(Reference.builder().reference(string("Patient/" + PATIENT_ID)).build())
@@ -106,7 +106,7 @@ public class AuthzPolicyEnforcementTest {
                     .build())
                 .build();
 
-        condition = TestUtil.getMinimalResource(ResourceType.CONDITION);
+        condition = TestUtil.getMinimalResource(Condition.class);
         condition = condition.toBuilder()
                 .subject(Reference.builder()
                     .reference(string("Patient/" + CONDITION_ID + "/_history/1"))
@@ -271,7 +271,7 @@ public class AuthzPolicyEnforcementTest {
         FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders("patient/Patient.read patient/Observation.read patient/Practitioner.read"));
         Practitioner practitioner = null;
         try {
-            practitioner = TestUtil.readExampleResource("json/ibm/minimal/Practitioner-1.json");
+            practitioner = TestUtil.getMinimalResource(Practitioner.class);
         } catch (Exception e) {
             fail("Practitioner resource could not be created");
         }

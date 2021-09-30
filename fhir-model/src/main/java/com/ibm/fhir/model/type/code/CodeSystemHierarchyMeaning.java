@@ -62,38 +62,9 @@ public class CodeSystemHierarchyMeaning extends Code {
 
     /**
      * Get the value of this CodeSystemHierarchyMeaning as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this CodeSystemHierarchyMeaning as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating CodeSystemHierarchyMeaning objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static CodeSystemHierarchyMeaning of(ValueSet value) {
-        switch (value) {
-        case GROUPED_BY:
-            return GROUPED_BY;
-        case IS_A:
-            return IS_A;
-        case PART_OF:
-            return PART_OF;
-        case CLASSIFIED_WITH:
-            return CLASSIFIED_WITH;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -209,14 +180,6 @@ public class CodeSystemHierarchyMeaning extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -245,75 +208,6 @@ public class CodeSystemHierarchyMeaning extends Code {
         protected Builder from(CodeSystemHierarchyMeaning codeSystemHierarchyMeaning) {
             super.from(codeSystemHierarchyMeaning);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Grouped By
-         * 
-         * <p>No particular relationship between the concepts can be assumed, except what can be determined by inspection of the 
-         * definitions of the elements (possible reasons to use this: importing from a source where this is not defined, or where 
-         * various parts of the hierarchy have different meanings).
-         */
-        GROUPED_BY("grouped-by"),
-
-        /**
-         * Is-A
-         * 
-         * <p>A hierarchy where the child concepts have an IS-A relationship with the parents - that is, all the properties of 
-         * the parent are also true for its child concepts. Not that is-a is a property of the concepts, so additional 
-         * subsumption relationships may be defined using properties or the [subsumes](extension-codesystem-subsumes.html) 
-         * extension.
-         */
-        IS_A("is-a"),
-
-        /**
-         * Part Of
-         * 
-         * <p>Child elements list the individual parts of a composite whole (e.g. body site).
-         */
-        PART_OF("part-of"),
-
-        /**
-         * Classified With
-         * 
-         * <p>Child concepts in the hierarchy may have only one parent, and there is a presumption that the code system is a 
-         * "closed world" meaning all things must be in the hierarchy. This results in concepts such as "not otherwise 
-         * classified.".
-         */
-        CLASSIFIED_WITH("classified-with");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating CodeSystemHierarchyMeaning.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

@@ -55,38 +55,9 @@ public class CompositionAttestationMode extends Code {
 
     /**
      * Get the value of this CompositionAttestationMode as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this CompositionAttestationMode as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating CompositionAttestationMode objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static CompositionAttestationMode of(ValueSet value) {
-        switch (value) {
-        case PERSONAL:
-            return PERSONAL;
-        case PROFESSIONAL:
-            return PROFESSIONAL;
-        case LEGAL:
-            return LEGAL;
-        case OFFICIAL:
-            return OFFICIAL;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -202,14 +173,6 @@ public class CompositionAttestationMode extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -238,68 +201,6 @@ public class CompositionAttestationMode extends Code {
         protected Builder from(CompositionAttestationMode compositionAttestationMode) {
             super.from(compositionAttestationMode);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Personal
-         * 
-         * <p>The person authenticated the content in their personal capacity.
-         */
-        PERSONAL("personal"),
-
-        /**
-         * Professional
-         * 
-         * <p>The person authenticated the content in their professional capacity.
-         */
-        PROFESSIONAL("professional"),
-
-        /**
-         * Legal
-         * 
-         * <p>The person authenticated the content and accepted legal responsibility for its content.
-         */
-        LEGAL("legal"),
-
-        /**
-         * Official
-         * 
-         * <p>The organization authenticated the content as consistent with their policies and procedures.
-         */
-        OFFICIAL("official");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating CompositionAttestationMode.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

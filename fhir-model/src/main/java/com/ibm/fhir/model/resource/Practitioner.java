@@ -420,7 +420,8 @@ public class Practitioner extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -437,13 +438,17 @@ public class Practitioner extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -456,7 +461,8 @@ public class Practitioner extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -475,13 +481,17 @@ public class Practitioner extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -499,7 +509,8 @@ public class Practitioner extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -523,13 +534,17 @@ public class Practitioner extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -539,7 +554,8 @@ public class Practitioner extends DomainResource {
         /**
          * An identifier that applies to this person in this role.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     An identifier for the person as this agent
@@ -557,16 +573,36 @@ public class Practitioner extends DomainResource {
         /**
          * An identifier that applies to this person in this role.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     An identifier for the person as this agent
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder identifier(Collection<Identifier> identifier) {
             this.identifier = new ArrayList<>(identifier);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code active}.
+         * 
+         * @param active
+         *     Whether this practitioner's record is in active use
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #active(com.ibm.fhir.model.type.Boolean)
+         */
+        public Builder active(java.lang.Boolean active) {
+            this.active = (active == null) ? null : Boolean.of(active);
             return this;
         }
 
@@ -587,7 +623,8 @@ public class Practitioner extends DomainResource {
         /**
          * The name(s) associated with the practitioner.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param name
          *     The name(s) associated with the practitioner
@@ -605,13 +642,17 @@ public class Practitioner extends DomainResource {
         /**
          * The name(s) associated with the practitioner.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param name
          *     The name(s) associated with the practitioner
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder name(Collection<HumanName> name) {
             this.name = new ArrayList<>(name);
@@ -621,7 +662,8 @@ public class Practitioner extends DomainResource {
         /**
          * A contact detail for the practitioner, e.g. a telephone number or an email address.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param telecom
          *     A contact detail for the practitioner (that apply to all roles)
@@ -639,13 +681,17 @@ public class Practitioner extends DomainResource {
         /**
          * A contact detail for the practitioner, e.g. a telephone number or an email address.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param telecom
          *     A contact detail for the practitioner (that apply to all roles)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder telecom(Collection<ContactPoint> telecom) {
             this.telecom = new ArrayList<>(telecom);
@@ -656,7 +702,8 @@ public class Practitioner extends DomainResource {
          * Address(es) of the practitioner that are not role specific (typically home address). Work addresses are not typically 
          * entered in this property as they are usually role dependent.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param address
          *     Address(es) of the practitioner that are not role specific (typically home address)
@@ -675,13 +722,17 @@ public class Practitioner extends DomainResource {
          * Address(es) of the practitioner that are not role specific (typically home address). Work addresses are not typically 
          * entered in this property as they are usually role dependent.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param address
          *     Address(es) of the practitioner that are not role specific (typically home address)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder address(Collection<Address> address) {
             this.address = new ArrayList<>(address);
@@ -704,6 +755,22 @@ public class Practitioner extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code birthDate}.
+         * 
+         * @param birthDate
+         *     The date on which the practitioner was born
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #birthDate(com.ibm.fhir.model.type.Date)
+         */
+        public Builder birthDate(java.time.LocalDate birthDate) {
+            this.birthDate = (birthDate == null) ? null : Date.of(birthDate);
+            return this;
+        }
+
+        /**
          * The date of birth for the practitioner.
          * 
          * @param birthDate
@@ -720,7 +787,8 @@ public class Practitioner extends DomainResource {
         /**
          * Image of the person.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param photo
          *     Image of the person
@@ -738,13 +806,17 @@ public class Practitioner extends DomainResource {
         /**
          * Image of the person.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param photo
          *     Image of the person
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder photo(Collection<Attachment> photo) {
             this.photo = new ArrayList<>(photo);
@@ -756,7 +828,8 @@ public class Practitioner extends DomainResource {
          * the practitioner. For example, a medical license issued by a medical board authorizing the practitioner to practice 
          * medicine within a certian locality.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param qualification
          *     Certification, licenses, or training pertaining to the provision of care
@@ -776,13 +849,17 @@ public class Practitioner extends DomainResource {
          * the practitioner. For example, a medical license issued by a medical board authorizing the practitioner to practice 
          * medicine within a certian locality.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param qualification
          *     Certification, licenses, or training pertaining to the provision of care
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder qualification(Collection<Qualification> qualification) {
             this.qualification = new ArrayList<>(qualification);
@@ -792,7 +869,8 @@ public class Practitioner extends DomainResource {
         /**
          * A language the practitioner can use in patient communication.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param communication
          *     A language the practitioner can use in patient communication
@@ -810,13 +888,17 @@ public class Practitioner extends DomainResource {
         /**
          * A language the practitioner can use in patient communication.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param communication
          *     A language the practitioner can use in patient communication
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder communication(Collection<CodeableConcept> communication) {
             this.communication = new ArrayList<>(communication);
@@ -1040,7 +1122,8 @@ public class Practitioner extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1059,13 +1142,17 @@ public class Practitioner extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1083,7 +1170,8 @@ public class Practitioner extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1107,13 +1195,17 @@ public class Practitioner extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1123,7 +1215,8 @@ public class Practitioner extends DomainResource {
             /**
              * An identifier that applies to this person's qualification in this role.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param identifier
              *     An identifier for this qualification for the practitioner
@@ -1141,13 +1234,17 @@ public class Practitioner extends DomainResource {
             /**
              * An identifier that applies to this person's qualification in this role.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param identifier
              *     An identifier for this qualification for the practitioner
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder identifier(Collection<Identifier> identifier) {
                 this.identifier = new ArrayList<>(identifier);

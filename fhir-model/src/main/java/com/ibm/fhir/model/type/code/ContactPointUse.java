@@ -65,40 +65,9 @@ public class ContactPointUse extends Code {
 
     /**
      * Get the value of this ContactPointUse as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this ContactPointUse as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating ContactPointUse objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static ContactPointUse of(ValueSet value) {
-        switch (value) {
-        case HOME:
-            return HOME;
-        case WORK:
-            return WORK;
-        case TEMP:
-            return TEMP;
-        case OLD:
-            return OLD;
-        case MOBILE:
-            return MOBILE;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -216,14 +185,6 @@ public class ContactPointUse extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -252,78 +213,6 @@ public class ContactPointUse extends Code {
         protected Builder from(ContactPointUse contactPointUse) {
             super.from(contactPointUse);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Home
-         * 
-         * <p>A communication contact point at a home; attempted contacts for business purposes might intrude privacy and chances 
-         * are one will contact family or other household members instead of the person one wishes to call. Typically used with 
-         * urgent cases, or if no other contacts are available.
-         */
-        HOME("home"),
-
-        /**
-         * Work
-         * 
-         * <p>An office contact point. First choice for business related contacts during business hours.
-         */
-        WORK("work"),
-
-        /**
-         * Temp
-         * 
-         * <p>A temporary contact point. The period can provide more detailed information.
-         */
-        TEMP("temp"),
-
-        /**
-         * Old
-         * 
-         * <p>This contact point is no longer in use (or was never correct, but retained for records).
-         */
-        OLD("old"),
-
-        /**
-         * Mobile
-         * 
-         * <p>A telecommunication device that moves and stays with its owner. May have characteristics of all other use codes, 
-         * suitable for urgent matters, not the first choice for routine business.
-         */
-        MOBILE("mobile");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating ContactPointUse.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

@@ -65,40 +65,9 @@ public class ReferenceHandlingPolicy extends Code {
 
     /**
      * Get the value of this ReferenceHandlingPolicy as an enum constant.
-     * @deprecated replaced by {@link #getValueAsEnum()}
-     */
-    @Deprecated
-    public ValueSet getValueAsEnumConstant() {
-        return (value != null) ? ValueSet.from(value) : null;
-    }
-
-    /**
-     * Get the value of this ReferenceHandlingPolicy as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
-    }
-
-    /**
-     * Factory method for creating ReferenceHandlingPolicy objects from a passed enum value.
-     * @deprecated replaced by {@link #of(Value)}
-     */
-    @Deprecated
-    public static ReferenceHandlingPolicy of(ValueSet value) {
-        switch (value) {
-        case LITERAL:
-            return LITERAL;
-        case LOGICAL:
-            return LOGICAL;
-        case RESOLVES:
-            return RESOLVES;
-        case ENFORCED:
-            return ENFORCED;
-        case LOCAL:
-            return LOCAL;
-        default:
-            throw new IllegalStateException(value.name());
-        }
     }
 
     /**
@@ -216,14 +185,6 @@ public class ReferenceHandlingPolicy extends Code {
         }
 
         /**
-         * @deprecated replaced by  {@link #value(Value)}
-         */
-        @Deprecated
-        public Builder value(ValueSet value) {
-            return (value != null) ? (Builder) super.value(value.value()) : this;
-        }
-
-        /**
          * Primitive value for code
          * 
          * @param value
@@ -252,78 +213,6 @@ public class ReferenceHandlingPolicy extends Code {
         protected Builder from(ReferenceHandlingPolicy referenceHandlingPolicy) {
             super.from(referenceHandlingPolicy);
             return this;
-        }
-    }
-
-    @Deprecated
-    public enum ValueSet {
-        /**
-         * Literal References
-         * 
-         * <p>The server supports and populates Literal references (i.e. using Reference.reference) where they are known (this 
-         * code does not guarantee that all references are literal; see 'enforced').
-         */
-        LITERAL("literal"),
-
-        /**
-         * Logical References
-         * 
-         * <p>The server allows logical references (i.e. using Reference.identifier).
-         */
-        LOGICAL("logical"),
-
-        /**
-         * Resolves References
-         * 
-         * <p>The server will attempt to resolve logical references to literal references - i.e. converting Reference.identifier 
-         * to Reference.reference (if resolution fails, the server may still accept resources; see logical).
-         */
-        RESOLVES("resolves"),
-
-        /**
-         * Reference Integrity Enforced
-         * 
-         * <p>The server enforces that references have integrity - e.g. it ensures that references can always be resolved. This 
-         * is typically the case for clinical record systems, but often not the case for middleware/proxy systems.
-         */
-        ENFORCED("enforced"),
-
-        /**
-         * Local References Only
-         * 
-         * <p>The server does not support references that point to other servers.
-         */
-        LOCAL("local");
-
-        private final java.lang.String value;
-
-        ValueSet(java.lang.String value) {
-            this.value = value;
-        }
-
-        /**
-         * @return
-         *     The java.lang.String value of the code represented by this enum
-         */
-        public java.lang.String value() {
-            return value;
-        }
-
-        /**
-         * Factory method for creating ReferenceHandlingPolicy.Value values from a passed string value.
-         * 
-         * @param value
-         *     A string that matches one of the allowed code values
-         * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
-         */
-        public static ValueSet from(java.lang.String value) {
-            for (ValueSet c : ValueSet.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 
