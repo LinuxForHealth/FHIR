@@ -598,9 +598,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     public <T extends Resource> SingleResourceResult<T> update(FHIRPersistenceContext context, String logicalId, T resource) 
             throws FHIRPersistenceException {
 
-        // legacy implementation (before issue 1869) provided for API compatibility.
+        // legacy implementation (before issue 1869) provided for API compatibility. Used by bulk-import
         final com.ibm.fhir.model.type.Instant lastUpdated = com.ibm.fhir.model.type.Instant.now(ZoneOffset.UTC);
-        final int newVersionId = Integer.parseInt(resource.getMeta().getVersionId().getValue()) + 1;
+        final int newVersionId = resource.getMeta() == null || resource.getMeta().getVersionId() == null ? 1 : Integer.parseInt(resource.getMeta().getVersionId().getValue()) + 1;
         resource = copyAndSetResourceMetaFields(resource, logicalId, newVersionId, lastUpdated);
         return update(context, logicalId, newVersionId, resource);
     }
