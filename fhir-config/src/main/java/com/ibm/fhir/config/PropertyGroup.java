@@ -11,13 +11,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import com.ibm.fhir.core.FHIRUtilities;
+
 import jakarta.json.JsonArray;
 import jakarta.json.JsonNumber;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonString;
 import jakarta.json.JsonValue;
-
-import com.ibm.fhir.core.FHIRUtilities;
 
 /**
  * This class represents a collection of properties - a property group. This could be the entire set of properties
@@ -107,7 +107,7 @@ public class PropertyGroup {
     /**
      * This is a convenience function that will retrieve an array property, then convert it
      * to a list of Strings by calling toString() on each array element.
-     * 
+     *
      * @param propertyName the name of the property to retrieve
      * @return a List<String> containing the elements from the JSON array property; possibly null
      * @throws Exception
@@ -262,7 +262,7 @@ public class PropertyGroup {
     /**
      * Converts the specified JsonValue into the appropriate java.lang.* type.
      * @param jsonValue the JsonValue instance to be converted
-     * @return an instance of Boolean, Integer, String, PropertyGroup, or List<Object>
+     * @return either null or an instance of Boolean, Integer, String, PropertyGroup, or List<Object>
      * @throws Exception
      */
     public static Object convertJsonValue(JsonValue jsonValue) throws Exception {
@@ -291,6 +291,8 @@ public class PropertyGroup {
             break;
         case FALSE:
             result = Boolean.FALSE;
+            break;
+        case NULL:
             break;
         default:
             throw new IllegalStateException("Unexpected JSON value type: " + jsonValue.getValueType().name());
