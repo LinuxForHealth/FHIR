@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -21,7 +21,7 @@ import com.ibm.fhir.validation.test.ValidationProcessor;
 
 public class ExamplesValidationTest {
     @Test
-    public void testPlanNetValidation() throws Exception {
+    public void testHREXValidation() throws Exception {
         R4ExamplesDriver driver = new R4ExamplesDriver();
         SerializationProcessor processor = new SerializationProcessor();
         driver.setProcessor(processor);

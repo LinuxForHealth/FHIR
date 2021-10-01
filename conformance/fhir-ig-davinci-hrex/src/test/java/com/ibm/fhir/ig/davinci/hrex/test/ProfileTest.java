@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -46,7 +46,7 @@ public class ProfileTest {
     }
 
     @Test
-    public void testUSCoreValidation() throws Exception {
+    public void testHrexValidation() throws Exception {
         try (Reader r = ExamplesUtil.resourceReader(path)) {
             System.out.println("Davinci HREX Testing -> " + path);
             Resource resource = FHIRParser.parser(format).parse(r);
