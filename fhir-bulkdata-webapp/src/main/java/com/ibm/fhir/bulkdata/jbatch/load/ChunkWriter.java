@@ -10,6 +10,7 @@ import static com.ibm.fhir.model.type.String.string;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.time.ZoneOffset;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -41,8 +42,11 @@ import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
+import com.ibm.fhir.model.resource.Resource.Builder;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.CodeableConcept;
+import com.ibm.fhir.model.type.Id;
+import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.FHIRUtil;
@@ -200,6 +204,7 @@ public class ChunkWriter extends AbstractItemWriter {
                             }
                             OperationOutcome operationOutcome;
                             if (id == null) {
+                                // Because there's no id provided, this has to be a create
                                 long startTime = System.currentTimeMillis();
                                 FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null);
                                 operationOutcome =
@@ -279,6 +284,39 @@ public class ChunkWriter extends AbstractItemWriter {
     }
 
     /**
+     * Creates and returns a copy of the passed resource with the {@code Resource.id}
+     * {@code Resource.meta.versionId}, and {@code Resource.meta.lastUpdated} elements replaced.
+     *
+     * @param resource
+     * @param logicalId
+     * @param newVersionNumber
+     * @param lastUpdated
+     * @return the updated resource
+     */
+    @SuppressWarnings("unchecked")
+    private <T extends Resource> T copyAndSetResourceMetaFields(T resource, String logicalId, int newVersionNumber, com.ibm.fhir.model.type.Instant lastUpdated) {
+        Meta meta = resource.getMeta();
+        Meta.Builder metaBuilder = meta == null ? Meta.builder() : meta.toBuilder();
+        metaBuilder.versionId(Id.of(Integer.toString(newVersionNumber)));
+        metaBuilder.lastUpdated(lastUpdated);
+
+        Builder resourceBuilder = resource.toBuilder();
+        resourceBuilder.setValidating(false);
+        return (T) resourceBuilder
+                .id(logicalId)
+                .meta(metaBuilder.build())
+                .build();
+    }
+
+    /**
+     * Get the current time which can be used for the lastUpdated field
+     * @return current time in UTC
+     */
+    private com.ibm.fhir.model.type.Instant getCurrentInstant() {
+        return com.ibm.fhir.model.type.Instant.now(ZoneOffset.UTC);
+    }
+
+    /**
      * conditional update checks to see if our cache contains the key, if not reads from the db, and calculates the cache.
      * The cache is saved within the context of this particular execution, and then destroyed.
      *
@@ -298,24 +336,33 @@ public class ChunkWriter extends AbstractItemWriter {
      * @throws FHIRPersistenceException
      */
     public OperationOutcome conditionalFingerprintUpdate(ImportTransientUserData chunkData, boolean skip, Map<String, SaltHash> localCache, FHIRPersistence persistence, FHIRPersistenceContext context, String logicalId, Resource resource) throws FHIRPersistenceException {
+        
+        // Since issue 1869, we always need to always perform the read here in order to obtain the
+        // latest version id. When we call the persistence layer, the resource should already
+        // be updated with the correct id/meta values
+        Resource oldResource = null;
+        try {
+            // This execution is in a try-catch-block since we want to catch
+            // the resource deleted exception.
+            oldResource = persistence.read(context, resource.getClass(), logicalId).getResource();
+        } catch (FHIRPersistenceResourceDeletedException fpde) {
+            logger.throwing("ChunkWriter", "conditionalFingerprintUpdate", fpde);
+        }
+        
+        final com.ibm.fhir.model.type.Instant lastUpdated = getCurrentInstant();
+        final int newVersionNumber = oldResource != null && oldResource.getMeta() != null && oldResource.getMeta().getVersionId() != null
+                ? Integer.parseInt(oldResource.getMeta().getVersionId().getValue()) + 1 : 1;
+        resource = copyAndSetResourceMetaFields(resource, logicalId, newVersionNumber, lastUpdated);
+        
         OperationOutcome oo;
         if (skip) {
             // Key is scoped to the ResourceType.
             String key = resourceType + "/" + logicalId;
             SaltHash oldBaseLine = localCache.get(key);
 
-            Resource oldResource = null;
             ResourceFingerprintVisitor fp = new ResourceFingerprintVisitor();
             if (oldBaseLine == null) {
-                // Go get the latest resource in the database and fingerprint the resource.
                 // If the resource exists, then we need to fingerprint.
-                try {
-                    // This execution is in a try-catch-block since we want to catch
-                    // the resource deleted exception.
-                    oldResource = persistence.read(context, resource.getClass(), logicalId).getResource();
-                } catch (FHIRPersistenceResourceDeletedException fpde) {
-                    logger.throwing("ChunkWriter", "conditionalFingerprintUpdate", fpde);
-                }
                 if (oldResource != null) {
                     ResourceFingerprintVisitor fpOld = new ResourceFingerprintVisitor();
                     oldResource.accept(fpOld);
@@ -347,11 +394,11 @@ public class ChunkWriter extends AbstractItemWriter {
                     // Old Resource is set so we avoid an extra read
                     context.getPersistenceEvent().setPrevFhirResource(oldResource);
                 }
-                oo = persistence.update(context, logicalId, resource).getOutcome();
+                oo = persistence.update(context, logicalId, newVersionNumber, resource).getOutcome();
                 localCache.put(key, newBaseLine);
             }
         } else {
-            oo = persistence.update(context, logicalId, resource).getOutcome();
+            oo = persistence.update(context, logicalId, newVersionNumber, resource).getOutcome();
         }
         return oo;
     }
