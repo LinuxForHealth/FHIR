@@ -7,8 +7,6 @@
 package com.ibm.fhir.server.rest;
 
 import static com.ibm.fhir.model.type.String.string;
-import static javax.servlet.http.HttpServletResponse.SC_GONE;
-import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 
 import java.time.ZoneOffset;
 import java.util.HashSet;
@@ -131,7 +129,7 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
                 // ifNoneExist returned a result then add it to the result bundle which also
                 // means this entry is complete.
                 Entry entry = buildResponseBundleEntry(prepResponse, null, requestDescription, initialTime);
-                setResponseEntry(entryIndex, entry);
+                setEntryComplete(entryIndex, entry, requestDescription, initialTime);
                 
                 if (localIdentifier != null && !localRefMap.containsKey(localIdentifier)) {
                     addLocalRefMapping(localIdentifier, prepResponse.getResource());
@@ -179,7 +177,7 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
             // If the update was skippable we might be able to skip the future persistence step
             if (metaResponse.isCompleted()) {
                 Entry entry = buildResponseBundleEntry(metaResponse, null, requestDescription, initialTime);
-                setResponseEntry(entryIndex, entry);
+                setEntryComplete(entryIndex, entry, requestDescription, initialTime);
             }
             
             // Get the updated resource with the meta info
@@ -221,7 +219,7 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
             // If the update was skippable we might be able to skip the future persistence step
             if (metaResponse.isCompleted()) {
                 Entry entry = buildResponseBundleEntry(metaResponse, null, requestDescription, initialTime);
-                setResponseEntry(entryIndex, entry);
+                setEntryComplete(entryIndex, entry, requestDescription, initialTime);
             }
             
             // Get the updated resource with the meta info
@@ -257,7 +255,7 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
     }
 
     @Override
-    public FHIRRestOperationResponse validationResponse(int entryIndex, Entry validationResponseEntry) throws Exception {
+    public FHIRRestOperationResponse validationResponse(int entryIndex, Entry validationResponseEntry, String requestDescription, long initialTime) throws Exception {
         // NOP
         return null;
     }
@@ -275,7 +273,7 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
     }
 
     @Override
-    public FHIRRestOperationResponse issue(int entryIndex, long initialTime, Status status, Entry responseEntry) throws Exception {
+    public FHIRRestOperationResponse issue(int entryIndex, String requestDescription, long initialTime, Status status, Entry responseEntry) throws Exception {
         // NOP
         return null;
     }
@@ -418,8 +416,7 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
                         .status(SC_NOT_FOUND_STRING)
                         .build())
                     .build();
-            setResponseEntry(entryIndex, entry);
-            logBundledRequestCompletedMsg(requestDescription.toString(), initialTime, SC_NOT_FOUND);
+            setEntryComplete(entryIndex, entry, requestDescription, initialTime);
         } catch (FHIRPersistenceResourceDeletedException e) {
             if (failFast) {
                 String msg = "Error while processing request bundle.";
@@ -432,8 +429,7 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
                         .status(SC_GONE_STRING)
                         .build())
                     .build();
-            setResponseEntry(entryIndex, entry);
-            logBundledRequestCompletedMsg(requestDescription.toString(), initialTime, SC_GONE);
+            setEntryComplete(entryIndex, entry, requestDescription, initialTime);
         } catch (FHIROperationException e) {
             if (failFast) {
                 String msg = "Error while processing request bundle.";
@@ -453,8 +449,7 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
                         .status(string(Integer.toString(status.getStatusCode())))
                         .build())
                     .build();
-            setResponseEntry(entryIndex, entry);
-            logBundledRequestCompletedMsg(requestDescription.toString(), initialTime, status.getStatusCode());
+            setEntryComplete(entryIndex, entry, requestDescription, initialTime);
         }
         
         return null;

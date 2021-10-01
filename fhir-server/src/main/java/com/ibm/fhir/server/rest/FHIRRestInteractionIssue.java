@@ -35,6 +35,6 @@ public class FHIRRestInteractionIssue extends FHIRRestInteractionBase {
     
     @Override
     public void accept(FHIRRestInteractionVisitor visitor) throws Exception {
-        visitor.issue(getEntryIndex(), getInitialTime(), status, responseEntry);
+        visitor.issue(getEntryIndex(), getRequestDescription(), getInitialTime(), status, responseEntry);
     }
 }

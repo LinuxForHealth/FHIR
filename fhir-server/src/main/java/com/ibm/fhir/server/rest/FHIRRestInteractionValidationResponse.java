@@ -24,6 +24,6 @@ public class FHIRRestInteractionValidationResponse extends FHIRRestInteractionRe
     
     @Override
     public void accept(FHIRRestInteractionVisitor visitor) throws Exception {
-        visitor.validationResponse(getEntryIndex(), getValidationResponseEntry());
+        visitor.validationResponse(getEntryIndex(), getValidationResponseEntry(), getRequestDescription(), getInitialTime());
     }
 }

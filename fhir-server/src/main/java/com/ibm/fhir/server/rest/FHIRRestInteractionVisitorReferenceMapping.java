@@ -7,8 +7,6 @@
 package com.ibm.fhir.server.rest;
 
 import static com.ibm.fhir.model.type.String.string;
-import static javax.servlet.http.HttpServletResponse.SC_GONE;
-import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 
 import java.util.List;
 import java.util.Map;
@@ -164,13 +162,13 @@ public class FHIRRestInteractionVisitorReferenceMapping extends FHIRRestInteract
     }
 
     @Override
-    public FHIRRestOperationResponse validationResponse(int entryIndex, Entry validationResponseEntry) throws Exception {
+    public FHIRRestOperationResponse validationResponse(int entryIndex, Entry validationResponseEntry, String requestDescription, long initialTime) throws Exception {
         // NOP
         return null;
     }
     
     @Override
-    public FHIRRestOperationResponse issue(int entryIndex, long initialTime, Status status, Entry responseEntry) throws Exception {
+    public FHIRRestOperationResponse issue(int entryIndex, String requestDescription, long initialTime, Status status, Entry responseEntry) throws Exception {
         // NOP
         return null;
     }
@@ -216,8 +214,7 @@ public class FHIRRestInteractionVisitorReferenceMapping extends FHIRRestInteract
                         .status(SC_NOT_FOUND_STRING)
                         .build())
                     .build();
-            setResponseEntry(entryIndex, entry);
-            logBundledRequestCompletedMsg(requestDescription.toString(), initialTime, SC_NOT_FOUND);
+            setEntryComplete(entryIndex, entry, requestDescription, initialTime);
         } catch (FHIRPersistenceResourceDeletedException e) {
             if (failFast) {
                 String msg = "Error while processing request bundle.";
@@ -230,8 +227,7 @@ public class FHIRRestInteractionVisitorReferenceMapping extends FHIRRestInteract
                         .status(SC_GONE_STRING)
                         .build())
                     .build();
-            setResponseEntry(entryIndex, entry);
-            logBundledRequestCompletedMsg(requestDescription.toString(), initialTime, SC_GONE);
+            setEntryComplete(entryIndex, entry, requestDescription, initialTime);
         } catch (FHIROperationException e) {
             if (failFast) {
                 String msg = "Error while processing request bundle.";
@@ -251,8 +247,7 @@ public class FHIRRestInteractionVisitorReferenceMapping extends FHIRRestInteract
                         .status(string(Integer.toString(status.getStatusCode())))
                         .build())
                     .build();
-            setResponseEntry(entryIndex, entry);
-            logBundledRequestCompletedMsg(requestDescription.toString(), initialTime, status.getStatusCode());
+            setEntryComplete(entryIndex, entry, requestDescription, initialTime);
         }
         
         return null;

@@ -65,19 +65,24 @@ public abstract class FHIRRestInteractionVisitorBase implements FHIRRestInteract
         this.responseBundleEntries = responseBundleEntries;
     }
 
-    protected void setResponseEntry(int entryIndex, Entry e) {
+    /**
+     * Set the given entry e in the response bundle and log a bundle entry completion
+     * message.
+     * @param entryIndex
+     * @param e
+     * @param requestDescription
+     * @param initialTime
+     */
+    protected void setEntryComplete(int entryIndex, Entry e, String requestDescription, long initialTime) {
         responseBundleEntries[entryIndex] = e;
+        logBundledRequestCompletedMsg(requestDescription, initialTime, e.getResponse().getStatus().getValue());
     }
-    
+
     protected Entry getResponseEntry(int entryIndex) {
         return responseBundleEntries[entryIndex];
     }
     
-    protected void logBundledRequestCompletedMsg(String requestDescription, long initialTime, int httpStatus) {
-        logBundledRequestCompletedMsg(requestDescription, initialTime, Integer.toString(httpStatus));
-    }
-    
-    protected void logBundledRequestCompletedMsg(String requestDescription, long initialTime, String httpStatus) {
+    private void logBundledRequestCompletedMsg(String requestDescription, long initialTime, String httpStatus) {
         StringBuffer statusMsg = new StringBuffer();
         statusMsg.append(" status:[" + httpStatus + "]");
         double elapsedSecs = (System.currentTimeMillis() - initialTime) / 1000.0;

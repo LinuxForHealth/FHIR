@@ -214,10 +214,12 @@ public interface FHIRRestInteractionVisitor {
      * Add the given validationResponseEntry to the result bundle
      * @param entryIndex
      * @param validationResponseEntry
+     * @param requestDescription
+     * @param initialTime
      * @return
      * @throws Exception
      */
-    FHIRRestOperationResponse validationResponse(int entryIndex, Entry validationResponseEntry) throws Exception;
+    FHIRRestOperationResponse validationResponse(int entryIndex, Entry validationResponseEntry, String requestDescription, long initialTime) throws Exception;
 
     /**
      * Add the issue to the result bundle
@@ -229,5 +231,5 @@ public interface FHIRRestInteractionVisitor {
      * @return
      * @throws Exception
      */
-    FHIRRestOperationResponse issue(int entryIndex, long initialTime, Status status, Entry responseEntry) throws Exception;
+    FHIRRestOperationResponse issue(int entryIndex, String requestDescription, long initialTime, Status status, Entry responseEntry) throws Exception;
 }
