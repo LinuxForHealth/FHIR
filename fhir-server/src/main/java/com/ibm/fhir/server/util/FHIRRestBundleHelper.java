@@ -29,6 +29,7 @@ import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.patch.FHIRPatch;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Bundle.Entry;
+import com.ibm.fhir.model.resource.Bundle.Entry.Request;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Parameters;
@@ -184,8 +185,24 @@ public class FHIRRestBundleHelper {
             for (int i = 0; i < requestBundle.getEntry().size(); i++) {
                 if (validationResponseEntries.containsKey(i) &&
                         !validationResponseEntries.get(i).getResponse().getStatus().equals(SC_ACCEPTED_STRING)) {
-                    // validation marked this entry as invalid, so wrap the validation response entry and skip it
-                    result.add(new FHIRRestInteractionValidationResponse(i, validationResponseEntries.get(i)));
+                    // validation marked this entry as invalid, so wrap the validation response entry and skip it, but provide a description
+                    // so it gets logged properly
+                    final Request request = requestBundle.getEntry().get(i).getRequest();
+                    final long initialTime = System.currentTimeMillis();
+                    final String method = request != null && request.getMethod() != null ? request.getMethod().getValue() : "null";
+                    final String requestURL = request != null && request.getUrl() != null ? request.getUrl().getValue() : "null";
+                    final StringBuilder requestDescription = new StringBuilder();
+                    requestDescription.append("entryIndex:[");
+                    requestDescription.append(i);
+                    requestDescription.append("] correlationId:[");
+                    requestDescription.append(bundleRequestCorrelationId);
+                    requestDescription.append("] method:[");
+                    requestDescription.append(method);
+                    requestDescription.append("] uri:[");
+                    requestDescription.append(requestURL);
+                    requestDescription.append("]");
+
+                    result.add(new FHIRRestInteractionValidationResponse(i, validationResponseEntries.get(i), requestDescription.toString(), initialTime));
                     continue;
                 }
                 Entry entry = requestBundle.getEntry().get(i);

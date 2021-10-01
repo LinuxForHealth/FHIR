@@ -87,7 +87,7 @@ public abstract class FHIRRestInteractionVisitorBase implements FHIRRestInteract
         statusMsg.append(" status:[" + httpStatus + "]");
         double elapsedSecs = (System.currentTimeMillis() - initialTime) / 1000.0;
         log.info("Completed bundled request[" + elapsedSecs + " secs]: "
-                + requestDescription.toString() + statusMsg.toString());
+                + requestDescription + statusMsg.toString());
     }
     
     /**
