@@ -306,7 +306,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             String logicalId = generateResourceId();
             final com.ibm.fhir.model.type.Instant lastUpdated = getCurrentInstant();
             final int newVersionNumber = 1;
-            resource = copyAndSetResourceMetaFields(event.getFhirResource(), logicalId, newVersionNumber, lastUpdated);
+            resource = FHIRPersistenceUtil.copyAndSetResourceMetaFields(event.getFhirResource(), logicalId, newVersionNumber, lastUpdated);
             event.setFhirResource(resource);
 
         } finally {
@@ -318,32 +318,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         
         return null;
     }
-
-    /**
-     * Creates and returns a copy of the passed resource with the {@code Resource.id}
-     * {@code Resource.meta.versionId}, and {@code Resource.meta.lastUpdated} elements replaced.
-     *
-     * @param resource
-     * @param logicalId
-     * @param newVersionNumber
-     * @param lastUpdated
-     * @return the updated resource
-     */
-    @SuppressWarnings("unchecked")
-    private <T extends Resource> T copyAndSetResourceMetaFields(T resource, String logicalId, int newVersionNumber, com.ibm.fhir.model.type.Instant lastUpdated) {
-        Meta meta = resource.getMeta();
-        Meta.Builder metaBuilder = meta == null ? Meta.builder() : meta.toBuilder();
-        metaBuilder.versionId(Id.of(Integer.toString(newVersionNumber)));
-        metaBuilder.lastUpdated(lastUpdated);
-
-        Builder resourceBuilder = resource.toBuilder();
-        resourceBuilder.setValidating(false);
-        return (T) resourceBuilder
-                .id(logicalId)
-                .meta(metaBuilder.build())
-                .build();
-    }
-
     
     @Override
     public FHIRRestOperationResponse doCreatePersist(FHIRPersistenceEvent event, List<Issue> warnings, String type, Resource resource) throws Exception {
@@ -719,7 +693,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             // a mismatch (can happen when there are concurrent updates).
             final com.ibm.fhir.model.type.Instant lastUpdated = com.ibm.fhir.model.type.Instant.now(ZoneOffset.UTC);
             final int newVersionNumber = updateCreate ? 1 : Integer.parseInt(ior.getPrevResource().getMeta().getVersionId().getValue()) + 1;
-            newResource = copyAndSetResourceMetaFields(newResource, newResource.getId(), newVersionNumber, lastUpdated);
+            newResource = FHIRPersistenceUtil.copyAndSetResourceMetaFields(newResource, newResource.getId(), newVersionNumber, lastUpdated);
             
             ior.setResource(newResource);
             ior.setDeleted(isDeleted);

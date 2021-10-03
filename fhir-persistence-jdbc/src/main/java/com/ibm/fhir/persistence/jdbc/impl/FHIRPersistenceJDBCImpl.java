@@ -520,19 +520,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * @param lastUpdated
      * @return the updated resource
      */
-    @SuppressWarnings("unchecked")
     private <T extends Resource> T copyAndSetResourceMetaFields(T resource, String logicalId, int newVersionNumber, Instant lastUpdated) {
-        Meta meta = resource.getMeta();
-        Meta.Builder metaBuilder = meta == null ? Meta.builder() : meta.toBuilder();
-        metaBuilder.versionId(Id.of(Integer.toString(newVersionNumber)));
-        metaBuilder.lastUpdated(lastUpdated);
-
-        Builder resourceBuilder = resource.toBuilder();
-        resourceBuilder.setValidating(false);
-        return (T) resourceBuilder
-                .id(logicalId)
-                .meta(metaBuilder.build())
-                .build();
+        return FHIRPersistenceUtil.copyAndSetResourceMetaFields(resource, logicalId, newVersionNumber, lastUpdated);
     }
 
     /**

@@ -39,6 +39,7 @@ import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.util.SearchUtil;
@@ -254,19 +255,8 @@ public abstract class AbstractPersistenceTest {
      * @param lastUpdated
      * @return the updated resource
      */
-    @SuppressWarnings("unchecked")
     protected <T extends Resource> T copyAndSetResourceMetaFields(T resource, String logicalId, int newVersionNumber, Instant lastUpdated) {
-        Meta meta = resource.getMeta();
-        Meta.Builder metaBuilder = meta == null ? Meta.builder() : meta.toBuilder();
-        metaBuilder.versionId(Id.of(Integer.toString(newVersionNumber)));
-        metaBuilder.lastUpdated(lastUpdated);
-
-        Builder resourceBuilder = resource.toBuilder();
-        resourceBuilder.setValidating(false);
-        return (T) resourceBuilder
-                .id(logicalId)
-                .meta(metaBuilder.build())
-                .build();
+        return FHIRPersistenceUtil.copyAndSetResourceMetaFields(resource, logicalId, newVersionNumber, lastUpdated);
     }
 
     /**

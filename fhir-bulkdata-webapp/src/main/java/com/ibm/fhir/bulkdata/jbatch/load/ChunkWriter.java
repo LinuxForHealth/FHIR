@@ -42,11 +42,8 @@ import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
-import com.ibm.fhir.model.resource.Resource.Builder;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.CodeableConcept;
-import com.ibm.fhir.model.type.Id;
-import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.FHIRUtil;
@@ -65,6 +62,7 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedExceptio
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
 import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
 import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
+import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.fhir.validation.exception.FHIRValidationException;
 
 /**
@@ -284,31 +282,6 @@ public class ChunkWriter extends AbstractItemWriter {
     }
 
     /**
-     * Creates and returns a copy of the passed resource with the {@code Resource.id}
-     * {@code Resource.meta.versionId}, and {@code Resource.meta.lastUpdated} elements replaced.
-     *
-     * @param resource
-     * @param logicalId
-     * @param newVersionNumber
-     * @param lastUpdated
-     * @return the updated resource
-     */
-    @SuppressWarnings("unchecked")
-    private <T extends Resource> T copyAndSetResourceMetaFields(T resource, String logicalId, int newVersionNumber, com.ibm.fhir.model.type.Instant lastUpdated) {
-        Meta meta = resource.getMeta();
-        Meta.Builder metaBuilder = meta == null ? Meta.builder() : meta.toBuilder();
-        metaBuilder.versionId(Id.of(Integer.toString(newVersionNumber)));
-        metaBuilder.lastUpdated(lastUpdated);
-
-        Builder resourceBuilder = resource.toBuilder();
-        resourceBuilder.setValidating(false);
-        return (T) resourceBuilder
-                .id(logicalId)
-                .meta(metaBuilder.build())
-                .build();
-    }
-
-    /**
      * Get the current time which can be used for the lastUpdated field
      * @return current time in UTC
      */
@@ -352,7 +325,7 @@ public class ChunkWriter extends AbstractItemWriter {
         final com.ibm.fhir.model.type.Instant lastUpdated = getCurrentInstant();
         final int newVersionNumber = oldResource != null && oldResource.getMeta() != null && oldResource.getMeta().getVersionId() != null
                 ? Integer.parseInt(oldResource.getMeta().getVersionId().getValue()) + 1 : 1;
-        resource = copyAndSetResourceMetaFields(resource, logicalId, newVersionNumber, lastUpdated);
+        resource = FHIRPersistenceUtil.copyAndSetResourceMetaFields(resource, logicalId, newVersionNumber, lastUpdated);
         
         OperationOutcome oo;
         if (skip) {
