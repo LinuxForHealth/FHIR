@@ -1,6 +1,6 @@
-# IBM FHIR Bucket Tool
+# IBM FHIR Server - Bucket Tool
 
-The image wraps the IBM FHIR Server fhir-bucket tool.
+The image wraps the IBM FHIR Server Bucket Tool which wraps the module - `fhir-bucket`.
 
 ************
 # **License**

@@ -5,7 +5,7 @@
 # ----------------------------------------------------------------------------
 # Stage: Base
 
-# IBM Semeru Runtimes provides Non-official docker images as part of this repo. These are maintained by IBM.
+# IBM Semeru Runtimes provides Non-official docker images. These are maintained by IBM.
 # The link to Semeru is at https://hub.docker.com/r/ibmsemeruruntime/open-11-jdk
 FROM ibmsemeruruntime/open-11-jdk:ubi_min-jre-latest as base
 
@@ -23,11 +23,11 @@ FROM registry.access.redhat.com/ubi8/ubi-minimal
 ARG FHIR_VERSION=4.10.0
 
 # The following labels are required: 
-LABEL name='IBM FHIR Bucket Tool'
+LABEL name='IBM FHIR Server - Bucket Tool'
 LABEL vendor='IBM'
 LABEL version="$FHIR_VERSION"
-LABEL summary="Image for IBM FHIR Bucket Tool with OpenJ9 and UBI 8"
-LABEL description="The IBM FHIR Bucket Tool manages the IBM FHIR Server and generate synthetic load."
+LABEL summary="Image for IBM FHIR Server - Bucket Tool with OpenJ9 and UBI 8"
+LABEL description="The IBM FHIR Server - Bucket Tool manages the IBM FHIR Server and generates synthetic load."
 
 # Environment variables
 ENV SKIP false

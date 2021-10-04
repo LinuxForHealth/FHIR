@@ -6,7 +6,7 @@
 
 # Stage: Base
 
-# IBM Semeru Runtimes provides Non-official docker images as part of this repo. These are maintained by IBM.
+# IBM Semeru Runtimes provides Non-official docker images. These are maintained by IBM.
 # The link to Semeru is at https://hub.docker.com/r/ibmsemeruruntime/open-11-jdk
 FROM ibmsemeruruntime/open-11-jdk:ubi_min-jre-latest as base
 
@@ -24,11 +24,11 @@ FROM registry.access.redhat.com/ubi8/ubi-minimal
 ARG FHIR_VERSION=4.10.0
 
 # The following labels are required: 
-LABEL name='IBM FHIR Term Graph Loader Tool'
+LABEL name='IBM FHIR Server - Term Graph Loader Tool'
 LABEL vendor='IBM'
 LABEL version="$FHIR_VERSION"
-LABEL summary="Image for IBM FHIR Term Graph Loader Tool with OpenJ9 and UBI 8"
-LABEL description="The IBM FHIR Term Graph Loader Tool is designed to load the terminology graph."
+LABEL summary="Image for IBM FHIR Server - Term Graph Loader Tool with OpenJ9 and UBI 8"
+LABEL description="The IBM FHIR Server - Term Graph Loader Tool is designed to load the terminology graph."
 
 # Environment variables
 ENV SKIP false

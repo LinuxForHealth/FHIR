@@ -1,13 +1,13 @@
 ---
 layout: default
 title:  IBM FHIR Term Graph Loader Tool - Development
-date:   2021-09-28
+date:   2021-10-04
 permalink: /ibm-fhir-term-graph-loader-tool-development/
 ---
 
 # Development
 
-The document helps developers setup the development environment for the IBM FHIR Server Term Graph Loader Tool. 
+The document helps developers setup the development environment for the IBM FHIR Server - Term Graph Loader Tool. 
 
 1. Build the `fhir-examples` and `fhir-parent`
 
@@ -37,7 +37,7 @@ docker build --tag ibm-fhir-term-graph-loader:latest .
 or 
 
 ``` shell
-docker build --build-arg FHIR_VERSION=4.9.2 -t ibm-fhir-term-graph-loader:4.9.2 .
+docker build --build-arg FHIR_VERSION=4.10.0 -t ibm-fhir-term-graph-loader:4.10.0 .
 ```
 
 5. Run the shell. (You may have to edit the corresponding examples)
