@@ -276,7 +276,7 @@
             <dependency>
                 <!--  Used by COS in fhir-bucket and bulkdata -->
                 <groupId>com.fasterxml.jackson.module</groupId>
-                <artifactId>jackson-module-scala_2.13</artifactId>
+                <artifactId>jackson-module-scala_2.12</artifactId>
                 <version>2.13.0</version>
             </dependency>
             <dependency>
