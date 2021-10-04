@@ -323,6 +323,7 @@ public class PropertyGroup {
      *
      * @param propertyName
      *            the possibly hierarchical property name.
+     * @return the property value as a JsonValue or null if the property is either missing or has a null value
      */
     public JsonValue getJsonValue(String propertyName) {
         String[] pathElements = getPathElements(propertyName);
@@ -331,7 +332,7 @@ public class PropertyGroup {
         if (subGroup != null) {
             result = subGroup.get(pathElements[pathElements.length - 1]);
         }
-        return result;
+        return result == JsonValue.NULL ? null : result;
     }
 
     /**

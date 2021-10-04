@@ -14,15 +14,16 @@ import static org.testng.AssertJUnit.fail;
 
 import java.util.List;
 
-import jakarta.json.Json;
-import jakarta.json.JsonBuilderFactory;
-import jakarta.json.JsonObject;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.config.PropertyGroup.PropertyEntry;
+
+import jakarta.json.Json;
+import jakarta.json.JsonBuilderFactory;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonValue;
 
 public class PropertyGroupTest {
     private static final JsonBuilderFactory BUILDER_FACTORY = Json.createBuilderFactory(null);
@@ -73,7 +74,9 @@ public class PropertyGroupTest {
                                 .add("int-array", BUILDER_FACTORY.createArrayBuilder()
                                         .add(1)
                                         .add(2)
-                                        .add(3)))
+                                        .add(3))
+                                .add("null-value", JsonValue.NULL)
+                                )
                         .build();
 
         if (DEBUG) {
@@ -183,6 +186,28 @@ public class PropertyGroupTest {
         assertEquals("secure", type);
     }
 
+    @Test
+    public void testNullProperty() throws Exception {
+        PropertyGroup pg = new PropertyGroup(jsonObj2);
+        assertNull(pg.getJsonValue("fhir-server/null-value"));
+        assertNull(pg.getStringProperty("fhir-server/null-value"));
+        assertNull(pg.getBooleanProperty("fhir-server/null-value"));
+        assertNull(pg.getIntProperty("fhir-server/null-value"));
+        assertNull(pg.getDoubleProperty("fhir-server/null-value"));
+        assertNull(pg.getStringListProperty("fhir-server/null-value"));
+    }
+
+    @Test
+    public void testNonExistentProperty() throws Exception {
+        PropertyGroup pg = new PropertyGroup(jsonObj2);
+        assertNull(pg.getJsonValue("fhir-server/bogus"));
+        assertNull(pg.getStringProperty("fhir-server/bogus"));
+        assertNull(pg.getBooleanProperty("fhir-server/bogus"));
+        assertNull(pg.getIntProperty("fhir-server/bogus"));
+        assertNull(pg.getDoubleProperty("fhir-server/bogus"));
+        assertNull(pg.getStringListProperty("fhir-server/bogus"));
+    }
+
     @Test(expectedExceptions = { IllegalArgumentException.class })
     public void testStringPropertyException() throws Exception {
         PropertyGroup pg = new PropertyGroup(jsonObj1);
@@ -274,6 +299,27 @@ public class PropertyGroupTest {
 
     @Test
     public void testGetProperties3() throws Exception {
+        PropertyGroup rootPG = new PropertyGroup(jsonObj2);
+        PropertyGroup pg = rootPG.getPropertyGroup("fhir-server/notifications/common");
+        assertNotNull(pg);
+
+        List<PropertyEntry> properties = pg.getProperties();
+        assertNotNull(properties);
+        assertEquals(1, properties.size());
+
+        PropertyEntry propEntry = properties.get(0);
+        assertNotNull(propEntry);
+        assertEquals("includeResourceTypes", propEntry.getName());
+        assertTrue(propEntry.getValue() instanceof List);
+        assertEquals(2, ((List<?>) propEntry.getValue()).size());
+        for (Object obj : (List<?>) propEntry.getValue()) {
+            assertNotNull(obj);
+            assertTrue(obj instanceof String);
+        }
+    }
+
+    @Test
+    public void testGetPropertiesWithNull() throws Exception {
         PropertyGroup rootPG = new PropertyGroup(jsonObj2);
         PropertyGroup pg = rootPG.getPropertyGroup("fhir-server/notifications/common");
         assertNotNull(pg);
