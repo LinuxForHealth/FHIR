@@ -237,12 +237,16 @@ public class PropertyGroup {
     /**
      * Returns the properties contained in the PropertyGroup in the form of a list of
      * PropertyEntry instances. If no properties exist, then an empty list will be returned.
+     * Properties with a value of null will be omitted from the list.
      * @throws Exception
      */
     public List<PropertyEntry> getProperties() throws Exception {
         List<PropertyEntry> results = new ArrayList<>();
         for (Map.Entry<String, JsonValue> entry : jsonObj.entrySet()) {
-            results.add(new PropertyEntry(entry.getKey(), convertJsonValue(entry.getValue())));
+            Object jsonValue = convertJsonValue(entry.getValue());
+            if (jsonValue != null) {
+                results.add(new PropertyEntry(entry.getKey(), convertJsonValue(entry.getValue())));
+            }
         }
         return results;
     }
