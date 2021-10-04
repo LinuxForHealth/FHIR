@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
-import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -107,7 +106,7 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
     @Override
     public FHIRRestOperationResponse doCreate(int entryIndex, List<Issue> warnings, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, Resource resource, String ifNoneExist, String localIdentifier) throws Exception {
         logStart(entryIndex, requestDescription, requestURL);
-
+        
         // Skip CREATE if validation failed
         // TODO the logic in the old buildLocalRefMap uses SC_OK_STRING
         if (validationResponseEntry != null && !validationResponseEntry.getResponse().getStatus().equals(SC_ACCEPTED_STRING)) {
@@ -116,10 +115,9 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
         
         // Use doInteraction so we can implement common exception handling in one place
         return doInteraction(entryIndex, requestDescription, initialTime, () -> {
-            
             // Validate that interaction is allowed for given resource type
             helpers.validateInteraction(Interaction.CREATE, type);
-    
+            
             FHIRPersistenceEvent event =
                     new FHIRPersistenceEvent(resource, helpers.buildPersistenceEventProperties(type, null, null, null));
             
@@ -172,6 +170,8 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
 
         // Process the first (meta) phase of the update interaction
         return doInteraction(entryIndex, requestDescription, initialTime, () -> {
+            helpers.validateInteraction(Interaction.UPDATE, type);
+
             FHIRRestOperationResponse metaResponse = helpers.doUpdateMeta(type, id, null, resource, ifMatchValue, searchQueryString, skippableUpdate, !DO_VALIDATION, warnings);
 
             // If the update was skippable we might be able to skip the future persistence step
@@ -206,7 +206,7 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
         String type, String id, Resource newResource, Resource prevResource, FHIRPatch patch, String ifMatchValue, String searchQueryString,
         boolean skippableUpdate, List<Issue> warnings, String localIdentifier) throws Exception {
         logStart(entryIndex, requestDescription, requestURL);
-        // Skip UPDATE if validation failed
+        // Skip PATCH if validation failed
         // TODO the logic in the old buildLocalRefMap uses SC_OK_STRING
         if (validationResponseEntry != null && !validationResponseEntry.getResponse().getStatus().equals(SC_ACCEPTED_STRING)) {
             return null;
@@ -214,6 +214,8 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
 
         // Process the first (meta) phase of the update interaction
         return doInteraction(entryIndex, requestDescription, initialTime, () -> {
+            // Validate that interaction is allowed for given resource type
+            helpers.validateInteraction(Interaction.PATCH, type);
             FHIRRestOperationResponse metaResponse = helpers.doUpdateMeta(type, id, patch, null, ifMatchValue, searchQueryString, skippableUpdate, !DO_VALIDATION, warnings);
 
             // If the update was skippable we might be able to skip the future persistence step
@@ -374,21 +376,6 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
 
     }
 
-    /**
-     * If payload offloading is supported by the persistence layer, store the given resource. This
-     * can be an async operation which we resolve at the end just prior to the transaction being
-     * committed.
-     * TODO: use a dedicated class instead of FHIRRestOperationResponse
-     * @param resource
-     * @param logicalId
-     * @param newVersionNumber
-     * @param lastUpdated
-     * @return
-     */
-    protected Future<FHIRRestOperationResponse> storePayload(Resource resource, String logicalId, int newVersionNumber, Instant lastUpdated) {
-       return helpers.storePayload(resource, logicalId, newVersionNumber, lastUpdated); 
-    }
-    
     /**
      * Unified exception handling for each of the interaction calls
      * @param entryIndex

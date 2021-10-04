@@ -7,6 +7,7 @@ package com.ibm.fhir.server.test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Future;
 import java.util.function.Function;
 
 import com.ibm.fhir.model.resource.OperationOutcome;
@@ -25,6 +26,7 @@ import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
+import com.ibm.fhir.persistence.payload.PayloadKey;
 import com.ibm.fhir.server.util.FHIRRestHelperTest;
 
 /**
@@ -190,6 +192,11 @@ public class MockPersistenceImpl implements FHIRPersistence {
     @Override
     public List<Long> retrieveIndex(int count, java.time.Instant notModifiedAfter, Long afterIndexId, String resourceTypeName) throws FHIRPersistenceException {
         // NOP
+        return null;
+    }
+
+    @Override
+    public Future<PayloadKey> storePayload(Resource resource, String logicalId, int newVersionNumber, Instant lastUpdated) throws FHIRPersistenceException {
         return null;
     }
 }

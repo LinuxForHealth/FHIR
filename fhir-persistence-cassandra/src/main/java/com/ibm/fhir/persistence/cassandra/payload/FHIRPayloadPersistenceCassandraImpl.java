@@ -7,6 +7,8 @@
 package com.ibm.fhir.persistence.cassandra.payload;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
 import java.util.logging.Logger;
 
 import com.datastax.oss.driver.api.core.CqlSession;
@@ -15,6 +17,7 @@ import com.ibm.fhir.persistence.cassandra.cql.DatasourceSessions;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.payload.FHIRPayloadPartitionStrategy;
 import com.ibm.fhir.persistence.payload.FHIRPayloadPersistence;
+import com.ibm.fhir.persistence.payload.PayloadKey;
 import com.ibm.fhir.persistence.util.InputOutputByteStream;
 
 
@@ -62,12 +65,16 @@ public class FHIRPayloadPersistenceCassandraImpl implements FHIRPayloadPersisten
     }
 
     @Override
-    public void storePayload(String resourceType, int resourceTypeId, String logicalId, int version, InputOutputByteStream payloadStream)
+    public Future<PayloadKey> storePayload(String resourceType, int resourceTypeId, String logicalId, int version, InputOutputByteStream payloadStream)
         throws FHIRPersistenceException {
 
         try (CqlSession session = getCqlSession()) {
-            CqlStorePayload spl = new CqlStorePayload(partitionStrategy.getPartitionName(), resourceTypeId, logicalId, version, payloadStream);
+            String partitionName = partitionStrategy.getPartitionName();
+            CqlStorePayload spl = new CqlStorePayload(partitionName, resourceTypeId, logicalId, version, payloadStream);
             spl.run(session);
+            
+            PayloadKey payloadKey = new PayloadKey(resourceType, resourceTypeId, logicalId, version, partitionName, logicalId, PayloadKey.Status.OK);
+            return CompletableFuture.completedFuture(payloadKey);
         }
     }
 
@@ -77,6 +84,19 @@ public class FHIRPayloadPersistenceCassandraImpl implements FHIRPayloadPersisten
         try (CqlSession session = getCqlSession()) {
             CqlReadResource spl = new CqlReadResource(partitionStrategy.getPartitionName(), resourceTypeId, logicalId, version, elements);
             return spl.run(resourceType, session);
+        }
+    }
+
+    @Override
+    public <T extends Resource> Future<T> readResource(Class<T> resourceType, PayloadKey payloadKey) throws FHIRPersistenceException {
+
+        try (CqlSession session = getCqlSession()) {
+            // Currently not supporting a real async implementation, so we complete the read
+            // synchronously here
+            CqlReadResource spl = new CqlReadResource(payloadKey.getPartitionKey(), 
+                payloadKey.getResourceTypeId(), payloadKey.getLogicalId(), payloadKey.getVersionId(), null);
+            T resource = spl.run(resourceType, session);
+            return CompletableFuture.completedFuture(resource);
         }
     }
 

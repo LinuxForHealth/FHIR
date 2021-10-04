@@ -29,6 +29,7 @@ import com.ibm.fhir.persistence.erase.EraseDTO;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
 import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
+import com.ibm.fhir.persistence.payload.PayloadKey;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
@@ -188,7 +189,7 @@ public class MockFHIRResourceHelpers implements FHIRResourceHelpers {
     }
 
     @Override
-    public Future<FHIRRestOperationResponse> storePayload(Resource resource, String logicalId, int newVersionNumber,
+    public Future<PayloadKey> storePayload(Resource resource, String logicalId, int newVersionNumber,
         com.ibm.fhir.model.type.Instant lastUpdated) {
         return null;
     }

@@ -9,6 +9,7 @@ package com.ibm.fhir.persistence.test;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Future;
 import java.util.function.Function;
 
 import com.ibm.fhir.model.resource.OperationOutcome;
@@ -22,6 +23,7 @@ import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
+import com.ibm.fhir.persistence.payload.PayloadKey;
 
 /**
  * Mock implementation of FHIRPersistence for use during testing.
@@ -114,6 +116,11 @@ public class MockPersistenceImpl implements FHIRPersistence {
     @Override
     public <T extends Resource> SingleResourceResult<T> update(FHIRPersistenceContext context, String logicalId, int newVersionId, T resource)
         throws FHIRPersistenceException {
+        return null;
+    }
+
+    @Override
+    public Future<PayloadKey> storePayload(Resource resource, String logicalId, int newVersionNumber, com.ibm.fhir.model.type.Instant lastUpdated) {
         return null;
     }
 }

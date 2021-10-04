@@ -33,6 +33,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
+import java.util.concurrent.Future;
 import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -155,6 +156,7 @@ import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
 import com.ibm.fhir.persistence.jdbc.util.SqlQueryData;
 import com.ibm.fhir.persistence.jdbc.util.TimestampPrefixedUUID;
 import com.ibm.fhir.persistence.payload.FHIRPayloadPersistence;
+import com.ibm.fhir.persistence.payload.PayloadKey;
 import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.fhir.persistence.util.InputOutputByteStream;
 import com.ibm.fhir.persistence.util.LogicalIdentityProvider;
@@ -414,11 +416,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                             + ", version=" + resourceDTO.getVersionId());
             }
             
-            if (this.payloadPersistence != null) {
-                // Store the payload outside of the RDBMS
-                storePayload(updatedResource, resourceDTO);
-            }
-
             SingleResourceResult.Builder<T> resultBuilder = new SingleResourceResult.Builder<T>()
                     .success(true)
                     .resource(updatedResource);
@@ -491,25 +488,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         return resourceDTO;
     }
     
-    /**
-     * Offload payload storage to an object store using {@link FHIRPayloadPersistence}.
-     * TODO consider async (Future) support and tie in with transaction data
-     * @param updatedResource the FHIR Resource to serialize and store
-     * @param resourceDTO the DTO used to store the RDBMS record
-     * @throws IOException
-     */
-    private void storePayload(Resource updatedResource, com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO) throws IOException, FHIRPersistenceException, FHIRGeneratorException {
-        assert(payloadPersistence != null);
-        InputOutputByteStream ioStream = new InputOutputByteStream(DATA_BUFFER_INITIAL_SIZE);
-        try (GZIPOutputStream zipStream = new GZIPOutputStream(ioStream.outputStream())) {
-            FHIRGenerator.generator(Format.JSON, false).generate(updatedResource, zipStream);
-            zipStream.finish();
-            
-            int resourceTypeId = cache.getResourceTypeCache().getId(resourceDTO.getResourceType());
-            payloadPersistence.storePayload(resourceDTO.getResourceType(), resourceTypeId, resourceDTO.getLogicalId(), resourceDTO.getVersionId(), ioStream);
-        }
-    }
-
     /**
      * Creates and returns a copy of the passed resource with the {@code Resource.id}
      * {@code Resource.meta.versionId}, and {@code Resource.meta.lastUpdated} elements replaced.
@@ -1433,11 +1411,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                             + ", version=" + resourceDTO.getVersionId());
             }
             
-            if (payloadPersistence != null) {
-                // payload is stored outside of the RDBMS
-                storePayload(updatedResource, resourceDTO);
-            }
-
             SingleResourceResult<T> result = new SingleResourceResult.Builder<T>()
                     .success(true)
                     .resource(updatedResource)
@@ -2953,5 +2926,26 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     @Override
     public boolean isUpdateCreateEnabled() {
         return this.updateCreateEnabled;
+    }
+
+    @Override
+    public Future<PayloadKey> storePayload(Resource resource, String logicalId, int newVersionNumber, Instant lastUpdated) throws FHIRPersistenceException {
+        if (payloadPersistence != null) {
+            InputOutputByteStream ioStream = new InputOutputByteStream(DATA_BUFFER_INITIAL_SIZE);
+            try (GZIPOutputStream zipStream = new GZIPOutputStream(ioStream.outputStream())) {
+                FHIRGenerator.generator(Format.JSON, false).generate(resource, zipStream);
+                zipStream.close();
+
+                final String resourceTypeName = resource.getClass().getSimpleName();
+                int resourceTypeId = cache.getResourceTypeCache().getId(resourceTypeName);
+                return payloadPersistence.storePayload(resourceTypeName, resourceTypeId, logicalId, newVersionNumber, ioStream);
+            } catch (IOException | FHIRGeneratorException x) {
+                log.log(Level.SEVERE, "Resource: '" + resource.getId() + "', '" + logicalId + "/" + newVersionNumber + "'", x);
+                throw new FHIRPersistenceException("Offloading payload failed");
+            }
+        } else {
+            // Offloading not supported by the plain JDBC persistence implementation, so return null
+            return null;
+        }
     }
 }

@@ -25,6 +25,7 @@ import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.erase.EraseDTO;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
+import com.ibm.fhir.persistence.payload.PayloadKey;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.server.util.FHIRRestHelper.Interaction;
 
@@ -487,5 +488,5 @@ public interface FHIRResourceHelpers {
      * @param lastUpdated the last updated timestamp
      * @return a Future response to the payload store operation, or null if it is not supported
      */
-    Future<FHIRRestOperationResponse> storePayload(Resource resource, String logicalId, int newVersionNumber, com.ibm.fhir.model.type.Instant lastUpdated);
+    Future<PayloadKey> storePayload(Resource resource, String logicalId, int newVersionNumber, com.ibm.fhir.model.type.Instant lastUpdated) throws Exception;
 }

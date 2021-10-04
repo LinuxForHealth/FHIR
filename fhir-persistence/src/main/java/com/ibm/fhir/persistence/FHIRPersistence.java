@@ -7,6 +7,7 @@
 package com.ibm.fhir.persistence;
 
 import java.util.List;
+import java.util.concurrent.Future;
 import java.util.function.Function;
 
 import com.ibm.fhir.model.resource.OperationOutcome;
@@ -16,6 +17,7 @@ import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.erase.EraseDTO;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
+import com.ibm.fhir.persistence.payload.PayloadKey;
 
 /**
  * This interface defines the contract between the FHIR Server's REST API layer and the underlying
@@ -267,4 +269,13 @@ public interface FHIRPersistence {
      */
     List<Long> retrieveIndex(int count, java.time.Instant notModifiedAfter, Long afterIndexId, String resourceTypeName) throws FHIRPersistenceException;
 
+    /**
+     * Offload payload storage to another provider. If result is not null, the returned
+     * {@link Future} can be used to obtain the status of the operation. If the result
+     * is null, then the implementation does not support offloading and the payload must
+     * be stored in the traditional manner (e.g. in the RDBMS). A {@link Future} is used
+     * because the offloading storage operation may be asynchronous.
+     */
+    Future<PayloadKey> storePayload(Resource resource, String logicalId, int newVersionNumber,
+        com.ibm.fhir.model.type.Instant lastUpdated) throws FHIRPersistenceException;
 }

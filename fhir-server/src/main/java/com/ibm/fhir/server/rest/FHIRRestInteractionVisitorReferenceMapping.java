@@ -24,6 +24,7 @@ import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.ReferenceMappingVisitor;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
+import com.ibm.fhir.persistence.payload.PayloadKey;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Resource;
@@ -88,16 +89,12 @@ public class FHIRRestInteractionVisitorReferenceMapping extends FHIRRestInteract
             // Convert any local references found within the resource to their corresponding external reference.
             ReferenceMappingVisitor<Resource> visitor = new ReferenceMappingVisitor<Resource>(localRefMap);
             resource.accept(visitor);
-            final Resource finalResource = visitor.getResult();
+            final Resource finalResource = visitor.getResult(); // finalResource immutable
             
-            // Resource processing is now complete and from this point on, we can treat the resource
-            // as immutable.
-            
-            // TODO: If the persistence layer supports offloading, we can store now. The offloadResponse
-            // will be null if offloading is not supported
+            // Try offloading storage of the payload. The offloadResponse will be null if not supported
             int newVersionNumber = Integer.parseInt(finalResource.getMeta().getVersionId().getValue());
             Instant lastUpdated = finalResource.getMeta().getLastUpdated();
-            Future<FHIRRestOperationResponse> offloadResponse = storePayload(finalResource, finalResource.getId(), 
+            Future<PayloadKey> offloadResponse = storePayload(finalResource, finalResource.getId(), 
                 newVersionNumber, lastUpdated);
             
             // Pass back the updated resource so it can be used in the next phase if required
@@ -122,6 +119,8 @@ public class FHIRRestInteractionVisitorReferenceMapping extends FHIRRestInteract
                 addLocalRefMapping(localIdentifier, newResource);
             }
             
+            // TODO support payload offload here
+            
             // Pass back the updated resource so it can be used in the next phase
             return new FHIRRestOperationResponse(null, null, newResource);
         });
@@ -142,6 +141,8 @@ public class FHIRRestInteractionVisitorReferenceMapping extends FHIRRestInteract
             if (localIdentifier != null && localRefMap.get(localIdentifier) == null) {
                 addLocalRefMapping(localIdentifier, newResource);
             }
+            
+            // TODO support payload offload here
             
             // Pass back the updated resource so it can be used in the next phase
             return new FHIRRestOperationResponse(null, null, newResource);
@@ -176,15 +177,15 @@ public class FHIRRestInteractionVisitorReferenceMapping extends FHIRRestInteract
     /**
      * If payload offloading is supported by the persistence layer, store the given resource. This
      * can be an async operation which we resolve at the end just prior to the transaction being
-     * committed.
-     * TODO: use a dedicated class instead of FHIRRestOperationResponse
+     * committed. If offloading isn't supported, the persistence layer returns null and the operation
+     * is a NOP.
      * @param resource
      * @param logicalId
      * @param newVersionNumber
      * @param lastUpdated
      * @return
      */
-    protected Future<FHIRRestOperationResponse> storePayload(Resource resource, String logicalId, int newVersionNumber, Instant lastUpdated) {
+    protected Future<PayloadKey> storePayload(Resource resource, String logicalId, int newVersionNumber, Instant lastUpdated) throws Exception {
        return helpers.storePayload(resource, logicalId, newVersionNumber, lastUpdated); 
     }
     

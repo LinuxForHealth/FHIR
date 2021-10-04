@@ -14,6 +14,7 @@ import javax.ws.rs.core.Response;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Instant;
+import com.ibm.fhir.persistence.payload.PayloadKey;
 
 /**
  * This class is used to represent a response returned by the FHIR resource helper methods.
@@ -32,7 +33,7 @@ public class FHIRRestOperationResponse {
     private boolean completed;
     
     // A nested response we may get when offloading payload storage (e.g. in COS, Cassandra)
-    private Future<FHIRRestOperationResponse> storePayloadResponse;
+    private Future<PayloadKey> storePayloadResponse;
     
     // The id of the resource, which could be new in the case of create
     private String resourceId;
@@ -51,12 +52,12 @@ public class FHIRRestOperationResponse {
         setOperationOutcome(operationOutcome);
     }
     
-    public FHIRRestOperationResponse(Resource resource, String resourceId, int versionNumber, Instant lastUpdated, Future<FHIRRestOperationResponse> storePayloadResponse) {
+    public FHIRRestOperationResponse(Resource resource, String resourceId, int versionNumber, Instant lastUpdated, Future<PayloadKey> storePayloadResponse) {
         this.resource = resource;
         this.resourceId = resourceId;
         this.versionNumber = versionNumber;
         this.lastUpdated = lastUpdated;
-        this.storePayloadResponse = storePayloadResponse;
+        this.setStorePayloadResponse(storePayloadResponse);
     }
     
     public Response.Status getStatus() {
@@ -128,5 +129,19 @@ public class FHIRRestOperationResponse {
      */
     public void setCompleted(boolean completed) {
         this.completed = completed;
+    }
+
+    /**
+     * @return the storePayloadResponse
+     */
+    public Future<PayloadKey> getStorePayloadResponse() {
+        return storePayloadResponse;
+    }
+
+    /**
+     * @param storePayloadResponse the storePayloadResponse to set
+     */
+    public void setStorePayloadResponse(Future<PayloadKey> storePayloadResponse) {
+        this.storePayloadResponse = storePayloadResponse;
     }
 }

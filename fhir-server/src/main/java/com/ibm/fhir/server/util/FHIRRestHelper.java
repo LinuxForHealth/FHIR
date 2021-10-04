@@ -57,7 +57,6 @@ import com.ibm.fhir.model.resource.Bundle.Entry.Request;
 import com.ibm.fhir.model.resource.Bundle.Entry.Search;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
-import com.ibm.fhir.model.resource.Resource.Builder;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
@@ -67,8 +66,6 @@ import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Decimal;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.Id;
-import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.UnsignedInt;
 import com.ibm.fhir.model.type.Uri;
@@ -102,6 +99,7 @@ import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
 import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.interceptor.impl.FHIRPersistenceInterceptorMgr;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
+import com.ibm.fhir.persistence.payload.PayloadKey;
 import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.fhir.profile.ProfileSupport;
 import com.ibm.fhir.search.SearchConstants;
@@ -199,7 +197,21 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             if (response == null) {
                 // Make sure we use the recently updated value for the resource
                 resource = event.getFhirResource();
-                response = doCreatePersist(event, warnings, type, resource);
+                
+                int newVersionNumber = Integer.parseInt(resource.getMeta().getVersionId().getValue());
+                com.ibm.fhir.model.type.Instant lastUpdated = resource.getMeta().getLastUpdated();
+                Future<PayloadKey> offloadResponse = storePayload(resource, resource.getId(), 
+                    newVersionNumber, lastUpdated);
+                
+                // Resolve the future so that we know the payload has been stored
+                // TODO tie this into the transaction data so that we can clean up
+                // more if there's a rollback for another reason.
+                PayloadKey payloadKey = offloadResponse != null ? offloadResponse.get() : null;
+                if (payloadKey == null || payloadKey.getStatus() == PayloadKey.Status.OK) {
+                    response = doCreatePersist(event, warnings, type, resource);
+                } else {
+                    throw new FHIROperationException("Payload offload failure. Check server logs for details.");
+                }
             }
             
             // At this point, we can be sure the transaction must have been started, so always commit
@@ -220,9 +232,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     public FHIRRestOperationResponse doCreateMeta(FHIRPersistenceEvent event, List<Issue> warnings, String type, Resource resource, 
         String ifNoneExist, boolean doValidation) throws Exception {
         log.entering(this.getClass().getName(), "doCreateMeta");
-        
-        // Validate that interaction is allowed for given resource type
-        validateInteraction(Interaction.CREATE, type);
 
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
@@ -419,6 +428,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     public FHIRRestOperationResponse doUpdate(String type, String id, Resource newResource, String ifMatchValue,
             String searchQueryString, boolean skippableUpdate, boolean doValidation) throws Exception {
         log.entering(this.getClass().getName(), "doUpdate");
+        
+        // Validate that interaction is allowed for given resource type
+        validateInteraction(Interaction.UPDATE, type);
 
         FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
         txn.begin();
@@ -470,9 +482,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         // calls during a batch bundle because all the operations are reads. We only need individual
         // transactions later on when we're actually persisting stuff. These saves us a lot of
         // transaction overhead, which could be significant when dealing with large bundles.
-
-        // Validate that interaction is allowed for given resource type
-        validateInteraction(Interaction.UPDATE, type);
 
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
@@ -2915,19 +2924,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         return indexIds;
     }
 
-    /**
-     * This method will do a quick check of the {type} URL parameter. If the type is not a valid FHIR resource type, then
-     * we'll throw an error to short-circuit the current in-progress REST API invocation.
-     */
-    private void checkResourceType(String type) throws FHIROperationException {
-        if (!ModelSupport.isResourceType(type)) {
-            throw buildUnsupportedResourceTypeException(type);
-        }
-        if (!ModelSupport.isConcreteResourceType(type)) {
-            log.warning("Use of abstract resource types like '" + type + "' in FHIR URLs is deprecated and will be removed in a future release");
-        }
-    }
-
     @Override
     public String generateResourceId() {
         return persistence.generateResourceId();
@@ -2942,10 +2938,10 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     }
 
     @Override
-    public Future<FHIRRestOperationResponse> storePayload(Resource resource, String logicalId, int newVersionNumber,
-        com.ibm.fhir.model.type.Instant lastUpdated) {
+    public Future<PayloadKey> storePayload(Resource resource, String logicalId, int newVersionNumber,
+        com.ibm.fhir.model.type.Instant lastUpdated) throws Exception {
         
-        // Delegate to the persistence layer
-        return null;
+        // Delegate to the persistence layer. Result will be null if offloading is not supported
+        return persistence.storePayload(resource, logicalId, newVersionNumber, lastUpdated);
     }
 }
