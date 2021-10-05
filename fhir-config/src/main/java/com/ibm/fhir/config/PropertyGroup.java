@@ -245,7 +245,7 @@ public class PropertyGroup {
         for (Map.Entry<String, JsonValue> entry : jsonObj.entrySet()) {
             Object jsonValue = convertJsonValue(entry.getValue());
             if (jsonValue != null) {
-                results.add(new PropertyEntry(entry.getKey(), convertJsonValue(entry.getValue())));
+                results.add(new PropertyEntry(entry.getKey(), jsonValue));
             }
         }
         return results;
