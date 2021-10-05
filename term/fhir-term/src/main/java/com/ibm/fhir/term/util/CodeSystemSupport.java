@@ -213,7 +213,11 @@ public final class CodeSystemSupport {
         CacheKey key = key(codeSystem, code);
         Map<CacheKey, Set<java.lang.String>> cacheAsMap = CacheManager.getCacheAsMap(ANCESTORS_AND_SELF_CACHE_NAME, ANCESTORS_AND_SELF_CACHE_CONFIG);
         CacheManager.reportCacheStats(LOG, ANCESTORS_AND_SELF_CACHE_NAME);
-        return cacheAsMap.computeIfAbsent(key, k -> computeAncestorsAndSelf(codeSystem, code));
+        try {
+            return cacheAsMap.computeIfAbsent(key, k -> computeAncestorsAndSelf(codeSystem, code));
+        } finally {
+            CacheManager.reportCacheStats(LOG, ANCESTORS_AND_SELF_CACHE_NAME);
+        }
     }
 
     /**
@@ -462,7 +466,11 @@ public final class CodeSystemSupport {
         CacheKey key = key(codeSystem, code);
         Map<CacheKey, Set<java.lang.String>> cacheAsMap = CacheManager.getCacheAsMap(DESCENDANTS_AND_SELF_CACHE_NAME, DESCENDANTS_AND_SELF_CACHE_CONFIG);
         CacheManager.reportCacheStats(LOG, DESCENDANTS_AND_SELF_CACHE_NAME);
-        return cacheAsMap.computeIfAbsent(key, k -> computeDescendantsAndSelf(codeSystem, code));
+        try {
+            return cacheAsMap.computeIfAbsent(key, k -> computeDescendantsAndSelf(codeSystem, code));
+        } finally {
+            CacheManager.reportCacheStats(LOG, DESCENDANTS_AND_SELF_CACHE_NAME);
+        }
     }
 
     /**
