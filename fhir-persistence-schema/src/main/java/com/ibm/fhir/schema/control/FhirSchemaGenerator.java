@@ -1196,10 +1196,6 @@ public class FhirSchemaGenerator {
     public Table addResourceTokenRefs(PhysicalDataModel pdm) {
 
         final String tableName = RESOURCE_TOKEN_REFS;
-        
-        // Custom tuning for this table
-        List<With> withs = new ArrayList<>(addWiths());
-        withs.add(With.with(FhirSchemaConstants.PG_FILLFACTOR_PROP, Integer.toString(FhirSchemaConstants.PG_FILLFACTOR_VALUE)));
 
         // logical_resources (0|1) ---- (*) resource_token_refs
         Table tbl = Table.builder(schemaName, tableName)
@@ -1217,7 +1213,7 @@ public class FhirSchemaGenerator {
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
-                .addWiths(withs) // table tuning
+                .addWiths(addWiths()) // table tuning
                 .addMigration(priorVersion -> {
                     // Replace the indexes initially defined in the V0006 version with better ones
                     List<IDatabaseStatement> statements = new ArrayList<>();
