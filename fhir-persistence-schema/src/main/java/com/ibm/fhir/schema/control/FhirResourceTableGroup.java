@@ -92,6 +92,7 @@ import com.ibm.fhir.database.utils.model.Table;
 import com.ibm.fhir.database.utils.model.Tablespace;
 import com.ibm.fhir.database.utils.model.View;
 import com.ibm.fhir.database.utils.model.With;
+import com.ibm.fhir.database.utils.postgres.PostgresFillfactorSettingDAO;
 import com.ibm.fhir.database.utils.postgres.PostgresVacuumSettingDAO;
 
 /**
@@ -198,7 +199,7 @@ public class FhirResourceTableGroup {
         // things sensible.
         Table.Builder builder = Table.builder(schemaName, tableName)
                 .setTenantColumnName(MT_ID)
-                .setVersion(FhirSchemaVersion.V0019.vid()) // V0019: Updated to support Postgres vacuum changes
+                .setVersion(FhirSchemaVersion.V0020.vid()) // V0020: Updated to support Postgres fillfactor changes
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID, false)
                 .addVarcharColumn(LOGICAL_ID, LOGICAL_ID_BYTES, false)
@@ -216,7 +217,7 @@ public class FhirResourceTableGroup {
                 // used instead of row lock, which can cause dead lock issue frequently during concurrent accesses.
                 .addIndex(IDX + tableName + CURRENT_RESOURCE_ID, CURRENT_RESOURCE_ID)
                 .addIndex(IDX + tableName + LOGICAL_ID, LOGICAL_ID)
-                .addWiths(withs)
+                .addWiths(this.withs)
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
                     if (priorVersion < FhirSchemaVersion.V0009.vid()) {
@@ -236,6 +237,10 @@ public class FhirResourceTableGroup {
 
                     if (priorVersion < FhirSchemaVersion.V0019.vid()) {
                         statements.add(new PostgresVacuumSettingDAO(schemaName, tableName, 2000, null, 1000));
+                    }
+                    
+                    if (priorVersion < FhirSchemaVersion.V0020.vid()) {
+                        statements.add(new PostgresFillfactorSettingDAO(schemaName, tableName, FhirSchemaConstants.PG_FILLFACTOR_VALUE));
                     }
                     return statements;
                 });
@@ -400,11 +405,11 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
         final int msb = MAX_SEARCH_STRING_BYTES;
         final String tableName = prefix + "_STR_VALUES";
         final String logicalResourcesTable = prefix + "_LOGICAL_RESOURCES";
-
+        
         // Parameters are tied to the logical resource
         Table tbl = Table.builder(schemaName, tableName)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
-                .setVersion(FhirSchemaVersion.V0019.vid()) // V0019: Updated to support Postgres vacuum changes
+                .setVersion(FhirSchemaVersion.V0020.vid()) // V0020: Updated to support Postgres fillfactor changes
                 .setTenantColumnName(MT_ID)
                 // .addBigIntColumn(             ROW_ID,      false) // Removed by issue-1683 - composites refactor
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
@@ -430,6 +435,10 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
 
                     if (priorVersion < FhirSchemaVersion.V0019.vid()) {
                         statements.add(new PostgresVacuumSettingDAO(schemaName, tableName, 2000, null, 1000));
+                    }
+                    
+                    if (priorVersion < FhirSchemaVersion.V0020.vid()) {
+                        statements.add(new PostgresFillfactorSettingDAO(schemaName, tableName, FhirSchemaConstants.PG_FILLFACTOR_VALUE));
                     }
                     return statements;
                 })
@@ -489,7 +498,7 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
 
         // logical_resources (1) ---- (*) patient_resource_token_refs (*) ---- (0|1) common_token_values
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0019.vid()) // V0019: Updated to support Postgres vacuum changes
+                .setVersion(FhirSchemaVersion.V0020.vid()) // V0020: Updated to support Postgres fillfactor changes
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(       PARAMETER_NAME_ID,    false)
                 .addBigIntColumn(COMMON_TOKEN_VALUE_ID,     true)
@@ -539,6 +548,10 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
                     if (priorVersion < FhirSchemaVersion.V0019.vid()) {
                         statements.add(new PostgresVacuumSettingDAO(schemaName, tableName, 2000, null, 1000));
                     }
+                    
+                    if (priorVersion < FhirSchemaVersion.V0020.vid()) {
+                        statements.add(new PostgresFillfactorSettingDAO(schemaName, tableName, FhirSchemaConstants.PG_FILLFACTOR_VALUE));
+                    }
                     return statements;
                 })
                 .build(model);
@@ -562,9 +575,9 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
 
         final String tableName = prefix + "_" + PROFILES;
 
-        // logical_resources (1) ---- (*) patient_resource_token_refs (*) ---- (0|1) common_token_values
+        // logical_resources (1) ---- (*) patient_profiles (*) ---- (0|1) common_canonical_values
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0019.vid()) // V0019: Updated to support Postgres vacuum changes
+                .setVersion(FhirSchemaVersion.V0020.vid()) // V0020: Updated to support Postgres fillfactor changes
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn(          CANONICAL_ID,    false)
                 .addBigIntColumn(   LOGICAL_RESOURCE_ID,    false)
@@ -582,6 +595,9 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
                     List<IDatabaseStatement> statements = new ArrayList<>();
                     if (priorVersion < FhirSchemaVersion.V0019.vid()) {
                         statements.add(new PostgresVacuumSettingDAO(schemaName, tableName, 2000, null, 1000));
+                    }
+                    if (priorVersion < FhirSchemaVersion.V0020.vid()) {
+                        statements.add(new PostgresFillfactorSettingDAO(schemaName, tableName, FhirSchemaConstants.PG_FILLFACTOR_VALUE));
                     }
                     return statements;
                 })
@@ -609,7 +625,7 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
 
         // logical_resources (1) ---- (*) patient_tags (*) ---- (0|1) common_token_values
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0019.vid()) // V0019: Updated to support Postgres vacuum changes
+                .setVersion(FhirSchemaVersion.V0020.vid()) // V0020: Updated to support Postgres fillfactor changes
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn(COMMON_TOKEN_VALUE_ID,   false)
                 .addBigIntColumn(  LOGICAL_RESOURCE_ID,   false)
@@ -625,6 +641,9 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
                     List<IDatabaseStatement> statements = new ArrayList<>();
                     if (priorVersion < FhirSchemaVersion.V0019.vid()) {
                         statements.add(new PostgresVacuumSettingDAO(schemaName, tableName, 2000, null, 1000));
+                    }
+                    if (priorVersion < FhirSchemaVersion.V0020.vid()) {
+                        statements.add(new PostgresFillfactorSettingDAO(schemaName, tableName, FhirSchemaConstants.PG_FILLFACTOR_VALUE));
                     }
                     return statements;
                 })
@@ -649,7 +668,7 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
 
         // logical_resources (1) ---- (*) patient_security (*) ---- (0|1) common_token_values
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0019.vid()) // V0019: Updated to support Postgres vacuum changes
+                .setVersion(FhirSchemaVersion.V0020.vid()) // V0020: Updated to support Postgres fillfactor changes
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn(COMMON_TOKEN_VALUE_ID,   false)
                 .addBigIntColumn(  LOGICAL_RESOURCE_ID,   false)
@@ -665,6 +684,9 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
                     List<IDatabaseStatement> statements = new ArrayList<>();
                     if (priorVersion < FhirSchemaVersion.V0019.vid()) {
                         statements.add(new PostgresVacuumSettingDAO(schemaName, tableName, 2000, null, 1000));
+                    }
+                    if (priorVersion < FhirSchemaVersion.V0020.vid()) {
+                        statements.add(new PostgresFillfactorSettingDAO(schemaName, tableName, FhirSchemaConstants.PG_FILLFACTOR_VALUE));
                     }
                     return statements;
                 })
@@ -751,7 +773,7 @@ ALTER TABLE device_date_values ADD CONSTRAINT fk_device_date_values_r  FOREIGN K
         final String logicalResourcesTable = prefix + _LOGICAL_RESOURCES;
 
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0019.vid()) // V0019: Updated to support Postgres vacuum changes
+                .setVersion(FhirSchemaVersion.V0020.vid()) // V0020: Updated to support Postgres fillfactor changes
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
@@ -782,6 +804,9 @@ ALTER TABLE device_date_values ADD CONSTRAINT fk_device_date_values_r  FOREIGN K
 
                     if (priorVersion < FhirSchemaVersion.V0019.vid()) {
                         statements.add(new PostgresVacuumSettingDAO(schemaName, tableName, 2000, null, 1000));
+                    }
+                    if (priorVersion < FhirSchemaVersion.V0020.vid()) {
+                        statements.add(new PostgresFillfactorSettingDAO(schemaName, tableName, FhirSchemaConstants.PG_FILLFACTOR_VALUE));
                     }
                     return statements;
                 })
@@ -814,7 +839,7 @@ ALTER TABLE device_number_values ADD CONSTRAINT fk_device_number_values_r  FOREI
         final String logicalResourcesTable = prefix + _LOGICAL_RESOURCES;
 
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0019.vid()) // V0019: Updated to support Postgres vacuum changes
+                .setVersion(FhirSchemaVersion.V0020.vid()) // V0020: Updated to support Postgres fillfactor changes
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
@@ -850,6 +875,10 @@ ALTER TABLE device_number_values ADD CONSTRAINT fk_device_number_values_r  FOREI
                     if (priorVersion < FhirSchemaVersion.V0019.vid()) {
                         statements.add(new PostgresVacuumSettingDAO(schemaName, tableName, 2000, null, 1000));
                     }
+                    
+                    if (priorVersion < FhirSchemaVersion.V0020.vid()) {
+                        statements.add(new PostgresFillfactorSettingDAO(schemaName, tableName, FhirSchemaConstants.PG_FILLFACTOR_VALUE));
+                    }
                     return statements;
                 })
                 .build(model)
@@ -884,7 +913,7 @@ ALTER TABLE device_latlng_values ADD CONSTRAINT fk_device_latlng_values_r  FOREI
 
         Table tbl = Table.builder(schemaName, tableName)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
-                .setVersion(FhirSchemaVersion.V0019.vid()) // V0019: Updated to support Postgres vacuum changes
+                .setVersion(FhirSchemaVersion.V0020.vid()) // V0020: Updated to support Postgres fillfactor changes
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addDoubleColumn(     LATITUDE_VALUE,       true)
@@ -909,6 +938,9 @@ ALTER TABLE device_latlng_values ADD CONSTRAINT fk_device_latlng_values_r  FOREI
 
                     if (priorVersion < FhirSchemaVersion.V0019.vid()) {
                         statements.add(new PostgresVacuumSettingDAO(schemaName, tableName, 2000, null, 1000));
+                    }
+                    if (priorVersion < FhirSchemaVersion.V0020.vid()) {
+                        statements.add(new PostgresFillfactorSettingDAO(schemaName, tableName, FhirSchemaConstants.PG_FILLFACTOR_VALUE));
                     }
                     return statements;
                 })
@@ -953,7 +985,7 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
 
         Table tbl = Table.builder(schemaName, tableName)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
-                .setVersion(FhirSchemaVersion.V0019.vid()) // V0019: Updated to support Postgres vacuum changes
+                .setVersion(FhirSchemaVersion.V0020.vid()) // V0020: Updated to support Postgres fillfactor changes
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addVarcharColumn(              CODE, 255, false)
@@ -984,6 +1016,10 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
                     if (priorVersion < FhirSchemaVersion.V0019.vid()) {
                         statements.add(new PostgresVacuumSettingDAO(schemaName, tableName, 2000, null, 1000));
                     }
+                    
+                    if (priorVersion < FhirSchemaVersion.V0020.vid()) {
+                        statements.add(new PostgresFillfactorSettingDAO(schemaName, tableName, FhirSchemaConstants.PG_FILLFACTOR_VALUE));
+                    }
                     return statements;
                 })
                 .build(model)
@@ -1006,7 +1042,7 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
         final int lib = LOGICAL_ID_BYTES;
 
         Table tbl = Table.builder(schemaName, LIST_LOGICAL_RESOURCE_ITEMS)
-                .setVersion(FhirSchemaVersion.V0019.vid()) // V0019: Updated to support Postgres vacuum changes
+                .setVersion(FhirSchemaVersion.V0020.vid()) // V0020: Updated to support Postgres vacuum changes
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn( LOGICAL_RESOURCE_ID,      false)
@@ -1022,6 +1058,9 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
                     List<IDatabaseStatement> statements = new ArrayList<>();
                     if (priorVersion < FhirSchemaVersion.V0019.vid()) {
                         statements.add(new PostgresVacuumSettingDAO(schemaName, LIST_LOGICAL_RESOURCE_ITEMS, 2000, null, 1000));
+                    }
+                    if (priorVersion < FhirSchemaVersion.V0020.vid()) {
+                        statements.add(new PostgresFillfactorSettingDAO(schemaName, LIST_LOGICAL_RESOURCE_ITEMS, FhirSchemaConstants.PG_FILLFACTOR_VALUE));
                     }
                     return statements;
                 })
@@ -1046,7 +1085,7 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
         // model with a foreign key to avoid order of insertion issues
 
         Table tbl = Table.builder(schemaName, PATIENT_CURRENT_REFS)
-                .setVersion(FhirSchemaVersion.V0019.vid()) // V0019: Updated to support Postgres vacuum changes
+                .setVersion(FhirSchemaVersion.V0020.vid()) // V0020: Updated to support Postgres fillfactor changes
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn(         LOGICAL_RESOURCE_ID,      false)
@@ -1064,6 +1103,9 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
                     List<IDatabaseStatement> statements = new ArrayList<>();
                     if (priorVersion < FhirSchemaVersion.V0019.vid()) {
                         statements.add(new PostgresVacuumSettingDAO(schemaName, PATIENT_CURRENT_REFS, 2000, null, 1000));
+                    }
+                    if (priorVersion < FhirSchemaVersion.V0020.vid()) {
+                        statements.add(new PostgresFillfactorSettingDAO(schemaName, PATIENT_CURRENT_REFS, FhirSchemaConstants.PG_FILLFACTOR_VALUE));
                     }
                     return statements;
                 })
