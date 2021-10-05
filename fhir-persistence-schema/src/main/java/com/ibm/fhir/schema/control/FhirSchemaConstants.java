@@ -182,4 +182,7 @@ public class FhirSchemaConstants {
     public static final String LOGICAL_RESOURCE_COMPARTMENTS = "LOGICAL_RESOURCE_COMPARTMENTS";
     public static final String COMPARTMENT_LOGICAL_RESOURCE_ID = "COMPARTMENT_LOGICAL_RESOURCE_ID";
     public static final String COMPARTMENT_NAME_ID = "COMPARTMENT_NAME_ID";
+
+    public static final String PG_FILLFACTOR_PROP = "fillfactor";
+    public static final int PG_FILLFACTOR_VALUE = 90; // do not change without bumping schema versions for affected tables
 }
