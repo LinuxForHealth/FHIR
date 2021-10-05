@@ -458,7 +458,7 @@ public class FhirSchemaGenerator {
                 Arrays.asList(fhirSequence, resourceTypesTable, deleteResourceParameters, allTablesComplete),
                 procedurePrivileges);
         pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
-        
+
         pd = model.addProcedure(this.schemaName,
             ERASE_RESOURCE,
             FhirSchemaVersion.V0013.vid(),
