@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.server.test.everything;
+package com.ibm.fhir.server.test.operation;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;

@@ -17,9 +17,7 @@ migration_post(){
         bash ${WORKSPACE}/fhir/build/migration/${migration}/8_teardown.sh
     else
         cd ${WORKSPACE}/fhir/build/migration/${migration}/
-        docker-compose down --remove-orphans --rmi local -v --timeout 30
-        docker system df
-        docker system prune -f
+        docker-compose stop -v --timeout 30
     fi
 }
 

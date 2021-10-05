@@ -67,7 +67,6 @@
     <test name="OperationSpecificTests">
         <packages>
             <package name="com.ibm.fhir.server.test.operation" />
-            <package name="com.ibm.fhir.server.test.everything" />
         </packages>
     </test>
     <test name="ClinicalReasoningTests">

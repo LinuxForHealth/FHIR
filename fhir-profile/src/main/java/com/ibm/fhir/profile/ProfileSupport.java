@@ -6,6 +6,8 @@
 
 package com.ibm.fhir.profile;
 
+import static com.ibm.fhir.cache.CacheKey.key;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -15,11 +17,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import com.ibm.fhir.cache.CacheKey;
+import com.ibm.fhir.cache.CacheManager;
+import com.ibm.fhir.cache.CacheManager.Configuration;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.constraint.spi.ConstraintProvider;
 import com.ibm.fhir.model.resource.Resource;
@@ -41,9 +45,13 @@ public final class ProfileSupport {
     public static final String HL7_STRUCTURE_DEFINITION_URL_PREFIX = "http://hl7.org/fhir/StructureDefinition/";
     public static final String HL7_VALUE_SET_URL_PREFIX = "http://hl7.org/fhir/ValueSet/";
 
-    private static final Map<String, List<Constraint>> CONSTRAINT_CACHE = new ConcurrentHashMap<>();
-    private static final Map<String, Map<String, ElementDefinition>> ELEMENT_DEFINITION_CACHE = new ConcurrentHashMap<>();
-    private static final Map<String, Map<String, Binding>> BINDING_CACHE = new ConcurrentHashMap<>();
+    public static final java.lang.String CONSTRAINT_CACHE_NAME = "com.ibm.fhir.profile.ProfileSupport.constraintCache";
+    public static final java.lang.String ELEMENT_DEF_CACHE_NAME = "com.ibm.fhir.profile.ProfileSupport.elementDefinitionCache";
+    public static final java.lang.String BINDING_CACHE_NAME = "com.ibm.fhir.profile.ProfileSupport.bindingCache";
+    public static final Configuration CONSTRAINT_CACHE_CONFIG = Configuration.of(128);
+    public static final Configuration ELEMENT_DEF_CACHE_CONFIG = Configuration.of(128);
+    public static final Configuration BINDING_CACHE_CONFIG = Configuration.of(128);
+
     private static final Comparator<Constraint> CONSTRAINT_COMPARATOR = new Comparator<Constraint>() {
         @Override
         public int compare(Constraint first, Constraint second) {
@@ -203,11 +211,8 @@ public final class ProfileSupport {
     }
 
     public static Map<String, Binding> getBindingMap(String url) {
-        Map<String, Binding> bindingMap = BINDING_CACHE.get(url);
-        if (bindingMap == null) {
-            bindingMap = BINDING_CACHE.computeIfAbsent(url, ProfileSupport::computeBindingMap);
-        }
-        return bindingMap;
+        Map<String, Map<String, Binding>> bindingMapCache = CacheManager.getCacheAsMap(BINDING_CACHE_NAME, BINDING_CACHE_CONFIG);
+        return bindingMapCache.computeIfAbsent(url, ProfileSupport::computeBindingMap);
     }
 
     public static List<Constraint> getConstraints(List<String> urls, Class<?> type) {
@@ -272,12 +277,10 @@ public final class ProfileSupport {
     private static List<Constraint> getConstraints(StructureDefinition profile, Class<?> type) {
         String url = profile.getUrl().getValue();
         String version = profile.getVersion().getValue();
-        String key = url + "|" + version;
-        List<Constraint> constraints = CONSTRAINT_CACHE.get(key);
-        if (constraints == null) {
-            constraints = CONSTRAINT_CACHE.computeIfAbsent(key, k -> computeConstraints(profile, type));
-        }
-        return constraints;
+        CacheKey key = key(url + "|" + version);
+        Map<CacheKey, List<Constraint>> constraintCache = CacheManager.getCacheAsMap(CONSTRAINT_CACHE_NAME, CONSTRAINT_CACHE_CONFIG);
+
+        return constraintCache.computeIfAbsent(key, k -> computeConstraints(profile, type));
     }
 
     public static ElementDefinition getElementDefinition(String path) {
@@ -291,11 +294,8 @@ public final class ProfileSupport {
     }
 
     public static Map<String, ElementDefinition> getElementDefinitionMap(String url) {
-        Map<String, ElementDefinition> elementDefinitionMap = ELEMENT_DEFINITION_CACHE.get(url);
-        if (elementDefinitionMap == null) {
-            elementDefinitionMap = ELEMENT_DEFINITION_CACHE.computeIfAbsent(url, ProfileSupport::computeElementDefinitionMap);
-        }
-        return elementDefinitionMap;
+        Map<String, Map<String, ElementDefinition>> elementDefinitionMapCache = CacheManager.getCacheAsMap(ELEMENT_DEF_CACHE_NAME, ELEMENT_DEF_CACHE_CONFIG);
+        return elementDefinitionMapCache.computeIfAbsent(url, ProfileSupport::computeElementDefinitionMap);
     }
 
     public static Set<String> getConstraintKeys(StructureDefinition structureDefinition) {
