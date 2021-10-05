@@ -133,6 +133,7 @@ public class FhirSchemaGenerator {
     private static final String ADD_PARAMETER_NAME = "ADD_PARAMETER_NAME";
     private static final String ADD_RESOURCE_TYPE = "ADD_RESOURCE_TYPE";
     private static final String ADD_ANY_RESOURCE = "ADD_ANY_RESOURCE";
+    private static final String DELETE_RESOURCE_PARAMETERS = "DELETE_RESOURCE_PARAMETERS";
     private static final String ERASE_RESOURCE = "ERASE_RESOURCE";
 
     // The tags we use to separate the schemas
@@ -442,18 +443,27 @@ public class FhirSchemaGenerator {
         pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
 
         pd = model.addProcedure(this.schemaName,
+            DELETE_RESOURCE_PARAMETERS,
+            FhirSchemaVersion.V0020.vid(),
+            () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + DELETE_RESOURCE_PARAMETERS.toLowerCase() + ".sql", null),
+            Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete),
+            procedurePrivileges);
+        pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+        final ProcedureDef deleteResourceParameters = pd;
+        
+        pd = model.addProcedure(this.schemaName,
                 ADD_ANY_RESOURCE,
                 FhirSchemaVersion.V0001.vid(),
                 () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ADD_ANY_RESOURCE.toLowerCase() + ".sql", null),
-                Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete),
+                Arrays.asList(fhirSequence, resourceTypesTable, deleteResourceParameters, allTablesComplete),
                 procedurePrivileges);
         pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
-
+        
         pd = model.addProcedure(this.schemaName,
             ERASE_RESOURCE,
             FhirSchemaVersion.V0013.vid(),
             () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ERASE_RESOURCE.toLowerCase() + ".sql", null),
-            Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete),
+            Arrays.asList(fhirSequence, resourceTypesTable, deleteResourceParameters, allTablesComplete),
             procedurePrivileges);
         pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
     }
@@ -486,19 +496,28 @@ public class FhirSchemaGenerator {
                 Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete), procedurePrivileges);
         fd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
 
+        // We currently only support functions with PostgreSQL, although this is really just a procedure
+        FunctionDef deleteResourceParameters = model.addFunction(this.schemaName,
+            DELETE_RESOURCE_PARAMETERS,
+            FhirSchemaVersion.V0020.vid(),
+            () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + DELETE_RESOURCE_PARAMETERS.toLowerCase() + ".sql", null),
+            Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete),
+            procedurePrivileges);
+        deleteResourceParameters.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+
         fd = model.addFunction(this.schemaName,
                 ADD_ANY_RESOURCE,
                 FhirSchemaVersion.V0001.vid(),
                 () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ADD_ANY_RESOURCE.toLowerCase()
                         + ".sql", null),
-                Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete), procedurePrivileges);
+                Arrays.asList(fhirSequence, resourceTypesTable, deleteResourceParameters, allTablesComplete), procedurePrivileges);
         fd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
 
         fd = model.addFunction(this.schemaName,
             ERASE_RESOURCE,
             FhirSchemaVersion.V0013.vid(),
             () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ERASE_RESOURCE.toLowerCase() + ".sql", null),
-            Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete), procedurePrivileges);
+            Arrays.asList(fhirSequence, resourceTypesTable, deleteResourceParameters, allTablesComplete), procedurePrivileges);
         fd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
     }
 
