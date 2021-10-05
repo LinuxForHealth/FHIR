@@ -58,38 +58,10 @@ BEGIN
     USING v_logical_resource_id;
     GET DIAGNOSTICS v_total = ROW_COUNT;
 
-    -- Step 3: Delete from All Parameters Tables
-    EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.' || p_resource_type || '_str_values          WHERE logical_resource_id = $1'
-    USING v_logical_resource_id;
-    EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.' || p_resource_type || '_number_values       WHERE logical_resource_id = $1'
-    USING v_logical_resource_id;
-    EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.' || p_resource_type || '_date_values         WHERE logical_resource_id = $1'
-    USING v_logical_resource_id;
-    EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.' || p_resource_type || '_latlng_values       WHERE logical_resource_id = $1'
-    USING v_logical_resource_id;
-    EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.' || p_resource_type || '_resource_token_refs WHERE logical_resource_id = $1'
-    USING v_logical_resource_id;
-    EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.' || p_resource_type || '_quantity_values     WHERE logical_resource_id = $1'
-    USING v_logical_resource_id;
-    EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.' || p_resource_type || '_profiles            WHERE logical_resource_id = $1'
-    USING v_logical_resource_id;
-    EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.' || p_resource_type || '_tags                WHERE logical_resource_id = $1'
-    USING v_logical_resource_id;
-    EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.' || p_resource_type || '_security            WHERE logical_resource_id = $1'
-    USING v_logical_resource_id;
-    EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.str_values                 WHERE logical_resource_id = $1'
-    USING v_logical_resource_id;
-    EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.date_values                WHERE logical_resource_id = $1'
-    USING v_logical_resource_id;
-    EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.resource_token_refs        WHERE logical_resource_id = $1'
-    USING v_logical_resource_id;
-    EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.logical_resource_profiles  WHERE logical_resource_id = $1'
-    USING v_logical_resource_id;
-    EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.logical_resource_tags      WHERE logical_resource_id = $1'
-    USING v_logical_resource_id;
-    EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.logical_resource_security  WHERE logical_resource_id = $1'
-    USING v_logical_resource_id;
-
+    -- The delete_resource_parameters call is a function, so we have to use a select here, not call 
+    EXECUTE 'SELECT {{SCHEMA_NAME}}.delete_resource_parameters($1, $2)'
+    USING p_resource_type, v_logical_resource_id;
+    
     -- Step 4: Delete from Logical Resources table 
     EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.' || p_resource_type || '_LOGICAL_RESOURCES WHERE LOGICAL_RESOURCE_ID = $1'
     USING v_logical_resource_id;
