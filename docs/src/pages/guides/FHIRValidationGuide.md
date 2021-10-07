@@ -35,7 +35,7 @@ The validation component picks up the Java annotation, pulls out the FHIRPath ex
 
 The validation component will also validate a resource against profiles that it asserts conformance to in the `Resource.meta.profile` element assuming those profiles are available to the IBM FHIR Server via the FHIR registry component ([fhir-registry](https://github.com/IBM/FHIR/tree/main/fhir-registry)) at runtime.
 
-Given a FHIR profile (structure definition) as input, the IBM FHIR Server Profile component ([fhir-profile](https://github.com/IBM/FHIR/tree/main/fhir-profile)) generates FHIRPath expressions for a number of different types of constraints. The current scope of constraint generation is:
+Given a FHIR profile (structure definition) that contains a Snapshot as input, the IBM FHIR Server Profile component ([fhir-profile](https://github.com/IBM/FHIR/tree/main/fhir-profile)) generates FHIRPath expressions for a number of different types of constraints. The current scope of constraint generation is:
 
 - Cardinality constraints (required and prohibited elements)
 - Fixed value constraints (Code and Uri data types)
