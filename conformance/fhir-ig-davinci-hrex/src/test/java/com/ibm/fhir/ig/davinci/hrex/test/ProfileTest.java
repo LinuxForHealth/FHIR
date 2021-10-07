@@ -10,6 +10,7 @@ import static com.ibm.fhir.validation.util.FHIRValidationUtil.countErrors;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,14 +19,15 @@ import org.testng.Assert;
 import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.examples.ExamplesUtil;
-import com.ibm.fhir.examples.Index;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.validation.FHIRValidator;
 
+/**
+ * Tests the Profile
+ */
 public class ProfileTest {
     @SuppressWarnings("unused")
     private String expectation = null;
@@ -39,15 +41,11 @@ public class ProfileTest {
     public ProfileTest(String expectation, String path, boolean json) {
         this.expectation = expectation;
         this.path = path;
-
-        if (!json) {
-            this.format = Format.XML;
-        }
     }
 
     @Test
     public void testHrexValidation() throws Exception {
-        try (Reader r = ExamplesUtil.resourceReader(path)) {
+        try (Reader r = new InputStreamReader(ProfileTest.class.getResourceAsStream("/" + path))) {
             System.out.println("Davinci HREX Testing -> " + path);
             Resource resource = FHIRParser.parser(format).parse(r);
             List<Issue> issues = FHIRValidator.validator().validate(resource);
@@ -66,7 +64,7 @@ public class ProfileTest {
     @Factory
     public Object[] createInstances() {
         List<Object> result = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(ExamplesUtil.indexReader(Index.PROFILES_HREX_JSON))) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(ProfileTest.class.getResourceAsStream("/profiles-hrex-json.txt")))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] tokens = line.split("\\s+");

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,6 +11,6 @@ import com.ibm.fhir.registry.util.PackageRegistryResourceProvider;
 public class HREXResourceProvider extends PackageRegistryResourceProvider {
     @Override
     public String getPackageId() {
-        return "hl7.fhir.us.davinci-hrex";
+        return "hl7.fhir.us.davinci-hrex.stu1";
     }
 }

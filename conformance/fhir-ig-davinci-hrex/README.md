@@ -4,6 +4,8 @@ Downloaded from http://build.fhir.org/ig/HL7/davinci-ehrx/index.html
 
 Retrieved on 01 OCT 2021 https://github.com/HL7/davinci-ehrx/commit/8bc618cafd677393fffc409633d863e753a3cf54
 
+Please note STU1 is NOT finished as of this creation, and the IG contents may change.
+
 Check the Profiles are on the system: 
 
 ```
