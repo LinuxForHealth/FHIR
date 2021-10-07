@@ -2,7 +2,7 @@
 layout: post
 title: FHIR Validation Guide
 description: FHIR Validation Guide
-date:   2021-03-24
+date:   2021-10-07
 permalink: /FHIRValidationGuide/
 ---
 
@@ -194,6 +194,8 @@ public class USCoreResourceProvider extends PackageRegistryResourceProvider {
 ```
 
 The `PackgageRegistryResourceProvider` class converts the packageId (e.g. hl7.fhir.us.core) to a path where it can find the NPM package index file: `.index.json`. The `PackageRegistryResourceProvider` class creates `FHIRRegistryResource` instances, using the index file, and caches them in a map on startup. The `PackageRegistryResource` (an implementation of `FHIRRegistryResource` class lazily loads the underlying FHIR resource into memory when it is accessed. Multiple versions of the same resource can be registered. FHIR registry resource providers can be bundled into a jar file and deployed with the IBM FHIR server in the user lib directory.
+
+The IBM FHIR Server uses the Snapshot and not the Differential, you must include a Snapshot. As mentioned in [#2829](https://github.com/IBM/FHIR/issues/2829), you may use FHIR Sushi with the `-s` option to generate a Snapshot.
 
 For more information, please see: [https://confluence.hl7.org/display/FHIR/NPM+Package+Specification](https://confluence.hl7.org/display/FHIR/NPM+Package+Specification)
 
