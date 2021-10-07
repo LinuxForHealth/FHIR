@@ -11,13 +11,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import com.ibm.fhir.core.FHIRUtilities;
+
 import jakarta.json.JsonArray;
 import jakarta.json.JsonNumber;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonString;
 import jakarta.json.JsonValue;
-
-import com.ibm.fhir.core.FHIRUtilities;
 
 /**
  * This class represents a collection of properties - a property group. This could be the entire set of properties
@@ -107,7 +107,7 @@ public class PropertyGroup {
     /**
      * This is a convenience function that will retrieve an array property, then convert it
      * to a list of Strings by calling toString() on each array element.
-     * 
+     *
      * @param propertyName the name of the property to retrieve
      * @return a List<String> containing the elements from the JSON array property; possibly null
      * @throws Exception
@@ -237,12 +237,16 @@ public class PropertyGroup {
     /**
      * Returns the properties contained in the PropertyGroup in the form of a list of
      * PropertyEntry instances. If no properties exist, then an empty list will be returned.
+     * Properties with a value of null will be omitted from the list.
      * @throws Exception
      */
     public List<PropertyEntry> getProperties() throws Exception {
         List<PropertyEntry> results = new ArrayList<>();
         for (Map.Entry<String, JsonValue> entry : jsonObj.entrySet()) {
-            results.add(new PropertyEntry(entry.getKey(), convertJsonValue(entry.getValue())));
+            Object jsonValue = convertJsonValue(entry.getValue());
+            if (jsonValue != null) {
+                results.add(new PropertyEntry(entry.getKey(), jsonValue));
+            }
         }
         return results;
     }
@@ -262,7 +266,7 @@ public class PropertyGroup {
     /**
      * Converts the specified JsonValue into the appropriate java.lang.* type.
      * @param jsonValue the JsonValue instance to be converted
-     * @return an instance of Boolean, Integer, String, PropertyGroup, or List<Object>
+     * @return either null or an instance of Boolean, Integer, String, PropertyGroup, or List<Object>
      * @throws Exception
      */
     public static Object convertJsonValue(JsonValue jsonValue) throws Exception {
@@ -292,6 +296,8 @@ public class PropertyGroup {
         case FALSE:
             result = Boolean.FALSE;
             break;
+        case NULL:
+            break;
         default:
             throw new IllegalStateException("Unexpected JSON value type: " + jsonValue.getValueType().name());
         }
@@ -317,6 +323,7 @@ public class PropertyGroup {
      *
      * @param propertyName
      *            the possibly hierarchical property name.
+     * @return the property value as a JsonValue or null if the property is either missing or has a null value
      */
     public JsonValue getJsonValue(String propertyName) {
         String[] pathElements = getPathElements(propertyName);
@@ -325,7 +332,7 @@ public class PropertyGroup {
         if (subGroup != null) {
             result = subGroup.get(pathElements[pathElements.length - 1]);
         }
-        return result;
+        return result == JsonValue.NULL ? null : result;
     }
 
     /**

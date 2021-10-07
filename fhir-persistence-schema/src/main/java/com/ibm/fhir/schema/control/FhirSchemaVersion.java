@@ -38,6 +38,7 @@ public enum FhirSchemaVersion {
     ,V0017(17, "issue-1822 add initial vacuum settings", true)
     ,V0018(18, "issue-1822 add optimized settings for postgres vacuum tables", true)
     ,V0019(19, "issue-1822 changes per the IBM Cloud Database Team", true)
+    ,V0020(20, "issue-1834 Set PostgreSQL fillfactor", true)
     ;
 
     // The version number recorded in the VERSION_HISTORY

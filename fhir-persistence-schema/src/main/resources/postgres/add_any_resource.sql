@@ -122,38 +122,10 @@ BEGIN
 
     IF o_current_parameter_hash IS NULL OR p_parameter_hash_b64 != o_current_parameter_hash
     THEN
-	    -- existing resource, so need to delete all its parameters. 
+	    -- existing resource, so need to delete all its parameters (select because it's a function, not a procedure)
 	    -- TODO patch parameter sets instead of all delete/all insert.
-	    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_str_values          WHERE logical_resource_id = $1'
-	      USING v_logical_resource_id;
-	    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_number_values       WHERE logical_resource_id = $1'
-	      USING v_logical_resource_id;
-	    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_date_values         WHERE logical_resource_id = $1'
-	      USING v_logical_resource_id;
-	    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_latlng_values       WHERE logical_resource_id = $1'
-	      USING v_logical_resource_id;
-	    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_resource_token_refs WHERE logical_resource_id = $1'
-	      USING v_logical_resource_id;
-	    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_quantity_values     WHERE logical_resource_id = $1'
-	      USING v_logical_resource_id;
-	    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_profiles            WHERE logical_resource_id = $1'
-	      USING v_logical_resource_id;
-	    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_tags                WHERE logical_resource_id = $1'
-	      USING v_logical_resource_id;
-        EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_security            WHERE logical_resource_id = $1'
-          USING v_logical_resource_id;
-	    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || 'str_values                 WHERE logical_resource_id = $1'
-	      USING v_logical_resource_id;
-	    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || 'date_values                WHERE logical_resource_id = $1'
-	      USING v_logical_resource_id;
-	    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || 'resource_token_refs        WHERE logical_resource_id = $1'
-	      USING v_logical_resource_id;
-	    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || 'logical_resource_profiles  WHERE logical_resource_id = $1'
-	      USING v_logical_resource_id;
-	    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || 'logical_resource_tags      WHERE logical_resource_id = $1'
-	      USING v_logical_resource_id;
-        EXECUTE 'DELETE FROM ' || v_schema_name || '.' || 'logical_resource_security  WHERE logical_resource_id = $1'
-          USING v_logical_resource_id;
+        EXECUTE 'SELECT {{SCHEMA_NAME}}.delete_resource_parameters($1, $2)'
+        USING p_resource_type, v_logical_resource_id;
 	END IF; -- end if check parameter hash
   END IF; -- end if existing resource
 

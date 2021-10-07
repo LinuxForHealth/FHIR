@@ -143,36 +143,8 @@ BEGIN
     THEN
 	    -- existing resource, so need to delete all its parameters. 
 	    -- TODO patch parameter sets instead of all delete/all insert.
-	    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_str_values          WHERE logical_resource_id = ?';
-	    EXECUTE stmt USING v_logical_resource_id;
-	    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_number_values       WHERE logical_resource_id = ?';
-	    EXECUTE stmt USING v_logical_resource_id;
-	    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_date_values         WHERE logical_resource_id = ?';
-	    EXECUTE stmt USING v_logical_resource_id;
-	    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_latlng_values       WHERE logical_resource_id = ?';
-	    EXECUTE stmt USING v_logical_resource_id;
-	    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_resource_token_refs WHERE logical_resource_id = ?';
-	    EXECUTE stmt USING v_logical_resource_id;
-	    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_quantity_values     WHERE logical_resource_id = ?';
-	    EXECUTE stmt USING v_logical_resource_id;
-	    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_profiles            WHERE logical_resource_id = ?';
-	    EXECUTE stmt USING v_logical_resource_id;
-	    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_tags                WHERE logical_resource_id = ?';
-	    EXECUTE stmt USING v_logical_resource_id;
-        PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_security            WHERE logical_resource_id = ?';
-        EXECUTE stmt USING v_logical_resource_id;
-	    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || 'str_values          WHERE logical_resource_id = ?';
-	    EXECUTE stmt USING v_logical_resource_id;
-	    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || 'date_values         WHERE logical_resource_id = ?';
-	    EXECUTE stmt USING v_logical_resource_id;
-	    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || 'resource_token_refs WHERE logical_resource_id = ?';
-	    EXECUTE stmt USING v_logical_resource_id;
-	    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || 'logical_resource_profiles WHERE logical_resource_id = ?';
-	    EXECUTE stmt USING v_logical_resource_id;
-	    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || 'logical_resource_tags     WHERE logical_resource_id = ?';
-	    EXECUTE stmt USING v_logical_resource_id;
-        PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || 'logical_resource_security WHERE logical_resource_id = ?';
-        EXECUTE stmt USING v_logical_resource_id;
+	    PREPARE stmt FROM 'CALL ' || v_schema_name || '.delete_resource_parameters(?,?)';
+	    EXECUTE stmt USING p_resource_type, v_logical_resource_id;
 	END IF; -- end if parameter hash is different    
   END IF; -- end if existing resource
 
