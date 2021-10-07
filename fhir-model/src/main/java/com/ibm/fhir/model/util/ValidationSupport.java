@@ -71,6 +71,7 @@ public final class ValidationSupport {
     };
     private static final Set<Character> WHITESPACE = new HashSet<>(Arrays.asList(' ', '\t', '\r', '\n'));
     private static final Set<Character> UNSUPPORTED_UNICODE = buildUnsupportedUnicodeCharacterSet();
+
     private static final char [] BASE64_CHARS = {
         'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
         'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f',
@@ -82,10 +83,8 @@ public final class ValidationSupport {
     private ValidationSupport() { }
 
     /**
-     * Builds a set of unsupported Unicode characters for fast lookup.
-     *
-     * @implNote Per the specification: Strings SHOULD not contain Unicode character points below 32
-     * except for u0009 (horizontal tab), u0010 (carriage return) and u0013 (line feed).
+     * Builds a set of unsupported unicode characters per the specification.
+     * @return
      */
     private static Set<Character> buildUnsupportedUnicodeCharacterSet() {
         Set<Character> chars = new HashSet<>();
@@ -123,12 +122,11 @@ public final class ValidationSupport {
         int count = 0;
         for (int i = 0; i < s.length(); i++) {
             char ch = s.charAt(i);
-            Character character = Character.valueOf(ch);
-            checkUnsupportedUnicode(s, ch);
             if (!Character.isWhitespace(ch)) {
+                checkUnsupportedUnicode(s, ch);
                 count++;
-            } else if (!WHITESPACE.contains(character)) {
-                throw new IllegalStateException(String.format("String value: '%s' is not valid with respect to pattern: [\\r\\n\\t\\S]+", s));
+            } else if (!WHITESPACE.contains(ch)) {
+                throw new IllegalStateException(buildIllegalWhiteSpaceException(s));
             }
         }
         if (count < MIN_STRING_LENGTH) {
@@ -137,13 +135,42 @@ public final class ValidationSupport {
     }
 
     /**
-     * Helper method to check if there is unsupported unicode.
-     * @param ch
+     * wraps the building of the illegal white space exception.
+     * @param s
+     * @return
      */
-    private static void checkUnsupportedUnicode(String s, Character ch) {
+    private static String buildIllegalWhiteSpaceException(String s) {
+        return new StringBuilder("String value: '")
+            .append(s)
+            .append("' is not valid with respect to pattern: [\\\\r\\\\n\\\\t\\\\S]+")
+            .toString();
+    }
+
+    /**
+     * Helper method to check if there is unsupported unicode.
+     * @param s the source of the character
+     * @param ch the character to check
+     * @throws IllegalStateException indicating an invalid unicode character was detected.
+     *
+     * @implNote Per the specification: Strings SHOULD not contain Unicode character points below 32
+     * except for u0009 (horizontal tab), u0010 (carriage return) and u0013 (line feed).
+     */
+    private static void checkUnsupportedUnicode(String s, char ch) {
         if (UNSUPPORTED_UNICODE.contains(ch)) {
-            throw new IllegalStateException(String.format("String value contains unsupported unicode values: [\\0000-0008,0011,0012,0014-0031] value=[%s]", s));
+            throw new IllegalStateException(buildUnicodeException(s));
         }
+    }
+
+    /**
+     * wraps the unicode exception string
+     * @param s
+     * @return
+     */
+    private static String buildUnicodeException(String s) {
+        return new StringBuilder("String value contains unsupported unicode values: [\\0000-0008,0011,0012,0014-0031] value=[")
+            .append(s)
+            .append(']')
+            .toString();
     }
 
     /**
