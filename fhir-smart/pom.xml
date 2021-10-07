@@ -41,6 +41,7 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-examples</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -57,6 +58,7 @@
         <dependency>
             <groupId>com.auth0</groupId>
             <artifactId>java-jwt</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.testng</groupId>
