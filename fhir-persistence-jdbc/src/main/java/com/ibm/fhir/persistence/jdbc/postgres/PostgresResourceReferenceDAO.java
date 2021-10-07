@@ -40,7 +40,7 @@ public class PostgresResourceReferenceDAO extends ResourceReferenceDAO {
     }
 
     @Override
-    public void doCodeSystemsUpsert(String paramList, Collection<String> systemNames) {
+    public void doCodeSystemsUpsert(String paramList, Collection<String> sortedSystemNames) {
         // query is a negative outer join so we only pick the rows where
         // the row "s" from the actual table doesn't exist. Note the order by,
         // which is crucial to avoid deadlocks (even though adding code-systems
@@ -58,13 +58,10 @@ public class PostgresResourceReferenceDAO extends ResourceReferenceDAO {
         // same number of parameters, and hopefully we'll therefore share a small subset
         // of statements for better performance. Although once the cache warms up, this
         // shouldn't be called at all.
-        final List<String> sortedNames = new ArrayList<>(systemNames);
-        sortedNames.sort((String left, String right) -> left.compareTo(right));
-
         try (PreparedStatement ps = getConnection().prepareStatement(insert.toString())) {
             // bind all the code_system_name values as parameters
             int a = 1;
-            for (String name: sortedNames) {
+            for (String name: sortedSystemNames) {
                 ps.setString(a++, name);
             }
 
@@ -76,7 +73,7 @@ public class PostgresResourceReferenceDAO extends ResourceReferenceDAO {
     }
 
     @Override
-    public void doCanonicalValuesUpsert(String paramList, Collection<String> urls) {
+    public void doCanonicalValuesUpsert(String paramList, Collection<String> sortedURLS) {
         // Because of how PostgreSQL MVCC implementation, the insert from negative outer
         // join pattern doesn't work...you still hit conflicts. The PostgreSQL pattern
         // for upsert is ON CONFLICT DO NOTHING, which is what we use here:
@@ -93,13 +90,10 @@ public class PostgresResourceReferenceDAO extends ResourceReferenceDAO {
         // same number of parameters, and hopefully we'll therefore share a small subset
         // of statements for better performance. Although once the cache warms up, this
         // shouldn't be called at all.
-        final List<String> sortedNames = new ArrayList<>(urls);
-        sortedNames.sort((String left, String right) -> left.compareTo(right));
-
         try (PreparedStatement ps = getConnection().prepareStatement(insert.toString())) {
             // bind all the code_system_name values as parameters
             int a = 1;
-            for (String name: sortedNames) {
+            for (String name: sortedURLS) {
                 ps.setString(a++, name);
             }
 
@@ -111,7 +105,7 @@ public class PostgresResourceReferenceDAO extends ResourceReferenceDAO {
     }
 
     @Override
-    protected void doCommonTokenValuesUpsert(String paramList, Collection<CommonTokenValue> tokenValues) {
+    protected void doCommonTokenValuesUpsert(String paramList, Collection<CommonTokenValue> sortedTokenValues) {
         // It would appear that Postgres MVCC doesn't properly handle the upsert pattern
         // based on not exists or a negative outer join (see the base class implementation
         // of this method for an example). It exposes a race condition, resulting in a
@@ -121,7 +115,7 @@ public class PostgresResourceReferenceDAO extends ResourceReferenceDAO {
         insert.append(" INSERT INTO common_token_values (token_value, code_system_id) ");
         insert.append("      SELECT v.token_value, v.code_system_id ");
         insert.append("        FROM (VALUES ").append(paramList).append(" ) AS v(token_value, code_system_id) ");
-        insert.append("    ORDER BY v.token_value, v.code_system_id "); // minimize probability of deadlock
+        insert.append("    ORDER BY v.code_system_id, v.token_value "); // minimize probability of deadlock
         insert.append(" ON CONFLICT DO NOTHING ");
 
         // Note, we use PreparedStatement here on purpose. Partly because it's
@@ -132,7 +126,7 @@ public class PostgresResourceReferenceDAO extends ResourceReferenceDAO {
         try (PreparedStatement ps = getConnection().prepareStatement(insert.toString())) {
             // bind all the name values as parameters
             int a = 1;
-            for (CommonTokenValue tv: tokenValues) {
+            for (CommonTokenValue tv: sortedTokenValues) {
                 ps.setString(a++, tv.getTokenValue());
                 ps.setInt(a++, tv.getCodeSystemId());
             }

@@ -6,11 +6,13 @@
 
 package com.ibm.fhir.persistence.jdbc.dto;
 
+import java.util.Comparator;
 
 /**
  * DTO representing a record in COMMON_TOKEN_VALUES
  */
-public class CommonTokenValue {
+public class CommonTokenValue implements Comparable<CommonTokenValue> {
+    private static final Comparator<String> NULL_SAFE_COMPARATOR = Comparator.nullsFirst(String::compareTo);
 
     private final int codeSystemId;
 
@@ -67,5 +69,15 @@ public class CommonTokenValue {
     @Override
     public String toString() {
         return "[codeSystemId=" + codeSystemId + ", tokenValue=" + tokenValue + "]";
+    }
+
+    @Override
+    public int compareTo(CommonTokenValue other) {
+        // allow CommonTokenValue objects to be sorted in a deterministic way
+        int result = Integer.compare(codeSystemId, other.codeSystemId);
+        if (result == 0) {
+            result = NULL_SAFE_COMPARATOR.compare(tokenValue, other.tokenValue);
+        }
+        return result;
     }
 }

@@ -351,10 +351,12 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
         }
 
         // Unique list so we don't try and create the same name more than once
-        Set<String> systemNames = systems.stream().map(xr -> xr.getCodeSystemValue()).collect(Collectors.toSet());
-        StringBuilder paramList = new StringBuilder();
-        StringBuilder inList = new StringBuilder();
-        for (int i=0; i<systemNames.size(); i++) {
+        final Set<String> systemNames = systems.stream().map(xr -> xr.getCodeSystemValue()).collect(Collectors.toSet());
+        final List<String> sortedSystemNames = new ArrayList<>(systemNames);
+        sortedSystemNames.sort(String::compareTo);
+        final StringBuilder paramList = new StringBuilder();
+        final StringBuilder inList = new StringBuilder();
+        for (int i=0; i<sortedSystemNames.size(); i++) {
             if (paramList.length() > 0) {
                 paramList.append(", ");
                 inList.append(",");
@@ -364,35 +366,14 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
         }
 
         final String paramListStr = paramList.toString();
-        doCodeSystemsUpsert(paramListStr, systemNames);
-
+        doCodeSystemsUpsert(paramListStr, sortedSystemNames);
 
         // Now grab the ids for the rows we just created. If we had a RETURNING implementation
         // which worked reliably across all our database platforms, we wouldn't need this
         // second query.
-        StringBuilder select = new StringBuilder();
-        select.append("SELECT code_system_name, code_system_id FROM code_systems WHERE code_system_name IN (");
-        select.append(inList);
-        select.append(")");
-
-        Map<String, Integer> idMap = new HashMap<>();
-        try (PreparedStatement ps = connection.prepareStatement(select.toString())) {
-            // load a map with all the ids we need which we can then use to update the
-            // ExternalResourceReferenceRec objects
-            int a = 1;
-            for (String name: systemNames) {
-                ps.setString(a++, name);
-            }
-
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                idMap.put(rs.getString(1), rs.getInt(2));
-            }
-        } catch (SQLException x) {
-            logger.log(Level.SEVERE, select.toString(), x);
-            throw translator.translate(x);
-        }
-
+        final Map<String, Integer> idMap = new HashMap<>();
+        doCodeSystemsFetch(idMap, inList.toString(), sortedSystemNames);
+        
         // Now update the ids for all the matching systems in our list
         for (ResourceTokenValueRec xr: systems) {
             Integer id = idMap.get(xr.getCodeSystemValue());
@@ -410,6 +391,36 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
     }
 
     /**
+     * Fetch the code_system_id values for each of the code_system_name values in the sortedSystemNames list.
+     * @param idMap the code_system_name -> code_system_id map to populate
+     * @param inList a list of bind markers for the values in the sortedSystemNames list
+     * @param sortedSystemNames the list of code_system_name values to fetch
+     */
+    protected void doCodeSystemsFetch(Map<String, Integer> idMap, String inList, List<String> sortedSystemNames) {
+        StringBuilder select = new StringBuilder();
+        select.append("SELECT code_system_name, code_system_id FROM code_systems WHERE code_system_name IN (");
+        select.append(inList);
+        select.append(")");
+
+        try (PreparedStatement ps = connection.prepareStatement(select.toString())) {
+            // load a map with all the ids we need which we can then use to update the
+            // ExternalResourceReferenceRec objects
+            int a = 1;
+            for (String name: sortedSystemNames) {
+                ps.setString(a++, name);
+            }
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                idMap.put(rs.getString(1), rs.getInt(2));
+            }
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, select.toString(), x);
+            throw translator.translate(x);
+        }        
+    }
+    
+    /**
      * Add the missing values to the database (and get ids allocated)
      * @param profileValues
      */
@@ -419,10 +430,13 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
         }
 
         // Unique list so we don't try and create the same name more than once
-        Set<String> names = profileValues.stream().map(xr -> xr.getCanonicalValue()).collect(Collectors.toSet());
+        Set<String> valueSet = profileValues.stream().map(xr -> xr.getCanonicalValue()).collect(Collectors.toSet());
+        List<String> sortedValues = new ArrayList<String>(valueSet);
+        sortedValues.sort(String::compareTo);
+        
         StringBuilder paramList = new StringBuilder();
         StringBuilder inList = new StringBuilder();
-        for (int i=0; i<names.size(); i++) {
+        for (int i=0; i<sortedValues.size(); i++) {
             if (paramList.length() > 0) {
                 paramList.append(", ");
                 inList.append(",");
@@ -432,7 +446,7 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
         }
 
         final String paramListStr = paramList.toString();
-        doCanonicalValuesUpsert(paramListStr, names);
+        doCanonicalValuesUpsert(paramListStr, sortedValues);
 
 
         // Now grab the ids for the rows we just created. If we had a RETURNING implementation
@@ -448,7 +462,7 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
             // load a map with all the ids we need which we can then use to update the
             // ExternalResourceReferenceRec objects
             int a = 1;
-            for (String name: names) {
+            for (String name: sortedValues) {
                 ps.setString(a++, name);
             }
 
@@ -705,16 +719,16 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
     /**
      * Insert any missing values into the code_systems table
      * @param paramList
-     * @param systemNames
+     * @param systemNames a sorted collection of system names
      */
-    public abstract void doCodeSystemsUpsert(String paramList, Collection<String> systemNames);
+    public abstract void doCodeSystemsUpsert(String paramList, Collection<String> sortedSystemNames);
 
     /**
      * Insert any missing values into the common_canonical_values table
      * @param paramList
      * @param urls
      */
-    public abstract void doCanonicalValuesUpsert(String paramList, Collection<String> urls);
+    public abstract void doCanonicalValuesUpsert(String paramList, Collection<String> sortedURLS);
 
     /**
      * Add reference value records for each unique reference name in the given list
@@ -725,19 +739,23 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
         // Unique list so we don't try and create the same name more than once.
         // Ignore any null token-values, because we don't want to (can't) store
         // them in our common token values table.
-        Set<CommonTokenValue> tokenValues = values.stream().filter(x -> x.getTokenValue() != null).map(xr -> new CommonTokenValue(xr.getCodeSystemValueId(), xr.getTokenValue())).collect(Collectors.toSet());
+        Set<CommonTokenValue> tokenValueSet = values.stream().filter(x -> x.getTokenValue() != null).map(xr -> new CommonTokenValue(xr.getCodeSystemValueId(), xr.getTokenValue())).collect(Collectors.toSet());
 
-        if (tokenValues.isEmpty()) {
+        if (tokenValueSet.isEmpty()) {
             // nothing to do
             return;
         }
+        
+        // Sort the values so we always process in the same order (deadlock protection)
+        List<CommonTokenValue> sortedTokenValues = new ArrayList<>(tokenValueSet);
+        sortedTokenValues.sort(CommonTokenValue::compareTo);
 
         // Build a string of parameter values we use in the query to drive the insert statement.
         // The database needs to know the type when it parses the query, hence the slightly verbose CAST functions:
         // VALUES ((CAST(? AS VARCHAR(1234)), CAST(? AS INT)), (...)) AS V(common_token_value, parameter_name_id, code_system_id)
         StringBuilder inList = new StringBuilder(); // for the select query later
         StringBuilder paramList = new StringBuilder();
-        for (int i=0; i<tokenValues.size(); i++) {
+        for (int i=0; i<sortedTokenValues.size(); i++) {
             if (paramList.length() > 0) {
                 paramList.append(", ");
             }
@@ -751,10 +769,8 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
             inList.append("(?,?)");
         }
 
-        // query is a negative outer join so we only pick the rows from v for which
-        // there is no row found in ctv.
         final String paramListStr = paramList.toString();
-        doCommonTokenValuesUpsert(paramListStr, tokenValues);
+        doCommonTokenValuesUpsert(paramListStr, sortedTokenValues);
 
         // Now grab the ids for the rows we just created. If we had a RETURNING implementation
         // which worked reliably across all our database platforms, we wouldn't need this
@@ -772,7 +788,7 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
         Map<CommonTokenValue, Long> idMap = new HashMap<>();
         try (PreparedStatement ps = connection.prepareStatement(select.toString())) {
             int a = 1;
-            for (CommonTokenValue tv: tokenValues) {
+            for (CommonTokenValue tv: sortedTokenValues) {
                 ps.setString(a++, tv.getTokenValue());
                 ps.setInt(a++, tv.getCodeSystemId());
             }
@@ -813,7 +829,7 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
      * @param paramList
      * @param tokenValues
      */
-    protected abstract void doCommonTokenValuesUpsert(String paramList, Collection<CommonTokenValue> tokenValues);
+    protected abstract void doCommonTokenValuesUpsert(String paramList, Collection<CommonTokenValue> sortedTokenValues);
 
     @Override
     public void persist(Collection<ResourceTokenValueRec> records, Collection<ResourceProfileRec> profileRecs, Collection<ResourceTokenValueRec> tagRecs, Collection<ResourceTokenValueRec> securityRecs) {
