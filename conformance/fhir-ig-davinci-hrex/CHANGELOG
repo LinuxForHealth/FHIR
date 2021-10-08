@@ -3,3 +3,7 @@
     - From `($this.agent.who.resolve().is Practitioner or Device) implies exists()`
     - To `(($this.agent.who.resolve() is Practitioner) or ($this.agent.who.resolve() is Device)) implies exists()`
 - removed invalid ImplementationGuide parameters `copyrightyear`, `releaselabel`, and more
+
+08 OCT 2021
+- Relaxed MemberMatch Operations's cardinality for OldCoverage and MemberPatient
+- This is compensated for at the configuration level.

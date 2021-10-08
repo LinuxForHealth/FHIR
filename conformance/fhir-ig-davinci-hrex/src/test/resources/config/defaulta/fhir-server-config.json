@@ -1,0 +1,21 @@
+{
+    "__comment": "FHIR Server - Operation - MemberMatch - Test Configuration",
+    "fhirServer": {
+        "audit": {
+            "serviceClassName" : "com.ibm.fhir.audit.impl.NopService",
+            "serviceProperties" : {
+            }
+        },
+        "operations": {
+            "membermatch": {
+                "enabled": true,
+                "strategy": "defaulta",
+                "requireOutputOldCoverage": true,
+                "requireOutputMemberPatient": true,
+                "ext" : {
+                    "a": "b"
+                }
+            }
+        }
+    }
+}
