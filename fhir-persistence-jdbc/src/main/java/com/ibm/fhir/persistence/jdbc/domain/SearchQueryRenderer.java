@@ -1915,7 +1915,7 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
             }
 
             // Reuse the same CanonicalSupport code used for param extraction to parse the search value
-            ResourceProfileRec rpc = CanonicalSupport.makeResourceProfileRec(-1, resourceType, -1, -1, value.getValueString(), false);
+            ResourceProfileRec rpc = CanonicalSupport.makeResourceProfileRec(null, resourceType, -1, -1, value.getValueString(), false);
             int canonicalId = getCanonicalId(rpc.getCanonicalValue());
             whereFragment.col(paramAlias, "CANONICAL_ID").eq(canonicalId);
 

@@ -19,10 +19,16 @@ import java.util.logging.Logger;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.INameIdCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNameDAO;
+import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterNameDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceProfileRec;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValue;
+import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
+import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 
 
 /**
@@ -42,8 +48,8 @@ public class Db2ResourceReferenceDAO extends ResourceReferenceDAO {
      * @param schemaName
      * @param cache
      */
-    public Db2ResourceReferenceDAO(IDatabaseTranslator t, Connection c, String schemaName, ICommonTokenValuesCache cache, String adminSchemaName) {
-        super(t, c, schemaName, cache);
+    public Db2ResourceReferenceDAO(IDatabaseTranslator t, Connection c, String schemaName, ICommonTokenValuesCache cache, String adminSchemaName, INameIdCache<Integer> parameterNameCache) {
+        super(t, c, schemaName, cache, parameterNameCache);
         this.adminSchemaName = adminSchemaName;
     }
 
@@ -459,5 +465,11 @@ public class Db2ResourceReferenceDAO extends ResourceReferenceDAO {
             logger.log(Level.SEVERE, insert, x);
             throw getTranslator().translate(x);
         }
+    }
+
+    @Override
+    protected int readOrAddParameterNameId(String parameterName) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException  {
+        final ParameterNameDAO pnd = new ParameterNameDAOImpl(getConnection(), getSchemaName());
+        return pnd.readOrAddParameterNameId(parameterName);
     }
 }

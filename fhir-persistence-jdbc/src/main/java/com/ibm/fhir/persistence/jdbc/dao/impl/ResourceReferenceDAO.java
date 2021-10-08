@@ -28,9 +28,16 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.INameIdCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
+import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNameDAO;
+import com.ibm.fhir.persistence.jdbc.derby.DerbyParameterNamesDAO;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValue;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValueResult;
+import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
+import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
+import com.ibm.fhir.persistence.jdbc.postgres.PostgresParameterNamesDAO;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
 
 /**
@@ -62,7 +69,10 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
 
     // The cache used to track the ids of the normalized entities we're managing
     private final ICommonTokenValuesCache cache;
-
+    
+    // Cache of parameter names to id
+    private final INameIdCache<Integer> parameterNameCache;
+    
     // The translator for the type of database we are connected to
     private final IDatabaseTranslator translator;
 
@@ -73,10 +83,11 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
      * Public constructor
      * @param c
      */
-    public ResourceReferenceDAO(IDatabaseTranslator t, Connection c, String schemaName, ICommonTokenValuesCache cache) {
+    public ResourceReferenceDAO(IDatabaseTranslator t, Connection c, String schemaName, ICommonTokenValuesCache cache, INameIdCache<Integer> parameterNameCache) {
         this.translator = t;
         this.connection = c;
         this.cache = cache;
+        this.parameterNameCache = parameterNameCache;
         this.schemaName = schemaName;
     }
 
@@ -223,7 +234,7 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
     }
 
     @Override
-    public void addNormalizedValues(String resourceType, Collection<ResourceTokenValueRec> xrefs, Collection<ResourceProfileRec> profileRecs, Collection<ResourceTokenValueRec> tagRecs, Collection<ResourceTokenValueRec> securityRecs) {
+    public void addNormalizedValues(String resourceType, Collection<ResourceTokenValueRec> xrefs, Collection<ResourceProfileRec> profileRecs, Collection<ResourceTokenValueRec> tagRecs, Collection<ResourceTokenValueRec> securityRecs) throws FHIRPersistenceException {
         // This method is only called when we're not using transaction data
         logger.fine("Persist parameters for this resource - no transaction data available");
         persist(xrefs, profileRecs, tagRecs, securityRecs);
@@ -832,7 +843,10 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
     protected abstract void doCommonTokenValuesUpsert(String paramList, Collection<CommonTokenValue> sortedTokenValues);
 
     @Override
-    public void persist(Collection<ResourceTokenValueRec> records, Collection<ResourceProfileRec> profileRecs, Collection<ResourceTokenValueRec> tagRecs, Collection<ResourceTokenValueRec> securityRecs) {
+    public void persist(Collection<ResourceTokenValueRec> records, Collection<ResourceProfileRec> profileRecs, Collection<ResourceTokenValueRec> tagRecs, Collection<ResourceTokenValueRec> securityRecs) throws FHIRPersistenceException {
+        
+        collectAndResolveParameterNames(records, profileRecs, tagRecs, securityRecs);
+        
         // Grab the ids for all the code-systems, and upsert any misses
         List<ResourceTokenValueRec> systemMisses = new ArrayList<>();
         cache.resolveCodeSystems(records, systemMisses);
@@ -902,6 +916,40 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
         }
     }
 
+    /**
+     * Build a unique list of parameter names then sort before resolving the ids. This reduces
+     * the chance we'll get a deadlock under high concurrency conditions
+     * @param records
+     * @param profileRecs
+     * @param tagRecs
+     * @param securityRecs
+     */
+    private void collectAndResolveParameterNames(Collection<ResourceTokenValueRec> records, Collection<ResourceProfileRec> profileRecs, 
+        Collection<ResourceTokenValueRec> tagRecs, Collection<ResourceTokenValueRec> securityRecs) throws FHIRPersistenceException {
+        
+        List<ResourceRefRec> recList = new ArrayList<>();
+        recList.addAll(records);
+        recList.addAll(profileRecs);
+        recList.addAll(tagRecs);
+        recList.addAll(securityRecs);
+
+        // Build a unique list of parameter names and then sort
+        Set<String> parameterNameSet = new HashSet<>(recList.stream().map(rec -> rec.getParameterName()).collect(Collectors.toList()));
+        List<String> parameterNameList = new ArrayList<>(parameterNameSet);
+        parameterNameList.sort(String::compareTo);
+        
+        // Do lookups in order (deadlock protection)
+        for (String parameterName: parameterNameList) {
+            // The cache holds a local map of name to id, so no need to duplicate that here
+            getParameterNameId(parameterName);
+        }
+        
+        // How we have all the ids generated, inject the values into the records
+        for (ResourceRefRec rec: recList) {
+            rec.setParameterNameId(getParameterNameId(rec.getParameterName()));
+        }
+    }
+
     @Override
     public List<Long> readCommonTokenValueIdList(final String tokenValue) {
         final List<Long> result = new ArrayList<>();
@@ -922,4 +970,30 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
 
         return result;
     }
+    
+    /**
+     * Get the id from the local (tenant-specific) identity cache, or read/create using 
+     * the database if needed.
+     * @param parameterName
+     * @return
+     * @throws FHIRPersistenceDBConnectException
+     * @throws FHIRPersistenceDataAccessException
+     */
+    protected int getParameterNameId(String parameterName) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
+        Integer result = parameterNameCache.getId(parameterName);
+        if (result == null) {
+            result = readOrAddParameterNameId(parameterName);
+            parameterNameCache.addEntry(parameterName, result);
+        }
+        return result;
+    }
+
+    /**
+     * Fetch the id for the given parameter name from the database, creating a new entry if required.
+     * @param parameterName
+     * @return
+     * @throws FHIRPersistenceDBConnectException
+     * @throws FHIRPersistenceDataAccessException
+     */
+    protected abstract int readOrAddParameterNameId(String parameterName) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException;
 }

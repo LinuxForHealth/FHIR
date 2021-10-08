@@ -26,16 +26,21 @@ import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.INameIdCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNameDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValue;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValueResult;
+import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
+import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.jdbc.postgres.PostgresResourceReferenceDAO;
 
 
 /**
- * Postgres-specific extension of the {@link ResourceReferenceDAO} to work around
- * some SQL syntax and Postgres concurrency issues
+ * Derby-specific extension of the {@link ResourceReferenceDAO} to work around
+ * some SQL syntax and Derby concurrency issues
  */
 public class DerbyResourceReferenceDAO extends ResourceReferenceDAO {
     private static final Logger logger = Logger.getLogger(PostgresResourceReferenceDAO.class.getName());
@@ -49,8 +54,8 @@ public class DerbyResourceReferenceDAO extends ResourceReferenceDAO {
      * @param schemaName
      * @param cache
      */
-    public DerbyResourceReferenceDAO(IDatabaseTranslator t, Connection c, String schemaName, ICommonTokenValuesCache cache) {
-        super(t, c, schemaName, cache);
+    public DerbyResourceReferenceDAO(IDatabaseTranslator t, Connection c, String schemaName, ICommonTokenValuesCache cache, INameIdCache<Integer> parameterNameCache) {
+        super(t, c, schemaName, cache, parameterNameCache);
     }
 
     @Override
@@ -309,5 +314,11 @@ public class DerbyResourceReferenceDAO extends ResourceReferenceDAO {
                 }
             }
         }
+    }
+    
+    @Override
+    protected int readOrAddParameterNameId(String parameterName) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException  {
+        final ParameterNameDAO pnd = new DerbyParameterNamesDAO(getConnection(), getSchemaName());
+        return pnd.readOrAddParameterNameId(parameterName);
     }
 }
