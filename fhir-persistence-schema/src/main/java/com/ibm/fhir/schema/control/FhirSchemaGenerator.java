@@ -105,6 +105,7 @@ import com.ibm.fhir.database.utils.model.SessionVariableDef;
 import com.ibm.fhir.database.utils.model.Table;
 import com.ibm.fhir.database.utils.model.Tablespace;
 import com.ibm.fhir.database.utils.model.With;
+import com.ibm.fhir.database.utils.postgres.PostgresFillfactorSettingDAO;
 import com.ibm.fhir.database.utils.postgres.PostgresVacuumSettingDAO;
 import com.ibm.fhir.model.util.ModelSupport;
 
@@ -132,6 +133,7 @@ public class FhirSchemaGenerator {
     private static final String ADD_PARAMETER_NAME = "ADD_PARAMETER_NAME";
     private static final String ADD_RESOURCE_TYPE = "ADD_RESOURCE_TYPE";
     private static final String ADD_ANY_RESOURCE = "ADD_ANY_RESOURCE";
+    private static final String DELETE_RESOURCE_PARAMETERS = "DELETE_RESOURCE_PARAMETERS";
     private static final String ERASE_RESOURCE = "ERASE_RESOURCE";
 
     // The tags we use to separate the schemas
@@ -441,10 +443,19 @@ public class FhirSchemaGenerator {
         pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
 
         pd = model.addProcedure(this.schemaName,
+            DELETE_RESOURCE_PARAMETERS,
+            FhirSchemaVersion.V0020.vid(),
+            () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + DELETE_RESOURCE_PARAMETERS.toLowerCase() + ".sql", null),
+            Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete),
+            procedurePrivileges);
+        pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+        final ProcedureDef deleteResourceParameters = pd;
+        
+        pd = model.addProcedure(this.schemaName,
                 ADD_ANY_RESOURCE,
                 FhirSchemaVersion.V0001.vid(),
                 () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ADD_ANY_RESOURCE.toLowerCase() + ".sql", null),
-                Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete),
+                Arrays.asList(fhirSequence, resourceTypesTable, deleteResourceParameters, allTablesComplete),
                 procedurePrivileges);
         pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
 
@@ -452,7 +463,7 @@ public class FhirSchemaGenerator {
             ERASE_RESOURCE,
             FhirSchemaVersion.V0013.vid(),
             () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ERASE_RESOURCE.toLowerCase() + ".sql", null),
-            Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete),
+            Arrays.asList(fhirSequence, resourceTypesTable, deleteResourceParameters, allTablesComplete),
             procedurePrivileges);
         pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
     }
@@ -485,19 +496,28 @@ public class FhirSchemaGenerator {
                 Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete), procedurePrivileges);
         fd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
 
+        // We currently only support functions with PostgreSQL, although this is really just a procedure
+        FunctionDef deleteResourceParameters = model.addFunction(this.schemaName,
+            DELETE_RESOURCE_PARAMETERS,
+            FhirSchemaVersion.V0020.vid(),
+            () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + DELETE_RESOURCE_PARAMETERS.toLowerCase() + ".sql", null),
+            Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete),
+            procedurePrivileges);
+        deleteResourceParameters.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+
         fd = model.addFunction(this.schemaName,
                 ADD_ANY_RESOURCE,
                 FhirSchemaVersion.V0001.vid(),
                 () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ADD_ANY_RESOURCE.toLowerCase()
                         + ".sql", null),
-                Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete), procedurePrivileges);
+                Arrays.asList(fhirSequence, resourceTypesTable, deleteResourceParameters, allTablesComplete), procedurePrivileges);
         fd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
 
         fd = model.addFunction(this.schemaName,
             ERASE_RESOURCE,
             FhirSchemaVersion.V0013.vid(),
             () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ERASE_RESOURCE.toLowerCase() + ".sql", null),
-            Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete), procedurePrivileges);
+            Arrays.asList(fhirSequence, resourceTypesTable, deleteResourceParameters, allTablesComplete), procedurePrivileges);
         fd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
     }
 
@@ -516,7 +536,7 @@ public class FhirSchemaGenerator {
         final String IDX_LOGICAL_RESOURCES_LUPD = "IDX_" + LOGICAL_RESOURCES + "_LUPD";
 
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0019.vid()) // V0019: Updated to support Postgres vacuum changes
+                .setVersion(FhirSchemaVersion.V0020.vid()) // V0020: Updated to support Postgres fillfactor changes
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID, false)
                 .addIntColumn(RESOURCE_TYPE_ID, false)
@@ -534,7 +554,7 @@ public class FhirSchemaGenerator {
                 .addPrivileges(resourceTablePrivileges)
                 .addForeignKeyConstraint(FK + tableName + "_RTID", schemaName, RESOURCE_TYPES, RESOURCE_TYPE_ID)
                 .enableAccessControl(this.sessionVariable)
-                .addWiths(addWiths()) // New Column for V0017
+                .addWiths(addWiths()) // add table tuning
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
                     if (priorVersion == FhirSchemaVersion.V0001.vid()) {
@@ -586,6 +606,10 @@ public class FhirSchemaGenerator {
 
                     if (priorVersion < FhirSchemaVersion.V0019.vid()) {
                         statements.add(new PostgresVacuumSettingDAO(schemaName, tableName, 2000, null, 1000));
+                    }
+                    
+                    if (priorVersion < FhirSchemaVersion.V0020.vid()) {
+                        statements.add(new PostgresFillfactorSettingDAO(schemaName, tableName, FhirSchemaConstants.PG_FILLFACTOR_VALUE));
                     }
                     return statements;
                 })
@@ -651,7 +675,7 @@ public class FhirSchemaGenerator {
 
         // logical_resources (1) ---- (*) logical_resource_profiles (*) ---- (1) common_canonical_values
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0019.vid()) // V0019: Updated to support Postgres vacuum changes (Original Table at V0014)
+                .setVersion(FhirSchemaVersion.V0020.vid()) // V0020: Updated to support Postgres fillfactor changes (Original Table at V0014)
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn(         CANONICAL_ID,     false) // FK referencing COMMON_CANONICAL_VALUES
                 .addBigIntColumn(  LOGICAL_RESOURCE_ID,     false) // FK referencing LOGICAL_RESOURCES
@@ -669,6 +693,9 @@ public class FhirSchemaGenerator {
                     List<IDatabaseStatement> statements = new ArrayList<>();
                     if (priorVersion < FhirSchemaVersion.V0019.vid()) {
                         statements.add(new PostgresVacuumSettingDAO(schemaName, tableName, 2000, null, 1000));
+                    }
+                    if (priorVersion < FhirSchemaVersion.V0020.vid()) {
+                        statements.add(new PostgresFillfactorSettingDAO(schemaName, tableName, FhirSchemaConstants.PG_FILLFACTOR_VALUE));
                     }
                     return statements;
                 })
@@ -696,7 +723,7 @@ public class FhirSchemaGenerator {
 
         // logical_resources (1) ---- (*) logical_resource_tags (*) ---- (1) common_token_values
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0019.vid()) // V0019: Updated to support Postgres vacuum changes, original table created at version V0014
+                .setVersion(FhirSchemaVersion.V0020.vid()) // V0019: Updated to support Postgres vacuum changes, original table created at version V0014
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn(COMMON_TOKEN_VALUE_ID,    false) // FK referencing COMMON_CANONICAL_VALUES
                 .addBigIntColumn(  LOGICAL_RESOURCE_ID,    false) // FK referencing LOGICAL_RESOURCES
@@ -712,6 +739,9 @@ public class FhirSchemaGenerator {
                     List<IDatabaseStatement> statements = new ArrayList<>();
                     if (priorVersion < FhirSchemaVersion.V0019.vid()) {
                         statements.add(new PostgresVacuumSettingDAO(schemaName, tableName, 2000, null, 1000));
+                    }
+                    if (priorVersion < FhirSchemaVersion.V0020.vid()) {
+                        statements.add(new PostgresFillfactorSettingDAO(schemaName, tableName, FhirSchemaConstants.PG_FILLFACTOR_VALUE));
                     }
                     return statements;
                 })
@@ -736,7 +766,7 @@ public class FhirSchemaGenerator {
 
         // logical_resources (1) ---- (*) logical_resource_security (*) ---- (1) common_token_values
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0019.vid()) // V0019: Updated to support Postgres vacuum changes, original table created at version V0016
+                .setVersion(FhirSchemaVersion.V0020.vid()) // V0019: Updated to support Postgres vacuum changes, original table created at version V0016
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn(COMMON_TOKEN_VALUE_ID,    false) // FK referencing COMMON_CANONICAL_VALUES
                 .addBigIntColumn(  LOGICAL_RESOURCE_ID,    false) // FK referencing LOGICAL_RESOURCES
@@ -752,6 +782,9 @@ public class FhirSchemaGenerator {
                     List<IDatabaseStatement> statements = new ArrayList<>();
                     if (priorVersion < FhirSchemaVersion.V0019.vid()) {
                         statements.add(new PostgresVacuumSettingDAO(schemaName, tableName, 2000, null, 1000));
+                    }
+                    if (priorVersion < FhirSchemaVersion.V0020.vid()) {
+                        statements.add(new PostgresFillfactorSettingDAO(schemaName, tableName, FhirSchemaConstants.PG_FILLFACTOR_VALUE));
                     }
                     return statements;
                 })
@@ -774,6 +807,13 @@ public class FhirSchemaGenerator {
      */
     public void addResourceChangeLog(PhysicalDataModel pdm) {
         final String tableName = RESOURCE_CHANGE_LOG;
+        
+        // custom list of Withs because this table does not require fillfactor tuned in V0020
+        List<With> customWiths = Arrays.asList(
+            With.with("autovacuum_vacuum_scale_factor", "0.01"), // V0019
+            With.with("autovacuum_vacuum_threshold", "1000"),    // V0019
+            With.with("autovacuum_vacuum_cost_limit", "2000")    // V0019
+            );
 
         Table tbl = Table.builder(schemaName, tableName)
                 .setTenantColumnName(MT_ID)
@@ -789,7 +829,7 @@ public class FhirSchemaGenerator {
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
-                .addWiths(addWiths()) // New Column for V0017
+                .addWiths(customWiths) // Does not require fillfactor tuning
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
                     if (priorVersion < FhirSchemaVersion.V0019.vid()) {
@@ -823,7 +863,7 @@ public class FhirSchemaGenerator {
         // because it makes it very easy to find the most recent changes to resources associated with
         // a given patient (for example).
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0019.vid()) // V0019: Updated to support Postgres vacuum changes
+                .setVersion(FhirSchemaVersion.V0020.vid()) // V0020: Updated to support Postgres fillfactor changes
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(     COMPARTMENT_NAME_ID,      false)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID,      false)
@@ -841,6 +881,9 @@ public class FhirSchemaGenerator {
                     List<IDatabaseStatement> statements = new ArrayList<>();
                     if (priorVersion < FhirSchemaVersion.V0019.vid()) {
                         statements.add(new PostgresVacuumSettingDAO(schemaName, tableName, 2000, null, 1000));
+                    }
+                    if (priorVersion < FhirSchemaVersion.V0020.vid()) {
+                        statements.add(new PostgresFillfactorSettingDAO(schemaName, tableName, FhirSchemaConstants.PG_FILLFACTOR_VALUE));
                     }
                     return statements;
                 })
@@ -866,7 +909,7 @@ public class FhirSchemaGenerator {
         final int msb = MAX_SEARCH_STRING_BYTES;
 
         Table tbl = Table.builder(schemaName, STR_VALUES)
-                .setVersion(FhirSchemaVersion.V0019.vid()) // V0019: Updated to support Postgres vacuum changes
+                .setVersion(FhirSchemaVersion.V0020.vid()) // V0019: Updated to support Postgres vacuum changes
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addVarcharColumn(         STR_VALUE, msb,  true)
@@ -886,6 +929,9 @@ public class FhirSchemaGenerator {
                     List<IDatabaseStatement> statements = new ArrayList<>();
                     if (priorVersion < FhirSchemaVersion.V0019.vid()) {
                         statements.add(new PostgresVacuumSettingDAO(schemaName, STR_VALUES, 2000, null, 1000));
+                    }
+                    if (priorVersion < FhirSchemaVersion.V0020.vid()) {
+                        statements.add(new PostgresFillfactorSettingDAO(schemaName, STR_VALUES, FhirSchemaConstants.PG_FILLFACTOR_VALUE));
                     }
                     return statements;
                 })
@@ -909,7 +955,7 @@ public class FhirSchemaGenerator {
         final String logicalResourcesTable = LOGICAL_RESOURCES;
 
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0019.vid()) // V0019: Updated to support Postgres vacuum changes
+                .setVersion(FhirSchemaVersion.V0020.vid()) // V0019: Updated to support Postgres vacuum changes
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addTimestampColumn(      DATE_START,6,    true)
@@ -933,6 +979,9 @@ public class FhirSchemaGenerator {
                     }
                     if (priorVersion < FhirSchemaVersion.V0019.vid()) {
                         statements.add(new PostgresVacuumSettingDAO(schemaName, tableName, 2000, null, 1000));
+                    }
+                    if (priorVersion < FhirSchemaVersion.V0020.vid()) {
+                        statements.add(new PostgresFillfactorSettingDAO(schemaName, tableName, FhirSchemaConstants.PG_FILLFACTOR_VALUE));
                     }
                     return statements;
                 })
@@ -1169,7 +1218,7 @@ public class FhirSchemaGenerator {
 
         // logical_resources (0|1) ---- (*) resource_token_refs
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0019.vid()) // V0019: Updated to support Postgres vacuum changes
+                .setVersion(FhirSchemaVersion.V0020.vid()) // V0020: Updated to support Postgres fillfactor changes
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(       PARAMETER_NAME_ID,    false)
                 .addBigIntColumn(COMMON_TOKEN_VALUE_ID,     true) // support for null token value entries
@@ -1183,7 +1232,7 @@ public class FhirSchemaGenerator {
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
-                .addWiths(addWiths()) // New Column for V0017
+                .addWiths(addWiths()) // table tuning
                 .addMigration(priorVersion -> {
                     // Replace the indexes initially defined in the V0006 version with better ones
                     List<IDatabaseStatement> statements = new ArrayList<>();
@@ -1213,6 +1262,9 @@ public class FhirSchemaGenerator {
                     }
                     if (priorVersion < FhirSchemaVersion.V0019.vid()) {
                         statements.add(new PostgresVacuumSettingDAO(schemaName, tableName, 2000, null, 1000));
+                    }
+                    if (priorVersion < FhirSchemaVersion.V0020.vid()) {
+                        statements.add(new PostgresFillfactorSettingDAO(schemaName, tableName, FhirSchemaConstants.PG_FILLFACTOR_VALUE));
                     }
                     return statements;
                 })
@@ -1283,13 +1335,18 @@ public class FhirSchemaGenerator {
     }
 
     /**
-     * The defaults with addWiths
+     * The defaults with addWiths. Added to every table in a PostgreSQL schema
      * @return
      */
     protected List<With> addWiths() {
+        // NOTE! If you change this table remember that you also need to bump the
+        // schema version of every table that uses this list of Withs. This includes
+        // adding a corresponding migration step.
         return Arrays.asList(
-                With.with("autovacuum_vacuum_scale_factor", "0.01"),
-                With.with("autovacuum_vacuum_threshold", "1000"),
-                With.with("autovacuum_vacuum_cost_limit", "2000"));
+                With.with("autovacuum_vacuum_scale_factor", "0.01"), // V0019
+                With.with("autovacuum_vacuum_threshold", "1000"),    // V0019
+                With.with("autovacuum_vacuum_cost_limit", "2000"),   // V0019
+                With.with(FhirSchemaConstants.PG_FILLFACTOR_PROP, Integer.toString(FhirSchemaConstants.PG_FILLFACTOR_VALUE)) // V0020
+                );
     }
 }

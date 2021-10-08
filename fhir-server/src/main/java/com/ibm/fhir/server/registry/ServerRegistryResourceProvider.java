@@ -136,13 +136,13 @@ public class ServerRegistryResourceProvider extends AbstractRegistryResourceProv
                         .collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
             }
         } catch (Exception e) {
-            log.log(Level.WARNING, "An error occurred during a search interaction", e);
+            log.log(Level.WARNING, "An error occurred during the underlying search interaction; returning empty", e);
         } finally {
             if (transactionHelper != null) {
                 try {
                     transactionHelper.rollback();
                 } catch (FHIRPersistenceException e) {
-                    log.log(Level.WARNING, "An error occurred ending the current transaction", e);
+                    log.log(Level.WARNING, "An error occurred while rolling back the current transaction", e);
                 }
             }
         }

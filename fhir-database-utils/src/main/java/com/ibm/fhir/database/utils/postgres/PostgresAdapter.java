@@ -448,7 +448,7 @@ public class PostgresAdapter extends CommonDatabaseAdapter {
             try {
                 runStatement(ddl.toString());
             } catch (UndefinedNameException x) {
-                logger.warning(ddl + "; PROCEDURE not found");
+                logger.warning(ddl + "; FUNCTION not found");
             }
         }
         super.createOrReplaceFunction(schemaName, functionName, supplier);

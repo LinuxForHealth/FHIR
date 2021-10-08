@@ -38,39 +38,20 @@
     </developers>
 
     <properties>
-        <liberty.version>21.0.0.9</liberty.version>
-        <!-- There are breaking changes in 10.15+ don't upgrade beyond this -->
-        <derby.version>10.14.2.0</derby.version>
-        <db2.version>11.5.6.0</db2.version>
-        <postgresql.version>42.2.23</postgresql.version>
-        <janusgraph.version>0.6.0</janusgraph.version>
-        <!-- Updated per [CVE-2021-22696] CXF supports (via JwtRequestCodeFilter) -->
-        <cxf.version>3.4.4</cxf.version>
-        <surefire.plugin.version>3.0.0-M5</surefire.plugin.version>
-        <!-- needed for generating jacoco aggregate report in fhir-coverage-reports -->
-        <maven.surefire.report.plugin>${surefire.plugin.version}</maven.surefire.report.plugin>
-        <jacoco.plugin.version>0.8.7</jacoco.plugin.version>
+        <!-- needed for generating jacoco aggregate report in fhir-coverage-reports ? -->
+        <maven.surefire.report.plugin>3.0.0-M5</maven.surefire.report.plugin>
         <argLine>-Dfile.encoding=UTF-8</argLine>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <my.maven.war.plugin>3.2.3</my.maven.war.plugin>
-        <my.maven.jar.plugin>3.1.2</my.maven.jar.plugin>
-        <cassandra.client.version>4.10.0</cassandra.client.version>
-        <fdb.client.version>6.3.1</fdb.client.version>
-        <jedis.version>3.5.1</jedis.version>
-        <protobuf.version>3.12.4</protobuf.version>
         <fhir-model.index>MINIMAL_JSON</fhir-model.index>
         <fhir-validation.index>MINIMAL_JSON</fhir-validation.index>
         <fhir-search.index>MINIMAL_JSON</fhir-search.index>
         <fhir-persistence-jdbc.index>MINIMAL_JSON</fhir-persistence-jdbc.index>
         <fhir-server-test.index>MINIMAL_JSON</fhir-server-test.index>
         <java.version>1.8</java.version>
-        <fhir-examples.version>4.10.0-SNAPSHOT</fhir-examples.version>
         <fhir-tools.version>4.10.0-SNAPSHOT</fhir-tools.version>
         <maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
-        <cqlengine.version>1.5.1</cqlengine.version>
-        <cqframework.version>1.5.1</cqframework.version>
-        <fhir.ucum.version>1.0.3</fhir.ucum.version>
-        <jackson.version>2.12.4</jackson.version>
+        <!-- We use github depend-a-bot to keep dependencies up-to-date and that doesn't
+             yet support dependencies with versions from variables, so prefer inlining over version vars -->
     </properties>
 
     <modules>
@@ -131,7 +112,7 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>fhir-examples</artifactId>
-                <version>${fhir-examples.version}</version>
+                <version>4.9.2</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
@@ -180,13 +161,13 @@
             <dependency>
                 <groupId>io.openliberty</groupId>
                 <artifactId>openliberty-runtime</artifactId>
-                <version>${liberty.version}</version>
+                <version>21.0.0.9</version>
                 <type>zip</type>
             </dependency>
             <dependency>
                 <groupId>com.ibm.db2</groupId>
                 <artifactId>jcc</artifactId>
-                <version>${db2.version}</version>
+                <version>11.5.6.0</version>
             </dependency>
             <dependency>
                 <groupId>jakarta.ws.rs</groupId>
@@ -196,17 +177,17 @@
             <dependency>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-rt-rs-client</artifactId>
-                <version>${cxf.version}</version>
+                <version>3.4.4</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-rt-frontend-jaxrs</artifactId>
-                <version>${cxf.version}</version>
+                <version>3.4.4</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-rt-transports-http-hc</artifactId>
-                <version>${cxf.version}</version>
+                <version>3.4.4</version>
             </dependency>
             <dependency>
                 <groupId>jakarta.websocket</groupId>
@@ -243,24 +224,25 @@
                 <version>2.8.6</version>
             </dependency>
             <dependency>
+                 <!-- There are breaking changes in 10.15+ don't upgrade beyond this -->
                 <groupId>org.apache.derby</groupId>
                 <artifactId>derbyclient</artifactId>
-                <version>${derby.version}</version>
+                <version>10.14.2.0</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.derby</groupId>
                 <artifactId>derby</artifactId>
-                <version>${derby.version}</version>
+                <version>10.14.2.0</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.derby</groupId>
                 <artifactId>derbytools</artifactId>
-                <version>${derby.version}</version>
+                <version>10.14.2.0</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.derby</groupId>
                 <artifactId>derbynet</artifactId>
-                <version>${derby.version}</version>
+                <version>10.14.2.0</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
@@ -278,41 +260,41 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-annotations</artifactId>
-                <version>${jackson.version}</version>
+                <version>2.13.0</version>
             </dependency>
             <dependency>
                 <!--  Used by COS in fhir-bucket and bulkdata -->
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-core</artifactId>
-                <version>2.12.3</version>
+                <version>2.13.0</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.module</groupId>
                 <artifactId>jackson-module-jaxb-annotations</artifactId>
-                <version>${jackson.version}</version>
+                <version>2.13.0</version>
             </dependency>
             <dependency>
                 <!--  Used by COS in fhir-bucket and bulkdata -->
                 <groupId>com.fasterxml.jackson.module</groupId>
                 <artifactId>jackson-module-scala_2.12</artifactId>
-                <version>2.12.3</version>
+                <version>2.13.0</version>
             </dependency>
             <dependency>
                 <!--  Used by COS in fhir-bucket and bulkdata -->
                 <groupId>com.fasterxml.jackson.dataformat</groupId>
                 <artifactId>jackson-dataformat-cbor</artifactId>
-                <version>2.12.1</version>
+                <version>2.13.0</version>
             </dependency>
             <dependency>
                 <!--  Used by COS in fhir-bucket and bulkdata -->
                 <groupId>com.fasterxml.jackson.dataformat</groupId>
                 <artifactId>jackson-dataformat-xml</artifactId>
-                <version>2.12.3</version>
+                <version>2.13.0</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
-                <version>2.12.3</version>
+                <version>2.13.0</version>
             </dependency>
             <dependency>
                 <!-- used by postgres and janus graph -->
@@ -415,7 +397,8 @@
             <dependency>
                 <groupId>com.auth0</groupId>
                 <artifactId>java-jwt</artifactId>
-                <version>3.13.0</version>
+                <version>3.18.1</version>
+                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.antlr</groupId>
@@ -467,12 +450,12 @@
             <dependency>
                 <groupId>org.postgresql</groupId>
                 <artifactId>postgresql</artifactId>
-                <version>${postgresql.version}</version>
+                <version>42.2.23</version>
             </dependency>
             <dependency>
                 <groupId>com.google.protobuf</groupId>
                 <artifactId>protobuf-java</artifactId>
-                <version>${protobuf.version}</version>
+                <version>3.12.4</version>
             </dependency>
             <dependency>
                 <groupId>com.google.protobuf</groupId>
@@ -483,27 +466,27 @@
             <dependency>
                 <groupId>com.datastax.oss</groupId>
                 <artifactId>java-driver-core</artifactId>
-                <version>${cassandra.client.version}</version>
+                <version>4.10.0</version>
             </dependency>
             <dependency>
                 <groupId>com.datastax.oss</groupId>
                 <artifactId>java-driver-query-builder</artifactId>
-                <version>${cassandra.client.version}</version>
+                <version>4.10.0</version>
             </dependency>
             <dependency>
                 <groupId>com.datastax.oss</groupId>
                 <artifactId>java-driver-mapper-runtime</artifactId>
-                <version>${cassandra.client.version}</version>
+                <version>4.10.0</version>
             </dependency>
             <dependency>
                 <groupId>redis.clients</groupId>
                 <artifactId>jedis</artifactId>
-                <version>${jedis.version}</version>
+                <version>3.5.1</version>
             </dependency>
             <dependency>
                 <groupId>org.foundationdb</groupId>
                 <artifactId>fdb-java</artifactId>
-                <version>${fdb.client.version}</version>
+                <version>6.3.1</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.spark</groupId>
@@ -528,27 +511,27 @@
             <dependency>
                 <groupId>org.janusgraph</groupId>
                 <artifactId>janusgraph-core</artifactId>
-                <version>${janusgraph.version}</version>
+                <version>0.6.0</version>
             </dependency>
             <dependency>
                 <groupId>org.janusgraph</groupId>
                 <artifactId>janusgraph-berkeleyje</artifactId>
-                <version>${janusgraph.version}</version>
+                <version>0.6.0</version>
             </dependency>
             <dependency>
                 <groupId>org.janusgraph</groupId>
                 <artifactId>janusgraph-cql</artifactId>
-                <version>${janusgraph.version}</version>
+                <version>0.6.0</version>
             </dependency>
             <dependency>
                 <groupId>org.janusgraph</groupId>
                 <artifactId>janusgraph-lucene</artifactId>
-                <version>${janusgraph.version}</version>
+                <version>0.6.0</version>
             </dependency>
             <dependency>
                 <groupId>org.janusgraph</groupId>
                 <artifactId>janusgraph-es</artifactId>
-                <version>${janusgraph.version}</version>
+                <version>0.6.0</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.tinkerpop</groupId>
@@ -607,12 +590,12 @@
             <dependency>
                 <groupId>org.opencds.cqf.cql</groupId>
                 <artifactId>engine</artifactId>
-                <version>${cqlengine.version}</version>
+                <version>1.5.1</version>
             </dependency>
             <dependency>
                 <groupId>info.cqframework</groupId>
                 <artifactId>cql-to-elm</artifactId>
-                <version>${cqframework.version}</version>
+                <version>1.5.1</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>
@@ -638,12 +621,12 @@
             <dependency>
                 <groupId>com.azure</groupId>
                 <artifactId>azure-core</artifactId>
-                <version>1.17.0</version>
+                <version>1.21.0</version>
             </dependency>
             <dependency>
                 <groupId>org.fhir</groupId>
                 <artifactId>ucum</artifactId>
-                <version>${fhir.ucum.version}</version>
+                <version>1.0.3</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -666,7 +649,7 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-jar-plugin</artifactId>
-                    <version>${my.maven.jar.plugin}</version>
+                    <version>3.1.2</version>
                     <executions>
                         <execution>
                             <goals>
@@ -692,7 +675,7 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-war-plugin</artifactId>
-                    <version>${my.maven.war.plugin}</version>
+                    <version>3.2.3</version>
                     <!-- Upgraded maven-war-plugin to avoid 'An illegal reflective
                         access operation' in OpenJDK 11 The dependency 'xstream.converters.collections.TreeMapConverter'
                         used an out-of-date approach. This comment is left here to allow others to
@@ -730,11 +713,11 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>${surefire.plugin.version}</version>
+                    <version>3.0.0-M5</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-failsafe-plugin</artifactId>
-                    <version>${surefire.plugin.version}</version>
+                    <version>3.0.0-M5</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-assembly-plugin</artifactId>
@@ -758,7 +741,7 @@
                 <plugin>
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>${jacoco.plugin.version}</version>
+                    <version>0.8.7</version>
                     <configuration>
                         <excludes>
                             <exclude>com/ibm/fhir/model/*.class</exclude>
@@ -1272,7 +1255,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
-                        <version>3.2.0</version>
+                        <version>3.2.1</version>
                         <executions>
                             <execution>
                                 <id>attach-sources</id>
