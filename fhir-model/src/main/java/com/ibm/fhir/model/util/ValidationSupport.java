@@ -156,7 +156,7 @@ public final class ValidationSupport {
      * except for u0009 (horizontal tab), u0010 (carriage return) and u0013 (line feed).
      */
     private static void checkUnsupportedUnicode(String s, char ch) {
-        if (UNSUPPORTED_UNICODE.contains(ch)) {
+        if (FHIRModelConfig.shouldCheckUnicodeControlChars() && UNSUPPORTED_UNICODE.contains(ch)) {
             throw new IllegalStateException(buildUnicodeException(s));
         }
     }
