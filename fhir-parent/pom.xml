@@ -616,7 +616,7 @@
             <dependency>
                 <groupId>com.azure</groupId>
                 <artifactId>azure-core-http-okhttp</artifactId>
-                <version>1.7.2</version>
+                <version>1.7.4</version>
             </dependency>
             <dependency>
                 <groupId>com.azure</groupId>
@@ -649,7 +649,7 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-jar-plugin</artifactId>
-                    <version>3.1.2</version>
+                    <version>3.2.0</version>
                     <executions>
                         <execution>
                             <goals>
