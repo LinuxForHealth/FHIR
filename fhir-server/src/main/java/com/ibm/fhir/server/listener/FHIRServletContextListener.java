@@ -7,6 +7,7 @@
 package com.ibm.fhir.server.listener;
 
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_CHECK_REFERENCE_TYPES;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_CHECK_UNICODE_CONTROL;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_EXTENDED_CODEABLE_CONCEPT_VALIDATION;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_CONNECTIONPROPS;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_ENABLED;
@@ -195,6 +196,9 @@ public class FHIRServletContextListener implements ServletContextListener {
 
             Boolean extendedCodeableConceptValidation = fhirConfig.getBooleanProperty(PROPERTY_EXTENDED_CODEABLE_CONCEPT_VALIDATION, Boolean.TRUE);
             FHIRModelConfig.setExtendedCodeableConceptValidation(extendedCodeableConceptValidation);
+
+            Boolean checkUnicodeChars = fhirConfig.getBooleanProperty(PROPERTY_CHECK_UNICODE_CONTROL, Boolean.TRUE);
+            FHIRModelConfig.setCheckUnicodeControlChars(checkUnicodeChars);
 
             log.fine("Initializing FHIRRegistry...");
             FHIRRegistry.getInstance();

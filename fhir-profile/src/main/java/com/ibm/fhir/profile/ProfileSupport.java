@@ -212,7 +212,11 @@ public final class ProfileSupport {
 
     public static Map<String, Binding> getBindingMap(String url) {
         Map<String, Map<String, Binding>> bindingMapCache = CacheManager.getCacheAsMap(BINDING_CACHE_NAME, BINDING_CACHE_CONFIG);
-        return bindingMapCache.computeIfAbsent(url, ProfileSupport::computeBindingMap);
+        try {
+            return bindingMapCache.computeIfAbsent(url, ProfileSupport::computeBindingMap);
+        } finally {
+            CacheManager.reportCacheStats(log, BINDING_CACHE_NAME);
+        }
     }
 
     public static List<Constraint> getConstraints(List<String> urls, Class<?> type) {
@@ -280,7 +284,11 @@ public final class ProfileSupport {
         CacheKey key = key(url + "|" + version);
         Map<CacheKey, List<Constraint>> constraintCache = CacheManager.getCacheAsMap(CONSTRAINT_CACHE_NAME, CONSTRAINT_CACHE_CONFIG);
 
-        return constraintCache.computeIfAbsent(key, k -> computeConstraints(profile, type));
+        try {
+            return constraintCache.computeIfAbsent(key, k -> computeConstraints(profile, type));
+        } finally {
+            CacheManager.reportCacheStats(log, CONSTRAINT_CACHE_NAME);
+        }
     }
 
     public static ElementDefinition getElementDefinition(String path) {
@@ -295,7 +303,11 @@ public final class ProfileSupport {
 
     public static Map<String, ElementDefinition> getElementDefinitionMap(String url) {
         Map<String, Map<String, ElementDefinition>> elementDefinitionMapCache = CacheManager.getCacheAsMap(ELEMENT_DEF_CACHE_NAME, ELEMENT_DEF_CACHE_CONFIG);
-        return elementDefinitionMapCache.computeIfAbsent(url, ProfileSupport::computeElementDefinitionMap);
+        try {
+            return elementDefinitionMapCache.computeIfAbsent(url, ProfileSupport::computeElementDefinitionMap);
+        } finally {
+            CacheManager.reportCacheStats(log, ELEMENT_DEF_CACHE_NAME);
+        }
     }
 
     public static Set<String> getConstraintKeys(StructureDefinition structureDefinition) {
