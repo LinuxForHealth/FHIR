@@ -37,7 +37,7 @@ echo "Docker Image is:  ${DOCKER_IMAGE}"
 
 docker tag ${DOCKER_IMAGE} ibmcom/ibm-fhir-bucket-tool:${BUILD_ID}
 docker tag ${DOCKER_IMAGE} ibmcom/ibm-fhir-bucket-tool:latest
-#docker push ibmcom/ibm-fhir-bucket-tool:${BUILD_ID}
+docker push ibmcom/ibm-fhir-bucket-tool:${BUILD_ID}
 docker push ibmcom/ibm-fhir-bucket-tool:latest
 
 popd > /dev/null
