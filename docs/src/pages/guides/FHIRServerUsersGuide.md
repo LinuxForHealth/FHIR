@@ -3,7 +3,7 @@ layout: post
 title:  IBM FHIR Server User's Guide
 description: IBM FHIR Server User's Guide
 Copyright: years 2017, 2021
-lastupdated: "2021-07-28"
+lastupdated: "2021-10-12"
 permalink: /FHIRServerUsersGuide/
 ---
 
@@ -1963,6 +1963,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/defaultHandling`|string|The default handling preference of the server (*strict* or *lenient*) which determines how the server handles unrecognized search parameters and resource elements.|
 |`fhirServer/core/allowClientHandlingPref`|boolean|Indicates whether the client is allowed to override the server default handling preference using the `Prefer:handling` header value part.|
 |`fhirServer/core/checkReferenceTypes`|boolean|Indicates whether reference type checking is performed by the server during parsing / deserialization.|
+|`fhirServer/core/checkUnicodeControl`|boolean|Indicates whether Strings and Codes are checked for invalid Unicode control characters.|
 |`fhirServer/core/serverRegistryResourceProviderEnabled`|boolean|Indicates whether the server registry resource provider should be used by the FHIR registry component to access definitional resources through the persistence layer.|
 |`fhirServer/core/serverResolveFunctionEnabled`|boolean|Indicates whether the server resolve function should be used by the FHIRPath evaluator to resolve references through the persistence layer.|
 |`fhirServer/core/conditionalDeleteMaxNumber`|integer|The maximum number of matches supported in conditional delete. |
@@ -2136,6 +2137,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/defaultHandling`|strict|
 |`fhirServer/core/allowClientHandlingPref`|true|
 |`fhirServer/core/checkReferenceTypes`|true|
+|`fhirServer/core/checkUnicodeControl`|true|
 |`fhirServer/core/serverRegistryResourceProviderEnabled`|false|
 |`fhirServer/core/serverResolveFunctionEnabled`|false|
 |`fhirServer/core/conditionalDeleteMaxNumber`|10|
@@ -2274,6 +2276,7 @@ must restart the server for that change to take effect.
 |`fhirServer/core/defaultHandling`|Y|Y|
 |`fhirServer/core/allowClientHandlingPref`|Y|Y|
 |`fhirServer/core/checkReferenceTypes`|N|N|
+|`fhirServer/core/checkUnicodeControl`|N|N|
 |`fhirServer/core/serverRegistryResourceProviderEnabled`|N|N|
 |`fhirServer/core/serverResolveFunctionEnabled`|N|N|
 |`fhirServer/core/conditionalDeleteMaxNumber`|Y|Y|
