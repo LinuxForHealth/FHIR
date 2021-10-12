@@ -31,20 +31,26 @@ cp ${WORKSPACE}/LICENSE target/LICENSE
 4. Build the tool. 
 
 ``` shell
-docker build --tag ibm-fhir-term-graph-loader:latest .
+docker build --tag ibm-fhir-term-loader:latest .
 ```
 
 or 
 
 ``` shell
-docker build --build-arg FHIR_VERSION=4.10.0 -t ibm-fhir-term-graph-loader:4.10.0 .
+docker build --build-arg FHIR_VERSION=4.10.0 -t ibm-fhir-term-loader:4.10.0 .
 ```
 
 5. Run the shell. (You may have to edit the corresponding examples)
 
 ``` shell
-time docker run ibmcom/ibm-fhir-term-graph-loader:latest | tee out.log
+time docker run --rm -e LOAD_UMLS=true ibmcom/ibm-fhir-term-loader:latest| tee out.log
 ```
+
+``` shell
+time docker run --rm -e LOAD_MAP=true ibmcom/ibm-fhir-term-loader:latest| tee out.log
+```
+
+You'll also have to mount a config properties and pass in a configuration environment variable.
 
 # Run a Shell Check 
 

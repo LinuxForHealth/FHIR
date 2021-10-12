@@ -27,7 +27,7 @@ LABEL name='IBM FHIR Server - Bucket Tool'
 LABEL vendor='IBM'
 LABEL version="$FHIR_VERSION"
 LABEL summary="Image for IBM FHIR Server - Bucket Tool with OpenJ9 and UBI 8"
-LABEL description="The IBM FHIR Server - Bucket Tool manages the IBM FHIR Server and generates synthetic load."
+LABEL description="The IBM FHIR Server - Bucket Tool manages the IBM FHIR Server operations and generates synthetic load."
 
 # Environment variables
 ENV SKIP false
@@ -42,14 +42,14 @@ WORKDIR /opt/ibm/fhir/bucket/workarea
 
 COPY --chown=1001:0 --from=base /opt/ /opt/
 
-RUN chmod -R 755 /opt/ibm/fhir/bucketrun.sh && \
+RUN chmod -R 755 /opt/ibm/fhir/bucket/run.sh && \
     mkdir -p /licenses && \
-    mv /opt/ibm/fhir/bucketLICENSE /licenses && \
+    mv /opt/ibm/fhir/bucket/LICENSE /licenses && \
     microdnf update -y && \
     microdnf install -y nc tzdata openssl curl ca-certificates fontconfig glibc-langpack-en gzip tar findutils shadow-utils && \
-    groupadd -r fhirschemaadmin -g 1001 && \
-    useradd -u 1001 -r -g 1001 -m -d /opt/ibm/fhir/buckethome -s /sbin/nologin fhirbucketadmin && \
-    chmod -R 755 /opt/schematool && \
+    groupadd -r fhirbucketadmin -g 1001 && \
+    useradd -u 1001 -r -g 1001 -m -d /opt/ibm/fhir/bucket/home -s /sbin/nologin fhirbucketadmin && \
+    chmod -R 755 /opt/ibm/fhir/bucket/ && \
     rm -rf /var/cache/yum && \
     rm -f /@System.solv && \
     microdnf clean all && \
