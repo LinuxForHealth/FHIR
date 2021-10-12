@@ -45,7 +45,7 @@ import com.ibm.fhir.cache.CachingProxy;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.config.PropertyGroup.PropertyEntry;
-import com.ibm.fhir.core.lifecycle.EventManagerImpl;
+import com.ibm.fhir.core.lifecycle.EventManager;
 import com.ibm.fhir.model.config.FHIRModelConfig;
 import com.ibm.fhir.model.lang.util.LanguageRegistryUtil;
 import com.ibm.fhir.model.util.FHIRUtil;
@@ -99,7 +99,7 @@ public class FHIRServletContextListener implements ServletContextListener {
             // Initialize our "initComplete" flag to false.
             event.getServletContext().setAttribute(FHIR_SERVER_INIT_COMPLETE, Boolean.FALSE);
             
-            EventManagerImpl.registerServiceManagerId(serviceManagerId);
+            EventManager.registerServiceManagerId(serviceManagerId);
 
             FHIRConfiguration.setConfigHome(System.getenv("FHIR_CONFIG_HOME"));
             PropertyGroup fhirConfig = FHIRConfiguration.getInstance().loadConfiguration();
@@ -223,7 +223,7 @@ public class FHIRServletContextListener implements ServletContextListener {
             event.getServletContext().setAttribute(FHIR_SERVER_INIT_COMPLETE, Boolean.TRUE);
 
             // Now init is complete, tell all registered callbacks
-            EventManagerImpl.serverReady(serviceManagerId);
+            EventManager.serverReady(serviceManagerId);
         } catch(Throwable t) {
             String msg = "Encountered an exception while initializing the servlet context.";
             log.log(Level.SEVERE, msg, t);
@@ -245,7 +245,7 @@ public class FHIRServletContextListener implements ServletContextListener {
             event.getServletContext().setAttribute(FHIR_SERVER_INIT_COMPLETE, Boolean.FALSE);
             
             // Tell anyone who's interested that the server is being shut down. Should not block
-            EventManagerImpl.startShutdown(serviceManagerId);
+            EventManager.startShutdown(serviceManagerId);
 
             // If we previously initialized the Kafka publisher, then shut it down now.
             if (kafkaPublisher != null) {
@@ -268,7 +268,7 @@ public class FHIRServletContextListener implements ServletContextListener {
             }
 
             // Tell registered callbacks that their component shutdowns should be finished
-            EventManagerImpl.finalShutdown(serviceManagerId);
+            EventManager.finalShutdown(serviceManagerId);
         } catch (Exception e) {
             // Ignore it
         } finally {

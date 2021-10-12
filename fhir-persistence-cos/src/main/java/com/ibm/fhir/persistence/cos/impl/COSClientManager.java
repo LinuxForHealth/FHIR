@@ -14,7 +14,7 @@ import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.core.lifecycle.EventCallback;
-import com.ibm.fhir.core.lifecycle.EventManagerImpl;
+import com.ibm.fhir.core.lifecycle.EventManager;
 import com.ibm.fhir.persistence.cos.client.COSPayloadClient;
 import com.ibm.fhir.persistence.cos.client.CosPropertyGroupAdapter;
 
@@ -41,7 +41,7 @@ public class COSClientManager implements EventCallback {
     private COSClientManager() {
         // register a callback with the lifecycle event manager so we're notified when the server
         // is shut down
-        EventManagerImpl.register(this);
+        EventManager.register(this);
     }
 
     /**

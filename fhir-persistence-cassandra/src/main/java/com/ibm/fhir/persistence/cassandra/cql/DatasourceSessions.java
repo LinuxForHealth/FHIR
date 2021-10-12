@@ -18,7 +18,7 @@ import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.core.lifecycle.EventCallback;
-import com.ibm.fhir.core.lifecycle.EventManagerImpl;
+import com.ibm.fhir.core.lifecycle.EventManager;
 import com.ibm.fhir.persistence.cassandra.CassandraPropertyGroupAdapter;
 import com.ibm.fhir.persistence.cassandra.ContactPoint;
 
@@ -44,7 +44,7 @@ public class DatasourceSessions implements EventCallback {
      */
     private DatasourceSessions() {
         // receive server lifecycle events
-        EventManagerImpl.register(this);
+        EventManager.register(this);
     }
     
     /**

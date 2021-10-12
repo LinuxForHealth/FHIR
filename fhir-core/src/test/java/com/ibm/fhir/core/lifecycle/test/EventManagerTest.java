@@ -15,7 +15,6 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.core.lifecycle.EventCallback;
 import com.ibm.fhir.core.lifecycle.EventManager;
-import com.ibm.fhir.core.lifecycle.EventManagerImpl;
 
 /**
  * Unit tests for {@link EventManager} lifecycle event distribution
@@ -30,7 +29,7 @@ public class EventManagerTest {
      */
     @BeforeClass
     public void setup() {
-        EventManagerImpl.registerServiceManagerId(serviceManagerId);
+        EventManager.registerServiceManagerId(serviceManagerId);
     }
 
     /**
@@ -38,7 +37,7 @@ public class EventManagerTest {
      */
     @Test
     public void testGoodId() {
-        EventManagerImpl.serverReady(serviceManagerId);
+        EventManager.serverReady(serviceManagerId);
     }
     
     /**
@@ -47,7 +46,7 @@ public class EventManagerTest {
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testBadId() {
         final Object badServiceManagerId = new Object();
-        EventManagerImpl.serverReady(badServiceManagerId);
+        EventManager.serverReady(badServiceManagerId);
     }
 
     /**
@@ -59,11 +58,11 @@ public class EventManagerTest {
         
         EventCallback cb1 = Mockito.mock(EventCallback.class);
         EventCallback cb2 = Mockito.mock(EventCallback.class);
-        EventManagerImpl.register(cb1);
-        EventManagerImpl.register(cb2);
+        EventManager.register(cb1);
+        EventManager.register(cb2);
 
         // Set up the mock to capture the callback
-        EventManagerImpl.serverReady(serviceManagerId);
+        EventManager.serverReady(serviceManagerId);
         verify(cb1).serverReady();
         verify(cb2).serverReady();
         verify(cb1, never()).startShutdown();
@@ -71,13 +70,13 @@ public class EventManagerTest {
         verify(cb1, never()).finalShutdown();
         verify(cb2, never()).finalShutdown();
         
-        EventManagerImpl.startShutdown(serviceManagerId);
+        EventManager.startShutdown(serviceManagerId);
         verify(cb1).startShutdown();
         verify(cb2).startShutdown();
         verify(cb1, never()).finalShutdown();
         verify(cb2, never()).finalShutdown();
         
-        EventManagerImpl.finalShutdown(serviceManagerId);
+        EventManager.finalShutdown(serviceManagerId);
         verify(cb1).finalShutdown();
         verify(cb2).finalShutdown();
     }
