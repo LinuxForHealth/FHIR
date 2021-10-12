@@ -63,23 +63,6 @@
     </dependencies>
 
     <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>com.ibm.fhir</groupId>
-                    <artifactId>fhir-tools</artifactId>
-                    <version>${fhir-tools.version}</version>
-                    <dependencies>
-                        <!-- javax.json implementation -->
-                        <dependency>
-                            <groupId>org.glassfish</groupId>
-                            <artifactId>jakarta.json</artifactId>
-                            <version>1.1.5</version>
-                        </dependency>
-                    </dependencies>
-                </plugin>
-            </plugins>
-        </pluginManagement>
         <plugins>
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
