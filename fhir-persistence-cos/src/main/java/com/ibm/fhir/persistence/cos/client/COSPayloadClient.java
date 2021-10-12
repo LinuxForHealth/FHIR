@@ -78,6 +78,7 @@ public class COSPayloadClient {
                 .withSocketTimeout(propertyAdapter.getSocketTimeout());
 
         // connect to the configured endpoint/location
+        // VirtualHosts not supported
         this.client = AmazonS3ClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(credentials))
             .withEndpointConfiguration(new EndpointConfiguration(propertyAdapter.getEndpointUrl(), propertyAdapter.getLocation()))
             .withPathStyleAccessEnabled(true).withClientConfiguration(clientConfig).build();

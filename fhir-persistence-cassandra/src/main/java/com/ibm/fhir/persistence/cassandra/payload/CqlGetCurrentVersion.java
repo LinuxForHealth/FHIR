@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -49,6 +49,11 @@ public class CqlGetCurrentVersion {
         this.logicalId = logicalId;
     }
 
+    /**
+     * Run the command using the given session
+     * @param session
+     * @return
+     */
     public int run(CqlSession session) {
         int result;
 

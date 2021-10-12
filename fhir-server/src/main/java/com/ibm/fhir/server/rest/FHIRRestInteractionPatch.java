@@ -8,6 +8,7 @@ package com.ibm.fhir.server.rest;
 
 
 import com.ibm.fhir.model.patch.FHIRPatch;
+import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.fhir.server.operation.spi.FHIRRestOperationResponse;
 import com.ibm.fhir.server.util.FHIRUrlParser;
 
@@ -27,6 +28,7 @@ public class FHIRRestInteractionPatch extends FHIRRestInteractionResource {
     /**
      * Public constructor
      * @param entryIndex
+     * @param event
      * @param requestDescription
      * @param requestURL
      * @param initialTime
@@ -38,9 +40,9 @@ public class FHIRRestInteractionPatch extends FHIRRestInteractionResource {
      * @param skippableUpdate
      * @param localIdentifier
      */
-    public FHIRRestInteractionPatch(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String id, FHIRPatch patch, String ifMatchValue,
+    public FHIRRestInteractionPatch(int entryIndex, FHIRPersistenceEvent event, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String id, FHIRPatch patch, String ifMatchValue,
         String searchQueryString, boolean skippableUpdate, String localIdentifier) {
-        super(entryIndex, null, null, requestDescription, requestURL, initialTime);
+        super(entryIndex, event, null, null, requestDescription, requestURL, initialTime);
         this.type = type;
         this.id = id;
         this.patch = patch;
@@ -52,7 +54,7 @@ public class FHIRRestInteractionPatch extends FHIRRestInteractionResource {
     
     @Override
     public void accept(FHIRRestInteractionVisitor visitor) throws Exception {
-        FHIRRestOperationResponse result = visitor.doPatch(getEntryIndex(), getValidationResponseEntry(), getRequestDescription(), 
+        FHIRRestOperationResponse result = visitor.doPatch(getEntryIndex(), getEvent(), getValidationResponseEntry(), getRequestDescription(), 
             getRequestURL(), getInitialTime(), type, id, getNewResource(), getPrevResource(), patch, ifMatchValue, searchQueryString, skippableUpdate, getWarnings(), localIdentifier);
 
         // If the response includes a resource, update our copy so that we can pass to the

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
+import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.fhir.server.util.FHIRUrlParser;
 
 /**
@@ -36,6 +37,7 @@ public abstract class FHIRRestInteractionBase implements FHIRRestInteraction {
     /**
      * Protected constructor
      * @param entryIndex
+     * @param event
      * @param requestDescription
      * @param requestURL
      * @param initialTime

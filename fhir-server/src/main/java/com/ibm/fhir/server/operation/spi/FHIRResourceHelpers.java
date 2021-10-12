@@ -83,36 +83,32 @@ public interface FHIRResourceHelpers {
     }
 
     /**
-     * 1st phase of CREATE. Perform the search for conditional create (ifNoneExist) interactions
+     * 1st phase of CREATE. Perform the search for conditional create (ifNoneExist) interactions.
+     * Any validation (if required) should be performed before this call.
      * @param event
      * @param warnings
      * @param type
      * @param resource
-     * @param localRefMap
-     * @param localIdentifier
      * @param ifNoneExist
-     * @param doValidation
      * @return
      * @throws Exception
      */
     FHIRRestOperationResponse doCreateMeta(FHIRPersistenceEvent event, List<Issue> warnings, String type, Resource resource, 
-        String ifNoneExist, boolean doValidation) throws Exception;
+        String ifNoneExist) throws Exception;
 
     /**
      * 3rd phase of resource create. Persist the resource using the configured persistence layer. Does not modify
      * the resource.
      * @param event
      * @param warnings
-     * @param type
      * @param resource
      * @return
      * @throws Exception
      */
-    FHIRRestOperationResponse doCreatePersist(FHIRPersistenceEvent event, List<Issue> warnings, String type, Resource resource) throws Exception;
+    FHIRRestOperationResponse doCreatePersist(FHIRPersistenceEvent event, List<Issue> warnings, Resource resource) throws Exception;
 
     /**
      * 1st phase of update interaction. 
-     * @param event
      * @param type
      * @param id
      * @param patch
@@ -121,30 +117,28 @@ public interface FHIRResourceHelpers {
      * @param searchQueryString
      * @param skippableUpdate
      * @param doValidation
+     * @param warnings
      * @return
      * @throws Exception
      */
-    FHIRRestOperationResponse doUpdateMeta(String type, String id, FHIRPatch patch, Resource newResource, String ifMatchValue,
+    FHIRRestOperationResponse doUpdateMeta(FHIRPersistenceEvent event, String type, String id, FHIRPatch patch, Resource newResource, String ifMatchValue,
         String searchQueryString, boolean skippableUpdate, boolean doValidation, List<Issue> warnings) throws Exception;
 
     /**
      * Persist the newResource value for patch or update interactions
+     * @param event
      * @param type
      * @param id
-     * @param patch
+     * @param isPatch
      * @param newResource
      * @param prevResource
-     * @param ifMatchValue
-     * @param searchQueryString
-     * @param skippableUpdate
      * @param warnings
      * @param isDeleted
      * @return
      * @throws Exception
      */
-    public FHIRRestOperationResponse doPatchOrUpdate(String type, String id, FHIRPatch patch,
-        Resource newResource, Resource prevResource, String ifMatchValue, String searchQueryString,
-        boolean skippableUpdate, List<Issue> warnings, boolean isDeleted) throws Exception;
+    public FHIRRestOperationResponse doPatchOrUpdatePersist(FHIRPersistenceEvent event, String type, String id, boolean isPatch,
+        Resource newResource, Resource prevResource, List<Issue> warnings, boolean isDeleted) throws Exception;
     
     /**
      * Builds a collection of properties that will be passed to the persistence interceptors.
@@ -485,8 +479,7 @@ public interface FHIRResourceHelpers {
      * @param resource the resource to store (with correct Meta fields)
      * @param logicalId the logical id of the resource
      * @param newVersionNumber the version number to use
-     * @param lastUpdated the last updated timestamp
      * @return a Future response to the payload store operation, or null if it is not supported
      */
-    Future<PayloadKey> storePayload(Resource resource, String logicalId, int newVersionNumber, com.ibm.fhir.model.type.Instant lastUpdated) throws Exception;
+    Future<PayloadKey> storePayload(Resource resource, String logicalId, int newVersionNumber) throws Exception;
 }

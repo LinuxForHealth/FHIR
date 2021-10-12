@@ -24,6 +24,7 @@ import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.ReferenceMappingVisitor;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
+import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.payload.PayloadKey;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
@@ -81,7 +82,7 @@ public class FHIRRestInteractionVisitorReferenceMapping extends FHIRRestInteract
     }
 
     @Override
-    public FHIRRestOperationResponse doCreate(int entryIndex, List<Issue> warnings, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, Resource resource, String ifNoneExist, String localIdentifier) throws Exception {
+    public FHIRRestOperationResponse doCreate(int entryIndex, FHIRPersistenceEvent event, List<Issue> warnings, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, Resource resource, String ifNoneExist, String localIdentifier) throws Exception {
         
         // Use doOperation so we can implement common exception handling in one place
         return doOperation(entryIndex, requestDescription, initialTime, () -> {
@@ -94,8 +95,7 @@ public class FHIRRestInteractionVisitorReferenceMapping extends FHIRRestInteract
             // Try offloading storage of the payload. The offloadResponse will be null if not supported
             int newVersionNumber = Integer.parseInt(finalResource.getMeta().getVersionId().getValue());
             Instant lastUpdated = finalResource.getMeta().getLastUpdated();
-            Future<PayloadKey> offloadResponse = storePayload(finalResource, finalResource.getId(), 
-                newVersionNumber, lastUpdated);
+            Future<PayloadKey> offloadResponse = storePayload(finalResource, finalResource.getId(), newVersionNumber);
             
             // Pass back the updated resource so it can be used in the next phase if required
             return new FHIRRestOperationResponse(finalResource, finalResource.getId(), newVersionNumber, lastUpdated, offloadResponse);
@@ -103,7 +103,7 @@ public class FHIRRestInteractionVisitorReferenceMapping extends FHIRRestInteract
     }
 
     @Override
-    public FHIRRestOperationResponse doUpdate(int entryIndex, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, 
+    public FHIRRestOperationResponse doUpdate(int entryIndex, FHIRPersistenceEvent event, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, 
         long initialTime, String type, String id, Resource resource, Resource prevResource, String ifMatchValue, String searchQueryString,
         boolean skippableUpdate, String localIdentifier, List<Issue> warnings, boolean isDeleted) throws Exception {
 
@@ -127,7 +127,7 @@ public class FHIRRestInteractionVisitorReferenceMapping extends FHIRRestInteract
     }
 
     @Override
-    public FHIRRestOperationResponse doPatch(int entryIndex, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime, 
+    public FHIRRestOperationResponse doPatch(int entryIndex, FHIRPersistenceEvent event, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime, 
         String type, String id, Resource resource, Resource prevResource, FHIRPatch patch, String ifMatchValue, String searchQueryString,
         boolean skippableUpdate, List<Issue> warnings, String localIdentifier) throws Exception {
         // Use doOperation for common exception handling
@@ -182,11 +182,10 @@ public class FHIRRestInteractionVisitorReferenceMapping extends FHIRRestInteract
      * @param resource
      * @param logicalId
      * @param newVersionNumber
-     * @param lastUpdated
      * @return
      */
-    protected Future<PayloadKey> storePayload(Resource resource, String logicalId, int newVersionNumber, Instant lastUpdated) throws Exception {
-       return helpers.storePayload(resource, logicalId, newVersionNumber, lastUpdated); 
+    protected Future<PayloadKey> storePayload(Resource resource, String logicalId, int newVersionNumber) throws Exception {
+       return helpers.storePayload(resource, logicalId, newVersionNumber); 
     }
     
     /**

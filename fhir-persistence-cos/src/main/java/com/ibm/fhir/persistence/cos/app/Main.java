@@ -24,6 +24,8 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
  */
 public class Main {
     private static final Logger logger = Logger.getLogger(Main.class.getName());
+    
+    private static final String JAR_NAME = "fhir-persistence-cos-*-cli.jar";
 
     /**
      *
@@ -65,7 +67,7 @@ public class Main {
 
     public static void main(String[] args) {
         if (args.length < 2) {
-            throw new IllegalArgumentException("Usage: java -jar payloadcosapp.jar <fhir-config-dir> <tenant-id>");
+            throw new IllegalArgumentException("Usage: java -jar " + JAR_NAME + " <fhir-config-dir> <tenant-id>");
         }
 
         final String fhirConfigDir = args[0];

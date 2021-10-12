@@ -44,9 +44,11 @@ import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.path.patch.FHIRPathPatch;
+import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.server.exception.FHIRRestBundledRequestException;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
+import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
 import com.ibm.fhir.server.rest.FHIRRestInteraction;
 import com.ibm.fhir.server.rest.FHIRRestInteractionCreate;
 import com.ibm.fhir.server.rest.FHIRRestInteractionDelete;
@@ -88,10 +90,15 @@ public class FHIRRestBundleHelper {
             .appendPattern(", dd-MMM-yy HH:mm:ss")
             .optionalEnd().toFormatter();
 
+    // Access to helper functions for creating event objects
+    private final FHIRResourceHelpers helpers;
+    
     /**
      * Public constructor
+     * @param helpers
      */
-    public FHIRRestBundleHelper() {
+    public FHIRRestBundleHelper(FHIRResourceHelpers helpers) {
+        this.helpers = helpers;
     }
 
     /**
@@ -139,6 +146,10 @@ public class FHIRRestBundleHelper {
 
     /**
      * Build an OperationOutcomeIssue with the respective values for some of the fields.
+     * @param severity
+     * @param type
+     * @param msg
+     * @return
      */
     private OperationOutcome.Issue buildOperationOutcomeIssue(IssueSeverity severity, IssueType type, String msg) {
         return OperationOutcome.Issue.builder()
@@ -379,9 +390,13 @@ public class FHIRRestBundleHelper {
         // Extract the local identifier which may be used by other resources in the bundle to reference this resource
         String localIdentifier = retrieveLocalIdentifier(requestEntry);
 
+        // Build the event we'll use when executing the interaction command
+        // - the resource gets injected later when we have it
+        FHIRPersistenceEvent event = new FHIRPersistenceEvent(null, helpers.buildPersistenceEventProperties(resourceType, resourceId, null, null));
+        
         // We don't perform the actual operation here, just generate the command
         // we want to execute later
-        return new FHIRRestInteractionPatch(entryIndex, requestDescription, requestURL, initialTime, resourceType, resourceId, patch, null, null, skippableUpdate, localIdentifier);
+        return new FHIRRestInteractionPatch(entryIndex, event, requestDescription, requestURL, initialTime, resourceType, resourceId, patch, null, null, skippableUpdate, localIdentifier);
     }
 
     /**
@@ -566,7 +581,12 @@ public class FHIRRestBundleHelper {
                 log.fine("Creating CREATE interaction for bundle entry[" + entryIndex + "]: " + requestDescription + "; validationResponseEntry: "
                     + validationResponseEntry);
             }
-            result = new FHIRRestInteractionCreate(entryIndex, validationResponseEntry, requestDescription, requestURL, initialTime, pathTokens[0], resource, ifNoneExist, localIdentifier);
+            
+            // Create the event 
+            FHIRPersistenceEvent event =
+                    new FHIRPersistenceEvent(resource, helpers.buildPersistenceEventProperties(resource.getClass().getSimpleName(), null, null, null));
+
+            result = new FHIRRestInteractionCreate(entryIndex, event, validationResponseEntry, requestDescription, requestURL, initialTime, pathTokens[0], resource, ifNoneExist, localIdentifier);
         } else {
             String msg = "Request URL for bundled create requests should have a path with exactly one token (<resourceType>).";
             throw buildRestException(msg, IssueType.NOT_FOUND);
@@ -647,7 +667,10 @@ public class FHIRRestBundleHelper {
             log.fine("Creating UPDATE interaction for bundle entry[" + entryIndex + "]: " + requestDescription + "; validationResponseEntry: "
                 + validationResponseEntry);
         }
-        result = new FHIRRestInteractionUpdate(entryIndex, validationResponseEntry, requestDescription, requestURL, initialTime, 
+        
+        // Create the event we'll use for this resource interaction
+        FHIRPersistenceEvent event = new FHIRPersistenceEvent(resource, helpers.buildPersistenceEventProperties(type, id, null, null));
+        result = new FHIRRestInteractionUpdate(entryIndex, event, validationResponseEntry, requestDescription, requestURL, initialTime, 
             type, id, resource, ifMatchBundleValue, requestURL.getQuery(), skippableUpdate, localIdentifier);
 
         return result;

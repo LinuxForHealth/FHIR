@@ -10,15 +10,6 @@
         <version>4.10.0-SNAPSHOT</version>
         <relativePath>../fhir-parent</relativePath>
     </parent>
-    
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-    
-    <build>
-        <plugins>
-        </plugins>
-    </build>
 
     <dependencies>
         <dependency>
@@ -35,6 +26,7 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-persistence-schema</artifactId>
             <version>${project.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>

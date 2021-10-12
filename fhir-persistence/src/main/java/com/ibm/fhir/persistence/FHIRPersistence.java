@@ -46,6 +46,8 @@ public interface FHIRPersistence {
      * @param context the FHIRPersistenceContext instance associated with the current request
      * @param resource the FHIR Resource instance to be created in the datastore
      * @param logicalId the new logicalId to assign to the resource
+     * @param versionNumber the version number which must match the value in the resource meta element
+     * @param lastUpdated the lastUpdated timestamp which must match the value in the resource meta element
      * @return a SingleResourceResult with the unmodified resource and/or
      *         an OperationOutcome with hints, warnings, or errors related to the interaction
      * @throws FHIRPersistenceException
@@ -275,7 +277,11 @@ public interface FHIRPersistence {
      * is null, then the implementation does not support offloading and the payload must
      * be stored in the traditional manner (e.g. in the RDBMS). A {@link Future} is used
      * because the offloading storage operation may be asynchronous.
+     * @param resource
+     * @param logicalId
+     * @param newVersionNumber
+     * @return
+     * @throws FHIRPersistenceException
      */
-    Future<PayloadKey> storePayload(Resource resource, String logicalId, int newVersionNumber,
-        com.ibm.fhir.model.type.Instant lastUpdated) throws FHIRPersistenceException;
+    Future<PayloadKey> storePayload(Resource resource, String logicalId, int newVersionNumber) throws FHIRPersistenceException;
 }

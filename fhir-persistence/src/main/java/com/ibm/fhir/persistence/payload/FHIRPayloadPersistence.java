@@ -11,7 +11,6 @@ import java.util.concurrent.Future;
 
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.util.InputOutputByteStream;
 
 /**
  * Used for storing and retrieving payload data. Implementations are expected to be
@@ -22,16 +21,18 @@ public interface FHIRPayloadPersistence {
     /**
      * Store the payload. The business key is the tuple {resourceTypeId, logicalId, version}
      * This data is stored directly, and should ideally be compressed.
-     * @param resourceTypeId the unique int idenfifier for the resource type
+     * @param resourceTypeName the type name of the resource
+     * @param resourceTypeId the database id assigned to this resource type
      * @param logicalId the logical id of the resource
      * @param version the version of the resource
-     * @param compressedPayload the serialized compressed payload data representing the FHIR resource
+     * @param resource the resource to store
      * @return a {@link Future} holding the payload key and status.
      */
-    Future<PayloadKey> storePayload(String resourceTypeName, int resourceTypeId, String logicalId, int version, InputOutputByteStream payloadStream) throws FHIRPersistenceException;
+    Future<PayloadKey> storePayload(String resourceTypeName, int resourceTypeId, String logicalId, int version, Resource resource) throws FHIRPersistenceException;
 
     /**
      * Retrieve the payload data for the given resourceTypeId, logicalId and version. Synchronous.
+     * @param resourceType the expected resource type class
      * @param resourceTypeId the unique int idenfifier for the resource type
      * @param logicalId the logical identifier of the desired resource
      * @param version the specific version of the desired resource

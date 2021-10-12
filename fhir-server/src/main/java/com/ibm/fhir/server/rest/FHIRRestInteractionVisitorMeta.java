@@ -104,7 +104,7 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
     }
 
     @Override
-    public FHIRRestOperationResponse doCreate(int entryIndex, List<Issue> warnings, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, Resource resource, String ifNoneExist, String localIdentifier) throws Exception {
+    public FHIRRestOperationResponse doCreate(int entryIndex, FHIRPersistenceEvent event, List<Issue> warnings, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, Resource resource, String ifNoneExist, String localIdentifier) throws Exception {
         logStart(entryIndex, requestDescription, requestURL);
         
         // Skip CREATE if validation failed
@@ -117,12 +117,9 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
         return doInteraction(entryIndex, requestDescription, initialTime, () -> {
             // Validate that interaction is allowed for given resource type
             helpers.validateInteraction(Interaction.CREATE, type);
-            
-            FHIRPersistenceEvent event =
-                    new FHIRPersistenceEvent(resource, helpers.buildPersistenceEventProperties(type, null, null, null));
-            
+                        
             // Inject the meta to the resource after optionally checking for ifNoneExist
-            FHIRRestOperationResponse prepResponse = helpers.doCreateMeta(event, warnings, type, resource, ifNoneExist, !DO_VALIDATION);
+            FHIRRestOperationResponse prepResponse = helpers.doCreateMeta(event, warnings, type, resource, ifNoneExist);
             if (prepResponse != null) {
                 // ifNoneExist returned a result then add it to the result bundle which also
                 // means this entry is complete.
@@ -158,7 +155,7 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
     }
 
     @Override
-    public FHIRRestOperationResponse doUpdate(int entryIndex, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime, 
+    public FHIRRestOperationResponse doUpdate(int entryIndex, FHIRPersistenceEvent event, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime, 
         String type, String id, Resource resource, Resource prevResource, String ifMatchValue, String searchQueryString,
         boolean skippableUpdate, String localIdentifier, List<Issue> warnings, boolean isDeleted) throws Exception {
         logStart(entryIndex, requestDescription, requestURL);
@@ -172,7 +169,7 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
         return doInteraction(entryIndex, requestDescription, initialTime, () -> {
             helpers.validateInteraction(Interaction.UPDATE, type);
 
-            FHIRRestOperationResponse metaResponse = helpers.doUpdateMeta(type, id, null, resource, ifMatchValue, searchQueryString, skippableUpdate, !DO_VALIDATION, warnings);
+            FHIRRestOperationResponse metaResponse = helpers.doUpdateMeta(event, type, id, null, resource, ifMatchValue, searchQueryString, skippableUpdate, !DO_VALIDATION, warnings);
 
             // If the update was skippable we might be able to skip the future persistence step
             if (metaResponse.isCompleted()) {
@@ -202,7 +199,7 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
     }
 
     @Override
-    public FHIRRestOperationResponse doPatch(int entryIndex, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime, 
+    public FHIRRestOperationResponse doPatch(int entryIndex, FHIRPersistenceEvent event, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime, 
         String type, String id, Resource newResource, Resource prevResource, FHIRPatch patch, String ifMatchValue, String searchQueryString,
         boolean skippableUpdate, List<Issue> warnings, String localIdentifier) throws Exception {
         logStart(entryIndex, requestDescription, requestURL);
@@ -216,7 +213,7 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
         return doInteraction(entryIndex, requestDescription, initialTime, () -> {
             // Validate that interaction is allowed for given resource type
             helpers.validateInteraction(Interaction.PATCH, type);
-            FHIRRestOperationResponse metaResponse = helpers.doUpdateMeta(type, id, patch, null, ifMatchValue, searchQueryString, skippableUpdate, !DO_VALIDATION, warnings);
+            FHIRRestOperationResponse metaResponse = helpers.doUpdateMeta(event, type, id, patch, null, ifMatchValue, searchQueryString, skippableUpdate, !DO_VALIDATION, warnings);
 
             // If the update was skippable we might be able to skip the future persistence step
             if (metaResponse.isCompleted()) {

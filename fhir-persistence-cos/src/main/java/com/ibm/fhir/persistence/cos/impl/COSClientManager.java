@@ -13,13 +13,15 @@ import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
+import com.ibm.fhir.core.lifecycle.EventCallback;
+import com.ibm.fhir.core.lifecycle.EventManagerImpl;
 import com.ibm.fhir.persistence.cos.client.COSPayloadClient;
 import com.ibm.fhir.persistence.cos.client.CosPropertyGroupAdapter;
 
 /**
  * Singleton to manage/isolate COS clients for each FHIR tenant/datasource
  */
-public class COSClientManager {
+public class COSClientManager implements EventCallback {
     private static final Logger logger = Logger.getLogger(COSClientManager.class.getName());
 
     private final ConcurrentHashMap<TenantDatasourceKey, COSPayloadClient> clientMap = new ConcurrentHashMap<>();
@@ -31,6 +33,15 @@ public class COSClientManager {
      */
     private static class Helper {
         private static COSClientManager INSTANCE = new COSClientManager();
+    }
+
+    /**
+     * Private constructor
+     */
+    private COSClientManager() {
+        // register a callback with the lifecycle event manager so we're notified when the server
+        // is shut down
+        EventManagerImpl.register(this);
     }
 
     /**
@@ -119,11 +130,26 @@ public class COSClientManager {
     }
 
     /**
-     *
+     * Called when COSClientManager is used in a main. For app-server, use the {@link EventCallback}
      */
     public static void shutdown() {
         logger.info("Shutting down COSClientManager");
         getInstance().closeAllClients();
         logger.info("COSClientManager shutdown complete");
+    }
+
+    @Override
+    public void serverReady() {
+        // NOP
+    }
+
+    @Override
+    public void startShutdown() {
+        this.running = false;
+    }
+
+    @Override
+    public void finalShutdown() {
+        closeAllClients();
     }
 }

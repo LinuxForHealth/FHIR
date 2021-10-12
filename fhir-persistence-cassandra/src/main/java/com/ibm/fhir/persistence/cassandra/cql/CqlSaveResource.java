@@ -24,7 +24,7 @@ import com.datastax.oss.driver.api.core.cql.PreparedStatement;
 import com.datastax.oss.driver.api.core.cql.SimpleStatement;
 
 /**
- *
+ * DAO command to save a resource payload object in Cassandra.
  */
 public class CqlSaveResource {
 
@@ -43,6 +43,14 @@ public class CqlSaveResource {
     // The anticipated version
     private final int version;
 
+    /**
+     * Public constructor
+     * @param partitionId
+     * @param logicalId
+     * @param payloadId
+     * @param version
+     * @param payload
+     */
     public CqlSaveResource(String partitionId, String logicalId, String payloadId, int version, byte[] payload) {
         this.partitionId = partitionId;
         this.logicalId = logicalId;

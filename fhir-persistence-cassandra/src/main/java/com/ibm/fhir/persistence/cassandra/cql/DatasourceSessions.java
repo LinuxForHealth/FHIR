@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,13 +17,15 @@ import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
+import com.ibm.fhir.core.lifecycle.EventCallback;
+import com.ibm.fhir.core.lifecycle.EventManagerImpl;
 import com.ibm.fhir.persistence.cassandra.CassandraPropertyGroupAdapter;
 import com.ibm.fhir.persistence.cassandra.ContactPoint;
 
 /**
  * Singleton to manage Cassandra CqlSession connections for each FHIR tenant/datasource
  */
-public class DatasourceSessions {
+public class DatasourceSessions implements EventCallback {
     private static final Logger logger = Logger.getLogger(DatasourceSessions.class.getName());
 
     private final ConcurrentHashMap<TenantDatasourceKey, CqlSession> sessionMap = new ConcurrentHashMap<>();
@@ -37,6 +39,18 @@ public class DatasourceSessions {
         private static DatasourceSessions INSTANCE = new DatasourceSessions();
     }
     
+    /**
+     * Private constructor
+     */
+    private DatasourceSessions() {
+        // receive server lifecycle events
+        EventManagerImpl.register(this);
+    }
+    
+    /**
+     * Get the singleton instance of this class
+     * @return
+     */
     public static DatasourceSessions getInstance() {
         return Helper.INSTANCE;
     }
@@ -78,13 +92,25 @@ public class DatasourceSessions {
     private static CqlSession newSession(TenantDatasourceKey key) {
         
         String dsPropertyName = FHIRConfiguration.PROPERTY_DATASOURCES + "/" + key.getDatasourceId();
+        CassandraPropertyGroupAdapter adapter = getPropertyGroupAdapter(dsPropertyName);
+        return getDatabaseSession(key, adapter, true);
+    }
+
+    /**
+     * Get a CassandraPropertyGroupAdapter bound to the property group described by
+     * the given dsPropertyName path (in fhir-server-config.json).
+     * @param dsPropertyName
+     * @return
+     */
+    private static CassandraPropertyGroupAdapter getPropertyGroupAdapter(String dsPropertyName) {
+        
         PropertyGroup dsPG = FHIRConfigHelper.getPropertyGroup(dsPropertyName);
         if (dsPG == null) {
             throw new IllegalStateException("Could not locate configuration property group: " + dsPropertyName);
         }
 
         try {
-            // Get the datasource type (Derby, DB2, etc.).
+            // Get the datasource type (should be cassandra in this case).
             String type = dsPG.getStringProperty("type", null);
             if (type == null) {
                 throw new IllegalStateException("Could not locate 'type' property within datasource property group: " + dsPropertyName);
@@ -101,8 +127,7 @@ public class DatasourceSessions {
                 throw new IllegalStateException("Could not locate 'connectionProperties' property group within datasource property group: " + dsPropertyName);
             }
             
-            CassandraPropertyGroupAdapter adapter = new CassandraPropertyGroupAdapter(connectionProps);
-            return getDatabaseSession(key, adapter, true);
+            return new CassandraPropertyGroupAdapter(connectionProps);
         }
         catch (Exception x) {
             throw new IllegalStateException(x);
@@ -134,41 +159,16 @@ public class DatasourceSessions {
     /**
      * Create a special session without specifying the keyspace, which is needed to support
      * schema creation where we create the keyspace for the first time
+     * @param tenantId
+     * @param dsId
      * @return
-     */
+     */    
     public static CqlSession getSessionForBootstrap(String tenantId, String dsId) {
 
         String dsPropertyName = FHIRConfiguration.PROPERTY_DATASOURCES + "/" + dsId;
-        PropertyGroup dsPG = FHIRConfigHelper.getPropertyGroup(dsPropertyName);
-        if (dsPG == null) {
-            throw new IllegalStateException("Could not locate configuration property group: " + dsPropertyName);
-        }
-
-        try {
-            // Get the datasource type (should be cassandra in this case).
-            String type = dsPG.getStringProperty("type", null);
-            if (type == null) {
-                throw new IllegalStateException("Could not locate 'type' property within datasource property group: " + dsPropertyName);
-            }
-    
-            // Confirm that this is a cassandra datasource configuration element
-            if (!"cassandra".equals(type)) {
-                throw new IllegalStateException("Unsupported 'type' property value within datasource property group: " + type);  
-            }
-    
-            // Get the connection properties
-            PropertyGroup connectionProps = dsPG.getPropertyGroup("connectionProperties");
-            if (connectionProps == null) {
-                throw new IllegalStateException("Could not locate 'connectionProperties' property group within datasource property group: " + dsPropertyName);
-            }
-            
-            TenantDatasourceKey key = new TenantDatasourceKey(tenantId, dsId);
-            CassandraPropertyGroupAdapter adapter = new CassandraPropertyGroupAdapter(connectionProps);
-            return getDatabaseSession(key, adapter, false);
-        }
-        catch (Exception x) {
-            throw new IllegalStateException(x);
-        }
+        TenantDatasourceKey key = new TenantDatasourceKey(tenantId, dsId);
+        CassandraPropertyGroupAdapter adapter = getPropertyGroupAdapter(dsPropertyName);
+        return getDatabaseSession(key, adapter, false);
     }
 
     /**
@@ -200,11 +200,27 @@ public class DatasourceSessions {
     }
 
     /**
-     * 
+     * Close any sessions that are currently open to permit a clean exit
      */
     public static void shutdown() {
         logger.info("Shutting down DatasourceSessions");
         getInstance().closeAllSessions();
         logger.info("DatasourceSessions shutdown complete");
+    }
+
+    @Override
+    public void serverReady() {
+        // NOP
+    }
+
+    @Override
+    public void startShutdown() {
+        this.running = false;
+    }
+
+    @Override
+    public void finalShutdown() {
+        sessionMap.forEach((k,s) -> closeSession(k, s));
+        sessionMap.clear();
     }
 }

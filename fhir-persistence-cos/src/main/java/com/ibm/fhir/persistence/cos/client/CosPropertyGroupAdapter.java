@@ -32,6 +32,10 @@ public class CosPropertyGroupAdapter {
     // The property group we are wrapping
     private final PropertyGroup propertyGroup;
 
+    /**
+     * Public constructor
+     * @param pg the PropertyGroup we are adapting
+     */
     public CosPropertyGroupAdapter(PropertyGroup pg) {
         this.propertyGroup = pg;
     }

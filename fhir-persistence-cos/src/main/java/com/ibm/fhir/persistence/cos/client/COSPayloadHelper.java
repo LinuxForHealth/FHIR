@@ -15,14 +15,15 @@ import java.util.Base64;
  * Utility functions for storing FHIR payload data in S3/COS
  */
 public class COSPayloadHelper {
-    private static final String FHIR_PAYLOAD_TENANT_SALT = "fhir.payload.tenant.salt";
+    private static final String FHIR_PAYLOAD_BUCKETNAME_TENANT_SALT = "fhir.payload.bucketname.tenant.salt";
     private static final String SHA_256 = "SHA-256";
 
     /**
      * Generate a bucket name for the given tenant name. The name is computed as a hash
      * of the tenantId combined with a salt value obtained from the environment. Deployments
      * should use a 256 bit value for the salt, ideally created with a cryptographically secure
-     * random number generator.
+     * random number generator. This value should be unique per deployment, but shared across
+     * multiple (scale-out) servers within that deployment.
      *
      * In the unlikely event that HASH(salt, tenantId) generates a value colliding with an
      * existing bucket (whose names are required to be globally unique), the tenant configuration
@@ -32,10 +33,10 @@ public class COSPayloadHelper {
      * @return
      */
     public static String makeTenantBucketName(String tenantId) {
-        final String salt64 = System.getProperty(FHIR_PAYLOAD_TENANT_SALT);
+        final String salt64 = System.getProperty(FHIR_PAYLOAD_BUCKETNAME_TENANT_SALT);
 
         if (salt64 == null) {
-            throw new IllegalStateException("Missing value for environment variable: '" + FHIR_PAYLOAD_TENANT_SALT + "'");
+            throw new IllegalStateException("Missing value for environment variable: '" + FHIR_PAYLOAD_BUCKETNAME_TENANT_SALT + "'");
         }
 
         byte[] salt = Base64.getDecoder().decode(salt64);

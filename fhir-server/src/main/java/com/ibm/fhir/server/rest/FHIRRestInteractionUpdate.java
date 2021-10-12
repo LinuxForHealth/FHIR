@@ -7,6 +7,7 @@
 package com.ibm.fhir.server.rest;
 
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.fhir.model.resource.Bundle.Entry;
 import com.ibm.fhir.server.operation.spi.FHIRRestOperationResponse;
 import com.ibm.fhir.server.util.FHIRUrlParser;
@@ -29,6 +30,7 @@ public class FHIRRestInteractionUpdate extends FHIRRestInteractionResource {
     /**
      * Public constructor
      * @param entryIndex
+     * @param event
      * @param validationResponseEntry
      * @param requestDescription
      * @param requestURL
@@ -41,10 +43,10 @@ public class FHIRRestInteractionUpdate extends FHIRRestInteractionResource {
      * @param skippableUpdate
      * @param localIdentifier
      */
-    public FHIRRestInteractionUpdate(int entryIndex, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, 
+    public FHIRRestInteractionUpdate(int entryIndex, FHIRPersistenceEvent event, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, 
         long initialTime, String type, String id, Resource newResource, String ifMatchValue,
         String searchQueryString, boolean skippableUpdate, String localIdentifier) {
-        super(entryIndex, newResource, validationResponseEntry, requestDescription, requestURL, initialTime);
+        super(entryIndex, event, newResource, validationResponseEntry, requestDescription, requestURL, initialTime);
         this.type = type;
         this.id = id;
         this.ifMatchValue = ifMatchValue;
@@ -56,7 +58,7 @@ public class FHIRRestInteractionUpdate extends FHIRRestInteractionResource {
     @Override
     public void accept(FHIRRestInteractionVisitor visitor) throws Exception {
         
-        FHIRRestOperationResponse result = visitor.doUpdate(getEntryIndex(), getValidationResponseEntry(), getRequestDescription(), getRequestURL(), 
+        FHIRRestOperationResponse result = visitor.doUpdate(getEntryIndex(), getEvent(), getValidationResponseEntry(), getRequestDescription(), getRequestURL(), 
             getInitialTime(), type, id, getNewResource(), getPrevResource(), ifMatchValue, searchQueryString, skippableUpdate, localIdentifier,
             getWarnings(), deleted);
         

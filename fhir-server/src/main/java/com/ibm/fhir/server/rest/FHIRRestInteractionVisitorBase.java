@@ -83,11 +83,15 @@ public abstract class FHIRRestInteractionVisitorBase implements FHIRRestInteract
     }
     
     private void logBundledRequestCompletedMsg(String requestDescription, long initialTime, String httpStatus) {
-        StringBuffer statusMsg = new StringBuffer();
-        statusMsg.append(" status:[" + httpStatus + "]");
+        StringBuffer msg = new StringBuffer();
         double elapsedSecs = (System.currentTimeMillis() - initialTime) / 1000.0;
-        log.info("Completed bundled request[" + elapsedSecs + " secs]: "
-                + requestDescription + statusMsg.toString());
+        
+        msg.append("Completed bundle request took:[");
+        msg.append(elapsedSecs);
+        msg.append(" secs]: ");
+        msg.append(requestDescription);
+        msg.append(" status:[" + httpStatus + "]");
+        log.info(msg.toString());
     }
     
     /**

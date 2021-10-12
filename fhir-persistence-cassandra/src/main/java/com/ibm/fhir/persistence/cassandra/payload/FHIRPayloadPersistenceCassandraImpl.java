@@ -6,18 +6,25 @@
 
 package com.ibm.fhir.persistence.cassandra.payload;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
+import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.zip.GZIPOutputStream;
 
 import com.datastax.oss.driver.api.core.CqlSession;
+import com.ibm.fhir.model.format.Format;
+import com.ibm.fhir.model.generator.FHIRGenerator;
+import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.cassandra.cql.DatasourceSessions;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.payload.FHIRPayloadPartitionStrategy;
 import com.ibm.fhir.persistence.payload.FHIRPayloadPersistence;
 import com.ibm.fhir.persistence.payload.PayloadKey;
+import com.ibm.fhir.persistence.payload.PayloadPersistenceHelper;
 import com.ibm.fhir.persistence.util.InputOutputByteStream;
 
 
@@ -65,12 +72,14 @@ public class FHIRPayloadPersistenceCassandraImpl implements FHIRPayloadPersisten
     }
 
     @Override
-    public Future<PayloadKey> storePayload(String resourceType, int resourceTypeId, String logicalId, int version, InputOutputByteStream payloadStream)
+    public Future<PayloadKey> storePayload(String resourceType, int resourceTypeId, String logicalId, int version, Resource resource)
         throws FHIRPersistenceException {
 
         try (CqlSession session = getCqlSession()) {
+            // render to a compressed stream and store
+            InputOutputByteStream ioStream = PayloadPersistenceHelper.render(resource, true);
             String partitionName = partitionStrategy.getPartitionName();
-            CqlStorePayload spl = new CqlStorePayload(partitionName, resourceTypeId, logicalId, version, payloadStream);
+            CqlStorePayload spl = new CqlStorePayload(partitionName, resourceTypeId, logicalId, version, ioStream);
             spl.run(session);
             
             PayloadKey payloadKey = new PayloadKey(resourceType, resourceTypeId, logicalId, version, partitionName, logicalId, PayloadKey.Status.OK);

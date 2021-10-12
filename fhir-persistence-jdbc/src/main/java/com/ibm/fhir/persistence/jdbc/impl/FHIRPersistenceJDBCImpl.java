@@ -1377,7 +1377,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                         resourceType.getSimpleName() + "/" + logicalId);
             }
 
-            existingResource = readResource(resourceDao, resourceType, existingResourceDTO, null);
+            existingResource = readResource(resourceType, existingResourceDTO, null);
             if (existingResourceDTO.isDeleted()) {
 
                 addWarning(IssueType.DELETED, "Resource of type'" + resourceType.getSimpleName() +
@@ -1440,7 +1440,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * configured, the payload is read from another service. If payloadPersistence is null, then it is expected
      * that the payload has been stored in the RDBMS. This function hides that difference.
      * @param <T> the type of Resource being returned
-     * @param resourceDao The DAO used to fetch details related to the resource from the RDBMS.
      * @param resourceType the class type of the resource being read
      * @param resourceDTO The data transfer object representing information read from the RDBMS.
      * @param elements an optional element filter for the resource
@@ -1448,7 +1447,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * @throws FHIRException
      * @throws IOException
      */
-    private <T extends Resource> T readResource(ResourceDAO resourceDao, Class<T> resourceType, com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO, List<String> elements) throws FHIRException, IOException {
+    private <T extends Resource> T readResource(Class<T> resourceType, com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO, List<String> elements) throws FHIRException, IOException {
         T result;
         if (this.payloadPersistence != null) {
             // The payload needs to be read from the FHIRPayloadPersistence impl
@@ -1515,7 +1514,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             }
             
             // Fetch the resource payload if needed and convert to a model object
-            final T resource = readResource(resourceDao, resourceType, resourceDTO, elements);
+            final T resource = readResource(resourceType, resourceDTO, elements);
 
             SingleResourceResult<T> result = new SingleResourceResult.Builder<T>()
                     .success(true)
@@ -1827,7 +1826,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             for (com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO : resourceDTOList) {
                 // TODO Linear fetch of a large number of resources will extend response times. Need
                 // to look into batch or parallel fetch requests
-                Resource existingResource = readResource(resourceDao, resourceType, resourceDTO, elements);
+                Resource existingResource = readResource(resourceType, resourceDTO, elements);
                 if (resourceDTO.isDeleted()) {
                     Resource deletedResourceMarker = FHIRPersistenceUtil.createDeletedResourceMarker(existingResource);
                     resources.add(deletedResourceMarker);
@@ -2929,20 +2928,13 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     }
 
     @Override
-    public Future<PayloadKey> storePayload(Resource resource, String logicalId, int newVersionNumber, Instant lastUpdated) throws FHIRPersistenceException {
+    public Future<PayloadKey> storePayload(Resource resource, String logicalId, int newVersionNumber) throws FHIRPersistenceException {
         if (payloadPersistence != null) {
-            InputOutputByteStream ioStream = new InputOutputByteStream(DATA_BUFFER_INITIAL_SIZE);
-            try (GZIPOutputStream zipStream = new GZIPOutputStream(ioStream.outputStream())) {
-                FHIRGenerator.generator(Format.JSON, false).generate(resource, zipStream);
-                zipStream.close();
-
-                final String resourceTypeName = resource.getClass().getSimpleName();
-                int resourceTypeId = cache.getResourceTypeCache().getId(resourceTypeName);
-                return payloadPersistence.storePayload(resourceTypeName, resourceTypeId, logicalId, newVersionNumber, ioStream);
-            } catch (IOException | FHIRGeneratorException x) {
-                log.log(Level.SEVERE, "Resource: '" + resource.getId() + "', '" + logicalId + "/" + newVersionNumber + "'", x);
-                throw new FHIRPersistenceException("Offloading payload failed");
-            }
+            final String resourceTypeName = resource.getClass().getSimpleName();
+            int resourceTypeId = cache.getResourceTypeCache().getId(resourceTypeName);
+            
+            // Delegate the serialization and any compression to the FHIRPayloadPersistence implementation
+            return payloadPersistence.storePayload(resourceTypeName, resourceTypeId, logicalId, newVersionNumber, resource);
         } else {
             // Offloading not supported by the plain JDBC persistence implementation, so return null
             return null;

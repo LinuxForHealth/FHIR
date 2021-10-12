@@ -189,8 +189,7 @@ public class MockFHIRResourceHelpers implements FHIRResourceHelpers {
     }
 
     @Override
-    public Future<PayloadKey> storePayload(Resource resource, String logicalId, int newVersionNumber,
-        com.ibm.fhir.model.type.Instant lastUpdated) {
+    public Future<PayloadKey> storePayload(Resource resource, String logicalId, int newVersionNumber) {
         return null;
     }
 
@@ -199,25 +198,25 @@ public class MockFHIRResourceHelpers implements FHIRResourceHelpers {
     }
 
     @Override
-    public FHIRRestOperationResponse doCreateMeta(FHIRPersistenceEvent event, List<Issue> warnings, String type, Resource resource,
-        String ifNoneExist, boolean doValidation) throws Exception {
+    public FHIRRestOperationResponse doCreateMeta(FHIRPersistenceEvent event, List<Issue> warnings, String type, Resource resource, 
+        String ifNoneExist) throws Exception {
         return null;
     }
 
     @Override
-    public FHIRRestOperationResponse doCreatePersist(FHIRPersistenceEvent event, List<Issue> warnings, String type, Resource resource) throws Exception {
+    public FHIRRestOperationResponse doCreatePersist(FHIRPersistenceEvent event, List<Issue> warnings, Resource resource) throws Exception {
         return null;
     }
 
     @Override
-    public FHIRRestOperationResponse doUpdateMeta(String type, String id, FHIRPatch patch, Resource newResource, String ifMatchValue, String searchQueryString,
+    public FHIRRestOperationResponse doUpdateMeta(FHIRPersistenceEvent event, String type, String id, FHIRPatch patch, Resource newResource, String ifMatchValue, String searchQueryString,
         boolean skippableUpdate, boolean doValidation, List<Issue> warnings) throws Exception {
         return null;
     }
 
     @Override
-    public FHIRRestOperationResponse doPatchOrUpdate(String type, String id, FHIRPatch patch, Resource newResource, Resource prevResource, String ifMatchValue,
-        String searchQueryString, boolean skippableUpdate, List<Issue> warnings, boolean isDeleted) throws Exception {
+    public FHIRRestOperationResponse doPatchOrUpdatePersist(FHIRPersistenceEvent event, String type, String id, boolean isPatch,
+        Resource newResource, Resource prevResource, List<Issue> warnings, boolean isDeleted) throws Exception {
         return null;
     }
 

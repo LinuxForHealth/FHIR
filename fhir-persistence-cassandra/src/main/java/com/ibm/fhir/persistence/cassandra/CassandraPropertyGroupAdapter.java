@@ -54,7 +54,7 @@ public class CassandraPropertyGroupAdapter {
             }
         } catch (Exception x) {
             logger.log(Level.SEVERE, PROP_CONTACT_POINTS, x);
-            throw new IllegalArgumentException("Property group not configured " + PROP_CONTACT_POINTS);
+            throw new IllegalArgumentException("Property group not configured for property: " + PROP_CONTACT_POINTS);
         }
         
         if (result == null) {

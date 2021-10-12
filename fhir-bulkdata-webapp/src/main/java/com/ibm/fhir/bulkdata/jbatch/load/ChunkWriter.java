@@ -62,6 +62,7 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedExceptio
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
 import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
 import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
+import com.ibm.fhir.persistence.payload.PayloadPersistenceHelper;
 import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.fhir.validation.exception.FHIRValidationException;
 
@@ -282,14 +283,6 @@ public class ChunkWriter extends AbstractItemWriter {
     }
 
     /**
-     * Get the current time which can be used for the lastUpdated field
-     * @return current time in UTC
-     */
-    private com.ibm.fhir.model.type.Instant getCurrentInstant() {
-        return com.ibm.fhir.model.type.Instant.now(ZoneOffset.UTC);
-    }
-
-    /**
      * conditional update checks to see if our cache contains the key, if not reads from the db, and calculates the cache.
      * The cache is saved within the context of this particular execution, and then destroyed.
      *
@@ -310,7 +303,7 @@ public class ChunkWriter extends AbstractItemWriter {
      */
     public OperationOutcome conditionalFingerprintUpdate(ImportTransientUserData chunkData, boolean skip, Map<String, SaltHash> localCache, FHIRPersistence persistence, FHIRPersistenceContext context, String logicalId, Resource resource) throws FHIRPersistenceException {
         
-        // Since issue 1869, we always need to always perform the read here in order to obtain the
+        // Since issue 1869, we always need to perform the read here in order to obtain the
         // latest version id. When we call the persistence layer, the resource should already
         // be updated with the correct id/meta values
         Resource oldResource = null;
@@ -322,7 +315,7 @@ public class ChunkWriter extends AbstractItemWriter {
             logger.throwing("ChunkWriter", "conditionalFingerprintUpdate", fpde);
         }
         
-        final com.ibm.fhir.model.type.Instant lastUpdated = getCurrentInstant();
+        final com.ibm.fhir.model.type.Instant lastUpdated = PayloadPersistenceHelper.getCurrentInstant();
         final int newVersionNumber = oldResource != null && oldResource.getMeta() != null && oldResource.getMeta().getVersionId() != null
                 ? Integer.parseInt(oldResource.getMeta().getVersionId().getValue()) + 1 : 1;
         resource = FHIRPersistenceUtil.copyAndSetResourceMetaFields(resource, logicalId, newVersionNumber, lastUpdated);

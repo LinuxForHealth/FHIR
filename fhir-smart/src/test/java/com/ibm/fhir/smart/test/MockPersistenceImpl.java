@@ -192,7 +192,7 @@ public class MockPersistenceImpl implements FHIRPersistence {
     }
 
     @Override
-    public Future<PayloadKey> storePayload(Resource resource, String logicalId, int newVersionNumber, com.ibm.fhir.model.type.Instant lastUpdated)
+    public Future<PayloadKey> storePayload(Resource resource, String logicalId, int newVersionNumber)
         throws FHIRPersistenceException {
         return null;
     }

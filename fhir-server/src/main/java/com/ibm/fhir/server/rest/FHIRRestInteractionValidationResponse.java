@@ -19,7 +19,7 @@ public class FHIRRestInteractionValidationResponse extends FHIRRestInteractionRe
      * @param validationResponseEntry
      */
     public FHIRRestInteractionValidationResponse(int entryIndex, Entry validationResponseEntry, String requestDescription, long initialTime) {
-        super(entryIndex, null, validationResponseEntry, requestDescription, null, initialTime);
+        super(entryIndex, null, null, validationResponseEntry, requestDescription, null, initialTime);
     }
     
     @Override

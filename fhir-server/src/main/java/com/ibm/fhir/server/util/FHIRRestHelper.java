@@ -100,6 +100,7 @@ import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.interceptor.impl.FHIRPersistenceInterceptorMgr;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.payload.PayloadKey;
+import com.ibm.fhir.persistence.payload.PayloadPersistenceHelper;
 import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.fhir.profile.ProfileSupport;
 import com.ibm.fhir.search.SearchConstants;
@@ -172,45 +173,40 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         
         // Validate that interaction is allowed for given resource type
         validateInteraction(Interaction.CREATE, type);
-        
-        // First, invoke the 'beforeCreate' interceptor methods.
-        FHIRPersistenceEvent event =
-                new FHIRPersistenceEvent(resource, buildPersistenceEventProperties(type, null, null, null));
-        
-        // the event interceptors may modify the resource, so make sure we're using the latest version
-        resource = event.getFhirResource();
 
         // Validate the input and, if valid, start collecting supplemental warnings
         List<Issue> warnings = doValidation ? new ArrayList<>(validateInput(resource)) : new ArrayList<>();
-        
-        // Don't start the transaction yet...it will be started by prepare only if needed
+
+        // Manage a transaction, starting a new one if we don't have one already
         FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
         txn.begin();
 
         FHIRRestOperationResponse response;
         try {
+            // Prepare the persistence event
+            FHIRPersistenceEvent event =
+                    new FHIRPersistenceEvent(resource, buildPersistenceEventProperties(type, null, null, null));
+            
             // Run the meta phase to handle ifNoneExist and update the resource meta-data
-            response = doCreateMeta(event, warnings, type, resource, ifNoneExist, doValidation);
+            response = doCreateMeta(event, warnings, type, resource, ifNoneExist);
     
             // If we get a response back from doCreateMeta it means conditional create found
             // a match so we can skip further processing
             if (response == null) {
-                // Make sure we use the recently updated value for the resource
+                // Persistence event processing may modify the resource, so make sure we have the latest value
                 resource = event.getFhirResource();
                 
                 int newVersionNumber = Integer.parseInt(resource.getMeta().getVersionId().getValue());
-                com.ibm.fhir.model.type.Instant lastUpdated = resource.getMeta().getLastUpdated();
-                Future<PayloadKey> offloadResponse = storePayload(resource, resource.getId(), 
-                    newVersionNumber, lastUpdated);
+                Future<PayloadKey> offloadResponse = storePayload(resource, resource.getId(), newVersionNumber);
                 
                 // Resolve the future so that we know the payload has been stored
                 // TODO tie this into the transaction data so that we can clean up
                 // more if there's a rollback for another reason.
                 PayloadKey payloadKey = offloadResponse != null ? offloadResponse.get() : null;
                 if (payloadKey == null || payloadKey.getStatus() == PayloadKey.Status.OK) {
-                    response = doCreatePersist(event, warnings, type, resource);
+                    response = doCreatePersist(event, warnings, resource);
                 } else {
-                    throw new FHIROperationException("Payload offload failure. Check server logs for details.");
+                    throw new FHIRPersistenceException("Payload offload failure. Check server logs for details.");
                 }
             }
             
@@ -230,7 +226,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
     @Override
     public FHIRRestOperationResponse doCreateMeta(FHIRPersistenceEvent event, List<Issue> warnings, String type, Resource resource, 
-        String ifNoneExist, boolean doValidation) throws Exception {
+        String ifNoneExist) throws Exception {
         log.entering(this.getClass().getName(), "doCreateMeta");
 
         // Save the current request context.
@@ -329,7 +325,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     }
     
     @Override
-    public FHIRRestOperationResponse doCreatePersist(FHIRPersistenceEvent event, List<Issue> warnings, String type, Resource resource) throws Exception {
+    public FHIRRestOperationResponse doCreatePersist(FHIRPersistenceEvent event, List<Issue> warnings, Resource resource) throws Exception {
         log.entering(this.getClass().getName(), "doCreatePersist");
 
         FHIRRestOperationResponse ior = new FHIRRestOperationResponse();
@@ -343,9 +339,10 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         txn.begin();
 
         try {
-            // If there were no validation errors, then create the resource and return the location header.
-            FHIRPersistenceContext persistenceContext =
-                    FHIRPersistenceContextFactory.createPersistenceContext(event);
+            checkIdAndMeta(resource);
+
+            // create the resource and return the location header.
+            final FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(event);
 
             // For 1869 bundle processing, the resource is updated first and is no longer mutated by the
             // persistence layer.
@@ -388,38 +385,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         // Validate that interaction is allowed for given resource type
         validateInteraction(Interaction.PATCH, type);
         
-        FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
-        txn.begin();
-        
-        // Save the current request context.
-        FHIRRequestContext requestContext = FHIRRequestContext.get();
         try {
-            // Fetch and patch the resource
-            List<Issue> warnings = new ArrayList<>();
-            FHIRRestOperationResponse metaResponse = doUpdateMeta(type, id, patch, null, ifMatchValue, searchQueryString, skippableUpdate, DO_VALIDATION, warnings);
-            if (metaResponse.isCompleted()) {
-                // skip the actual update because it would be a NOP
-                txn.commit();
-                txn = null;
-                return metaResponse;
-            }
-            
-            // Apply the patch and save the new resource in the database
-            FHIRRestOperationResponse ior = doPatchOrUpdate(type, id, patch, metaResponse.getResource(), metaResponse.getPrevResource(), ifMatchValue, searchQueryString, skippableUpdate, warnings, metaResponse.isDeleted());
-            
-            txn.commit();
-            txn = null;
-            
-            return ior;
+            return doPatchOrUpdate(type, id, patch, null, ifMatchValue, searchQueryString, skippableUpdate, DO_VALIDATION);
         } finally {
-            // Restore the original request context.
-            FHIRRequestContext.set(requestContext);
-
-            // If we still have a transaction at this point, we need to rollback due to an error.
-            if (txn != null) {
-                txn.rollback();
-            }
-
             log.exiting(this.getClass().getName(), "doPatch");
         }
     }
@@ -432,6 +400,27 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         // Validate that interaction is allowed for given resource type
         validateInteraction(Interaction.UPDATE, type);
 
+        try {
+            return doPatchOrUpdate(type, id, null, newResource, ifMatchValue, searchQueryString, skippableUpdate, doValidation);
+        } finally {
+            log.exiting(this.getClass().getName(), "doUpdate");
+        }
+    }
+
+    /**
+     * Common handling of PATCH or UPDATE interactions
+     * @param type
+     * @param id
+     * @param newResource
+     * @param ifMatchValue
+     * @param searchQueryString
+     * @param skippableUpdate
+     * @param doValidation
+     * @return
+     * @throws Exception
+     */
+    private FHIRRestOperationResponse doPatchOrUpdate(String type, String id, FHIRPatch patch, Resource newResource, String ifMatchValue,
+            String searchQueryString, boolean skippableUpdate, boolean doValidation) throws Exception {
         FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
         txn.begin();
         
@@ -439,8 +428,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         FHIRRequestContext requestContext = FHIRRequestContext.get();
         try {
             // Do the first phase, which includes updating the meta in the resource
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(newResource, buildPersistenceEventProperties(type, id, null, null));
             List<Issue> warnings = new ArrayList<>();
-            FHIRRestOperationResponse metaResponse = doUpdateMeta(type, id, null, newResource, ifMatchValue, searchQueryString, skippableUpdate, doValidation, warnings);
+            FHIRRestOperationResponse metaResponse = doUpdateMeta(event, type, id, patch, newResource, ifMatchValue, searchQueryString, skippableUpdate, doValidation, warnings);
             if (metaResponse.isCompleted()) {
                 // skip the update, so we can short-circuit here
                 txn.commit();
@@ -449,7 +439,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             }
             
             // Persist the resource
-            FHIRRestOperationResponse ior = doPatchOrUpdate(type, id, null, metaResponse.getResource(), metaResponse.getPrevResource(), ifMatchValue, searchQueryString, skippableUpdate, warnings, metaResponse.isDeleted());
+            FHIRRestOperationResponse ior = doPatchOrUpdatePersist(event, type, id, patch != null, metaResponse.getResource(), metaResponse.getPrevResource(), warnings, metaResponse.isDeleted());
             
             txn.commit();
             txn = null;
@@ -466,10 +456,11 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             log.exiting(this.getClass().getName(), "doUpdate");
         }
+        
     }
 
     @Override
-    public FHIRRestOperationResponse doUpdateMeta(String type, String id, FHIRPatch patch, Resource newResource, 
+    public FHIRRestOperationResponse doUpdateMeta(FHIRPersistenceEvent event, String type, String id, FHIRPatch patch, Resource newResource, 
         String ifMatchValue, String searchQueryString, boolean skippableUpdate, boolean doValidation, 
         List<Issue> warnings) throws Exception {
         log.entering(this.getClass().getName(), "doUpdateMeta");
@@ -676,9 +667,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             }
 
             // Configure the persistence event ready to fire the "before create|update|patch" events.
-            FHIRPersistenceEvent event = new FHIRPersistenceEvent(newResource,
-                buildPersistenceEventProperties(type, id, null, null));
-
+            event.setFhirResource(newResource);
             event.setPrevFhirResource(ior.getPrevResource());
 
             // Next, invoke the 'beforeUpdate' or 'beforeCreate' interceptor methods as appropriate.
@@ -718,10 +707,10 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     }
     
     @Override
-    public FHIRRestOperationResponse doPatchOrUpdate(String type, String id, FHIRPatch patch,
-            Resource newResource, Resource prevResource, String ifMatchValue, String searchQueryString,
-            boolean skippableUpdate, List<Issue> warnings, boolean isDeleted) throws Exception {
-        log.entering(this.getClass().getName(), "doPatchOrUpdate");
+    public FHIRRestOperationResponse doPatchOrUpdatePersist(FHIRPersistenceEvent event, String type, String id,
+            boolean isPatch, Resource newResource, Resource prevResource,
+            List<Issue> warnings, boolean isDeleted) throws Exception {
+        log.entering(this.getClass().getName(), "doPatchOrUpdatePersist");
 
         // We'll only start a new transaction here if we don't have one. We'll only
         // commit at the end if we started one here
@@ -734,14 +723,15 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         FHIRRestOperationResponse ior = new FHIRRestOperationResponse();
 
         try {
-            // Create the persistence event and reference both original and new resources
-            FHIRPersistenceEvent event = new FHIRPersistenceEvent(newResource,
-                    buildPersistenceEventProperties(type, newResource.getId(), null, null));
+            // Ensure the persistence event references both original and new resources
             event.setFhirResource(newResource);
             event.setPrevFhirResource(prevResource);
 
             // Remember, update now doesn't mutate the resource in any way, and nor should the event
             int newVersionId = Integer.parseInt(newResource.getMeta().getVersionId().getValue());
+            
+            checkIdAndMeta(newResource);
+            
             FHIRPersistenceContext persistenceContext =
                     FHIRPersistenceContextFactory.createPersistenceContext(event);
             SingleResourceResult<Resource> result = persistence.update(persistenceContext, id, newVersionId, newResource);
@@ -765,7 +755,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 getInterceptorMgr().fireAfterCreateEvent(event);
             } else {
                 ior.setStatus(Response.Status.OK);
-                if (patch != null) {
+                if (isPatch) {
                     getInterceptorMgr().fireAfterPatchEvent(event);
                 } else {
                     getInterceptorMgr().fireAfterUpdateEvent(event);
@@ -793,7 +783,31 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 txn.rollback();
             }
 
-            log.exiting(this.getClass().getName(), "doPatchOrUpdate");
+            log.exiting(this.getClass().getName(), "doPatchOrUpdatePersist");
+        }
+    }
+    
+    /**
+     * Check that the id and meta fields in the resource have been set up
+     * @param resource
+     * @throws FHIRPersistenceException
+     */
+    private void checkIdAndMeta(Resource resource) throws FHIRPersistenceException {
+        if (resource.getId() == null || resource.getId().isEmpty()) {
+            throw new FHIRPersistenceException("resource id field not set");
+        }
+        
+        if (resource.getMeta() == null) {
+            throw new FHIRPersistenceException("resource meta is missing");
+        }
+        
+        if (resource.getMeta().getVersionId() == null || resource.getMeta().getVersionId().getValue() == null
+                || resource.getMeta().getVersionId().getValue().isEmpty()) {
+            throw new FHIRPersistenceException("resource meta.versionId not set");
+        }
+        
+        if (resource.getMeta().getLastUpdated() == null) {
+            throw new FHIRPersistenceException("resource meta.lastUpdated not set");
         }
     }
 
@@ -1775,7 +1789,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             // Translate the entries in the bundle to a list of FHIRRestOperation commands which we
             // then process in order
             final boolean isTransactionBundle = bundleType == BundleType.Value.TRANSACTION;
-            FHIRRestBundleHelper bundleHelper = new FHIRRestBundleHelper();
+            FHIRRestBundleHelper bundleHelper = new FHIRRestBundleHelper(this);
             List<FHIRRestInteraction> bundleInteractions = bundleHelper.translateBundleEntries(requestBundle, validationResponseEntries, isTransactionBundle, bundleRequestCorrelationId, skippableUpdates);
             List<Entry> responseEntries = processBundleInteractions(bundleInteractions, validationResponseEntries, isTransactionBundle);
 
@@ -2934,14 +2948,13 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      * @return current time in UTC
      */
     protected com.ibm.fhir.model.type.Instant getCurrentInstant() {
-        return com.ibm.fhir.model.type.Instant.now(ZoneOffset.UTC);
+        return PayloadPersistenceHelper.getCurrentInstant();
     }
 
     @Override
-    public Future<PayloadKey> storePayload(Resource resource, String logicalId, int newVersionNumber,
-        com.ibm.fhir.model.type.Instant lastUpdated) throws Exception {
+    public Future<PayloadKey> storePayload(Resource resource, String logicalId, int newVersionNumber) throws Exception {
         
         // Delegate to the persistence layer. Result will be null if offloading is not supported
-        return persistence.storePayload(resource, logicalId, newVersionNumber, lastUpdated);
+        return persistence.storePayload(resource, logicalId, newVersionNumber);
     }
 }

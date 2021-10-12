@@ -6,20 +6,21 @@
 
 package com.ibm.fhir.persistence.cassandra.cql;
 
+import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 
 /**
- * An exception which occurred processing CQL persistence
+ * An exception which occurred processing a CQL operation
  */
-public class CqlPersistenceException extends RuntimeException {
+public class CqlPersistenceException extends FHIRPersistenceException {
 
-    private static final long serialVersionUID = -582107144963087165L;
+    private static final long serialVersionUID = -3499947162325228628L;
 
-    public CqlPersistenceException(Throwable t) {
-        super(t);
-    }
-
+    /**
+     * Public constructor
+     * @param msg
+     * @param t
+     */
     public CqlPersistenceException(String msg, Throwable t) {
         super(msg, t);
     }
-
 }

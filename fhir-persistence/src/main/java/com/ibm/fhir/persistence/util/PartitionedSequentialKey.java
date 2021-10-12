@@ -29,7 +29,7 @@ import java.util.UUID;
 public class PartitionedSequentialKey {
 
     // 1024 partitions is a reasonable compromise to ensure adequate spread,
-    // not not requiring an excessive number of separate scans when doing
+    // not requiring an excessive number of separate scans when doing
     // something like reconciliation
     private static final int MAX_PARTITIONS = 1024;
     

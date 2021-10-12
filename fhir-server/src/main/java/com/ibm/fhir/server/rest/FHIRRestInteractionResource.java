@@ -7,6 +7,7 @@
 package com.ibm.fhir.server.rest;
 
 import com.ibm.fhir.model.resource.Bundle.Entry;
+import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.server.util.FHIRUrlParser;
 
@@ -17,23 +18,28 @@ public abstract class FHIRRestInteractionResource extends FHIRRestInteractionBas
     
     private final Entry validationResponseEntry;
     
+    // The event dispatched at various points while processing this interaction
+    private final FHIRPersistenceEvent event;
+
     // The new resource
     private Resource newResource;
-    
+
     // The previous resource (e.g. if read from the database
     private Resource prevResource;
-    
+
     /**
      * Protected constructor
      * @param entryIndex
+     * @param event
      * @param newResource
      * @param validationResponseEntry
      * @param requestDescription
      * @param requestURL
      * @param initialTime
      */
-    protected FHIRRestInteractionResource(int entryIndex, Resource newResource, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime) {
+    protected FHIRRestInteractionResource(int entryIndex, FHIRPersistenceEvent event, Resource newResource, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime) {
         super(entryIndex, requestDescription, requestURL, initialTime);
+        this.event = event;
         this.newResource = newResource;
         this.validationResponseEntry = validationResponseEntry;
     }
@@ -75,5 +81,12 @@ public abstract class FHIRRestInteractionResource extends FHIRRestInteractionBas
      */
     public Resource getPrevResource() {
         return this.prevResource;
+    }
+
+    /**
+     * @return the event
+     */
+    public FHIRPersistenceEvent getEvent() {
+        return event;
     }
 }

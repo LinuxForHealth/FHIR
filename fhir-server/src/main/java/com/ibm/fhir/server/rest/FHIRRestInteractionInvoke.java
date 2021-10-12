@@ -10,6 +10,7 @@ import javax.ws.rs.core.MultivaluedMap;
 
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.fhir.model.resource.Bundle.Entry;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.server.util.FHIRUrlParser;
@@ -47,7 +48,7 @@ public class FHIRRestInteractionInvoke extends FHIRRestInteractionResource {
         long initialTime, FHIROperationContext operationContext, String method,
         String resourceTypeName, String logicalId, String versionId, String operationName,
         Resource resource, MultivaluedMap<String, String> queryParameters) {
-        super(entryIndex, resource, validationResponseEntry, requestDescription, requestURL, initialTime);
+        super(entryIndex, null, resource, validationResponseEntry, requestDescription, requestURL, initialTime);
         this.operationContext = operationContext;
         this.method = method;
         this.resourceTypeName = resourceTypeName;

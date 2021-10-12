@@ -15,6 +15,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.model.format.Format;
+import com.ibm.fhir.model.generator.FHIRGenerator;
+import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
 import com.ibm.fhir.model.parser.FHIRJsonParser;
 import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.parser.exception.FHIRParserException;
@@ -25,6 +27,7 @@ import com.ibm.fhir.persistence.cos.impl.COSClientManager;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.payload.FHIRPayloadPersistence;
 import com.ibm.fhir.persistence.payload.PayloadKey;
+import com.ibm.fhir.persistence.payload.PayloadPersistenceHelper;
 import com.ibm.fhir.persistence.util.InputOutputByteStream;
 import com.ibm.fhir.search.SearchConstants;
 
@@ -35,19 +38,20 @@ import com.ibm.fhir.search.SearchConstants;
  */
 public class FHIRPayloadPersistenceCosImpl implements FHIRPayloadPersistence {
     private static final Logger logger = Logger.getLogger(FHIRPayloadPersistenceCosImpl.class.getName());
-
+    
     @Override
-    public Future<PayloadKey> storePayload(String resourceTypeName, int resourceTypeId, String logicalId, int version, InputOutputByteStream payloadStream)
+    public Future<PayloadKey> storePayload(String resourceTypeName, int resourceTypeId, String logicalId, int version, Resource resource)
         throws FHIRPersistenceException {
         long start = System.nanoTime();
 
-        // Single resources are small enough that we can write the object
-        // in a single call without having to resort to multi-part uploads.
         COSPayloadClient cpc = COSClientManager.getClientForTenantDatasource();
 
         try {
+            // Render the object to a byte-stream but don't compress when storing in Cos
+            // (although this could be made a configurable option if we want)
+            InputOutputByteStream ioStream = PayloadPersistenceHelper.render(resource, false);
             final String objectName = makeObjectName(resourceTypeId, logicalId, version);
-            cpc.write(objectName, payloadStream);
+            cpc.write(objectName, ioStream);
             
             PayloadKey payloadKey = new PayloadKey(resourceTypeName, resourceTypeId, logicalId, version, null, objectName, PayloadKey.Status.OK);
             return CompletableFuture.completedFuture(payloadKey);
@@ -66,7 +70,7 @@ public class FHIRPayloadPersistenceCosImpl implements FHIRPayloadPersistence {
 
         final String objectName = makeObjectName(resourceTypeId, logicalId, version);
         try {
-            return cpc.read(objectName, is -> parse(resourceType, is, elements));
+            return cpc.read(objectName, is -> PayloadPersistenceHelper.parse(resourceType, is, elements));
 
         } catch (RuntimeException x) {
             logger.severe("Failed to read payload for: '" + resourceType.getSimpleName() + "/" + logicalId + "/" + version + "', objectName = '" + objectName + "'");
@@ -87,7 +91,7 @@ public class FHIRPayloadPersistenceCosImpl implements FHIRPayloadPersistence {
         final String objectName = makeObjectName(payloadKey);
         try {
             // We're not supporting async behavior yet, so we complete right away
-            T resource = cpc.read(objectName, is -> parse(resourceType, is, null));
+            T resource = cpc.read(objectName, is -> PayloadPersistenceHelper.parse(resourceType, is, null));
             return CompletableFuture.completedFuture(resource);
         } catch (RuntimeException x) {
             logger.severe("Failed to read payload for key: '" + payloadKey + "'");
@@ -98,39 +102,6 @@ public class FHIRPayloadPersistenceCosImpl implements FHIRPayloadPersistence {
                 logger.fine(String.format("Direct read of resource payload from COS: '%s/%s' [took %5.3f s]", resourceType.getSimpleName(), payloadKey.toString(), elapsed/1e9));
             }
         }
-    }
-
-
-    /**
-     * Parse the given stream, using elements if needed
-     * @param <T>
-     * @param resourceType
-     * @param in
-     * @param elements
-     * @return
-     * @throws IOException
-     * @throws FHIRParserException
-     */
-    public static <T extends Resource> T parse(Class<T> resourceType, InputStream in, List<String> elements) {
-        T result;
-
-        try {
-            if (elements != null) {
-                // parse/filter the resource using elements
-                result = FHIRParser.parser(Format.JSON).as(FHIRJsonParser.class).parseAndFilter(in, elements);
-                if (resourceType.equals(result.getClass()) && !FHIRUtil.hasTag(result, SearchConstants.SUBSETTED_TAG)) {
-                    // add a SUBSETTED tag to this resource to indicate that its elements have been filtered
-                    result = FHIRUtil.addTag(result, SearchConstants.SUBSETTED_TAG);
-                }
-            } else {
-                result = FHIRParser.parser(Format.JSON).parse(in);
-            }
-        } catch (FHIRParserException x) {
-            // need to wrap because this method is being called as a lambda
-            throw new RuntimeException(x);
-        }
-
-        return result;
     }
 
     /**

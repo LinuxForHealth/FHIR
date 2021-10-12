@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,11 +18,11 @@ import com.datastax.oss.driver.api.core.CqlSession;
 import com.datastax.oss.driver.api.core.cql.ResultSet;
 import com.datastax.oss.driver.api.core.cql.Row;
 import com.ibm.fhir.model.format.Format;
-import com.ibm.fhir.model.parser.FHIRJsonParser;
 import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.parser.exception.FHIRParserException;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.cassandra.payload.CqlChunkedPayloadStream;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 
 /**
  * Reads the latest version of a resource
@@ -54,7 +54,7 @@ public class CqlReadResource implements ICqlReader<Resource> {
     }
     
     @Override
-    public Resource run(CqlSession session) {
+    public Resource run(CqlSession session) throws FHIRPersistenceException {
         
         // Firstly, look up the payload_id for the latest version of the resource
         final String CQL_LOGICAL_RESOURCE = ""

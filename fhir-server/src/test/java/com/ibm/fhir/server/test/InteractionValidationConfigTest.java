@@ -11,8 +11,6 @@ import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.fail;
 
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.ws.rs.core.MultivaluedHashMap;
 
@@ -54,7 +52,6 @@ import com.ibm.fhir.server.operation.spi.FHIRRestOperationResponse;
 import com.ibm.fhir.server.util.FHIRRestHelper;
 
 public class InteractionValidationConfigTest {
-    private static final Logger logger = Logger.getLogger(InteractionValidationConfigTest.class.getName());
 
     FHIRPersistence persistence;
     FHIRRestHelper helper;

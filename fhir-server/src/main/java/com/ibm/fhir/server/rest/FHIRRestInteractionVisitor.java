@@ -15,6 +15,7 @@ import com.ibm.fhir.model.patch.FHIRPatch;
 import com.ibm.fhir.model.resource.Bundle.Entry;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.server.operation.spi.FHIRRestOperationResponse;
 import com.ibm.fhir.server.util.FHIRUrlParser;
@@ -103,6 +104,8 @@ public interface FHIRRestInteractionVisitor {
      *
      * @param type
      *            the resource type specified as part of the request URL
+     * @param event
+     *            the persistence event used for this resource interaction
      * @param warnings
      *            the list of warning issues accumulated for this entry
      * @param resource
@@ -112,13 +115,15 @@ public interface FHIRRestInteractionVisitor {
      * @return a FHIRRestOperationResponse object containing the results of the operation
      * @throws Exception
      */
-    FHIRRestOperationResponse doCreate(int entryIndex, List<Issue> warnings, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, Resource resource, String ifNoneExist, String localIdentifier) throws Exception;
+    FHIRRestOperationResponse doCreate(int entryIndex, FHIRPersistenceEvent event, List<Issue> warnings, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, Resource resource, String ifNoneExist, String localIdentifier) throws Exception;
     
     /**
      * Performs an update operation (a new version of the Resource will be stored).
      *
      * @param type
      *            the type of the resource to be updated
+     * @param event
+     *            the persistence event used for this resource interaction
      * @param id
      *            the id of the Resource being updated
      * @param newResource
@@ -141,7 +146,7 @@ public interface FHIRRestInteractionVisitor {
      * @return a FHIRRestOperationResponse that contains the results of the operation
      * @throws Exception
      */
-    FHIRRestOperationResponse doUpdate(int entryIndex, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, 
+    FHIRRestOperationResponse doUpdate(int entryIndex, FHIRPersistenceEvent event, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, 
         long initialTime, String type, String id, Resource newResource, Resource prevResource, String ifMatchValue,
         String searchQueryString, boolean skippableUpdate, String localIdentifier, List<Issue> warnings, boolean isDeleted) throws Exception;
     
@@ -150,6 +155,8 @@ public interface FHIRRestInteractionVisitor {
      *
      * @param type
      *            the type of the resource to be updated
+     * @param event
+     *            the persistence event used for this resource interaction
      * @param id
      *            the id of the Resource being updated
      * @param newResource
@@ -168,7 +175,7 @@ public interface FHIRRestInteractionVisitor {
      * @return a FHIRRestOperationResponse that contains the results of the operation
      * @throws Exception
      */
-    FHIRRestOperationResponse doPatch(int entryIndex, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime, 
+    FHIRRestOperationResponse doPatch(int entryIndex, FHIRPersistenceEvent event, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime, 
         String type, String id, Resource newResource, Resource prevResource,
         FHIRPatch patch, String ifMatchValue,
         String searchQueryString, boolean skippableUpdate, List<Issue> warnings, String localIdentifier) throws Exception;

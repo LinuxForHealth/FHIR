@@ -467,7 +467,7 @@ public class ServerResolveFunctionTest {
         }
 
         @Override
-        public Future<PayloadKey> storePayload(Resource resource, String logicalId, int newVersionNumber, Instant lastUpdated) throws FHIRPersistenceException {
+        public Future<PayloadKey> storePayload(Resource resource, String logicalId, int newVersionNumber) throws FHIRPersistenceException {
             // TODO Auto-generated method stub
             return null;
         }

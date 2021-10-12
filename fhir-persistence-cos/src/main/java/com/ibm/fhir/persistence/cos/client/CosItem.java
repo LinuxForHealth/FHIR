@@ -21,8 +21,6 @@ public class CosItem {
     // size of the object in bytes
     private final long size;
 
-    private final ItemType itemType;
-
     // The hash of the object according to COS
     private final String eTag;
 
@@ -41,11 +39,10 @@ public class CosItem {
      * @param eTag
      * @param lastModified
      */
-    public CosItem(String bucketName, String itemName, long size, ItemType itemType, String eTag, Date lastModified) {
+    public CosItem(String bucketName, String itemName, long size, String eTag, Date lastModified) {
         this.bucketName = bucketName;
         this.itemName = itemName;
         this.size = size;
-        this.itemType = itemType;
         this.eTag = eTag;
         this.lastModified = lastModified;
     }
@@ -75,13 +72,6 @@ public class CosItem {
      */
     public long getSize() {
         return this.size;
-    }
-
-    /**
-     * @return the itemType
-     */
-    public ItemType getItemType() {
-        return this.itemType;
     }
 
     /**

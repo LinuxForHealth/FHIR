@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -32,11 +32,11 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.persistence.cassandra.cql.CqlDataUtil;
 import com.ibm.fhir.persistence.cassandra.cql.CqlPersistenceException;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.search.SearchConstants;
 
 /**
- * Reads the current version number of a resource. This is used
- * during ingestion so that we can track version history.
+ * CQL command to read a FHIR resource stored in Cassandra.
  */
 public class CqlReadResource {
     private static final Logger logger = Logger.getLogger(CqlReadResource.class.getName());
@@ -60,6 +60,8 @@ public class CqlReadResource {
      * @param partitionId
      * @param resourceTypeId
      * @param logicalId
+     * @param version
+     * @param elements
      */
     public CqlReadResource(String partitionId, int resourceTypeId, String logicalId, int version, List<String> elements) {
         CqlDataUtil.safeId(partitionId);
@@ -74,10 +76,11 @@ public class CqlReadResource {
     /**
      * Execute the CQL read query and return the Resource for the resourceTypeId, logicalId, version
      * tuple.
+     * @param resourceType
      * @param session
      * @return
      */
-    public <T extends Resource> T run(Class<T> resourceType, CqlSession session) {
+    public <T extends Resource> T run(Class<T> resourceType, CqlSession session) throws FHIRPersistenceException {
         T result;
 
         // Firstly, look up the payload_id for the latest version of the resource. The table

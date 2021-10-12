@@ -1,11 +1,12 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.persistence.cos.impl;
 
+import java.util.Objects;
 
 /**
  * Key used to represent a tenant/datasource pair
@@ -23,7 +24,7 @@ public class TenantDatasourceKey {
 
     @Override
     public int hashCode() {
-        return 37 * tenantId.hashCode() + datasourceId.hashCode();
+        return Objects.hash(tenantId, datasourceId);
     }
     
     @Override

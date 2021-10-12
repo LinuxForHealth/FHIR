@@ -56,6 +56,7 @@ import com.ibm.fhir.model.type.code.NarrativeStatus;
 import com.ibm.fhir.model.type.code.ProcedureStatus;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.SingleResourceResult;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptor;
 import com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptorException;
@@ -1378,13 +1379,13 @@ public class FHIRRestHelperTest {
         for (Bundle.Entry entry : responseBundle.getEntry()) {
             Bundle.Entry.Response response = entry.getResponse();
             if (response.getLocation().getValue().startsWith("Patient")) {
-                assertEquals("Patient/generated-0/_history/1", response.getLocation().getValue());
-                assertEquals(Integer.toString(Response.Status.CREATED.getStatusCode()), response.getStatus().getValue());
+                assertEquals(response.getLocation().getValue(), "Patient/generated-0/_history/1");
+                assertEquals(response.getStatus().getValue(), Integer.toString(Response.Status.CREATED.getStatusCode()));
             } else if (response.getLocation().getValue().startsWith("Procedure")) {
-                assertEquals("Procedure/2/_history/2", response.getLocation().getValue());
-                assertEquals(Integer.toString(Response.Status.OK.getStatusCode()), response.getStatus().getValue());
+                assertEquals(response.getLocation().getValue(), "Procedure/2/_history/2");
+                assertEquals(response.getStatus().getValue(), Integer.toString(Response.Status.OK.getStatusCode()));
                 Procedure returnedProcedure = (Procedure) entry.getResource();
-                assertEquals("Patient/generated-0", returnedProcedure.getSubject().getReference().getValue());
+                assertEquals(returnedProcedure.getSubject().getReference().getValue(), "Patient/generated-0");
             } else {
                 fail();
             }
@@ -2050,6 +2051,7 @@ public class FHIRRestHelperTest {
         SingleResourceResult<Resource> mockResult = Mockito.mock(SingleResourceResult.class);
         when(mockResult.getResource()).thenReturn(patientWithId);
 
+        when(persistence.generateResourceId()).thenReturn("generated-0");
         when(persistence.getTransaction()).thenReturn(new MockTransactionAdapter());
         when(persistence.read(any(), any(), any())).thenReturn(mockResult);
         // when(persistence.create(any(), any())).thenReturn(mockResult);
@@ -2067,7 +2069,7 @@ public class FHIRRestHelperTest {
         Mockito.verify(persistence).update(any(), any(), anyInt(), patientCaptor.capture());
         assertEquals(patientCaptor.getValue().getMeta().getTag().get(0), TAG);
     }
-    
+
     /**
      * Test processing for a batch bundle where the resource does not match
      * the given URL endpoint
