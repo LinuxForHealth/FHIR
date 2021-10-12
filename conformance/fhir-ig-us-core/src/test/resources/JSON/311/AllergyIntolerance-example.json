@@ -1,0 +1,64 @@
+{
+	"resourceType": "AllergyIntolerance",
+	"id": "example",
+	"meta": {
+		"profile": [
+			"http://hl7.org/fhir/us/core/StructureDefinition/us-core-allergyintolerance|3.1.1"
+		]
+	},
+	"text": {
+		"status": "generated",
+		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><p><b>id</b>: example</p><p><b>meta</b>: </p><p><b>clinicalStatus</b>: <span title=\"Codes: {http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical active}\">Active</span></p><p><b>verificationStatus</b>: <span title=\"Codes: {http://terminology.hl7.org/CodeSystem/allergyintolerance-verification confirmed}\">Confirmed</span></p><p><b>category</b>: medication</p><p><b>criticality</b>: high</p><p><b>code</b>: <span title=\"Codes: {http://snomed.info/sct 387406002}\">sulfonamide antibacterial</span></p><p><b>patient</b>: <a href=\"Patient-example.html\">Amy V. Shaw. Generated Summary: id: example; Medical Record Number = 1032702 (USUAL); active; Amy V. Shaw , Amy V. Baxter ; ph: 555-555-5555(HOME), amy.shaw@example.com; gender: female; birthDate: 1987-02-20</a></p><h3>Reactions</h3><table class=\"grid\"><tr><td>-</td><td><b>Manifestation</b></td><td><b>Severity</b></td></tr><tr><td>*</td><td><span title=\"Codes: {http://snomed.info/sct 271807003}\">skin rash</span></td><td>mild</td></tr></table></div>"
+	},
+	"clinicalStatus": {
+		"coding": [
+			{
+				"system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical",
+				"code": "active"
+			}
+		]
+	},
+	"verificationStatus": {
+		"coding": [
+			{
+				"system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-verification",
+				"code": "confirmed"
+			}
+		]
+	},
+	"category": [
+		"medication"
+	],
+	"criticality": "high",
+	"code": {
+		"coding": [
+			{
+				"system": "http://snomed.info/sct",
+				"code": "387406002",
+				"display": "Sulfonamide (substance)"
+			}
+		],
+		"text": "sulfonamide antibacterial"
+	},
+	"patient": {
+		"reference": "Patient/example",
+		"display": "Amy V. Shaw"
+	},
+	"reaction": [
+		{
+			"manifestation": [
+				{
+					"coding": [
+						{
+							"system": "http://snomed.info/sct",
+							"code": "271807003",
+							"display": "skin rash"
+						}
+					],
+					"text": "skin rash"
+				}
+			],
+			"severity": "mild"
+		}
+	]
+}

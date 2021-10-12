@@ -1,0 +1,127 @@
+{
+	"resourceType": "DiagnosticReport",
+	"id": "urinalysis",
+	"meta": {
+		"extension": [
+			{
+				"url": "http://hl7.org/fhir/StructureDefinition/instance-name",
+				"valueString": "Urinalysis Example"
+			},
+			{
+				"url": "http://hl7.org/fhir/StructureDefinition/instance-description",
+				"valueMarkdown": "This is a urinalysis example for the *US Core DiagnosticReport Lab Profile*."
+			}
+		],
+		"profile": [
+			"http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-lab"
+		]
+	},
+	"text": {
+		"status": "generated",
+		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2><span title=\"Codes: {http://loinc.org 24356-8}\">Complete Urinalysis</span> (<span title=\"Codes: {http://terminology.hl7.org/CodeSystem/v2-0074 LAB}\">Laboratory</span>) </h2><table class=\"grid\"><tr><td>Subject</td><td><b>Amy V. Shaw </b>  1987-02-20 ( Medical Record Number: 1032702 (USUAL))</td></tr><tr><td>When For</td><td>2005-07-05</td></tr><tr><td>Reported</td><td>Jul 6, 2005 12:45:33 AM</td></tr></table><p><b>Report Details</b></p><table class=\"grid\"><tr><td><b>Code</b></td><td><b>Value</b></td><td><b>Reference Range</b></td><td><b>When For</b></td></tr><tr><td><a href=\"Observation-urine-color.html\"><span title=\"Codes: {http://loinc.org 5778-6}\">COLOR</span></a></td><td><span title=\"Codes: {http://snomed.info/sct 371244009}\">Yellow</span></td><td>Yellow</td><td>2005-07-05</td></tr><tr><td><a href=\"Observation-urine-clarity.html\"><span title=\"Codes: {http://loinc.org 32167-9}\">APPEARANCE</span></a></td><td><span title=\"Codes: {http://snomed.info/sct 81858005}\">Hazy</span></td><td>Clear</td><td>2005-07-05</td></tr><tr><td><a href=\"Observation-urine-glucose.html\"><span title=\"Codes: {http://loinc.org 25428-4}\">GLUCOSE</span></a></td><td><span title=\"Codes: {http://snomed.info/sct 260385009}\">Negative</span></td><td>Negative</td><td>2005-07-05</td></tr><tr><td><a href=\"Observation-urine-bilirubin.html\"><span title=\"Codes: {http://loinc.org 5770-3}\">BILIRUBIN</span></a></td><td><span title=\"Codes: {http://snomed.info/sct 260385009}\">Negative</span></td><td>Negative</td><td>2005-07-05</td></tr><tr><td><a href=\"Observation-urine-ketone.html\"><span title=\"Codes: {http://loinc.org 2514-8}\">KETONE</span></a></td><td><span title=\"Codes: {http://snomed.info/sct 260385009}\">Negative</span></td><td>Negative</td><td>2005-07-05</td></tr><tr><td><a href=\"Observation-usg.html\"><span title=\"Codes: {http://loinc.org 5811-5}\">SPEC GRAV</span></a></td><td>1.017 {urine specific gravity}</td><td>1.003 {urine specific gravity} - 1.035 {urine specific gravity}</td><td>2005-07-05</td></tr><tr><td><a href=\"Observation-urine-ph.html\"><span title=\"Codes: {http://loinc.org 5803-2}\">PH</span></a></td><td>6.0 (pH)</td><td>5.0 (pH) - 8.0 (pH)</td><td>2005-07-05</td></tr><tr><td><a href=\"Observation-urine-protein.html\"><span title=\"Codes: {http://loinc.org 20454-5}\">PROTEIN</span></a></td><td><span title=\"Codes: {http://snomed.info/sct 260385009}\">Negative</span></td><td>Negative</td><td>2005-07-05</td></tr><tr><td><a href=\"Observation-urobilinogen.html\"><span title=\"Codes: {http://loinc.org 20405-7}\">UROBILINOGEN</span></a></td><td>0.3 mg/dL</td><td>0.1 mg/dL - 1.0 mg/dL</td><td>2005-07-05</td></tr><tr><td><a href=\"Observation-urine-nitrite.html\"><span title=\"Codes: {http://loinc.org 5802-4}\">NITRITE</span></a></td><td><span title=\"Codes: {http://snomed.info/sct 10828004}\">Positive</span></td><td>Negative</td><td>2005-07-05</td></tr><tr><td><a href=\"Observation-urine-hemoglobin.html\"><span title=\"Codes: {http://loinc.org 5794-3}\">BLOOD</span></a></td><td><span title=\"Codes: {http://snomed.info/sct 260405006}\">Trace</span></td><td>Negative</td><td>2005-07-05</td></tr><tr><td><a href=\"Observation-urine-leukocyte-esterase.html\"><span title=\"Codes: {http://loinc.org 5799-2}\">LEUK ESTERASE</span></a></td><td><span title=\"Codes: {http://snomed.info/sct 260348001}\">2+</span></td><td>Negative</td><td>2005-07-05</td></tr><tr><td><a href=\"Observation-urine-sediment.html\"><span title=\"Codes: {http://loinc.org 11279-7}\">COMMENT</span></a></td><td>Recommend Urine Culture</td><td></td><td>2005-07-05</td></tr><tr><td><a href=\"Observation-urine-bacteria.html\"><span title=\"Codes: {http://loinc.org 25145-4}\">BACTERIA</span></a></td><td><span title=\"Codes: {http://snomed.info/sct 260350009}\">4+</span></td><td>0-1+</td><td>2005-07-05</td></tr><tr><td><a href=\"Observation-urine-epi-cells.html\"><span title=\"Codes: {http://loinc.org 5787-7}\">EPITHELIAL CELLS</span></a></td><td>1-5 cells/HPF</td><td>None Seen/HPF</td><td>2005-07-05</td></tr><tr><td><a href=\"Observation-urine-wbcs.html\"><span title=\"Codes: {http://loinc.org 5821-4}\">WBC</span></a></td><td>20-30 cells/HPF</td><td>None Seen/HPF</td><td>2005-07-05</td></tr><tr><td><a href=\"Observation-urine-rbcs.html\"><span title=\"Codes: {http://loinc.org 13945-1}\">RBC</span></a></td><td><span title=\"Codes: {http://snomed.info/sct 84638005}\">Occasional</span></td><td>None Seen/HPF</td><td>2005-07-05</td></tr></table></div>"
+	},
+	"status": "final",
+	"category": [
+		{
+			"coding": [
+				{
+					"system": "http://terminology.hl7.org/CodeSystem/v2-0074",
+					"code": "LAB",
+					"display": "Laboratory"
+				}
+			]
+		}
+	],
+	"code": {
+		"coding": [
+			{
+				"system": "http://loinc.org",
+				"code": "24356-8",
+				"display": "Urinalysis complete panel - Urine"
+			}
+		],
+		"text": "Complete Urinalysis"
+	},
+	"subject": {
+		"reference": "Patient/example",
+		"display": "Amy Shaw"
+	},
+	"effectiveDateTime": "2005-07-05",
+	"issued": "2005-07-06T11:45:33+11:00",
+	"performer": [
+		{
+			"reference": "Organization/acme-lab",
+			"display": "Acme Laboratory, Inc"
+		}
+	],
+	"result": [
+		{
+			"reference": "Observation/urine-color",
+			"display": "COLOR=Yellow"
+		},
+		{
+			"reference": "Observation/urine-clarity",
+			"display": "APPEARANCE=Hazy"
+		},
+		{
+			"reference": "Observation/urine-glucose",
+			"display": "GLUCOSE=Negative"
+		},
+		{
+			"reference": "Observation/urine-bilirubin",
+			"display": "BILIRUBIN=Negative"
+		},
+		{
+			"reference": "Observation/urine-ketone",
+			"display": "KETONE=Negative"
+		},
+		{
+			"reference": "Observation/usg",
+			"display": "SPEC GRAV=1.017"
+		},
+		{
+			"reference": "Observation/urine-ph",
+			"display": "PH=6 (pH)"
+		},
+		{
+			"reference": "Observation/urine-protein",
+			"display": "PROTEIN=Negative"
+		},
+		{
+			"reference": "Observation/urobilinogen",
+			"display": "UROBILINOGEN=0.3 mg/dL"
+		},
+		{
+			"reference": "Observation/urine-nitrite",
+			"display": "NITRITE=Positive"
+		},
+		{
+			"reference": "Observation/urine-hemoglobin",
+			"display": "BLOOD=Trace"
+		},
+		{
+			"reference": "Observation/urine-leukocyte-esterase",
+			"display": "LEUK ESTERASE=2+e"
+		},
+		{
+			"reference": "Observation/urine-sediment",
+			"display": "COMMENT=Recommend Urine Culture"
+		},
+		{
+			"reference": "Observation/urine-bacteria",
+			"display": "BACTERIA=4+"
+		},
+		{
+			"reference": "Observation/urine-epi-cells",
+			"display": "EPITHELIAL CELLS=1-5 cells/HPF"
+		},
+		{
+			"reference": "Observation/urine-wbcs",
+			"display": "WBC=20-30 cells/HPF"
+		},
+		{
+			"reference": "Observation/urine-rbcs",
+			"display": "RBC=Occasional cells/HPF"
+		}
+	]
+}

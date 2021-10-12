@@ -1,0 +1,59 @@
+{
+	"resourceType": "Device",
+	"id": "udi-3",
+	"meta": {
+		"extension": [
+			{
+				"url": "http://hl7.org/fhir/StructureDefinition/instance-name",
+				"valueString": "Device Knee Example"
+			},
+			{
+				"url": "http://hl7.org/fhir/StructureDefinition/instance-description",
+				"valueMarkdown": "This is a Device knee example for the *US Core Implantable Device Profile*."
+			}
+		],
+		"versionId": "2",
+		"lastUpdated": "2019-04-11T16:21:48.921+00:00",
+		"profile": [
+			"http://hl7.org/fhir/us/core/StructureDefinition/us-core-implantable-device"
+		]
+	},
+	"text": {
+		"status": "generated",
+		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><h3>UdiCarriers</h3><table class=\"grid\"><tr><td>-</td><td><b>DeviceIdentifier</b></td><td><b>CarrierHRF</b></td><td><b>EntryType</b></td></tr><tr><td>*</td><td>987979879879</td><td>(01)987979879879(11)191015(17)220101(10)M320(21)AC221</td><td>rfid</td></tr></table><p><b>status</b>: active</p><p><b>manufacturer</b>: ACME Biomedical</p><p><b>manufactureDate</b>: 2015-10-15</p><p><b>expirationDate</b>: 2022-01-01</p><p><b>lotNumber</b>: M320</p><p><b>serialNumber</b>: AC221</p><h3>DeviceNames</h3><table class=\"grid\"><tr><td>-</td><td><b>Name</b></td><td><b>Type</b></td></tr><tr><td>*</td><td>ACME Knee Replacement Device</td><td>udi-label-name</td></tr></table><p><b>modelNumber</b>: 1.0</p><p><b>type</b>: <span title=\"Codes: {http://snomed.info/sct 109228008}\">Knee joint prosthesis</span></p><p><b>patient</b>: <a href=\"Patient-example.html\">Amy V. Shaw. Generated Summary: Medical Record Number: 1032702 (USUAL); active; Amy V. Shaw , Amy V. Baxter ; Phone: 555-555-5555, amy.shaw@example.com; gender: female; birthDate: 1987-02-20</a></p></div>"
+	},
+	"udiCarrier": [
+		{
+			"deviceIdentifier": "987979879879",
+			"carrierHRF": "(01)987979879879(11)191015(17)220101(10)M320(21)AC221",
+			"entryType": "rfid"
+		}
+	],
+	"status": "active",
+	"manufacturer": "ACME Biomedical",
+	"manufactureDate": "2015-10-15",
+	"expirationDate": "2022-01-01",
+	"lotNumber": "M320",
+	"serialNumber": "AC221",
+	"deviceName": [
+		{
+			"name": "ACME Knee Replacement Device",
+			"type": "udi-label-name"
+		}
+	],
+	"modelNumber": "1.0",
+	"type": {
+		"coding": [
+			{
+				"system": "http://snomed.info/sct",
+				"code": "109228008",
+				"display": "Knee joint prosthesis"
+			}
+		],
+		"text": "Knee joint prosthesis"
+	},
+	"patient": {
+		"reference": "Patient/example",
+		"display": "Amy V. Shaw"
+	}
+}

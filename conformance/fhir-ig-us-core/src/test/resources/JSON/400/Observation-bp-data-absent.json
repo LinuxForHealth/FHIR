@@ -1,0 +1,96 @@
+{
+	"resourceType": "Observation",
+	"id": "bp-data-absent",
+	"meta": {
+		"extension": [
+			{
+				"url": "http://hl7.org/fhir/StructureDefinition/instance-name",
+				"valueString": "BP Data Absent Example"
+			},
+			{
+				"url": "http://hl7.org/fhir/StructureDefinition/instance-description",
+				"valueMarkdown": "This is a bp data absent example for the *Vitalsigns Profile* showing how to reprsesent blood pressure with a missing diastolic measurement."
+			}
+		],
+		"profile": [
+			"http://hl7.org/fhir/us/core/StructureDefinition/us-core-blood-pressure"
+		]
+	},
+	"text": {
+		"status": "generated",
+		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><p></p><p><b>category</b>: <span title=\"Codes: {http://terminology.hl7.org/CodeSystem/observation-category vital-signs}\">Vital Signs</span></p><p><b>code</b>: <span title=\"Codes: {http://loinc.org 85354-9}\">Blood pressure systolic and diastolic</span></p><p><b>subject</b>: <a href=\"Patient-example.html\">Amy Shaw. Generated Summary: Medical Record Number: 1032702 (USUAL); active; Amy V. Shaw , Amy V. Baxter ; Phone: 555-555-5555, amy.shaw@example.com; gender: female; birthDate: 1987-02-20</a></p><p><b>encounter</b>: <a href=\"Encounter-1036.html\">Generated Summary: status: in-progress; <span title=\"{http://terminology.hl7.org/CodeSystem/v3-ActCode IMP}\">inpatient encounter</span>; <span title=\"Codes: {http://snomed.info/sct 261665006}\">Unknown (qualifier value)</span></a></p><p><b>effective</b>: 1999-07-02</p><blockquote><p><b>component</b></p><p><b>code</b>: <span title=\"Codes: {http://loinc.org 8480-6}\">Systolic blood pressure</span></p><p><b>value</b>: 109 mmHg</p></blockquote><blockquote><p><b>component</b></p><p><b>code</b>: <span title=\"Codes: {http://loinc.org 8462-4}\">Diastolic blood pressure</span></p><p><b>dataAbsentReason</b>: <span title=\"Codes: {http://terminology.hl7.org/CodeSystem/data-absent-reason unknown}\">Unknown</span></p></blockquote></div>"
+	},
+	"status": "final",
+	"category": [
+		{
+			"coding": [
+				{
+					"system": "http://terminology.hl7.org/CodeSystem/observation-category",
+					"code": "vital-signs",
+					"display": "Vital Signs"
+				}
+			],
+			"text": "Vital Signs"
+		}
+	],
+	"code": {
+		"coding": [
+			{
+				"system": "http://loinc.org",
+				"code": "85354-9",
+				"display": "Blood pressure panel with all children optional"
+			}
+		],
+		"text": "Blood pressure systolic and diastolic"
+	},
+	"subject": {
+		"reference": "Patient/example",
+		"display": "Amy Shaw"
+	},
+	"encounter": {
+		"reference": "Encounter/1036"
+	},
+	"effectiveDateTime": "1999-07-02",
+	"component": [
+		{
+			"code": {
+				"coding": [
+					{
+						"system": "http://loinc.org",
+						"code": "8480-6",
+						"display": "Systolic blood pressure"
+					}
+				],
+				"text": "Systolic blood pressure"
+			},
+			"valueQuantity": {
+				"value": 109,
+				"unit": "mmHg",
+				"system": "http://unitsofmeasure.org",
+				"code": "mm[Hg]"
+			}
+		},
+		{
+			"code": {
+				"coding": [
+					{
+						"system": "http://loinc.org",
+						"code": "8462-4",
+						"display": "Diastolic blood pressure"
+					}
+				],
+				"text": "Diastolic blood pressure"
+			},
+			"dataAbsentReason": {
+				"coding": [
+					{
+						"system": "http://terminology.hl7.org/CodeSystem/data-absent-reason",
+						"code": "unknown",
+						"display": "Unknown"
+					}
+				],
+				"text": "Unknown"
+			}
+		}
+	]
+}

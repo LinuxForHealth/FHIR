@@ -1,0 +1,62 @@
+{
+	"resourceType": "Observation",
+	"id": "ofc-percentile",
+	"meta": {
+		"extension": [
+			{
+				"url": "http://hl7.org/fhir/StructureDefinition/instance-name",
+				"valueString": "OFC Percentile Example"
+			},
+			{
+				"url": "http://hl7.org/fhir/StructureDefinition/instance-description",
+				"valueMarkdown": "This is a OFC percentile example for the *Head Occipital Frontal Circumference Percentile Profile*."
+			}
+		],
+		"profile": [
+			"http://hl7.org/fhir/us/core/StructureDefinition/head-occipital-frontal-circumference-percentile"
+		]
+	},
+	"text": {
+		"status": "generated",
+		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><p></p><p><b>category</b>: <span title=\"Codes: {http://terminology.hl7.org/CodeSystem/observation-category vital-signs}\">Vital Signs</span></p><p><b>code</b>: <span title=\"Codes: {http://loinc.org 8289-1}\">Head Occipital-frontal circumference Percentile</span></p><p><b>subject</b>: <a href=\"Patient-infant-example.html\">Infant Example. Generated Summary: Medical Record Number: 1032703 (USUAL); active; Infant Example ; Phone: 555-555-5555; gender: male; birthDate: 2020-06-02</a></p><p><b>effective</b>: 2020-07-01</p><p><b>value</b>: 82 %</p><p><b>note</b>: WHO Males, 0-2 years Chart</p></div>"
+	},
+	"status": "final",
+	"category": [
+		{
+			"coding": [
+				{
+					"system": "http://terminology.hl7.org/CodeSystem/observation-category",
+					"code": "vital-signs",
+					"display": "Vital Signs"
+				}
+			],
+			"text": "Vital Signs"
+		}
+	],
+	"code": {
+		"coding": [
+			{
+				"system": "http://loinc.org",
+				"code": "8289-1",
+				"display": "Head Occipital-frontal circumference Percentile"
+			}
+		],
+		"text": "Head Occipital-frontal circumference Percentile"
+	},
+	"subject": {
+		"reference": "Patient/infant-example",
+		"display": "Infant Example"
+	},
+	"effectiveDateTime": "2020-07-01",
+	"valueQuantity": {
+		"value": 82,
+		"unit": "%",
+		"system": "http://unitsofmeasure.org",
+		"code": "%"
+	},
+	"note": [
+		{
+			"text": "WHO Males, 0-2 years Chart"
+		}
+	]
+}

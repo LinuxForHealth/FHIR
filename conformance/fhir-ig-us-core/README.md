@@ -1,8 +1,6 @@
-This profile HL7 FHIR® US Core Implementation Guide CI Build - 3.1.1.
+This profile HL7 FHIR® US Core Implementation Guide includes 3.1.1 and 4.0.0.
+Refer to the change log for details on the changes.
 
-COMMIT https://github.com/HL7/US-Core/commit/592ab2407fd0c53f75d9c671bbbc701ed81e509b
-
-Retrieved on 27 AUG 2020
 
 Check the Profiles are on the system: 
 
