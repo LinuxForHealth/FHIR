@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,30 +11,22 @@ import static org.testng.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.ws.rs.core.Response;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.client.FHIRParameters;
 import com.ibm.fhir.client.FHIRResponse;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Procedure;
-import com.ibm.fhir.server.test.profiles.ProfilesTestBaseV2;
+import com.ibm.fhir.server.test.profiles.ProfilesTestBase.ProfilesTestBaseV2;
 
 /**
  * Tests the US Core 3.1.1 Profile with Procedure.
  * https://www.hl7.org/fhir/us/core/StructureDefinition-us-core-procedure.html
  */
 public class USCoreProcedureTest extends ProfilesTestBaseV2 {
-
-    private static final String CLASSNAME = USCoreImmunizationTest.class.getName();
-    private static final Logger logger = Logger.getLogger(CLASSNAME);
-
-    public Boolean skip = Boolean.TRUE;
-    public Boolean DEBUG = Boolean.FALSE;
 
     private String procedureId1 = null;
     private String procedureId2 = null;
@@ -45,19 +37,9 @@ public class USCoreProcedureTest extends ProfilesTestBaseV2 {
     }
 
     @Override
-    public void setCheck(Boolean check) {
-        this.skip = check;
-        if (skip) {
-            logger.info("Skipping Tests for 'fhir-ig-us-core - Procedure', the profiles don't exist");
-        }
-    }
-
-    @BeforeClass
     public void loadResources() throws Exception {
-        if (!skip) {
-            loadProcedure1();
-            loadProcedure2();
-        }
+        loadProcedure1();
+        loadProcedure2();
     }
 
     public void loadProcedure1() throws Exception {
@@ -76,17 +58,16 @@ public class USCoreProcedureTest extends ProfilesTestBaseV2 {
     public void testSearchByPatient() throws Exception {
         // SHALL support searching for all procedures for a patient using the patient search parameter:
         // GET [base]/Procedure?patient=[reference]
-        if (!skip) {
-            FHIRParameters parameters = new FHIRParameters();
-            parameters.searchParam("patient", "Patient/example");
-            FHIRResponse response = client.search(Procedure.class.getSimpleName(), parameters);
-            assertSearchResponse(response, Response.Status.OK.getStatusCode());
-            Bundle bundle = response.getResource(Bundle.class);
-            assertNotNull(bundle);
-            assertTrue(bundle.getEntry().size() >= 1);
-            assertContainsIds(bundle, procedureId1);
-            assertContainsIds(bundle, procedureId2);
-        }
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("patient", "Patient/example");
+        parameters.searchParam("_sort", "-_lastUpdated");
+        FHIRResponse response = client.search(Procedure.class.getSimpleName(), parameters);
+        assertSearchResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
+        assertContainsIds(bundle, procedureId1);
+        assertContainsIds(bundle, procedureId2);
     }
 
     @Test
@@ -95,19 +76,16 @@ public class USCoreProcedureTest extends ProfilesTestBaseV2 {
         // including support for these date comparators: gt,lt,ge,le
         // including optional support for composite AND search on date (e.g.date=[date]&date=[date]]&...)
         // GET [base]/Procedure?patient=[reference]&date={gt|lt|ge|le}[date]{&date={gt|lt|ge|le}[date]&...}
-
-        if (!skip) {
-            FHIRParameters parameters = new FHIRParameters();
-            parameters.searchParam("patient", "Patient/example");
-            parameters.searchParam("date", "2002,2019");
-            FHIRResponse response = client.search(Procedure.class.getSimpleName(), parameters);
-            assertSearchResponse(response, Response.Status.OK.getStatusCode());
-            Bundle bundle = response.getResource(Bundle.class);
-            assertNotNull(bundle);
-            assertTrue(bundle.getEntry().size() >= 1);
-            assertContainsIds(bundle, procedureId1);
-            assertContainsIds(bundle, procedureId2);
-        }
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("patient", "Patient/example");
+        parameters.searchParam("date", "2002,2019");
+        FHIRResponse response = client.search(Procedure.class.getSimpleName(), parameters);
+        assertSearchResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
+        assertContainsIds(bundle, procedureId1);
+        assertContainsIds(bundle, procedureId2);
     }
 
     @Test
@@ -118,19 +96,16 @@ public class USCoreProcedureTest extends ProfilesTestBaseV2 {
         // including optional support for composite AND search on date (e.g.date=[date]&date=[date]]&...)
         // GET
         // [base]/Procedure?patient=[reference]&code={system|}[code]{,{system|}[code],...}&date={gt|lt|ge|le}[date]{&date={gt|lt|ge|le}[date]&...}
-
-        if (!skip) {
-            FHIRParameters parameters = new FHIRParameters();
-            parameters.searchParam("patient", "Patient/example");
-            parameters.searchParam("date", "2002,2019");
-            parameters.searchParam("code", "http://snomed.info/sct|35637008");
-            FHIRResponse response = client.search(Procedure.class.getSimpleName(), parameters);
-            assertSearchResponse(response, Response.Status.OK.getStatusCode());
-            Bundle bundle = response.getResource(Bundle.class);
-            assertNotNull(bundle);
-            assertTrue(bundle.getEntry().size() >= 1);
-            assertContainsIds(bundle, procedureId1);
-        }
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("patient", "Patient/example");
+        parameters.searchParam("date", "2002,2019");
+        parameters.searchParam("code", "http://snomed.info/sct|35637008");
+        FHIRResponse response = client.search(Procedure.class.getSimpleName(), parameters);
+        assertSearchResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
+        assertContainsIds(bundle, procedureId1);
     }
 
     @Test
@@ -141,19 +116,16 @@ public class USCoreProcedureTest extends ProfilesTestBaseV2 {
         // including optional support for composite AND search on date (e.g.date=[date]&date=[date]]&...)
         // GET
         // [base]/Procedure?patient=[reference]&code={system|}[code]{,{system|}[code],...}&date={gt|lt|ge|le}[date]{&date={gt|lt|ge|le}[date]&...}
-
-        if (!skip) {
-            FHIRParameters parameters = new FHIRParameters();
-            parameters.searchParam("patient", "Patient/example");
-            parameters.searchParam("date", "2002,2019");
-            parameters.searchParam("code", "http://www.cms.gov/Medicare/Coding/ICD10|HZ30ZZZ");
-            FHIRResponse response = client.search(Procedure.class.getSimpleName(), parameters);
-            assertSearchResponse(response, Response.Status.OK.getStatusCode());
-            Bundle bundle = response.getResource(Bundle.class);
-            assertNotNull(bundle);
-            assertTrue(bundle.getEntry().size() >= 1);
-            assertContainsIds(bundle, procedureId1);
-        }
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("patient", "Patient/example");
+        parameters.searchParam("date", "2002,2019");
+        parameters.searchParam("code", "http://www.cms.gov/Medicare/Coding/ICD10|HZ30ZZZ");
+        FHIRResponse response = client.search(Procedure.class.getSimpleName(), parameters);
+        assertSearchResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
+        assertContainsIds(bundle, procedureId1);
     }
 
     @Test
@@ -164,19 +136,16 @@ public class USCoreProcedureTest extends ProfilesTestBaseV2 {
         // including optional support for composite AND search on date (e.g.date=[date]&date=[date]]&...)
         // GET
         // [base]/Procedure?patient=[reference]&code={system|}[code]{,{system|}[code],...}&date={gt|lt|ge|le}[date]{&date={gt|lt|ge|le}[date]&...}
-
-        if (!skip) {
-            FHIRParameters parameters = new FHIRParameters();
-            parameters.searchParam("patient", "Patient/example");
-            parameters.searchParam("date", "2002,2019");
-            parameters.searchParam("code", "HZ30ZZZ");
-            FHIRResponse response = client.search(Procedure.class.getSimpleName(), parameters);
-            assertSearchResponse(response, Response.Status.OK.getStatusCode());
-            Bundle bundle = response.getResource(Bundle.class);
-            assertNotNull(bundle);
-            assertTrue(bundle.getEntry().size() >= 1);
-            assertContainsIds(bundle, procedureId1);
-        }
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("patient", "Patient/example");
+        parameters.searchParam("date", "2002,2019");
+        parameters.searchParam("code", "HZ30ZZZ");
+        FHIRResponse response = client.search(Procedure.class.getSimpleName(), parameters);
+        assertSearchResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
+        assertContainsIds(bundle, procedureId1);
     }
 
     @Test
@@ -187,20 +156,17 @@ public class USCoreProcedureTest extends ProfilesTestBaseV2 {
         // including optional support for composite AND search on date (e.g.date=[date]&date=[date]]&...)
         // GET
         // [base]/Procedure?patient=[reference]&code={system|}[code]{,{system|}[code],...}&date={gt|lt|ge|le}[date]{&date={gt|lt|ge|le}[date]&...}
-
-        if (!skip) {
-            FHIRParameters parameters = new FHIRParameters();
-            parameters.searchParam("patient", "Patient/example");
-            parameters.searchParam("date", "2002,2019");
-            parameters.searchParam("code", "HZ30ZZZ,http://www.ama-assn.org/go/cpt|33249");
-            FHIRResponse response = client.search(Procedure.class.getSimpleName(), parameters);
-            assertSearchResponse(response, Response.Status.OK.getStatusCode());
-            Bundle bundle = response.getResource(Bundle.class);
-            assertNotNull(bundle);
-            assertTrue(bundle.getEntry().size() >= 1);
-            assertContainsIds(bundle, procedureId1);
-            assertContainsIds(bundle, procedureId2);
-        }
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("patient", "Patient/example");
+        parameters.searchParam("date", "2002,2019");
+        parameters.searchParam("code", "HZ30ZZZ,http://www.ama-assn.org/go/cpt|33249");
+        FHIRResponse response = client.search(Procedure.class.getSimpleName(), parameters);
+        assertSearchResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
+        assertContainsIds(bundle, procedureId1);
+        assertContainsIds(bundle, procedureId2);
     }
 
     @Test
@@ -208,18 +174,16 @@ public class USCoreProcedureTest extends ProfilesTestBaseV2 {
         // SHOULD support searching using the combination of the patient and status search parameters:
         // including support for composite OR search on status (e.g.status={system|}[code],{system|}[code],...)
         // GET [base]/Procedure?patient=[reference]&status={system|}[code]{,{system|}[code],...}
-
-        if (!skip) {
-            FHIRParameters parameters = new FHIRParameters();
-            parameters.searchParam("patient", "Patient/example");
-            parameters.searchParam("status", "completed");
-            FHIRResponse response = client.search(Procedure.class.getSimpleName(), parameters);
-            assertSearchResponse(response, Response.Status.OK.getStatusCode());
-            Bundle bundle = response.getResource(Bundle.class);
-            assertNotNull(bundle);
-            assertTrue(bundle.getEntry().size() >= 1);
-            assertContainsIds(bundle, procedureId1);
-            assertContainsIds(bundle, procedureId2);
-        }
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("patient", "Patient/example");
+        parameters.searchParam("status", "completed");
+        parameters.searchParam("_sort", "-_lastUpdated");
+        FHIRResponse response = client.search(Procedure.class.getSimpleName(), parameters);
+        assertSearchResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
+        assertContainsIds(bundle, procedureId1);
+        assertContainsIds(bundle, procedureId2);
     }
 }

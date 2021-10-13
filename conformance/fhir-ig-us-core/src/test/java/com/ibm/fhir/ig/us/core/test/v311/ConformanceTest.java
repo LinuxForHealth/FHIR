@@ -35,9 +35,12 @@ import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.HumanName;
 import com.ibm.fhir.model.type.Identifier;
+import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.Xhtml;
 import com.ibm.fhir.model.type.code.AdministrativeGender;
 import com.ibm.fhir.model.type.code.IssueSeverity;
+import com.ibm.fhir.model.type.code.NarrativeStatus;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.validation.FHIRValidator;
@@ -180,7 +183,7 @@ public class ConformanceTest {
                     .url("text")
                     .value(string("Hispanic or Latino - Colombian"))
                     .build())
-                .url("http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity|3.1.1")
+                .url("http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity")
                 .build();
 
         System.out.println(extension);
@@ -222,7 +225,7 @@ public class ConformanceTest {
                     .url("text")
                     .value(string("Hispanic or Latino - Colombian"))
                     .build())
-                .url("http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity|3.1.1")
+                .url("http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity")
                 .build();
 
         System.out.println(extension);
@@ -265,7 +268,7 @@ public class ConformanceTest {
                         .url("text")
                         .value(string("Hispanic or Latino - Colombian"))
                         .build())
-                    .url("http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity|3.1.1")
+                    .url("http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity")
                     .build())
                 .identifier(Identifier.builder()
                     .system(Uri.of("http://someuri.org"))
@@ -293,6 +296,10 @@ public class ConformanceTest {
     @Test
     public void testUSCoreEthnicityExtension4() throws Exception {
         Patient patient = Patient.builder()
+                .text(Narrative.builder()
+                    .div(Xhtml.xhtml("<div xmlns=\"http://www.w3.org/1999/xhtml\">Generated</div>"))
+                    .status(NarrativeStatus.GENERATED)
+                    .build())
                 .extension(Extension.builder()
                     .extension(Extension.builder()
                         .url("ombCategory")
@@ -314,7 +321,7 @@ public class ConformanceTest {
                         .url("text")
                         .value(string("Hispanic or Latino - Colombian"))
                         .build())
-                    .url("http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity|3.1.1")
+                    .url("http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity")
                     .build())
                 .identifier(Identifier.builder()
                     .system(Uri.of("http://someuri.org"))
@@ -332,9 +339,9 @@ public class ConformanceTest {
 
         issues.forEach(System.out::println);
 
-        assertEquals(countWarnings(issues), 1);
-        assertEquals(countErrors(issues), 0);
-        assertEquals(countInformation(issues), 0);
+        assertEquals(countWarnings(issues), 0);
+        assertEquals(countErrors(issues), 2);
+        assertEquals(countInformation(issues), 1);
     }
 
     /**
@@ -363,7 +370,7 @@ public class ConformanceTest {
                     .url("text")
                     .value(string("American Indian or Alaska Native - Alaska Native"))
                     .build())
-                .url("http://hl7.org/fhir/us/core/StructureDefinition/us-core-race|3.1.1")
+                .url("http://hl7.org/fhir/us/core/StructureDefinition/us-core-race")
                 .build();
 
         System.out.println(extension);

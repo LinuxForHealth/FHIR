@@ -8,11 +8,9 @@ package com.ibm.fhir.server.test.profiles.uscore.v311;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.ws.rs.core.Response;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.client.FHIRParameters;
@@ -32,12 +30,6 @@ import com.ibm.fhir.server.test.profiles.ProfilesTestBase.ProfilesTestBaseV2;
  * It's a default binding and should work without a bound system. We only extract active, and not the default system.
  */
 public class USCoreCarePlanTest extends ProfilesTestBaseV2 {
-
-    private static final String CLASSNAME = USCoreCarePlanTest.class.getName();
-    private static final Logger logger = Logger.getLogger(CLASSNAME);
-
-    public Boolean skip = Boolean.TRUE;
-
     private String carePlanId = null;
 
     @Override
@@ -45,20 +37,16 @@ public class USCoreCarePlanTest extends ProfilesTestBaseV2 {
         return Arrays.asList("http://hl7.org/fhir/us/core/StructureDefinition/us-core-careplan|3.1.1");
     }
 
-    @BeforeClass
+    @Override
     public void loadResources() throws Exception {
-        if (skip) {
-            return;
-        }
-        loadCarePlan();
-    }
-
-    public void loadCarePlan() throws Exception {
         String resource = "CarePlan-colonoscopy.json";
 
         CarePlan carePlan = USCoreExamplesUtil.readLocalJSONResource("311", resource);
         com.ibm.fhir.model.type.Period period =
-                com.ibm.fhir.model.type.Period.builder().start(DateTime.of("2019-01-01")).end(DateTime.of("2020-01-01")).build();
+                com.ibm.fhir.model.type.Period.builder()
+                    .start(DateTime.of("2019-01-01"))
+                    .end(DateTime.of("2020-01-01"))
+                    .build();
 
         // Note: The test uses ACTIVE as a CodeableConcept rather than a plain string.
         carePlan = carePlan.toBuilder().period(period).status(CarePlanStatus.ACTIVE).build();

@@ -178,7 +178,7 @@
 								}
 							],
 							"name": "clinical-status",
-							"definition": "http://hl7.org/fhir/us/core/SearchParameter/us-core-allergyintolerance-clinical-status",
+							"definition": "http://hl7.org/fhir/us/core/SearchParameter/us-core-allergyintolerance-clinical-status|3.1.1",
 							"type": "token"
 						},
 						{
@@ -189,7 +189,7 @@
 								}
 							],
 							"name": "patient",
-							"definition": "http://hl7.org/fhir/us/core/SearchParameter/us-core-allergyintolerance-patient",
+							"definition": "http://hl7.org/fhir/us/core/SearchParameter/us-core-allergyintolerance-patient|3.1.1",
 							"type": "reference"
 						}
 					]
@@ -287,7 +287,7 @@
 					],
 					"type": "CarePlan",
 					"supportedProfile": [
-						"http://hl7.org/fhir/us/core/StructureDefinition/us-core-careplan"
+						"http://hl7.org/fhir/us/core/StructureDefinition/us-core-careplan|3.1.1"
 					],
 					"interaction": [
 						{
@@ -384,7 +384,7 @@
 								}
 							],
 							"name": "category",
-							"definition": "http://hl7.org/fhir/us/core/SearchParameter/us-core-careplan-category",
+							"definition": "http://hl7.org/fhir/us/core/SearchParameter/us-core-careplan-category|3.1.1",
 							"type": "token"
 						},
 						{
@@ -395,7 +395,7 @@
 								}
 							],
 							"name": "date",
-							"definition": "http://hl7.org/fhir/us/core/SearchParameter/us-core-careplan-date",
+							"definition": "http://hl7.org/fhir/us/core/SearchParameter/us-core-careplan-date|3.1.1",
 							"type": "date"
 						},
 						{
@@ -406,7 +406,7 @@
 								}
 							],
 							"name": "patient",
-							"definition": "http://hl7.org/fhir/us/core/SearchParameter/us-core-careplan-patient",
+							"definition": "http://hl7.org/fhir/us/core/SearchParameter/us-core-careplan-patient|3.1.1",
 							"type": "reference"
 						},
 						{
@@ -417,7 +417,7 @@
 								}
 							],
 							"name": "status",
-							"definition": "http://hl7.org/fhir/us/core/SearchParameter/us-core-careplan-status",
+							"definition": "http://hl7.org/fhir/us/core/SearchParameter/us-core-careplan-status|3.1.1",
 							"type": "token"
 						}
 					]
@@ -448,7 +448,7 @@
 					],
 					"type": "CareTeam",
 					"supportedProfile": [
-						"http://hl7.org/fhir/us/core/StructureDefinition/us-core-careteam"
+						"http://hl7.org/fhir/us/core/StructureDefinition/us-core-careteam|3.1.1"
 					],
 					"interaction": [
 						{
@@ -545,7 +545,7 @@
 								}
 							],
 							"name": "patient",
-							"definition": "http://hl7.org/fhir/us/core/SearchParameter/us-core-careteam-patient",
+							"definition": "http://hl7.org/fhir/us/core/SearchParameter/us-core-careteam-patient|3.1.1",
 							"type": "reference"
 						},
 						{
@@ -556,7 +556,7 @@
 								}
 							],
 							"name": "status",
-							"definition": "http://hl7.org/fhir/us/core/SearchParameter/us-core-careteam-status",
+							"definition": "http://hl7.org/fhir/us/core/SearchParameter/us-core-careteam-status|3.1.1",
 							"type": "token"
 						}
 					]
@@ -638,7 +638,7 @@
 					],
 					"type": "Condition",
 					"supportedProfile": [
-						"http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition"
+						"http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition|3.1.1"
 					],
 					"interaction": [
 						{
@@ -735,7 +735,7 @@
 								}
 							],
 							"name": "category",
-							"definition": "http://hl7.org/fhir/us/core/SearchParameter/us-core-condition-category",
+							"definition": "http://hl7.org/fhir/us/core/SearchParameter/us-core-condition-category|3.1.1",
 							"type": "token"
 						},
 						{
@@ -746,7 +746,7 @@
 								}
 							],
 							"name": "clinical-status",
-							"definition": "http://hl7.org/fhir/us/core/SearchParameter/us-core-condition-clinical-status",
+							"definition": "http://hl7.org/fhir/us/core/SearchParameter/us-core-condition-clinical-status|3.1.1",
 							"type": "token"
 						},
 						{
@@ -757,7 +757,7 @@
 								}
 							],
 							"name": "patient",
-							"definition": "http://hl7.org/fhir/us/core/SearchParameter/us-core-condition-patient",
+							"definition": "http://hl7.org/fhir/us/core/SearchParameter/us-core-condition-patient|3.1.1",
 							"type": "reference"
 						},
 						{
@@ -768,7 +768,7 @@
 								}
 							],
 							"name": "onset-date",
-							"definition": "http://hl7.org/fhir/us/core/SearchParameter/us-core-condition-onset-date",
+							"definition": "http://hl7.org/fhir/us/core/SearchParameter/us-core-condition-onset-date|3.1.1",
 							"type": "date"
 						},
 						{

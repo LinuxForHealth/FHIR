@@ -14,20 +14,20 @@ import java.util.List;
 
 import javax.ws.rs.core.Response;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.client.FHIRParameters;
 import com.ibm.fhir.client.FHIRResponse;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Organization;
-import com.ibm.fhir.server.test.profiles.ProfilesTestBaseV2.ProfilesTestBaseV2V2;
+import com.ibm.fhir.server.test.profiles.ProfilesTestBase.ProfilesTestBaseV2;
 
 /**
  * Tests the US Core 3.1.1 Profile with Organization.
  * https://www.hl7.org/fhir/us/core/StructureDefinition-us-core-organization.html
  */
-public class USCoreOrganizationTest extends ProfilesTestBaseV2V2 {
+public class USCoreOrganizationTest extends ProfilesTestBaseV2 {
+
     public Boolean skip = Boolean.TRUE;
 
     private String organizationId1 = null;
@@ -38,12 +38,10 @@ public class USCoreOrganizationTest extends ProfilesTestBaseV2V2 {
         return Arrays.asList("http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization|3.1.1");
     }
 
-    @BeforeClass
+    @Override
     public void loadResources() throws Exception {
-        if (!skip) {
-            loadOrganization1();
-            loadOrganization2();
-        }
+        loadOrganization1();
+        loadOrganization2();
     }
 
     public void loadOrganization1() throws Exception {

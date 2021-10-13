@@ -222,7 +222,7 @@
 						"code": "http://hl7.org/fhirpath/System.String"
 					}
 				],
-				"fixedUri": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-direct|3.1.1",
+				"fixedUri": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-direct",
 				"isModifier": false,
 				"isSummary": false,
 				"mapping": [
@@ -342,7 +342,7 @@
 			{
 				"id": "Extension.url",
 				"path": "Extension.url",
-				"fixedUri": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-direct|3.1.1"
+				"fixedUri": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-direct"
 			},
 			{
 				"id": "Extension.valueBoolean",

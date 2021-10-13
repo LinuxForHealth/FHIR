@@ -19,10 +19,11 @@ Source - http://hl7.org/fhir/us/core/STU3.1.1/
 - Modify DiagnosticReport-cardiology-report JSON and XML samples contain invalid hashes https://jira.hl7.org/browse/FHIR-28408
 - Add implicit-system extensions to applicable token SearchParameter definitions (performance optimization for https://github.com/IBM/FHIR/issues/1929)
 - Updated Examples to point to 3.1.1 profile
-- Update the StructureDefinitions and other artifacts for 3.1.1 internal references with target profiles
+- Update the StructureDefinitions and other artifacts for 3.1.1 internal references with target profiles and valueset bindings.
 
 # US Core 4.0.0 - STU4
 Source - https://www.hl7.org/fhir/us/core/stu4/
 - Examples are under src/test/resources/JSON/400
 - Changed the text-generated for the CapabilityStatements CapabilityStatement-us-core-client.json and CapabilityStatement-us-core-server.json
     as the xhtml was invalid
+- Revised Endpoint in the Practitioner endpoint so it points to relative path, not absolute path

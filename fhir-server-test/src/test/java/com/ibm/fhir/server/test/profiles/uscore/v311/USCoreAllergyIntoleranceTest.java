@@ -8,11 +8,9 @@ package com.ibm.fhir.server.test.profiles.uscore.v311;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.ws.rs.core.Response;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.client.FHIRParameters;
@@ -40,10 +38,6 @@ import com.ibm.fhir.server.test.profiles.ProfilesTestBase.ProfilesTestBaseV2;
  * https://www.hl7.org/fhir/us/core/StructureDefinition-us-core-provenance.html
  */
 public class USCoreAllergyIntoleranceTest extends ProfilesTestBaseV2 {
-    private static final String CLASSNAME = USCoreAllergyIntoleranceTest.class.getName();
-    private static final Logger LOG = Logger.getLogger(CLASSNAME);
-
-    public Boolean skip = Boolean.TRUE;
 
     private String allergyIntoleranceIdActive = null;
     private String allergyIntoleranceIdInactive = null;
@@ -102,7 +96,7 @@ public class USCoreAllergyIntoleranceTest extends ProfilesTestBaseV2 {
 
     public void loadProvenanceForAllergyIntoleranceIdActive() throws Exception {
         // Build the Provenance
-        Canonical profile = Canonical.of("http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance","3.1.1");
+        Canonical profile = Canonical.of("http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance", "3.1.1");
         Meta meta = Meta.builder().profile(profile).build();
 
         // @formatter:off
@@ -115,39 +109,35 @@ public class USCoreAllergyIntoleranceTest extends ProfilesTestBaseV2 {
                 .build();
         // @formatter:on
 
-        Provenance provenance = Provenance.builder()
-            .meta(meta)
-            .text(Narrative.builder()
-                        .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">loaded from the datastore</div>"))
-                        .status(NarrativeStatus.GENERATED).build())
-            .target(Reference.builder()
-                .reference(com.ibm.fhir.model.type.String.of("AllergyIntolerance/" + allergyIntoleranceIdActive))
-                .build())
-            .recorded(Instant.now())
-            .agent(Agent.builder()
-                .type(type)
-                .who(
-                    Reference.builder()
-                        .reference(com.ibm.fhir.model.type.String.of("Practitioner/practitioner-1"))
+        Provenance provenance =
+                Provenance.builder()
+                    .meta(meta)
+                    .text(Narrative.builder()
+                            .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">loaded from the datastore</div>"))
+                            .status(NarrativeStatus.GENERATED).build())
+                    .target(Reference.builder()
+                        .reference(com.ibm.fhir.model.type.String.of("AllergyIntolerance/" + allergyIntoleranceIdActive)).build())
+                    .recorded(Instant.now())
+                    .agent(Agent.builder()
+                        .type(type)
+                        .who(Reference.builder()
+                            .reference(com.ibm.fhir.model.type.String.of("Practitioner/practitioner-1")).build())
+                        .onBehalfOf(Reference.builder()
+                            .reference(com.ibm.fhir.model.type.String.of("Organization/saint-luke-w-endpoint"))
+                            .build())
                         .build())
-                .onBehalfOf(
-                    Reference.builder()
-                        .reference(com.ibm.fhir.model.type.String.of("Organization/saint-luke-w-endpoint"))
-                        .build())
-                .build())
-            .build();
+                    .build();
 
         provenanceId = createResourceAndReturnTheLogicalId("Provenance", provenance);
     }
 
     // Load Resources
-    @BeforeClass
+    @Override
     public void loadResources() throws Exception {
-        if (!skip) {
-            loadAllergyIntoleranceInactive();
-            loadAllergyIntoleranceResolved();
-            loadProvenanceForAllergyIntoleranceIdActive();
-        }
+        loadAllergyIntoleranceActive();
+        loadAllergyIntoleranceInactive();
+        loadAllergyIntoleranceResolved();
+        loadProvenanceForAllergyIntoleranceIdActive();
     }
 
     @Test
@@ -156,6 +146,7 @@ public class USCoreAllergyIntoleranceTest extends ProfilesTestBaseV2 {
         // http://build.fhir.org/ig/HL7/US-Core-R4/StructureDefinition-us-core-allergyintolerance.html#mandatory-search-parameters
         FHIRParameters parameters = new FHIRParameters();
         parameters.searchParam("patient", "Patient/example");
+        parameters.searchParam("_sort", "-_lastUpdated");
         FHIRResponse response = client.search(AllergyIntolerance.class.getSimpleName(), parameters);
         assertSearchResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.getResource(Bundle.class);
@@ -172,6 +163,7 @@ public class USCoreAllergyIntoleranceTest extends ProfilesTestBaseV2 {
         FHIRParameters parameters = new FHIRParameters();
         parameters.searchParam("patient", "Patient/example");
         parameters.searchParam("clinical-status", "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical|inactive");
+        parameters.searchParam("_sort", "-_lastUpdated");
         FHIRResponse response = client.search(AllergyIntolerance.class.getSimpleName(), parameters);
         assertSearchResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.getResource(Bundle.class);
@@ -186,6 +178,7 @@ public class USCoreAllergyIntoleranceTest extends ProfilesTestBaseV2 {
         FHIRParameters parameters = new FHIRParameters();
         parameters.searchParam("patient", "Patient/example");
         parameters.searchParam("clinical-status", "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical|resolved");
+        parameters.searchParam("_sort", "-_lastUpdated");
         FHIRResponse response = client.search(AllergyIntolerance.class.getSimpleName(), parameters);
         assertSearchResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.getResource(Bundle.class);
@@ -200,6 +193,7 @@ public class USCoreAllergyIntoleranceTest extends ProfilesTestBaseV2 {
         FHIRParameters parameters = new FHIRParameters();
         parameters.searchParam("patient", "Patient/example");
         parameters.searchParam("clinical-status", "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical|active");
+        parameters.searchParam("_sort", "-_lastUpdated");
         FHIRResponse response = client.search(AllergyIntolerance.class.getSimpleName(), parameters);
         assertSearchResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.getResource(Bundle.class);
@@ -214,6 +208,7 @@ public class USCoreAllergyIntoleranceTest extends ProfilesTestBaseV2 {
         FHIRParameters parameters = new FHIRParameters();
         parameters.searchParam("patient", "Patient/example");
         parameters.searchParam("clinical-status", "inactive");
+        parameters.searchParam("_sort", "-_lastUpdated");
         FHIRResponse response = client.search(AllergyIntolerance.class.getSimpleName(), parameters);
         assertSearchResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.getResource(Bundle.class);
@@ -228,6 +223,7 @@ public class USCoreAllergyIntoleranceTest extends ProfilesTestBaseV2 {
         FHIRParameters parameters = new FHIRParameters();
         parameters.searchParam("patient", "Patient/example");
         parameters.searchParam("clinical-status", "resolved");
+        parameters.searchParam("_sort", "-_lastUpdated");
         FHIRResponse response = client.search(AllergyIntolerance.class.getSimpleName(), parameters);
         assertSearchResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.getResource(Bundle.class);
@@ -242,6 +238,7 @@ public class USCoreAllergyIntoleranceTest extends ProfilesTestBaseV2 {
         FHIRParameters parameters = new FHIRParameters();
         parameters.searchParam("patient", "Patient/example");
         parameters.searchParam("clinical-status", "active");
+        parameters.searchParam("_sort", "-_lastUpdated");
         FHIRResponse response = client.search(AllergyIntolerance.class.getSimpleName(), parameters);
         assertSearchResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.getResource(Bundle.class);
@@ -255,6 +252,7 @@ public class USCoreAllergyIntoleranceTest extends ProfilesTestBaseV2 {
         FHIRParameters parameters = new FHIRParameters();
         parameters.searchParam("patient", "Patient/example");
         parameters.searchParam("_revinclude", "Provenance:target");
+        parameters.searchParam("_sort", "-_lastUpdated");
         FHIRResponse response = client.search(AllergyIntolerance.class.getSimpleName(), parameters);
         assertSearchResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.getResource(Bundle.class);

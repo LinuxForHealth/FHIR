@@ -48,10 +48,10 @@ public class ProfileTest {
     public void testUSCoreValidation() throws Exception {
         try (Reader r = Files.newBufferedReader(Paths.get(path))) {
             Resource resource = FHIRParser.parser(Format.JSON).parse(r);
-            System.out.println(path);
             List<Issue> issues = FHIRValidator.validator().validate(resource);
             issues.forEach(item -> {
                 if (item.getSeverity().getValue().equals("error")) {
+                    System.out.println(path);
                     System.out.println(item);
                 }
             });

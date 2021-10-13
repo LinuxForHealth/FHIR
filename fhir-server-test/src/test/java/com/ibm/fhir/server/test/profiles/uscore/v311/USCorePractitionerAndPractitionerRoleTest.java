@@ -17,7 +17,6 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.client.FHIRParameters;
@@ -33,17 +32,14 @@ import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.HTTPVerb;
-import com.ibm.fhir.server.test.profiles.ProfilesTestBaseV2.ProfilesTestBaseV2V2;
+import com.ibm.fhir.server.test.profiles.ProfilesTestBase.ProfilesTestBaseV2;
 
 /**
  * Tests the US Core 3.1.1 Profile with Practitioner and PractitionerRole
  *
  * https://www.hl7.org/fhir/us/core/StructureDefinition-us-core-practitionerrole.html
  */
-public class USCorePractitionerAndPractitionerRoleTest extends ProfilesTestBaseV2V2 {
-
-    public Boolean skip = Boolean.TRUE;
-
+public class USCorePractitionerAndPractitionerRoleTest extends ProfilesTestBaseV2 {
     private String practitionerId = "Practitioner-1011";
     private String practitionerRoleId = "PractitionerRole-1";
     private String endpointId = "71";
@@ -53,14 +49,8 @@ public class USCorePractitionerAndPractitionerRoleTest extends ProfilesTestBaseV
         return Arrays.asList("http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole|3.1.1", "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner|3.1.1");
     }
 
-    @BeforeClass
+    @Override
     public void loadResources() throws Exception {
-        if (!skip) {
-            loadBundle1();
-        }
-    }
-
-    public void loadBundle1() throws Exception {
         String resource = "Bundle-66c8856b-ba11-4876-8aa8-467aad8c11a2.json";
         WebTarget target = getWebTarget();
 

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,7 +14,6 @@ import java.util.List;
 
 import javax.ws.rs.core.Response;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.client.FHIRParameters;
@@ -31,7 +30,6 @@ import com.ibm.fhir.server.test.profiles.ProfilesTestBase.ProfilesTestBaseV2;
  * It's a default binding and should work without a bound system. We only extract active, and not the default system.
  */
 public class USCoreCareTeamTest extends ProfilesTestBaseV2 {
-    public Boolean skip = Boolean.TRUE;
 
     private String careTeamId = null;
 
@@ -40,13 +38,11 @@ public class USCoreCareTeamTest extends ProfilesTestBaseV2 {
         return Arrays.asList("http://hl7.org/fhir/us/core/StructureDefinition/us-core-careteam|3.1.1");
     }
 
-    @BeforeClass
+    @Override
     public void loadResources() throws Exception {
-        if (!skip) {
-            String resource = "CareTeam-example.json";
-            String cls = "CareTeam";
-            careTeamId = buildAndAssertOnResourceForUsCore(cls, "311", resource);
-        }
+        String resource = "CareTeam-example.json";
+        String cls = "CareTeam";
+        careTeamId = buildAndAssertOnResourceForUsCore(cls, "311", resource);
     }
 
     @Test

@@ -12,31 +12,22 @@ import static org.testng.Assert.assertTrue;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
-import org.testng.SkipException;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.client.FHIRParameters;
 import com.ibm.fhir.client.FHIRResponse;
-import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.ig.us.core.tool.USCoreExamplesUtil;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Patient;
-import com.ibm.fhir.server.test.profiles.ProfilesTestBaseV2;
+import com.ibm.fhir.server.test.profiles.ProfilesTestBase.ProfilesTestBaseV2;
 
 /**
  * Tests the US Core 3.1.1 Profile with Patient.
  * https://www.hl7.org/fhir/us/core/StructureDefinition-us-core-patient.html
  */
 public class USCorePatientTest extends ProfilesTestBaseV2 {
-
-    public Boolean skip = Boolean.TRUE;
-
     private String patientId1 = null;
 
     @Override
@@ -45,39 +36,10 @@ public class USCorePatientTest extends ProfilesTestBaseV2 {
     }
 
     @Override
-    public void setCheck(Boolean check) {
-        this.skip = check;
-    }
-
-    @BeforeMethod
-    protected void checkProfile() {
-        if (skip) {
-            throw new SkipException("Skipping tests profile - 'fhir-ig-us-core/Patient' not loaded");
-        }
-    }
-
-    @BeforeClass
     public void loadResources() throws Exception {
-        if (!skip) {
-            loadPatient1();
-        }
-    }
-
-    public void loadPatient1() throws Exception {
         String resource = "Patient-example.json";
-        WebTarget target = getWebTarget();
-
         Patient ptnt = USCoreExamplesUtil.readLocalJSONResource("311", resource);
-
-        Entity<Patient> entity = Entity.entity(ptnt, FHIRMediaType.APPLICATION_FHIR_JSON);
-        Response response = target.path("Patient").request().post(entity, Response.class);
-        assertResponse(response, Response.Status.CREATED.getStatusCode());
-
-        // GET [base]/Patient/12354 (first actual test, but simple)
-        patientId1 = getLocationLogicalId(response);
-        response = target.path("Patient/" + patientId1).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
-        assertResponse(response, Response.Status.OK.getStatusCode());
-        this.addToResourceRegistry("Patient", patientId1);
+        patientId1 = createResourceAndReturnTheLogicalId("Patient", ptnt);
     }
 
     @Test

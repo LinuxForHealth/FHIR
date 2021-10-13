@@ -187,12 +187,21 @@ public abstract class ProfilesTestBase extends FHIRServerTestBase {
     }
 
     /**
-     * V2 which doesn't use setCheck
+     * V2 which hides check values.
      */
     public abstract static class ProfilesTestBaseV2 extends ProfilesTestBase {
+        Boolean check = false;
+
         @Override
         public void setCheck(Boolean check) {
-            // NOP
+            this.check = check;
         }
+
+        @BeforeClass
+        public void runLoad() throws Exception {
+            loadResources();
+        }
+
+        public abstract void loadResources() throws Exception;
     }
 }
