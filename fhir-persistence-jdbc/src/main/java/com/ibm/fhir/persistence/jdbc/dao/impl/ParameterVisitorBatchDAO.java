@@ -301,11 +301,10 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
      */
     private void processProfile(StringParmVal param) throws FHIRPersistenceException {
         final String parameterName = param.getName();
-        final int parameterNameId = getParameterNameId(parameterName);
         final int resourceTypeId = identityCache.getResourceTypeId(param.getResourceType());
 
         // Parse the parameter value to extract the URI|VERSION#FRAGMENT pieces
-        ResourceProfileRec rec = CanonicalSupport.makeResourceProfileRec(parameterNameId, param.getResourceType(), resourceTypeId, this.logicalResourceId, param.getValueString(), param.isWholeSystem());
+        ResourceProfileRec rec = CanonicalSupport.makeResourceProfileRec(parameterName, param.getResourceType(), resourceTypeId, this.logicalResourceId, param.getValueString(), param.isWholeSystem());
         if (transactionData != null) {
             transactionData.addValue(rec);
         } else {
@@ -430,22 +429,19 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         String codeSystem = param.getValueSystem();
         String tokenValue = param.getValueCode();
         try {
-            int parameterNameId = getParameterNameId(parameterName);
-
             boolean isSystemParam = storeWholeSystem(param);
             if (logger.isLoggable(Level.FINE)) {
-                logger.fine("tokenValue: " + parameterName + "[" + parameterNameId + "], "
-                        + codeSystem + ", " + tokenValue);
+                logger.fine("tokenValue: " + parameterName + ", " + codeSystem + ", " + tokenValue);
             }
 
             // Add the new token value to the collection we're building...what's the resourceTypeId?
             final int resourceTypeId = identityCache.getResourceTypeId(param.getResourceType());
             if (tokenValue == null) {
-                logger.fine(() -> "tokenValue is NULL for: " + parameterName + "[" + parameterNameId + "], " + codeSystem);
+                logger.fine(() -> "tokenValue is NULL for: " + parameterName + ", " + codeSystem);
             }
 
             // Issue 1683, for composites we now also record the current composite id (can be null)
-            ResourceTokenValueRec rec = new ResourceTokenValueRec(parameterNameId, param.getResourceType(), resourceTypeId, logicalResourceId, codeSystem, tokenValue, this.currentCompositeId, isSystemParam);
+            ResourceTokenValueRec rec = new ResourceTokenValueRec(parameterName, param.getResourceType(), resourceTypeId, logicalResourceId, codeSystem, tokenValue, this.currentCompositeId, isSystemParam);
             if (TAG.equals(parameterName)) {
                 // tag search params are often low-selectivity (many resources sharing the same value) so
                 // we put them into their own tables to allow better cardinality estimation by the query
@@ -690,7 +686,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         }
 
         final String resourceType = this.tablePrefix;
-        int parameterNameId = getParameterNameId(rpv.getName());
+        final String parameterName = rpv.getName();
         Integer resourceTypeId = identityCache.getResourceTypeId(resourceType);
         if (resourceTypeId == null) {
             // resourceType is not sensitive, so it's OK to include in the exception message
@@ -720,10 +716,10 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         final boolean isSystemParam = false;
         if (refResourceType != null) {
             // Store a token value configured as a reference to another resource
-            rec = new ResourceTokenValueRec(parameterNameId, resourceType, resourceTypeId, logicalResourceId, refResourceType, refLogicalId, refVersion, this.currentCompositeId, isSystemParam);
+            rec = new ResourceTokenValueRec(parameterName, resourceType, resourceTypeId, logicalResourceId, refResourceType, refLogicalId, refVersion, this.currentCompositeId, isSystemParam);
         } else {
             // stored as a token with the default system
-            rec = new ResourceTokenValueRec(parameterNameId, resourceType, resourceTypeId, logicalResourceId, JDBCConstants.DEFAULT_TOKEN_SYSTEM, refLogicalId, this.currentCompositeId, isSystemParam);
+            rec = new ResourceTokenValueRec(parameterName, resourceType, resourceTypeId, logicalResourceId, JDBCConstants.DEFAULT_TOKEN_SYSTEM, refLogicalId, this.currentCompositeId, isSystemParam);
         }
 
         if (this.transactionData != null) {

@@ -2135,7 +2135,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
             }
 
             // Reuse the same CanonicalSupport code used for param extraction to parse the search value
-            ResourceProfileRec rpc = CanonicalSupport.makeResourceProfileRec(-1, resourceType.getSimpleName(), -1, -1,
+            ResourceProfileRec rpc = CanonicalSupport.makeResourceProfileRec(null, resourceType.getSimpleName(), -1, -1,
                     value.getValueString(), false);
             int canonicalId = identityCache.getCanonicalId(rpc.getCanonicalValue());
             whereClauseSegment.append(tableAlias).append(DOT).append("CANONICAL_ID").append(EQ).append(canonicalId);

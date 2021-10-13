@@ -6,11 +6,21 @@
 
 package com.ibm.fhir.persistence.jdbc.dto;
 
+import java.util.Comparator;
+
+import com.ibm.fhir.persistence.jdbc.dao.impl.TransactionDataImpl;
 
 /**
- * DTO representing a record in COMMON_TOKEN_VALUES
+ * DTO representing a record in COMMON_TOKEN_VALUES. These values are
+ * generated when processing data from {@link TransactionDataImpl} to
+ * collect a unique set of records we need to insert into
+ * COMMON_TOKEN_VALUES table (if the row doesn't already exist). The
+ * select/inserts must always be done in a deterministic order to
+ * minimize the chance of a deadlock, hence the object is Comparable
+ * to give it a natural sort order.
  */
-public class CommonTokenValue {
+public class CommonTokenValue implements Comparable<CommonTokenValue> {
+    private static final Comparator<String> NULL_SAFE_COMPARATOR = Comparator.nullsFirst(String::compareTo);
 
     private final int codeSystemId;
 
@@ -67,5 +77,15 @@ public class CommonTokenValue {
     @Override
     public String toString() {
         return "[codeSystemId=" + codeSystemId + ", tokenValue=" + tokenValue + "]";
+    }
+
+    @Override
+    public int compareTo(CommonTokenValue other) {
+        // allow CommonTokenValue objects to be sorted in a deterministic way
+        int result = Integer.compare(codeSystemId, other.codeSystemId);
+        if (result == 0) {
+            result = NULL_SAFE_COMPARATOR.compare(tokenValue, other.tokenValue);
+        }
+        return result;
     }
 }

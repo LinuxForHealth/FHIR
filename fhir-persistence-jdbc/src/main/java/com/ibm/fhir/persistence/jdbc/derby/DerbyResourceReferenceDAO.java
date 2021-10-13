@@ -26,16 +26,20 @@ import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.INameIdCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNameDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValue;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValueResult;
+import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
+import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.jdbc.postgres.PostgresResourceReferenceDAO;
 
 
 /**
- * Postgres-specific extension of the {@link ResourceReferenceDAO} to work around
- * some SQL syntax and Postgres concurrency issues
+ * Derby-specific extension of the {@link ResourceReferenceDAO} to work around
+ * some SQL syntax and Derby concurrency issues
  */
 public class DerbyResourceReferenceDAO extends ResourceReferenceDAO {
     private static final Logger logger = Logger.getLogger(PostgresResourceReferenceDAO.class.getName());
@@ -49,8 +53,8 @@ public class DerbyResourceReferenceDAO extends ResourceReferenceDAO {
      * @param schemaName
      * @param cache
      */
-    public DerbyResourceReferenceDAO(IDatabaseTranslator t, Connection c, String schemaName, ICommonTokenValuesCache cache) {
-        super(t, c, schemaName, cache);
+    public DerbyResourceReferenceDAO(IDatabaseTranslator t, Connection c, String schemaName, ICommonTokenValuesCache cache, INameIdCache<Integer> parameterNameCache) {
+        super(t, c, schemaName, cache, parameterNameCache);
     }
 
     @Override
@@ -92,72 +96,70 @@ public class DerbyResourceReferenceDAO extends ResourceReferenceDAO {
     }
 
     @Override
-    public void doCodeSystemsUpsert(String paramList, Collection<String> systemNames) {
+    public void doCodeSystemsUpsert(String paramList, Collection<String> sortedSystemNames) {
 
-        // We'll assume that the rows will be processed in the order they are
-        // inserted, although there's not really a guarantee this is the case
-        final List<String> sortedNames = new ArrayList<>(systemNames);
-        sortedNames.sort((String left, String right) -> left.compareTo(right));
-
-        // Derby doesn't like really huge VALUES lists, so we instead need
-        // to go with a declared temporary table.
-        final String insert = "INSERT INTO SESSION.code_systems_tmp (code_system_name) VALUES (?)";
-        int batchCount = 0;
-        try (PreparedStatement ps = getConnection().prepareStatement(insert)) {
-            for (String systemName: systemNames) {
-                ps.setString(1, systemName);
-                ps.addBatch();
-
-                if (++batchCount == BATCH_SIZE) {
-                    ps.executeBatch();
-                    batchCount = 0;
+        // Ideally we'd use an INSERT-FROM-NEGATIVE-OUTER-JOIN here to make sure
+        // we only try to insert rows that don't already exist, but this doesn't
+        // work with Derby (PostgreSQL has a similar issue, hence the ON CONFLICT
+        // DO NOTHING strategy there). For Derby, we are left to handle this
+        // ourselves, and just do things row-by-row:
+        final String nextVal = getTranslator().nextValue(getSchemaName(), "fhir_ref_sequence");
+        final String INS = ""
+                + "INSERT INTO code_systems (code_system_id, code_system_name) "
+                + "     VALUES (" + nextVal + ", ?)";
+        try (PreparedStatement ps = getConnection().prepareStatement(INS)) {
+            for (String codeSystemName: sortedSystemNames) {
+                ps.setString(1, codeSystemName);
+                
+                try {
+                    ps.executeUpdate();
+                } catch (SQLException x) {
+                    if (getTranslator().isDuplicate(x)) {
+                        // ignore because this row has already been inserted by another thread
+                    } else {
+                        throw x;
+                    }
                 }
             }
-
-            if (batchCount > 0) {
-                ps.executeBatch();
-            }
         } catch (SQLException x) {
-            logger.log(Level.SEVERE, insert.toString(), x);
-            throw getTranslator().translate(x);
-        }
-
-
-        // Upsert values. Can't use an order by in this situation because
-        // Derby doesn't like this when pulling values from the sequence,
-        // which seems like a defect, because the values should only be
-        // evaluated after the join and where clauses.
-        final String nextVal = getTranslator().nextValue(getSchemaName(), "fhir_ref_sequence");
-        StringBuilder upsert = new StringBuilder();
-        upsert.append("INSERT INTO code_systems (code_system_id, code_system_name) ");
-        upsert.append("          SELECT ").append(nextVal).append(", src.code_system_name ");
-        upsert.append("            FROM SESSION.code_systems_tmp src ");
-        upsert.append(" LEFT OUTER JOIN code_systems cs ");
-        upsert.append("              ON cs.code_system_name = src.code_system_name ");
-        upsert.append("           WHERE cs.code_system_name IS NULL ");
-
-        try (Statement s = getConnection().createStatement()) {
-            s.executeUpdate(upsert.toString());
-        } catch (SQLException x) {
-            logger.log(Level.SEVERE, upsert.toString(), x);
+            logger.log(Level.SEVERE, INS, x);
             throw getTranslator().translate(x);
         }
     }
+    
+    @Override
+    protected void doCodeSystemsFetch(Map<String, Integer> idMap, String inList, List<String> sortedSystemNames) {
+        // For Derby, we get deadlocks when selecting using the in-list method (see parent implementation
+        // of this method). Instead, we execute individual statements in the order of the sortedSystemNames
+        // list so that the (S) locks will be acquired in the same order as the (X) locks obtained when
+        // inserting.
+        final String SQL = "SELECT code_system_id FROM code_systems WHERE code_system_name = ?";
+
+        try (PreparedStatement ps = getConnection().prepareStatement(SQL)) {
+            for (String codeSystemName: sortedSystemNames) {
+                ps.setString(1, codeSystemName);
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()) {
+                    idMap.put(codeSystemName, rs.getInt(1));
+                }
+            }
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, SQL, x);
+            throw getTranslator().translate(x);
+        }        
+    }
 
     @Override
-    public void doCanonicalValuesUpsert(String paramList, Collection<String> urls) {
-
-        // We'll assume that the rows will be processed in the order they are
-        // inserted, although there's not really a guarantee this is the case
-        final List<String> sortedNames = new ArrayList<>(urls);
-        sortedNames.sort((String left, String right) -> left.compareTo(right));
+    public void doCanonicalValuesUpsert(String paramList, Collection<String> sortedURLS) {
 
         // Derby doesn't like really huge VALUES lists, so we instead need
-        // to go with a declared temporary table.
-        final String insert = "INSERT INTO SESSION.canonical_values_tmp (url) VALUES (?)";
+        // to go with a declared temporary table. As with code_systems_tmp, we generate
+        // the id here to allow for better deadlock protection later
+        final String nextVal = getTranslator().nextValue(getSchemaName(), "fhir_ref_sequence");
+        final String insert = "INSERT INTO SESSION.canonical_values_tmp (url, canonical_id) VALUES (?," + nextVal + ")";
         int batchCount = 0;
         try (PreparedStatement ps = getConnection().prepareStatement(insert)) {
-            for (String url: urls) {
+            for (String url: sortedURLS) {
                 ps.setString(1, url);
                 ps.addBatch();
 
@@ -175,18 +177,16 @@ public class DerbyResourceReferenceDAO extends ResourceReferenceDAO {
             throw getTranslator().translate(x);
         }
 
-        // Upsert values. Can't use an order by in this situation because
-        // Derby doesn't like this when pulling values from the sequence,
-        // which seems like a defect, because the values should only be
-        // evaluated after the join and where clauses.
-        final String nextVal = getTranslator().nextValue(getSchemaName(), "fhir_ref_sequence");
+        // Upsert values. See the similar code_systems insert for details
+        // about deadlock protection
         StringBuilder upsert = new StringBuilder();
         upsert.append("INSERT INTO common_canonical_values (canonical_id, url) ");
-        upsert.append("          SELECT ").append(nextVal).append(", src.url ");
+        upsert.append("          SELECT src.canonical_id, src.url ");
         upsert.append("            FROM SESSION.canonical_values_tmp src ");
         upsert.append(" LEFT OUTER JOIN common_canonical_values cs ");
         upsert.append("              ON cs.url = src.url ");
         upsert.append("           WHERE cs.url IS NULL ");
+        upsert.append("        ORDER BY src.url");
 
         try (Statement s = getConnection().createStatement()) {
             s.executeUpdate(upsert.toString());
@@ -197,50 +197,31 @@ public class DerbyResourceReferenceDAO extends ResourceReferenceDAO {
     }
 
     @Override
-    protected void doCommonTokenValuesUpsert(String paramList, Collection<CommonTokenValue> tokenValues) {
+    protected void doCommonTokenValuesUpsert(String paramList, Collection<CommonTokenValue> sortedTokenValues) {
 
-        insertToCommonTokenValuesTmp(tokenValues);
-
-        // Upsert the values from the declared global temp table into common_token_values
-        // ORDER BY helps to minimize the chance of deadlocks
-        StringBuilder upsert = new StringBuilder();
-        upsert.append("INSERT INTO common_token_values (token_value, code_system_id) ");
-        upsert.append("     SELECT src.token_value, src.code_system_id ");
-        upsert.append("       FROM SESSION.common_token_values_tmp src ");
-        upsert.append(" LEFT OUTER JOIN common_token_values ctv ");
-        upsert.append("              ON ctv.token_value = src.token_value ");
-        upsert.append("             AND ctv.code_system_id = src.code_system_id ");
-        upsert.append("      WHERE ctv.token_value IS NULL ");
-        upsert.append("   ORDER BY src.token_value, src.code_system_id");
-
-        try (Statement s = getConnection().createStatement()) {
-            s.executeUpdate(upsert.toString());
-        } catch (SQLException x) {
-            logger.log(Level.SEVERE, upsert.toString(), x);
-            throw getTranslator().translate(x);
-        }
-    }
-
-    private void insertToCommonTokenValuesTmp(Collection<CommonTokenValue> tokenValues) {
-        final String insert = "INSERT INTO SESSION.common_token_values_tmp(token_value, code_system_id) VALUES (?, ?)";
-        int batchCount = 0;
-        try (PreparedStatement ps = getConnection().prepareStatement(insert)) {
-            for (CommonTokenValue ctv: tokenValues) {
-                ps.setString(1, ctv.getTokenValue());
-                ps.setInt(2, ctv.getCodeSystemId());
-                ps.addBatch();
-
-                if (++batchCount == BATCH_SIZE) {
-                    ps.executeBatch();
-                    batchCount = 0;
+        // Doing a sorted INSERT-FROM-NEGATIVE-OUTER-JOIN apparently isn't good enough
+        // to avoid deadlock issues in Derby. To address this, we need to go row by
+        // row in the sorted order (similar to how CODE_SYSTEMS is handled). In most
+        // cases the sortedTokenValues list should only contain new rows. However in
+        // high concurrency situations we can still end up with duplicates, which is
+        // why we need to handle that here
+        final String INS = "INSERT INTO common_token_values (token_value, code_system_id) VALUES (?, ?)";
+        try (PreparedStatement ps = getConnection().prepareStatement(INS)) {
+            for (CommonTokenValue ctv: sortedTokenValues) {
+                try {
+                    ps.setString(1, ctv.getTokenValue());
+                    ps.setInt(2, ctv.getCodeSystemId());
+                    ps.executeUpdate();
+                } catch (SQLException x) {
+                    if (getTranslator().isDuplicate(x)) {
+                        // do nothing
+                    } else {
+                        throw x;
+                    }
                 }
             }
-
-            if (batchCount > 0) {
-                ps.executeBatch();
-            }
         } catch (SQLException x) {
-            logger.log(Level.SEVERE, insert.toString(), x);
+            logger.log(Level.SEVERE, INS, x);
             throw getTranslator().translate(x);
         }
     }
@@ -253,32 +234,40 @@ public class DerbyResourceReferenceDAO extends ResourceReferenceDAO {
         // Unique list so we don't try and create the same name more than once.
         // Ignore any null token-values, because we don't want to (can't) store
         // them in our common token values table.
-        Set<CommonTokenValue> tokenValues = values.stream().filter(x -> x.getTokenValue() != null).map(xr -> new CommonTokenValue(xr.getCodeSystemValueId(), xr.getTokenValue())).collect(Collectors.toSet());
+        Set<CommonTokenValue> tokenValueSet = values.stream().filter(x -> x.getTokenValue() != null).map(xr -> new CommonTokenValue(xr.getCodeSystemValueId(), xr.getTokenValue())).collect(Collectors.toSet());
 
-        if (tokenValues.isEmpty()) {
+        if (tokenValueSet.isEmpty()) {
             // nothing to do
             return;
         }
 
+        // Sort the values so we always process in the same order (deadlock protection)
+        List<CommonTokenValue> sortedTokenValues = new ArrayList<>(tokenValueSet);
+        sortedTokenValues.sort(CommonTokenValue::compareTo);
+        
         final String paramListStr = null;
-        doCommonTokenValuesUpsert(paramListStr, tokenValues);
+        doCommonTokenValuesUpsert(paramListStr, sortedTokenValues);
 
-        // Fetch the ids for all the records we need.
-        // Simple join against the tmp table populated by the previous call should do it
-        StringBuilder select = new StringBuilder();
-        select.append("     SELECT ctv.code_system_id, ctv.token_value, ctv.common_token_value_id ");
-        select.append("       FROM common_token_values ctv, ");
-        select.append("            SESSION.common_token_values_tmp tmp ");
-        select.append("      WHERE ctv.token_value = tmp.token_value ");
-        select.append("        AND ctv.code_system_id = tmp.code_system_id ");
-
+        // Fetch the ids for all the records we need. Because we can have
+        // read (S) locks conflicting with write (X) locks, it's important
+        // to do this fetching in exactly the same order we try to insert.
+        // Unfortunately, for Derby this means going row-by-row (just like we
+        // do for CODE_SYSTEMS).
+        final String FETCH = ""
+                + "  SELECT common_token_value_id "
+                + "    FROM common_token_values "
+                + "   WHERE token_value = ?"
+                + "     AND code_system_id = ?";
+        
         Map<CommonTokenValue, Long> idMap = new HashMap<>();
-        try (PreparedStatement ps = getConnection().prepareStatement(select.toString())) {
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                // code_system_id, token_value
-                CommonTokenValue key = new CommonTokenValue(rs.getInt(1), rs.getString(2));
-                idMap.put(key, rs.getLong(3));
+        try (PreparedStatement ps = getConnection().prepareStatement(FETCH)) {
+            for (CommonTokenValue ctv: sortedTokenValues) {
+                ps.setString(1, ctv.getTokenValue());
+                ps.setInt(2, ctv.getCodeSystemId());
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()) {
+                    idMap.put(ctv, rs.getLong(1));
+                }
             }
         } catch (SQLException x) {
             throw getTranslator().translate(x);
@@ -299,5 +288,11 @@ public class DerbyResourceReferenceDAO extends ResourceReferenceDAO {
                 }
             }
         }
+    }
+    
+    @Override
+    protected int readOrAddParameterNameId(String parameterName) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException  {
+        final ParameterNameDAO pnd = new DerbyParameterNamesDAO(getConnection(), getSchemaName());
+        return pnd.readOrAddParameterNameId(parameterName);
     }
 }

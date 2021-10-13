@@ -28,14 +28,17 @@ public class CanonicalSupportTest {
     @Test
     public void simpleUriTest() throws FHIRPersistenceException {
         final String paramValue = "https://example.org/foo/bar";
+        final String parameterName = "seven";
         final int parameterNameId = 7;
         final String resourceType = "Patient";
         final int resourceTypeId = 17;
         final long logicalResourceId = 42;
         final boolean systemLevel = true;
-        ResourceProfileRec rec = CanonicalSupport.makeResourceProfileRec(parameterNameId, resourceType, resourceTypeId, logicalResourceId, paramValue, systemLevel);
+        ResourceProfileRec rec = CanonicalSupport.makeResourceProfileRec(parameterName, resourceType, resourceTypeId, logicalResourceId, paramValue, systemLevel);
 
         assertNotNull(rec);
+        rec.setParameterNameId(parameterNameId);
+        assertEquals(rec.getParameterName(), parameterName);
         assertEquals(rec.getLogicalResourceId(), logicalResourceId);
         assertEquals(rec.getCanonicalValue(), paramValue);
         assertEquals(rec.getParameterNameId(), parameterNameId);
@@ -54,17 +57,17 @@ public class CanonicalSupportTest {
         final String uri = "https://example.org/foo/bar";
         final String version = "1.0";
         final String paramValue = uri + "|" + version;
-        final int parameterNameId = 7;
+        final String parameterName = "7";
         final String resourceType = "Patient";
         final int resourceTypeId = 17;
         final long logicalResourceId = 42;
         final boolean systemLevel = true;
-        ResourceProfileRec rec = CanonicalSupport.makeResourceProfileRec(parameterNameId, resourceType, resourceTypeId, logicalResourceId, paramValue, systemLevel);
+        ResourceProfileRec rec = CanonicalSupport.makeResourceProfileRec(parameterName, resourceType, resourceTypeId, logicalResourceId, paramValue, systemLevel);
 
         assertNotNull(rec);
         assertEquals(rec.getLogicalResourceId(), logicalResourceId);
         assertEquals(rec.getCanonicalValue(), uri);
-        assertEquals(rec.getParameterNameId(), parameterNameId);
+        assertEquals(rec.getParameterName(), parameterName);
         assertEquals(rec.getResourceType(), resourceType);
         assertEquals(rec.getResourceTypeId(), resourceTypeId);
         assertEquals(rec.getVersion(), version);
@@ -81,17 +84,17 @@ public class CanonicalSupportTest {
         final String version = "1.0";
         final String fragment = "F1";
         final String paramValue = uri + "|" + version + "#" + fragment;
-        final int parameterNameId = 7;
+        final String parameterName = "7";
         final String resourceType = "Patient";
         final int resourceTypeId = 17;
         final long logicalResourceId = 42;
         final boolean systemLevel = true;
-        ResourceProfileRec rec = CanonicalSupport.makeResourceProfileRec(parameterNameId, resourceType, resourceTypeId, logicalResourceId, paramValue, systemLevel);
+        ResourceProfileRec rec = CanonicalSupport.makeResourceProfileRec(parameterName, resourceType, resourceTypeId, logicalResourceId, paramValue, systemLevel);
 
         assertNotNull(rec);
         assertEquals(rec.getLogicalResourceId(), logicalResourceId);
         assertEquals(rec.getCanonicalValue(), uri);
-        assertEquals(rec.getParameterNameId(), parameterNameId);
+        assertEquals(rec.getParameterName(), parameterName);
         assertEquals(rec.getResourceType(), resourceType);
         assertEquals(rec.getResourceTypeId(), resourceTypeId);
         assertEquals(rec.getVersion(), version);
@@ -107,17 +110,17 @@ public class CanonicalSupportTest {
         final String uri = "https://example.org/foo/bar";
         final String fragment = "F1";
         final String paramValue = uri + "#" + fragment;
-        final int parameterNameId = 7;
+        final String parameterName = "7";
         final String resourceType = "Patient";
         final int resourceTypeId = 17;
         final long logicalResourceId = 42;
         final boolean systemLevel = true;
-        ResourceProfileRec rec = CanonicalSupport.makeResourceProfileRec(parameterNameId, resourceType, resourceTypeId, logicalResourceId, paramValue, systemLevel);
+        ResourceProfileRec rec = CanonicalSupport.makeResourceProfileRec(parameterName, resourceType, resourceTypeId, logicalResourceId, paramValue, systemLevel);
 
         assertNotNull(rec);
         assertEquals(rec.getLogicalResourceId(), logicalResourceId);
         assertEquals(rec.getCanonicalValue(), uri);
-        assertEquals(rec.getParameterNameId(), parameterNameId);
+        assertEquals(rec.getParameterName(), parameterName);
         assertEquals(rec.getResourceType(), resourceType);
         assertEquals(rec.getResourceTypeId(), resourceTypeId);
         assertNull(rec.getVersion());
@@ -133,17 +136,17 @@ public class CanonicalSupportTest {
         final String uri = "https://example.org/foo/bar";
         final String fragment = "";
         final String paramValue = uri + "#" + fragment;
-        final int parameterNameId = 7;
+        final String parameterName = "7";
         final String resourceType = "Patient";
         final int resourceTypeId = 17;
         final long logicalResourceId = 42;
         final boolean systemLevel = true;
-        ResourceProfileRec rec = CanonicalSupport.makeResourceProfileRec(parameterNameId, resourceType, resourceTypeId, logicalResourceId, paramValue, systemLevel);
+        ResourceProfileRec rec = CanonicalSupport.makeResourceProfileRec(parameterName, resourceType, resourceTypeId, logicalResourceId, paramValue, systemLevel);
 
         assertNotNull(rec);
         assertEquals(rec.getLogicalResourceId(), logicalResourceId);
         assertEquals(rec.getCanonicalValue(), uri);
-        assertEquals(rec.getParameterNameId(), parameterNameId);
+        assertEquals(rec.getParameterName(), parameterName);
         assertEquals(rec.getResourceType(), resourceType);
         assertEquals(rec.getResourceTypeId(), resourceTypeId);
         assertNull(rec.getVersion());
@@ -159,17 +162,17 @@ public class CanonicalSupportTest {
         final String uri = "https://example.org/foo/bar";
         final String version = "";
         final String paramValue = uri + "|" + version;
-        final int parameterNameId = 7;
+        final String parameterName = "7";
         final String resourceType = "Patient";
         final int resourceTypeId = 17;
         final long logicalResourceId = 42;
         final boolean systemLevel = true;
-        ResourceProfileRec rec = CanonicalSupport.makeResourceProfileRec(parameterNameId, resourceType, resourceTypeId, logicalResourceId, paramValue, systemLevel);
+        ResourceProfileRec rec = CanonicalSupport.makeResourceProfileRec(parameterName, resourceType, resourceTypeId, logicalResourceId, paramValue, systemLevel);
 
         assertNotNull(rec);
         assertEquals(rec.getLogicalResourceId(), logicalResourceId);
         assertEquals(rec.getCanonicalValue(), uri);
-        assertEquals(rec.getParameterNameId(), parameterNameId);
+        assertEquals(rec.getParameterName(), parameterName);
         assertEquals(rec.getResourceType(), resourceType);
         assertEquals(rec.getResourceTypeId(), resourceTypeId);
         assertNull(rec.getVersion());
@@ -186,17 +189,17 @@ public class CanonicalSupportTest {
         final String version = "";
         final String fragment = "";
         final String paramValue = uri + "|" + version + "#" + fragment;
-        final int parameterNameId = 7;
+        final String parameterName = "7";
         final String resourceType = "Patient";
         final int resourceTypeId = 17;
         final long logicalResourceId = 42;
         final boolean systemLevel = true;
-        ResourceProfileRec rec = CanonicalSupport.makeResourceProfileRec(parameterNameId, resourceType, resourceTypeId, logicalResourceId, paramValue, systemLevel);
+        ResourceProfileRec rec = CanonicalSupport.makeResourceProfileRec(parameterName, resourceType, resourceTypeId, logicalResourceId, paramValue, systemLevel);
 
         assertNotNull(rec);
         assertEquals(rec.getLogicalResourceId(), logicalResourceId);
         assertEquals(rec.getCanonicalValue(), uri);
-        assertEquals(rec.getParameterNameId(), parameterNameId);
+        assertEquals(rec.getParameterName(), parameterName);
         assertEquals(rec.getResourceType(), resourceType);
         assertEquals(rec.getResourceTypeId(), resourceTypeId);
         assertNull(rec.getVersion());
@@ -213,11 +216,11 @@ public class CanonicalSupportTest {
         final String version = "1.0";
         final String fragment = "F1";
         final String paramValue = uri + "#" + fragment + "|" + version;
-        final int parameterNameId = 7;
+        final String parameterName = "7";
         final String resourceType = "Patient";
         final int resourceTypeId = 17;
         final long logicalResourceId = 42;
         final boolean systemLevel = true;
-        CanonicalSupport.makeResourceProfileRec(parameterNameId, resourceType, resourceTypeId, logicalResourceId, paramValue, systemLevel);
+        CanonicalSupport.makeResourceProfileRec(parameterName, resourceType, resourceTypeId, logicalResourceId, paramValue, systemLevel);
     }
 }

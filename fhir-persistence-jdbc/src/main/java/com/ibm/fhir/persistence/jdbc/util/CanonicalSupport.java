@@ -16,7 +16,7 @@ public class CanonicalSupport {
 
     /**
      * Process the search parameter value data to generate a {@link ResourceProfileRec} DTO.
-     * @param parameterNameId
+     * @param parameterName
      * @param resourceType
      * @param resourceTypeId
      * @param logicalResourceId
@@ -25,12 +25,12 @@ public class CanonicalSupport {
      * @return
      * @throws FHIRPersistenceException
      */
-    public static ResourceProfileRec makeResourceProfileRec(int parameterNameId, String resourceType, long resourceTypeId, long logicalResourceId,
+    public static ResourceProfileRec makeResourceProfileRec(String parameterName, String resourceType, long resourceTypeId, long logicalResourceId,
         String paramValue, boolean systemLevel) throws FHIRPersistenceException {
 
         CanonicalValue canonicalValue = createCanonicalValueFrom(paramValue);
 
-        return new ResourceProfileRec(parameterNameId, resourceType, resourceTypeId, logicalResourceId,
+        return new ResourceProfileRec(parameterName, resourceType, resourceTypeId, logicalResourceId,
             canonicalValue.getUri(), canonicalValue.getVersion(), canonicalValue.getFragment(), systemLevel);
     }
     
