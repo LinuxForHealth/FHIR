@@ -944,7 +944,7 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
             getParameterNameId(parameterName);
         }
         
-        // How we have all the ids generated, inject the values into the records
+        // Fetch the values that we just cached in the previous loop
         for (ResourceRefRec rec: recList) {
             rec.setParameterNameId(getParameterNameId(rec.getParameterName()));
         }

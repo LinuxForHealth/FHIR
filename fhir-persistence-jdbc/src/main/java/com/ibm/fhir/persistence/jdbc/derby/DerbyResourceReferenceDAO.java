@@ -27,7 +27,6 @@ import java.util.stream.Collectors;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.INameIdCache;
-import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNameDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
@@ -223,31 +222,6 @@ public class DerbyResourceReferenceDAO extends ResourceReferenceDAO {
             }
         } catch (SQLException x) {
             logger.log(Level.SEVERE, INS, x);
-            throw getTranslator().translate(x);
-        }
-    }
-
-    // TODO: TO BE REMOVED
-    private void insertToCommonTokenValuesTmp(Collection<CommonTokenValue> sortedTokenValues) {
-        final String insert = "INSERT INTO SESSION.common_token_values_tmp(token_value, code_system_id) VALUES (?, ?)";
-        int batchCount = 0;
-        try (PreparedStatement ps = getConnection().prepareStatement(insert)) {
-            for (CommonTokenValue ctv: sortedTokenValues) {
-                ps.setString(1, ctv.getTokenValue());
-                ps.setInt(2, ctv.getCodeSystemId());
-                ps.addBatch();
-
-                if (++batchCount == BATCH_SIZE) {
-                    ps.executeBatch();
-                    batchCount = 0;
-                }
-            }
-
-            if (batchCount > 0) {
-                ps.executeBatch();
-            }
-        } catch (SQLException x) {
-            logger.log(Level.SEVERE, insert.toString(), x);
             throw getTranslator().translate(x);
         }
     }
