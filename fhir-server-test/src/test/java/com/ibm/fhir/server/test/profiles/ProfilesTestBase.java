@@ -28,6 +28,7 @@ import org.testng.annotations.BeforeMethod;
 
 import com.ibm.fhir.client.FHIRResponse;
 import com.ibm.fhir.core.FHIRMediaType;
+import com.ibm.fhir.ig.carin.bb.test.tool.C4BBExamplesUtil;
 import com.ibm.fhir.ig.us.core.tool.USCoreExamplesUtil;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.CapabilityStatement;
@@ -82,10 +83,27 @@ public abstract class ProfilesTestBase extends FHIRServerTestBase {
      * @throws Exception
      */
     public String buildAndAssertOnResourceForUsCore(String cls, String version, String resource) throws Exception {
-        WebTarget target = getWebTarget();
-        Resource goal = USCoreExamplesUtil.readLocalJSONResource(version, resource);
+        Resource r = USCoreExamplesUtil.readLocalJSONResource(version, resource);
+        return buildAndAssertOnResource(cls, r);
+    }
 
-        Entity<? extends Resource> entity = Entity.entity(goal, FHIRMediaType.APPLICATION_FHIR_JSON);
+    /**
+     *
+     * @param cls
+     * @param version
+     * @param resource
+     * @return
+     * @throws Exception
+     */
+    public String buildAndAssertOnResourceForC4BB(String cls, String version, String resource) throws Exception {
+        Resource r = C4BBExamplesUtil.readLocalJSONResource(version, resource);
+        return buildAndAssertOnResource(cls, r);
+    }
+
+    public String buildAndAssertOnResource(String cls, Resource resource) throws Exception {
+        WebTarget target = getWebTarget();
+
+        Entity<? extends Resource> entity = Entity.entity(resource, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path(cls).request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
 
