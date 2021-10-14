@@ -18,9 +18,6 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.interfaces.Claim;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Provenance;
@@ -53,6 +50,8 @@ import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.util.ReferenceUtil;
 import com.ibm.fhir.search.util.ReferenceValue;
 import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.smart.JWT.Claim;
+import com.ibm.fhir.smart.JWT.DecodedJWT;
 import com.ibm.fhir.smart.Scope.ContextType;
 import com.ibm.fhir.smart.Scope.Permission;
 
@@ -208,24 +207,28 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
 
     @Override
     public void afterRead(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
-        DecodedJWT jwt = JWT.decode(getAccessToken());
         Resource resource = event.getFhirResource();
-        Set<String> patientIdFromToken = getPatientIdFromToken(jwt);
-        List<Scope> scopesFromToken = getScopesFromToken(jwt);
+        if (resource != null) {
+            DecodedJWT jwt = JWT.decode(getAccessToken());
+            Set<String> patientIdFromToken = getPatientIdFromToken(jwt);
+            List<Scope> scopesFromToken = getScopesFromToken(jwt);
 
-        enforceDirectProvenanceAccess(event, resource, patientIdFromToken, scopesFromToken);
-        enforce(resource, patientIdFromToken, Permission.READ, scopesFromToken);
+            enforceDirectProvenanceAccess(event, resource, patientIdFromToken, scopesFromToken);
+            enforce(resource, patientIdFromToken, Permission.READ, scopesFromToken);
+        }
     }
 
     @Override
     public void afterVread(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
-        DecodedJWT jwt = JWT.decode(getAccessToken());
         Resource resource = event.getFhirResource();
-        Set<String> patientIdFromToken = getPatientIdFromToken(jwt);
-        List<Scope> scopesFromToken = getScopesFromToken(jwt);
+        if (resource != null) {
+            DecodedJWT jwt = JWT.decode(getAccessToken());
+            Set<String> patientIdFromToken = getPatientIdFromToken(jwt);
+            List<Scope> scopesFromToken = getScopesFromToken(jwt);
 
-        enforceDirectProvenanceAccess(event, resource, patientIdFromToken, scopesFromToken);
-        enforce(resource, patientIdFromToken, Permission.READ, scopesFromToken);
+            enforceDirectProvenanceAccess(event, resource, patientIdFromToken, scopesFromToken);
+            enforce(resource, patientIdFromToken, Permission.READ, scopesFromToken);
+        }
     }
 
     @Override
@@ -622,7 +625,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
             scopeStrings = Arrays.asList(claim.asString().split("\\s+"));
         } else {
             log.fine("Found scope claim was expected to be a string but is not; processing as a list");
-            scopeStrings = claim.asList(String.class);
+            scopeStrings = claim.asList();
         }
 
         return scopeStrings.stream()
@@ -641,7 +644,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
 
         String patientId = claim.asString();
         if (patientId == null) {
-            return new HashSet<>(claim.asList(String.class));
+            return new HashSet<>(claim.asList());
         }
 
         return Stream.of(patientId.split(" "))

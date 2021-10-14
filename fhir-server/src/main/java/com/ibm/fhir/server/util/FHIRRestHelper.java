@@ -2594,8 +2594,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 }
             }
         } catch (Exception e) {
-            return Collections.singletonList(buildOperationOutcomeIssue(IssueSeverity.ERROR, IssueType.UNKNOWN,
-                "Error retrieving profile configuration."));
+            throw new FHIRValidationException("Error retrieving profile configuration.", e);
         }
 
         // If required profiles were configured, perform validation of asserted profiles against required profiles

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -28,7 +28,8 @@ public class CreateCodeSystemsTmp implements IDatabaseStatement {
         if (!isExists(c)) {
             final String ddl = ""
                     + "DECLARE GLOBAL TEMPORARY TABLE SESSION.code_systems_tmp ("
-                    + "  code_system_name VARCHAR(" + FhirSchemaConstants.MAX_TOKEN_VALUE_BYTES + ") "
+                    + "  code_system_name VARCHAR(" + FhirSchemaConstants.MAX_TOKEN_VALUE_BYTES + "), "
+                    + "  code_system_id BIGINT"
                     + ") NOT LOGGED";
             
             try (Statement s = c.createStatement()) {

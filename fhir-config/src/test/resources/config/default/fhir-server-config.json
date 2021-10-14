@@ -16,6 +16,10 @@
             "intProp2": "12345",
             "doubleProp1": 12345.001,
             "doubleProp2": "12345.001"
+        },
+        "groupD": {
+            "nullProp": null,
+            "stringListWithNullProp": ["token1", null, "token2"]
         }
     },
     "fhirServer": {

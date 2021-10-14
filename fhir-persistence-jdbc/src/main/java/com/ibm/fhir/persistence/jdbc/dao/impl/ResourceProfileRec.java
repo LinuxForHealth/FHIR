@@ -29,7 +29,7 @@ public class ResourceProfileRec extends ResourceRefRec {
 
     /**
      * Public constructor
-     * @param parameterNameId
+     * @param parameterName
      * @param resourceType
      * @param resourceTypeId
      * @param logicalResourceId
@@ -38,9 +38,9 @@ public class ResourceProfileRec extends ResourceRefRec {
      * @param fragment
      * @param systemLevel
      */
-    public ResourceProfileRec(int parameterNameId, String resourceType, long resourceTypeId, long logicalResourceId,
+    public ResourceProfileRec(String parameterName, String resourceType, long resourceTypeId, long logicalResourceId,
         String canonicalValue, String version, String fragment, boolean systemLevel) {
-        super(parameterNameId, resourceType, resourceTypeId, logicalResourceId);
+        super(parameterName, resourceType, resourceTypeId, logicalResourceId);
         this.canonicalValue = canonicalValue;
         this.systemLevel = systemLevel;
         this.version = version;

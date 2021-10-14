@@ -153,13 +153,13 @@ public class FHIRResourceDAOFactory {
         ResourceReferenceDAO rrd = null;
         switch (flavor.getType()) {
         case DB2:
-            rrd = new Db2ResourceReferenceDAO(new Db2Translator(), connection, schemaName, cache.getResourceReferenceCache(), adminSchemaName);
+            rrd = new Db2ResourceReferenceDAO(new Db2Translator(), connection, schemaName, cache.getResourceReferenceCache(), adminSchemaName, cache.getParameterNameCache());
             break;
         case DERBY:
-            rrd = new DerbyResourceReferenceDAO(new DerbyTranslator(), connection, schemaName, cache.getResourceReferenceCache());
+            rrd = new DerbyResourceReferenceDAO(new DerbyTranslator(), connection, schemaName, cache.getResourceReferenceCache(), cache.getParameterNameCache());
             break;
         case POSTGRESQL:
-            rrd = new PostgresResourceReferenceDAO(new PostgresTranslator(), connection, schemaName, cache.getResourceReferenceCache());
+            rrd = new PostgresResourceReferenceDAO(new PostgresTranslator(), connection, schemaName, cache.getResourceReferenceCache(), cache.getParameterNameCache());
             break;
         }
         return rrd;

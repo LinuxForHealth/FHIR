@@ -29,7 +29,8 @@ public class CreateCanonicalValuesTmp implements IDatabaseStatement {
         if (!isExists(c)) {
             final String ddl = ""
                     + "DECLARE GLOBAL TEMPORARY TABLE canonical_values_tmp ("
-                    + "  url VARCHAR(" + FhirSchemaConstants.MAX_TOKEN_VALUE_BYTES + ")"
+                    + "           url VARCHAR(" + FhirSchemaConstants.MAX_TOKEN_VALUE_BYTES + "),"
+                    + "  canonical_id  BIGINT "
                     + ") NOT LOGGED";
 
             try (Statement s = c.createStatement()) {

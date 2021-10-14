@@ -7,6 +7,8 @@
 package com.ibm.fhir.server.listener;
 
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_CHECK_REFERENCE_TYPES;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_CHECK_UNICODE_CONTROL;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_DATASOURCES;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_EXTENDED_CODEABLE_CONCEPT_VALIDATION;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_CONNECTIONPROPS;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_ENABLED;
@@ -46,6 +48,7 @@ import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.config.PropertyGroup.PropertyEntry;
 import com.ibm.fhir.core.lifecycle.EventManager;
+import com.ibm.fhir.database.utils.derby.DerbyServerPropertiesMgr;
 import com.ibm.fhir.model.config.FHIRModelConfig;
 import com.ibm.fhir.model.lang.util.LanguageRegistryUtil;
 import com.ibm.fhir.model.util.FHIRUtil;
@@ -127,6 +130,8 @@ public class FHIRServletContextListener implements ServletContextListener {
 
             log.fine("Initializing LanguageRegistryUtil...");
             LanguageRegistryUtil.init();
+            
+            setDerbyProperties(fhirConfig);
 
             // For any singleton resources that need to be shared among our resource class instances,
             // we'll add them to our servlet context so that the resource class can easily retrieve them.
@@ -202,6 +207,9 @@ public class FHIRServletContextListener implements ServletContextListener {
             Boolean extendedCodeableConceptValidation = fhirConfig.getBooleanProperty(PROPERTY_EXTENDED_CODEABLE_CONCEPT_VALIDATION, Boolean.TRUE);
             FHIRModelConfig.setExtendedCodeableConceptValidation(extendedCodeableConceptValidation);
 
+            Boolean checkUnicodeChars = fhirConfig.getBooleanProperty(PROPERTY_CHECK_UNICODE_CONTROL, Boolean.TRUE);
+            FHIRModelConfig.setCheckUnicodeControlChars(checkUnicodeChars);
+
             log.fine("Initializing FHIRRegistry...");
             FHIRRegistry.getInstance();
 
@@ -232,6 +240,22 @@ public class FHIRServletContextListener implements ServletContextListener {
             if (log.isLoggable(Level.FINER)) {
                 log.exiting(FHIRServletContextListener.class.getName(), "contextInitialized");
             }
+        }
+    }
+    
+    /**
+     * If the default datasource is configured to use Derby then set some internal
+     * Derby properties to make things run a little more smoothly.
+     * @param fhirConfig
+     * @throws Exception
+     */
+    private void setDerbyProperties(PropertyGroup fhirConfig) throws Exception {
+        // Check the default datasource to see if it is using Derby
+        PropertyGroup defaultDatasource = fhirConfig.getPropertyGroup(PROPERTY_DATASOURCES + "/default");
+        String datasourceType = defaultDatasource.getStringProperty("type", "unknown");
+        if ("derby".equalsIgnoreCase(datasourceType)) {
+            log.info("Detected Derby datasource so configuring Derby properties.");
+            DerbyServerPropertiesMgr.setServerProperties(false);
         }
     }
 

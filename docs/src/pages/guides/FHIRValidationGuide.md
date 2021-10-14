@@ -2,7 +2,7 @@
 layout: post
 title: FHIR Validation Guide
 description: FHIR Validation Guide
-date:   2021-03-24
+date:   2021-10-07
 permalink: /FHIRValidationGuide/
 ---
 
@@ -35,7 +35,7 @@ The validation component picks up the Java annotation, pulls out the FHIRPath ex
 
 The validation component will also validate a resource against profiles that it asserts conformance to in the `Resource.meta.profile` element assuming those profiles are available to the IBM FHIR Server via the FHIR registry component ([fhir-registry](https://github.com/IBM/FHIR/tree/main/fhir-registry)) at runtime.
 
-Given a FHIR profile (structure definition) as input, the IBM FHIR Server Profile component ([fhir-profile](https://github.com/IBM/FHIR/tree/main/fhir-profile)) generates FHIRPath expressions for a number of different types of constraints. The current scope of constraint generation is:
+Given a FHIR profile (structure definition) that contains a Snapshot as input, the IBM FHIR Server Profile component ([fhir-profile](https://github.com/IBM/FHIR/tree/main/fhir-profile)) generates FHIRPath expressions for a number of different types of constraints. The current scope of constraint generation is:
 
 - Cardinality constraints (required and prohibited elements)
 - Fixed value constraints (Code and Uri data types)
@@ -194,6 +194,8 @@ public class USCoreResourceProvider extends PackageRegistryResourceProvider {
 ```
 
 The `PackgageRegistryResourceProvider` class converts the packageId (e.g. hl7.fhir.us.core) to a path where it can find the NPM package index file: `.index.json`. The `PackageRegistryResourceProvider` class creates `FHIRRegistryResource` instances, using the index file, and caches them in a map on startup. The `PackageRegistryResource` (an implementation of `FHIRRegistryResource` class lazily loads the underlying FHIR resource into memory when it is accessed. Multiple versions of the same resource can be registered. FHIR registry resource providers can be bundled into a jar file and deployed with the IBM FHIR server in the user lib directory.
+
+The IBM FHIR Server uses the Snapshot and not the Differential, you must include a Snapshot. As mentioned in [#2829](https://github.com/IBM/FHIR/issues/2829), you may use FHIR Sushi with the `-s` option to generate a Snapshot.
 
 For more information, please see: [https://confluence.hl7.org/display/FHIR/NPM+Package+Specification](https://confluence.hl7.org/display/FHIR/NPM+Package+Specification)
 
