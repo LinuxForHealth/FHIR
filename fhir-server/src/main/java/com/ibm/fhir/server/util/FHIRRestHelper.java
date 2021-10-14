@@ -346,8 +346,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             // For 1869 bundle processing, the resource is updated first and is no longer mutated by the
             // persistence layer.
-            // SingleResourceResult<Resource> result = persistence.create(persistenceContext, resource);
-            SingleResourceResult<Resource> result = persistence.create(persistenceContext, resource, resource.getId(), 1, resource.getMeta().getLastUpdated());
+            SingleResourceResult<Resource> result = persistence.createWithMeta(persistenceContext, resource);
             if (result.isSuccess() && result.getOutcome() != null) {
                 warnings.addAll(result.getOutcome().getIssue());
             }
@@ -574,7 +573,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 }
 
             } else {
-                // searchQueryString == null
+                // searchQueryString is null
 
                 // Make sure an id value was passed in.
                 if (id == null) {

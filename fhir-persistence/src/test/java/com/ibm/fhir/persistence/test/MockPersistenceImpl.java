@@ -32,13 +32,14 @@ import com.ibm.fhir.persistence.payload.PayloadKey;
 public class MockPersistenceImpl implements FHIRPersistence {
 
     @Override
-    public <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException {
+    public <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource) 
+            throws FHIRPersistenceException {
     	return null;
     }
 
     @Override
-    public <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource, String logicalId, int versionNumber,
-            com.ibm.fhir.model.type.Instant lastUpdated) throws FHIRPersistenceException {
+    public <T extends Resource> SingleResourceResult<T> createWithMeta(FHIRPersistenceContext context, T resource) 
+            throws FHIRPersistenceException {
         return null;
     }
 

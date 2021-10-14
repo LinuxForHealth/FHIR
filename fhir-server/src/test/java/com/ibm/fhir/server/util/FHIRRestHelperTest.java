@@ -2055,14 +2055,14 @@ public class FHIRRestHelperTest {
         when(persistence.getTransaction()).thenReturn(new MockTransactionAdapter());
         when(persistence.read(any(), any(), any())).thenReturn(mockResult);
         // when(persistence.create(any(), any())).thenReturn(mockResult);
-        when(persistence.create(any(), any(), any(), anyInt(), any())).thenReturn(mockResult);
+        when(persistence.createWithMeta(any(), any())).thenReturn(mockResult);
         when(persistence.update(any(), any(), anyInt(), any())).thenReturn(mockResult);
         FHIRRestHelper helper = new FHIRRestHelper(persistence);
 
         // The helper must pass the resource updated by the interceptor to the persistence#create method
         ArgumentCaptor<Patient> patientCaptor = ArgumentCaptor.forClass(Patient.class);
         helper.doCreate("Patient", patientNoId, null);
-        Mockito.verify(persistence).create(any(), patientCaptor.capture(), any(), anyInt(), any());
+        Mockito.verify(persistence).createWithMeta(any(), patientCaptor.capture());
         assertEquals(patientCaptor.getValue().getMeta().getTag().get(0), TAG);
 
         helper.doUpdate("Patient", "123", patientWithId, null, null, false);

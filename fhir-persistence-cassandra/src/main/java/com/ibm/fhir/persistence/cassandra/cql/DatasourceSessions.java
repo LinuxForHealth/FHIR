@@ -137,7 +137,9 @@ public class DatasourceSessions implements EventCallback {
     /**
      * Get the CqlSession for the Cassandra database matching the configuration defined
      * by the properties adapter.
+     * @param key
      * @param adapter
+     * @param setKeyspace
      * @return
      */
     private static CqlSession getDatabaseSession(TenantDatasourceKey key, CassandraPropertyGroupAdapter adapter, boolean setKeyspace) {

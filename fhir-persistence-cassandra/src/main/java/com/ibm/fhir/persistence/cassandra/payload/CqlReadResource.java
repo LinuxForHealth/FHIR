@@ -138,6 +138,8 @@ public class CqlReadResource {
     }
 
     /**
+     * Read the resource payload from the payload_chunks table
+     * @param resourceType
      * @param session
      * @param payloadId
      * @return

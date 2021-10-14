@@ -36,25 +36,14 @@ public class MockPersistenceImpl implements FHIRPersistence {
     int id = 0;
 
     @Override
-    public <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException {
+    public <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource) 
+            throws FHIRPersistenceException {
         throw new IllegalStateException("API no longer used; provided for backward compatibility only");
-        // return create(context, resource, generateResourceId(), 1, Instant.now());
     }
 
     @Override
-    public <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource, String logicalId, int versionNumber,
-        Instant lastUpdated) throws FHIRPersistenceException {
-        
-        // since 1869 the persistence layer no longer modifies the resource. But we can do
-        // a quick check here to make sure that the logicalId and version match our meta
-        if (!resource.getId().equals(logicalId)) {
-            throw new IllegalStateException("Resource.id '" + resource.getId() + "' does not match given logicalId: '" + logicalId + "'");
-        }
-        
-        String versionStr = Integer.toString(versionNumber);
-        if (!versionStr.equals(resource.getMeta().getVersionId().getValue())) {
-            throw new IllegalStateException("Resource.meta.versionId '" + resource.getMeta().getVersionId() + "' does not match given versionNumber: '" + versionStr + "'");
-        }
+    public <T extends Resource> SingleResourceResult<T> createWithMeta(FHIRPersistenceContext context, T resource) 
+            throws FHIRPersistenceException {
         
         SingleResourceResult.Builder<T> resultBuilder = new SingleResourceResult.Builder<T>()
                 .success(true)
@@ -65,7 +54,7 @@ public class MockPersistenceImpl implements FHIRPersistence {
     @SuppressWarnings("unchecked")
     @Override
     public <T extends Resource> SingleResourceResult<T> read(FHIRPersistenceContext context, Class<T> resourceType, String logicalId)
-        throws FHIRPersistenceException, FHIRPersistenceResourceDeletedException {
+            throws FHIRPersistenceException, FHIRPersistenceResourceDeletedException {
         // TODO. Why this logic? Definitely worthy of a comment
         if (logicalId.startsWith("generated")) {
             return new SingleResourceResult.Builder<T>()
@@ -82,7 +71,7 @@ public class MockPersistenceImpl implements FHIRPersistence {
     @SuppressWarnings("unchecked")
     @Override
     public <T extends Resource> SingleResourceResult<T> vread(FHIRPersistenceContext context, Class<T> resourceType, String logicalId, String versionId)
-        throws FHIRPersistenceException, FHIRPersistenceResourceDeletedException {
+            throws FHIRPersistenceException, FHIRPersistenceResourceDeletedException {
         if (logicalId.startsWith("generated")) {
             return new SingleResourceResult.Builder<T>()
                     .success(true)
@@ -105,7 +94,7 @@ public class MockPersistenceImpl implements FHIRPersistence {
     @SuppressWarnings("unchecked")
     @Override
     public <T extends Resource> SingleResourceResult<T> update(FHIRPersistenceContext context, String logicalId, int newVersionId, T resource)
-        throws FHIRPersistenceException {
+            throws FHIRPersistenceException {
 //        final T updatedResource;
         OperationOutcome operationOutcome = null;
         if (resource.getLanguage() != null && resource.getLanguage().getValue().equals("en-US")) {
@@ -184,7 +173,7 @@ public class MockPersistenceImpl implements FHIRPersistence {
 
     @Override
     public List<ResourceChangeLogRecord> changes(int resourceCount, java.time.Instant fromLastModified, Long afterResourceId, String resourceTypeName)
-        throws FHIRPersistenceException {
+            throws FHIRPersistenceException {
         // NOP
         return null;
     }

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,7 +11,7 @@ import java.util.Properties;
 /**
  * Adapter to support reading of COS properties from a {@link Properties} instance
  */
-public class COSPropertiesAdapter {
+public class COSPropertiesAdapter implements COSConfigAdapter {
 
     // The properties we are adapting
     private final Properties properties;
@@ -22,78 +22,54 @@ public class COSPropertiesAdapter {
         this.properties = properties;
     }
 
-    /**
-     * Get the API key property
-     * @return
-     */
+    @Override
     public String getApiKey() {
-        return properties.getProperty(COSConstants.COS_API_KEY);
+        return properties.getProperty(COSPropertyConstants.COS_API_KEY);
     }
-
-    /**
-     * Get the srvinstid property
-     * @return
-     */
+    @Override
     public String getSrvInstId() {
-        return properties.getProperty(COSConstants.COS_SRVINSTID);
+        return properties.getProperty(COSPropertyConstants.COS_SRVINSTID);
     }
 
-    /**
-     * Get the endpoint property
-     * @return
-     */
+    @Override
     public String getEndpointUrl() {
-        return properties.getProperty(COSConstants.COS_ENDPOINT_URL);
+        return properties.getProperty(COSPropertyConstants.COS_ENDPOINT_URL);
     }
 
-    /**
-     * Get the location property
-     * @return
-     */
+    @Override
     public String getLocation() {
-        return properties.getProperty(COSConstants.COS_LOCATION);
+        return properties.getProperty(COSPropertyConstants.COS_LOCATION);
     }
 
-    /**
-     * Get the bucket name property
-     * @return
-     */
+    @Override
     public String getBucketName() {
-        return properties.getProperty(COSConstants.COS_BUCKET_NAME);
+        return properties.getProperty(COSPropertyConstants.COS_BUCKET_NAME);
     }
 
-    /**
-     * Get the credential_ibm property
-     * @return
-     */
+    @Override
     public boolean isCredentialIBM() {
-        return "Y".equalsIgnoreCase(properties.getProperty(COSConstants.COS_CREDENTIAL_IBM));
+        return "Y".equalsIgnoreCase(properties.getProperty(COSPropertyConstants.COS_CREDENTIAL_IBM));
     }
 
-    /**
-     * COS request timeout in milliseconds
-     * @return
-     */
+    @Override
     public int getRequestTimeout() {
-        String val = properties.getProperty(COSConstants.COS_REQUEST_TIMEOUT, "60000");
+        String val = properties.getProperty(COSPropertyConstants.COS_REQUEST_TIMEOUT, "60000");
         return Integer.parseInt(val);
     }
 
-    /**
-     * COS socket timeout in milliseconds
-     * @return
-     */
+    @Override
     public int getSocketTimeout() {
-        String val = properties.getProperty(COSConstants.COS_SOCKET_TIMEOUT, "60000");
+        String val = properties.getProperty(COSPropertyConstants.COS_SOCKET_TIMEOUT, "60000");
         return Integer.parseInt(val);
     }
 
-    /**
-     * Max keys per list objects request
-     * @return
-     */
+    @Override
     public int getMaxKeys() {
-        String val = properties.getProperty(COSConstants.COS_MAX_KEYS, "1000");
-        return Integer.parseInt(val);
+        String val = properties.getProperty(COSPropertyConstants.COS_MAX_KEYS);
+        if (val != null) {
+            return Integer.parseInt(val);
+        } else {
+            return defaultMaxKeys();
+        }
     }
 }

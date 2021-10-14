@@ -285,24 +285,14 @@ public class ServerResolveFunctionTest {
 
         @SuppressWarnings("unchecked")
         @Override
-        public <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource, String id, int versionNumber,
-            Instant lastUpdated) throws FHIRPersistenceException {
+        public <T extends Resource> SingleResourceResult<T> createWithMeta(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException {
             Class<? extends Resource> resourceType = resource.getClass();
 
+            // We no longer need to update the resource meta, so all that's required is
+            // to find the list of versions for this id and add it
+            final String id = resource.getId();
             List<Resource> versions = map.computeIfAbsent(resourceType, k -> new HashMap<>())
                 .computeIfAbsent(id, k -> new ArrayList<>());
-
-            String versionId = Integer.toString(versionNumber);
-
-            Meta.Builder metaBuilder = (resource.getMeta() != null) ? resource.getMeta().toBuilder() : Meta.builder();
-            metaBuilder.versionId(Id.of(versionId)).lastUpdated(Instant.now(ZoneOffset.UTC));
-
-            Resource.Builder resourceBuilder = resource.toBuilder();
-
-            resource = (T) resourceBuilder
-                .id(id)
-                .meta(metaBuilder.build())
-                .build();
 
             versions.add(resource);
 

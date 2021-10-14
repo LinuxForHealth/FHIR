@@ -10,7 +10,6 @@ import static com.ibm.fhir.model.type.String.string;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.time.ZoneOffset;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -58,7 +57,6 @@ import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
 import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
 import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
@@ -221,7 +219,8 @@ public class ChunkWriter extends AbstractItemWriter {
 
                                 FHIRPersistenceEvent event = new FHIRPersistenceEvent(fhirResource, props);
 
-                                FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(event);
+                                // Set up the persistence context to include deleted resources when we read
+                                FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(event, true);
                                 long startTime = System.currentTimeMillis();
                                 operationOutcome = conditionalFingerprintUpdate(chunkData, skip, localCache, fhirPersistence, persistenceContext, id, fhirResource);
                                 if (auditLogger.shouldLog()) {
@@ -303,17 +302,11 @@ public class ChunkWriter extends AbstractItemWriter {
      */
     public OperationOutcome conditionalFingerprintUpdate(ImportTransientUserData chunkData, boolean skip, Map<String, SaltHash> localCache, FHIRPersistence persistence, FHIRPersistenceContext context, String logicalId, Resource resource) throws FHIRPersistenceException {
         
-        // Since issue 1869, we always need to perform the read here in order to obtain the
-        // latest version id. When we call the persistence layer, the resource should already
-        // be updated with the correct id/meta values
-        Resource oldResource = null;
-        try {
-            // This execution is in a try-catch-block since we want to catch
-            // the resource deleted exception.
-            oldResource = persistence.read(context, resource.getClass(), logicalId).getResource();
-        } catch (FHIRPersistenceResourceDeletedException fpde) {
-            logger.throwing("ChunkWriter", "conditionalFingerprintUpdate", fpde);
-        }
+        // Since issue 1869, we must perform the read at this point in order to obtain the
+        // latest version id. The persistence layer no longer makes any changes to the 
+        // resource so the resource needs to be fully prepared before the persistence
+        // create/update call is made
+        final Resource oldResource = persistence.read(context, resource.getClass(), logicalId).getResource();
         
         final com.ibm.fhir.model.type.Instant lastUpdated = PayloadPersistenceHelper.getCurrentInstant();
         final int newVersionNumber = oldResource != null && oldResource.getMeta() != null && oldResource.getMeta().getVersionId() != null

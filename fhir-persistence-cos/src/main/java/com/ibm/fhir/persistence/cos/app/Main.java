@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -28,12 +28,14 @@ public class Main {
     private static final String JAR_NAME = "fhir-persistence-cos-*-cli.jar";
 
     /**
-     *
+     * Configure the datastore (COS in this case) so that it's ready to support
+     * storage of resource payloads.
      * @param tenantId
+     * @param dsId
      * @throws Exception
      */
     private static void bootstrapCosForTenant(String tenantId, String dsId) throws Exception {
-        FHIRRequestContext.set(new FHIRRequestContext(tenantId, "default"));
+        FHIRRequestContext.set(new FHIRRequestContext(tenantId, dsId));
 
         // Obtain the PropertyGroup for the payload datasource configuration for
         // the current tenant
@@ -43,7 +45,7 @@ public class Main {
                 String bucketName = pg.getStringProperty("bucketName");
                 if (bucketName == null || bucketName.isEmpty()) {
                     // Compute a deterministic value for the bucket based on tenantId
-                    bucketName = COSPayloadHelper.makeTenantBucketName(tenantId);
+                    bucketName = COSPayloadHelper.makeTenantBucketName(tenantId, dsId);
                 }
                 createBucket(bucketName);
             } else {

@@ -69,16 +69,13 @@ import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.model.resource.Resource.Builder;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.resource.SearchParameter.Component;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Instant;
-import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.SearchParamType;
@@ -372,19 +369,20 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
     @Override
     public <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException  {
-        // Provided for API stability. No longer used. 
+        // This method is provided for API stability. No longer used. 
+        
+        // Generate a new logical resource id
         final String logicalId = generateResourceId();
         
         // Set the resource id and meta fields.
         final int newVersionNumber = 1;
         final Instant lastUpdated = Instant.now(ZoneOffset.UTC);
         T updatedResource = copyAndSetResourceMetaFields(resource, logicalId, newVersionNumber, lastUpdated);
-        return create(context, updatedResource, logicalId, newVersionNumber, lastUpdated);
+        return createWithMeta(context, updatedResource);
     }
 
     @Override
-    public <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T updatedResource, String logicalId, int newVersionNumber, 
-        Instant lastUpdated) throws FHIRPersistenceException  {
+    public <T extends Resource> SingleResourceResult<T> createWithMeta(FHIRPersistenceContext context, T updatedResource) throws FHIRPersistenceException  {
         final String METHODNAME = "create";
         log.entering(CLASSNAME, METHODNAME);
 
@@ -398,6 +396,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 log.fine("Creating new FHIR Resource of type '" + updatedResource.getClass().getSimpleName() + "'");
             }
 
+            // The identity and meta fields must already be in the resource
+            final String logicalId = updatedResource.getId();
+            final int newVersionNumber = Integer.parseInt(updatedResource.getMeta().getVersionId().getValue());
+            final Instant lastUpdated = updatedResource.getMeta().getLastUpdated();
+            
             // Create the new Resource DTO instance.
             com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO =
                     createResourceDTO(logicalId, newVersionNumber, lastUpdated, updatedResource);

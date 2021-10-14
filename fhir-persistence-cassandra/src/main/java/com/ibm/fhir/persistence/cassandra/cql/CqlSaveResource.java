@@ -97,7 +97,7 @@ public class CqlSaveResource {
         int offset = 0;
         while (offset < payload.length) {
             // shame we have to copy the array here
-            // TODO consume the array directly as an InputStream
+            // TODO possible opportunity to optimize
             int to = Math.min(offset + CHUNK_SIZE, payload.length);
             byte[] chunk = Arrays.copyOfRange(payload, offset, to);
             statements.add(ps.bind(partitionId, payloadId, ordinal++, chunk));

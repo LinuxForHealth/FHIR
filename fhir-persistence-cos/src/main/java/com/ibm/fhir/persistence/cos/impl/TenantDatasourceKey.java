@@ -17,6 +17,11 @@ public class TenantDatasourceKey {
     
     private final String datasourceId;
     
+    /**
+     * Public constructor
+     * @param tenantId
+     * @param datasourceId
+     */
     public TenantDatasourceKey(String tenantId, String datasourceId) {
         this.tenantId = tenantId;
         this.datasourceId = datasourceId;

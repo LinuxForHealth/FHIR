@@ -29,7 +29,7 @@ public interface FHIRPersistence {
     /**
      * Stores a new FHIR Resource in the datastore. Id assignment handled by the implementation.
      * This method has been deprecated. Instead, generate the logical id first and use the 
-     * create(context, resource, logicalId) call instead.
+     * createWithMeta(context, resource) call instead.
      * @param context the FHIRPersistenceContext instance associated with the current request
      * @param resource the FHIR Resource instance to be created in the datastore
      * @return a SingleResourceResult with a copy of resource with Meta fields updated by the persistence layer and/or
@@ -41,19 +41,16 @@ public interface FHIRPersistence {
     
     /**
      * Stores a new FHIR Resource in the datastore. The resource is not modified before it is stored. It
-     * must therefore already include correct Meta fields.
+     * must therefore already include correct Meta fields. Should be used instead of
+     * method {@link #create(FHIRPersistenceContext, Resource)}.
      *
      * @param context the FHIRPersistenceContext instance associated with the current request
      * @param resource the FHIR Resource instance to be created in the datastore
-     * @param logicalId the new logicalId to assign to the resource
-     * @param versionNumber the version number which must match the value in the resource meta element
-     * @param lastUpdated the lastUpdated timestamp which must match the value in the resource meta element
      * @return a SingleResourceResult with the unmodified resource and/or
      *         an OperationOutcome with hints, warnings, or errors related to the interaction
      * @throws FHIRPersistenceException
      */
-    <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource, String logicalId, int versionNumber, 
-        Instant lastUpdated) throws FHIRPersistenceException;
+    <T extends Resource> SingleResourceResult<T> createWithMeta(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException;
 
     /**
      * Retrieves the most recent version of a FHIR Resource from the datastore.

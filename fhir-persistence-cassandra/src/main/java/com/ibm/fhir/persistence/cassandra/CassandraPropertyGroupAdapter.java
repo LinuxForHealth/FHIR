@@ -58,7 +58,7 @@ public class CassandraPropertyGroupAdapter {
         }
         
         if (result == null) {
-            throw new IllegalArgumentException("Missing property group for " + PROP_CONTACT_POINTS);
+            throw new IllegalArgumentException("Property not configured: " + PROP_CONTACT_POINTS);
         }
         
         return result;

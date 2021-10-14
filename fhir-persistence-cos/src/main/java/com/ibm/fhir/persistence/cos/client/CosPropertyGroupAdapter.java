@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,7 +16,7 @@ import com.ibm.fhir.config.PropertyGroup;
  * to simplify access to configuration elements we need for connecting to
  * COS
  */
-public class CosPropertyGroupAdapter {
+public class CosPropertyGroupAdapter implements COSConfigAdapter {
     private static final Logger logger = Logger.getLogger(CosPropertyGroupAdapter.class.getName());
 
     // Property key constants
@@ -28,6 +28,7 @@ public class CosPropertyGroupAdapter {
     public static final String PROP_ENDPOINT_URL = "endpoint";
     public static final String PROP_REQUEST_TIMEOUT = "requestTimeout";
     public static final String PROP_SOCKET_TIMEOUT = "socketTimeout";
+    public static final String PROP_MAX_KEYS = "maxKeys";
 
     // The property group we are wrapping
     private final PropertyGroup propertyGroup;
@@ -55,10 +56,7 @@ public class CosPropertyGroupAdapter {
         }
     }
 
-    /**
-     * Return the bucket to use for this tenant
-     * @return
-     */
+    @Override
     public String getBucketName() {
         return getStringProp(PROP_BUCKET_NAME);
     }
@@ -67,6 +65,7 @@ public class CosPropertyGroupAdapter {
      * Does the service use IBM auth? (i.e. COS)
      * @return
      */
+    @Override
     public boolean isCredentialIBM() {
         try {
             return propertyGroup.getBooleanProperty(PROP_CREDENTIAL_IBM);
@@ -77,23 +76,17 @@ public class CosPropertyGroupAdapter {
 
     }
 
-    /**
-     * @return
-     */
+    @Override
     public String getApiKey() {
         return getStringProp(PROP_API_KEY);
     }
 
-    /**
-     * @return
-     */
+    @Override
     public String getSrvInstId() {
         return getStringProp(PROP_SRV_INST_ID);
     }
 
-    /**
-     * @return
-     */
+    @Override
     public int getRequestTimeout() {
         try {
             return propertyGroup.getIntProperty(PROP_REQUEST_TIMEOUT, 30000);
@@ -103,29 +96,33 @@ public class CosPropertyGroupAdapter {
         }
     }
 
-    /**
-     * @return
-     */
+    @Override
     public String getEndpointUrl() {
         return getStringProp(PROP_ENDPOINT_URL);
     }
 
-    /**
-     * @return
-     */
+    @Override
     public String getLocation() {
         return getStringProp(PROP_LOCATION);
     }
 
-    /**
-     * @return
-     */
+    @Override
     public int getSocketTimeout() {
         try {
             return propertyGroup.getIntProperty(PROP_SOCKET_TIMEOUT, 30000);
         } catch (Exception x) {
             logger.log(Level.SEVERE, PROP_SOCKET_TIMEOUT, x);
             throw new IllegalArgumentException("property not configured: " + PROP_SOCKET_TIMEOUT);
+        }
+    }
+
+    @Override
+    public int getMaxKeys() {
+        try {
+            return propertyGroup.getIntProperty(PROP_MAX_KEYS, defaultMaxKeys());
+        } catch (Exception x) {
+            logger.log(Level.SEVERE, PROP_MAX_KEYS, x);
+            throw new IllegalArgumentException("property not configured: " + PROP_MAX_KEYS);
         }
     }
 }

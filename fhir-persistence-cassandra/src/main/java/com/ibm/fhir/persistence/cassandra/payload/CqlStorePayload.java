@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -53,6 +53,14 @@ public class CqlStorePayload {
     // The anticipated version
     private final int version;
 
+    /**
+     * Public constructor
+     * @param partitionId
+     * @param resourceTypeId
+     * @param logicalId
+     * @param version
+     * @param payloadStream
+     */
     public CqlStorePayload(String partitionId, int resourceTypeId, String logicalId, int version, InputOutputByteStream payloadStream) {
         this.partitionId = partitionId;
         this.logicalId = logicalId;
@@ -134,6 +142,7 @@ public class CqlStorePayload {
      * an ordinal which, being part of the key, is used to retrieve the data in the same
      * order so that the original order.
      * @param session
+     * @param payloadId
      */
     private void storePayloadChunks(CqlSession session, String payloadId) {
 //        + "partition_id text, "

@@ -20,19 +20,20 @@ public class COSPayloadHelper {
 
     /**
      * Generate a bucket name for the given tenant name. The name is computed as a hash
-     * of the tenantId combined with a salt value obtained from the environment. Deployments
-     * should use a 256 bit value for the salt, ideally created with a cryptographically secure
-     * random number generator. This value should be unique per deployment, but shared across
-     * multiple (scale-out) servers within that deployment.
+     * of the tenantId and dsId values combined with a salt value obtained from the environment. 
+     * Deployments should use a 256 bit value for the salt, ideally created with a 
+     * cryptographically secure random number generator. This value should be unique per 
+     * deployment, but shared across multiple (scale-out) servers within that deployment.
      *
-     * In the unlikely event that HASH(salt, tenantId) generates a value colliding with an
+     * In the unlikely event that HASH(salt, tenantId, dsId) generates a value colliding with an
      * existing bucket (whose names are required to be globally unique), the tenant configuration
      * can override this value and provide a specific name (which should also be a large random
      * value so that it can't be guessed).
      * @param tenantId
+     * @param dsId
      * @return
      */
-    public static String makeTenantBucketName(String tenantId) {
+    public static String makeTenantBucketName(String tenantId, String dsId) {
         final String salt64 = System.getProperty(FHIR_PAYLOAD_BUCKETNAME_TENANT_SALT);
 
         if (salt64 == null) {
@@ -53,6 +54,8 @@ public class COSPayloadHelper {
             digest.digest(salt);
             digest.digest("~".getBytes(StandardCharsets.UTF_8));
             digest.digest(tenantId.getBytes(StandardCharsets.UTF_8));
+            digest.digest("~".getBytes(StandardCharsets.UTF_8));
+            digest.digest(dsId.getBytes(StandardCharsets.UTF_8));
 
             // A 32-byte value, which we need to convert into a character string
             // matching the above requirements. Simplest is base-36, all lower

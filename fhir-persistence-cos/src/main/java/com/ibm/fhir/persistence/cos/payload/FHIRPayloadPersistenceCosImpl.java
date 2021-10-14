@@ -6,22 +6,13 @@
 
 package com.ibm.fhir.persistence.cos.payload;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.ibm.fhir.model.format.Format;
-import com.ibm.fhir.model.generator.FHIRGenerator;
-import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
-import com.ibm.fhir.model.parser.FHIRJsonParser;
-import com.ibm.fhir.model.parser.FHIRParser;
-import com.ibm.fhir.model.parser.exception.FHIRParserException;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.persistence.cos.client.COSPayloadClient;
 import com.ibm.fhir.persistence.cos.impl.COSClientManager;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
@@ -29,8 +20,6 @@ import com.ibm.fhir.persistence.payload.FHIRPayloadPersistence;
 import com.ibm.fhir.persistence.payload.PayloadKey;
 import com.ibm.fhir.persistence.payload.PayloadPersistenceHelper;
 import com.ibm.fhir.persistence.util.InputOutputByteStream;
-import com.ibm.fhir.search.SearchConstants;
-
 
 /**
  * Provides storage and retrieval of FHIR payload data using IBM

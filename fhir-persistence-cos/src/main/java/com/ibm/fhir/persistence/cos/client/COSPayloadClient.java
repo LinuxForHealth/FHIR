@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,8 +9,6 @@ package com.ibm.fhir.persistence.cos.client;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collection;
-import java.util.List;
 import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -51,6 +49,9 @@ public class COSPayloadClient {
 
     // The tenant this client is tied to
     private final String tenantId;
+    
+    // The datastoreId
+    private final String dsId;
 
     static {
         SDKGlobalConfiguration.IAM_ENDPOINT = "https://iam.cloud.ibm.com/oidc/token";
@@ -58,11 +59,14 @@ public class COSPayloadClient {
 
     /**
      * Public constructor
-     * @param cosProperties
+     * @param tenantId
+     * @param dsId
+     * @param propertyAdapter
      */
-    public COSPayloadClient(String tenantId, CosPropertyGroupAdapter propertyAdapter) {
+    public COSPayloadClient(String tenantId, String dsId, CosPropertyGroupAdapter propertyAdapter) {
 
         this.tenantId = tenantId;
+        this.dsId = dsId;
         this.propertyAdapter = propertyAdapter;
 
         AWSCredentials credentials;
@@ -88,7 +92,7 @@ public class COSPayloadClient {
     /**
      * Read the object using the given function
      * @param <T>
-     * @param itemName
+     * @param objectName
      * @param fn
      * @return
      */
@@ -117,7 +121,7 @@ public class COSPayloadClient {
 
     /**
      * Write the payload to the given objectName as key
-     * @param bundleName
+     * @param objectName
      * @param compressedPayload the serialized payload (already compressed)
      */
     public void write(String objectName, byte[] compressedPayload) throws FHIRPersistenceException {
@@ -226,7 +230,7 @@ public class COSPayloadClient {
         String bucketName = propertyAdapter.getBucketName();
         if (bucketName == null) {
             // try using the default bucket name for this tenant
-            bucketName = COSPayloadHelper.makeTenantBucketName(tenantId);
+            bucketName = COSPayloadHelper.makeTenantBucketName(tenantId, dsId);
         }
         return bucketName;
     }

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -62,7 +62,7 @@ public class COSClientManager implements EventCallback {
     }
 
     /**
-     * Get or create the CqlSession connection to Cassandra for the current
+     * Get or create the connection to COS for the current
      * tenant/datasource
      * @return
      */
@@ -72,17 +72,18 @@ public class COSClientManager implements EventCallback {
         }
 
         // Connections can be tenant-specific, so find out what tenant we're associated with and use its persistence
-        // configuration to obtain the appropriate CqlSession instance (shared by multiple threads).
+        // configuration to obtain the appropriate COSPayloadClient instance (shared by multiple threads).
         final String tenantId = FHIRRequestContext.get().getTenantId();
         final String dsId = "default"; // only one payload datasource
         TenantDatasourceKey key = new TenantDatasourceKey(tenantId, dsId);
 
-        // Get the session for this tenant/datasource, or create a new one if needed
+        // Get the COS client for this tenant/datasource, or create a new one if needed
         return clientMap.computeIfAbsent(key, COSClientManager::newClient);
     }
 
     /**
-     * Build a new CqlSession object for the tenant/datasource.
+     * Build a new COSPayloadClient object for the tenant/datasource represented
+     * by the key.
      * @param key
      * @return
      */
@@ -114,14 +115,14 @@ public class COSClientManager implements EventCallback {
 
             // Wrap the connection properties in an adapter to simplify access
             CosPropertyGroupAdapter adapter = new CosPropertyGroupAdapter(connectionProps);
-            return new COSPayloadClient(key.getTenantId(), adapter);
+            return new COSPayloadClient(key.getTenantId(), key.getDatasourceId(), adapter);
         } catch (Exception x) {
             throw new IllegalStateException(x);
         }
     }
 
     /**
-     * Get rid of any sessions we're holding on to
+     * Get rid of any client connections we're holding on to
      */
     private void closeAllClients() {
         // prevent anyone asking for a client
