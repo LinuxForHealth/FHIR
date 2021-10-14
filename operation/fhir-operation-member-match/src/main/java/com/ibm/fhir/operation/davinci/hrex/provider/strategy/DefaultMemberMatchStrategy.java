@@ -528,7 +528,7 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
         @Override
         public boolean visit(String elementName, int elementIndex, Identifier identifier) {
             // SearchParameter: identifier
-            if ("identifier".equals(elementName) && identifier != null) {
+            if ("identifier".equals(elementName)) {
                 if (identifier.getUse() != null) {
                     switch(identifier.getUse().getValueAsEnum()) {
                         case USUAL:
@@ -552,23 +552,29 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
         private void addIdValue(Identifier identifier) {
             Uri system = identifier.getSystem();
             com.ibm.fhir.model.type.String value = identifier.getValue();
-            if (system.getValue() != null && value.getValue() != null) {
-                // It may be that we have to emove the system as it's implied as it's on this system.
+            if (system != null
+                    && system.getValue() != null
+                    && value != null
+                    && value.getValue() != null) {
+                // It may be that we have to remove the system as it may be implied on the system.
                 ids.add(system.getValue() + "|" + value.getValue());
             }
         }
 
         @Override
         public boolean visit(String elementName, int elementIndex, Reference reference) {
-            if ("beneficiary".equals(elementName) && reference.getReference() != null
+            if ("beneficiary".equals(elementName)
+                    && reference.getReference() != null
                     && reference.getReference().getValue() != null) {
                 // Plan beneficiary
                 searchParams.put("patient", Arrays.asList(reference.getReference().getValue()));
-            } else if ("payor".equals(elementName) && reference.getReference() != null
+            } else if ("payor".equals(elementName)
+                    && reference.getReference() != null
                     && reference.getReference().getValue() != null) {
                 //Issuer of the Policy
                 searchParams.put("payor", Arrays.asList(reference.getReference().getValue()));
-            } else if ("subscriber".equals(elementName) && reference.getReference() != null
+            } else if ("subscriber".equals(elementName)
+                    && reference.getReference() != null
                     && reference.getReference().getValue() != null) {
                 // Reference to the subscriber
                 searchParams.put("subscriber", Arrays.asList(reference.getReference().getValue()));
@@ -578,7 +584,7 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
 
         @Override
         public boolean visit(String elementName, int elementIndex, com.ibm.fhir.model.type.String string) {
-            if ("subscriberId".equals(elementName) && string.getValue() != null) {
+            if ("subscriberId".equals(elementName)) {
                 // HREX has a custom search parameter - subscriber-id.
                 searchParams.put("subscriber-id", Arrays.asList(string.getValue()));
             }
@@ -587,7 +593,7 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
 
         @Override
         public boolean visit(String elementName, int elementIndex, BackboneElement element) {
-            // class is really the search code type
+            // class maps to the search parameter code "type"
             if ("class".equals(elementName) && element.is(Coverage.Class.class)) {
                 Coverage.Class cc = element.as(Coverage.Class.class);
                 if (cc.getValue() != null && cc.getValue().getValue() != null) {
@@ -595,8 +601,10 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
                     CodeableConcept codeableConcept = cc.getType();
                     if (codeableConcept != null) {
                         for (Coding coding : codeableConcept.getCoding()) {
-                            if (coding.getSystem() != null && coding.getSystem().getValue() != null
-                                    && coding.getCode() != null && coding.getCode().getValue() != null) {
+                            if (coding.getSystem() != null
+                                    && coding.getSystem().getValue() != null
+                                    && coding.getCode() != null
+                                    && coding.getCode().getValue() != null) {
                                 ccs.add(coding.getSystem().getValue() + "|" +
                                     coding.getCode().getValue() + "|" + value);
                             }

@@ -34,14 +34,19 @@ import com.ibm.fhir.model.resource.OperationOutcome.Builder;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Patient.Communication;
+import com.ibm.fhir.model.resource.Provenance.Agent;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.ContactPoint;
+import com.ibm.fhir.model.type.Extension;
+import com.ibm.fhir.model.type.Identifier;
+import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.ContactPointSystem;
 import com.ibm.fhir.model.type.code.ContactPointUse;
+import com.ibm.fhir.model.type.code.IdentifierUse;
 import com.ibm.fhir.operation.davinci.hrex.MemberMatchOperation;
 import com.ibm.fhir.operation.davinci.hrex.configuration.ConfigurationAdapter;
 import com.ibm.fhir.operation.davinci.hrex.configuration.ConfigurationFactory;
@@ -62,6 +67,13 @@ import com.ibm.fhir.server.operation.spi.FHIRRestOperationResponse;
  * Run the Unit Tests for MemberMatch
  */
 public class MemberMatchTest {
+
+    private static final Extension DATA_ABSENT =
+            Extension.builder().url("http://hl7.org/fhir/StructureDefinition/data-absent-reason").value(Code.of("unknown")).build();
+
+    private static final com.ibm.fhir.model.type.String DATA_ABSENT_STRING = com.ibm.fhir.model.type.String
+                .builder()
+                .extension(DATA_ABSENT).build();
 
     @BeforeClass
     public void setup() {
@@ -318,29 +330,19 @@ public class MemberMatchTest {
          */
         MemberMatchPatientSearchCompiler compiler = new MemberMatchPatientSearchCompiler();
         ptnt = ptnt.toBuilder()
-                .communication(Communication.builder()
-                    .language(CodeableConcept.builder()
-                        .coding(
-                            Coding.builder()
-                                .system(Uri.of("urn:ietf:bcp:47"))
-                                .code(Code.of("en"))
+                .communication(
+                    Communication.builder()
+                        .language(
+                            CodeableConcept.builder()
+                                .coding(
+                                    Coding.builder()
+                                        .system(Uri.of("urn:ietf:bcp:47"))
+                                        .code(Code.of("en")).build())
+                                .text("English")
                                 .build())
-                            .text("English")
+                        .preferred(Boolean.TRUE)
                         .build())
-                    .preferred(Boolean.TRUE)
-                    .build())
-                .telecom(
-                    ContactPoint.builder()
-                        .system(ContactPointSystem.PHONE)
-                        .use(ContactPointUse.HOME)
-                        .value("1-000-000-0000")
-                        .build(),
-                    ContactPoint.builder()
-                        .system(ContactPointSystem.PHONE)
-                        .use(ContactPointUse.HOME)
-                        .value("2-000-000-0000")
-                        .build())
-                .build();
+                .telecom(ContactPoint.builder().system(ContactPointSystem.PHONE).use(ContactPointUse.HOME).value("1-000-000-0000").build(), ContactPoint.builder().system(ContactPointSystem.PHONE).use(ContactPointUse.HOME).value("2-000-000-0000").build()).build();
 
         ptnt.accept(compiler);
         System.out.println(compiler.getSearchParameters());
@@ -351,9 +353,484 @@ public class MemberMatchTest {
         Parameters input = generateInput();
         Coverage coverage = input.getParameter().get(1).getResource().as(Coverage.class);
 
+        coverage =
+                coverage.toBuilder()
+                    .beneficiary(Reference.builder().reference("Patient/2-2-3-4").build())
+                    .payor(Reference.builder().reference("Organization/1-2-3-4").build())
+                    .subscriber(Reference.builder().reference("Patient/2-2-3-4").build())
+                    .build();
+
         MemberMatchCovergeSearchCompiler compiler = new MemberMatchCovergeSearchCompiler("1-2-3-4");
 
         coverage.accept(compiler);
+        System.out.println(compiler.getSearchParameters());
+    }
+
+    @Test
+    public void testInputCoverageIdentifiersUsual() throws Exception {
+        Parameters input = generateInput();
+        Coverage coverage = input.getParameter().get(1).getResource().as(Coverage.class);
+
+        coverage =
+                coverage.toBuilder()
+                    .identifier(Identifier.builder()
+                        .system(Uri.of("http://test.com/sys"))
+                        .value("1-2-3-4")
+                        .use(IdentifierUse.USUAL)
+                        .build())
+                    .build();
+
+        MemberMatchCovergeSearchCompiler compiler = new MemberMatchCovergeSearchCompiler("1-2-3-4");
+
+        coverage.accept(compiler);
+        System.out.println(compiler.getSearchParameters());
+    }
+
+    @Test
+    public void testInputCoverageIdentifiersUsualAbsent() throws Exception {
+        Parameters input = generateInput();
+        Coverage coverage = input.getParameter().get(1).getResource().as(Coverage.class);
+
+        coverage =
+                coverage.toBuilder()
+                    .identifier(Identifier.builder()
+                        .system(Uri.builder()
+                            .extension(DATA_ABSENT)
+                            .build())
+                        .value(com.ibm.fhir.model.type.String.builder()
+                                .extension(DATA_ABSENT)
+                            .build())
+                        .use(IdentifierUse.USUAL)
+                        .build())
+                    .build();
+
+        MemberMatchCovergeSearchCompiler compiler = new MemberMatchCovergeSearchCompiler("1-2-3-4");
+
+        coverage.accept(compiler);
+        System.out.println(compiler.getSearchParameters());
+    }
+
+    @Test
+    public void testInputCoverageIdentifiersUsualAbsentValueOnly() throws Exception {
+        Parameters input = generateInput();
+        Coverage coverage = input.getParameter().get(1).getResource().as(Coverage.class);
+
+        coverage =
+                coverage.toBuilder()
+                    .identifier(Identifier.builder()
+                        .system(Uri.of("http://test.com/sys"))
+                        .value(com.ibm.fhir.model.type.String.builder()
+                                .extension(DATA_ABSENT)
+                            .build())
+                        .use(IdentifierUse.USUAL)
+                        .build())
+                    .build();
+
+        MemberMatchCovergeSearchCompiler compiler = new MemberMatchCovergeSearchCompiler("1-2-3-4");
+
+        coverage.accept(compiler);
+        System.out.println(compiler.getSearchParameters());
+    }
+
+    @Test
+    public void testInputCoverageIdentifiersNoValue() throws Exception {
+        Parameters input = generateInput();
+        Coverage coverage = input.getParameter().get(1).getResource().as(Coverage.class);
+
+        Coverage.Builder builder = coverage.toBuilder();
+        builder.setValidating(false);
+        builder = builder.identifier(Identifier.builder()
+                        .system(Uri.of("http://test.com/sys"))
+                        .use(IdentifierUse.USUAL)
+                        .build());
+        coverage = builder.build();
+
+        MemberMatchCovergeSearchCompiler compiler = new MemberMatchCovergeSearchCompiler("1-2-3-4");
+        coverage.accept(compiler);
+        assertEquals(compiler.getSearchParameters().size(), 3);
+    }
+
+    @Test
+    public void testInputCoverageIdentifiersUsualNoSys() throws Exception {
+        Parameters input = generateInput();
+        Coverage coverage = input.getParameter().get(1).getResource().as(Coverage.class);
+
+        coverage =
+                coverage.toBuilder()
+                    .identifier(Identifier.builder()
+                        .value("1-2-3-4")
+                        .use(IdentifierUse.USUAL)
+                        .build())
+                    .build();
+
+        MemberMatchCovergeSearchCompiler compiler = new MemberMatchCovergeSearchCompiler("1-2-3-4");
+
+        coverage.accept(compiler);
+        System.out.println(compiler.getSearchParameters());
+    }
+
+    @Test
+    public void testInputCoverageIdentifiersTemp() throws Exception {
+        Parameters input = generateInput();
+        Coverage coverage = input.getParameter().get(1).getResource().as(Coverage.class);
+
+        coverage =
+                coverage.toBuilder()
+                    .identifier(Identifier.builder()
+                        .use(IdentifierUse.TEMP)
+                        .build())
+                    .build();
+
+        MemberMatchCovergeSearchCompiler compiler = new MemberMatchCovergeSearchCompiler("1-2-3-4");
+
+        coverage.accept(compiler);
+        System.out.println(compiler.getSearchParameters());
+    }
+
+    @Test
+    public void testInputCoverageEmpty() throws Exception {
+        Coverage.Builder builder = Coverage.builder();
+        builder.setValidating(false);
+        Coverage coverage = builder.build();
+        MemberMatchCovergeSearchCompiler compiler = new MemberMatchCovergeSearchCompiler("1-2-3-4");
+        coverage.accept(compiler);
+        assertEquals(compiler.getSearchParameters().size(), 0);
+
+        Identifier.Builder idBuilder = Identifier.builder();
+        idBuilder.setValidating(false);
+        assertFalse(compiler.visit("test", 1, idBuilder.build()));
+    }
+
+    @Test
+    public void testInputCoverageDataAbsentString() throws Exception {
+        Coverage.Builder builder = Coverage.builder();
+        builder.setValidating(false);
+        builder = builder
+                    .beneficiary(Reference.builder().reference(DATA_ABSENT_STRING).build())
+                    .subscriber(Reference.builder().reference(DATA_ABSENT_STRING).build())
+                    .payor(Reference.builder().reference(DATA_ABSENT_STRING).build())
+                    .subscriberId(DATA_ABSENT_STRING);
+        Coverage coverage = builder.build();
+        MemberMatchCovergeSearchCompiler compiler = new MemberMatchCovergeSearchCompiler("1-2-3-4");
+        coverage.accept(compiler);
+        assertEquals(compiler.getSearchParameters().size(), 1);
+    }
+
+    @Test
+    public void testInputCoverageDataAbsentReference() throws Exception {
+        Reference reference = Reference.builder().extension(DATA_ABSENT).build();
+
+        Coverage.Builder builder = Coverage.builder();
+        builder.setValidating(false);
+        builder = builder
+                    .beneficiary(reference)
+                    .subscriber(reference)
+                    .payor(reference)
+                    .subscriberId(DATA_ABSENT_STRING);
+        Coverage coverage = builder.build();
+        MemberMatchCovergeSearchCompiler compiler = new MemberMatchCovergeSearchCompiler("1-2-3-4");
+        coverage.accept(compiler);
+        assertEquals(compiler.getSearchParameters().size(), 1);
+    }
+
+    @Test
+    public void testInputCoverageTypes() throws Exception {
+        Parameters input = generateInput();
+        Coverage coverage = input.getParameter().get(1).getResource().as(Coverage.class);
+
+        coverage =
+                coverage.toBuilder()
+                    .clazz(Coverage.Class.builder()
+                        .type(CodeableConcept.builder()
+                                .coding(
+                                    Coding.builder()
+                                        .system(Uri.of("urn:ietf:bcp:47"))
+                                        .code(Code.of("en")).build())
+                                .text("English")
+                                .build())
+                        .value("Test")
+                        .build())
+                    .build();
+
+        MemberMatchCovergeSearchCompiler compiler = new MemberMatchCovergeSearchCompiler("1-2-3-4");
+
+        coverage.accept(compiler);
+        System.out.println(compiler.getSearchParameters());
+
+        Agent.Builder builder = Agent.builder();
+        builder.setValidating(false);
+        assertFalse(compiler.visit("test", 0, builder.build()));
+        assertFalse(compiler.visit("class", 0, builder.build()));
+    }
+
+    @Test
+    public void testInputCoverageTypesDataAbsent() throws Exception {
+        Parameters input = generateInput();
+        Coverage coverage = input.getParameter().get(1).getResource().as(Coverage.class);
+
+        coverage =
+                coverage.toBuilder()
+                    .clazz(Coverage.Class.builder()
+                        .type(CodeableConcept.builder()
+                                .coding(
+                                    Coding.builder()
+                                        .system(Uri.of("urn:ietf:bcp:47"))
+                                        .code(Code.of("en")).build())
+                                .text("English")
+                                .build())
+                        .value(DATA_ABSENT_STRING)
+                        .build())
+                    .build();
+
+        MemberMatchCovergeSearchCompiler compiler = new MemberMatchCovergeSearchCompiler("1-2-3-4");
+        coverage.accept(compiler);
+        assertEquals(compiler.getSearchParameters().size(), 3);
+    }
+
+    @Test
+    public void testInputCoverageTypesDataAbsentCode() throws Exception {
+        Parameters input = generateInput();
+        Coverage coverage = input.getParameter().get(1).getResource().as(Coverage.class);
+
+        coverage =
+                coverage.toBuilder()
+                    .clazz(Coverage.Class.builder()
+                        .type(CodeableConcept.builder()
+                                .coding(
+                                    Coding.builder()
+                                        .system(Uri.of("urn:ietf:bcp:47"))
+                                        .code(Code.builder().extension(DATA_ABSENT).build()).build())
+                                .text("English")
+                                .build())
+                        .value("test")
+                        .build())
+                    .build();
+
+        MemberMatchCovergeSearchCompiler compiler = new MemberMatchCovergeSearchCompiler("1-2-3-4");
+        coverage.accept(compiler);
+        assertEquals(compiler.getSearchParameters().size(), 3);
+    }
+
+    @Test
+    public void testInputCoverageTypesDataAbsentSystem() throws Exception {
+        Parameters input = generateInput();
+        Coverage coverage = input.getParameter().get(1).getResource().as(Coverage.class);
+
+        coverage =
+                coverage.toBuilder()
+                    .clazz(Coverage.Class.builder()
+                        .type(CodeableConcept.builder()
+                                .coding(
+                                    Coding.builder()
+                                        .system(Uri.builder().extension(DATA_ABSENT).build())
+                                        .code(Code.of("test")).build())
+                                .text("English")
+                                .build())
+                        .value("test")
+                        .build())
+                    .build();
+
+        MemberMatchCovergeSearchCompiler compiler = new MemberMatchCovergeSearchCompiler("1-2-3-4");
+        coverage.accept(compiler);
+        assertEquals(compiler.getSearchParameters().size(), 3);
+    }
+
+    @Test
+    public void testInputCoverageTypesCodeableConceptDataAbsent() throws Exception {
+        Parameters input = generateInput();
+        Coverage coverage = input.getParameter().get(1).getResource().as(Coverage.class);
+
+        coverage =
+                coverage.toBuilder()
+                    .clazz(Coverage.Class.builder()
+                        .type(CodeableConcept.builder()
+                                .extension(DATA_ABSENT)
+                                .text("English")
+                                .build())
+                        .value(DATA_ABSENT_STRING)
+                        .build())
+                    .build();
+
+        MemberMatchCovergeSearchCompiler compiler = new MemberMatchCovergeSearchCompiler("1-2-3-4");
+        coverage.accept(compiler);
+        assertEquals(compiler.getSearchParameters().size(), 3);
+    }
+
+    @Test
+    public void testInputCoverageTypesCodeableConceptEmpty() throws Exception {
+        Parameters input = generateInput();
+        Coverage coverage = input.getParameter().get(1).getResource().as(Coverage.class);
+        Coverage.Class.Builder builder = Coverage.Class.builder();
+        builder.setValidating(false);
+        coverage =
+                coverage.toBuilder()
+                    .clazz(builder
+                        .value("test")
+                        .build())
+                    .build();
+
+        MemberMatchCovergeSearchCompiler compiler = new MemberMatchCovergeSearchCompiler("1-2-3-4");
+        coverage.accept(compiler);
+        assertEquals(compiler.getSearchParameters().size(), 3);
+    }
+
+    @Test
+    public void testInputCoverageTypesClassDataAbsent() throws Exception {
+        Parameters input = generateInput();
+        Coverage coverage = input.getParameter().get(1).getResource().as(Coverage.class);
+        Coverage.Class.Builder builder = Coverage.Class.builder();
+        builder.setValidating(false);
+
+        coverage =
+                coverage.toBuilder()
+                    .clazz( builder.extension(DATA_ABSENT)
+                        .build())
+                    .build();
+
+        MemberMatchCovergeSearchCompiler compiler = new MemberMatchCovergeSearchCompiler("1-2-3-4");
+        coverage.accept(compiler);
+        assertEquals(compiler.getSearchParameters().size(), 3);
+    }
+
+    @Test
+    public void testInputCoverageTypesCodeAbsent() throws Exception {
+        Parameters input = generateInput();
+        Coverage coverage = input.getParameter().get(1).getResource().as(Coverage.class);
+
+        Coding.Builder builder = Coding.builder();
+        builder.setValidating(false);
+        builder = builder.system(Uri.of("urn:ietf:bcp:47"));
+
+        coverage =
+                coverage.toBuilder()
+                    .clazz(Coverage.Class.builder()
+                        .type(CodeableConcept.builder()
+                                .coding(builder.build())
+                                .text("English")
+                                .build())
+                        .value("Test")
+                        .build())
+                    .build();
+
+        MemberMatchCovergeSearchCompiler compiler = new MemberMatchCovergeSearchCompiler("1-2-3-4");
+
+        coverage.accept(compiler);
+        assertEquals(compiler.getSearchParameters().size(), 3);
+    }
+
+
+    @Test
+    public void testInputCoverageTypesUriAbsent() throws Exception {
+        Parameters input = generateInput();
+        Coverage coverage = input.getParameter().get(1).getResource().as(Coverage.class);
+
+        Coding.Builder builder = Coding.builder();
+        builder.setValidating(false);
+        builder = builder.code(Code.of("test"));
+
+        coverage =
+                coverage.toBuilder()
+                    .clazz(Coverage.Class.builder()
+                        .type(CodeableConcept.builder()
+                                .coding(builder.build())
+                                .text("English")
+                                .build())
+                        .value("Test")
+                        .build())
+                    .build();
+
+        MemberMatchCovergeSearchCompiler compiler = new MemberMatchCovergeSearchCompiler("1-2-3-4");
+
+        coverage.accept(compiler);
+        assertEquals(compiler.getSearchParameters().size(), 3);
+    }
+
+    @Test
+    public void testInputPatientEmpty() throws Exception {
+        Patient.Builder builder = Patient.builder();
+        builder.setValidating(false);
+        Patient ptnt = builder.build();
+
+        MemberMatchPatientSearchCompiler compiler = new MemberMatchPatientSearchCompiler();
+        ptnt.accept(compiler);
+        System.out.println(compiler.getSearchParameters());
+    }
+
+    @Test
+    public void testInputMemberMatchPatientSearchCompiler() throws Exception {
+        MemberMatchPatientSearchCompiler compiler = new MemberMatchPatientSearchCompiler();
+
+        // no match on Backbone Element
+        Agent.Builder builder = Agent.builder();
+        builder.setValidating(false);
+        assertFalse(compiler.visit("nomatch", 1, builder.build()));
+
+        // unexpected visitor match
+        assertFalse(compiler.visit("communication", 1, builder.build()));
+
+        // No Language
+        Patient.Communication.Builder commsBuilder = Patient.Communication.builder();
+        commsBuilder.setValidating(false);
+        assertFalse(compiler.visit("communication", 1, commsBuilder.build()));
+    }
+
+    @Test
+    public void testInputPatientNoSystem() throws Exception {
+        Parameters input = generateInput();
+        Patient ptnt = input.getParameter().get(0).getResource().as(Patient.class);
+
+        MemberMatchPatientSearchCompiler compiler = new MemberMatchPatientSearchCompiler();
+
+        Coding.Builder builder = Coding.builder();
+        builder.setValidating(false);
+
+        builder = builder.code(Code.of("en"));
+        Patient.Builder b = ptnt.toBuilder();
+        b.setValidating(false);
+
+        Communication.Builder c = Communication.builder();
+        c.setValidating(false);
+        ptnt = b.communication(
+                    c.language(
+                            CodeableConcept.builder()
+                                .coding(builder.build())
+                                .text("English")
+                                .build())
+                        .preferred(Boolean.TRUE)
+                        .build())
+                .telecom(ContactPoint.builder().system(ContactPointSystem.PHONE).use(ContactPointUse.HOME).value("1-000-000-0000").build(), ContactPoint.builder().system(ContactPointSystem.PHONE).use(ContactPointUse.HOME).value("2-000-000-0000").build()).build();
+
+        ptnt.accept(compiler);
+        System.out.println(compiler.getSearchParameters());
+    }
+
+    @Test
+    public void testInputPatientNoCode() throws Exception {
+        Parameters input = generateInput();
+        Patient ptnt = input.getParameter().get(0).getResource().as(Patient.class);
+
+        MemberMatchPatientSearchCompiler compiler = new MemberMatchPatientSearchCompiler();
+
+        Coding.Builder builder = Coding.builder();
+        builder.setValidating(false);
+
+        builder = builder.system(Uri.of("urn:ietf:bcp:47"));
+        Patient.Builder b = ptnt.toBuilder();
+        b.setValidating(false);
+
+        Communication.Builder c = Communication.builder();
+        c.setValidating(false);
+        ptnt = b.communication(
+                    c.language(
+                            CodeableConcept.builder()
+                                .coding(builder.build())
+                                .text("English")
+                                .build())
+                        .preferred(Boolean.TRUE)
+                        .build())
+                .telecom(ContactPoint.builder().system(ContactPointSystem.PHONE).use(ContactPointUse.HOME).value("1-000-000-0000").build(), ContactPoint.builder().system(ContactPointSystem.PHONE).use(ContactPointUse.HOME).value("2-000-000-0000").build()).build();
+
+        ptnt.accept(compiler);
         System.out.println(compiler.getSearchParameters());
     }
 
