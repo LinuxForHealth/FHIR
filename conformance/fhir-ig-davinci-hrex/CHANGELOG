@@ -1,9 +1,18 @@
-01 OCT 2021 - Second Load from http://build.fhir.org/ig/HL7/davinci-ehrx/
-- Modified the expression for provenance-1 (https://jira.hl7.org/browse/FHIR-28451)
-    - From `($this.agent.who.resolve().is Practitioner or Device) implies exists()`
-    - To `(($this.agent.who.resolve() is Practitioner) or ($this.agent.who.resolve() is Device)) implies exists()`
-- removed invalid ImplementationGuide parameters `copyrightyear`, `releaselabel`, and more
+# Da Vinci Health Record Exchange (HRex) - 0.2.0 - STU R1 - 2nd ballot
+- Commit https://github.com/HL7/davinci-ehrx/commit/21edf8c77008748576b47214ecc8e74741cddd6f
 
-08 OCT 2021
-- Relaxed MemberMatch Operations's cardinality for OldCoverage and MemberPatient
-- This is compensated for at the configuration level.
+*13 OCT 2021*
+
+1. - Modified ig-r4.json to remove unsupported values from the parameters array, such as  `copyrightyear`, `releaselabel`.
+
+2. - Change targetProfile for us-core profile references to dependency on 3.1.1, so it's not conflicting with 4.0.0 (http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|3.1.1)
+    - StructureDefinition-hrex-coverage.json
+    - StructureDefinition-hrex-task-data-request.json
+    - StructureDefinition-hrex-provenance.json
+    - StructureDefinition-hrex-practitionerrole.json
+    - StructureDefinition-hrex-practitioner.json
+    - StructureDefinition-hrex-patient-member.json
+    - StructureDefinition-hrex-patient-demographics.json
+    - StructureDefinition-hrex-organization.json
+    - StructureDefinition-hrex-parameters-member-match-in.json
+    - StructureDefinition-hrex-parameters-member-match-out.json

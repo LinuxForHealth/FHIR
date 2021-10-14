@@ -1,0 +1,20 @@
+{
+	"resourceType": "PractitionerRole",
+	"id": "min",
+	"text": {
+		"status": "generated",
+		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><p><b>practitioner</b>: <a href=\"Practitioner-min.html\">Generated Summary: id: A1B2C3; Bone </a></p><p><b>organization</b>: <a href=\"Organization-min.html\">Generated Summary: id: 0123456789; active; name: New Health Plan</a></p><p><b>telecom</b>: <a href=\"mailto:ronald.bone@newpayer.com\">ronald.bone@newpayer.com</a></p></div>"
+	},
+	"practitioner": {
+		"reference": "Practitioner/min"
+	},
+	"organization": {
+		"reference": "Organization/min"
+	},
+	"telecom": [
+		{
+			"system": "email",
+			"value": "ronald.bone@newpayer.com"
+		}
+	]
+}
