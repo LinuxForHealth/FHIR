@@ -6,10 +6,14 @@
 
 package com.ibm.fhir.operation.davinci.hrex.test;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.fail;
 
 import java.time.Instant;
 import java.util.List;
@@ -30,28 +34,38 @@ import com.ibm.fhir.model.patch.FHIRPatch;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Coverage;
 import com.ibm.fhir.model.resource.OperationDefinition;
+import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.OperationOutcome.Builder;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Patient.Communication;
 import com.ibm.fhir.model.resource.Provenance.Agent;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.type.Address;
+import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.ContactPoint;
+import com.ibm.fhir.model.type.Date;
 import com.ibm.fhir.model.type.Extension;
+import com.ibm.fhir.model.type.HumanName;
 import com.ibm.fhir.model.type.Identifier;
+import com.ibm.fhir.model.type.Meta;
+import com.ibm.fhir.model.type.PositiveInt;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.AddressUse;
 import com.ibm.fhir.model.type.code.ContactPointSystem;
 import com.ibm.fhir.model.type.code.ContactPointUse;
 import com.ibm.fhir.model.type.code.IdentifierUse;
+import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.operation.davinci.hrex.MemberMatchOperation;
 import com.ibm.fhir.operation.davinci.hrex.configuration.ConfigurationAdapter;
 import com.ibm.fhir.operation.davinci.hrex.configuration.ConfigurationFactory;
 import com.ibm.fhir.operation.davinci.hrex.provider.MemberMatchFactory;
 import com.ibm.fhir.operation.davinci.hrex.provider.strategy.DefaultMemberMatchStrategy;
+import com.ibm.fhir.operation.davinci.hrex.provider.strategy.DefaultMemberMatchStrategy.GetPatientIdentifier;
 import com.ibm.fhir.operation.davinci.hrex.provider.strategy.DefaultMemberMatchStrategy.MemberMatchCovergeSearchCompiler;
 import com.ibm.fhir.operation.davinci.hrex.provider.strategy.DefaultMemberMatchStrategy.MemberMatchPatientSearchCompiler;
 import com.ibm.fhir.operation.davinci.hrex.provider.strategy.MemberMatchResult;
@@ -62,6 +76,8 @@ import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
 import com.ibm.fhir.server.operation.spi.FHIRRestOperationResponse;
+import com.ibm.fhir.validation.FHIRValidator;
+import com.ibm.fhir.validation.exception.FHIRValidationException;
 
 /**
  * Run the Unit Tests for MemberMatch
@@ -834,6 +850,476 @@ public class MemberMatchTest {
         System.out.println(compiler.getSearchParameters());
     }
 
+    @Test
+    public void testPatientGender() throws Exception {
+        MemberMatchPatientSearchCompiler compiler = new MemberMatchPatientSearchCompiler();
+        Code code = Code.of("Test");
+        compiler.visit("no-match", 1, code);
+        assertEquals(compiler.getSearchParameters().size(), 0);
+
+        Code codeGender = Code.builder()
+                .extension(DATA_ABSENT)
+                .build();
+        compiler.visit("gender", 1, codeGender);
+        assertEquals(compiler.getSearchParameters().size(), 0);
+
+        Code gender =  Code.of("female");
+        compiler.visit("gender", 1, gender);
+        assertEquals(compiler.getSearchParameters().size(), 1);
+    }
+
+    @Test
+    public void testPatientDate() throws Exception {
+        MemberMatchPatientSearchCompiler compiler = new MemberMatchPatientSearchCompiler();
+        Date date = Date.of("2017-10-01");
+        compiler.visit("no-match", 1, date);
+        assertEquals(compiler.getSearchParameters().size(), 0);
+
+        Date dateAbsent = Date.builder()
+                .extension(DATA_ABSENT)
+                .build();
+        compiler.visit("birthDate", 1, dateAbsent);
+        assertEquals(compiler.getSearchParameters().size(), 0);
+
+        compiler.visit("birthDate", 1, date);
+        assertEquals(compiler.getSearchParameters().size(), 1);
+    }
+
+    @Test
+    public void testPatientContactPoint() throws Exception {
+        MemberMatchPatientSearchCompiler compiler = new MemberMatchPatientSearchCompiler();
+        ContactPoint.Builder builder = ContactPoint.builder();
+        builder.setValidating(false);
+        compiler.visit("no-match", 1, builder.build());
+        assertEquals(compiler.getSearchParameters().size(), 0);
+
+        ContactPoint contactPointAbsent = ContactPoint.builder()
+                .extension(DATA_ABSENT)
+                .build();
+        compiler.visit("telecom", 1, contactPointAbsent);
+        assertEquals(compiler.getSearchParameters().size(), 0);
+
+        builder = ContactPoint.builder()
+                .use(ContactPointUse.HOME)
+                .system(ContactPointSystem.PHONE)
+                .rank(PositiveInt.of(1))
+                .value(com.ibm.fhir.model.type.String.builder()
+                    .extension(DATA_ABSENT)
+                    .build());
+        compiler.visit("telecom", 1, builder.build());
+        assertEquals(compiler.getSearchParameters().size(), 0);
+
+        builder = ContactPoint.builder()
+                .use(ContactPointUse.HOME)
+                .system(ContactPointSystem.PHONE)
+                .rank(PositiveInt.of(1))
+                .value("1-2-3-4-5-6");
+        compiler.visit("telecom", 1, builder.build());
+        assertEquals(compiler.getSearchParameters().size(), 1);
+    }
+
+    @Test
+    public void testPatientHumanName() throws Exception {
+        MemberMatchPatientSearchCompiler compiler = new MemberMatchPatientSearchCompiler();
+        HumanName.Builder builder = HumanName.builder();
+        builder.setValidating(false);
+        compiler.visit("no-match", 1, builder.build());
+        assertEquals(compiler.getSearchParameters().size(), 0);
+
+        HumanName humanNameAbsent = HumanName.builder()
+                .extension(DATA_ABSENT)
+                .build();
+        compiler.visit("name", 1, humanNameAbsent);
+        assertEquals(compiler.getSearchParameters().size(), 0);
+
+        builder = HumanName.builder()
+                .family("Test")
+                .given(com.ibm.fhir.model.type.String.builder()
+                    .extension(DATA_ABSENT)
+                    .build());
+        compiler.visit("name", 1, builder.build());
+        assertEquals(compiler.getSearchParameters().size(), 1);
+
+        builder = HumanName.builder()
+                .family(com.ibm.fhir.model.type.String.builder()
+                    .extension(DATA_ABSENT)
+                    .build())
+                .given("Test");
+        compiler.visit("name", 1, builder.build());
+        assertEquals(compiler.getSearchParameters().size(), 1);
+
+        builder = HumanName.builder()
+                .family("Test Family")
+                .given("Test");
+        compiler.visit("name", 1, builder.build());
+        assertEquals(compiler.getSearchParameters().size(), 1);
+    }
+
+    @Test
+    public void testPatientIdentifier() {
+        MemberMatchPatientSearchCompiler compiler = new MemberMatchPatientSearchCompiler();
+        Identifier.Builder builder = Identifier.builder();
+        builder.setValidating(false);
+        compiler.visit("no-match", 1, builder.build());
+        assertEquals(compiler.getSearchParameters().size(), 0);
+
+        Identifier absent = Identifier.builder()
+                .extension(DATA_ABSENT)
+                .build();
+        compiler.visit("identifier", 1, absent);
+        assertEquals(compiler.getSearchParameters().size(), 0);
+
+        // Value Data Absent
+        builder = Identifier.builder()
+                .system(Uri.of("http://test.com/sys"))
+                .value(com.ibm.fhir.model.type.String.builder()
+                    .extension(DATA_ABSENT)
+                    .build())
+                .use(IdentifierUse.USUAL);
+        compiler.visit("identifier", 1, builder.build());
+        assertEquals(compiler.getSearchParameters().size(), 0);
+
+        // Value Missing
+        builder = Identifier.builder()
+                .system(Uri.of("http://test.com/sys"))
+                .use(IdentifierUse.USUAL);
+        compiler.visit("identifier", 1, builder.build());
+        assertEquals(compiler.getSearchParameters().size(), 0);
+
+        builder = Identifier.builder()
+                .system(com.ibm.fhir.model.type.Uri.builder()
+                    .extension(DATA_ABSENT)
+                    .build())
+                .value("1-2-3-4")
+                .use(IdentifierUse.USUAL);
+        compiler.visit("identifier", 1, builder.build());
+        assertEquals(compiler.getSearchParameters().size(), 0);
+
+        // Unsupported Identifier Type
+        builder = Identifier.builder()
+                .system(Uri.of("http://test.com/sys"))
+                .value("1-2-3-4")
+                .use(IdentifierUse.OLD);
+        compiler.visit("identifier", 1, builder.build());
+        assertEquals(compiler.getSearchParameters().size(), 0);
+
+        builder = Identifier.builder()
+                .system(Uri.of("http://test.com/sys"))
+                .value("1-2-3-4")
+                .use(IdentifierUse.USUAL);
+        compiler.visit("identifier", 1, builder.build());
+        assertEquals(compiler.getSearchParameters().size(), 1);
+    }
+
+    @Test
+    public void testPatientAddress() {
+        MemberMatchPatientSearchCompiler compiler = new MemberMatchPatientSearchCompiler();
+        Address.Builder builder = Address.builder();
+        builder.setValidating(false);
+        compiler.visit("no-match", 1, builder.build());
+        assertEquals(compiler.getSearchParameters().size(), 0);
+
+        // Top Level Data Absent
+        Address absent = Address.builder()
+                .extension(DATA_ABSENT)
+                .build();
+        compiler.visit("address", 1, absent);
+        assertEquals(compiler.getSearchParameters().size(), 0);
+
+        // Parts are Data Absent
+        builder = Address.builder()
+                .line(com.ibm.fhir.model.type.String.builder()
+                    .extension(DATA_ABSENT)
+                    .build());
+        compiler.visit("address", 1, builder.build());
+        assertEquals(compiler.getSearchParameters().size(), 0);
+
+        builder = Address.builder()
+                .city(com.ibm.fhir.model.type.String.builder()
+                    .extension(DATA_ABSENT)
+                    .build());
+        compiler.visit("address", 1, builder.build());
+        assertEquals(compiler.getSearchParameters().size(), 0);
+
+        builder = Address.builder()
+                .country(com.ibm.fhir.model.type.String.builder()
+                    .extension(DATA_ABSENT)
+                    .build());
+        compiler.visit("address", 1, builder.build());
+        assertEquals(compiler.getSearchParameters().size(), 0);
+
+        builder = Address.builder()
+                .postalCode(com.ibm.fhir.model.type.String.builder()
+                    .extension(DATA_ABSENT)
+                    .build());
+        compiler.visit("address", 1, builder.build());
+        assertEquals(compiler.getSearchParameters().size(), 0);
+
+        builder = Address.builder()
+                .state(com.ibm.fhir.model.type.String.builder()
+                    .extension(DATA_ABSENT)
+                    .build());
+        compiler.visit("address", 1, builder.build());
+        assertEquals(compiler.getSearchParameters().size(), 0);
+
+        // Parts are Present in simple example
+        compiler = new MemberMatchPatientSearchCompiler();
+        builder = Address.builder()
+                .line("1234");
+        compiler.visit("address", 1, builder.build());
+        assertEquals(compiler.getSearchParameters().size(), 1);
+
+        compiler = new MemberMatchPatientSearchCompiler();
+        builder = Address.builder()
+                .city("city");
+        compiler.visit("address", 1, builder.build());
+        assertEquals(compiler.getSearchParameters().size(), 1);
+
+        compiler = new MemberMatchPatientSearchCompiler();
+        builder = Address.builder()
+                .country("1234");
+        compiler.visit("address", 1, builder.build());
+        assertEquals(compiler.getSearchParameters().size(), 1);
+
+        compiler = new MemberMatchPatientSearchCompiler();
+        builder = Address.builder()
+                .postalCode("1234");
+        compiler.visit("address", 1, builder.build());
+        assertEquals(compiler.getSearchParameters().size(), 1);
+
+        compiler = new MemberMatchPatientSearchCompiler();
+        builder = Address.builder()
+                .state("1234");
+        compiler.visit("address", 1, builder.build());
+        assertEquals(compiler.getSearchParameters().size(), 1);
+
+        // Wrong Type of Use
+        compiler = new MemberMatchPatientSearchCompiler();
+        builder = Address.builder()
+                .state("1234")
+                .use(AddressUse.TEMP);
+        compiler.visit("address", 1, builder.build());
+        assertEquals(compiler.getSearchParameters().size(), 0);
+
+        // Accepted Type of Use
+        compiler = new MemberMatchPatientSearchCompiler();
+        builder = Address.builder()
+                .state("1234")
+                .use(AddressUse.HOME);
+        compiler.visit("address", 1, builder.build());
+        assertEquals(compiler.getSearchParameters().size(), 1);
+    }
+
+    @Test
+    public void testGetPatientIdentifier() throws Exception {
+        GetPatientIdentifier compiler = new GetPatientIdentifier();
+        Identifier.Builder builder = Identifier.builder();
+        builder.setValidating(false);
+        compiler.visit("no-match", 1, builder.build());
+        assertNull(compiler.getSystem());
+        assertNull(compiler.getValue());
+
+        compiler = new GetPatientIdentifier();
+        Identifier absent = Identifier.builder()
+                .extension(DATA_ABSENT)
+                .build();
+        compiler.visit("identifier", 1, absent);
+        assertNull(compiler.getSystem());
+        assertNull(compiler.getValue());
+
+        // Value Data Absent
+        compiler = new GetPatientIdentifier();
+        builder = Identifier.builder()
+                .system(Uri.of("http://test.com/sys"))
+                .value(com.ibm.fhir.model.type.String.builder()
+                    .extension(DATA_ABSENT)
+                    .build())
+                .use(IdentifierUse.USUAL);
+        compiler.visit("identifier", 1, builder.build());
+        assertNotNull(compiler.getSystem());
+        assertNull(compiler.getValue());
+
+        // Value Missing
+        compiler = new GetPatientIdentifier();
+        builder = Identifier.builder()
+                .system(Uri.of("http://test.com/sys"))
+                .use(IdentifierUse.USUAL);
+        compiler.visit("identifier", 1, builder.build());
+        assertNotNull(compiler.getSystem());
+        assertNull(compiler.getValue());
+
+        compiler = new GetPatientIdentifier();
+        builder = Identifier.builder()
+                .system(com.ibm.fhir.model.type.Uri.builder()
+                    .extension(DATA_ABSENT)
+                    .build())
+                .value("1-2-3-4")
+                .use(IdentifierUse.USUAL);
+        compiler.visit("identifier", 1, builder.build());
+        assertNull(compiler.getSystem());
+        assertNotNull(compiler.getValue());
+
+        // Unsupported Identifier Type
+        compiler = new GetPatientIdentifier();
+        builder = Identifier.builder()
+                .system(Uri.of("http://test.com/sys"))
+                .value("1-2-3-4")
+                .use(IdentifierUse.OLD);
+        compiler.visit("identifier", 1, builder.build());
+        assertNull(compiler.getSystem());
+        assertNull(compiler.getValue());
+
+        compiler = new GetPatientIdentifier();
+        builder = Identifier.builder()
+                .system(Uri.of("http://test.com/sys"))
+                .value("1-2-3-4")
+                .use(IdentifierUse.USUAL);
+        compiler.visit("identifier", 1, builder.build());
+        assertNotNull(compiler.getSystem());
+        assertNotNull(compiler.getValue());
+
+        // Check 2nd Identifier... which should be ignored
+        builder = Identifier.builder()
+                .system(Uri.of("http://test.com/sys1"))
+                .value("5431")
+                .use(IdentifierUse.USUAL);
+        compiler.visit("identifier", 1, builder.build());
+        assertNotNull(compiler.getSystem());
+        assertNotNull(compiler.getValue());
+        assertEquals(compiler.getSystem(),"http://test.com/sys");
+        assertEquals(compiler.getValue(),"1-2-3-4");
+    }
+
+    @Test
+    public void testInputStrategyValidateMissingAll() throws Exception {
+        DefaultMemberMatchStrategy strategy = new DefaultMemberMatchStrategy();
+        Parameters.Builder builder = Parameters.builder();
+        builder = builder.meta(Meta.builder()
+            .profile(Canonical.of("http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-parameters-member-match-in"))
+            .build());
+        builder.setValidating(false);
+        try {
+            strategy.validate(builder.build());
+            fail("Unexpected");
+        } catch (FHIROperationException e) {
+            assertNotNull(e.getIssues());
+            assertFalse(e.getIssues().isEmpty());
+
+            OperationOutcome.Issue issue = e.getIssues().get(0);
+            assertEquals(issue.getCode(), IssueType.INVALID);
+        }
+    }
+
+    @Test
+    public void testInputStrategyValidateMissingAllButMemberPatient() throws Exception {
+        Parameters source = generateInput();
+
+        DefaultMemberMatchStrategy strategy = new DefaultMemberMatchStrategy();
+        Parameters.Builder builder = Parameters.builder();
+        builder = builder
+                    .meta(Meta.builder()
+                            .profile(Canonical.of("http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-parameters-member-match-in"))
+                            .build())
+                    .parameter(source.getParameter().get(0));
+        builder.setValidating(false);
+        try {
+            strategy.validate(builder.build());
+            fail("Unexpected");
+        } catch (FHIROperationException e) {
+            assertNotNull(e.getIssues());
+            assertFalse(e.getIssues().isEmpty());
+
+            OperationOutcome.Issue issue = e.getIssues().get(0);
+            assertEquals(issue.getCode(), IssueType.INVALID);
+        }
+    }
+
+    @Test
+    public void testInputStrategyValidateMissingCoverageToLinkButMemberPatientCoverageToMatch() throws Exception {
+        Parameters source = generateInput();
+
+        DefaultMemberMatchStrategy strategy = new DefaultMemberMatchStrategy();
+        Parameters.Builder builder = Parameters.builder();
+        builder = builder
+                    .meta(Meta.builder()
+                            .profile(Canonical.of("http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-parameters-member-match-in"))
+                            .build())
+                    .parameter(source.getParameter().get(0),source.getParameter().get(1));
+        builder.setValidating(false);
+        try {
+            strategy.validate(builder.build());
+            assertTrue(true);
+        } catch (FHIROperationException e) {
+            fail("Unexpected");
+        }
+    }
+
+    @Test(expectedExceptions = {FHIROperationException.class})
+    public void testInputStrategyValidateResourceNoResource() throws Exception {
+        String profile = "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-coverage";
+        DefaultMemberMatchStrategy strategy = new DefaultMemberMatchStrategy();
+        strategy.validateResource(FHIRValidator.validator(), Patient.class, null, profile);
+    }
+
+    @Test(expectedExceptions = {FHIROperationException.class})
+    public void testInputStrategyValidateResource_NoMatchResource() throws Exception {
+        String profile = "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-coverage";
+        DefaultMemberMatchStrategy strategy = new DefaultMemberMatchStrategy();
+        Parameters badType = generateInput();
+        strategy.validateResource(FHIRValidator.validator(), Patient.class, badType, profile);
+    }
+
+    @Test(expectedExceptions = {FHIROperationException.class})
+    public void testInputStrategyValidateResource_ErrorOnResource() throws Exception {
+        String profile = "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-coverage";
+        DefaultMemberMatchStrategy strategy = new DefaultMemberMatchStrategy();
+        Patient.Builder builder = Patient.builder();
+        builder.setValidating(false);
+        strategy.validateResource(FHIRValidator.validator(), Patient.class, builder.build(), profile);
+    }
+
+    @Test(expectedExceptions = {FHIROperationException.class})
+    public void testInputStrategyValidateResource_BadValidation() throws Exception {
+        FHIRValidator validator = mock(FHIRValidator.class);
+        String profile = "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-coverage";
+        DefaultMemberMatchStrategy strategy = new DefaultMemberMatchStrategy();
+        Patient.Builder builder = Patient.builder();
+        builder.setValidating(false);
+        Patient p = builder.build();
+
+        when(validator.validate(p, profile))
+            .thenThrow(new FHIRValidationException("Test", new Exception("e")));
+
+        strategy.validateResource(validator, Patient.class, builder.build(), profile);
+    }
+
+    @Test
+    public void testInputStrategyValidateResource() throws Exception {
+        String profile = "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-coverage";
+        Parameters source = generateInput();
+
+        DefaultMemberMatchStrategy strategy = new DefaultMemberMatchStrategy();
+        Parameters.Builder builder = Parameters.builder();
+        builder = builder
+                    .meta(Meta.builder()
+                            .profile(Canonical.of("http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-parameters-member-match-in"))
+                            .build())
+                    .parameter(source.getParameter().get(0));
+        builder.setValidating(false);
+        try {
+            strategy.validate(builder.build());
+            fail("Unexpected");
+        } catch (FHIROperationException e) {
+            assertNotNull(e.getIssues());
+            assertFalse(e.getIssues().isEmpty());
+
+            OperationOutcome.Issue issue = e.getIssues().get(0);
+            assertEquals(issue.getCode(), IssueType.INVALID);
+        }
+    }
+
+
+    //TODO
     /**
      * generates the input
      *

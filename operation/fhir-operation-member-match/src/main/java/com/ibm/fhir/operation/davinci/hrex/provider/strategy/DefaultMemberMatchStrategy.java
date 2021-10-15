@@ -24,8 +24,10 @@ import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Coverage;
+import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Patient;
+import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Address;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
@@ -70,27 +72,69 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
     @Override
     public void validate(Parameters input) throws FHIROperationException {
         /*
-         * Validate and fail-fast
-         */
-        try {
-            FHIRValidator.validator(true).validate(input, "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-parameters-member-match-in");
-        } catch (FHIRValidationException e) {
-            throw FHIROperationUtil.buildExceptionWithIssue("Failed to validate against the input", IssueType.INVALID, e);
-        }
-
-        /*
-         * Now that it's valid per the profile, we ignore ANY extra cruft in the parameters object
-         * and stuff the values in the private local variables.
+         * We need to validate the profile on the subsegments.
          */
         for (Parameters.Parameter parameter : input.getParameter()) {
             String name = parameter.getName().getValue();
             if ("MemberPatient".equals(name)) {
-                memberPatient = parameter.getResource().as(Patient.class);
+                validateResource(FHIRValidator.validator(), Patient.class, parameter.getResource(), "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|3.1.1");
+                memberPatient = (Patient) parameter.getResource();
             } else if ("CoverageToMatch".equals(name)) {
-                coverageToMatch = parameter.getResource().as(Coverage.class);
+                validateResource(FHIRValidator.validator(), Coverage.class, parameter.getResource(), "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-coverage");
+                coverageToMatch = (Coverage) parameter.getResource();
             } else if ("CoverageToLink".equals(name)) {
-                coverageToLink = parameter.getResource().as(Coverage.class);
+                validateResource(FHIRValidator.validator(), Coverage.class, parameter.getResource(), "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-coverage");
+                coverageToLink = (Coverage) parameter.getResource();
             }
+        }
+
+        // Member Patient must exist
+        if (memberPatient == null) {
+            throw FHIROperationUtil.buildExceptionWithIssue("Must include the MemberPatient Parameter", IssueType.INVALID);
+        }
+
+        // Coverage To Match must exist
+        if (coverageToMatch == null) {
+            throw FHIROperationUtil.buildExceptionWithIssue("Must include the CoverageToMatch Parameter", IssueType.INVALID);
+        }
+    }
+
+    /**
+     * validates the resource (we do this as we don't yet support nested discriminators)
+     *
+     * @param cls
+     * @param resource
+     * @param profile
+     * @return
+     * @throws FHIROperationException
+     */
+    public void validateResource(FHIRValidator validator, Class<? extends Resource> cls, Resource resource, String profile) throws FHIROperationException {
+        // Resource is null
+        if (resource == null) {
+            throw FHIROperationUtil.buildExceptionWithIssue("Unexpected missing resource for '" + profile + "'", IssueType.INVALID);
+        }
+
+        // Invalid Resource Type
+        if (!resource.is(cls)) {
+            throw FHIROperationUtil.buildExceptionWithIssue("Resource Type of the Parameter for '" + profile + "' is invalid", IssueType.INVALID);
+        }
+
+        /*
+         * Validate and fail-fast
+         */
+        try {
+            List<Issue> issues = validator.validate(resource, profile);
+            for (Issue issue : issues) {
+                switch(issue.getSeverity().getValueAsEnum()) {
+                    case FATAL:
+                    case ERROR:
+                        throw FHIROperationUtil.buildExceptionWithIssue("Failed to validate against the input " + issue.getDiagnostics(), IssueType.INVALID);
+                    default:
+                        continue;
+                }
+            }
+        } catch (FHIRValidationException fve) {
+            throw FHIROperationUtil.buildExceptionWithIssue("Failed to validate against the input", IssueType.EXCEPTION, fve);
         }
     }
 
@@ -172,7 +216,8 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
         @Override
         public boolean visit(String elementName, int elementIndex, Identifier identifier) {
             // SearchParameter: identifier
-            if (value == null && "identifier".equals(elementName) && identifier != null) {
+            // value is a guard that protects against selecting more than one value/system.
+            if (value == null && "identifier".equals(elementName)) {
                 if (identifier.getUse() != null) {
                     switch(identifier.getUse().getValueAsEnum()) {
                         case USUAL:
@@ -196,10 +241,10 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
         private void addIdValue(Identifier identifier) {
             Uri sys = identifier.getSystem();
             com.ibm.fhir.model.type.String val = identifier.getValue();
-            if (sys.getValue() != null) {
+            if (sys != null && sys.getValue() != null) {
                 this.system = sys.getValue();
             }
-            if (val.getValue() != null) {
+            if (val != null && val.getValue() != null) {
                 this.value = val.getValue();
             }
         }
@@ -212,24 +257,10 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
         }
 
         /**
-         * @param system the system to set
-         */
-        public void setSystem(String system) {
-            this.system = system;
-        }
-
-        /**
          * @return the value
          */
         public String getValue() {
             return value;
-        }
-
-        /**
-         * @param value the value to set
-         */
-        public void setValue(String value) {
-            this.value = value;
         }
     }
 
@@ -313,7 +344,7 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
         @Override
         public boolean visit(String elementName, int elementIndex, Identifier identifier) {
             // SearchParameter: identifier
-            if ("identifier".equals(elementName) && identifier != null) {
+            if ("identifier".equals(elementName)) {
                 if (identifier.getUse() != null) {
                     switch(identifier.getUse().getValueAsEnum()) {
                         case USUAL:
@@ -337,7 +368,10 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
         private void addIdValue(Identifier identifier) {
             Uri system = identifier.getSystem();
             com.ibm.fhir.model.type.String value = identifier.getValue();
-            if (system.getValue() != null && value.getValue() != null) {
+            if (system != null
+                    && system.getValue() != null
+                    && value != null
+                    && value.getValue() != null) {
                 ids.add(system.getValue() + "|" + value.getValue());
             }
         }
@@ -345,17 +379,16 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
         @Override
         public boolean visit(String elementName, int elementIndex, HumanName humanName) {
             // SearchParameter: name
-            if ("name".equals(elementName) && humanName != null) {
+            if ("name".equals(elementName)) {
                 if (humanName.getFamily() != null) {
                     family.add(humanName.getFamily().getValue());
                 }
-                if (humanName.getGiven() != null) {
-                    given.addAll(
+                given.addAll(
                         humanName.getGiven()
                             .stream()
                             .map(e -> e.getValue())
+                            .filter(Objects::isNull)
                             .collect(Collectors.toList()));
-                }
             }
             return false;
         }
@@ -363,7 +396,7 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
         @Override
         public boolean visit(String elementName, int elementIndex, ContactPoint contactPoint) {
             // SearchParameter: contactPoint
-            if ("telecom".equals(elementName) && contactPoint != null
+            if ("telecom".equals(elementName)
                     && contactPoint.getValue() != null
                     && contactPoint.getValue().getValue() != null) {
                 telecom.add(contactPoint.getValue().getValue());
@@ -374,11 +407,9 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
         @Override
         public boolean visit(String elementName, int elementIndex, Code code) {
             // SearchParameter: gender
-            if ("gender".equals(elementName) && code != null) {
+            if ("gender".equals(elementName) && code.getValue() != null) {
                 String gender = code.getValue();
-                if (gender != null) {
-                    searchParams.add("gender", gender);
-                }
+                searchParams.add("gender", gender);
             }
             return false;
         }
@@ -386,7 +417,7 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
         @Override
         public boolean visit(String elementName, int elementIndex, Date date) {
             // SearchParameter: birthdate
-            if ("birthDate".equals(elementName) && date != null) {
+            if ("birthDate".equals(elementName) && date.getValue() != null) {
                 TemporalAccessor acc = date.getValue();
                 String searchVal = "eq" + acc.get(ChronoField.YEAR) + "-" + acc.get(ChronoField.MONTH_OF_YEAR) + "-" + acc.get(ChronoField.DAY_OF_MONTH);
                 searchParams.add("birthdate", searchVal);
@@ -397,8 +428,9 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
         @Override
         public boolean visit(String elementName, int elementIndex, Address address) {
             // SearchParameter: address, address-city, address-country, address-postalcode, address-state
-            if ("address".equals(elementName) && address != null) {
+            if ("address".equals(elementName)) {
                 if (address.getUse() != null) {
+                    // Only pick a subset of addresses (OLD, TEMP are not helpful)
                     switch (address.getUse().getValueAsEnum()) {
                         case HOME:
                         case WORK:
@@ -421,15 +453,15 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
          */
         private void addAddress(Address address) {
             // address
-            if (address.getLine() != null) {
-                List<com.ibm.fhir.model.type.String> lines = address.getLine();
-                if (!lines.isEmpty()) {
-                    this.addressLine.add(
-                        lines
-                            .stream()
-                            .map(l -> l.getValue())
-                            .filter(Objects::isNull)
-                            .collect(Collectors.joining(" ")));
+            List<com.ibm.fhir.model.type.String> lines = address.getLine();
+            if (!lines.isEmpty()) {
+                String tmpLines = lines
+                        .stream()
+                        .map(l -> l.getValue())
+                        .filter(l -> !Objects.isNull(l))
+                        .collect(Collectors.joining(" "));
+                if (!tmpLines.trim().isEmpty()) {
+                    addressLine.add(tmpLines);
                 }
             }
 
