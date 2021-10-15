@@ -21,8 +21,10 @@ jobs:
       uses: joschi/setup-jdk@v2.3.0
       with:
         java-version: ${{ matrix.java }}
-    - name: Build samples
-      run: mvn -B install --file fhir-examples --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3
+    - name: Build tools and samples
+      run: |
+        mvn -B install --file fhir-tools --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3
+        mvn -B install --file fhir-examples --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3
     - name: Build parent without tests
       run: |
         mvn -B org.apache.maven.plugins:maven-dependency-plugin:3.1.2:go-offline -f fhir-parent -DexcludeReactor=true -Dmaven.wagon.http.retryHandler.count=3

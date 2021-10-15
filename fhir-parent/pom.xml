@@ -982,6 +982,23 @@
                                                 <execute />
                                             </action>
                                         </pluginExecution>
+                                        <pluginExecution>
+                                            <pluginExecutionFilter>
+                                                <groupId>com.ibm.fhir</groupId>
+                                                <artifactId>
+                                                    fhir-tools
+                                                </artifactId>
+                                                <versionRange>
+                                                    [4.10.0-SNAPSHOT,)
+                                                </versionRange>
+                                                <goals>
+                                                    <goal>condense-json</goal>
+                                                </goals>
+                                            </pluginExecutionFilter>
+                                            <action>
+                                                <ignore></ignore>
+                                            </action>
+                                        </pluginExecution>
                                     </pluginExecutions>
                                 </lifecycleMappingMetadata>
                             </configuration>

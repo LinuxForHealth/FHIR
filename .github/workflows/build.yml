@@ -48,8 +48,10 @@ jobs:
       env:
         BASE: ${{ github['base_ref'] }}
       run: git fetch --no-tags --prune --depth=1 origin +refs/heads/${BASE}:refs/remotes/origin/${BASE}
-    - name: Build samples
-      run: mvn -B install --file fhir-examples --no-transfer-progress
+    - name: Build tools and samples
+      run: |
+        mvn -B install --file fhir-tools --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3
+        mvn -B install --file fhir-examples --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3
     - name: Build parent with tests
       env:
         BASE: origin/${{ github['base_ref'] }}
@@ -124,8 +126,10 @@ jobs:
       uses: joschi/setup-jdk@v2.3.0
       with:
         java-version: ${{ matrix.java }}
-    - name: Build samples
-      run: mvn -B install --file fhir-examples --no-transfer-progress
+    - name: Build samples and tools
+      run: |
+        mvn -B install --file fhir-examples --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3
+        mvn -B install --file fhir-tools --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3
     - name: Build parent without tests
       # As the e2e tests are the fastest, opting to put javadoc:javadoc in fhir-parent
       # The profile avoids UML diagram creation

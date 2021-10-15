@@ -20,6 +20,7 @@ required_build(){
     fi
 
     # build binaries
+    mvn -T2C -B install --file fhir-tools --no-transfer-progress
     mvn -T2C -B install --file fhir-examples --no-transfer-progress
 
     # 12.6.0 no longer exists.
@@ -63,10 +64,10 @@ migration_build(){
 pushd $(pwd) > /dev/null
 
 if [ -z "${WORKSPACE}" ]
-then 
+then
     echo "The WORKSPACE value is unset"
     exit -1
-fi 
+fi
 
 # Change to the release directory
 cd "${WORKSPACE}/prev"
@@ -77,5 +78,5 @@ migration_build "${1}"
 # Reset to Original Directory
 popd > /dev/null
 
-# EOF 
+# EOF
 ###############################################################################

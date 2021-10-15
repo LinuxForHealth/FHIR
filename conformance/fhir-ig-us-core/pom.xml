@@ -32,4 +32,21 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+    
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>fhir-tools</artifactId>
+                <version>${fhir-tools.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>condense-json</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
