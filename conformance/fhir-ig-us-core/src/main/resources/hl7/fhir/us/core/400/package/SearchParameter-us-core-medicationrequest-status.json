@@ -1,70 +1,70 @@
 {
-	"resourceType": "SearchParameter",
-	"id": "us-core-medicationrequest-status",
-	"text": {
-		"status": "generated",
-		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">  <!-- <h2>SearchParameter: USCoreMedicationRequestStatus</h2> --><b> description</b> : <p><strong>Status of the prescription</strong><br/><strong>NOTE</strong>: This US Core SearchParameter definition extends the usage context of the\n<a href=\"http://hl7.org/fhir/R4/extension-capabilitystatement-expectation.html\">Conformance expectation extension</a></p>\n<ul><li>multipleAnd</li><li>multipleOr</li><li>comparator</li><li>modifier</li><li>chain</li></ul>\n\n\t\t\t<br/>\n\t\t\t<p><b> id</b> us-core-medicationrequest-status</p>\n\t\t\t<p><b> url</b> : <b> http://hl7.org/fhir/us/core/SearchParameter/us-core-medicationrequest-status</b>\n\t\t\t</p>\n\t\t\t<p><b> version</b> : 4.0.1</p>\n\t\t\t<p><b> name</b> : USCoreMedicationRequestStatus</p>\n\t\t\t<p><b> derivedFrom</b> : http://hl7.org/fhir/SearchParameter/medications-status\n\t\t\t</p>\n\t\t\t<p><b> status</b> : active</p>\n\t\t\t<p><b> experimental</b>  False</p>\n\t\t\t<p><b> date</b> : 2020-11-20</p>\n\t\t\t<p><b> publisher</b> : HL7 International - US Realm Steering Committee</p>\n\t\t\t<p><b> contact</b> : http://www.hl7.org/Special/committees/usrealm/index.cfm</p>\n\t\t\t<p><b> useContext</b> : </p>\n\t\t\t<p><b> jurisdiction</b> : United States of America (the) <span> (Details : {urn:iso:std:iso:3166 code 'US' = 'United States of America', given as 'United\n           States of America (the)'})</span>\n\t\t\t</p>\n\t\t\t  <!-- <p>\n\t\t<b> purpose</b> : Need to search by identifier for various infrastructural cases - mainly retrieving packages,\n         and matching as part of a chain</p> -->\n\t\t\t<p><b> code</b> : <code>status</code>\n\t\t\t</p>\n\t\t\t<p><b> base</b> :MedicationRequest</p>\n\t\t\t<p><b> type</b> : token</p>\n\t\t\t<p><b> expression</b> : <code>MedicationRequest.status</code>\n\t\t\t</p>\n\t\t\t<p><b> xpath</b> : <code>f:MedicationRequest/f:status</code>\n\t\t\t</p>\n\t\t\t<p><b> xpathUsage</b> : normal</p>\n\t\t\t<p><b> mulitpleOr</b> : True   (Conformance Expectation = SHALL)</p>\n\t\t\t<p><b> mulitpleAnd</b> : True  ( Conformance Expectation = MAY)</p>\n    \n    \n    \n\t\t</div>"
-	},
-	"extension": [
-		{
-			"url": "http://ibm.com/fhir/extension/implicit-system",
-			"valueUri": "http://hl7.org/fhir/CodeSystem/medicationrequest-status"
-		}
-	],
-	"url": "http://hl7.org/fhir/us/core/SearchParameter/us-core-medicationrequest-status",
-	"version": "4.0.0",
-	"name": "USCoreMedicationRequestStatus",
-	"derivedFrom": "http://hl7.org/fhir/SearchParameter/medications-status",
-	"status": "active",
-	"experimental": false,
-	"date": "2020-11-20T05:19:28.858896Z",
-	"publisher": "HL7 International - US Realm Steering Committee",
-	"contact": [
-		{
-			"name": "HL7 International - US Realm Steering Committee",
-			"telecom": [
-				{
-					"system": "url",
-					"value": "http://www.hl7.org/Special/committees/usrealm/index.cfm"
-				}
-			]
-		}
-	],
-	"description": "**Status of the prescription**  \n**NOTE**: This US Core SearchParameter definition extends the usage context of the\n[Conformance expectation extension](http://hl7.org/fhir/R4/extension-capabilitystatement-expectation.html)\n - multipleAnd\n - multipleOr\n - comparator\n - modifier\n - chain",
-	"jurisdiction": [
-		{
-			"coding": [
-				{
-					"system": "urn:iso:std:iso:3166",
-					"code": "US"
-				}
-			]
-		}
-	],
-	"code": "status",
-	"base": [
-		"MedicationRequest"
-	],
-	"type": "token",
-	"expression": "MedicationRequest.status",
-	"xpath": "f:MedicationRequest/f:status",
-	"xpathUsage": "normal",
-	"multipleOr": true,
-	"_multipleOr": {
-		"extension": [
-			{
-				"url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-				"valueCode": "SHALL"
-			}
-		]
-	},
-	"multipleAnd": true,
-	"_multipleAnd": {
-		"extension": [
-			{
-				"url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-				"valueCode": "MAY"
-			}
-		]
-	}
+    "resourceType": "SearchParameter",
+    "id": "us-core-medicationrequest-status",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://ibm.com/fhir/extension/implicit-system",
+            "valueUri": "http://hl7.org/fhir/CodeSystem/medicationrequest-status"
+        }
+    ],
+    "url": "http://hl7.org/fhir/us/core/SearchParameter/us-core-medicationrequest-status",
+    "version": "4.0.0",
+    "name": "USCoreMedicationRequestStatus",
+    "derivedFrom": "http://hl7.org/fhir/SearchParameter/medications-status",
+    "status": "active",
+    "experimental": false,
+    "date": "2020-11-20T05:19:28.858896Z",
+    "publisher": "HL7 International - US Realm Steering Committee",
+    "contact": [
+        {
+            "name": "HL7 International - US Realm Steering Committee",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/usrealm/index.cfm"
+                }
+            ]
+        }
+    ],
+    "description": "**Status of the prescription**  \n**NOTE**: This US Core SearchParameter definition extends the usage context of the\n[Conformance expectation extension](http://hl7.org/fhir/R4/extension-capabilitystatement-expectation.html)\n - multipleAnd\n - multipleOr\n - comparator\n - modifier\n - chain",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US"
+                }
+            ]
+        }
+    ],
+    "code": "status",
+    "base": [
+        "MedicationRequest"
+    ],
+    "type": "token",
+    "expression": "MedicationRequest.status",
+    "xpath": "f:MedicationRequest/f:status",
+    "xpathUsage": "normal",
+    "multipleOr": true,
+    "_multipleOr": {
+        "extension": [
+            {
+                "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                "valueCode": "SHALL"
+            }
+        ]
+    },
+    "multipleAnd": true,
+    "_multipleAnd": {
+        "extension": [
+            {
+                "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                "valueCode": "MAY"
+            }
+        ]
+    }
 }

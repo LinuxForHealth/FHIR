@@ -3,8 +3,7 @@ Source - http://hl7.org/fhir/us/core/STU3.1.1/
 - Removed 3.1.0 Artifacts
 - Updated to 3.1.1 Artifacts STU3.1.1
 - Examples are under src/test/resources/JSON/311
-- Changed the text-generated for the CapabilityStatements CapabilityStatement-us-core-client.json and CapabilityStatement-us-core-server.json
-    as the xhtml was invalid
+- Replace all narrative text with minimal placeholder for space efficiency
 - Per https://github.com/IBM/FHIR/issues/1460 Relaxed required to extensible
     - https://jira.hl7.org/browse/FHIR-27911 Change binding to UCUM from required to extensible + max binding UCUM
     - Per https://chat.fhir.org/#narrow/stream/179252-IG-creation/topic/US.20Core.20QA.20Issue.20.233-.20nasty.20profiling.20error
@@ -24,6 +23,5 @@ Source - http://hl7.org/fhir/us/core/STU3.1.1/
 # US Core 4.0.0 - STU4
 Source - https://www.hl7.org/fhir/us/core/stu4/
 - Examples are under src/test/resources/JSON/400
-- Changed the text-generated for the CapabilityStatements CapabilityStatement-us-core-client.json and CapabilityStatement-us-core-server.json
-    as the xhtml was invalid
+- Replace all narrative text with minimal placeholder for space efficiency
 - Revised Endpoint in the Practitioner endpoint so it points to relative path, not absolute path
