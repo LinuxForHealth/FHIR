@@ -1,0 +1,108 @@
+{
+    "resourceType": "CarePlan",
+    "id": "a6a822c0-0b60-438a-940e-064c3fdfb456",
+    "meta": {
+        "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-careplan|3.1.1"
+        ]
+    },
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Care Plan for Self-care interventions (procedure).<br/>Activities: <ul><li>Self-care interventions (procedure)</li><li>Self-care interventions (procedure)</li><li>Self-care interventions (procedure)</li></ul></div>"
+    },
+    "status": "active",
+    "intent": "order",
+    "category": [
+        {
+            "coding": [
+                {
+                    "system": "http://hl7.org/fhir/us/core/CodeSystem/careplan-category",
+                    "code": "assess-plan"
+                }
+            ]
+        },
+        {
+            "coding": [
+                {
+                    "system": "http://snomed.info/sct",
+                    "code": "384758001",
+                    "display": "Self-care interventions (procedure)"
+                }
+            ],
+            "text": "Self-care interventions (procedure)"
+        }
+    ],
+    "subject": {
+        "reference": "Patient/4818eca9-c6d2-4fa0-a234-7244e620391e"
+    },
+    "encounter": {
+        "reference": "Encounter/3ce65ce5-899f-4aa6-a810-92c0dc45deaa"
+    },
+    "period": {
+        "start": "1981-03-31T03:25:21-05:00"
+    },
+    "careTeam": [
+        {
+            "reference": "CareTeam/7b707022-dbe7-44a4-8063-596558bd0459"
+        }
+    ],
+    "activity": [
+        {
+            "detail": {
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "409002",
+                            "display": "Food allergy diet"
+                        }
+                    ],
+                    "text": "Food allergy diet"
+                },
+                "status": "in-progress",
+                "location": {
+                    "reference": "Location/5650caeb-a0bc-4f54-810a-84f030826e8e",
+                    "display": "CAMBRIDGE HEALTH ALLIANCE"
+                }
+            }
+        },
+        {
+            "detail": {
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "58332002",
+                            "display": "Allergy education"
+                        }
+                    ],
+                    "text": "Allergy education"
+                },
+                "status": "in-progress",
+                "location": {
+                    "reference": "Location/5650caeb-a0bc-4f54-810a-84f030826e8e",
+                    "display": "CAMBRIDGE HEALTH ALLIANCE"
+                }
+            }
+        },
+        {
+            "detail": {
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "58332002",
+                            "display": "Allergy education"
+                        }
+                    ],
+                    "text": "Allergy education"
+                },
+                "status": "in-progress",
+                "location": {
+                    "reference": "Location/5650caeb-a0bc-4f54-810a-84f030826e8e",
+                    "display": "CAMBRIDGE HEALTH ALLIANCE"
+                }
+            }
+        }
+    ]
+}

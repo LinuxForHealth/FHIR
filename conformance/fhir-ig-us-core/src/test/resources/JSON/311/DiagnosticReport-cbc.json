@@ -1,0 +1,66 @@
+{
+	"resourceType": "DiagnosticReport",
+	"id": "cbc",
+	"meta": {
+		"versionId": "205814",
+		"lastUpdated": "2016-03-09T15:35:58.045+00:00",
+		"profile": [
+			"http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-lab|3.1.1"
+		]
+	},
+	"text": {
+		"status": "generated",
+		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>to do (to do) to do</h2><table class=\"grid\"><tr><td>to do</td><td><b>Report Details</b><br/> to do to do to do to do</td></tr></table><table class=\"none\"><tr><td>to do</td><td>to do</td><td>to do</td><td>to do</td><td>to do</td><td>to do</td></tr><tr><td>to do</td><td>to do</td><td>to do</td><td>to do</td><td>to do</td><td>to do</td></tr><tr><td>to do</td><td>to do</td><td>to do</td><td>to do</td><td>to do</td><td>to do</td></tr><tr><td>to do</td><td>to do</td><td>to do</td><td>to do</td><td>to do</td><td>to do</td></tr></table><p><b>Coded Diagnoses :</b></p></div>"
+	},
+	"status": "final",
+	"category": [
+		{
+			"coding": [
+				{
+					"system": "http://terminology.hl7.org/CodeSystem/v2-0074",
+					"code": "LAB",
+					"display": "Laboratory"
+				}
+			]
+		}
+	],
+	"code": {
+		"coding": [
+			{
+				"system": "http://loinc.org",
+				"code": "58410-2",
+				"display": "CBC panel - Blood by Automated count"
+			}
+		]
+	},
+	"subject": {
+		"reference": "Patient/example",
+		"display": "Amy Shaw"
+	},
+	"effectiveDateTime": "2005-07-05",
+	"issued": "2005-07-06T11:45:33+11:00",
+	"performer": [
+		{
+			"reference": "Organization/acme-lab",
+			"display": "Acme Laboratory, Inc"
+		}
+	],
+	"result": [
+		{
+			"reference": "Observation/neutrophils",
+			"display": "NEUTROPHILS"
+		},
+		{
+			"reference": "Observation/mchc",
+			"display": "MCHC"
+		},
+		{
+			"reference": "Observation/hemoglobin",
+			"display": "HEMOGLOBIN"
+		},
+		{
+			"reference": "Observation/erythrocytes",
+			"display": "ERYTHROCYTES"
+		}
+	]
+}

@@ -1,0 +1,49 @@
+{
+    "resourceType": "Observation",
+    "id": "52893d6e-9bed-443f-8176-5444a57a1c84",
+    "meta": {
+        "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-smokingstatus"
+        ]
+    },
+    "status": "final",
+    "category": [
+        {
+            "coding": [
+                {
+                    "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                    "code": "social-history",
+                    "display": "social-history"
+                }
+            ]
+        }
+    ],
+    "code": {
+        "coding": [
+            {
+                "system": "http://loinc.org",
+                "code": "72166-2",
+                "display": "Tobacco smoking status NHIS"
+            }
+        ],
+        "text": "Tobacco smoking status NHIS"
+    },
+    "subject": {
+        "reference": "urn:uuid:4818eca9-c6d2-4fa0-a234-7244e620391e"
+    },
+    "encounter": {
+        "reference": "urn:uuid:a4c79e6c-ab58-4dac-a7a3-8d97a59e44fc"
+    },
+    "effectiveDateTime": "2019-05-31T04:25:21-04:00",
+    "issued": "2019-05-31T04:25:21.151-04:00",
+    "valueCodeableConcept": {
+        "coding": [
+            {
+                "system": "http://snomed.info/sct",
+                "code": "266919005",
+                "display": "Never smoker"
+            }
+        ],
+        "text": "Never smoker"
+    }
+}

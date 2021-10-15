@@ -1,0 +1,56 @@
+{
+	"resourceType": "Observation",
+	"id": "head-circumference",
+	"meta": {
+		"extension": [
+			{
+				"url": "http://hl7.org/fhir/StructureDefinition/instance-name",
+				"valueString": "Head Circumference Example"
+			},
+			{
+				"url": "http://hl7.org/fhir/StructureDefinition/instance-description",
+				"valueMarkdown": "This is a head circumference example for the *US Core Head Circumference Profile*."
+			}
+		],
+		"profile": [
+			"http://hl7.org/fhir/us/core/StructureDefinition/us-core-head-circumference"
+		]
+	},
+	"text": {
+		"status": "generated",
+		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><p></p><p><b>category</b>: <span title=\"Codes: {http://terminology.hl7.org/CodeSystem/observation-category vital-signs}\">Vital Signs</span></p><p><b>code</b>: <span title=\"Codes: {http://loinc.org 9843-4}\">Head Circumference</span></p><p><b>subject</b>: <a href=\"Patient-infant-example.html\">Generated Summary: Medical Record Number: 1032703 (USUAL); active; Infant Example ; Phone: 555-555-5555; gender: male; birthDate: 2020-06-02</a></p><p><b>effective</b>: Nov 19, 2020 12:19:31 AM</p><p><b>value</b>: 51.2 cm</p></div>"
+	},
+	"status": "final",
+	"category": [
+		{
+			"coding": [
+				{
+					"system": "http://terminology.hl7.org/CodeSystem/observation-category",
+					"code": "vital-signs",
+					"display": "Vital Signs"
+				}
+			],
+			"text": "Vital Signs"
+		}
+	],
+	"code": {
+		"coding": [
+			{
+				"system": "http://loinc.org",
+				"code": "9843-4",
+				"display": "Head Occipital-frontal circumference"
+			}
+		],
+		"text": "Head Circumference"
+	},
+	"subject": {
+		"reference": "Patient/infant-example"
+	},
+	"effectiveDateTime": "2020-11-18T16:19:31-08:00",
+	"valueQuantity": {
+		"value": 51.2,
+		"unit": "cm",
+		"system": "http://unitsofmeasure.org",
+		"code": "cm"
+	}
+}

@@ -1,0 +1,84 @@
+{
+	"resourceType": "DocumentReference",
+	"id": "episode-summary",
+	"meta": {
+		"extension": [
+			{
+				"url": "http://hl7.org/fhir/StructureDefinition/instance-name",
+				"valueString": "Episode Summary Example"
+			},
+			{
+				"url": "http://hl7.org/fhir/StructureDefinition/instance-description",
+				"valueMarkdown": "This is a episode summary example for the *US Core DocumentReference Profile*."
+			}
+		],
+		"profile": [
+			"http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"
+		]
+	},
+	"text": {
+		"status": "generated",
+		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><p><b>identifier</b>: id: urn:oid:2.16.840.1.113883.19.5.99999.1</p><p><b>status</b>: current</p><p><b>type</b>: <span title=\"Codes: {http://loinc.org 34133-9}\">CCD Document</span></p><p><b>category</b>: <span title=\"Codes: {http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-category clinical-note}\">Clinical Note</span></p><p><b>subject</b>: <a href=\"Patient-example.html\">Amy Shaw. Generated Summary: Medical Record Number: 1032702 (USUAL); active; Amy V. Shaw , Amy V. Baxter ; Phone: 555-555-5555, amy.shaw@example.com; gender: female; birthDate: 1987-02-20</a></p><p><b>date</b>: Mar 9, 2016 3:29:46 PM</p><p><b>author</b>: <a href=\"Practitioner-practitioner-1.html\">Ronald Bone, MD. Generated Summary: id: 9941339108, id: 25456; Ronald Bone </a></p><p><b>description</b>: Pulmonology clinic acute visit</p><blockquote><p><b>content</b></p><p><b>format</b>: <span title=\"{urn:oid:1.3.6.1.4.1.19376.1.2.3 urn:hl7-org:sdwg:ccda-structuredBody:2.1}\">Documents following C-CDA constraints using a structured body</span></p></blockquote><h3>Contexts</h3><table class=\"grid\"><tr><td>-</td><td><b>Period</b></td></tr><tr><td>*</td><td>Dec 22, 2004 9:00:00 PM --&gt; Dec 22, 2004 9:01:00 PM</td></tr></table></div>"
+	},
+	"identifier": [
+		{
+			"system": "urn:ietf:rfc:3986",
+			"value": "urn:oid:2.16.840.1.113883.19.5.99999.1"
+		}
+	],
+	"status": "current",
+	"type": {
+		"coding": [
+			{
+				"system": "http://loinc.org",
+				"code": "34133-9",
+				"display": "Summary of episode note"
+			}
+		],
+		"text": "CCD Document"
+	},
+	"category": [
+		{
+			"coding": [
+				{
+					"system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-category",
+					"code": "clinical-note",
+					"display": "Clinical Note"
+				}
+			],
+			"text": "Clinical Note"
+		}
+	],
+	"subject": {
+		"reference": "Patient/example",
+		"display": "Amy Shaw"
+	},
+	"date": "2016-03-09T15:29:46Z",
+	"author": [
+		{
+			"reference": "Practitioner/practitioner-1",
+			"display": "Ronald Bone, MD"
+		}
+	],
+	"description": "Pulmonology clinic acute visit",
+	"content": [
+		{
+			"attachment": {
+				"contentType": "text/plain",
+				"url": "/Binary/1-note",
+				"title": "Uri where the data can be found: [base]/Binary/1-note"
+			},
+			"format": {
+				"system": "urn:oid:1.3.6.1.4.1.19376.1.2.3",
+				"code": "urn:hl7-org:sdwg:ccda-structuredBody:2.1",
+				"display": "Documents following C-CDA constraints using a structured body"
+			}
+		}
+	],
+	"context": {
+		"period": {
+			"start": "2004-12-23T08:00:00+11:00",
+			"end": "2004-12-23T08:01:00+11:00"
+		}
+	}
+}

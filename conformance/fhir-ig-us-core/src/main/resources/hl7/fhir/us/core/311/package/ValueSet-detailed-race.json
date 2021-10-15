@@ -1,0 +1,63 @@
+{
+    "resourceType": "ValueSet",
+    "id": "detailed-race",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/us/core/ValueSet/detailed-race",
+    "version": "3.1.1",
+    "name": "DetailedRace",
+    "title": "Detailed Race",
+    "status": "active",
+    "date": "2019-05-21",
+    "publisher": "HL7 US Realm Steering Committee",
+    "description": "The 900+ [CDC Race codes](http://www.cdc.gov/phin/resources/vocabulary/index.html) that are grouped under one of the 5 OMB race category codes.",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US",
+                    "display": "United States of America"
+                }
+            ]
+        }
+    ],
+    "compose": {
+        "include": [
+            {
+                "system": "urn:oid:2.16.840.1.113883.6.238",
+                "filter": [
+                    {
+                        "property": "concept",
+                        "op": "is-a",
+                        "value": "1000-9"
+                    }
+                ]
+            }
+        ],
+        "exclude": [
+            {
+                "system": "urn:oid:2.16.840.1.113883.6.238",
+                "concept": [
+                    {
+                        "code": "1002-5"
+                    },
+                    {
+                        "code": "2028-9"
+                    },
+                    {
+                        "code": "2054-5"
+                    },
+                    {
+                        "code": "2076-8"
+                    },
+                    {
+                        "code": "2106-3"
+                    }
+                ]
+            }
+        ]
+    }
+}

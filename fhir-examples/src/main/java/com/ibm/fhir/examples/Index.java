@@ -22,9 +22,7 @@ public enum Index {
         "/profiles-pdex-formulary-json.txt",
         "/profiles-pdex-plan-net-json.txt",
         "/profiles-pdex-json.txt",
-        "/profiles-hrex-json.txt",
-        "/profiles-us-core-xml.txt",
-        "/profiles-us-core-json.txt"),
+        "/profiles-hrex-json.txt"),
 
     /**
      * All JSON examples
@@ -32,7 +30,6 @@ public enum Index {
     ALL_JSON("/spec-json.txt",
         "/ibm-json.txt",
         "/profiles-carin-bb-json.txt",
-        "/profiles-us-core-json.txt",
         "/profiles-pdex-formulary-json.txt",
         "/profiles-pdex-plan-net-json.txt",
         "/profiles-pdex-json.txt",
@@ -104,21 +101,10 @@ public enum Index {
     PROFILES_HREX_JSON("/profiles-hrex-json.txt"),
 
     /**
-     * US Core Examples in JSON
-     */
-    PROFILES_US_CORE_JSON("/profiles-us-core-json.txt"),
-
-    /**
-     * US Core Examples in XML
-     */
-    PROFILES_US_CORE_XML("/profiles-us-core-xml.txt"),
-
-    /**
      * Implementation Guides examples in JSON
      */
     ALL_PROFILES_JSON(
         "/profiles-carin-bb-json.txt",
-        "/profiles-us-core-json.txt",
         "/profiles-pdex-formulary-json.txt",
         "/profiles-pdex-plan-net-json.txt",
         "/profiles-hrex-json.txt",
@@ -127,9 +113,7 @@ public enum Index {
     /**
      * Implementation Guides examples in XML
      */
-    ALL_PROFILES_XML(
-        "/profiles-us-core-xml.txt"
-        ),
+    ALL_PROFILES_XML(),
 
     /**
      * Bulk Data Location examples in JSON

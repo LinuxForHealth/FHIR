@@ -1,0 +1,149 @@
+{
+    "resourceType": "SearchParameter",
+    "id": "us-core-observation-date",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/us/core/SearchParameter/us-core-observation-date",
+    "version": "4.0.0",
+    "name": "USCoreObservationDate",
+    "derivedFrom": "http://hl7.org/fhir/SearchParameter/clinical-date",
+    "status": "active",
+    "experimental": false,
+    "date": "2020-11-20T05:19:29.697843Z",
+    "publisher": "HL7 International - US Realm Steering Committee",
+    "contact": [
+        {
+            "name": "HL7 International - US Realm Steering Committee",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/usrealm/index.cfm"
+                }
+            ]
+        }
+    ],
+    "description": "**Obtained date/time. If the obtained element is a period, a date that falls in the period**  \n**NOTE**: This US Core SearchParameter definition extends the usage context of the\n[Conformance expectation extension](http://hl7.org/fhir/R4/extension-capabilitystatement-expectation.html)\n - multipleAnd\n - multipleOr\n - comparator\n - modifier\n - chain",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US"
+                }
+            ]
+        }
+    ],
+    "code": "date",
+    "base": [
+        "Observation"
+    ],
+    "type": "date",
+    "expression": "Observation.effective",
+    "xpath": "f:Observation/f:effectiveDateTime|f:Observation/f:effectivePeriod|f:Observation/f:effectiveTiming|f:Observation/f:effectiveInstant",
+    "xpathUsage": "normal",
+    "multipleOr": true,
+    "_multipleOr": {
+        "extension": [
+            {
+                "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                "valueCode": "MAY"
+            }
+        ]
+    },
+    "multipleAnd": true,
+    "_multipleAnd": {
+        "extension": [
+            {
+                "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                "valueCode": "SHOULD"
+            }
+        ]
+    },
+    "comparator": [
+        "eq",
+        "ne",
+        "gt",
+        "ge",
+        "lt",
+        "le",
+        "sa",
+        "eb",
+        "ap"
+    ],
+    "_comparator": [
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                    "valueCode": "MAY"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                    "valueCode": "MAY"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                    "valueCode": "SHALL"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                    "valueCode": "SHALL"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                    "valueCode": "SHALL"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                    "valueCode": "SHALL"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                    "valueCode": "MAY"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                    "valueCode": "MAY"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                    "valueCode": "MAY"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,70 @@
+{
+    "resourceType": "SearchParameter",
+    "id": "us-core-patient-gender",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://ibm.com/fhir/extension/implicit-system",
+            "valueUri": "http://hl7.org/fhir/administrative-gender"
+        }
+    ],
+    "url": "http://hl7.org/fhir/us/core/SearchParameter/us-core-patient-gender",
+    "version": "4.0.0",
+    "name": "USCorePatientGender",
+    "derivedFrom": "http://hl7.org/fhir/SearchParameter/individual-gender",
+    "status": "active",
+    "experimental": false,
+    "date": "2020-11-20T05:19:27.671986Z",
+    "publisher": "HL7 International - US Realm Steering Committee",
+    "contact": [
+        {
+            "name": "HL7 International - US Realm Steering Committee",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/usrealm/index.cfm"
+                }
+            ]
+        }
+    ],
+    "description": "**Gender of the patient**  \n**NOTE**: This US Core SearchParameter definition extends the usage context of the\n[Conformance expectation extension](http://hl7.org/fhir/R4/extension-capabilitystatement-expectation.html)\n - multipleAnd\n - multipleOr\n - comparator\n - modifier\n - chain",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US"
+                }
+            ]
+        }
+    ],
+    "code": "gender",
+    "base": [
+        "Patient"
+    ],
+    "type": "token",
+    "expression": "Patient.gender",
+    "xpath": "f:Patient/f:gender",
+    "xpathUsage": "normal",
+    "multipleOr": true,
+    "_multipleOr": {
+        "extension": [
+            {
+                "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                "valueCode": "MAY"
+            }
+        ]
+    },
+    "multipleAnd": true,
+    "_multipleAnd": {
+        "extension": [
+            {
+                "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                "valueCode": "MAY"
+            }
+        ]
+    }
+}

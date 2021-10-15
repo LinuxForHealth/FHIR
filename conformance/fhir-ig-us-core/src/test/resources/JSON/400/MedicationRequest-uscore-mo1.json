@@ -1,0 +1,71 @@
+{
+	"resourceType": "MedicationRequest",
+	"id": "uscore-mo1",
+	"meta": {
+		"extension": [
+			{
+				"url": "http://hl7.org/fhir/StructureDefinition/instance-name",
+				"valueString": "Uscore MO1 Example"
+			},
+			{
+				"url": "http://hl7.org/fhir/StructureDefinition/instance-description",
+				"valueMarkdown": "This is a uscore mo1 example for the *US Core MedicationRequest Profile*."
+			}
+		],
+		"profile": [
+			"http://hl7.org/fhir/us/core/StructureDefinition/us-core-medicationrequest"
+		]
+	},
+	"text": {
+		"status": "generated",
+		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><p><b>status</b>: active</p><p><b>intent</b>: order</p><p><b>medication</b>: <span title=\"Codes: {http://www.nlm.nih.gov/research/umls/rxnorm 582620}\">Nizatidine 15 MG/ML Oral Solution [Axid]</span></p><p><b>subject</b>: <a href=\"Patient-example.html\">Amy Shaw. Generated Summary: Medical Record Number: 1032702 (USUAL); active; Amy V. Shaw , Amy V. Baxter ; Phone: 555-555-5555, amy.shaw@example.com; gender: female; birthDate: 1987-02-20</a></p><p><b>authoredOn</b>: 2008-04-05</p><p><b>requester</b>: <a href=\"Practitioner-practitioner-1.html\">Ronald Bone, MD. Generated Summary: id: 9941339108, id: 25456; Ronald Bone </a></p><blockquote><p><b>dispenseRequest</b></p><p><b>numberOfRepeatsAllowed</b>: 1</p><p><b>quantity</b>: 480 mL</p></blockquote></div>"
+	},
+	"status": "active",
+	"intent": "order",
+	"medicationCodeableConcept": {
+		"coding": [
+			{
+				"system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+				"code": "582620",
+				"display": "Nizatidine 15 MG/ML Oral Solution [Axid]"
+			}
+		],
+		"text": "Nizatidine 15 MG/ML Oral Solution [Axid]"
+	},
+	"subject": {
+		"reference": "Patient/example",
+		"display": "Amy Shaw"
+	},
+	"authoredOn": "2008-04-05",
+	"requester": {
+		"reference": "Practitioner/practitioner-1",
+		"display": "Ronald Bone, MD"
+	},
+	"dosageInstruction": [
+		{
+			"text": "10 mL bid",
+			"timing": {
+				"repeat": {
+					"boundsPeriod": {
+						"start": "2008-04-05"
+					}
+				}
+			}
+		}
+	],
+	"dispenseRequest": {
+		"numberOfRepeatsAllowed": 1,
+		"quantity": {
+			"value": 480,
+			"unit": "mL",
+			"system": "http://unitsofmeasure.org",
+			"code": "mL"
+		},
+		"expectedSupplyDuration": {
+			"value": 30,
+			"unit": "days",
+			"system": "http://unitsofmeasure.org",
+			"code": "d"
+		}
+	}
+}

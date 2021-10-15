@@ -1,0 +1,89 @@
+{
+    "resourceType": "SearchParameter",
+    "id": "us-core-practitionerrole-practitioner",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/us/core/SearchParameter/us-core-practitionerrole-practitioner",
+    "version": "3.1.1",
+    "name": "USCorePractitionerrolePractitioner",
+    "derivedFrom": "http://hl7.org/fhir/SearchParameter/PractitionerRole-practitioner",
+    "status": "active",
+    "experimental": false,
+    "date": "2020-07-01T21:51:58.507650Z",
+    "publisher": "HL7 International - US Realm Steering Committee",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/usrealm/index.cfm"
+                }
+            ]
+        }
+    ],
+    "description": "Practitioner that is able to provide the defined services for the organization<br />\n<em>NOTE</em>: This US Core SearchParameter definition extends the usage context of\n<a href=\"http://hl7.org/fhir/R4/extension-capabilitystatement-expectation.html\">capabilitystatement-expectation</a>\n extension to formally express implementer conformance expectations for these elements:<br />\n - multipleAnd<br />\n - multipleOr<br />\n - comparator<br />\n - modifier<br />\n - chain<br />\n\n ",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US",
+                    "display": "United States of America"
+                }
+            ]
+        }
+    ],
+    "code": "practitioner",
+    "base": [
+        "PractitionerRole"
+    ],
+    "type": "reference",
+    "expression": "PractitionerRole.practitioner",
+    "xpath": "f:PractitionerRole/f:practitioner",
+    "xpathUsage": "normal",
+    "target": [
+        "Practitioner"
+    ],
+    "multipleOr": true,
+    "_multipleOr": {
+        "extension": [
+            {
+                "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                "valueCode": "MAY"
+            }
+        ]
+    },
+    "multipleAnd": true,
+    "_multipleAnd": {
+        "extension": [
+            {
+                "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                "valueCode": "MAY"
+            }
+        ]
+    },
+    "chain": [
+        "identifier",
+        "name"
+    ],
+    "_chain": [
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                    "valueCode": "SHALL"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                    "valueCode": "SHALL"
+                }
+            ]
+        }
+    ]
+}
