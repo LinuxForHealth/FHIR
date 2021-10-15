@@ -10,6 +10,7 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.UUID;
 
@@ -35,13 +36,18 @@ public abstract class AbstractMultiResourceTest extends AbstractPersistenceTest 
      */
     @BeforeClass
     public void createResources() throws Exception {
-
+        
+        final com.ibm.fhir.model.type.Instant lastUpdated = com.ibm.fhir.model.type.Instant.now(ZoneOffset.UTC);
+        final int versionId = 1;
         Encounter encounter = TestUtil.getMinimalResource(Encounter.class);
-
+        
         // Update the id on the resource
         encounter = encounter.toBuilder().id(commonId).build();
-
-        encounter = persistence.update(getDefaultPersistenceContext(), commonId, encounter).getResource();
+        
+        // Inject meta data
+        encounter = copyAndSetResourceMetaFields(encounter, commonId, versionId, lastUpdated);
+        
+        encounter = persistence.updateWithMeta(getDefaultPersistenceContext(), encounter).getResource();
         assertNotNull(encounter);
         assertNotNull(encounter.getId());
         assertNotNull(encounter.getMeta());
@@ -52,7 +58,8 @@ public abstract class AbstractMultiResourceTest extends AbstractPersistenceTest 
 
         // update the id on the resource
         observation = observation.toBuilder().id(commonId).build();
-        observation = persistence.update(getDefaultPersistenceContext(), commonId, observation).getResource();
+        observation = copyAndSetResourceMetaFields(observation, commonId, versionId, lastUpdated);
+        observation = persistence.updateWithMeta(getDefaultPersistenceContext(), observation).getResource();
         assertNotNull(observation);
         assertNotNull(observation.getId());
         assertNotNull(observation.getMeta());

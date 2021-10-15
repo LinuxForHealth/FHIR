@@ -80,6 +80,8 @@ The IBM FHIR Server is modular and extensible. The following tables provide an o
 |fhir-persistence-schema|Classes for deploying and updating the IBM FHIR Server relational database schema|false|
 |fhir-persistence-jdbc|A relational FHIRPersistence implementation that uses JDBC to store and query FHIR resources|false|
 |fhir-persistence-scout|A scale out persistence layer to store and query FHIR resources *experimental* |false|
+|fhir-persistence-cos|Decorates the fhir-persistence-jdbc module with the ability to offload payload storage to IBM Cloud Object Storage *experimental* |false|
+|fhir-persistence-cassandra|Decorates the fhir-persistence-jdbc module with the ability to offload payload storage to Cassandra *experimental* |false|
 |fhir-provider|JAX-RS Providers for FHIR XML and JSON and related patch formats|false|
 |fhir-notification|[Subscription](https://www.hl7.org/fhir/R4/subscription.html) and notification interfaces and helpers|false|
 |fhir-notification-websocket|A fhir-notification implementation that uses WebSockets as described at https://www.hl7.org/fhir/R4/subscription.html#2.46.7.2 |false|

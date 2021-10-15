@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.persistence.util;
 
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.List;
@@ -13,7 +14,9 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.resource.Resource.Builder;
 import com.ibm.fhir.model.type.DateTime;
+import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.code.IssueType;
@@ -164,4 +167,39 @@ public class FHIRPersistenceUtil {
                     + deletedResource.getClass().getSimpleName());
         }
     }
+
+    /**
+     * Get the current UTC timestamp which can be used as a lastUpdated time when ingesting
+     * resources.
+     * @return
+     */
+    public static com.ibm.fhir.model.type.Instant getUpdateTime() {
+        return com.ibm.fhir.model.type.Instant.now(ZoneOffset.UTC);
+    }
+    
+    /**
+     * Creates and returns a copy of the passed resource with the {@code Resource.id}
+     * {@code Resource.meta.versionId}, and {@code Resource.meta.lastUpdated} elements replaced.
+     *
+     * @param resource
+     * @param logicalId
+     * @param newVersionNumber
+     * @param lastUpdated
+     * @return the updated resource
+     */
+    @SuppressWarnings("unchecked")
+    public static <T extends Resource> T copyAndSetResourceMetaFields(T resource, String logicalId, int newVersionNumber, com.ibm.fhir.model.type.Instant lastUpdated) {
+        Meta meta = resource.getMeta();
+        Meta.Builder metaBuilder = meta == null ? Meta.builder() : meta.toBuilder();
+        metaBuilder.versionId(Id.of(Integer.toString(newVersionNumber)));
+        metaBuilder.lastUpdated(lastUpdated);
+
+        Builder resourceBuilder = resource.toBuilder();
+        resourceBuilder.setValidating(false);
+        return (T) resourceBuilder
+                .id(logicalId)
+                .meta(metaBuilder.build())
+                .build();
+    }
+
 }

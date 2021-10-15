@@ -158,7 +158,7 @@ public class JDBCIdentityCacheImpl implements JDBCIdentityCache {
                     logger.fine("Adding common_token_value_id to cache: '" + codeSystem + "|" + tokenValue + "' = " + result);
                 }
                 cache.getResourceReferenceCache().addCodeSystem(codeSystem, dto.getCodeSystemId());
-                cache.getResourceReferenceCache().addTokenValue(new CommonTokenValue(dto.getCodeSystemId(), tokenValue), result);
+                cache.getResourceReferenceCache().addTokenValue(new CommonTokenValue(codeSystem, dto.getCodeSystemId(), tokenValue), result);
             }
         }
         return result;
@@ -190,7 +190,9 @@ public class JDBCIdentityCacheImpl implements JDBCIdentityCache {
             if (logger.isLoggable(Level.FINE)) {
                 logger.fine("Adding common_token_value_id to cache: '" + dto.getCodeSystemId() + "|" + dto.getTokenValue() + "' = " + result);
             }
-            cache.getResourceReferenceCache().addTokenValue(new CommonTokenValue(dto.getCodeSystemId(), dto.getTokenValue()), dto.getCommonTokenValueId());
+            
+            // The codeSystem is not required at this stage
+            cache.getResourceReferenceCache().addTokenValue(new CommonTokenValue(null, dto.getCodeSystemId(), dto.getTokenValue()), dto.getCommonTokenValueId());
         }
 
         return result;

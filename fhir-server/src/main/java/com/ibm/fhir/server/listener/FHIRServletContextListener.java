@@ -47,6 +47,7 @@ import com.ibm.fhir.cache.CachingProxy;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.config.PropertyGroup.PropertyEntry;
+import com.ibm.fhir.core.lifecycle.EventManager;
 import com.ibm.fhir.database.utils.derby.DerbyServerPropertiesMgr;
 import com.ibm.fhir.model.config.FHIRModelConfig;
 import com.ibm.fhir.model.lang.util.LanguageRegistryUtil;
@@ -88,6 +89,9 @@ public class FHIRServletContextListener implements ServletContextListener {
 
     private List<GraphTermServiceProvider> graphTermServiceProviders = new ArrayList<>();
     private List<RemoteTermServiceProvider> remoteTermServiceProviders = new ArrayList<>();
+    
+    // Unique value known only to this class so that only we can initiate lifecycle events
+    private static final Object serviceManagerId = new Object();
 
     @Override
     public void contextInitialized(ServletContextEvent event) {
@@ -97,6 +101,8 @@ public class FHIRServletContextListener implements ServletContextListener {
         try {
             // Initialize our "initComplete" flag to false.
             event.getServletContext().setAttribute(FHIR_SERVER_INIT_COMPLETE, Boolean.FALSE);
+            
+            EventManager.registerServiceManagerId(serviceManagerId);
 
             FHIRConfiguration.setConfigHome(System.getenv("FHIR_CONFIG_HOME"));
             PropertyGroup fhirConfig = FHIRConfiguration.getInstance().loadConfiguration();
@@ -221,8 +227,11 @@ public class FHIRServletContextListener implements ServletContextListener {
 
             configureTermServiceCapabilities(fhirConfig);
 
-            // Finally, set our "initComplete" flag to true.
+            // Set our "initComplete" flag to true.
             event.getServletContext().setAttribute(FHIR_SERVER_INIT_COMPLETE, Boolean.TRUE);
+
+            // Now init is complete, tell all registered callbacks
+            EventManager.serverReady(serviceManagerId);
         } catch(Throwable t) {
             String msg = "Encountered an exception while initializing the servlet context.";
             log.log(Level.SEVERE, msg, t);
@@ -258,6 +267,9 @@ public class FHIRServletContextListener implements ServletContextListener {
         try {
             // Set our "initComplete" flag back to false.
             event.getServletContext().setAttribute(FHIR_SERVER_INIT_COMPLETE, Boolean.FALSE);
+            
+            // Tell anyone who's interested that the server is being shut down. Should not block
+            EventManager.startShutdown(serviceManagerId);
 
             // If we previously initialized the Kafka publisher, then shut it down now.
             if (kafkaPublisher != null) {
@@ -278,6 +290,9 @@ public class FHIRServletContextListener implements ServletContextListener {
             for (RemoteTermServiceProvider remoteTermServiceProvider : remoteTermServiceProviders) {
                 remoteTermServiceProvider.close();
             }
+
+            // Tell registered callbacks that their component shutdowns should be finished
+            EventManager.finalShutdown(serviceManagerId);
         } catch (Exception e) {
             // Ignore it
         } finally {

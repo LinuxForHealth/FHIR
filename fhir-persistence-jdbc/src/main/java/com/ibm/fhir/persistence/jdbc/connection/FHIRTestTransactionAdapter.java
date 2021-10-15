@@ -100,4 +100,9 @@ public class FHIRTestTransactionAdapter implements FHIRPersistenceTransaction {
         // always mark the transaction for rollback, even if not started by this
         this.currentTransaction.get().setRollbackOnly();
     }
+
+    @Override
+    public boolean hasBegun() throws FHIRPersistenceException {
+        return currentTransaction.get() != null;
+    }
 }

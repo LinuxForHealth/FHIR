@@ -6,18 +6,17 @@
 
 package com.ibm.fhir.schema.control;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Properties;
-import java.util.logging.Logger;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
@@ -29,7 +28,6 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
  */
 public class PopulateParameterNames implements IDatabaseStatement {
 
-    private static final Logger LOGGER = Logger.getLogger(PopulateParameterNames.class.getName());
     private final String adminSchemaName;
     private final String schemaName;
     private final Integer tenantId;
@@ -42,75 +40,66 @@ public class PopulateParameterNames implements IDatabaseStatement {
 
     @Override
     public void run(IDatabaseTranslator translator, Connection c) {
+        final String nextRefVal = translator.nextValue(schemaName, "fhir_ref_sequence");
+        
+        // For Db2 multi-tenancy, we need to set up the SV_TENANT_ID in order for the row-based-access-control
+        // to work
         final String stmtVariable = String.format("SET %s.SV_TENANT_ID = %d", adminSchemaName, tenantId);
         final String stmtResourceTypeInsert;
         final String PARAMETER_NAMES = String.format("SELECT PARAMETER_NAME_ID, PARAMETER_NAME FROM %s.parameter_names", schemaName);
         if (tenantId != null) {
             stmtResourceTypeInsert =
                     String.format("INSERT INTO %s.parameter_names (MT_ID, PARAMETER_NAME_ID, PARAMETER_NAME) "
-                            + "VALUES (%s.sv_tenant_id, ?, ?)", schemaName, adminSchemaName);
+                            + "VALUES (%s.sv_tenant_id, %s, ?)", schemaName, adminSchemaName, nextRefVal);
         } else {
             stmtResourceTypeInsert =
-                    String.format("INSERT INTO %s.parameter_names (PARAMETER_NAME_ID, PARAMETER_NAME) " + "VALUES (?, ?)", schemaName);
+                    String.format("INSERT INTO %s.parameter_names (PARAMETER_NAME_ID, PARAMETER_NAME) VALUES (%s, ?)", schemaName, nextRefVal);
         }
 
-        Map<String, Integer> values = new HashMap<>();
-        try (PreparedStatement list = c.prepareStatement(PARAMETER_NAMES)) {
-            list.execute();
-            ResultSet rset = list.getResultSet();
+        // Configure RBAC if we're Db2 multi-tenant
+        if (tenantId != null) {
+            try (Statement s = c.createStatement();) {
+                s.execute(stmtVariable);
+            } catch (SQLException x) {
+                throw translator.translate(x);
+            }
+        }
+        
+        // Grab a set containing all the current parameter names so we can skip them
+        Set<String> currentParameterNames = new HashSet<>();
+        try (PreparedStatement ps = c.prepareStatement(PARAMETER_NAMES)) {
+            ResultSet rset = ps.executeQuery();
             while (rset.next()) {
-                Integer id = rset.getInt(1);
-                String type = rset.getString(1);
-                values.put(type, id);
+                currentParameterNames.add(rset.getString(1));
             }
         } catch (SQLException x) {
             throw translator.translate(x);
         }
-
+        
+        // Now we can insert parameter names not found in the current set
         try (PreparedStatement batch = c.prepareStatement(stmtResourceTypeInsert)) {
-            // Only if it's multitenant is tenantId not null.
-            if (tenantId != null) {
-                try (Statement s = c.createStatement();) {
-                    s.execute(stmtVariable);
-                }
-            }
-
-            try (InputStream fis =
-                    PopulateParameterNames.class.getClassLoader().getResourceAsStream("parameter_names.properties")) {
-                Properties props = new Properties();
-                props.load(fis);
-
-                int numToProcess = 0;
-                for (Entry<Object, Object> valueEntry : props.entrySet()) {
-                    Integer curVal = Integer.parseInt((String) valueEntry.getValue());
-                    String code = (String) valueEntry.getKey();
-
-                    if (!values.containsKey(code)) {
-                        batch.setLong(1, curVal);
-                        batch.setString(2, code);
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(PopulateParameterNames.class.getClassLoader().getResourceAsStream("parameter_names.properties"), StandardCharsets.UTF_8))) {
+                final int batchSize = 100;
+                int processed = 0;
+                String line;
+                while ((line = br.readLine()) != null) {
+                    final String parameterName = line.trim();
+                    if (!currentParameterNames.contains(parameterName)) {
+                        batch.setString(1, parameterName);
                         batch.addBatch();
-                        numToProcess++;
-                    }
-                }
-
-                // Only execute with num to process
-                if (numToProcess > 0) {
-                    // Check Error Codes.
-                    int[] codes = batch.executeBatch();
-                    int errorCodes = 0;
-                    for (int code : codes) {
-                        if (code < 0) {
-                            errorCodes++;
+                        if (++processed == batchSize) {
+                            batch.executeBatch();
+                            processed = 0;
                         }
                     }
-                    if (errorCodes > 0) {
-                        String msg = "at least one of the Parameter Name/Codes are not populated [" + errorCodes + "]";
-                        LOGGER.severe(msg);
-                        throw new IllegalArgumentException(msg);
-                    }
+                }
+                
+                // wrap up by sending the final batch
+                if (processed > 0) {
+                    batch.executeBatch();
                 }
             } catch (IOException e) {
-                // Wrap and Send downstream
+                // Wrap and propagate
                 throw new IllegalArgumentException(e);
             }
         } catch (SQLException x) {

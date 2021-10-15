@@ -10,6 +10,7 @@ import static com.ibm.fhir.model.type.String.string;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.concurrent.Future;
 import java.util.function.Function;
 
 import com.ibm.fhir.model.resource.Encounter;
@@ -29,6 +30,7 @@ import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
+import com.ibm.fhir.persistence.payload.PayloadKey;
 
 /**
  * Mock implementation of FHIRPersistence for use during testing.
@@ -59,6 +61,11 @@ public class MockPersistenceImpl implements FHIRPersistence {
 
     @Override
     public <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException {
+        return null;
+    }
+
+    @Override
+    public <T extends Resource> SingleResourceResult<T> createWithMeta(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException {
         return null;
     }
 
@@ -124,6 +131,11 @@ public class MockPersistenceImpl implements FHIRPersistence {
     public <T extends Resource> SingleResourceResult<T> update(FHIRPersistenceContext context, String logicalId, T resource) throws FHIRPersistenceException {
     	return null;
     }
+    
+    @Override
+    public <T extends Resource> SingleResourceResult<T> updateWithMeta(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException {
+        return null;
+    }
 
     @Override
     public <T extends Resource> MultiResourceResult<T> history(FHIRPersistenceContext context, Class<T> resourceType, String logicalId) throws FHIRPersistenceException {
@@ -175,6 +187,12 @@ public class MockPersistenceImpl implements FHIRPersistence {
 
     @Override
     public List<Long> retrieveIndex(int count, java.time.Instant notModifiedAfter, Long afterIndexId, String resourceTypeName) throws FHIRPersistenceException {
+        return null;
+    }
+
+    @Override
+    public Future<PayloadKey> storePayload(Resource resource, String logicalId, int newVersionNumber)
+        throws FHIRPersistenceException {
         return null;
     }
 }

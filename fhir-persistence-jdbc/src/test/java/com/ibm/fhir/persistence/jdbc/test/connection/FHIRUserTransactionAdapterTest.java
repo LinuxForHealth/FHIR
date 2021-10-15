@@ -7,6 +7,8 @@
 package com.ibm.fhir.persistence.jdbc.test.connection;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
 import javax.transaction.Status;
 
@@ -26,9 +28,12 @@ public class FHIRUserTransactionAdapterTest {
         MockTransactionSynchronizationRegistry sync = new MockTransactionSynchronizationRegistry();
         assertEquals(tx.getStatus(), Status.STATUS_NO_TRANSACTION);
         FHIRUserTransactionAdapter adapter = new FHIRUserTransactionAdapter(tx, sync, null, null);
+        assertFalse(adapter.hasBegun());
         adapter.begin();
+        assertTrue(adapter.hasBegun());
         assertEquals(tx.getStatus(), Status.STATUS_ACTIVE);
         adapter.end();
+        assertFalse(adapter.hasBegun());
         assertEquals(tx.getStatus(), Status.STATUS_NO_TRANSACTION);
     }
 
@@ -163,31 +168,40 @@ public class FHIRUserTransactionAdapterTest {
         MockTransactionSynchronizationRegistry sync = new MockTransactionSynchronizationRegistry();
 
         FHIRUserTransactionAdapter adapter = new FHIRUserTransactionAdapter(tx, sync, null, null);
+        assertFalse(adapter.hasBegun());
         adapter.begin();
+        assertTrue(adapter.hasBegun());
         assertEquals(tx.getStatus(), Status.STATUS_ACTIVE);
 
         adapter.begin();
+        assertTrue(adapter.hasBegun());
         assertEquals(tx.getStatus(), Status.STATUS_ACTIVE);
 
         FHIRUserTransactionAdapter nested = new FHIRUserTransactionAdapter(tx, sync, null, null);
         nested.begin();
+        assertTrue(adapter.hasBegun());
         assertEquals(tx.getStatus(), Status.STATUS_ACTIVE);
 
         nested.begin();
+        assertTrue(adapter.hasBegun());
         assertEquals(tx.getStatus(), Status.STATUS_ACTIVE);
 
         // when we end the nested, because we didn't start the tx, it should be active
         nested.end();
+        assertTrue(adapter.hasBegun());
         assertEquals(tx.getStatus(), Status.STATUS_ACTIVE);
 
         nested.end();
+        assertTrue(adapter.hasBegun());
         assertEquals(tx.getStatus(), Status.STATUS_ACTIVE);
 
         adapter.end();
+        assertTrue(adapter.hasBegun());
         assertEquals(tx.getStatus(), Status.STATUS_ACTIVE);
 
         // now we can end (commit) the transaction
         adapter.end();
+        assertFalse(adapter.hasBegun());
         assertEquals(tx.getStatus(), Status.STATUS_NO_TRANSACTION);
 
     }
@@ -201,6 +215,7 @@ public class FHIRUserTransactionAdapterTest {
         FHIRUserTransactionAdapter adapter = new FHIRUserTransactionAdapter(tx, sync, null, null);
         adapter.begin();
         adapter.setRollbackOnly();
+        assertTrue(adapter.hasBegun());
         assertEquals(tx.getStatus(), Status.STATUS_MARKED_ROLLBACK);
 
         // now try and start a nested transaction
@@ -215,10 +230,12 @@ public class FHIRUserTransactionAdapterTest {
         // when we end the nested, because we didn't start the tx, it should still
         // be marked for rollback
         nested.end();
+        assertTrue(adapter.hasBegun());
         assertEquals(tx.getStatus(), Status.STATUS_MARKED_ROLLBACK);
 
         // now we can end the transaction (rollback to no transaction)
         adapter.end();
+        assertFalse(adapter.hasBegun());
         assertEquals(tx.getStatus(), Status.STATUS_NO_TRANSACTION);
     }
 

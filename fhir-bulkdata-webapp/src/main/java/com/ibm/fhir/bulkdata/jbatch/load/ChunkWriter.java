@@ -57,10 +57,11 @@ import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
 import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
 import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
+import com.ibm.fhir.persistence.payload.PayloadPersistenceHelper;
+import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.fhir.validation.exception.FHIRValidationException;
 
 /**
@@ -200,6 +201,7 @@ public class ChunkWriter extends AbstractItemWriter {
                             }
                             OperationOutcome operationOutcome;
                             if (id == null) {
+                                // Because there's no id provided, this has to be a create
                                 long startTime = System.currentTimeMillis();
                                 FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null);
                                 operationOutcome =
@@ -217,7 +219,8 @@ public class ChunkWriter extends AbstractItemWriter {
 
                                 FHIRPersistenceEvent event = new FHIRPersistenceEvent(fhirResource, props);
 
-                                FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(event);
+                                // Set up the persistence context to include deleted resources when we read
+                                FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(event, true);
                                 long startTime = System.currentTimeMillis();
                                 operationOutcome = conditionalFingerprintUpdate(chunkData, skip, localCache, fhirPersistence, persistenceContext, id, fhirResource);
                                 if (auditLogger.shouldLog()) {
@@ -298,24 +301,27 @@ public class ChunkWriter extends AbstractItemWriter {
      * @throws FHIRPersistenceException
      */
     public OperationOutcome conditionalFingerprintUpdate(ImportTransientUserData chunkData, boolean skip, Map<String, SaltHash> localCache, FHIRPersistence persistence, FHIRPersistenceContext context, String logicalId, Resource resource) throws FHIRPersistenceException {
+        
+        // Since issue 1869, we must perform the read at this point in order to obtain the
+        // latest version id. The persistence layer no longer makes any changes to the 
+        // resource so the resource needs to be fully prepared before the persistence
+        // create/update call is made
+        final Resource oldResource = persistence.read(context, resource.getClass(), logicalId).getResource();
+        
+        final com.ibm.fhir.model.type.Instant lastUpdated = PayloadPersistenceHelper.getCurrentInstant();
+        final int newVersionNumber = oldResource != null && oldResource.getMeta() != null && oldResource.getMeta().getVersionId() != null
+                ? Integer.parseInt(oldResource.getMeta().getVersionId().getValue()) + 1 : 1;
+        resource = FHIRPersistenceUtil.copyAndSetResourceMetaFields(resource, logicalId, newVersionNumber, lastUpdated);
+        
         OperationOutcome oo;
         if (skip) {
             // Key is scoped to the ResourceType.
             String key = resourceType + "/" + logicalId;
             SaltHash oldBaseLine = localCache.get(key);
 
-            Resource oldResource = null;
             ResourceFingerprintVisitor fp = new ResourceFingerprintVisitor();
             if (oldBaseLine == null) {
-                // Go get the latest resource in the database and fingerprint the resource.
                 // If the resource exists, then we need to fingerprint.
-                try {
-                    // This execution is in a try-catch-block since we want to catch
-                    // the resource deleted exception.
-                    oldResource = persistence.read(context, resource.getClass(), logicalId).getResource();
-                } catch (FHIRPersistenceResourceDeletedException fpde) {
-                    logger.throwing("ChunkWriter", "conditionalFingerprintUpdate", fpde);
-                }
                 if (oldResource != null) {
                     ResourceFingerprintVisitor fpOld = new ResourceFingerprintVisitor();
                     oldResource.accept(fpOld);
@@ -347,11 +353,11 @@ public class ChunkWriter extends AbstractItemWriter {
                     // Old Resource is set so we avoid an extra read
                     context.getPersistenceEvent().setPrevFhirResource(oldResource);
                 }
-                oo = persistence.update(context, logicalId, resource).getOutcome();
+                oo = persistence.updateWithMeta(context, resource).getOutcome();
                 localCache.put(key, newBaseLine);
             }
         } else {
-            oo = persistence.update(context, logicalId, resource).getOutcome();
+            oo = persistence.updateWithMeta(context, resource).getOutcome();
         }
         return oo;
     }

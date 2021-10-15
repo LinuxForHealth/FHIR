@@ -24,4 +24,9 @@ public class MockTransactionAdapter implements FHIRPersistenceTransaction {
     @Override
     public void setRollbackOnly() throws FHIRPersistenceException {
     }
+
+    @Override
+    public boolean hasBegun() throws FHIRPersistenceException {
+        return false;
+    }
 }

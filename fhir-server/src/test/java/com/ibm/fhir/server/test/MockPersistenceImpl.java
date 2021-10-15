@@ -7,6 +7,7 @@ package com.ibm.fhir.server.test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Future;
 import java.util.function.Function;
 
 import com.ibm.fhir.model.resource.OperationOutcome;
@@ -25,6 +26,7 @@ import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
+import com.ibm.fhir.persistence.payload.PayloadKey;
 import com.ibm.fhir.server.util.FHIRRestHelperTest;
 
 /**
@@ -33,23 +35,27 @@ import com.ibm.fhir.server.util.FHIRRestHelperTest;
 public class MockPersistenceImpl implements FHIRPersistence {
     int id = 0;
 
-    @SuppressWarnings("unchecked")
     @Override
-    public <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException {
-        T updatedResource = (T) resource.toBuilder()
-                .id(generateResourceId())
-                .meta(Meta.builder().versionId(Id.of("1")).lastUpdated(Instant.now()).build())
-                .build();
+    public <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource) 
+            throws FHIRPersistenceException {
+        throw new IllegalStateException("API no longer used; provided for backward compatibility only");
+    }
+
+    @Override
+    public <T extends Resource> SingleResourceResult<T> createWithMeta(FHIRPersistenceContext context, T resource) 
+            throws FHIRPersistenceException {
+        
         SingleResourceResult.Builder<T> resultBuilder = new SingleResourceResult.Builder<T>()
                 .success(true)
-                .resource(updatedResource);
+                .resource(resource);
         return resultBuilder.build();
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public <T extends Resource> SingleResourceResult<T> read(FHIRPersistenceContext context, Class<T> resourceType, String logicalId)
-        throws FHIRPersistenceException, FHIRPersistenceResourceDeletedException {
+            throws FHIRPersistenceException, FHIRPersistenceResourceDeletedException {
+        // TODO. Why this logic? Definitely worthy of a comment
         if (logicalId.startsWith("generated")) {
             return new SingleResourceResult.Builder<T>()
                     .success(true)
@@ -65,7 +71,7 @@ public class MockPersistenceImpl implements FHIRPersistence {
     @SuppressWarnings("unchecked")
     @Override
     public <T extends Resource> SingleResourceResult<T> vread(FHIRPersistenceContext context, Class<T> resourceType, String logicalId, String versionId)
-        throws FHIRPersistenceException, FHIRPersistenceResourceDeletedException {
+            throws FHIRPersistenceException, FHIRPersistenceResourceDeletedException {
         if (logicalId.startsWith("generated")) {
             return new SingleResourceResult.Builder<T>()
                     .success(true)
@@ -78,22 +84,22 @@ public class MockPersistenceImpl implements FHIRPersistence {
         }
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public <T extends Resource> SingleResourceResult<T> update(FHIRPersistenceContext context, String logicalId, T resource) throws FHIRPersistenceException {
-        T updatedResource;
+        // For this mock, the versionId doesn't matter
+        return updateWithMeta(context, resource);
+    }
+
+    @Override
+    public <T extends Resource> SingleResourceResult<T> updateWithMeta(FHIRPersistenceContext context, T resource)
+            throws FHIRPersistenceException {
         OperationOutcome operationOutcome = null;
         if (resource.getLanguage() != null && resource.getLanguage().getValue().equals("en-US")) {
             operationOutcome = FHIRRestHelperTest.ID_SPECIFIED;
         }
-        if (resource.getId().startsWith("generated")) {
-            updatedResource = (T) resource.toBuilder().meta(Meta.builder().versionId(Id.of("1")).build()).build();
-        } else {
-            updatedResource = (T) resource.toBuilder().meta(Meta.builder().versionId(Id.of("2")).build()).build();
-        }
         SingleResourceResult.Builder<T> resultBuilder = new SingleResourceResult.Builder<T>()
                 .success(true)
-                .resource(updatedResource)
+                .resource(resource) // persistence layer should no longer change the resource!
                 .outcome(operationOutcome);
         return resultBuilder.build();
     }
@@ -159,7 +165,7 @@ public class MockPersistenceImpl implements FHIRPersistence {
 
     @Override
     public List<ResourceChangeLogRecord> changes(int resourceCount, java.time.Instant fromLastModified, Long afterResourceId, String resourceTypeName)
-        throws FHIRPersistenceException {
+            throws FHIRPersistenceException {
         // NOP
         return null;
     }
@@ -167,6 +173,11 @@ public class MockPersistenceImpl implements FHIRPersistence {
     @Override
     public List<Long> retrieveIndex(int count, java.time.Instant notModifiedAfter, Long afterIndexId, String resourceTypeName) throws FHIRPersistenceException {
         // NOP
+        return null;
+    }
+
+    @Override
+    public Future<PayloadKey> storePayload(Resource resource, String logicalId, int newVersionNumber) throws FHIRPersistenceException {
         return null;
     }
 }

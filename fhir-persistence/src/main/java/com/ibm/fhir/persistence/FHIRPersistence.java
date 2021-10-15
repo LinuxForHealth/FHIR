@@ -6,16 +6,18 @@
 
 package com.ibm.fhir.persistence;
 
-import java.time.Instant;
 import java.util.List;
+import java.util.concurrent.Future;
 import java.util.function.Function;
 
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.erase.EraseDTO;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
+import com.ibm.fhir.persistence.payload.PayloadKey;
 
 /**
  * This interface defines the contract between the FHIR Server's REST API layer and the underlying
@@ -25,15 +27,30 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
 public interface FHIRPersistence {
 
     /**
-     * Stores a new FHIR Resource in the datastore.
-     *
+     * Stores a new FHIR Resource in the datastore. Id assignment handled by the implementation.
+     * This method has been deprecated. Instead, generate the logical id first and use the 
+     * createWithMeta(context, resource) call instead.
      * @param context the FHIRPersistenceContext instance associated with the current request
      * @param resource the FHIR Resource instance to be created in the datastore
      * @return a SingleResourceResult with a copy of resource with Meta fields updated by the persistence layer and/or
      *         an OperationOutcome with hints, warnings, or errors related to the interaction
      * @throws FHIRPersistenceException
      */
+    @Deprecated
     <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException;
+    
+    /**
+     * Stores a new FHIR Resource in the datastore. The resource is not modified before it is stored. It
+     * must therefore already include correct Meta fields. Should be used instead of
+     * method {@link #create(FHIRPersistenceContext, Resource)}.
+     *
+     * @param context the FHIRPersistenceContext instance associated with the current request
+     * @param resource the FHIR Resource instance to be created in the datastore
+     * @return a SingleResourceResult with the unmodified resource and/or
+     *         an OperationOutcome with hints, warnings, or errors related to the interaction
+     * @throws FHIRPersistenceException
+     */
+    <T extends Resource> SingleResourceResult<T> createWithMeta(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException;
 
     /**
      * Retrieves the most recent version of a FHIR Resource from the datastore.
@@ -72,7 +89,22 @@ public interface FHIRPersistence {
      *         an OperationOutcome with hints, warnings, or errors related to the interaction
      * @throws FHIRPersistenceException
      */
+    @Deprecated
     <T extends Resource> SingleResourceResult<T> update(FHIRPersistenceContext context, String logicalId, T resource) throws FHIRPersistenceException;
+
+    /**
+     * Updates an existing FHIR Resource by storing a new version in the datastore. This implementation
+     * is added to replace the deprecated {@link #update(FHIRPersistenceContext, String, Resource)} method
+     * This new method expects the resource being passed in to already be modified with correct
+     * meta and id information. It no longer updates the meta itself.
+     *
+     * @param context the FHIRPersistenceContext instance associated with the current request
+     * @param resource the new contents of the FHIR Resource to be stored
+     * @return a SingleResourceResult with a copy of resource with fields updated by the persistence layer and/or
+     *         an OperationOutcome with hints, warnings, or errors related to the interaction
+     * @throws FHIRPersistenceException
+     */
+    <T extends Resource> SingleResourceResult<T> updateWithMeta(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException;
 
     /**
      * Deletes the specified FHIR Resource from the datastore.
@@ -110,7 +142,7 @@ public interface FHIRPersistence {
      * @throws FHIRPersistenceException
      */
     MultiResourceResult<Resource> search(FHIRPersistenceContext context, Class<? extends Resource> resourceType) throws FHIRPersistenceException;
-
+    
     /**
      * Returns true iff the persistence layer implementation supports transactions.
      */
@@ -133,6 +165,15 @@ public interface FHIRPersistence {
      * Returns true iff the persistence layer implementation supports the "delete" operation.
      */
     default boolean isDeleteSupported() {
+        return false;
+    }
+    
+    /**
+     * Returns true iff the persistence layer implementation supports update/create and it has been
+     * configured in the persistence config.
+     * @return
+     */
+    default boolean isUpdateCreateEnabled() {
         return false;
     }
 
@@ -164,7 +205,7 @@ public interface FHIRPersistence {
      * @return count of the number of resources reindexed by this call
      * @throws FHIRPersistenceException
      */
-    int reindex(FHIRPersistenceContext context, OperationOutcome.Builder operationOutcomeResult, Instant tstamp, List<Long> indexIds,
+    int reindex(FHIRPersistenceContext context, OperationOutcome.Builder operationOutcomeResult, java.time.Instant tstamp, List<Long> indexIds,
         String resourceLogicalId) throws FHIRPersistenceException;
 
     /**
@@ -182,7 +223,7 @@ public interface FHIRPersistence {
      * @throws FHIRPersistenceException
      */
     ResourcePayload fetchResourcePayloads(Class<? extends Resource> resourceType,
-        Instant fromLastModified, Instant toLastModified,
+        java.time.Instant fromLastModified, java.time.Instant toLastModified,
         Function<ResourcePayload,Boolean> process) throws FHIRPersistenceException;
 
     /**
@@ -201,7 +242,7 @@ public interface FHIRPersistence {
      * @param resourceTypeName filter records with record.resourceType = resourceTypeName. Optional.
      * @return a list containing up to resourceCount elements describing resources which have changed
      */
-    List<ResourceChangeLogRecord> changes(int resourceCount, Instant fromLastModified, Long afterResourceId, String resourceTypeName) throws FHIRPersistenceException;
+    List<ResourceChangeLogRecord> changes(int resourceCount, java.time.Instant fromLastModified, Long afterResourceId, String resourceTypeName) throws FHIRPersistenceException;
 
     /**
      * Erases part or a whole of a resource in the data layer
@@ -222,6 +263,19 @@ public interface FHIRPersistence {
      * @return list of index IDs available for reindexing
      * @throws FHIRPersistenceException
      */
-    List<Long> retrieveIndex(int count, Instant notModifiedAfter, Long afterIndexId, String resourceTypeName) throws FHIRPersistenceException;
+    List<Long> retrieveIndex(int count, java.time.Instant notModifiedAfter, Long afterIndexId, String resourceTypeName) throws FHIRPersistenceException;
 
+    /**
+     * Offload payload storage to another provider. If result is not null, the returned
+     * {@link Future} can be used to obtain the status of the operation. If the result
+     * is null, then the implementation does not support offloading and the payload must
+     * be stored in the traditional manner (e.g. in the RDBMS). A {@link Future} is used
+     * because the offloading storage operation may be asynchronous.
+     * @param resource
+     * @param logicalId
+     * @param newVersionNumber
+     * @return
+     * @throws FHIRPersistenceException
+     */
+    Future<PayloadKey> storePayload(Resource resource, String logicalId, int newVersionNumber) throws FHIRPersistenceException;
 }

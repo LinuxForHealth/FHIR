@@ -42,7 +42,7 @@ import com.ibm.fhir.persistence.jdbc.postgres.PostgresResourceReferenceDAO;
  * some SQL syntax and Derby concurrency issues
  */
 public class DerbyResourceReferenceDAO extends ResourceReferenceDAO {
-    private static final Logger logger = Logger.getLogger(PostgresResourceReferenceDAO.class.getName());
+    private static final Logger logger = Logger.getLogger(DerbyResourceReferenceDAO.class.getName());
 
     private static final int BATCH_SIZE = 100;
 
@@ -234,7 +234,7 @@ public class DerbyResourceReferenceDAO extends ResourceReferenceDAO {
         // Unique list so we don't try and create the same name more than once.
         // Ignore any null token-values, because we don't want to (can't) store
         // them in our common token values table.
-        Set<CommonTokenValue> tokenValueSet = values.stream().filter(x -> x.getTokenValue() != null).map(xr -> new CommonTokenValue(xr.getCodeSystemValueId(), xr.getTokenValue())).collect(Collectors.toSet());
+        Set<CommonTokenValue> tokenValueSet = values.stream().filter(x -> x.getTokenValue() != null).map(xr -> new CommonTokenValue(xr.getCodeSystemValue(), xr.getCodeSystemValueId(), xr.getTokenValue())).collect(Collectors.toSet());
 
         if (tokenValueSet.isEmpty()) {
             // nothing to do
@@ -277,7 +277,7 @@ public class DerbyResourceReferenceDAO extends ResourceReferenceDAO {
         for (ResourceTokenValueRec xr: values) {
             // ignore entries with null tokenValue elements - we don't store them in common_token_values
             if (xr.getTokenValue() != null) {
-                CommonTokenValue key = new CommonTokenValue(xr.getCodeSystemValueId(), xr.getTokenValue());
+                CommonTokenValue key = new CommonTokenValue(xr.getCodeSystemValue(), xr.getCodeSystemValueId(), xr.getTokenValue());
                 Long id = idMap.get(key);
                 if (id != null) {
                     xr.setCommonTokenValueId(id);
