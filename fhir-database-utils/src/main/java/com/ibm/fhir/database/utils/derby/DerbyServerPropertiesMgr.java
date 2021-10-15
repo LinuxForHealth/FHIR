@@ -19,6 +19,9 @@ import java.util.logging.Logger;
  */
 public class DerbyServerPropertiesMgr {
     private static final Logger logger = Logger.getLogger(DerbyServerPropertiesMgr.class.getName());
+    
+    // Preallocation - https://db.apache.org/derby/docs/10.9/ref/rrefproperpreallocator.html
+    private static final String DERBY_LANGUAGE_SEQUENCE_PREALLOCATOR_VALUE = "10000";
 
     private DerbyServerPropertiesMgr() {
         // No Operation
@@ -31,8 +34,8 @@ public class DerbyServerPropertiesMgr {
      */
     public static void setServerProperties(boolean isDebug) {
         Properties sysProperties = System.getProperties();
-        // This speeds up sequence fetching by pre-creating 1000 instead of the default 100.
-        sysProperties.put("derby.language.sequence.preallocator", 1000);
+        // This speeds up sequence fetching by pre-creating 10000 instead of the default 100.
+        System.setProperty("derby.language.sequence.preallocator", DERBY_LANGUAGE_SEQUENCE_PREALLOCATOR_VALUE);
         if (isDebug) {
             sysProperties.put("derby.language.logQueryPlan", "true");
             sysProperties.put("derby.language.logStatementText", "true");
@@ -51,9 +54,7 @@ public class DerbyServerPropertiesMgr {
     public static void setServerProperties(boolean isDebug, Connection conn) throws SQLException {
         // Link https://db.apache.org/derby/docs/10.9/ref/crefproper22250.html
         try (Statement s = conn.createStatement()) {
-            // Preallocation - https://db.apache.org/derby/docs/10.9/ref/rrefproperpreallocator.html
-            // Since we're driving contention with 1000, we're jumping to 10000.
-            setProperty(s, "derby.language.sequence.preallocator", "10000");
+            setProperty(s, "derby.language.sequence.preallocator", DERBY_LANGUAGE_SEQUENCE_PREALLOCATOR_VALUE);
             if (isDebug) {
                 setProperty(s, "derby.language.logQueryPlan", "true");
                 setProperty(s, "derby.language.logStatementText", "true");

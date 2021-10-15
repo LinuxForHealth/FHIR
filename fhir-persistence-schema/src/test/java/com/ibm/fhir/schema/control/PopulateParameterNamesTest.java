@@ -6,8 +6,13 @@
 
 package com.ibm.fhir.schema.control;
 
+import static org.testng.Assert.fail;
+
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -34,46 +39,27 @@ public class PopulateParameterNamesTest {
      * The mapping is intentionally managed, as these KEYS are inserted and used.
      */
     @Test
-    public static void verifyParameterNames() {
-        Properties props = new Properties();
-        boolean found = false;
-        try (InputStream fis =
-                PopulateParameterNames.class.getClassLoader().getResourceAsStream("parameter_names.properties")) {
-            props.load(fis);
+    public static void verifyParameterNames() throws IOException {
 
-            Set<String> codes = new HashSet<>();
-            for (SearchParamType.Value spt : SearchParamType.Value.values()) {
-                Collection<SearchParameter> searchParametersForResourceType =
-                        FHIRRegistry.getInstance().getSearchParameters(spt.value());
-                for (SearchParameter searchParameter : searchParametersForResourceType) {
-                    codes.add(searchParameter.getCode().getValue());
-                }
+        Set<String> parameterNames = new HashSet<>();
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(PopulateParameterNames.class.getClassLoader().getResourceAsStream("parameter_names.properties"), StandardCharsets.UTF_8))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                final String parameterName = line.strip();
+                parameterNames.add(parameterName);
             }
-
-            // Find the Highest Value to start from:
-            Integer highestValue = 1001;
-            Map<String, Integer> valueMap = new HashMap<>();
-            for (Entry<Object, Object> valueEntry : props.entrySet()) {
-                Integer curVal = Integer.parseInt((String) valueEntry.getValue());
-                String resource = (String) valueEntry.getKey();
-                valueMap.put(resource, curVal);
-                if (highestValue < curVal) {
-                    highestValue = curVal;
-                }
-                codes.remove(resource);
-            }
-
-            // Check to see if something is missing
-            for (String code : codes.stream().sorted().collect(Collectors.toList())) {
-                LOGGER.info(code + "=" + highestValue++);
-                found = true;
-            }
-        } catch (IOException e) {
-            throw new IllegalArgumentException("File access issue for parameter_names");
         }
 
-        if (found) {
-            throw new IllegalArgumentException("Parameter Name/Code are missing from parameter_names");
+        // Check that all the search parameters we know about are in the parameter_names file
+        for (SearchParamType.Value spt : SearchParamType.Value.values()) {
+            Collection<SearchParameter> searchParametersForResourceType =
+                    FHIRRegistry.getInstance().getSearchParameters(spt.value());
+            for (SearchParameter searchParameter : searchParametersForResourceType) {
+                final String parameterName = searchParameter.getCode().getValue();
+                if (!parameterNames.contains(parameterName)) {
+                    fail("parameter_names.properties is missing parameter: " + searchParameter.toString());
+                }
+            }
         }
     }
 }

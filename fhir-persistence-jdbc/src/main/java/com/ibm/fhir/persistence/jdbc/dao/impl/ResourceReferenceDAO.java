@@ -750,7 +750,7 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
         // Unique list so we don't try and create the same name more than once.
         // Ignore any null token-values, because we don't want to (can't) store
         // them in our common token values table.
-        Set<CommonTokenValue> tokenValueSet = values.stream().filter(x -> x.getTokenValue() != null).map(xr -> new CommonTokenValue(xr.getCodeSystemValueId(), xr.getTokenValue())).collect(Collectors.toSet());
+        Set<CommonTokenValue> tokenValueSet = values.stream().filter(x -> x.getTokenValue() != null).map(xr -> new CommonTokenValue(xr.getCodeSystemValue(), xr.getCodeSystemValueId(), xr.getTokenValue())).collect(Collectors.toSet());
 
         if (tokenValueSet.isEmpty()) {
             // nothing to do
@@ -806,8 +806,8 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                // code_system_id, token_value
-                CommonTokenValue key = new CommonTokenValue(rs.getInt(1), rs.getString(2));
+                // SELECT code_system_id, token_value...note codeSystem not required
+                CommonTokenValue key = new CommonTokenValue(null, rs.getInt(1), rs.getString(2));
                 idMap.put(key, rs.getLong(3));
             }
         } catch (SQLException x) {
@@ -818,7 +818,7 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
         for (ResourceTokenValueRec xr: values) {
             // ignore entries with null tokenValue elements - we don't store them in common_token_values
             if (xr.getTokenValue() != null) {
-                CommonTokenValue key = new CommonTokenValue(xr.getCodeSystemValueId(), xr.getTokenValue());
+                CommonTokenValue key = new CommonTokenValue(null, xr.getCodeSystemValueId(), xr.getTokenValue());
                 Long id = idMap.get(key);
                 if (id != null) {
                     xr.setCommonTokenValueId(id);

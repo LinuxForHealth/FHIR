@@ -7,6 +7,7 @@
 package com.ibm.fhir.persistence.jdbc.dto;
 
 import java.util.Comparator;
+import java.util.Objects;
 
 import com.ibm.fhir.persistence.jdbc.dao.impl.TransactionDataImpl;
 
@@ -21,6 +22,9 @@ import com.ibm.fhir.persistence.jdbc.dao.impl.TransactionDataImpl;
  */
 public class CommonTokenValue implements Comparable<CommonTokenValue> {
     private static final Comparator<String> NULL_SAFE_COMPARATOR = Comparator.nullsFirst(String::compareTo);
+    
+    // We hold codeSystem here because we want to sort using the name, not the id, to help avoid deadlocks in Derby
+    private final String codeSystem;
 
     private final int codeSystemId;
 
@@ -32,12 +36,13 @@ public class CommonTokenValue implements Comparable<CommonTokenValue> {
      * @param codeSystemId
      * @param tokenValue
      */
-    public CommonTokenValue(int codeSystemId, String tokenValue) {
+    public CommonTokenValue(String codeSystem, int codeSystemId, String tokenValue) {
         if (codeSystemId < 0) {
             // Called before the code-system record was created (or fetched from) the database
             throw new IllegalArgumentException("Invalid codeSystemId argument");
         }
 
+        this.codeSystem = codeSystem;
         this.codeSystemId = codeSystemId;
         this.tokenValue = tokenValue;
     }
@@ -58,6 +63,8 @@ public class CommonTokenValue implements Comparable<CommonTokenValue> {
 
     @Override
     public int hashCode() {
+        // We don't need to include codeSystem in the hash because codeSystemId is synonymous
+        // with codeSystem as far as identity is concerned
         return Integer.hashCode(codeSystemId) * 37 + (tokenValue == null ? 7 : tokenValue.hashCode());
     }
 
@@ -81,8 +88,10 @@ public class CommonTokenValue implements Comparable<CommonTokenValue> {
 
     @Override
     public int compareTo(CommonTokenValue other) {
-        // allow CommonTokenValue objects to be sorted in a deterministic way
-        int result = Integer.compare(codeSystemId, other.codeSystemId);
+        // allow CommonTokenValue objects to be sorted in a deterministic way. Note that
+        // we sort on codeSystem not codeSystemId. This is to help avoid deadlocks with
+        // Derby
+        int result = NULL_SAFE_COMPARATOR.compare(codeSystem, other.codeSystem);
         if (result == 0) {
             result = NULL_SAFE_COMPARATOR.compare(tokenValue, other.tokenValue);
         }

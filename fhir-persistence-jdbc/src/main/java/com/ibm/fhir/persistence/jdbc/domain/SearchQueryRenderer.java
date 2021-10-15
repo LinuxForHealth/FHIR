@@ -761,7 +761,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
             }
 
             for (String code : codes) {
-                commonTokenValues.add(new CommonTokenValue(codeSystemId, code));
+                commonTokenValues.add(new CommonTokenValue(codeSetUrl, codeSystemId, code));
             }
         }
 
@@ -1265,7 +1265,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
             if (targetResourceType != null) {
                 Integer codeSystemIdForResourceType = getCodeSystemId(targetResourceType);
                 // targetResourceType is treated as the code-system for references
-                resourceReferenceTokenValues.add(new CommonTokenValue(nullCheck(codeSystemIdForResourceType), targetResourceId));
+                resourceReferenceTokenValues.add(new CommonTokenValue(targetResourceType, nullCheck(codeSystemIdForResourceType), targetResourceId));
             } else {
                 ambiguousResourceReferenceTokenValues.add(targetResourceId);
             }
