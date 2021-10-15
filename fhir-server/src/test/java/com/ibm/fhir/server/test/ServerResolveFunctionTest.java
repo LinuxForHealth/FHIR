@@ -345,9 +345,8 @@ public class ServerResolveFunctionTest {
         }
         
         @Override
-        public <T extends Resource> SingleResourceResult<T> update(
+        public <T extends Resource> SingleResourceResult<T> updateWithMeta(
                 FHIRPersistenceContext context,
-                String logicalId, int newVersionId,
                 T resource) throws FHIRPersistenceException {
             return createOrUpdate(resource);
         }

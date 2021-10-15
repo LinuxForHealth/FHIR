@@ -133,7 +133,7 @@ public class MockPersistenceImpl implements FHIRPersistence {
     }
     
     @Override
-    public <T extends Resource> SingleResourceResult<T> update(FHIRPersistenceContext context, String logicalId, int newVersionId, T resource) throws FHIRPersistenceException {
+    public <T extends Resource> SingleResourceResult<T> updateWithMeta(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException {
         return null;
     }
 

@@ -160,7 +160,7 @@ public abstract class AbstractDeleteTest extends AbstractPersistenceTest {
 
         // Then update deleted device
         device = device.toBuilder().udiCarrier(UdiCarrier.builder().deviceIdentifier(string(updatedUdiValue)).build()).build();
-        persistence.update(getDefaultPersistenceContext(), deviceId2, newVersionId, device);
+        persistence.updateWithMeta(getDefaultPersistenceContext(), device);
 
         // Verify device history
         List<Device> resources = persistence.history(context, Device.class, this.deviceId2).getResource();

@@ -353,11 +353,11 @@ public class ChunkWriter extends AbstractItemWriter {
                     // Old Resource is set so we avoid an extra read
                     context.getPersistenceEvent().setPrevFhirResource(oldResource);
                 }
-                oo = persistence.update(context, logicalId, newVersionNumber, resource).getOutcome();
+                oo = persistence.updateWithMeta(context, resource).getOutcome();
                 localCache.put(key, newBaseLine);
             }
         } else {
-            oo = persistence.update(context, logicalId, newVersionNumber, resource).getOutcome();
+            oo = persistence.updateWithMeta(context, resource).getOutcome();
         }
         return oo;
     }

@@ -84,27 +84,19 @@ public class MockPersistenceImpl implements FHIRPersistence {
         }
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public <T extends Resource> SingleResourceResult<T> update(FHIRPersistenceContext context, String logicalId, T resource) throws FHIRPersistenceException {
         // For this mock, the versionId doesn't matter
-        return update(context, logicalId, -1, resource);
+        return updateWithMeta(context, resource);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public <T extends Resource> SingleResourceResult<T> update(FHIRPersistenceContext context, String logicalId, int newVersionId, T resource)
+    public <T extends Resource> SingleResourceResult<T> updateWithMeta(FHIRPersistenceContext context, T resource)
             throws FHIRPersistenceException {
-//        final T updatedResource;
         OperationOutcome operationOutcome = null;
         if (resource.getLanguage() != null && resource.getLanguage().getValue().equals("en-US")) {
             operationOutcome = FHIRRestHelperTest.ID_SPECIFIED;
         }
-//        if (resource.getId().startsWith("generated")) {
-//            updatedResource = (T) resource.toBuilder().meta(Meta.builder().versionId(Id.of("1")).build()).build();
-//        } else {
-//            updatedResource = (T) resource.toBuilder().meta(Meta.builder().versionId(Id.of("2")).build()).build();
-//        }
         SingleResourceResult.Builder<T> resultBuilder = new SingleResourceResult.Builder<T>()
                 .success(true)
                 .resource(resource) // persistence layer should no longer change the resource!

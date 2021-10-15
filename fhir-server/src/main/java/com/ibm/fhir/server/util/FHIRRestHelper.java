@@ -727,14 +727,19 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             event.setPrevFhirResource(prevResource);
 
             // Remember, update now doesn't mutate the resource in any way, and nor should the event
-            int newVersionId = Integer.parseInt(newResource.getMeta().getVersionId().getValue());
-            
             checkIdAndMeta(newResource);
             
             FHIRPersistenceContext persistenceContext =
                     FHIRPersistenceContextFactory.createPersistenceContext(event);
-            SingleResourceResult<Resource> result = persistence.update(persistenceContext, id, newVersionId, newResource);
-
+            boolean updateCreate = (prevResource == null);
+            final SingleResourceResult<Resource> result;
+            if (updateCreate) {
+                // resource shouldn't exist, so we assume it's a create
+                result = persistence.createWithMeta(persistenceContext, newResource);
+            } else {
+                result = persistence.updateWithMeta(persistenceContext, newResource);
+            }
+            
             if (result.isSuccess() && result.getOutcome() != null) {
                 warnings.addAll(result.getOutcome().getIssue());
             }
@@ -748,7 +753,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             event.getProperties().put(FHIRPersistenceEvent.PROPNAME_RESOURCE_LOCATION_URI, ior.getLocationURI().toString());
 
             // Invoke the 'afterUpdate' interceptor methods.
-            boolean updateCreate = (prevResource == null);
             if (updateCreate) {
                 ior.setStatus(Response.Status.CREATED);
                 getInterceptorMgr().fireAfterCreateEvent(event);

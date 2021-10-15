@@ -33,7 +33,7 @@ public class UpdateOperation extends BaseOperation {
         final int newVersionNumber = Integer.parseInt(resource.getMeta().getVersionId().getValue()) + 1;
         resource = copyAndSetResourceMetaFields(resource, resource.getId(), newVersionNumber, lastUpdated);
 
-        Resource newResource = tc.getPersistence().update(context, logicalId, newVersionNumber, resource).getResource();
+        Resource newResource = tc.getPersistence().updateWithMeta(context, resource).getResource();
         check(tc, tc.getResource(), newResource, this.getClass().getSimpleName());
         
         // Update the context with the modified resource

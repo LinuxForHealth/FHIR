@@ -572,13 +572,13 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         final com.ibm.fhir.model.type.Instant lastUpdated = com.ibm.fhir.model.type.Instant.now(ZoneOffset.UTC);
         final int newVersionId = resource.getMeta() == null || resource.getMeta().getVersionId() == null ? 1 : Integer.parseInt(resource.getMeta().getVersionId().getValue()) + 1;
         resource = copyAndSetResourceMetaFields(resource, logicalId, newVersionId, lastUpdated);
-        return update(context, logicalId, newVersionId, resource);
+        return updateWithMeta(context, resource);
     }
     
     @Override
-    public <T extends Resource> SingleResourceResult<T> update(FHIRPersistenceContext context, String logicalId, int newVersionId, T resource)
+    public <T extends Resource> SingleResourceResult<T> updateWithMeta(FHIRPersistenceContext context, T resource)
             throws FHIRPersistenceException {
-        final String METHODNAME = "update";
+        final String METHODNAME = "updateWithMeta";
         log.entering(CLASSNAME, METHODNAME);
 
         try (Connection connection = openConnection()) {
@@ -586,7 +586,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             ParameterDAO parameterDao = makeParameterDAO(connection);
 
             // Since 1869, the resource is already correctly configured so no need to modify it
-            // Assume we have no existing resource.
             int newVersionNumber = Integer.parseInt(resource.getMeta().getVersionId().getValue());
 
             // Create the new Resource DTO instance.

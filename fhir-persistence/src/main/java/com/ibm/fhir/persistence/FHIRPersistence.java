@@ -96,18 +96,15 @@ public interface FHIRPersistence {
      * Updates an existing FHIR Resource by storing a new version in the datastore. This implementation
      * is added to replace the deprecated {@link #update(FHIRPersistenceContext, String, Resource)} method
      * This new method expects the resource being passed in to already be modified with correct
-     * meta information. It no longer updates the meta itself. The newVersionId parameter is expected
-     * to match the value in the resource meta value.
+     * meta and id information. It no longer updates the meta itself.
      *
      * @param context the FHIRPersistenceContext instance associated with the current request
-     * @param logicalId the logical id of the FHIR Resource to be updated
-     * @param newVersionId the new version number to use for the resource
      * @param resource the new contents of the FHIR Resource to be stored
      * @return a SingleResourceResult with a copy of resource with fields updated by the persistence layer and/or
      *         an OperationOutcome with hints, warnings, or errors related to the interaction
      * @throws FHIRPersistenceException
      */
-    <T extends Resource> SingleResourceResult<T> update(FHIRPersistenceContext context, String logicalId, int newVersionId, T resource) throws FHIRPersistenceException;
+    <T extends Resource> SingleResourceResult<T> updateWithMeta(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException;
 
     /**
      * Deletes the specified FHIR Resource from the datastore.

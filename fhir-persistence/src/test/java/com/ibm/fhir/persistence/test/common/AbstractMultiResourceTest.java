@@ -47,7 +47,7 @@ public abstract class AbstractMultiResourceTest extends AbstractPersistenceTest 
         // Inject meta data
         encounter = copyAndSetResourceMetaFields(encounter, commonId, versionId, lastUpdated);
         
-        encounter = persistence.update(getDefaultPersistenceContext(), commonId, versionId, encounter).getResource();
+        encounter = persistence.updateWithMeta(getDefaultPersistenceContext(), encounter).getResource();
         assertNotNull(encounter);
         assertNotNull(encounter.getId());
         assertNotNull(encounter.getMeta());
@@ -59,7 +59,7 @@ public abstract class AbstractMultiResourceTest extends AbstractPersistenceTest 
         // update the id on the resource
         observation = observation.toBuilder().id(commonId).build();
         observation = copyAndSetResourceMetaFields(observation, commonId, versionId, lastUpdated);
-        observation = persistence.update(getDefaultPersistenceContext(), commonId, versionId, observation).getResource();
+        observation = persistence.updateWithMeta(getDefaultPersistenceContext(), observation).getResource();
         assertNotNull(observation);
         assertNotNull(observation.getId());
         assertNotNull(observation.getMeta());
