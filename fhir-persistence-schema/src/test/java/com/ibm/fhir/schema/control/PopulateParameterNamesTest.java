@@ -33,6 +33,11 @@ public class PopulateParameterNamesTest {
     @Test
     public static void verifyParameterNames() throws IOException {
 
+        // The parameter names were obtained by selecting all the parameter_name values
+        // from the parameter_names table after a successful system integration test run.
+        // Future runs of the system integration tests should no longer need to create
+        // new rows, eliminating the possibility of deadlocks involving inserts to this 
+        // table.
         Set<String> parameterNames = new HashSet<>();
         try (BufferedReader br = new BufferedReader(new InputStreamReader(PopulateParameterNames.class.getClassLoader().getResourceAsStream("parameter_names.properties"), StandardCharsets.UTF_8))) {
             String line;
