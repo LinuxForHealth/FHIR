@@ -83,7 +83,7 @@ public class PopulateParameterNames implements IDatabaseStatement {
                 int processed = 0;
                 String line;
                 while ((line = br.readLine()) != null) {
-                    final String parameterName = line.strip();
+                    final String parameterName = line.trim();
                     if (!currentParameterNames.contains(parameterName)) {
                         batch.setString(1, parameterName);
                         batch.addBatch();

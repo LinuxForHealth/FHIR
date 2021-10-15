@@ -10,18 +10,11 @@ import static org.testng.Assert.fail;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Properties;
 import java.util.Set;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import org.testng.annotations.Test;
 
@@ -33,7 +26,6 @@ import com.ibm.fhir.registry.FHIRRegistry;
  * Test to verify the parameter_names.properties
  */
 public class PopulateParameterNamesTest {
-    private static final Logger LOGGER = Logger.getLogger(PopulateParameterNamesTest.class.getName());
     /**
      * This method is very intentional to verify the parameter_names.properties on EVERY build.
      * The mapping is intentionally managed, as these KEYS are inserted and used.
@@ -45,7 +37,7 @@ public class PopulateParameterNamesTest {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(PopulateParameterNames.class.getClassLoader().getResourceAsStream("parameter_names.properties"), StandardCharsets.UTF_8))) {
             String line;
             while ((line = br.readLine()) != null) {
-                final String parameterName = line.strip();
+                final String parameterName = line.trim();
                 parameterNames.add(parameterName);
             }
         }
