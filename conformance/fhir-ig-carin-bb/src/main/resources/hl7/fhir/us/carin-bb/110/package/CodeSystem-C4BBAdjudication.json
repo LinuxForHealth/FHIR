@@ -1,0 +1,91 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "C4BBAdjudication",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBAdjudication",
+    "version": "1.1.0",
+    "name": "C4BBAdjudication",
+    "title": "C4BB Adjudication",
+    "status": "active",
+    "date": "2021-07-02T17:53:32+00:00",
+    "publisher": "HL7 Financial Management Working Group",
+    "contact": [
+        {
+            "name": "HL7 Financial Management Working Group",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/fm/index.cfm"
+                },
+                {
+                    "system": "email",
+                    "value": "fm@lists.HL7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Describes the various amount fields used when payers receive and adjudicate a claim.  It complements the values defined in http://terminology.hl7.org/CodeSystem/adjudication.",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US"
+                }
+            ]
+        }
+    ],
+    "copyright": "This CodeSystem is not copyrighted.",
+    "content": "complete",
+    "count": 9,
+    "concept": [
+        {
+            "code": "coinsurance",
+            "display": "Co-insurance",
+            "definition": "The amount the insured individual pays, as a set percentage of the cost of covered medical services, as an out-of-pocket payment to the provider. Example: Insured pays 20% and the insurer pays 80%."
+        },
+        {
+            "code": "noncovered",
+            "display": "Noncovered",
+            "definition": "The portion of the cost of this service that was deemed not eligible by the insurer because the service or member was not covered by the subscriber contract."
+        },
+        {
+            "code": "priorpayerpaid",
+            "display": "Prior payer paid",
+            "definition": "The reduction in the payment amount to reflect the carrier as a secondary payor."
+        },
+        {
+            "code": "paidbypatient",
+            "display": "Paid by patient",
+            "definition": "The amount paid by the patient at the point of service."
+        },
+        {
+            "code": "paidtoprovider",
+            "display": "Paid to provider",
+            "definition": "The amount paid to the provider."
+        },
+        {
+            "code": "paidtopatient",
+            "display": "Paid to patient",
+            "definition": "paid to patient"
+        },
+        {
+            "code": "memberliability",
+            "display": "Member liability",
+            "definition": "The amount of the member's liability."
+        },
+        {
+            "code": "discount",
+            "display": "Discount",
+            "definition": "The amount of the discount"
+        },
+        {
+            "code": "drugcost",
+            "display": "Drug cost",
+            "definition": "Price paid for the drug excluding mfr or other discounts.  It typically is the sum of the following components: ingredient cost, dispensing fee, sales tax, and vaccine administration"
+        }
+    ]
+}

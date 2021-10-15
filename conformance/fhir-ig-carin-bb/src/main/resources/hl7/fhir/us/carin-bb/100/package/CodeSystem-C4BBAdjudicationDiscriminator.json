@@ -1,0 +1,61 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "C4BBAdjudicationDiscriminator",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBAdjudicationDiscriminator",
+    "version": "1.0.0",
+    "name": "C4BBAdjudicationDiscriminator",
+    "title": "C4BB Adjudication Discriminator",
+    "status": "active",
+    "date": "2020-11-23T16:49:10+00:00",
+    "publisher": "HL7 Financial Management Working Group",
+    "contact": [
+        {
+            "name": "HL7 Financial Management Working Group",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/fm/index.cfm"
+                },
+                {
+                    "system": "email",
+                    "value": "fm@lists.HL7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Used as the discriminator for the data elements in adjudication and item.adjudication",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US"
+                }
+            ]
+        }
+    ],
+    "copyright": "This CodeSystem is not copyrighted.",
+    "content": "complete",
+    "count": 3,
+    "concept": [
+        {
+            "code": "allowedunits",
+            "display": "allowed units",
+            "definition": "defines the adjudication slice to define allowed units"
+        },
+        {
+            "code": "inoutnetwork",
+            "display": "in or Out of Network",
+            "definition": "defines the adjudication and item.adjudication slice to indicate whether a claim was adjudicatd in or out of network"
+        },
+        {
+            "code": "denialreason",
+            "display": "Denial Reason",
+            "definition": "defines the adjudication slice to identify the denial reason"
+        }
+    ]
+}
