@@ -2,7 +2,7 @@ name: Javadocs Build for Site
 
 on:
   push:
-    tags: 
+    tags:
         - '*'
 
 jobs:
@@ -36,6 +36,10 @@ jobs:
       uses: joschi/setup-jdk@v2.3.0
       with:
         java-version: ${{ matrix.java }}
+    - name: Build fhir-tools
+      run: |
+            cd fhir
+            mvn -B -ntp clean install --file fhir-tools -Dmaven.wagon.http.retryHandler.count=3
     - name: Build fhir-examples
       run: |
             cd fhir
@@ -62,7 +66,7 @@ jobs:
             then
               rm -rf ./javadocs/latest/
             fi
-            # Helps debug the situation 
+            # Helps debug the situation
             ls -al javadocs
             echo "Starting the movement of the data around"
             mkdir -p javadocs/latest
@@ -75,7 +79,7 @@ jobs:
             echo "<html><title>Javadocs</title><body>" > javadocs/index.html
             for DIR in `find ./javadocs -type d -maxdepth 1 -mindepth 1 -exec basename {} \; | sort -r | grep -v rc3 `
             do
-              echo "<a href=\"https://ibm.github.io/FHIR/javadocs/${DIR}/index.html?overview-summary.html\">${DIR}</a>" >> javadocs/index.html 
+              echo "<a href=\"https://ibm.github.io/FHIR/javadocs/${DIR}/index.html?overview-summary.html\">${DIR}</a>" >> javadocs/index.html
               echo "<br>" >> javadocs/index.html
             done
             echo "</body></html>" >> javadocs/index.html
