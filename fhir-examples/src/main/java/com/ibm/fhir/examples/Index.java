@@ -20,7 +20,7 @@ public enum Index {
         "/ibm-xml.txt",
         "/profiles-pdex-formulary-json.txt",
         "/profiles-pdex-plan-net-json.txt",
-        "/profiles-pdex-json.txt",
+        "/profiles-pdex-json.txt"),
 
     /**
      * All JSON examples
