@@ -1,0 +1,59 @@
+{
+    "resourceType": "SearchParameter",
+    "id": "practitionerrole-organization",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        }
+    ],
+    "url": "http://hl7.org/fhir/us/carin-bb/SearchParameter/practitionerrole-organization",
+    "version": "1.0.0",
+    "name": "ExplanationOfBenefit_Organization",
+    "derivedFrom": "http://hl7.org/fhir/SearchParameter/PractitionerRole-organization",
+    "status": "draft",
+    "experimental": false,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 Financial Management Working Group",
+    "contact": [
+        {
+            "name": "HL7 Financial Management Working Group",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/fm/index.cfm"
+                },
+                {
+                    "system": "email",
+                    "value": "fm@lists.HL7.org"
+                }
+            ]
+        }
+    ],
+    "description": "The identity of the organization the practitioner represents / acts on behalf of",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US"
+                }
+            ]
+        }
+    ],
+    "code": "organization",
+    "base": [
+        "PractitionerRole"
+    ],
+    "type": "reference",
+    "expression": "PractitionerRole.organization",
+    "xpath": "f:PractitionerRole/f:organization",
+    "xpathUsage": "normal",
+    "target": [
+        "Organization"
+    ]
+}

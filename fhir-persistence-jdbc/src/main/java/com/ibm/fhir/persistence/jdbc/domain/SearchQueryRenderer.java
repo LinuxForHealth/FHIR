@@ -761,7 +761,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
             }
 
             for (String code : codes) {
-                commonTokenValues.add(new CommonTokenValue(codeSystemId, code));
+                commonTokenValues.add(new CommonTokenValue(codeSetUrl, codeSystemId, code));
             }
         }
 
@@ -1265,7 +1265,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
             if (targetResourceType != null) {
                 Integer codeSystemIdForResourceType = getCodeSystemId(targetResourceType);
                 // targetResourceType is treated as the code-system for references
-                resourceReferenceTokenValues.add(new CommonTokenValue(nullCheck(codeSystemIdForResourceType), targetResourceId));
+                resourceReferenceTokenValues.add(new CommonTokenValue(targetResourceType, nullCheck(codeSystemIdForResourceType), targetResourceId));
             } else {
                 ambiguousResourceReferenceTokenValues.add(targetResourceId);
             }
@@ -1915,7 +1915,7 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
             }
 
             // Reuse the same CanonicalSupport code used for param extraction to parse the search value
-            ResourceProfileRec rpc = CanonicalSupport.makeResourceProfileRec(-1, resourceType, -1, -1, value.getValueString(), false);
+            ResourceProfileRec rpc = CanonicalSupport.makeResourceProfileRec(null, resourceType, -1, -1, value.getValueString(), false);
             int canonicalId = getCanonicalId(rpc.getCanonicalValue());
             whereFragment.col(paramAlias, "CANONICAL_ID").eq(canonicalId);
 

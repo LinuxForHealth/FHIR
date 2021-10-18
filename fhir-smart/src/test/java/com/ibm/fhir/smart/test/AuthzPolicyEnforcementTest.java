@@ -120,8 +120,8 @@ public class AuthzPolicyEnforcementTest {
     }
 
     @Test(dataProvider = "scopeStringProvider")
-    public void testCreate(String scopeString, Set<ResourceType.Value> resourceTypesPermittedByScope, Permission permission) {
-        FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString));
+    public void testCreate(String scopeString, List<String> contextIds, Set<ResourceType.Value> resourceTypesPermittedByScope, Permission permission) {
+        FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString, contextIds));
 
         try {
             properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient");
@@ -152,8 +152,8 @@ public class AuthzPolicyEnforcementTest {
     }
 
     @Test(dataProvider = "scopeStringProvider")
-    public void testUpdate(String scopeString, Set<ResourceType.Value> resourceTypesPermittedByScope, Permission permission) {
-        FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString));
+    public void testUpdate(String scopeString, List<String> contextIds, Set<ResourceType.Value> resourceTypesPermittedByScope, Permission permission) {
+        FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString, contextIds));
 
         try {
             properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient");
@@ -193,8 +193,8 @@ public class AuthzPolicyEnforcementTest {
     }
 
     @Test(dataProvider = "scopeStringProvider")
-    public void testDelete(String scopeString, Set<ResourceType.Value> resourceTypesPermittedByScope, Permission permission) {
-        FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString));
+    public void testDelete(String scopeString, List<String> contextIds, Set<ResourceType.Value> resourceTypesPermittedByScope, Permission permission) {
+        FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString, contextIds));
 
         try {
             properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient");
@@ -227,7 +227,7 @@ public class AuthzPolicyEnforcementTest {
 
     @Test
     public void testDirectPatientInteraction() throws FHIRPersistenceInterceptorException {
-        FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders("patient/Patient.read"));
+        FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders("patient/Patient.read", PATIENT_ID));
 
         try {
             properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient");
@@ -237,7 +237,7 @@ public class AuthzPolicyEnforcementTest {
             interceptor.beforeVread(event);
             interceptor.beforeHistory(event);
         } catch (FHIRPersistenceInterceptorException e) {
-            fail("Patient interaction was not allowed but should have been");
+            fail("Patient interaction was not allowed but should have been", e);
         }
 
         properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient");
@@ -268,7 +268,7 @@ public class AuthzPolicyEnforcementTest {
 
     @Test
     public void testBeforeSearch() throws FHIRPersistenceInterceptorException {
-        FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders("patient/Patient.read patient/Observation.read patient/Practitioner.read"));
+        FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders("patient/Patient.read patient/Observation.read patient/Practitioner.read", PATIENT_ID));
         Practitioner practitioner = null;
         try {
             practitioner = TestUtil.getMinimalResource(Practitioner.class);
@@ -304,7 +304,8 @@ public class AuthzPolicyEnforcementTest {
             // success
             assertEquals(1, e.getIssues().size());
             assertEquals(IssueType.FORBIDDEN, e.getIssues().get(0).getCode());
-            assertEquals("Interaction with 'Patient/bogus' is not permitted for patient context [" + PATIENT_ID + "]", e.getIssues().get(0).getDetails().getText().getValue());
+            assertEquals(e.getIssues().get(0).getDetails().getText().getValue(),
+                    "Interaction with 'Patient/bogus' is not permitted for patient context [" + PATIENT_ID + "]");
         }
 
         // Valid compartment search: Encounter in Patient compartment
@@ -522,8 +523,8 @@ public class AuthzPolicyEnforcementTest {
     }
 
     @Test(dataProvider = "scopeStringProvider")
-    public void testRead(String scopeString, Set<ResourceType.Value> resourceTypesPermittedByScope, Permission permission) {
-        FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString));
+    public void testRead(String scopeString, List<String> contextIds, Set<ResourceType.Value> resourceTypesPermittedByScope, Permission permission) {
+        FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString, contextIds));
 
         try {
             properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient");
@@ -572,8 +573,8 @@ public class AuthzPolicyEnforcementTest {
     }
 
     @Test(dataProvider = "scopeStringProvider")
-    public void testVRead(String scopeString, Set<ResourceType.Value> typesPermittedByScopes, Permission permission) {
-        FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString));
+    public void testVRead(String scopeString, List<String> contextIds, Set<ResourceType.Value> typesPermittedByScopes, Permission permission) {
+        FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString, contextIds));
 
         try {
             properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient");
@@ -604,8 +605,8 @@ public class AuthzPolicyEnforcementTest {
     }
 
     @Test(dataProvider = "scopeStringProvider")
-    public void testHistory(String scopeString, Set<ResourceType.Value> resourceTypesPermittedByScope, Permission permission) {
-        FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString));
+    public void testHistory(String scopeString, List<String> contextIds, Set<ResourceType.Value> resourceTypesPermittedByScope, Permission permission) {
+        FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString, contextIds));
 
         try {
             properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient");
@@ -648,8 +649,8 @@ public class AuthzPolicyEnforcementTest {
     }
 
     @Test(dataProvider = "scopeStringProvider")
-    public void testSearch(String scopeString, Set<ResourceType.Value> resourceTypesPermittedByScope, Permission permission) {
-        FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString));
+    public void testSearch(String scopeString, List<String> contextIds, Set<ResourceType.Value> resourceTypesPermittedByScope, Permission permission) {
+        FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString, contextIds));
 
         try {
             Bundle searchBundle = Bundle.builder()
@@ -739,15 +740,33 @@ public class AuthzPolicyEnforcementTest {
     }
 
     /**
-     * Build a requestHeaders map by constructing a Bearer token from the passed scopeString
-     * and setting the Authorization header
+     * Build a requestHeaders map with an Authorization header with a Bearer token constructed from the passed
+     * scopeString and contextId
      */
-    private Map<String, List<String>> buildRequestHeaders(String scopeString) {
+    private Map<String, List<String>> buildRequestHeaders(String scopeString, String contextId) {
         // Uses LinkedHashMap just to preserve the order.
         Map<String, List<String>> requestHeaders = new LinkedHashMap<String, List<String>>();
 
         List<String> authHeader = Collections.singletonList("Bearer " + JWT.create()
-                .withClaim("patient_id", PATIENT_ID)
+                .withClaim("patient_id", contextId)
+                .withClaim("scope", scopeString)
+                .sign(Algorithm.none()));
+
+        requestHeaders.put("Authorization", authHeader);
+
+        return requestHeaders;
+    }
+
+    /**
+     * Build a requestHeaders map with an Authorization header with a Bearer token constructed from the passed
+     * scopeString and contextIds
+     */
+    private Map<String, List<String>> buildRequestHeaders(String scopeString, List<String> contextIds) {
+        // Uses LinkedHashMap just to preserve the order.
+        Map<String, List<String>> requestHeaders = new LinkedHashMap<String, List<String>>();
+
+        List<String> authHeader = Collections.singletonList("Bearer " + JWT.create()
+                .withClaim("patient_id", contextIds)
                 .withClaim("scope", scopeString)
                 .sign(Algorithm.none()));
 
@@ -777,33 +796,35 @@ public class AuthzPolicyEnforcementTest {
         final Set<ResourceType.Value> observation = Collections.singleton(OBSERVATION);
         final Set<ResourceType.Value> provenance = Collections.singleton(PROVENANCE);
 
+        final List<String> CONTEXT_IDS = Collections.singletonList(PATIENT_ID);
+
         return new Object[][] {
-            //String scopeString, Set<ResourceType.Value> resourceTypesPermittedByScope, Permission permission
-            {"patient/*.*", all_resources, Permission.ALL},
-            {"patient/*.read", all_resources, Permission.READ},
-            {"patient/*.write", all_resources, Permission.WRITE},
+            //String scopeString, String context, Set<ResourceType.Value> resourceTypesPermittedByScope, Permission permission
+            {"patient/*.*", CONTEXT_IDS, all_resources, Permission.ALL},
+            {"patient/*.read", CONTEXT_IDS, all_resources, Permission.READ},
+            {"patient/*.write", CONTEXT_IDS, all_resources, Permission.WRITE},
 
-            {"patient/Patient.*", patient, Permission.ALL},
-            {"patient/Patient.read", patient, Permission.READ},
-            {"patient/Patient.write", patient, Permission.WRITE},
-            {"patient/Patient.* patient/Provenance.*", union(patient, provenance), Permission.ALL},
+            {"patient/Patient.*", CONTEXT_IDS, patient, Permission.ALL},
+            {"patient/Patient.read", CONTEXT_IDS, patient, Permission.READ},
+            {"patient/Patient.write", CONTEXT_IDS, patient, Permission.WRITE},
+            {"patient/Patient.* patient/Provenance.*", CONTEXT_IDS, union(patient, provenance), Permission.ALL},
 
-            {"patient/Observation.*", observation, Permission.ALL},
-            {"patient/Observation.read", observation, Permission.READ},
-            {"patient/Observation.write", observation, Permission.WRITE},
-            {"patient/Observation.* patient/Provenance.*", union(observation, provenance), Permission.ALL},
+            {"patient/Observation.*", CONTEXT_IDS, observation, Permission.ALL},
+            {"patient/Observation.read", CONTEXT_IDS, observation, Permission.READ},
+            {"patient/Observation.write", CONTEXT_IDS, observation, Permission.WRITE},
+            {"patient/Observation.* patient/Provenance.*", CONTEXT_IDS, union(observation, provenance), Permission.ALL},
 
-            {"openid profile patient/Patient.*", patient, Permission.ALL},
-            {"openid patient/Patient.read profile", patient, Permission.READ},
-            {"patient/Patient.write openid profile", patient, Permission.WRITE},
+            {"openid profile patient/Patient.*", CONTEXT_IDS, patient, Permission.ALL},
+            {"openid patient/Patient.read profile", CONTEXT_IDS, patient, Permission.READ},
+            {"patient/Patient.write openid profile", CONTEXT_IDS, patient, Permission.WRITE},
 
-            {"patient/Patient.read patient/Observation.read", union(patient, observation), Permission.READ},
+            {"patient/Patient.read patient/Observation.read", CONTEXT_IDS, union(patient, observation), Permission.READ},
 
-            {"user/*.*", all_resources, Permission.ALL},
-            {"user/Patient.read", patient, Permission.READ},
-            {"user/Observation.write", observation, Permission.WRITE},
+            {"user/*.*", CONTEXT_IDS, all_resources, Permission.ALL},
+            {"user/Patient.read", CONTEXT_IDS, patient, Permission.READ},
+            {"user/Observation.write", CONTEXT_IDS, observation, Permission.WRITE},
 
-            {"openid profile", Collections.EMPTY_SET, null},
+            {"openid profile", CONTEXT_IDS, Collections.EMPTY_SET, null},
         };
     }
 

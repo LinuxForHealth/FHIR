@@ -55,4 +55,11 @@ public interface FHIRPersistenceTransaction {
      * @throws FHIRPersistenceException
      */
     void setRollbackOnly() throws FHIRPersistenceException;
+    
+    /**
+     * Determine if the transaction status is currently active
+     * @return true if transaction begin has been called
+     * @throws FHIRPersistenceException
+     */
+    boolean hasBegun() throws FHIRPersistenceException;
 }

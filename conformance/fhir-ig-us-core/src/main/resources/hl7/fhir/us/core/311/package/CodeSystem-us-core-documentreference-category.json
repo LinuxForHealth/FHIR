@@ -1,0 +1,37 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "us-core-documentreference-category",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-category",
+    "version": "3.1.1",
+    "name": "USCoreDocumentReferencesCategoryCodes",
+    "title": "US Core DocumentReferences Category Codes",
+    "status": "active",
+    "date": "2019-05-21",
+    "description": "The US Core DocumentReferences Type Code System is a 'starter set' of categories supported for fetching and storing DocumentReference Resources.",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US",
+                    "display": "United States of America"
+                }
+            ]
+        }
+    ],
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-documentreference-category|3.1.1",
+    "content": "complete",
+    "count": 2,
+    "concept": [
+        {
+            "code": "clinical-note",
+            "display": "Clinical Note",
+            "definition": "Part of health record where healthcare professionals record details to document a patient's clinical status or achievements during the course of a hospitalization or over the course of outpatient care ([Wikipedia](https://en.wikipedia.org/wiki/Progress_note))"
+        }
+    ]
+}

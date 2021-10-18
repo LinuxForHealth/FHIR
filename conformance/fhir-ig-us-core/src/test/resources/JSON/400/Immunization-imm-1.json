@@ -1,0 +1,44 @@
+{
+	"resourceType": "Immunization",
+	"id": "imm-1",
+	"meta": {
+		"extension": [
+			{
+				"url": "http://hl7.org/fhir/StructureDefinition/instance-name",
+				"valueString": "Imm 1 Example"
+			},
+			{
+				"url": "http://hl7.org/fhir/StructureDefinition/instance-description",
+				"valueMarkdown": "This is a imm 1 example for the *US Core Immunization Profile*."
+			}
+		],
+		"profile": [
+			"http://hl7.org/fhir/us/core/StructureDefinition/us-core-immunization"
+		]
+	},
+	"text": {
+		"status": "generated",
+		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><p><b>status</b>: completed</p><p><b>vaccineCode</b>: <span title=\"Codes: {http://hl7.org/fhir/sid/cvx 158}, {http://hl7.org/fhir/sid/ndc 49281-0633-15}\">influenza, injectable, quadrivalent, contains preservative</span></p><p><b>patient</b>: <a href=\"Patient-example.html\">Amy Shaw. Generated Summary: Medical Record Number: 1032702 (USUAL); active; Amy V. Shaw , Amy V. Baxter ; Phone: 555-555-5555, amy.shaw@example.com; gender: female; birthDate: 1987-02-20</a></p><p><b>occurrence</b>: Nov 19, 2020 8:46:57 PM</p><p><b>primarySource</b>: false</p></div>"
+	},
+	"status": "completed",
+	"vaccineCode": {
+		"coding": [
+			{
+				"system": "http://hl7.org/fhir/sid/cvx",
+				"code": "158",
+				"display": "influenza, injectable, quadrivalent, contains preservative"
+			},
+			{
+				"system": "http://hl7.org/fhir/sid/ndc",
+				"code": "49281-0633-15",
+				"display": "FLUZONE QUADRIVALENT (Sanofi Pasteur Inc.)"
+			}
+		]
+	},
+	"patient": {
+		"reference": "Patient/example",
+		"display": "Amy Shaw"
+	},
+	"occurrenceDateTime": "2020-11-19T12:46:57-08:00",
+	"primarySource": false
+}

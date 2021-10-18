@@ -1,0 +1,44 @@
+{
+	"resourceType": "Procedure",
+	"id": "rehab",
+	"meta": {
+		"extension": [
+			{
+				"url": "http://hl7.org/fhir/StructureDefinition/instance-name",
+				"valueString": "Rehab Example"
+			},
+			{
+				"url": "http://hl7.org/fhir/StructureDefinition/instance-description",
+				"valueMarkdown": "This is a rehab example for the *US Core Procedure Profile*."
+			}
+		],
+		"profile": [
+			"http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"
+		]
+	},
+	"text": {
+		"status": "generated",
+		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><p><b>status</b>: completed</p><p><b>code</b>: <span title=\"Codes: {http://snomed.info/sct 24165007}, {http://www.cms.gov/Medicare/Coding/ICD10 HZ30ZZZ}\">Alcohol rehabilitation</span></p><p><b>subject</b>: <a href=\"Patient-example.html\">Amy Shaw. Generated Summary: Medical Record Number: 1032702 (USUAL); active; Amy V. Shaw , Amy V. Baxter ; Phone: 555-555-5555, amy.shaw@example.com; gender: female; birthDate: 1987-02-20</a></p><p><b>performed</b>: 2002-05-23</p></div>"
+	},
+	"status": "completed",
+	"code": {
+		"coding": [
+			{
+				"system": "http://snomed.info/sct",
+				"code": "24165007",
+				"display": "Alcoholism counseling"
+			},
+			{
+				"system": "http://www.cms.gov/Medicare/Coding/ICD10",
+				"code": "HZ30ZZZ",
+				"display": "Individual Counseling for Substance Abuse Treatment, Cognitive"
+			}
+		],
+		"text": "Alcohol rehabilitation"
+	},
+	"subject": {
+		"reference": "Patient/example",
+		"display": "Amy Shaw"
+	},
+	"performedDateTime": "2002-05-23"
+}

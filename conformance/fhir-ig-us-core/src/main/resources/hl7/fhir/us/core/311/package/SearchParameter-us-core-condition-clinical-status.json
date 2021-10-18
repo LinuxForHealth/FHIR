@@ -1,0 +1,64 @@
+{
+    "resourceType": "SearchParameter",
+    "id": "us-core-condition-clinical-status",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/us/core/SearchParameter/us-core-condition-clinical-status",
+    "version": "3.1.1",
+    "name": "USCoreConditionClinicalStatus",
+    "derivedFrom": "http://hl7.org/fhir/SearchParameter/Condition-clinical-status",
+    "status": "active",
+    "experimental": false,
+    "date": "2020-07-01T21:51:57.273619Z",
+    "publisher": "HL7 International - US Realm Steering Committee",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/usrealm/index.cfm"
+                }
+            ]
+        }
+    ],
+    "description": "The clinical status of the condition<br />\n<em>NOTE</em>: This US Core SearchParameter definition extends the usage context of\n<a href=\"http://hl7.org/fhir/R4/extension-capabilitystatement-expectation.html\">capabilitystatement-expectation</a>\n extension to formally express implementer conformance expectations for these elements:<br />\n - multipleAnd<br />\n - multipleOr<br />\n - comparator<br />\n - modifier<br />\n - chain<br />\n\n ",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US",
+                    "display": "United States of America"
+                }
+            ]
+        }
+    ],
+    "code": "clinical-status",
+    "base": [
+        "Condition"
+    ],
+    "type": "token",
+    "expression": "Condition.clinicalStatus",
+    "xpath": "f:Condition/f:clinicalStatus",
+    "xpathUsage": "normal",
+    "multipleOr": true,
+    "_multipleOr": {
+        "extension": [
+            {
+                "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                "valueCode": "MAY"
+            }
+        ]
+    },
+    "multipleAnd": true,
+    "_multipleAnd": {
+        "extension": [
+            {
+                "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                "valueCode": "MAY"
+            }
+        ]
+    }
+}

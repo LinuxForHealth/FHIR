@@ -1,0 +1,42 @@
+{
+    "__comment": "FHIR Server configuration for mythical tenant id 'performance'",
+    "fhirServer": {
+        "core": {
+            "userDefinedSchematronEnabled": true
+        },
+        "virtualResources": {
+            "enabled": true,
+            "allowableResourceTypes": ["WeatherDetail"]
+        },
+        "persistence": {
+            "datasources": {
+                "default": {
+                    "type": "postgresql",
+                    "currentSchema": "fhirdata",
+                    "searchOptimizerOptions": {
+                        "from_collapse_limit":   12,
+                        "join_collapse_limit":   12,
+                        "compartment_opt_level": 0 
+                    }
+                }
+            },
+            "payload": {
+                "default": {
+                    "__comment": "COS configuration for storing FHIR resource payload data",
+                    "type": "cos",
+                    "connectionProperties" : {
+                        "bucketName": "bucket1",
+                        "location": "location1",
+                        "endpoint": "endpoint1",
+                        "credentialIBM": true,
+                        "apiKey": "apiKey1",
+                        "srvInstId": "srvInstId1",
+                        "socketTimeout": 7,
+                        "requestTimeout": 8,
+                        "maxKeys": 9
+                    }
+                }
+            }
+        }
+    }
+}

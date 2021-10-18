@@ -8,8 +8,10 @@ package com.ibm.fhir.server.util;
 
 import static com.ibm.fhir.model.type.String.string;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.fail;
 
@@ -54,6 +56,7 @@ import com.ibm.fhir.model.type.code.NarrativeStatus;
 import com.ibm.fhir.model.type.code.ProcedureStatus;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.SingleResourceResult;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptor;
 import com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptorException;
@@ -398,19 +401,19 @@ public class FHIRRestHelperTest {
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.REPRESENTATION);
         Bundle responseBundle = helper.doBundle(requestBundle, false);
 
-        // Validate results
+        // Validate results. ".entry(bundleEntry2, bundleEntry)" - Procedure create is processed first, then Patient create
         assertNotNull(responseBundle);
         assertEquals(2, responseBundle.getEntry().size());
         for (Bundle.Entry entry : responseBundle.getEntry()) {
             Bundle.Entry.Response response = entry.getResponse();
             if (response.getLocation().getValue().startsWith("Patient")) {
-                assertEquals("Patient/generated-0/_history/1", response.getLocation().getValue());
+                assertEquals(response.getLocation().getValue(), "Patient/generated-1/_history/1");
                 assertEquals(Integer.toString(Response.Status.CREATED.getStatusCode()), response.getStatus().getValue());
             } else if (response.getLocation().getValue().startsWith("Procedure")) {
-                assertEquals("Procedure/generated-1/_history/1", response.getLocation().getValue());
+                assertEquals(response.getLocation().getValue(), "Procedure/generated-0/_history/1");
                 assertEquals(Integer.toString(Response.Status.CREATED.getStatusCode()), response.getStatus().getValue());
                 Procedure returnedProcedure = (Procedure) entry.getResource();
-                assertEquals("Patient/generated-0", returnedProcedure.getSubject().getReference().getValue());
+                assertEquals(returnedProcedure.getSubject().getReference().getValue(), "Patient/generated-1");
             } else {
                 fail();
             }
@@ -481,15 +484,15 @@ public class FHIRRestHelperTest {
         for (Bundle.Entry entry : responseBundle.getEntry()) {
             Bundle.Entry.Response response = entry.getResponse();
             if (response.getLocation().getValue().startsWith("Encounter")) {
-                assertEquals("Encounter/generated-0/_history/1", response.getLocation().getValue());
-                assertEquals(Integer.toString(Response.Status.CREATED.getStatusCode()), response.getStatus().getValue());
+                assertEquals(response.getLocation().getValue(), "Encounter/generated-0/_history/1");
+                assertEquals(response.getStatus().getValue(), Integer.toString(Response.Status.CREATED.getStatusCode()));
                 Encounter returnedEncounter = (Encounter) entry.getResource();
-                assertEquals("Procedure/generated-1", returnedEncounter.getReasonReference().get(0).getReference().getValue());
+                assertEquals(returnedEncounter.getReasonReference().get(0).getReference().getValue(), "Procedure/generated-1");
             } else if (response.getLocation().getValue().startsWith("Procedure")) {
-                assertEquals("Procedure/generated-1/_history/1", response.getLocation().getValue());
-                assertEquals(Integer.toString(Response.Status.CREATED.getStatusCode()), response.getStatus().getValue());
+                assertEquals(response.getLocation().getValue(), "Procedure/generated-1/_history/1");
+                assertEquals(response.getStatus().getValue(), Integer.toString(Response.Status.CREATED.getStatusCode()));
                 Procedure returnedProcedure = (Procedure) entry.getResource();
-                assertEquals("Encounter/generated-0", returnedProcedure.getEncounter().getReference().getValue());
+                assertEquals(returnedProcedure.getEncounter().getReference().getValue(), "Encounter/generated-0");
             } else {
                 fail();
             }
@@ -620,14 +623,14 @@ public class FHIRRestHelperTest {
         for (Bundle.Entry entry : responseBundle.getEntry()) {
             Bundle.Entry.Response response = entry.getResponse();
             if (response.getLocation().getValue().startsWith("Patient")) {
-                assertEquals("Patient/generated-1/_history/1", response.getLocation().getValue());
-                assertEquals(Integer.toString(Response.Status.CREATED.getStatusCode()), response.getStatus().getValue());
+                assertEquals(response.getLocation().getValue(), "Patient/generated-1/_history/1");
+                assertEquals(response.getStatus().getValue(), Integer.toString(Response.Status.CREATED.getStatusCode()));
             } else if (response.getLocation().getValue().startsWith("Procedure")) {
-                assertEquals("Procedure/generated-0/_history/1", response.getLocation().getValue());
-                assertEquals(Integer.toString(Response.Status.CREATED.getStatusCode()), response.getStatus().getValue());
+                assertEquals(response.getLocation().getValue(), "Procedure/generated-0/_history/1");
+                assertEquals(response.getStatus().getValue(), Integer.toString(Response.Status.CREATED.getStatusCode()));
                 Procedure returnedProcedure = (Procedure) entry.getResource();
-                // local references to conditional creates not found if backward dependency
-                assertEquals("urn:1", returnedProcedure.getSubject().getReference().getValue());
+                // Since issue 1869 this reference can be resolved correctly:
+                assertEquals(returnedProcedure.getSubject().getReference().getValue(), "Patient/generated-1");
             } else {
                 fail();
             }
@@ -759,33 +762,33 @@ public class FHIRRestHelperTest {
         for (Bundle.Entry entry : responseBundle.getEntry()) {
             Bundle.Entry.Response response = entry.getResponse();
             if (response.getLocation().getValue().startsWith("Encounter")) {
-                assertEquals("Encounter/generated-0/_history/1", response.getLocation().getValue());
+                assertEquals(response.getLocation().getValue(), "Encounter/generated-0/_history/1");
                 assertEquals(Integer.toString(Response.Status.CREATED.getStatusCode()), response.getStatus().getValue());
                 Encounter returnedEncounter = (Encounter) entry.getResource();
-                assertEquals("Procedure/generated-1", returnedEncounter.getReasonReference().get(0).getReference().getValue());
-                assertEquals("Condition/generated-4", returnedEncounter.getReasonReference().get(1).getReference().getValue());
+                assertEquals(returnedEncounter.getReasonReference().get(0).getReference().getValue(), "Procedure/generated-1");
+                assertEquals(returnedEncounter.getReasonReference().get(1).getReference().getValue(), "Condition/generated-4");
             } else if (response.getLocation().getValue().startsWith("Procedure")) {
-                assertEquals("Procedure/generated-1/_history/1", response.getLocation().getValue());
+                assertEquals(response.getLocation().getValue(), "Procedure/generated-1/_history/1");
                 assertEquals(Integer.toString(Response.Status.CREATED.getStatusCode()), response.getStatus().getValue());
                 Procedure returnedProcedure = (Procedure) entry.getResource();
-                assertEquals("Encounter/generated-0", returnedProcedure.getEncounter().getReference().getValue());
-                assertEquals("Patient/generated-2", returnedProcedure.getSubject().getReference().getValue());
-                assertEquals("Condition/generated-4", returnedProcedure.getReasonReference().get(0).getReference().getValue());
+                assertEquals(returnedProcedure.getEncounter().getReference().getValue(), "Encounter/generated-0");
+                assertEquals(returnedProcedure.getSubject().getReference().getValue(), "Patient/generated-2");
+                assertEquals(returnedProcedure.getReasonReference().get(0).getReference().getValue(), "Condition/generated-4");
             } else if (response.getLocation().getValue().startsWith("Patient")) {
-                assertEquals("Patient/generated-2/_history/1", response.getLocation().getValue());
+                assertEquals(response.getLocation().getValue(), "Patient/generated-2/_history/1");
                 assertEquals(Integer.toString(Response.Status.CREATED.getStatusCode()), response.getStatus().getValue());
                 Patient returnedPatient = (Patient) entry.getResource();
-                assertEquals("Practitioner/generated-3", returnedPatient.getGeneralPractitioner().get(0).getReference().getValue());
+                assertEquals(returnedPatient.getGeneralPractitioner().get(0).getReference().getValue(), "Practitioner/generated-3");
             } else if (response.getLocation().getValue().startsWith("Practitioner")) {
-                assertEquals("Practitioner/generated-3/_history/1", response.getLocation().getValue());
+                assertEquals(response.getLocation().getValue(), "Practitioner/generated-3/_history/1");
                 assertEquals(Integer.toString(Response.Status.CREATED.getStatusCode()), response.getStatus().getValue());
             } else if (response.getLocation().getValue().startsWith("Condition")) {
-                assertEquals("Condition/generated-4/_history/1", response.getLocation().getValue());
+                assertEquals(response.getLocation().getValue(), "Condition/generated-4/_history/1");
                 assertEquals(Integer.toString(Response.Status.CREATED.getStatusCode()), response.getStatus().getValue());
                 Condition returnedCondition = (Condition) entry.getResource();
-                assertEquals("Encounter/generated-0", returnedCondition.getEncounter().getReference().getValue());
-                assertEquals("Patient/generated-2", returnedCondition.getSubject().getReference().getValue());
-                assertEquals("Procedure/generated-1", returnedCondition.getEvidence().get(0).getDetail().get(0).getReference().getValue());
+                assertEquals(returnedCondition.getEncounter().getReference().getValue(), "Encounter/generated-0");
+                assertEquals(returnedCondition.getSubject().getReference().getValue(), "Patient/generated-2");
+                assertEquals(returnedCondition.getEvidence().get(0).getDetail().get(0).getReference().getValue(), "Procedure/generated-1");
             } else {
                 fail();
             }
@@ -1158,13 +1161,13 @@ public class FHIRRestHelperTest {
         for (Bundle.Entry entry : responseBundle.getEntry()) {
             Bundle.Entry.Response response = entry.getResponse();
             if (response.getLocation().getValue().startsWith("Patient")) {
-                assertEquals("Patient/1/_history/2", response.getLocation().getValue());
-                assertEquals(Integer.toString(Response.Status.OK.getStatusCode()), response.getStatus().getValue());
+                assertEquals(response.getLocation().getValue(), "Patient/1/_history/2");
+                assertEquals(response.getStatus().getValue(), Integer.toString(Response.Status.OK.getStatusCode()));
             } else if (response.getLocation().getValue().startsWith("Procedure")) {
-                assertEquals("Procedure/2/_history/2", response.getLocation().getValue());
-                assertEquals(Integer.toString(Response.Status.OK.getStatusCode()), response.getStatus().getValue());
+                assertEquals(response.getLocation().getValue(), "Procedure/2/_history/2");
+                assertEquals(response.getStatus().getValue(), Integer.toString(Response.Status.OK.getStatusCode()));
                 Procedure returnedProcedure = (Procedure) entry.getResource();
-                assertEquals("Patient/1", returnedProcedure.getSubject().getReference().getValue());
+                assertEquals(returnedProcedure.getSubject().getReference().getValue(), "Patient/1");
             } else {
                 fail();
             }
@@ -1237,15 +1240,15 @@ public class FHIRRestHelperTest {
         for (Bundle.Entry entry : responseBundle.getEntry()) {
             Bundle.Entry.Response response = entry.getResponse();
             if (response.getLocation().getValue().startsWith("Encounter")) {
-                assertEquals("Encounter/1/_history/2", response.getLocation().getValue());
-                assertEquals(Integer.toString(Response.Status.OK.getStatusCode()), response.getStatus().getValue());
+                assertEquals(response.getLocation().getValue(), "Encounter/1/_history/2");
+                assertEquals(response.getStatus().getValue(), Integer.toString(Response.Status.OK.getStatusCode()));
                 Encounter returnedEncounter = (Encounter) entry.getResource();
-                assertEquals("Procedure/2", returnedEncounter.getReasonReference().get(0).getReference().getValue());
+                assertEquals(returnedEncounter.getReasonReference().get(0).getReference().getValue(), "Procedure/2");
             } else if (response.getLocation().getValue().startsWith("Procedure")) {
-                assertEquals("Procedure/2/_history/2", response.getLocation().getValue());
-                assertEquals(Integer.toString(Response.Status.OK.getStatusCode()), response.getStatus().getValue());
+                assertEquals(response.getLocation().getValue(), "Procedure/2/_history/2");
+                assertEquals(response.getStatus().getValue(), Integer.toString(Response.Status.OK.getStatusCode()));
                 Procedure returnedProcedure = (Procedure) entry.getResource();
-                assertEquals("Encounter/1", returnedProcedure.getEncounter().getReference().getValue());
+                assertEquals(returnedProcedure.getEncounter().getReference().getValue(), "Encounter/1");
             } else {
                 fail();
             }
@@ -1261,6 +1264,7 @@ public class FHIRRestHelperTest {
         FHIRPersistence persistence = new MockPersistenceImpl();
         FHIRRestHelper helper = new FHIRRestHelper(persistence);
 
+        // Interesting that this ends up as a patient search not a read
         Patient patient = Patient.builder()
                 .id("1")
                 .build();
@@ -1307,13 +1311,13 @@ public class FHIRRestHelperTest {
         for (Bundle.Entry entry : responseBundle.getEntry()) {
             Bundle.Entry.Response response = entry.getResponse();
             if (response.getLocation().getValue().startsWith("Patient")) {
-                assertEquals("Patient/1/_history/2", response.getLocation().getValue());
-                assertEquals(Integer.toString(Response.Status.CREATED.getStatusCode()), response.getStatus().getValue());
+                assertEquals(response.getLocation().getValue(), "Patient/1/_history/2");
+                assertEquals(response.getStatus().getValue(), Integer.toString(Response.Status.OK.getStatusCode()));
             } else if (response.getLocation().getValue().startsWith("Procedure")) {
-                assertEquals("Procedure/2/_history/2", response.getLocation().getValue());
-                assertEquals(Integer.toString(Response.Status.OK.getStatusCode()), response.getStatus().getValue());
+                assertEquals(response.getLocation().getValue(), "Procedure/2/_history/2");
+                assertEquals(response.getStatus().getValue(), Integer.toString(Response.Status.OK.getStatusCode()));
                 Procedure returnedProcedure = (Procedure) entry.getResource();
-                assertEquals("Patient/1", returnedProcedure.getSubject().getReference().getValue());
+                assertEquals(returnedProcedure.getSubject().getReference().getValue(), "Patient/1");
             } else {
                 fail();
             }
@@ -1375,13 +1379,13 @@ public class FHIRRestHelperTest {
         for (Bundle.Entry entry : responseBundle.getEntry()) {
             Bundle.Entry.Response response = entry.getResponse();
             if (response.getLocation().getValue().startsWith("Patient")) {
-                assertEquals("Patient/generated-0/_history/1", response.getLocation().getValue());
-                assertEquals(Integer.toString(Response.Status.CREATED.getStatusCode()), response.getStatus().getValue());
+                assertEquals(response.getLocation().getValue(), "Patient/generated-0/_history/1");
+                assertEquals(response.getStatus().getValue(), Integer.toString(Response.Status.CREATED.getStatusCode()));
             } else if (response.getLocation().getValue().startsWith("Procedure")) {
-                assertEquals("Procedure/2/_history/2", response.getLocation().getValue());
-                assertEquals(Integer.toString(Response.Status.OK.getStatusCode()), response.getStatus().getValue());
+                assertEquals(response.getLocation().getValue(), "Procedure/2/_history/2");
+                assertEquals(response.getStatus().getValue(), Integer.toString(Response.Status.OK.getStatusCode()));
                 Procedure returnedProcedure = (Procedure) entry.getResource();
-                assertEquals("Patient/generated-0", returnedProcedure.getSubject().getReference().getValue());
+                assertEquals(returnedProcedure.getSubject().getReference().getValue(), "Patient/generated-0");
             } else {
                 fail();
             }
@@ -1443,14 +1447,14 @@ public class FHIRRestHelperTest {
         for (Bundle.Entry entry : responseBundle.getEntry()) {
             Bundle.Entry.Response response = entry.getResponse();
             if (response.getLocation().getValue().startsWith("Patient")) {
-                assertEquals("Patient/generated-0/_history/1", response.getLocation().getValue());
-                assertEquals(Integer.toString(Response.Status.CREATED.getStatusCode()), response.getStatus().getValue());
+                assertEquals(response.getLocation().getValue(), "Patient/generated-0/_history/1");
+                assertEquals(response.getStatus().getValue(), Integer.toString(Response.Status.CREATED.getStatusCode()));
             } else if (response.getLocation().getValue().startsWith("Condition")) {
-                assertEquals("Condition/2/_history/2", response.getLocation().getValue());
-                assertEquals(Integer.toString(Response.Status.OK.getStatusCode()), response.getStatus().getValue());
+                assertEquals(response.getLocation().getValue(), "Condition/2/_history/2");
+                assertEquals(response.getStatus().getValue(), Integer.toString(Response.Status.OK.getStatusCode()));
                 Condition returnedCondition = (Condition) entry.getResource();
-                // local references to conditional updates not found if backward dependency and id not set
-                assertEquals("urn:1", returnedCondition.getSubject().getReference().getValue());
+                // local references to conditional updates are now resolved even if backward dependency and id not set
+                assertEquals(returnedCondition.getSubject().getReference().getValue(), "Patient/generated-0");
             } else {
                 fail();
             }
@@ -1754,15 +1758,15 @@ public class FHIRRestHelperTest {
         for (Bundle.Entry entry : responseBundle.getEntry()) {
             Bundle.Entry.Response response = entry.getResponse();
             if (response.getLocation().getValue().startsWith("Encounter")) {
-                assertEquals("Encounter/1/_history/2", response.getLocation().getValue());
-                assertEquals(Integer.toString(Response.Status.OK.getStatusCode()), response.getStatus().getValue());
+                assertEquals(response.getLocation().getValue(), "Encounter/1/_history/2");
+                assertEquals(response.getStatus().getValue(), Integer.toString(Response.Status.OK.getStatusCode()));
                 Encounter returnedEncounter = (Encounter) entry.getResource();
-                assertEquals("Procedure/generated-0", returnedEncounter.getReasonReference().get(0).getReference().getValue());
+                assertEquals(returnedEncounter.getReasonReference().get(0).getReference().getValue(), "Procedure/generated-0");
             } else if (response.getLocation().getValue().startsWith("Procedure")) {
-                assertEquals("Procedure/generated-0/_history/1", response.getLocation().getValue());
-                assertEquals(Integer.toString(Response.Status.CREATED.getStatusCode()), response.getStatus().getValue());
+                assertEquals(response.getLocation().getValue(), "Procedure/generated-0/_history/1");
+                assertEquals(response.getStatus().getValue(), Integer.toString(Response.Status.CREATED.getStatusCode()));
                 Procedure returnedProcedure = (Procedure) entry.getResource();
-                assertEquals("Encounter/1", returnedProcedure.getEncounter().getReference().getValue());
+                assertEquals(returnedProcedure.getEncounter().getReference().getValue(), "Encounter/1");
             } else {
                 fail();
             }
@@ -1925,39 +1929,39 @@ public class FHIRRestHelperTest {
         for (Bundle.Entry entry : responseBundle.getEntry()) {
             Bundle.Entry.Response response = entry.getResponse();
             if (response.getLocation().getValue().startsWith("Encounter")) {
-                assertEquals("Encounter/1/_history/2", response.getLocation().getValue());
+                assertEquals(response.getLocation().getValue(), "Encounter/1/_history/2");
                 assertEquals(Integer.toString(Response.Status.OK.getStatusCode()), response.getStatus().getValue());
                 Encounter returnedEncounter = (Encounter) entry.getResource();
-                assertEquals("Procedure/generated-0", returnedEncounter.getReasonReference().get(0).getReference().getValue());
-                assertEquals("Condition/generated-2", returnedEncounter.getReasonReference().get(1).getReference().getValue());
+                assertEquals(returnedEncounter.getReasonReference().get(0).getReference().getValue(), "Procedure/generated-0");
+                assertEquals(returnedEncounter.getReasonReference().get(1).getReference().getValue(), "Condition/generated-2");
             } else if (response.getLocation().getValue().startsWith("Procedure")) {
-                assertEquals("Procedure/generated-0/_history/1", response.getLocation().getValue());
+                assertEquals(response.getLocation().getValue(), "Procedure/generated-0/_history/1");
                 assertEquals(Integer.toString(Response.Status.CREATED.getStatusCode()), response.getStatus().getValue());
                 Procedure returnedProcedure = (Procedure) entry.getResource();
-                assertEquals("Encounter/1", returnedProcedure.getEncounter().getReference().getValue());
-                assertEquals("Patient/generated-1", returnedProcedure.getSubject().getReference().getValue());
-                assertEquals("Condition/generated-2", returnedProcedure.getReasonReference().get(0).getReference().getValue());
+                assertEquals(returnedProcedure.getEncounter().getReference().getValue(), "Encounter/1");
+                assertEquals(returnedProcedure.getSubject().getReference().getValue(), "Patient/generated-1");
+                assertEquals(returnedProcedure.getReasonReference().get(0).getReference().getValue(), "Condition/generated-2");
             } else if (response.getLocation().getValue().startsWith("Patient")) {
-                assertEquals("Patient/generated-1/_history/1", response.getLocation().getValue());
+                assertEquals(response.getLocation().getValue(), "Patient/generated-1/_history/1");
                 assertEquals(Integer.toString(Response.Status.CREATED.getStatusCode()), response.getStatus().getValue());
                 Patient returnedPatient = (Patient) entry.getResource();
-                assertEquals("Practitioner/4", returnedPatient.getGeneralPractitioner().get(0).getReference().getValue());
-                assertEquals("Organization/6", returnedPatient.getManagingOrganization().getReference().getValue());
+                assertEquals(returnedPatient.getGeneralPractitioner().get(0).getReference().getValue(), "Practitioner/4");
+                assertEquals(returnedPatient.getManagingOrganization().getReference().getValue(), "Organization/6");
             } else if (response.getLocation().getValue().startsWith("Practitioner")) {
-                assertEquals("Practitioner/4/_history/2", response.getLocation().getValue());
+                assertEquals(response.getLocation().getValue(), "Practitioner/4/_history/2");
                 assertEquals(Integer.toString(Response.Status.OK.getStatusCode()), response.getStatus().getValue());
                 Practitioner returnedPractitioner = (Practitioner) entry.getResource();
-                assertEquals("Organization/6", returnedPractitioner.getQualification().get(0).getIssuer().getReference().getValue());
+                assertEquals(returnedPractitioner.getQualification().get(0).getIssuer().getReference().getValue(), "Organization/6");
             } else if (response.getLocation().getValue().startsWith("Condition")) {
-                assertEquals("Condition/generated-2/_history/1", response.getLocation().getValue());
+                assertEquals(response.getLocation().getValue(), "Condition/generated-2/_history/1");
                 assertEquals(Integer.toString(Response.Status.CREATED.getStatusCode()), response.getStatus().getValue());
                 Condition returnedCondition = (Condition) entry.getResource();
-                assertEquals("Encounter/1", returnedCondition.getEncounter().getReference().getValue());
-                assertEquals("Patient/generated-1", returnedCondition.getSubject().getReference().getValue());
-                assertEquals("Procedure/generated-0", returnedCondition.getEvidence().get(0).getDetail().get(0).getReference().getValue());
+                assertEquals(returnedCondition.getEncounter().getReference().getValue(), "Encounter/1");
+                assertEquals(returnedCondition.getSubject().getReference().getValue(), "Patient/generated-1");
+                assertEquals(returnedCondition.getEvidence().get(0).getDetail().get(0).getReference().getValue(), "Procedure/generated-0");
             } else if (response.getLocation().getValue().startsWith("Organization")) {
-                assertEquals("Organization/6/_history/2", response.getLocation().getValue());
-                assertEquals(Integer.toString(Response.Status.OK.getStatusCode()), response.getStatus().getValue());
+                assertEquals(response.getLocation().getValue(), "Organization/6/_history/2");
+                assertEquals(response.getStatus().getValue(), Integer.toString(Response.Status.OK.getStatusCode()));
             } else {
                 fail();
             }
@@ -2047,19 +2051,70 @@ public class FHIRRestHelperTest {
         SingleResourceResult<Resource> mockResult = Mockito.mock(SingleResourceResult.class);
         when(mockResult.getResource()).thenReturn(patientWithId);
 
+        when(persistence.generateResourceId()).thenReturn("generated-0");
         when(persistence.getTransaction()).thenReturn(new MockTransactionAdapter());
         when(persistence.read(any(), any(), any())).thenReturn(mockResult);
-        when(persistence.create(any(), any())).thenReturn(mockResult);
-        when(persistence.update(any(), any(), any())).thenReturn(mockResult);
+        // when(persistence.create(any(), any())).thenReturn(mockResult);
+        when(persistence.createWithMeta(any(), any())).thenReturn(mockResult);
+        when(persistence.updateWithMeta(any(), any())).thenReturn(mockResult);
         FHIRRestHelper helper = new FHIRRestHelper(persistence);
 
+        // The helper must pass the resource updated by the interceptor to the persistence#create method
         ArgumentCaptor<Patient> patientCaptor = ArgumentCaptor.forClass(Patient.class);
         helper.doCreate("Patient", patientNoId, null);
-        Mockito.verify(persistence).create(any(), patientCaptor.capture());
+        Mockito.verify(persistence).createWithMeta(any(), patientCaptor.capture());
         assertEquals(patientCaptor.getValue().getMeta().getTag().get(0), TAG);
 
         helper.doUpdate("Patient", "123", patientWithId, null, null, false);
-        Mockito.verify(persistence).update(any(), any(), patientCaptor.capture());
+        Mockito.verify(persistence).updateWithMeta(any(), patientCaptor.capture());
         assertEquals(patientCaptor.getValue().getMeta().getTag().get(0), TAG);
+    }
+
+    /**
+     * Test processing for a batch bundle where the resource does not match
+     * the given URL endpoint
+     */
+    @Test
+    public void testBatchBundleResourceUrlMismatch() throws Exception {
+        FHIRPersistence persistence = new MockPersistenceImpl();
+        FHIRRestHelper helper = new FHIRRestHelper(persistence);
+
+        Patient patient = Patient.builder()
+                .generalPractitioner(Reference.builder()
+                    .reference(string("Practitioner/1"))
+                    .build())
+                .text(Narrative.builder()
+                    .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">Some narrative</div>"))
+                    .status(NarrativeStatus.GENERATED)
+                    .build())
+                .build();
+
+        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.POST)
+                .url(Uri.of("Observation")) // should be Patient
+                .build();
+        Bundle.Entry bundleEntry = Bundle.Entry.builder()
+                .resource(patient)
+                .request(bundleEntryRequest)
+                .build();
+
+        Bundle requestBundle = Bundle.builder()
+                .id("bundle1")
+                .type(BundleType.BATCH)
+                .entry(bundleEntry)
+                .build();
+
+        // Process bundle
+        FHIRRequestContext.get().setOriginalRequestUri("test");
+        FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
+        Bundle responseBundle = helper.doBundle(requestBundle, false);
+
+        // Validate results
+        assertNotNull(responseBundle);
+        assertEquals(1, responseBundle.getEntry().size());
+        Bundle.Entry entry = responseBundle.getEntry().get(0);
+        assertNotEquals(entry.getResource(), ALL_OK);
+        Bundle.Entry.Response response = entry.getResponse();
+        assertEquals(response.getStatus().getValue(), "400");
     }
 }

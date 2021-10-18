@@ -9,6 +9,7 @@ package com.ibm.fhir.persistence.util;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 import net.jcip.annotations.NotThreadSafe;
@@ -213,6 +214,14 @@ public class InputOutputByteStream {
         return new ByteInputStream();
     }
 
+    /**
+     * Provides a wrapped version of the internal buffer.
+     * @return a read-only ByteBuffer.
+     */
+    public ByteBuffer wrap() {
+        return ByteBuffer.wrap(this.buffer, 0, size()).asReadOnlyBuffer();
+    }
+    
     /**
      * Reset the offset to make the buffer appear empty. Does not change the current
      * length (capacity). Note that any streams currently being used to read the data

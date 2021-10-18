@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.Future;
 import java.util.function.Function;
 
 import org.testng.annotations.BeforeClass;
@@ -54,6 +55,7 @@ import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.helper.PersistenceHelper;
+import com.ibm.fhir.persistence.payload.PayloadKey;
 import com.ibm.fhir.server.resolve.ServerResolveFunction;
 
 public class ServerResolveFunctionTest {
@@ -283,6 +285,26 @@ public class ServerResolveFunctionTest {
 
         @SuppressWarnings("unchecked")
         @Override
+        public <T extends Resource> SingleResourceResult<T> createWithMeta(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException {
+            Class<? extends Resource> resourceType = resource.getClass();
+
+            // We no longer need to update the resource meta, so all that's required is
+            // to find the list of versions for this id and add it
+            final String id = resource.getId();
+            List<Resource> versions = map.computeIfAbsent(resourceType, k -> new HashMap<>())
+                .computeIfAbsent(id, k -> new ArrayList<>());
+
+            versions.add(resource);
+
+            SingleResourceResult.Builder<T> resultBuilder = new SingleResourceResult.Builder<T>()
+                    .success(true)
+                    .resource(resource);
+
+            return resultBuilder.build();
+        }
+
+        @SuppressWarnings("unchecked")
+        @Override
         public <T extends Resource> SingleResourceResult<T> read(
                 FHIRPersistenceContext context,
                 Class<T> resourceType,
@@ -318,6 +340,13 @@ public class ServerResolveFunctionTest {
         public <T extends Resource> SingleResourceResult<T> update(
                 FHIRPersistenceContext context,
                 String logicalId,
+                T resource) throws FHIRPersistenceException {
+            return createOrUpdate(resource);
+        }
+        
+        @Override
+        public <T extends Resource> SingleResourceResult<T> updateWithMeta(
+                FHIRPersistenceContext context,
                 T resource) throws FHIRPersistenceException {
             return createOrUpdate(resource);
         }
@@ -425,6 +454,12 @@ public class ServerResolveFunctionTest {
         public List<Long> retrieveIndex(int count, java.time.Instant notModifiedAfter, Long afterIndexId, String resourceTypeName) throws FHIRPersistenceException {
             throw new UnsupportedOperationException();
         }
+
+        @Override
+        public Future<PayloadKey> storePayload(Resource resource, String logicalId, int newVersionNumber) throws FHIRPersistenceException {
+            // TODO Auto-generated method stub
+            return null;
+        }
     }
 
     public static class PersistenceTransactionImpl implements FHIRPersistenceTransaction {
@@ -441,6 +476,12 @@ public class ServerResolveFunctionTest {
         @Override
         public void setRollbackOnly() throws FHIRPersistenceException {
             // do nothing
+        }
+
+        @Override
+        public boolean hasBegun() throws FHIRPersistenceException {
+            // We don't do anything if #begin() is called, so it's reasonable to return false here
+            return false;
         }
     }
 }

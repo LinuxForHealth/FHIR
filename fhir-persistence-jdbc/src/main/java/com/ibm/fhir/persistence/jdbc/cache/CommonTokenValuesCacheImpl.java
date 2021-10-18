@@ -186,7 +186,7 @@ public class CommonTokenValuesCacheImpl implements ICommonTokenValuesCache {
         List<ResourceTokenValueRec> needToFindValues = new ArrayList<>(tokenValues.size()); // for the ref values we haven't yet found
         for (ResourceTokenValueRec tv: tokenValues) {
             if (valMap != null) {
-                CommonTokenValue key = new CommonTokenValue(tv.getCodeSystemValueId(), tv.getTokenValue());
+                CommonTokenValue key = new CommonTokenValue(tv.getCodeSystemValue(), tv.getCodeSystemValueId(), tv.getTokenValue());
                 Long id = valMap.get(key);
                 if (id != null) {
                     foundKeys.add(key);
@@ -204,7 +204,7 @@ public class CommonTokenValuesCacheImpl implements ICommonTokenValuesCache {
         if (needToFindValues.size() > 0) {
             synchronized (this.tokenValuesCache) {
                 for (ResourceTokenValueRec tv: needToFindValues) {
-                    CommonTokenValue key = new CommonTokenValue(tv.getCodeSystemValueId(), tv.getTokenValue());
+                    CommonTokenValue key = new CommonTokenValue(tv.getCodeSystemValue(), tv.getCodeSystemValueId(), tv.getTokenValue());
                     Long id = tokenValuesCache.get(key);
                     if (id != null) {
                         tv.setCommonTokenValueId(id);
@@ -368,7 +368,7 @@ public class CommonTokenValuesCacheImpl implements ICommonTokenValuesCache {
         Integer codeSystemId = getCodeSystemId(codeSystem);
 
         if (codeSystemId != null) {
-            CommonTokenValue key = new CommonTokenValue(codeSystemId, tokenValue);
+            CommonTokenValue key = new CommonTokenValue(codeSystem, codeSystemId, tokenValue);
             LinkedHashMap<CommonTokenValue,Long> valMap = commonTokenValues.get();
             result = valMap != null ? valMap.get(key) : null;
             if (result == null) {

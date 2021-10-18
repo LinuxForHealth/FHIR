@@ -16,6 +16,8 @@
         <packages>
             <!-- All of these tests are automatically executed -->
             <package name="com.ibm.fhir.server.test.profiles" />
+            <package name="com.ibm.fhir.server.test.profiles.uscore.v311" />
+            <package name="com.ibm.fhir.server.test.profiles.uscore.v400" />
         </packages>
     </test>
     <test name="ClientTests">

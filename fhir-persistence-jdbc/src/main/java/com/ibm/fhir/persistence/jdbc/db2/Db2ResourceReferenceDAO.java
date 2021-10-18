@@ -19,10 +19,16 @@ import java.util.logging.Logger;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.INameIdCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNameDAO;
+import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterNameDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceProfileRec;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValue;
+import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
+import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 
 
 /**
@@ -42,22 +48,15 @@ public class Db2ResourceReferenceDAO extends ResourceReferenceDAO {
      * @param schemaName
      * @param cache
      */
-    public Db2ResourceReferenceDAO(IDatabaseTranslator t, Connection c, String schemaName, ICommonTokenValuesCache cache, String adminSchemaName) {
-        super(t, c, schemaName, cache);
+    public Db2ResourceReferenceDAO(IDatabaseTranslator t, Connection c, String schemaName, ICommonTokenValuesCache cache, String adminSchemaName, INameIdCache<Integer> parameterNameCache) {
+        super(t, c, schemaName, cache, parameterNameCache);
         this.adminSchemaName = adminSchemaName;
     }
 
     @Override
-    public void doCodeSystemsUpsert(String paramList, Collection<String> systemNames) {
+    public void doCodeSystemsUpsert(String paramList, Collection<String> sortedSystemNames) {
         // query is a negative outer join so we only pick the rows where
         // the row "s" from the actual table doesn't exist.
-
-        // Derby won't let us use any ORDER BY, even in a sub-select so we need to
-        // sort the values externally. It would be better if code_system_id were
-        // an identity column, but that's a much bigger change.
-        final List<String> sortedNames = new ArrayList<>(systemNames);
-        sortedNames.sort((String left, String right) -> left.compareTo(right));
-
         final String nextVal = getTranslator().nextValue(getSchemaName(), "fhir_ref_sequence");
         StringBuilder insert = new StringBuilder();
         insert.append("INSERT INTO code_systems (mt_id, code_system_id, code_system_name) ");
@@ -76,7 +75,7 @@ public class Db2ResourceReferenceDAO extends ResourceReferenceDAO {
         try (PreparedStatement ps = getConnection().prepareStatement(insert.toString())) {
             // bind all the code_system_name values as parameters
             int a = 1;
-            for (String name: sortedNames) {
+            for (String name: sortedSystemNames) {
                 ps.setString(a++, name);
             }
 
@@ -88,13 +87,9 @@ public class Db2ResourceReferenceDAO extends ResourceReferenceDAO {
     }
 
     @Override
-    public void doCanonicalValuesUpsert(String paramList, Collection<String> urls) {
+    public void doCanonicalValuesUpsert(String paramList, Collection<String> sortedURLS) {
         // query is a negative outer join so we only pick the rows where
         // the row "s" from the actual table doesn't exist.
-
-        final List<String> sortedNames = new ArrayList<>(urls);
-        sortedNames.sort((String left, String right) -> left.compareTo(right));
-
         final String nextVal = getTranslator().nextValue(getSchemaName(), "fhir_ref_sequence");
         StringBuilder insert = new StringBuilder();
         insert.append("INSERT INTO common_canonical_values (mt_id, canonical_id, url) ");
@@ -113,7 +108,7 @@ public class Db2ResourceReferenceDAO extends ResourceReferenceDAO {
         try (PreparedStatement ps = getConnection().prepareStatement(insert.toString())) {
             // bind all the code_system_name values as parameters
             int a = 1;
-            for (String name: sortedNames) {
+            for (String name: sortedURLS) {
                 ps.setString(a++, name);
             }
 
@@ -125,7 +120,7 @@ public class Db2ResourceReferenceDAO extends ResourceReferenceDAO {
     }
 
     @Override
-    protected void doCommonTokenValuesUpsert(String paramList, Collection<CommonTokenValue> tokenValues) {
+    protected void doCommonTokenValuesUpsert(String paramList, Collection<CommonTokenValue> sortedTokenValues) {
         StringBuilder insert = new StringBuilder();
         insert.append("INSERT INTO common_token_values (mt_id, token_value, code_system_id) ");
         insert.append("     SELECT ").append(adminSchemaName).append(".sv_tenant_id");
@@ -144,7 +139,7 @@ public class Db2ResourceReferenceDAO extends ResourceReferenceDAO {
         try (PreparedStatement ps = getConnection().prepareStatement(insert.toString())) {
             // bind all the name values as parameters
             int a = 1;
-            for (CommonTokenValue tv: tokenValues) {
+            for (CommonTokenValue tv: sortedTokenValues) {
                 ps.setString(a++, tv.getTokenValue());
                 ps.setInt(a++, tv.getCodeSystemId());
             }
@@ -153,7 +148,7 @@ public class Db2ResourceReferenceDAO extends ResourceReferenceDAO {
         } catch (SQLException x) {
             logger.throwing(Db2ResourceReferenceDAO.class.getSimpleName(), "doCommonTokenValuesUpsert", x);
             StringBuilder values = new StringBuilder();
-            for (CommonTokenValue tv: tokenValues) {
+            for (CommonTokenValue tv: sortedTokenValues) {
                 if (values.length() > 0) {
                     values.append(", ");
                 }
@@ -470,5 +465,11 @@ public class Db2ResourceReferenceDAO extends ResourceReferenceDAO {
             logger.log(Level.SEVERE, insert, x);
             throw getTranslator().translate(x);
         }
+    }
+
+    @Override
+    protected int readOrAddParameterNameId(String parameterName) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException  {
+        final ParameterNameDAO pnd = new ParameterNameDAOImpl(getConnection(), getSchemaName());
+        return pnd.readOrAddParameterNameId(parameterName);
     }
 }

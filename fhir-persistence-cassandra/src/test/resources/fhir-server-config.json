@@ -1,0 +1,31 @@
+{
+    "__comment": "FHIR Server Configuration for payload storage unit tests",
+    "fhirServer": {
+        "core": {
+            "userDefinedSchematronEnabled": true
+        },
+        "persistence": {
+            "datasources": {
+                "default": {
+                    "type": "postgresql",
+                    "currentSchema": "testValue0",
+                    "searchOptimizerOptions": {
+                        "from_collapse_limit":   1,
+                        "join_collapse_limit":   2,
+                        "compartment_opt_level": 0 
+                    }
+                }
+            },
+            "payload": {
+                "default": {
+                    "__comment": "Configuration for storing FHIR resource payload data",
+                    "type": "cassandra",
+                    "connectionProperties" : {
+                        "contactPoints": [ { "host": "host1", "port": 1 }, { "host": "host2", "port": 2 } ],
+                        "localDatacenter": "localDatacenter1"
+                    }
+                }
+            }
+        }
+    }
+}

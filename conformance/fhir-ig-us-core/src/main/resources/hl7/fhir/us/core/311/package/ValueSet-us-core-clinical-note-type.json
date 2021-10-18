@@ -1,0 +1,62 @@
+{
+    "resourceType": "ValueSet",
+    "id": "us-core-clinical-note-type",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/us/core/ValueSet/us-core-clinical-note-type",
+    "version": "3.1.1",
+    "name": "USCoreClinicalNoteType",
+    "title": "US Core Clinical Note Type",
+    "status": "active",
+    "date": "2019-05-21",
+    "publisher": "HL7 US Realm Steering Committee",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "other",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "The US Core Clinical Note Type Value Set is a 'starter set' of types supported for fetching and storing clinical notes.",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US",
+                    "display": "United States of America"
+                }
+            ]
+        }
+    ],
+    "copyright": "This material contains content from [LOINC](http://loinc.org). LOINC is copyright © 1995-2020, Regenstrief Institute, Inc. and the Logical Observation Identifiers Names and Codes (LOINC) Committee and is available at no cost under the license at http://loinc.org/license. LOINC® is a registered United States trademark of Regenstrief Institute, Inc",
+    "compose": {
+        "include": [
+            {
+                "system": "http://loinc.org",
+                "concept": [
+                    {
+                        "code": "18842-5"
+                    },
+                    {
+                        "code": "11488-4"
+                    },
+                    {
+                        "code": "34117-2"
+                    },
+                    {
+                        "code": "11506-3"
+                    },
+                    {
+                        "code": "28570-0"
+                    }
+                ]
+            }
+        ]
+    }
+}

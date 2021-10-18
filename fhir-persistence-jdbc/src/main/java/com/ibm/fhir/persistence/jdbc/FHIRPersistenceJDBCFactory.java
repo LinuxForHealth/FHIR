@@ -27,7 +27,7 @@ public class FHIRPersistenceJDBCFactory implements FHIRPersistenceFactory {
             // each request gets a new instance of the FHIRPersistenceJDBCImpl, sharing
             // the common (tenant-aware) cache object
             FHIRPersistenceJDBCCache cache = tenantCache.getCacheForTenantAndDatasource();
-            return new FHIRPersistenceJDBCImpl(cache);
+            return new FHIRPersistenceJDBCImpl(cache, getPayloadPersistence());
         } catch (Exception e) {
             throw new FHIRPersistenceException("Unexpected exception while creating JDBC persistence layer: '" + e.getMessage() + "'", e);
         }

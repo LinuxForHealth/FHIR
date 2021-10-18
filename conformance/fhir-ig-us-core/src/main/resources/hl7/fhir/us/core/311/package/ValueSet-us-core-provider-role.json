@@ -1,0 +1,995 @@
+{
+    "resourceType": "ValueSet",
+    "id": "us-core-provider-role",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/us/core/ValueSet/us-core-provider-role",
+    "version": "3.1.1",
+    "name": "USCoreProviderRoleNucc",
+    "title": "US Core Provider Role (NUCC)",
+    "status": "active",
+    "date": "2019-05-21",
+    "publisher": "HL7 US Realm Steering Committee",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "other",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Provider roles codes which are composed of the NUCC Health Care Provider Taxonomy Code Set classification codes for providers. Only concepts with a classification and no specialization are included. ",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US",
+                    "display": "United States of America"
+                }
+            ]
+        }
+    ],
+    "copyright": "This value set includes content from NUCC Health Care Provider Taxonomy Code Set for providers which is copyright © 2016+ American Medical Association.  For commercial use, including sales or licensing, a license must be obtained.",
+    "compose": {
+        "include": [
+            {
+                "system": "http://nucc.org/provider-taxonomy",
+                "concept": [
+                    {
+                        "code": "101Y00000X",
+                        "display": "Counselor"
+                    },
+                    {
+                        "code": "102L00000X",
+                        "display": "Psychoanalyst"
+                    },
+                    {
+                        "code": "102X00000X",
+                        "display": "Poetry Therapist"
+                    },
+                    {
+                        "code": "103G00000X",
+                        "display": "Clinical Neuropsychologist"
+                    },
+                    {
+                        "code": "103K00000X",
+                        "display": "Behavior Analyst"
+                    },
+                    {
+                        "code": "103T00000X",
+                        "display": "Psychologist"
+                    },
+                    {
+                        "code": "104100000X",
+                        "display": "Social Worker"
+                    },
+                    {
+                        "code": "106E00000X",
+                        "display": "Assistant Behavior Analyst"
+                    },
+                    {
+                        "code": "106H00000X",
+                        "display": "Marriage & Family Therapist"
+                    },
+                    {
+                        "code": "106S00000X",
+                        "display": "Behavior Technician"
+                    },
+                    {
+                        "code": "111N00000X",
+                        "display": "Chiropractor"
+                    },
+                    {
+                        "code": "122300000X",
+                        "display": "Dentist"
+                    },
+                    {
+                        "code": "122400000X",
+                        "display": "Denturist"
+                    },
+                    {
+                        "code": "124Q00000X",
+                        "display": "Dental Hygienist"
+                    },
+                    {
+                        "code": "125J00000X",
+                        "display": "Dental Therapist"
+                    },
+                    {
+                        "code": "125K00000X",
+                        "display": "Advanced Practice Dental Therapist"
+                    },
+                    {
+                        "code": "125Q00000X",
+                        "display": "Oral Medicinist"
+                    },
+                    {
+                        "code": "126800000X",
+                        "display": "Dental Assistant"
+                    },
+                    {
+                        "code": "126900000X",
+                        "display": "Dental Laboratory Technician"
+                    },
+                    {
+                        "code": "132700000X",
+                        "display": "Dietary Manager"
+                    },
+                    {
+                        "code": "133N00000X",
+                        "display": "Nutritionist"
+                    },
+                    {
+                        "code": "133V00000X",
+                        "display": "Dietitian, Registered"
+                    },
+                    {
+                        "code": "136A00000X",
+                        "display": "Dietetic Technician, Registered"
+                    },
+                    {
+                        "code": "146D00000X",
+                        "display": "Personal Emergency Response Attendant"
+                    },
+                    {
+                        "code": "146L00000X",
+                        "display": "Emergency Medical Technician, Paramedic"
+                    },
+                    {
+                        "code": "146M00000X",
+                        "display": "Emergency Medical Technician, Intermediate"
+                    },
+                    {
+                        "code": "146N00000X",
+                        "display": "Emergency Medical Technician, Basic"
+                    },
+                    {
+                        "code": "152W00000X",
+                        "display": "Optometrist"
+                    },
+                    {
+                        "code": "156F00000X",
+                        "display": "Technician/Technologist"
+                    },
+                    {
+                        "code": "163W00000X",
+                        "display": "Registered Nurse"
+                    },
+                    {
+                        "code": "164W00000X",
+                        "display": "Licensed Practical Nurse"
+                    },
+                    {
+                        "code": "164X00000X",
+                        "display": "Licensed Vocational Nurse"
+                    },
+                    {
+                        "code": "167G00000X",
+                        "display": "Licensed Psychiatric Technician"
+                    },
+                    {
+                        "code": "170100000X",
+                        "display": "Medical Genetics, Ph.D. Medical Genetics"
+                    },
+                    {
+                        "code": "170300000X",
+                        "display": "Genetic Counselor, MS"
+                    },
+                    {
+                        "code": "171000000X",
+                        "display": "Military Health Care Provider"
+                    },
+                    {
+                        "code": "171100000X",
+                        "display": "Acupuncturist"
+                    },
+                    {
+                        "code": "171M00000X",
+                        "display": "Case Manager/Care Coordinator"
+                    },
+                    {
+                        "code": "171R00000X",
+                        "display": "Interpreter"
+                    },
+                    {
+                        "code": "171W00000X",
+                        "display": "Contractor"
+                    },
+                    {
+                        "code": "172A00000X",
+                        "display": "Driver"
+                    },
+                    {
+                        "code": "172M00000X",
+                        "display": "Mechanotherapist"
+                    },
+                    {
+                        "code": "172P00000X",
+                        "display": "Naprapath"
+                    },
+                    {
+                        "code": "172V00000X",
+                        "display": "Community Health Worker"
+                    },
+                    {
+                        "code": "173000000X",
+                        "display": "Legal Medicine"
+                    },
+                    {
+                        "code": "173C00000X",
+                        "display": "Reflexologist"
+                    },
+                    {
+                        "code": "173F00000X",
+                        "display": "Sleep Specialist, PhD"
+                    },
+                    {
+                        "code": "174200000X",
+                        "display": "Meals"
+                    },
+                    {
+                        "code": "174400000X",
+                        "display": "Specialist"
+                    },
+                    {
+                        "code": "174H00000X",
+                        "display": "Health Educator"
+                    },
+                    {
+                        "code": "174M00000X",
+                        "display": "Veterinarian"
+                    },
+                    {
+                        "code": "174N00000X",
+                        "display": "Lactation Consultant, Non-RN"
+                    },
+                    {
+                        "code": "174V00000X",
+                        "display": "Clinical Ethicist"
+                    },
+                    {
+                        "code": "175F00000X",
+                        "display": "Naturopath"
+                    },
+                    {
+                        "code": "175L00000X",
+                        "display": "Homeopath"
+                    },
+                    {
+                        "code": "175M00000X",
+                        "display": "Midwife, Lay"
+                    },
+                    {
+                        "code": "175T00000X",
+                        "display": "Peer Specialist"
+                    },
+                    {
+                        "code": "176B00000X",
+                        "display": "Midwife"
+                    },
+                    {
+                        "code": "176P00000X",
+                        "display": "Funeral Director"
+                    },
+                    {
+                        "code": "177F00000X",
+                        "display": "Lodging"
+                    },
+                    {
+                        "code": "183500000X",
+                        "display": "Pharmacist"
+                    },
+                    {
+                        "code": "183700000X",
+                        "display": "Pharmacy Technician"
+                    },
+                    {
+                        "code": "193200000X",
+                        "display": "Multi-Specialty"
+                    },
+                    {
+                        "code": "193400000X",
+                        "display": "Single Specialty"
+                    },
+                    {
+                        "code": "202C00000X",
+                        "display": "Independent Medical Examiner"
+                    },
+                    {
+                        "code": "202K00000X",
+                        "display": "Phlebology"
+                    },
+                    {
+                        "code": "204C00000X",
+                        "display": "Neuromusculoskeletal Medicine, Sports Medicine"
+                    },
+                    {
+                        "code": "204D00000X",
+                        "display": "Neuromusculoskeletal Medicine & OMM"
+                    },
+                    {
+                        "code": "204E00000X",
+                        "display": "Oral & Maxillofacial Surgery"
+                    },
+                    {
+                        "code": "204F00000X",
+                        "display": "Transplant Surgery"
+                    },
+                    {
+                        "code": "204R00000X",
+                        "display": "Electrodiagnostic Medicine"
+                    },
+                    {
+                        "code": "207K00000X",
+                        "display": "Allergy & Immunology"
+                    },
+                    {
+                        "code": "207L00000X",
+                        "display": "Anesthesiology"
+                    },
+                    {
+                        "code": "207N00000X",
+                        "display": "Dermatology"
+                    },
+                    {
+                        "code": "207P00000X",
+                        "display": "Emergency Medicine"
+                    },
+                    {
+                        "code": "207Q00000X",
+                        "display": "Family Medicine"
+                    },
+                    {
+                        "code": "207R00000X",
+                        "display": "Internal Medicine"
+                    },
+                    {
+                        "code": "207T00000X",
+                        "display": "Neurological Surgery"
+                    },
+                    {
+                        "code": "207U00000X",
+                        "display": "Nuclear Medicine"
+                    },
+                    {
+                        "code": "207V00000X",
+                        "display": "Obstetrics & Gynecology"
+                    },
+                    {
+                        "code": "207W00000X",
+                        "display": "Ophthalmology"
+                    },
+                    {
+                        "code": "207X00000X",
+                        "display": "Orthopaedic Surgery"
+                    },
+                    {
+                        "code": "207Y00000X",
+                        "display": "Otolaryngology"
+                    },
+                    {
+                        "code": "208000000X",
+                        "display": "Pediatrics"
+                    },
+                    {
+                        "code": "208100000X",
+                        "display": "Physical Medicine & Rehabilitation"
+                    },
+                    {
+                        "code": "208200000X",
+                        "display": "Plastic Surgery"
+                    },
+                    {
+                        "code": "208600000X",
+                        "display": "Surgery"
+                    },
+                    {
+                        "code": "208800000X",
+                        "display": "Urology"
+                    },
+                    {
+                        "code": "208C00000X",
+                        "display": "Colon & Rectal Surgery"
+                    },
+                    {
+                        "code": "208D00000X",
+                        "display": "General Practice"
+                    },
+                    {
+                        "code": "208G00000X",
+                        "display": "Thoracic Surgery (Cardiothoracic Vascular Surgery)"
+                    },
+                    {
+                        "code": "208M00000X",
+                        "display": "Hospitalist"
+                    },
+                    {
+                        "code": "208U00000X",
+                        "display": "Clinical Pharmacology"
+                    },
+                    {
+                        "code": "209800000X",
+                        "display": "Legal Medicine"
+                    },
+                    {
+                        "code": "211D00000X",
+                        "display": "Assistant, Podiatric"
+                    },
+                    {
+                        "code": "213E00000X",
+                        "display": "Podiatrist"
+                    },
+                    {
+                        "code": "221700000X",
+                        "display": "Art Therapist"
+                    },
+                    {
+                        "code": "222Q00000X",
+                        "display": "Developmental Therapist"
+                    },
+                    {
+                        "code": "222Z00000X",
+                        "display": "Orthotist"
+                    },
+                    {
+                        "code": "224900000X",
+                        "display": "Mastectomy Fitter"
+                    },
+                    {
+                        "code": "224L00000X",
+                        "display": "Pedorthist"
+                    },
+                    {
+                        "code": "224P00000X",
+                        "display": "Prosthetist"
+                    },
+                    {
+                        "code": "224Y00000X",
+                        "display": "Clinical Exercise Physiologist"
+                    },
+                    {
+                        "code": "224Z00000X",
+                        "display": "Occupational Therapy Assistant"
+                    },
+                    {
+                        "code": "225000000X",
+                        "display": "Orthotic Fitter"
+                    },
+                    {
+                        "code": "225100000X",
+                        "display": "Physical Therapist"
+                    },
+                    {
+                        "code": "225200000X",
+                        "display": "Physical Therapy Assistant"
+                    },
+                    {
+                        "code": "225400000X",
+                        "display": "Rehabilitation Practitioner"
+                    },
+                    {
+                        "code": "225500000X",
+                        "display": "Specialist/Technologist"
+                    },
+                    {
+                        "code": "225600000X",
+                        "display": "Dance Therapist"
+                    },
+                    {
+                        "code": "225700000X",
+                        "display": "Massage Therapist"
+                    },
+                    {
+                        "code": "225800000X",
+                        "display": "Recreation Therapist"
+                    },
+                    {
+                        "code": "225A00000X",
+                        "display": "Music Therapist"
+                    },
+                    {
+                        "code": "225B00000X",
+                        "display": "Pulmonary Function Technologist"
+                    },
+                    {
+                        "code": "225C00000X",
+                        "display": "Rehabilitation Counselor"
+                    },
+                    {
+                        "code": "225X00000X",
+                        "display": "Occupational Therapist"
+                    },
+                    {
+                        "code": "226000000X",
+                        "display": "Recreational Therapist Assistant"
+                    },
+                    {
+                        "code": "226300000X",
+                        "display": "Kinesiotherapist"
+                    },
+                    {
+                        "code": "227800000X",
+                        "display": "Respiratory Therapist, Certified"
+                    },
+                    {
+                        "code": "227900000X",
+                        "display": "Respiratory Therapist, Registered"
+                    },
+                    {
+                        "code": "229N00000X",
+                        "display": "Anaplastologist"
+                    },
+                    {
+                        "code": "231H00000X",
+                        "display": "Audiologist"
+                    },
+                    {
+                        "code": "235500000X",
+                        "display": "Specialist/Technologist"
+                    },
+                    {
+                        "code": "235Z00000X",
+                        "display": "Speech-Language Pathologist"
+                    },
+                    {
+                        "code": "237600000X",
+                        "display": "Audiologist-Hearing Aid Fitter"
+                    },
+                    {
+                        "code": "237700000X",
+                        "display": "Hearing Instrument Specialist"
+                    },
+                    {
+                        "code": "242T00000X",
+                        "display": "Perfusionist"
+                    },
+                    {
+                        "code": "243U00000X",
+                        "display": "Radiology Practitioner Assistant"
+                    },
+                    {
+                        "code": "246Q00000X",
+                        "display": "Specialist/Technologist, Pathology"
+                    },
+                    {
+                        "code": "246R00000X",
+                        "display": "Technician, Pathology"
+                    },
+                    {
+                        "code": "246W00000X",
+                        "display": "Technician, Cardiology"
+                    },
+                    {
+                        "code": "246X00000X",
+                        "display": "Specialist/Technologist Cardiovascular"
+                    },
+                    {
+                        "code": "246Y00000X",
+                        "display": "Specialist/Technologist, Health Information"
+                    },
+                    {
+                        "code": "246Z00000X",
+                        "display": "Specialist/Technologist, Other"
+                    },
+                    {
+                        "code": "247000000X",
+                        "display": "Technician, Health Information"
+                    },
+                    {
+                        "code": "247100000X",
+                        "display": "Radiologic Technologist"
+                    },
+                    {
+                        "code": "247200000X",
+                        "display": "Technician, Other"
+                    },
+                    {
+                        "code": "251300000X",
+                        "display": "Local Education Agency (LEA)"
+                    },
+                    {
+                        "code": "251B00000X",
+                        "display": "Case Management"
+                    },
+                    {
+                        "code": "251C00000X",
+                        "display": "Day Training, Developmentally Disabled Services"
+                    },
+                    {
+                        "code": "251E00000X",
+                        "display": "Home Health"
+                    },
+                    {
+                        "code": "251F00000X",
+                        "display": "Home Infusion"
+                    },
+                    {
+                        "code": "251G00000X",
+                        "display": "Hospice Care, Community Based"
+                    },
+                    {
+                        "code": "251J00000X",
+                        "display": "Nursing Care"
+                    },
+                    {
+                        "code": "251K00000X",
+                        "display": "Public Health or Welfare"
+                    },
+                    {
+                        "code": "251S00000X",
+                        "display": "Community/Behavioral Health"
+                    },
+                    {
+                        "code": "251T00000X",
+                        "display": "Program of All-Inclusive Care for the Elderly (PACE) Provider Organization"
+                    },
+                    {
+                        "code": "251V00000X",
+                        "display": "Voluntary or Charitable"
+                    },
+                    {
+                        "code": "251X00000X",
+                        "display": "Supports Brokerage"
+                    },
+                    {
+                        "code": "252Y00000X",
+                        "display": "Early Intervention Provider Agency"
+                    },
+                    {
+                        "code": "253J00000X",
+                        "display": "Foster Care Agency"
+                    },
+                    {
+                        "code": "253Z00000X",
+                        "display": "In Home Supportive Care"
+                    },
+                    {
+                        "code": "261Q00000X",
+                        "display": "Clinic/Center"
+                    },
+                    {
+                        "code": "273100000X",
+                        "display": "Epilepsy Unit"
+                    },
+                    {
+                        "code": "273R00000X",
+                        "display": "Psychiatric Unit"
+                    },
+                    {
+                        "code": "273Y00000X",
+                        "display": "Rehabilitation Unit"
+                    },
+                    {
+                        "code": "275N00000X",
+                        "display": "Medicare Defined Swing Bed Unit"
+                    },
+                    {
+                        "code": "276400000X",
+                        "display": "Rehabilitation, Substance Use Disorder Unit"
+                    },
+                    {
+                        "code": "281P00000X",
+                        "display": "Chronic Disease Hospital"
+                    },
+                    {
+                        "code": "282E00000X",
+                        "display": "Long Term Care Hospital"
+                    },
+                    {
+                        "code": "282J00000X",
+                        "display": "Religious Nonmedical Health Care Institution"
+                    },
+                    {
+                        "code": "282N00000X",
+                        "display": "General Acute Care Hospital"
+                    },
+                    {
+                        "code": "283Q00000X",
+                        "display": "Psychiatric Hospital"
+                    },
+                    {
+                        "code": "283X00000X",
+                        "display": "Rehabilitation Hospital"
+                    },
+                    {
+                        "code": "284300000X",
+                        "display": "Special Hospital"
+                    },
+                    {
+                        "code": "286500000X",
+                        "display": "Military Hospital"
+                    },
+                    {
+                        "code": "287300000X",
+                        "display": "Christian Science Sanitorium"
+                    },
+                    {
+                        "code": "291900000X",
+                        "display": "Military Clinical Medical Laboratory"
+                    },
+                    {
+                        "code": "291U00000X",
+                        "display": "Clinical Medical Laboratory"
+                    },
+                    {
+                        "code": "292200000X",
+                        "display": "Dental Laboratory"
+                    },
+                    {
+                        "code": "293D00000X",
+                        "display": "Physiological Laboratory"
+                    },
+                    {
+                        "code": "302F00000X",
+                        "display": "Exclusive Provider Organization"
+                    },
+                    {
+                        "code": "302R00000X",
+                        "display": "Health Maintenance Organization"
+                    },
+                    {
+                        "code": "305R00000X",
+                        "display": "Preferred Provider Organization"
+                    },
+                    {
+                        "code": "305S00000X",
+                        "display": "Point of Service"
+                    },
+                    {
+                        "code": "310400000X",
+                        "display": "Assisted Living Facility"
+                    },
+                    {
+                        "code": "310500000X",
+                        "display": "Intermediate Care Facility, Mental Illness"
+                    },
+                    {
+                        "code": "311500000X",
+                        "display": "Alzheimer Center (Dementia Center)"
+                    },
+                    {
+                        "code": "311Z00000X",
+                        "display": "Custodial Care Facility"
+                    },
+                    {
+                        "code": "313M00000X",
+                        "display": "Nursing Facility/Intermediate Care Facility"
+                    },
+                    {
+                        "code": "314000000X",
+                        "display": "Skilled Nursing Facility"
+                    },
+                    {
+                        "code": "315D00000X",
+                        "display": "Hospice, Inpatient"
+                    },
+                    {
+                        "code": "315P00000X",
+                        "display": "Intermediate Care Facility, Mentally Retarded"
+                    },
+                    {
+                        "code": "317400000X",
+                        "display": "Christian Science Facility"
+                    },
+                    {
+                        "code": "320600000X",
+                        "display": "Residential Treatment Facility, Mental Retardation and/or Developmental Disabilities"
+                    },
+                    {
+                        "code": "320700000X",
+                        "display": "Residential Treatment Facility, Physical Disabilities"
+                    },
+                    {
+                        "code": "320800000X",
+                        "display": "Community Based Residential Treatment Facility, Mental Illness"
+                    },
+                    {
+                        "code": "320900000X",
+                        "display": "Community Based Residential Treatment Facility, Mental Retardation and/or Developmental Disabilities"
+                    },
+                    {
+                        "code": "322D00000X",
+                        "display": "Residential Treatment Facility, Emotionally Disturbed Children"
+                    },
+                    {
+                        "code": "323P00000X",
+                        "display": "Psychiatric Residential Treatment Facility"
+                    },
+                    {
+                        "code": "324500000X",
+                        "display": "Substance Abuse Rehabilitation Facility"
+                    },
+                    {
+                        "code": "331L00000X",
+                        "display": "Blood Bank"
+                    },
+                    {
+                        "code": "332000000X",
+                        "display": "Military/U.S. Coast Guard Pharmacy"
+                    },
+                    {
+                        "code": "332100000X",
+                        "display": "Department of Veterans Affairs (VA) Pharmacy"
+                    },
+                    {
+                        "code": "332800000X",
+                        "display": "Indian Health Service/Tribal/Urban Indian Health (I/T/U) Pharmacy"
+                    },
+                    {
+                        "code": "332900000X",
+                        "display": "Non-Pharmacy Dispensing Site"
+                    },
+                    {
+                        "code": "332B00000X",
+                        "display": "Durable Medical Equipment & Medical Supplies"
+                    },
+                    {
+                        "code": "332G00000X",
+                        "display": "Eye Bank"
+                    },
+                    {
+                        "code": "332H00000X",
+                        "display": "Eyewear Supplier"
+                    },
+                    {
+                        "code": "332S00000X",
+                        "display": "Hearing Aid Equipment"
+                    },
+                    {
+                        "code": "332U00000X",
+                        "display": "Home Delivered Meals"
+                    },
+                    {
+                        "code": "333300000X",
+                        "display": "Emergency Response System Companies"
+                    },
+                    {
+                        "code": "333600000X",
+                        "display": "Pharmacy"
+                    },
+                    {
+                        "code": "335E00000X",
+                        "display": "Prosthetic/Orthotic Supplier"
+                    },
+                    {
+                        "code": "335G00000X",
+                        "display": "Medical Foods Supplier"
+                    },
+                    {
+                        "code": "335U00000X",
+                        "display": "Organ Procurement Organization"
+                    },
+                    {
+                        "code": "335V00000X",
+                        "display": "Portable X-ray and/or Other Portable Diagnostic Imaging Supplier"
+                    },
+                    {
+                        "code": "341600000X",
+                        "display": "Ambulance"
+                    },
+                    {
+                        "code": "341800000X",
+                        "display": "Military/U.S. Coast Guard Transport"
+                    },
+                    {
+                        "code": "343800000X",
+                        "display": "Secured Medical Transport (VAN)"
+                    },
+                    {
+                        "code": "343900000X",
+                        "display": "Non-emergency Medical Transport (VAN)"
+                    },
+                    {
+                        "code": "344600000X",
+                        "display": "Taxi"
+                    },
+                    {
+                        "code": "344800000X",
+                        "display": "Air Carrier"
+                    },
+                    {
+                        "code": "347B00000X",
+                        "display": "Bus"
+                    },
+                    {
+                        "code": "347C00000X",
+                        "display": "Private Vehicle"
+                    },
+                    {
+                        "code": "347D00000X",
+                        "display": "Train"
+                    },
+                    {
+                        "code": "347E00000X",
+                        "display": "Transportation Broker"
+                    },
+                    {
+                        "code": "363A00000X",
+                        "display": "Physician Assistant"
+                    },
+                    {
+                        "code": "363L00000X",
+                        "display": "Nurse Practitioner"
+                    },
+                    {
+                        "code": "364S00000X",
+                        "display": "Clinical Nurse Specialist"
+                    },
+                    {
+                        "code": "367500000X",
+                        "display": "Nurse Anesthetist, Certified Registered"
+                    },
+                    {
+                        "code": "367A00000X",
+                        "display": "Advanced Practice Midwife"
+                    },
+                    {
+                        "code": "367H00000X",
+                        "display": "Anesthesiologist Assistant"
+                    },
+                    {
+                        "code": "372500000X",
+                        "display": "Chore Provider"
+                    },
+                    {
+                        "code": "372600000X",
+                        "display": "Adult Companion"
+                    },
+                    {
+                        "code": "373H00000X",
+                        "display": "Day Training/Habilitation Specialist"
+                    },
+                    {
+                        "code": "374700000X",
+                        "display": "Technician"
+                    },
+                    {
+                        "code": "374J00000X",
+                        "display": "Doula"
+                    },
+                    {
+                        "code": "374K00000X",
+                        "display": "Religious Nonmedical Practitioner"
+                    },
+                    {
+                        "code": "374T00000X",
+                        "display": "Religious Nonmedical Nursing Personnel"
+                    },
+                    {
+                        "code": "374U00000X",
+                        "display": "Home Health Aide"
+                    },
+                    {
+                        "code": "376G00000X",
+                        "display": "Nursing Home Administrator"
+                    },
+                    {
+                        "code": "376J00000X",
+                        "display": "Homemaker"
+                    },
+                    {
+                        "code": "376K00000X",
+                        "display": "Nurse's Aide"
+                    },
+                    {
+                        "code": "385H00000X",
+                        "display": "Respite Care"
+                    },
+                    {
+                        "code": "390200000X",
+                        "display": "Student in an Organized Health Care Education/Training Program"
+                    },
+                    {
+                        "code": "405300000X",
+                        "display": "Prevention Professional"
+                    }
+                ]
+            }
+        ]
+    }
+}

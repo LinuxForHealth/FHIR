@@ -13,7 +13,10 @@ package com.ibm.fhir.persistence.jdbc.dao.impl;
 public class ResourceRefRec {
 
     // The id of the parameter name representing this relationship
-    private final int parameterNameId;
+    private final String parameterName;
+    
+    // The database id from PARAMETER_NAMES. Set after the parameter is looked up
+    private int parameterNameId = -1;
 
     // The type name/id of this resource
     private final String resourceType;
@@ -29,11 +32,27 @@ public class ResourceRefRec {
      * @param resourceTypeId
      * @param logicalId
      */
-    public ResourceRefRec(int parameterNameId, String resourceType, long resourceTypeId, long logicalResourceId) {
-        this.parameterNameId = parameterNameId;
+    public ResourceRefRec(String parameterName, String resourceType, long resourceTypeId, long logicalResourceId) {
+        this.parameterName = parameterName;
         this.resourceType = resourceType;
         this.resourceTypeId = resourceTypeId;
         this.logicalResourceId = logicalResourceId;
+    }
+    
+    /**
+     * Getter for parameterName
+     * @return
+     */
+    public String getParameterName() {
+        return this.parameterName;
+    }
+    
+    /**
+     * Setter for the parameterNameId
+     * @param id the database parameter_name_id from PARAMETER_NAMES
+     */
+    public void setParameterNameId(int id) {
+        this.parameterNameId = id;
     }
 
     /**

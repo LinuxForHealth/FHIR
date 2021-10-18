@@ -18,14 +18,22 @@ import java.util.Map.Entry;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
+import org.testng.SkipException;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 
 import com.ibm.fhir.client.FHIRResponse;
+import com.ibm.fhir.core.FHIRMediaType;
+import com.ibm.fhir.ig.carin.bb.test.tool.C4BBExamplesUtil;
+import com.ibm.fhir.ig.us.core.tool.USCoreExamplesUtil;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.CapabilityStatement;
 import com.ibm.fhir.model.resource.OperationOutcome;
+import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
@@ -49,6 +57,8 @@ public abstract class ProfilesTestBase extends FHIRServerTestBase {
 
     private Collection<String> listOfProfiles = null;
 
+    private Boolean skip = Boolean.TRUE;
+
     /*
      * Each Test asserts the required profiles, and subsequent BeforeClass checks if it's on the server.
      */
@@ -62,6 +72,54 @@ public abstract class ProfilesTestBase extends FHIRServerTestBase {
     public void assertBaseBundleNotEmpty(Bundle bundle) {
         assertNotNull(bundle);
         assertFalse(bundle.getEntry().isEmpty());
+    }
+
+    /**
+     * builds a valid us core object
+     * @param cls
+     * @param version
+     * @param resource
+     * @return
+     * @throws Exception
+     */
+    public String buildAndAssertOnResourceForUsCore(String cls, String version, String resource) throws Exception {
+        Resource r = USCoreExamplesUtil.readLocalJSONResource(version, resource);
+        return buildAndAssertOnResource(cls, r);
+    }
+
+    /**
+     *
+     * @param cls
+     * @param version
+     * @param resource
+     * @return
+     * @throws Exception
+     */
+    public String buildAndAssertOnResourceForC4BB(String cls, String version, String resource) throws Exception {
+        Resource r = C4BBExamplesUtil.readLocalJSONResource(version, resource);
+        return buildAndAssertOnResource(cls, r);
+    }
+
+    public String buildAndAssertOnResource(String cls, Resource resource) throws Exception {
+        WebTarget target = getWebTarget();
+
+        Entity<? extends Resource> entity = Entity.entity(resource, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response = target.path(cls).request().post(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+
+        // GET [base]/MedicationRequest/12354 (first actual test, but simple)
+        String id = getLocationLogicalId(response);
+        response = target.path(cls + "/" + id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        this.addToResourceRegistry(cls, id);
+        return id;
+    }
+
+    @BeforeMethod
+    protected void checkProfile() {
+        if (skip) {
+            throw new SkipException("Skipping tests profile " + getClass().getCanonicalName());
+        }
     }
 
     /**
@@ -143,5 +201,25 @@ public abstract class ProfilesTestBase extends FHIRServerTestBase {
             skip = skip || entry.getValue() == 0;
         }
         setCheck(skip);
+        this.skip = skip;
+    }
+
+    /**
+     * V2 which hides check values.
+     */
+    public abstract static class ProfilesTestBaseV2 extends ProfilesTestBase {
+        Boolean check = false;
+
+        @Override
+        public void setCheck(Boolean check) {
+            this.check = check;
+        }
+
+        @BeforeClass
+        public void runLoad() throws Exception {
+            loadResources();
+        }
+
+        public abstract void loadResources() throws Exception;
     }
 }

@@ -7,6 +7,8 @@
 package com.ibm.fhir.server.listener;
 
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_CHECK_REFERENCE_TYPES;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_CHECK_UNICODE_CONTROL;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_DATASOURCES;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_EXTENDED_CODEABLE_CONCEPT_VALIDATION;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_CONNECTIONPROPS;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_ENABLED;
@@ -45,6 +47,8 @@ import com.ibm.fhir.cache.CachingProxy;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.config.PropertyGroup.PropertyEntry;
+import com.ibm.fhir.core.lifecycle.EventManager;
+import com.ibm.fhir.database.utils.derby.DerbyServerPropertiesMgr;
 import com.ibm.fhir.model.config.FHIRModelConfig;
 import com.ibm.fhir.model.lang.util.LanguageRegistryUtil;
 import com.ibm.fhir.model.util.FHIRUtil;
@@ -85,6 +89,9 @@ public class FHIRServletContextListener implements ServletContextListener {
 
     private List<GraphTermServiceProvider> graphTermServiceProviders = new ArrayList<>();
     private List<RemoteTermServiceProvider> remoteTermServiceProviders = new ArrayList<>();
+    
+    // Unique value known only to this class so that only we can initiate lifecycle events
+    private static final Object serviceManagerId = new Object();
 
     @Override
     public void contextInitialized(ServletContextEvent event) {
@@ -94,6 +101,8 @@ public class FHIRServletContextListener implements ServletContextListener {
         try {
             // Initialize our "initComplete" flag to false.
             event.getServletContext().setAttribute(FHIR_SERVER_INIT_COMPLETE, Boolean.FALSE);
+            
+            EventManager.registerServiceManagerId(serviceManagerId);
 
             FHIRConfiguration.setConfigHome(System.getenv("FHIR_CONFIG_HOME"));
             PropertyGroup fhirConfig = FHIRConfiguration.getInstance().loadConfiguration();
@@ -121,6 +130,8 @@ public class FHIRServletContextListener implements ServletContextListener {
 
             log.fine("Initializing LanguageRegistryUtil...");
             LanguageRegistryUtil.init();
+            
+            setDerbyProperties(fhirConfig);
 
             // For any singleton resources that need to be shared among our resource class instances,
             // we'll add them to our servlet context so that the resource class can easily retrieve them.
@@ -196,6 +207,9 @@ public class FHIRServletContextListener implements ServletContextListener {
             Boolean extendedCodeableConceptValidation = fhirConfig.getBooleanProperty(PROPERTY_EXTENDED_CODEABLE_CONCEPT_VALIDATION, Boolean.TRUE);
             FHIRModelConfig.setExtendedCodeableConceptValidation(extendedCodeableConceptValidation);
 
+            Boolean checkUnicodeChars = fhirConfig.getBooleanProperty(PROPERTY_CHECK_UNICODE_CONTROL, Boolean.TRUE);
+            FHIRModelConfig.setCheckUnicodeControlChars(checkUnicodeChars);
+
             log.fine("Initializing FHIRRegistry...");
             FHIRRegistry.getInstance();
 
@@ -213,8 +227,11 @@ public class FHIRServletContextListener implements ServletContextListener {
 
             configureTermServiceCapabilities(fhirConfig);
 
-            // Finally, set our "initComplete" flag to true.
+            // Set our "initComplete" flag to true.
             event.getServletContext().setAttribute(FHIR_SERVER_INIT_COMPLETE, Boolean.TRUE);
+
+            // Now init is complete, tell all registered callbacks
+            EventManager.serverReady(serviceManagerId);
         } catch(Throwable t) {
             String msg = "Encountered an exception while initializing the servlet context.";
             log.log(Level.SEVERE, msg, t);
@@ -223,6 +240,22 @@ public class FHIRServletContextListener implements ServletContextListener {
             if (log.isLoggable(Level.FINER)) {
                 log.exiting(FHIRServletContextListener.class.getName(), "contextInitialized");
             }
+        }
+    }
+    
+    /**
+     * If the default datasource is configured to use Derby then set some internal
+     * Derby properties to make things run a little more smoothly.
+     * @param fhirConfig
+     * @throws Exception
+     */
+    private void setDerbyProperties(PropertyGroup fhirConfig) throws Exception {
+        // Check the default datasource to see if it is using Derby
+        PropertyGroup defaultDatasource = fhirConfig.getPropertyGroup(PROPERTY_DATASOURCES + "/default");
+        String datasourceType = defaultDatasource.getStringProperty("type", "unknown");
+        if ("derby".equalsIgnoreCase(datasourceType)) {
+            log.info("Detected Derby datasource so configuring Derby properties.");
+            DerbyServerPropertiesMgr.setServerProperties(false);
         }
     }
 
@@ -234,6 +267,9 @@ public class FHIRServletContextListener implements ServletContextListener {
         try {
             // Set our "initComplete" flag back to false.
             event.getServletContext().setAttribute(FHIR_SERVER_INIT_COMPLETE, Boolean.FALSE);
+            
+            // Tell anyone who's interested that the server is being shut down. Should not block
+            EventManager.startShutdown(serviceManagerId);
 
             // If we previously initialized the Kafka publisher, then shut it down now.
             if (kafkaPublisher != null) {
@@ -254,6 +290,9 @@ public class FHIRServletContextListener implements ServletContextListener {
             for (RemoteTermServiceProvider remoteTermServiceProvider : remoteTermServiceProviders) {
                 remoteTermServiceProvider.close();
             }
+
+            // Tell registered callbacks that their component shutdowns should be finished
+            EventManager.finalShutdown(serviceManagerId);
         } catch (Exception e) {
             // Ignore it
         } finally {

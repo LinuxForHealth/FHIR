@@ -9,6 +9,7 @@ package com.ibm.fhir.persistence.test;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Future;
 import java.util.function.Function;
 
 import com.ibm.fhir.model.resource.OperationOutcome;
@@ -22,6 +23,7 @@ import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
+import com.ibm.fhir.persistence.payload.PayloadKey;
 
 /**
  * Mock implementation of FHIRPersistence for use during testing.
@@ -30,19 +32,26 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedExceptio
 public class MockPersistenceImpl implements FHIRPersistence {
 
     @Override
-    public <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException {
+    public <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource) 
+            throws FHIRPersistenceException {
     	return null;
     }
 
     @Override
+    public <T extends Resource> SingleResourceResult<T> createWithMeta(FHIRPersistenceContext context, T resource) 
+            throws FHIRPersistenceException {
+        return null;
+    }
+
+    @Override
     public <T extends Resource> SingleResourceResult<T> read(FHIRPersistenceContext context, Class<T> resourceType, String logicalId)
-        throws FHIRPersistenceException, FHIRPersistenceResourceDeletedException {
+            throws FHIRPersistenceException, FHIRPersistenceResourceDeletedException {
         return null;
     }
 
     @Override
     public <T extends Resource> SingleResourceResult<T> vread(FHIRPersistenceContext context, Class<T> resourceType, String logicalId, String versionId)
-        throws FHIRPersistenceException, FHIRPersistenceResourceDeletedException {
+            throws FHIRPersistenceException, FHIRPersistenceResourceDeletedException {
         return null;
     }
 
@@ -78,7 +87,7 @@ public class MockPersistenceImpl implements FHIRPersistence {
 
     @Override
     public int reindex(FHIRPersistenceContext context, OperationOutcome.Builder oob, Instant tstamp, List<Long> indexIds,
-        String resourceLogicalId) throws FHIRPersistenceException {
+            String resourceLogicalId) throws FHIRPersistenceException {
         return 0;
     }
 
@@ -89,19 +98,30 @@ public class MockPersistenceImpl implements FHIRPersistence {
 
     @Override
     public ResourcePayload fetchResourcePayloads(Class<? extends Resource> resourceType, Instant fromLastModified, Instant toLastModified,
-        Function<ResourcePayload, Boolean> process) throws FHIRPersistenceException {
+            Function<ResourcePayload, Boolean> process) throws FHIRPersistenceException {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public List<ResourceChangeLogRecord> changes(int resourceCount, Instant fromLastModified, Long afterResourceId, String resourceTypeName)
-        throws FHIRPersistenceException {
+            throws FHIRPersistenceException {
         return Collections.emptyList();
     }
 
     @Override
     public List<Long> retrieveIndex(int count, java.time.Instant notModifiedAfter, Long afterIndexId, String resourceTypeName) throws FHIRPersistenceException {
         return Collections.emptyList();
+    }
+
+    @Override
+    public <T extends Resource> SingleResourceResult<T> updateWithMeta(FHIRPersistenceContext context, T resource)
+            throws FHIRPersistenceException {
+        return null;
+    }
+
+    @Override
+    public Future<PayloadKey> storePayload(Resource resource, String logicalId, int newVersionNumber) {
+        return null;
     }
 }

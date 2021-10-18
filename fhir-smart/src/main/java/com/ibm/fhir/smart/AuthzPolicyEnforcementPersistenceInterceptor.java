@@ -207,24 +207,28 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
 
     @Override
     public void afterRead(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
-        DecodedJWT jwt = JWT.decode(getAccessToken());
         Resource resource = event.getFhirResource();
-        Set<String> patientIdFromToken = getPatientIdFromToken(jwt);
-        List<Scope> scopesFromToken = getScopesFromToken(jwt);
+        if (resource != null) {
+            DecodedJWT jwt = JWT.decode(getAccessToken());
+            Set<String> patientIdFromToken = getPatientIdFromToken(jwt);
+            List<Scope> scopesFromToken = getScopesFromToken(jwt);
 
-        enforceDirectProvenanceAccess(event, resource, patientIdFromToken, scopesFromToken);
-        enforce(resource, patientIdFromToken, Permission.READ, scopesFromToken);
+            enforceDirectProvenanceAccess(event, resource, patientIdFromToken, scopesFromToken);
+            enforce(resource, patientIdFromToken, Permission.READ, scopesFromToken);
+        }
     }
 
     @Override
     public void afterVread(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
-        DecodedJWT jwt = JWT.decode(getAccessToken());
         Resource resource = event.getFhirResource();
-        Set<String> patientIdFromToken = getPatientIdFromToken(jwt);
-        List<Scope> scopesFromToken = getScopesFromToken(jwt);
+        if (resource != null) {
+            DecodedJWT jwt = JWT.decode(getAccessToken());
+            Set<String> patientIdFromToken = getPatientIdFromToken(jwt);
+            List<Scope> scopesFromToken = getScopesFromToken(jwt);
 
-        enforceDirectProvenanceAccess(event, resource, patientIdFromToken, scopesFromToken);
-        enforce(resource, patientIdFromToken, Permission.READ, scopesFromToken);
+            enforceDirectProvenanceAccess(event, resource, patientIdFromToken, scopesFromToken);
+            enforce(resource, patientIdFromToken, Permission.READ, scopesFromToken);
+        }
     }
 
     @Override

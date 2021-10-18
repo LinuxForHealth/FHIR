@@ -1,0 +1,34 @@
+{
+	"resourceType": "Immunization",
+	"id": "imm-1",
+	"meta": {
+		"profile": [
+			"http://hl7.org/fhir/us/core/StructureDefinition/us-core-immunization|3.1.1"
+		]
+	},
+	"text": {
+		"status": "generated",
+		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><p><b>id</b>: imm-1</p><p><b>meta</b>: </p><p><b>status</b>: completed</p><p><b>vaccineCode</b>: <span title=\"Codes: {http://hl7.org/fhir/sid/cvx 158}, {http://hl7.org/fhir/sid/ndc 49281-0631-15}\">influenza, injectable, quadrivalent</span></p><p><b>patient</b>: <a href=\"Patient-example.html\">Amy Shaw. Generated Summary: id: example; Medical Record Number = 1032702 (USUAL); active; Amy V. Shaw , Amy V. Baxter ; ph: 555-555-5555(HOME), amy.shaw@example.com; gender: female; birthDate: 1987-02-20</a></p><p><b>occurrence</b>: 2016-01-08</p><p><b>primarySource</b>: false</p></div>"
+	},
+	"status": "completed",
+	"vaccineCode": {
+		"coding": [
+			{
+				"system": "http://hl7.org/fhir/sid/cvx",
+				"code": "158",
+				"display": "influenza, injectable, quadrivalent"
+			},
+			{
+				"system": "http://hl7.org/fhir/sid/ndc",
+				"code": "49281-0631-15",
+				"display": "FLUZONE QUADRIVALENT"
+			}
+		]
+	},
+	"patient": {
+		"reference": "Patient/example",
+		"display": "Amy Shaw"
+	},
+	"occurrenceDateTime": "2016-01-08",
+	"primarySource": false
+}

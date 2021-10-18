@@ -1,0 +1,50 @@
+{
+	"resourceType": "Observation",
+	"id": "length",
+	"meta": {
+		"profile": [
+			"http://hl7.org/fhir/StructureDefinition/vitalsigns"
+		]
+	},
+	"text": {
+		"status": "generated",
+		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><p><b>id</b>: length</p><p><b>meta</b>: </p><p></p><p><b>category</b>: <span title=\"Codes: {http://terminology.hl7.org/CodeSystem/observation-category vital-signs}\">Vital Signs</span></p><p><b>code</b>: <span title=\"Codes: {http://loinc.org 8306-3}\">length</span></p><p><b>subject</b>: <a href=\"Patient-example.html\">Amy Shaw. Generated Summary: id: example; Medical Record Number = 1032702 (USUAL); active; Amy V. Shaw , Amy V. Baxter ; ph: 555-555-5555(HOME), amy.shaw@example.com; gender: female; birthDate: 1987-02-20</a></p><p><b>encounter</b>: <span>GP Visit</span></p><p><b>effective</b>: 1999-07-02</p><p><b>value</b>: 25 cm</p></div>"
+	},
+	"status": "final",
+	"category": [
+		{
+			"coding": [
+				{
+					"system": "http://terminology.hl7.org/CodeSystem/observation-category",
+					"code": "vital-signs",
+					"display": "Vital Signs"
+				}
+			],
+			"text": "Vital Signs"
+		}
+	],
+	"code": {
+		"coding": [
+			{
+				"system": "http://loinc.org",
+				"code": "8306-3",
+				"display": "Body height --lying"
+			}
+		],
+		"text": "length"
+	},
+	"subject": {
+		"reference": "Patient/example",
+		"display": "Amy Shaw"
+	},
+	"encounter": {
+		"display": "GP Visit"
+	},
+	"effectiveDateTime": "1999-07-02",
+	"valueQuantity": {
+		"value": 25,
+		"unit": "cm",
+		"system": "http://unitsofmeasure.org",
+		"code": "cm"
+	}
+}

@@ -42,15 +42,18 @@ public class PostgresDoesTableExist implements IDatabaseSupplier<Boolean> {
     public Boolean run(IDatabaseTranslator translator, Connection c) {
         Boolean result = false;
         // For PostgreSQL, identifier names are always in lowercase unless they are surround with double quotes.
-        final String sql = "SELECT EXISTS (" +
-                "SELECT FROM information_schema.tables " +
-                "WHERE  LOWER(table_schema) = LOWER('" + schemaName +
-                "') AND LOWER(table_name) = LOWER('" + tableName + "'))";
+        // Simplify the SQL a bit for compatibility with CockroachDB
+        final String sql =
+                "  SELECT 1 "
+                + "  FROM information_schema.tables "
+                + " WHERE LOWER(table_schema) = LOWER('" + schemaName + "') "
+                + "   AND LOWER(table_name) = LOWER('" + tableName + "')";
 
         try (PreparedStatement ps = c.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                result = rs.getBoolean(1);
+                // if we get a row, we know the table exists
+                result = true;
             }
         }
         catch (SQLException x) {

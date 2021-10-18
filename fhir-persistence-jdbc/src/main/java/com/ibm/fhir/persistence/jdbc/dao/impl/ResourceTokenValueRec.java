@@ -31,7 +31,7 @@ public class ResourceTokenValueRec extends ResourceRefRec {
 
     /**
      * Public constructor
-     * @param parameterNameId
+     * @param parameterName
      * @param resourceType
      * @param resourceTypeId
      * @param logicalResourceId
@@ -40,14 +40,14 @@ public class ResourceTokenValueRec extends ResourceRefRec {
      * @param compositeId
      * @param systemLevel
      */
-    public ResourceTokenValueRec(int parameterNameId, String resourceType, long resourceTypeId, long logicalResourceId,
+    public ResourceTokenValueRec(String parameterName, String resourceType, long resourceTypeId, long logicalResourceId,
         String codeSystem, String externalRefValue, Integer compositeId, boolean systemLevel) {
-        this(parameterNameId, resourceType, resourceTypeId, logicalResourceId, codeSystem, externalRefValue, null, compositeId, systemLevel);
+        this(parameterName, resourceType, resourceTypeId, logicalResourceId, codeSystem, externalRefValue, null, compositeId, systemLevel);
     }
 
     /**
      * Public constructor. Used to create a versioned resource reference
-     * @param parameterNameId
+     * @param parameterName
      * @param resourceType
      * @param resourceTypeId
      * @param logicalResourceId
@@ -57,9 +57,9 @@ public class ResourceTokenValueRec extends ResourceRefRec {
      * @param compositeId
      * @param systemLevel
      */
-    public ResourceTokenValueRec(int parameterNameId, String resourceType, long resourceTypeId, long logicalResourceId,
+    public ResourceTokenValueRec(String parameterName, String resourceType, long resourceTypeId, long logicalResourceId,
         String externalSystemName, String externalRefValue, Integer refVersionId, Integer compositeId, boolean systemLevel) {
-        super(parameterNameId, resourceType, resourceTypeId, logicalResourceId);
+        super(parameterName, resourceType, resourceTypeId, logicalResourceId);
         this.codeSystemValue = externalSystemName;
         this.tokenValue = externalRefValue;
         this.refVersionId = refVersionId;

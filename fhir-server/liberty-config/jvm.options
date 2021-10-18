@@ -15,12 +15,3 @@
 
 # Prevents Apache Xerces from overactively using the service loader to find a class
 -Dorg.apache.xml.dtm.DTMManager=org.apache.xml.dtm.ref.DTMManagerDefault
-
-# Initial heap size (same as max so no reallocations will occur)
--Xms4096M
-
-# Maximum heap size
--Xmx4096M
-
-# Uncomment to turn on verbose classloading
-#-verbose:class

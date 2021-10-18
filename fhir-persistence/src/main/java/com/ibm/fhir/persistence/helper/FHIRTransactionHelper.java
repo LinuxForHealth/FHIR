@@ -70,4 +70,13 @@ public class FHIRTransactionHelper {
     public void setRollbackOnly() throws FHIRPersistenceException {
         txn.setRollbackOnly();
     }
+
+    /**
+     * Find out if we're currently in a transaction
+     * @return
+     * @throws FHIRPersistenceException
+     */
+    public boolean hasBegun() throws FHIRPersistenceException {
+        return txn.hasBegun();
+    }
 }

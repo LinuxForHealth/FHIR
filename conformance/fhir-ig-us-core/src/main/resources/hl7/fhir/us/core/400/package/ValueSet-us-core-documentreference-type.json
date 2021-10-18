@@ -1,0 +1,61 @@
+{
+    "resourceType": "ValueSet",
+    "id": "us-core-documentreference-type",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/us/core/ValueSet/us-core-documentreference-type",
+    "version": "4.0.0",
+    "name": "USCoreDocumentReferenceType",
+    "title": "US Core DocumentReference Type",
+    "status": "active",
+    "date": "2019-05-21",
+    "publisher": "HL7 International - US Realm Steering Committee",
+    "contact": [
+        {
+            "name": "HL7 International - US Realm Steering Committee",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/usrealm/index.cfm"
+                }
+            ]
+        }
+    ],
+    "description": "The US Core DocumentReference Type Value Set includes all LOINC  values whose SCALE is DOC in the LOINC database and the HL7 v3 Code System NullFlavor concept 'unknown'",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US"
+                }
+            ]
+        }
+    ],
+    "copyright": "This material contains content from LOINC (http://loinc.org). LOINC is copyright © 1995-2020, Regenstrief Institute, Inc. and the Logical Observation Identifiers Names and Codes (LOINC) Committee and is available at no cost under the license at http://loinc.org/license. LOINC® is a registered United States trademark of Regenstrief Institute, Inc",
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-NullFlavor",
+                "concept": [
+                    {
+                        "code": "UNK",
+                        "display": "unknown"
+                    }
+                ]
+            },
+            {
+                "system": "http://loinc.org",
+                "filter": [
+                    {
+                        "property": "SCALE_TYP",
+                        "op": "=",
+                        "value": "DOC"
+                    }
+                ]
+            }
+        ]
+    }
+}

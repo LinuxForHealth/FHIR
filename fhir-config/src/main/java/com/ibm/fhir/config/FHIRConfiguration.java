@@ -31,6 +31,7 @@ public class FHIRConfiguration {
     public static final String PROPERTY_DEFAULT_HANDLING = "fhirServer/core/defaultHandling";
     public static final String PROPERTY_ALLOW_CLIENT_HANDLING_PREF = "fhirServer/core/allowClientHandlingPref";
     public static final String PROPERTY_CHECK_REFERENCE_TYPES = "fhirServer/core/checkReferenceTypes";
+    public static final String PROPERTY_CHECK_UNICODE_CONTROL = "fhirServer/core/checkUnicodeControl";
     public static final String PROPERTY_CONDITIONAL_DELETE_MAX_NUMBER = "fhirServer/core/conditionalDeleteMaxNumber";
     public static final String PROPERTY_SERVER_REGISTRY_RESOURCE_PROVIDER_ENABLED = "fhirServer/core/serverRegistryResourceProviderEnabled";
     public static final String PROPERTY_SERVER_RESOLVE_FUNCTION_ENABLED = "fhirServer/core/serverResolveFunctionEnabled";
@@ -117,6 +118,7 @@ public class FHIRConfiguration {
     public static final String PROPERTY_JDBC_ENABLE_RESOURCE_TYPES_CACHE = "fhirServer/persistence/jdbc/enableResourceTypesCache";
     public static final String PROPERTY_JDBC_EXTERNAL_REF_SYSTEM_CACHE_SIZE = "fhirServer/persistence/jdbc/externalRefSystemCacheSize";
     public static final String PROPERTY_JDBC_EXTERNAL_REF_VALUE_CACHE_SIZE = "fhirServer/persistence/jdbc/externalRefValueCacheSize";
+    public static final String PROPERTY_PERSISTENCE_PAYLOAD = "fhirServer/persistence/payload";
 
     // Optimizer options within a datasource definition
     public static final String PROPERTY_JDBC_SEARCH_OPTIMIZER_OPTIONS = "searchOptimizerOptions";

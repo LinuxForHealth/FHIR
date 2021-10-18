@@ -1,0 +1,67 @@
+{
+	"resourceType": "Organization",
+	"id": "example-organization-2",
+	"meta": {
+		"extension": [
+			{
+				"url": "http://hl7.org/fhir/StructureDefinition/instance-name",
+				"valueString": "Organization 2 Example"
+			},
+			{
+				"url": "http://hl7.org/fhir/StructureDefinition/instance-description",
+				"valueMarkdown": "This is a organization 2 example for the *US Core Organization Profile*."
+			}
+		],
+		"profile": [
+			"http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization"
+		]
+	},
+	"text": {
+		"status": "generated",
+		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><p><b>identifier</b>: id: 1407071236, id: 121111111</p><p><b>active</b>: true</p><p><b>type</b>: <span title=\"Codes: {http://terminology.hl7.org/CodeSystem/organization-type prov}\">Healthcare Provider</span></p><p><b>name</b>: Acme Clinic</p><p><b>telecom</b>: ph: (+1) 734-677-7777, <a href=\"mailto:customer-service@acme-clinic.org\">customer-service@acme-clinic.org</a></p><p><b>address</b>: 3300 Washtenaw Avenue, Suite 227 Amherst MA 01002 USA </p></div>"
+	},
+	"identifier": [
+		{
+			"system": "http://hl7.org.fhir/sid/us-npi",
+			"value": "1407071236"
+		},
+		{
+			"system": "http://example.org/fhir/sid/us-tin",
+			"value": "121111111"
+		}
+	],
+	"active": true,
+	"type": [
+		{
+			"coding": [
+				{
+					"system": "http://terminology.hl7.org/CodeSystem/organization-type",
+					"code": "prov",
+					"display": "Healthcare Provider"
+				}
+			]
+		}
+	],
+	"name": "Acme Clinic",
+	"telecom": [
+		{
+			"system": "phone",
+			"value": "(+1) 734-677-7777"
+		},
+		{
+			"system": "email",
+			"value": "customer-service@acme-clinic.org"
+		}
+	],
+	"address": [
+		{
+			"line": [
+				"3300 Washtenaw Avenue, Suite 227"
+			],
+			"city": "Amherst",
+			"state": "MA",
+			"postalCode": "01002",
+			"country": "USA"
+		}
+	]
+}

@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import jakarta.json.Json;
+import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReaderFactory;
 import jakarta.json.JsonString;
@@ -37,20 +38,18 @@ public class JWT {
         return new DecodedJWT(
             new String(decoder.decode(parts[0])),
             new String(decoder.decode(parts[1])),
-            parts.length == 2 ? null : new String(decoder.decode(parts[2]).toString())
-            );
+            parts.length == 2 ? null : parts[2]);
     }
 
     public static class DecodedJWT {
         final JsonObject header;
         final JsonObject data;
-        final JsonObject signature;
+        final String signature;
 
         private DecodedJWT(String header, String data, String signature) {
             this.header = JSON_READER_FACTORY.createReader(new StringReader(header)).readObject();
             this.data = JSON_READER_FACTORY.createReader(new StringReader(data)).readObject();
-            this.signature = signature == null ? null :
-                    JSON_READER_FACTORY.createReader(new StringReader(signature)).readObject();
+            this.signature = signature;
         }
 
         public Claim getClaim(String name) {
@@ -65,6 +64,9 @@ public class JWT {
             this.value = value;
         }
 
+        /**
+         * Get this Claim as a String. If the value isn't of type String or it can't be converted to a String, null will be returned.
+         */
         public String asString() {
             if (value == null) return null;
 
@@ -74,15 +76,22 @@ public class JWT {
             case TRUE:
             case FALSE:
             case NUMBER:
+                return value.toString();
             case NULL:
             case OBJECT:
             case ARRAY:
             default:
-                return value.toString();
+                return null;
             }
         }
 
+        /**
+         * Get this Claim as a List of Strings. If the value isn't an Array, null will be returned.
+         */
         public List<String> asList() {
+            if (value == null || !(value instanceof JsonArray)) {
+                return null;
+            }
             List<String> list = value.asJsonArray().getValuesAs(JsonString.class).stream()
                     .map(s -> s.getString())
                     .collect(Collectors.toList());

@@ -1,7 +1,8 @@
-# Reduced heap size for constrained environments
-
-# Initial heap size (same as max so no reallocations will occur)
--Xms3072M
-
-# Maximum heap size
+# Set a fixed max heap size
 -Xmx3072M
+
+# Turn on verbose classloading
+#-verbose:class
+
+# Turn on verbose garbage collection
+#-verbose:gc
