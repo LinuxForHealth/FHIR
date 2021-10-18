@@ -13,7 +13,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -149,15 +148,22 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
             // defined by the customer, it's all in the Compiler.
             String type = "Patient";
             String requestUri = FHIRRequestContext.get().getOriginalRequestUri();
-            Bundle bundle = resourceHelper().doSearch(type, null, null, patientCompiler.getSearchParameters(), requestUri, null);
-            int size = bundle.getEntry().size();
+            Bundle patientBundle = resourceHelper()
+                    .doSearch(type, null, null, patientCompiler.getSearchParameters(), requestUri, null);
+            int size = patientBundle.getEntry().size();
             if (size == 0) {
                 returnNoMatchException();
+                return MemberMatchResult.builder()
+                        .responseType(ResponseType.NO_MATCH)
+                        .build();
             } else if (size != 1) {
                 returnMultipleMatchesException();
+                return MemberMatchResult.builder()
+                        .responseType(ResponseType.MULTIPLE)
+                        .build();
             }
 
-            String patientReference = "Patient/" + bundle.getEntry().get(0).getId();
+            String patientReference = "Patient/" + patientBundle.getEntry().get(0).getId();
             type = "Coverage";
 
             // Compiles the Coverage Search Parameters
@@ -165,15 +171,18 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
             coverageToMatch.accept(coverageCompiler);
 
             // essentially a search on beneficiary
-            bundle = resourceHelper().doSearch(type, null, null, coverageCompiler.getSearchParameters(), requestUri, null);
+            Bundle coverageBundle = resourceHelper().doSearch(type, null, null, coverageCompiler.getSearchParameters(), requestUri, null);
 
-            if (bundle.getTotal().getValue() == 0) {
+            if (coverageBundle.getEntry().isEmpty()) {
                 // This may warrant a separate exception in custom implementations.
                 // Warning you may want to carefully consider this as it may give more details than desired.
                 returnNoMatchException();
+                return MemberMatchResult.builder()
+                        .responseType(ResponseType.NO_MATCH)
+                        .build();
             }
 
-            Patient patient = bundle.getEntry().get(0).getResource().as(Patient.class);
+            Patient patient = patientBundle.getEntry().get(0).getResource().as(Patient.class);
             patient.accept(getPatientIdentifier);
         } catch (Exception e) {
             LOG.throwing(getClass().getSimpleName(), "executeMemberMatch", e);
@@ -196,7 +205,7 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
      */
     private void updateLinkedCoverageResource() {
         // Technically, a NOP
-        LOG.log(Level.FINE, "Coverage to link is included =[{0}]", (coverageToLink != null));
+        LOG.fine(() -> "Coverage to link is included =[" + (coverageToLink != null) + "]");
     }
 
     /**
