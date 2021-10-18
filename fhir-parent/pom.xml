@@ -982,6 +982,23 @@
                                                 <execute />
                                             </action>
                                         </pluginExecution>
+                                        <pluginExecution>
+                                            <pluginExecutionFilter>
+                                                <groupId>com.ibm.fhir</groupId>
+                                                <artifactId>
+                                                    fhir-tools
+                                                </artifactId>
+                                                <versionRange>
+                                                    [4.10.0-SNAPSHOT,)
+                                                </versionRange>
+                                                <goals>
+                                                    <goal>condense-json</goal>
+                                                </goals>
+                                            </pluginExecutionFilter>
+                                            <action>
+                                                <ignore></ignore>
+                                            </action>
+                                        </pluginExecution>
                                     </pluginExecutions>
                                 </lifecycleMappingMetadata>
                             </configuration>
@@ -1338,6 +1355,28 @@
                     <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
                 </repository>
             </distributionManagement>
+        </profile>
+        
+        <!-- removes unnecessary whitespace from json files while copying from src/main/resources to target -->
+        <!-- produces smaller artifacts at the cost of a slight increase in build time -->
+        <profile>
+            <id>condense-json</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>${project.groupId}</groupId>
+                        <artifactId>fhir-tools</artifactId>
+                        <version>${fhir-tools.version}</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>condense-json</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
     </profiles>
 

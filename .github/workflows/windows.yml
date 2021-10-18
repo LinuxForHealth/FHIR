@@ -27,9 +27,11 @@ jobs:
         minimum-size: 8GB
         maximum-size: 8GB
         disk-root: "C:"
-    - name: Build samples
+    - name: Build tools and samples
       shell: powershell
-      run: mvn -B install --file fhir-examples/pom.xml --no-transfer-progress
+      run: |
+        mvn -B install --file fhir-tools --no-transfer-progress
+        mvn -B install --file fhir-examples --no-transfer-progress
     - name: Download Dependencies
       shell: powershell
       run: mvn -B org.apache.maven.plugins:maven-dependency-plugin:3.1.2:go-offline -f fhir-parent -DexcludeReactor=true
@@ -38,7 +40,7 @@ jobs:
       run: mvn -B org.apache.maven.plugins:maven-dependency-plugin:3.1.2:resolve-plugins -f fhir-parent -DexcludeReactor=true
     - name: Build parent without tests
       shell: powershell
-      run: mvn -B install --file fhir-parent/pom.xml -P include-fhir-igs --no-transfer-progress
+      run: mvn -B install --file fhir-parent -P include-fhir-igs,condense-json --no-transfer-progress
     - name: Server Integration Tests
       shell: powershell
       run: |

@@ -11,8 +11,8 @@ set -eu -o pipefail
 # cleans the given projects
 # Reference https://maven.apache.org/plugins/maven-clean-plugin/
 
-mvn -T2C clean -f fhir-examples
 mvn -T2C clean -f fhir-tools
+mvn -T2C clean -f fhir-examples
 mvn -T2C clean -f fhir-parent
 
 # EOF

@@ -23,10 +23,10 @@ jobs:
         java-version: ${{ matrix.java }}
     - name: Build tools
       run: mvn -B install --file fhir-tools -Dmaven.wagon.http.retryHandler.count=3
-    - name: Build samples
-      run: mvn -B install --file fhir-examples -Dmaven.wagon.http.retryHandler.count=3
-    - name: Build parent without tests
-      run: mvn -B install --file fhir-parent -DskipTests -P integration -Dmaven.wagon.http.retryHandler.count=3
+    - name: Build samples with condensed json
+      run: mvn -B install --file fhir-examples -P condense-json -Dmaven.wagon.http.retryHandler.count=3
+    - name: Build parent with condensed json
+      run: mvn -B install --file fhir-parent -P integration,condense-json -Dmaven.wagon.http.retryHandler.count=3
     - name: Build sample generator
       run: mvn -B package --file fhir-examples-generator -Dmaven.wagon.http.retryHandler.count=3
     - name: Build benchmark
@@ -48,8 +48,10 @@ jobs:
       env:
         BASE: ${{ github['base_ref'] }}
       run: git fetch --no-tags --prune --depth=1 origin +refs/heads/${BASE}:refs/remotes/origin/${BASE}
-    - name: Build samples
-      run: mvn -B install --file fhir-examples --no-transfer-progress
+    - name: Build tools and samples
+      run: |
+        mvn -B install --file fhir-tools --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3
+        mvn -B install --file fhir-examples --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3
     - name: Build parent with tests
       env:
         BASE: origin/${{ github['base_ref'] }}
@@ -78,7 +80,7 @@ jobs:
           fhir-persistence-schema/src/main
           fhir-examples
         )
-        PROFILES_ARR=(integration)
+        PROFILES_ARR=(integration condense-json)
 
         if [ -n "$(git --no-pager diff --name-only ${BASE} ${GITHUB_SHA} -- ${model_paths[@]})" ]; then
           echo "Changes affect fhir-model, running ALL"
@@ -124,8 +126,10 @@ jobs:
       uses: joschi/setup-jdk@v2.3.0
       with:
         java-version: ${{ matrix.java }}
-    - name: Build samples
-      run: mvn -B install --file fhir-examples --no-transfer-progress
+    - name: Build tools and samples
+      run: |
+        mvn -B install --file fhir-tools --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3
+        mvn -B install --file fhir-examples --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3
     - name: Build parent without tests
       # As the e2e tests are the fastest, opting to put javadoc:javadoc in fhir-parent
       # The profile avoids UML diagram creation
@@ -138,7 +142,7 @@ jobs:
         fi
         mvn -B org.apache.maven.plugins:maven-dependency-plugin:3.1.2:go-offline -f fhir-parent --no-transfer-progress -DexcludeReactor=true -Dmaven.wagon.http.retryHandler.count=3
         mvn -B org.apache.maven.plugins:maven-dependency-plugin:3.1.2:resolve-plugins -f fhir-parent --no-transfer-progress -DexcludeReactor=true -Dmaven.wagon.http.retryHandler.count=3
-        mvn -B ${JAVADOC_GOAL} install --file fhir-parent -DskipTests -P include-fhir-igs,integration --no-transfer-progress -Dmaven.wagon.httpconnectionManager.ttlSeconds=240 -Dmaven.wagon.http.retryHandler.count=3
+        mvn -B ${JAVADOC_GOAL} install --file fhir-parent -DskipTests -P include-fhir-igs,integration,condense-json --no-transfer-progress -Dmaven.wagon.httpconnectionManager.ttlSeconds=240 -Dmaven.wagon.http.retryHandler.count=3
     - name: free disk space
       run: |
         # create and remove a 200 MB file to make sure we have the room needed later

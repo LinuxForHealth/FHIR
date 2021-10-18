@@ -34,7 +34,7 @@
     },
     "build": [
         {
-            "type": "fhir-examples", 
+            "type": "fhir-tools",
             "profiles": [
                 "generate-javadoc",
                 "sign-artifact",
@@ -42,15 +42,16 @@
             ]
         },
         {
-            "type": "fhir-tools", 
+            "type": "fhir-examples",
             "profiles": [
                 "generate-javadoc",
                 "sign-artifact",
-                "build-artifact"
+                "build-artifact",
+                "condense-json"
             ]
         },
         {
-            "type": "fhir-parent", 
+            "type": "fhir-parent",
             "profiles": [
                 "generate-javadoc",
                 "sign-artifact",
@@ -68,7 +69,8 @@
                 "model-all-tests",
                 "validation-all-tests",
                 "search-all-tests",
-                "jdbc-all-tests"
+                "jdbc-all-tests",
+                "condense-json"
             ]
         }
     ],
