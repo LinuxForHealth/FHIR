@@ -675,7 +675,7 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-war-plugin</artifactId>
-                    <version>3.2.3</version>
+                    <version>3.3.2</version>
                     <!-- Upgraded maven-war-plugin to avoid 'An illegal reflective
                         access operation' in OpenJDK 11 The dependency 'xstream.converters.collections.TreeMapConverter'
                         used an out-of-date approach. This comment is left here to allow others to
