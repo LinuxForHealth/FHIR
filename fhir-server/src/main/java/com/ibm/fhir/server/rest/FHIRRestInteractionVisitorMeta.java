@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
- 
+
 package com.ibm.fhir.server.rest;
 
 import static com.ibm.fhir.model.type.String.string;
@@ -22,7 +22,11 @@ import javax.ws.rs.core.Response.Status;
 
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.patch.FHIRPatch;
+import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Bundle.Entry;
+import com.ibm.fhir.model.resource.OperationOutcome;
+import com.ibm.fhir.model.resource.OperationOutcome.Issue;
+import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.Reference;
@@ -30,38 +34,34 @@ import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.CollectingVisitor;
 import com.ibm.fhir.model.util.FHIRUtil;
+import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
-import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.exception.FHIRSearchException;
-import com.ibm.fhir.model.resource.Bundle;
-import com.ibm.fhir.model.resource.OperationOutcome;
-import com.ibm.fhir.model.resource.OperationOutcome.Issue;
-import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.server.exception.FHIRRestBundledRequestException;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
 import com.ibm.fhir.server.operation.spi.FHIRRestOperationResponse;
+import com.ibm.fhir.server.util.FHIRRestHelper.Interaction;
 import com.ibm.fhir.server.util.FHIRUrlParser;
 import com.ibm.fhir.server.util.IssueTypeToHttpStatusMapper;
-import com.ibm.fhir.server.util.FHIRRestHelper.Interaction;
 
 /**
  * Used to prepare bundle entries before they hit the persistence layer. For write operations
- * (CREATE, UPDATE, PATCH), the meta phase is responsible for establishing the identity of any 
+ * (CREATE, UPDATE, PATCH), the meta phase is responsible for establishing the identity of any
  * incoming resource, and updating the meta element accordingly. For other operations it is
  * currently a NOP, but in the future may be used for optimistic async reads when the payload
  * has been offloaded to another system.
  */
 public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBase {
     private static final Logger log = Logger.getLogger(FHIRRestInteractionVisitorPersist.class.getName());
-    
+
     private static final boolean DO_VALIDATION = true;
-    
+
     // True if the bundle is a transaction bundle, false if it's a batch bundle
     final boolean transaction;
-    
+
     /**
      * Public constructor
      * @param helpers
@@ -106,18 +106,18 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
     @Override
     public FHIRRestOperationResponse doCreate(int entryIndex, FHIRPersistenceEvent event, List<Issue> warnings, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, Resource resource, String ifNoneExist, String localIdentifier) throws Exception {
         logStart(entryIndex, requestDescription, requestURL);
-        
+
         // Skip CREATE if validation failed
         // TODO the logic in the old buildLocalRefMap uses SC_OK_STRING
         if (validationResponseEntry != null && !validationResponseEntry.getResponse().getStatus().equals(SC_ACCEPTED_STRING)) {
             return null;
         }
-        
+
         // Use doInteraction so we can implement common exception handling in one place
         return doInteraction(entryIndex, requestDescription, initialTime, () -> {
             // Validate that interaction is allowed for given resource type
             helpers.validateInteraction(Interaction.CREATE, type);
-                        
+
             // Inject the meta to the resource after optionally checking for ifNoneExist
             FHIRRestOperationResponse prepResponse = helpers.doCreateMeta(event, warnings, type, resource, ifNoneExist);
             if (prepResponse != null) {
@@ -125,37 +125,37 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
                 // means this entry is complete.
                 Entry entry = buildResponseBundleEntry(prepResponse, null, requestDescription, initialTime);
                 setEntryComplete(entryIndex, entry, requestDescription, initialTime);
-                
+
                 if (localIdentifier != null && !localRefMap.containsKey(localIdentifier)) {
                     addLocalRefMapping(localIdentifier, prepResponse.getResource());
                 }
-                
+
                 return null;
             }
-            
+
             // Get the updated resource with the meta info
             Resource resourceWithMeta = event.getFhirResource();
-            
+
             if (this.transaction) {
                 resolveConditionalReferences(resourceWithMeta);
             }
-                
+
             final int newVersionNumber = Integer.parseInt(resourceWithMeta.getMeta().getVersionId().getValue());
             final Instant lastUpdated = resourceWithMeta.getMeta().getLastUpdated();
             final String logicalId = resourceWithMeta.getId();
-            
+
             // Add the mapping between localIdentifier and the new logicalId from the resource
             if (localIdentifier != null && !localRefMap.containsKey(localIdentifier)) {
                 addLocalRefMapping(localIdentifier, resourceWithMeta);
             }
-            
+
             // Pass back the updated resource so it can be used in the next phase if required
             return new FHIRRestOperationResponse(resourceWithMeta, logicalId, newVersionNumber, lastUpdated, null);
         });
     }
 
     @Override
-    public FHIRRestOperationResponse doUpdate(int entryIndex, FHIRPersistenceEvent event, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime, 
+    public FHIRRestOperationResponse doUpdate(int entryIndex, FHIRPersistenceEvent event, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime,
         String type, String id, Resource resource, Resource prevResource, String ifMatchValue, String searchQueryString,
         boolean skippableUpdate, String localIdentifier, List<Issue> warnings, boolean isDeleted) throws Exception {
         logStart(entryIndex, requestDescription, requestURL);
@@ -176,32 +176,33 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
                 Entry entry = buildResponseBundleEntry(metaResponse, null, requestDescription, initialTime);
                 setEntryComplete(entryIndex, entry, requestDescription, initialTime);
             }
-            
+
             // Get the updated resource with the meta info
             Resource resourceWithMeta = metaResponse.getResource();
-            
+
             if (this.transaction) {
                 resolveConditionalReferences(resourceWithMeta);
             }
-                
+
 //            final int newVersionNumber = Integer.parseInt(resourceWithMeta.getMeta().getVersionId().getValue());
 //            final Instant lastUpdated = resourceWithMeta.getMeta().getLastUpdated();
 //            final String logicalId = resourceWithMeta.getId();
-            
+
             // Add the mapping between localIdentifier and the new logicalId from the resource
             if (localIdentifier != null && !localRefMap.containsKey(localIdentifier)) {
                 addLocalRefMapping(localIdentifier, resourceWithMeta);
             }
-            
+
             // Pass back the updated resource so it can be used in the next phase if required
             return metaResponse;
         });
     }
 
     @Override
-    public FHIRRestOperationResponse doPatch(int entryIndex, FHIRPersistenceEvent event, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime, 
-        String type, String id, Resource newResource, Resource prevResource, FHIRPatch patch, String ifMatchValue, String searchQueryString,
-        boolean skippableUpdate, List<Issue> warnings, String localIdentifier) throws Exception {
+    public FHIRRestOperationResponse doPatch(int entryIndex, FHIRPersistenceEvent event, Entry validationResponseEntry,
+            String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String id, Resource newResource,
+            Resource prevResource, FHIRPatch patch, String ifMatchValue, String searchQueryString,
+            boolean skippableUpdate, List<Issue> warnings, String localIdentifier) throws Exception {
         logStart(entryIndex, requestDescription, requestURL);
         // Skip PATCH if validation failed
         // TODO the logic in the old buildLocalRefMap uses SC_OK_STRING
@@ -220,27 +221,28 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
                 Entry entry = buildResponseBundleEntry(metaResponse, null, requestDescription, initialTime);
                 setEntryComplete(entryIndex, entry, requestDescription, initialTime);
             }
-            
+
             // Get the updated resource with the meta info
             Resource resourceWithMeta = metaResponse.getResource();
-            
+
             if (this.transaction) {
                 resolveConditionalReferences(resourceWithMeta);
             }
-                
+
             // Add the mapping between localIdentifier and the new logicalId from the resource
             if (localIdentifier != null && !localRefMap.containsKey(localIdentifier)) {
                 addLocalRefMapping(localIdentifier, resourceWithMeta);
             }
-            
+
             // Pass back the updated resource so it can be used in the next phase if required
             return metaResponse;
         });
     }
 
     @Override
-    public FHIRRestOperationResponse doInvoke(String method, int entryIndex, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime, FHIROperationContext operationContext, String resourceTypeName, String logicalId,
-        String versionId, String operationName, Resource resource, MultivaluedMap<String, String> queryParameters) throws Exception {
+    public FHIRRestOperationResponse doInvoke(String method, int entryIndex, Entry validationResponseEntry, String requestDescription,
+            FHIRUrlParser requestURL, long initialTime, FHIROperationContext operationContext, String resourceTypeName, String logicalId,
+            String versionId, Resource resource, MultivaluedMap<String, String> queryParameters) throws Exception {
         logStart(entryIndex, requestDescription, requestURL);
         // NOP
         return null;
@@ -258,7 +260,7 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
         // NOP
         return null;
     }
-    
+
     private void logStart(int entryIndex, String requestDescription, FHIRUrlParser requestURL) {
         // Log our initial info message for this request.
         if (log.isLoggable(Level.FINE)) {
@@ -276,7 +278,7 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
         // NOP
         return null;
     }
-    
+
     /**
      * Scan the resource and collect any conditional references
      * @param resource
@@ -300,7 +302,7 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
         }
         return conditionalReferences;
     }
-    
+
     /**
      * Scan the resource for any conditional references. For each one we find, perform the search
      * and add the result to the localRefMap.
@@ -312,7 +314,7 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
             if (localRefMap.containsKey(conditionalReference)) {
                 continue;
             }
-            
+
             FHIRUrlParser parser = new FHIRUrlParser(conditionalReference);
             String type = parser.getPathTokens()[0];
 
@@ -324,7 +326,7 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
             if (queryParameters.keySet().stream().anyMatch(key -> SearchConstants.SEARCH_RESULT_PARAMETER_NAMES.contains(key))) {
                 throw buildRestException("Invalid conditional reference: only filtering parameters are allowed", IssueType.INVALID);
             }
-            
+
             queryParameters.add("_summary", "true");
             queryParameters.add("_count", "1");
 
@@ -344,7 +346,7 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
             localRefMap.put(conditionalReference, type + "/" + bundle.getEntry().get(0).getResource().getId());
         }
     }
-    
+
     private FHIROperationException buildRestException(String msg, IssueType issueType) {
         return buildRestException(msg, issueType, IssueSeverity.FATAL);
     }
@@ -363,7 +365,7 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
                 .details(CodeableConcept.builder().text(string(msg)).build())
                 .build();
     }
-    
+
     /**
      * Get the current time which can be used for the lastUpdated field
      * @return current time in UTC
@@ -435,7 +437,7 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
                     .build();
             setEntryComplete(entryIndex, entry, requestDescription, initialTime);
         }
-        
+
         return null;
     }
 }

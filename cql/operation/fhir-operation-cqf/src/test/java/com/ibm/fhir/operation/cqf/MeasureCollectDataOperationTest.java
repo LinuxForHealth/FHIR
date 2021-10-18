@@ -12,7 +12,6 @@ import static com.ibm.fhir.cql.helpers.ModelHelper.concept;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhirstring;
 import static com.ibm.fhir.cql.helpers.ModelHelper.reference;
 import static com.ibm.fhir.cql.helpers.ModelHelper.valueset;
-
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -58,90 +57,90 @@ import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
 
 public class MeasureCollectDataOperationTest {
     private MeasureCollectDataOperation operation;
-    
+
     @BeforeMethod
     public void setup() {
         operation = new MeasureCollectDataOperation();
     }
-    
+
     @Test
     public void testDoEvaluationEXM74() throws Exception {
         Patient patient = (Patient) TestHelper.getTestResource("Patient.json");
 
         String codesystem = "http://snomed.ct/info";
         String encounterCode = "office-visit";
-        Coding reason = coding(codesystem, encounterCode); 
+        Coding reason = coding(codesystem, encounterCode);
         Encounter encounter = Encounter.builder()
                 .reasonCode(concept(reason))
                 .status(EncounterStatus.FINISHED)
                 .clazz(reason)
                 .period(Period.builder().start(DateTime.now()).end(DateTime.now()).build())
                 .build();
-        
+
         String procedureCode = "fluoride-application";
         Coding type = coding(codesystem, procedureCode);
         Procedure procedure = Procedure.builder().subject(Reference.builder().reference(fhirstring("Patient/"
                 + patient.getId())).build()).code(concept(type)).status(ProcedureStatus.COMPLETED).performed(DateTime.of("2019-03-14")).build();
-        
+
         List<Measure> measures = TestHelper.getBundleResources("EXM74-10.2.000-request.json", Measure.class);
         assertEquals( measures.size(), 1 );
         Measure measure = measures.get(0);
         String measureURL = canonical(measure.getUrl(), measure.getVersion()).getValue();
-        
+
         List<Library> fhirLibraries = TestHelper.getBundleResources("EXM74-10.2.000-request.json", Library.class);
-        
+
         List<String> names = fhirLibraries.stream().map( l -> l.getName().getValue()).collect(Collectors.toList());
         System.out.println(names);
-        
+
         LocalDate periodStart = LocalDate.of(2000, 1, 1);
         LocalDate periodEnd = periodStart.plus(1, ChronoUnit.YEARS);
-        
+
         Parameters.Parameter pPeriodStart = Parameters.Parameter.builder().name(fhirstring(MeasureCollectDataOperation.PARAM_IN_PERIOD_START)).value(Date.of(periodStart)).build();
         Parameters.Parameter pPeriodEnd = Parameters.Parameter.builder().name(fhirstring(MeasureCollectDataOperation.PARAM_IN_PERIOD_END)).value(Date.of(periodEnd)).build();
         Parameters.Parameter pReportType = Parameters.Parameter.builder().name(fhirstring(MeasureCollectDataOperation.PARAM_IN_REPORT_TYPE)).value(MeasureReportType.INDIVIDUAL).build();
         Parameters.Parameter pMeasure = Parameters.Parameter.builder().name(fhirstring(MeasureCollectDataOperation.PARAM_IN_MEASURE)).value(fhirstring(measureURL)).build();
         Parameters.Parameter pSubject = Parameters.Parameter.builder().name(fhirstring(MeasureCollectDataOperation.PARAM_IN_SUBJECT)).value(fhirstring("Patient/" + patient.getId())).build();
-        
+
         Parameters parameters = Parameters.builder().parameter(pPeriodStart, pPeriodEnd, pReportType, pMeasure, pSubject).build();
 
         FHIRResourceHelpers resourceHelper = mock(FHIRResourceHelpers.class);
         when(resourceHelper.doRead(eq("Patient"), eq(patient.getId()), anyBoolean(), anyBoolean(), any())).thenAnswer(x -> TestHelper.asResult(patient));
-      
+
         when(resourceHelper.doSearch(eq("Encounter"), anyString(), anyString(), any(), anyString(), any())).thenReturn( bundle(encounter) );
         when(resourceHelper.doSearch(eq("Procedure"), anyString(), anyString(), any(), anyString(), any())).thenReturn( bundle(procedure) );
-        
+
         try (MockedStatic<FHIRRegistry> staticRegistry = mockStatic(FHIRRegistry.class)) {
             FHIRRegistry mockRegistry = spy(FHIRRegistry.class);
             staticRegistry.when(FHIRRegistry::getInstance).thenReturn(mockRegistry);
 
-            
+
             when(mockRegistry.getResource("http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1001", ValueSet.class)).thenReturn( valueset(codesystem, encounterCode) );
             when(mockRegistry.getResource("http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.125.12.1002", ValueSet.class)).thenReturn( valueset(codesystem, procedureCode) );
-            
+
             when(mockRegistry.getResource(measureURL, Measure.class)).thenReturn( measure );
             fhirLibraries.stream().forEach( l -> when(mockRegistry.getResource( canonical(l.getUrl(), l.getVersion()).getValue(), Library.class )).thenReturn(l) );
-            
-            Parameters result = operation.doInvoke(FHIROperationContext.createResourceTypeOperationContext(),
+
+            Parameters result = operation.doInvoke(FHIROperationContext.createResourceTypeOperationContext("collect-data"),
                 Measure.class, null, null, parameters, resourceHelper);
             assertNotNull(result);
-            
+
             ParameterMap resultMap = new ParameterMap(result);
             MeasureReport report = (MeasureReport) resultMap.getSingletonParameter(MeasureCollectDataOperation.PARAM_OUT_MEASURE_REPORT).getResource();
             assertEquals( report.getMeasure().getValue(), measureURL );
-            
+
             List<Parameter> resources = resultMap.getParameter(MeasureCollectDataOperation.PARAM_OUT_RESOURCE);
             assertEquals(resources.size(), 0);
         }
     }
-    
+
     @Test
     public void testResolveReferences() throws Exception {
         Patient patient = (Patient) TestHelper.getTestResource("Patient.json");
-        
+
         String codesystem = "http://snomed.ct/info";
         String encounterCode = "office-visit";
         Coding reason = coding(codesystem, encounterCode);
-        
+
         Encounter encounter = Encounter.builder()
                 .reasonCode(concept(reason))
                 .status(EncounterStatus.FINISHED)
@@ -149,13 +148,13 @@ public class MeasureCollectDataOperationTest {
                 .period(Period.builder().start(DateTime.now()).end(DateTime.now()).build())
                 .subject( reference(patient) )
                 .build();
-        
+
         FHIRResourceHelpers resourceHelper = mock(FHIRResourceHelpers.class);
         when(resourceHelper.doRead(eq("Patient"), eq(patient.getId()), anyBoolean(), anyBoolean(), any())).thenAnswer(x -> TestHelper.asResult(patient));
-  
+
         Parameters.Builder builder = Parameters.builder();
         operation.resolveReferences(encounter, builder, new HashMap<>(), resourceHelper);
-        
+
         Parameters parameters = builder.build();
         assertEquals(parameters.getParameter().size(), 1);
     }

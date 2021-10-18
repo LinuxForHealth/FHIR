@@ -10,12 +10,12 @@ import static com.ibm.fhir.cql.helpers.ModelHelper.concept;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhircode;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhirstring;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhiruri;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -34,14 +34,14 @@ public class MeasureDataRequirementsOperationTest extends BaseDataRequirementsOp
 
     private Measure measure;
 
-    @Override 
+    @Override
     public AbstractDataRequirementsOperation getOperation() {
         return new MeasureDataRequirementsOperation();
     }
-    
+
     @BeforeMethod
     public void setup() {
-        
+
         measure = Measure.builder()
                 .id("Test-1.0.0")
                 .name(fhirstring("Test"))
@@ -60,32 +60,33 @@ public class MeasureDataRequirementsOperationTest extends BaseDataRequirementsOp
                     .build())
                 .build();
     }
-    
+
     @Test
     public void testInstanceExecution() throws Exception {
         String measureId = measure.getId();
-        
+
         Parameters inParams = Parameters.builder()
                 .parameter(Parameters.Parameter.builder().name(fhirstring("periodStart")).value(Date.of("2000-01-01")).build())
                 .parameter(Parameters.Parameter.builder().name(fhirstring("periodEnd")).value(Date.of("2001-01-01")).build())
                 .build();
-        
-        Parameters outParams = runTest(FHIROperationContext.createInstanceOperationContext(), Measure.class, primaryLibrary -> measureId, primaryLibrary -> inParams);
+
+        Parameters outParams = runTest(FHIROperationContext.createInstanceOperationContext("data-requirements"),
+                Measure.class, primaryLibrary -> measureId, primaryLibrary -> inParams);
         assertNotNull(outParams);
-        
+
         Library moduleDefinition = (Library) outParams.getParameter().get(0).getResource();
         assertEquals(moduleDefinition.getRelatedArtifact().stream().filter( ra -> ra.getResource().getValue().equals(measure.getLibrary().get(0).getValue()) ).count(), 1);
     }
-    
+
     @Override
     protected Library initializeLibraries(FHIRRegistry mockRegistry, FHIRResourceHelpers resourceHelper) throws Exception {
         Library primaryLibrary = super.initializeLibraries(mockRegistry, resourceHelper);
-        
+
         measure = measure.toBuilder().library( canonical(primaryLibrary) ).build();
-        
+
         when(resourceHelper.doRead(eq("Measure"), eq(measure.getId()), anyBoolean(), anyBoolean(), any())).thenAnswer(x -> TestHelper.asResult(measure));
         when(mockRegistry.getResource( canonical(measure.getUrl(), measure.getVersion()).getValue(), Measure.class )).thenReturn(measure);
-        
+
         return primaryLibrary;
     }
 }

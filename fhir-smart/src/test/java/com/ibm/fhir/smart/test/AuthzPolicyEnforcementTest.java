@@ -824,9 +824,9 @@ public class AuthzPolicyEnforcementTest {
             {"user/Patient.read", CONTEXT_IDS, patient, Permission.READ},
             {"user/Observation.write", CONTEXT_IDS, observation, Permission.WRITE},
 
-            {"system/*.*", all_resources, Permission.ALL},
-            {"system/Patient.read", patient, Permission.READ},
-            {"system/Observation.write", observation, Permission.WRITE},
+            {"system/*.*", CONTEXT_IDS, all_resources, Permission.ALL},
+            {"system/Patient.read", CONTEXT_IDS, patient, Permission.READ},
+            {"system/Observation.write", CONTEXT_IDS, observation, Permission.WRITE},
 
             {"openid profile", CONTEXT_IDS, Collections.EMPTY_SET, null},
         };

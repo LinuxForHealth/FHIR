@@ -3,12 +3,12 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
- 
+
 package com.ibm.fhir.server.rest;
 
 
 import com.ibm.fhir.model.patch.FHIRPatch;
-import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
+import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
 import com.ibm.fhir.server.operation.spi.FHIRRestOperationResponse;
 import com.ibm.fhir.server.util.FHIRUrlParser;
 
@@ -24,7 +24,7 @@ public class FHIRRestInteractionPatch extends FHIRRestInteractionResource {
     private final String searchQueryString;
     private final boolean skippableUpdate;
     private final String localIdentifier;
-    
+
     /**
      * Public constructor
      * @param entryIndex
@@ -51,10 +51,10 @@ public class FHIRRestInteractionPatch extends FHIRRestInteractionResource {
         this.skippableUpdate = skippableUpdate;
         this.localIdentifier = localIdentifier;
     }
-    
+
     @Override
     public void accept(FHIRRestInteractionVisitor visitor) throws Exception {
-        FHIRRestOperationResponse result = visitor.doPatch(getEntryIndex(), getEvent(), getValidationResponseEntry(), getRequestDescription(), 
+        FHIRRestOperationResponse result = visitor.doPatch(getEntryIndex(), getEvent(), getValidationResponseEntry(), getRequestDescription(),
             getRequestURL(), getInitialTime(), type, id, getNewResource(), getPrevResource(), patch, ifMatchValue, searchQueryString, skippableUpdate, getWarnings(), localIdentifier);
 
         // If the response includes a resource, update our copy so that we can pass to the
@@ -63,7 +63,7 @@ public class FHIRRestInteractionPatch extends FHIRRestInteractionResource {
             if (result.getResource() != null) {
                 setNewResource(result.getResource());
             }
-            
+
             if (result.getPrevResource() != null) {
                 setPrevResource(result.getPrevResource());
             }

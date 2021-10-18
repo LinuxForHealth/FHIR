@@ -25,22 +25,20 @@ public class FHIRRestOperationResponse {
     private Resource resource;
     private Resource prevResource;
     private OperationOutcome operationOutcome;
-    private int versionNumber;
-    private Instant lastUpdated;
     private boolean deleted;
-    
+
     // Flag to indicate the request is complete and can be returned as-is
     private boolean completed;
-    
+
     // A nested response we may get when offloading payload storage (e.g. in COS, Cassandra)
     private Future<PayloadKey> storePayloadResponse;
-    
+
     // The id of the resource, which could be new in the case of create
     private String resourceId;
-    
+
     public FHIRRestOperationResponse() {
     }
-    
+
     public FHIRRestOperationResponse(Response.Status status, URI locationURI, Resource resource) {
         setStatus(status);
         setLocationURI(locationURI);
@@ -51,15 +49,13 @@ public class FHIRRestOperationResponse {
         setLocationURI(locationURI);
         setOperationOutcome(operationOutcome);
     }
-    
+
     public FHIRRestOperationResponse(Resource resource, String resourceId, int versionNumber, Instant lastUpdated, Future<PayloadKey> storePayloadResponse) {
         this.resource = resource;
         this.resourceId = resourceId;
-        this.versionNumber = versionNumber;
-        this.lastUpdated = lastUpdated;
         this.setStorePayloadResponse(storePayloadResponse);
     }
-    
+
     public Response.Status getStatus() {
         return status;
     }
@@ -94,7 +90,7 @@ public class FHIRRestOperationResponse {
     public void setOperationOutcome(OperationOutcome operationOutcome) {
         this.operationOutcome = operationOutcome;
     }
-    
+
     /**
      * Getter for the resourceId
      * @return
