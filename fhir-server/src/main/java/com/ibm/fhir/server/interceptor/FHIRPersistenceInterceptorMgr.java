@@ -27,7 +27,7 @@ import com.ibm.fhir.server.spi.operation.FHIROperationContext;
  *
  * To register an interceptor implementation, develop a class that implements the FHIRPersistenceInterceptor interface,
  * and then insert your implementation class name into a file called
- * META-INF/services/com.ibm.fhir.server.interceptor.FHIRPersistenceInterceptor and store that file in your jar.
+ * META-INF/services/com.ibm.fhir.server.spi.interceptor.FHIRPersistenceInterceptor and store that file in your jar.
  * These "interceptor" jars should be stored in a common place defined by the FHIR Server.
  */
 public class FHIRPersistenceInterceptorMgr {
