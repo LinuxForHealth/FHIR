@@ -2561,48 +2561,78 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      * @throws FHIRValidationException
      */
     private List<Issue> validateResource(Resource resource) throws FHIRValidationException {
-        List<String> profiles = null;
-        List<String> profilesWithoutVersion = null;
+        List<String> atLeastOneProfiles = new ArrayList<>();
+        List<String> atLeastOneProfilesWithoutVersion = new ArrayList<>();
+        List<String> notAllowedProfiles = new ArrayList<>();
+        List<String> notAllowedProfilesWithoutVersion = new ArrayList<>();
 
         // Retrieve the profile configuration
         try {
             StringBuilder defaultProfileConfigPath = new StringBuilder(FHIRConfiguration.PROPERTY_RESOURCES).append("/Resource/")
-                    .append(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_PROFILES).append("/")
-                    .append(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_PROFILES_AT_LEAST_ONE);
+                    .append(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_PROFILES).append("/");
             StringBuilder resourceSpecificProfileConfigPath = new StringBuilder(FHIRConfiguration.PROPERTY_RESOURCES).append("/")
                     .append(resource.getClass().getSimpleName()).append("/").append(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_PROFILES)
-                    .append("/").append(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_PROFILES_AT_LEAST_ONE);
+                    .append("/");
 
-            // Get the 'atLeastOne' property
-            List<String> resourceSpecificProfiles = FHIRConfigHelper.getStringListProperty(resourceSpecificProfileConfigPath.toString());
-            if (resourceSpecificProfiles != null) {
-                profiles = resourceSpecificProfiles;
+            // Get the 'atLeastOne' profile list
+            List<String> resourceSpecificAtLeastOneProfiles =
+                    FHIRConfigHelper.getStringListProperty(resourceSpecificProfileConfigPath.toString() +
+                        FHIRConfiguration.PROPERTY_FIELD_RESOURCES_PROFILES_AT_LEAST_ONE);
+            if (resourceSpecificAtLeastOneProfiles != null) {
+                atLeastOneProfiles = resourceSpecificAtLeastOneProfiles;
             } else {
-                List<String> defaultProfiles = FHIRConfigHelper.getStringListProperty(defaultProfileConfigPath.toString());
-                if (defaultProfiles != null) {
-                    profiles = defaultProfiles;
+                List<String> defaultAtLeastOneProfiles =
+                        FHIRConfigHelper.getStringListProperty(defaultProfileConfigPath.toString() +
+                            FHIRConfiguration.PROPERTY_FIELD_RESOURCES_PROFILES_AT_LEAST_ONE);
+                if (defaultAtLeastOneProfiles != null) {
+                    atLeastOneProfiles = defaultAtLeastOneProfiles;
+                }
+            }
+            
+            // Build the list of 'atLeastOne' profiles that didn't specify a version
+            for (String profile : atLeastOneProfiles) {
+                if (!profile.contains("|")) {
+                    atLeastOneProfilesWithoutVersion.add(profile);
                 }
             }
 
             if (log.isLoggable(Level.FINER)) {
-                log.finer("Required profile list: " + profiles);
+                log.finer("Required profile list: " + atLeastOneProfiles);
             }
 
-            // Build the list of profiles that didn't specify a version
-            if (profiles != null && !profiles.isEmpty()) {
-                profilesWithoutVersion = new ArrayList<>();
-                for (String profile : profiles) {
-                    if (!profile.contains("|")) {
-                        profilesWithoutVersion.add(profile);
-                    }
+            // Get the 'notAllowed' profile list
+            List<String> resourceSpecificNotAllowedProfiles =
+                    FHIRConfigHelper.getStringListProperty(resourceSpecificProfileConfigPath.toString() +
+                        FHIRConfiguration.PROPERTY_FIELD_RESOURCES_PROFILES_NOT_ALLOWED);
+            if (resourceSpecificNotAllowedProfiles != null) {
+                notAllowedProfiles = resourceSpecificNotAllowedProfiles;
+            } else {
+                List<String> defaultNotAllowedProfiles =
+                        FHIRConfigHelper.getStringListProperty(defaultProfileConfigPath.toString() +
+                            FHIRConfiguration.PROPERTY_FIELD_RESOURCES_PROFILES_NOT_ALLOWED);
+                if (defaultNotAllowedProfiles != null) {
+                    notAllowedProfiles = defaultNotAllowedProfiles;
                 }
+            }
+
+            // Build the list of 'notAllowed' profiles that didn't specify a version
+            for (String profile : notAllowedProfiles) {
+                if (!profile.contains("|")) {
+                    notAllowedProfilesWithoutVersion.add(profile);
+                }
+            }
+            
+            if (log.isLoggable(Level.FINER)) {
+                log.finer("Not allowed profile list: " + notAllowedProfiles);
             }
         } catch (Exception e) {
             throw new FHIRValidationException("Error retrieving profile configuration.", e);
         }
 
-        // If required profiles were configured, perform validation of asserted profiles against required profiles
-        if (profiles != null && !profiles.isEmpty()) {
+        // If 'atLeastOne' or 'notAllowed' profiles were configured, perform validation of asserted profiles against them
+        if (!notAllowedProfiles.isEmpty() || !atLeastOneProfiles.isEmpty()) {
+            List<Issue> issues = new ArrayList<>();
+            boolean validProfileFound = false;
 
             // Get the profiles asserted for this resource
             List<String> resourceAssertedProfiles = ProfileSupport.getResourceAssertedProfiles(resource);
@@ -2610,20 +2640,12 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 log.fine("Asserted profiles: " + resourceAssertedProfiles);
             }
 
-            // Check if a profile is required but none specified
-            if (resourceAssertedProfiles.isEmpty()) {
-                return Collections.singletonList(buildOperationOutcomeIssue(IssueSeverity.ERROR, IssueType.BUSINESS_RULE,
-                    "A required profile was not specified. Resources of type '" +
-                            resource.getClass().getSimpleName() +
-                            "' must declare conformance to at least one of the following profiles: " +
-                            profiles));
-            }
-
-            // Check if at least one asserted profile is in list of required profiles.
-            // If a required profile specifies a version, an asserted profile must be an exact match.
-            // If a required profile does not specify a version, any asserted profile of the same name
+            // Validate the asserted profiles.
+            // For 'atLeastOne' profiles, check that at least one asserted profile is in the list of 'atLeastOne' profiles.
+            // For 'notAllowed' profiles, check that no asserted profile is in the list of 'notAllowed' profiles.
+            // If an 'atLeastOne' or 'notAllowed' profile specifies a version, an asserted profile must be an exact match.
+            // If an 'atLeastOne' or 'notAllowed' profile does not specify a version, any asserted profile of the same name
             // will be a match regardless if it specifies a version or not.
-            boolean validProfileFound = false;
             for (String resourceAssertedProfile : resourceAssertedProfiles) {
                 // Check if asserted profile contains a version
                 String strippedAssertedProfile = null;
@@ -2633,31 +2655,43 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 }
 
                 // Look for exact match or match after stripping version from asserted profile
-                if (profiles.contains(resourceAssertedProfile) || profilesWithoutVersion.contains(strippedAssertedProfile)) {
+                if (notAllowedProfiles.contains(resourceAssertedProfile) ||
+                        notAllowedProfilesWithoutVersion.contains(strippedAssertedProfile)) {
+                    // For 'notAllowed' profiles, a match means an invalid profile was found
+                    if (log.isLoggable(Level.FINE)) {
+                        log.fine("Not allowed asserted profile found: '" + resourceAssertedProfile + "'");
+                    }
+                    issues.add(buildOperationOutcomeIssue(IssueSeverity.ERROR, IssueType.BUSINESS_RULE,
+                        "A profile was specified which is not allowed. Resources of type '" + resource.getClass().getSimpleName() +
+                        "' are not allowed to declare conformance to any of the following profiles: " + notAllowedProfiles));
+                } else if (atLeastOneProfiles.contains(resourceAssertedProfile) ||
+                        atLeastOneProfilesWithoutVersion.contains(strippedAssertedProfile)) {
+                    // For 'atLeastOne' profiles, a match means a valid profile was found
                     if (log.isLoggable(Level.FINE)) {
                         log.fine("Valid asserted profile found: '" + resourceAssertedProfile + "'");
                     }
                     validProfileFound = true;
-                    break;
                 }
             }
-            if (!validProfileFound) {
-                return Collections.singletonList(buildOperationOutcomeIssue(IssueSeverity.ERROR, IssueType.BUSINESS_RULE,
-                    "A required profile was not specified. Resources of type '" +
-                            resource.getClass().getSimpleName() +
-                            "' must declare conformance to at least one of the following profiles: " +
-                            profiles));
+            
+            // Check if a profile is required but no valid profile asserted
+            if (!atLeastOneProfiles.isEmpty()) {
+                if (!validProfileFound) {
+                    issues.add(buildOperationOutcomeIssue(IssueSeverity.ERROR, IssueType.BUSINESS_RULE,
+                        "A required profile was not specified. Resources of type '" + resource.getClass().getSimpleName() +
+                        "' must declare conformance to at least one of the following profiles: " + atLeastOneProfiles));
+                } else {
+                    // Check if asserted profiles are supported
+                    for (String resourceAssertedProfile : resourceAssertedProfiles) {
+                        StructureDefinition profile = ProfileSupport.getProfile(resourceAssertedProfile);
+                        if (profile == null) {
+                            issues.add(buildOperationOutcomeIssue(IssueSeverity.ERROR, IssueType.NOT_SUPPORTED,
+                                "Profile '" + resourceAssertedProfile + "' is not supported"));
+                        }
+                    }
+                }
             }
 
-            // Check if asserted profiles are supported
-            List<Issue> issues = new ArrayList<>();
-            for (String resourceAssertedProfile : resourceAssertedProfiles) {
-                StructureDefinition profile = ProfileSupport.getProfile(resourceAssertedProfile);
-                if (profile == null) {
-                    issues.add(buildOperationOutcomeIssue(IssueSeverity.ERROR, IssueType.NOT_SUPPORTED,
-                        "Profile '" + resourceAssertedProfile + "' is not supported"));
-                }
-            }
             if (!issues.isEmpty()) {
                 return issues;
             }

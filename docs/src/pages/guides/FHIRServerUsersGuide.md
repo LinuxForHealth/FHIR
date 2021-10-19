@@ -799,14 +799,51 @@ For example, you can configure a set of FHIRPath Constraints to run for resource
 }
 ```
 
-It is also possible to configure a set of profiles, one or more of which a resource must claim conformance to and be successfully validated against in order to be persisted to the FHIR server. The FHIR server supports this optional behavior via the `fhirServer/resources/<resourceType>/profiles/atLeastOne` configuration parameter. If this configuration parameter is set to a non-empty list of profiles, then the FHIR server will perform the following validation, returning FAILURE if not successful:
+It is also possible to either require conformance to a particular profile or to disallow conformance to a particular profile through the `fhirServer/resources/<resourceType>/profiles/atLeastOne` and `fhirServer/resources/<resourceType>/profiles/notAllowed` configuration parameters.
+
+To configure a set of profiles, at least one of which a resource must claim conformance to and be successfully validated against in order to be persisted to the FHIR server, you can use the  `fhirServer/resources/<resourceType>/profiles/atLeastOne` configuration parameter. If this configuration parameter is set to a non-empty list of profiles, then the FHIR server will perform the following validation, returning FAILURE if not successful:
  * Validate that at least one profile in the list is specified in the resource's `meta.profile` element
  * Validate that all profiles specified in the resource's `meta.profile` element are supported by the FHIR server
  * Validate that the resource's data conforms to all profiles specified in the resource's `meta.profile` element
 
-If a profile in the list specified by the configuration parameter contains a version, for example `http://ibm.com/fhir/profile/partner|1.0`, then a profile of the same name specified in the resource's `meta.profile` element will only be considered a match if it contains exactly the same version. However, if a profile in the list specified by the configuration parameter does not contain a version, for example `http://ibm.com/fhir/profile/partner`, then a profile of the same name specified in the resource's `meta.profile` element will be considered a match whether it contains a version or not.
+If the `fhirServer/resources/<resourceType>/profiles/atLeastOne` configuration parameter is not set or is set to an empty list, then the FHIR server will perform its standard validation.
 
-If this configuration parameter is not set or is set to an empty list, then the FHIR server will perform its standard validation.
+To configure a set of profiles to which a resource is *not allowed* to claim conformance and be successfully validated against in order to be persisted to the FHIR server, you can use the  `fhirServer/resources/<resourceType>/profiles/notAllowed` configuration parameter. If this configuration parameter is set to a non-empty list of profiles, then the FHIR server will verify that the set of profiles specified in the resource's `meta.profile` element does not include any of the profiles specified in the `fhirServer/resources/<resourceType>/profiles/notAllowed` list. If a matching profile is found, validation will fail for that resource.
+
+If the `fhirServer/resources/<resourceType>/profiles/notAllowed` configuration parameter is not set or is set to an empty list, then the FHIR server will perform its standard validation.
+
+The following example configuration shows how to define the `fhirServer/resources/<resourceType>/profiles/atLeastOne` and  `fhirServer/resources/<resourceType>/profiles/notAllowed` configuration parameters:
+```
+{
+    "fhirServer":{
+        …
+        "resources":{
+            "open": true,
+            "Observation": {
+                "profiles": {
+                    "atLeastOne": [
+                        "http://ibm.com/fhir/profile/partnerA",
+                        "http://ibm.com/fhir/profile/partnerB|1.0"
+                    ]
+                }
+            },
+            "Patient": {
+                "profiles": {
+                    "notAllowed": [
+                        "http://ibm.com/fhir/profile/partnerC",
+                        "http://ibm.com/fhir/profile/partnerD|2.0"
+                    ]
+                }
+            }
+        },
+        …
+    }
+}
+```
+
+Given this configuration, in order for an `Observation` resource to be persisted to the FHIR server, the resource's `meta.profile` element must specify either the `http://ibm.com/fhir/profile/partnerA` profile or the `http://ibm.com/fhir/profile/partnerB|1.0` profile or both, and must successfully validate against the specified profiles. In order for a `Patient` resource to be persisted to the FHIR server, the resource's `meta.profile` element cannot specify either the `http://ibm.com/fhir/profile/partnerC` profile or the `http://ibm.com/fhir/profile/partnerD|2.0` profile, and must successfully validate against any profiles that are specified.
+
+If a profile in either the list specified by the `fhirServer/resources/<resourceType>/profiles/atLeastOne` configuration parameter or the list specified by the `fhirServer/resources/<resourceType>/profiles/notAllowed` configuration parameter contains a version, for example `http://ibm.com/fhir/profile/partner|1.0`, then a profile of the same name specified in the resource's `meta.profile` element will only be considered a match if it contains exactly the same version. However, if a profile in the lists specified by the configuration parameters does not contain a version, for example `http://ibm.com/fhir/profile/partner`, then a profile of the same name specified in the resource's `meta.profile` element will be considered a match whether it contains a version or not. Using the example configuration above for the `Observation` resource type, if the profile `http://ibm.com/fhir/profile/partnerA|3.2` was specified in a resource's `meta.profile` element then it would be considered a match for the `http://ibm.com/fhir/profile/partnerA` profile specified in the `fhirServer/resources/Observation/profiles/atLeastOne` list. Conversely, if the profile `http://ibm.com/fhir/profile/partnerB` was specified in the resource's `meta.profile` element then it would *not* be considered a match for the `http://ibm.com/fhir/profile/partnerB|1.0` profile specified in the `fhirServer/resources/Observation/profiles/atLeastOne` list.
 
 The IBM FHIR Server pre-packages all conformance resources from the core specification.
 
@@ -2006,6 +2043,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/resources/Resource/searchRevIncludes`|string list|A comma-separated list of \_revinclude values supported for all resource types. Individual resource types may override this value via `fhirServer/resources/<resourceType>/searchRevIncludes`. Omitting this property is equivalent to supporting all \_revinclude values for the supported resources. An empty list, `[]`, can be used to indicate that no \_revinclude values are supported.|
 |`fhirServer/resources/Resource/searchParameterCombinations`|string list|A comma-separated list of search parameter combinations supported for all resource types. Each search parameter combination is a string, where a plus sign, `+`, separates the search parameters that can be used in combination. To indicate that searching without any search parameters is allowed, an empty string must be included in the list. Including an asterisk, `*`, in the list indicates support of any search parameter combination. Individual resource types may override this value via `fhirServer/resources/<resourceType>/searchParameterCombinations`. Omitting this property is equivalent to supporting any search parameter combination.|
 |`fhirServer/resources/Resource/profiles/atLeastOne`|string list|A comma-separated list of profiles, at least one of which must be specified in a resource's `meta.profile` element and successfully validated against in order for a resource to be persisted to the FHIR server. Individual resource types may override this value via `fhirServer/resources/<resourceType>/profiles/atLeastOne`. Omitting this property or specifying an empty list is equivalent to not requiring any profile assertions for a resource.|
+|`fhirServer/resources/Resource/profiles/notAllowed`|string list|A comma-separated list of profiles that are not allowed to be specified in a resource's `meta.profile` element, and thus cannot be validated against in order for a resource to be persisted to the FHIR server. Individual resource types may override this value via `fhirServer/resources/<resourceType>/profiles/notAllowed`. Omitting this property or specifying an empty list is equivalent to allowing any profile assertions for a resource.|
 |`fhirServer/resources/<resourceType>/interactions`|string list|A list of strings that represent the RESTful interactions (create, read, vread, update, patch, delete, history, and/or search) to support for this resource type. For resources without the property, the value of `fhirServer/resources/Resource/interactions` is used.|
 |`fhirServer/resources/<resourceType>/searchParameters`|object|The set of search parameters to support for this resource type. Global search parameters defined on the `Resource` resource can be overridden on a per-resourceType basis.|
 |`fhirServer/resources/<resourceType>/searchParameters/<code>`|string|The URL of the search parameter definition to use for the search parameter `<code>` on resources of type `<resourceType>`.|
@@ -2013,6 +2051,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/resources/<resourceType>/searchRevIncludes`|string list|A comma-separated list of \_revinclude values supported for this resource type. An empty list, `[]`, can be used to indicate that no \_revinclude values are supported. For resources without the property, the value of `fhirServer/resources/Resource/searchRevIncludes` is used.|
 |`fhirServer/resources/<resourceType>/searchParameterCombinations`|string list|A comma-separated list of search parameter combinations supported for this resource type. Each search parameter combination is a string, where a plus sign, `+`, separates the search parameters that can be used in combination. To indicate that searching without any search parameters is allowed, an empty string must be included in the list. Including an asterisk, `*`, in the list indicates support of any search parameter combination. For resources without the property, the value of `fhirServer/resources/Resource/searchParameterCombinations` is used.|
 |`fhirServer/resources/<resourceType>/profiles/atLeastOne`|string list|A comma-separated list of profiles, at least one of which must be specified in a resource's `meta.profile` element and be successfully validated against in order for a resource of this type to be persisted to the FHIR server. If this property is not specified, or if an empty list is specified, the value of `fhirServer/resources/Resource/profiles/atLeastOne` will be used.|
+|`fhirServer/resources/<resourceType>/profiles/notAllowed`|string list|A comma-separated list of profiles that are not allowed to be specified in a resource's `meta.profile` element, and thus cannot be validated against in order for a resource to be persisted to the FHIR server. If this property is not specified, or if an empty list is specified, the value of `fhirServer/resources/Resource/profiles/notAllowed` will be used.|
 |`fhirServer/notifications/common/includeResourceTypes`|string list|A comma-separated list of resource types for which notification event messages should be published.|
 |`fhirServer/notifications/common/maxNotificationSizeBytes`|integer|The maximum size in bytes of the notification that should be sent|
 |`fhirServer/notifications/common/maxNotificationSizeBehavior`|string|The behavior of the notification framework when a notification is over the maxNotificationSizeBytes. Valid values are subset and omit|
@@ -2163,6 +2202,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/resources/Resource/searchRevIncludes`|null (all \_revinclude values supported)|
 |`fhirServer/resources/Resource/searchParameterCombinations`|null (all search parameter combinations supported)|
 |`fhirServer/resources/Resource/profiles/atLeastOne`|null (no resource profile assertions required)|
+|`fhirServer/resources/Resource/profiles/notAllowed`|null (any resource profile assertions allowed)|
 |`fhirServer/resources/<resourceType>/interactions`|null (inherits from `fhirServer/resources/Resource/interactions`)|
 |`fhirServer/resources/<resourceType>/searchParameters`|null (all type-specific search parameters supported)|
 |`fhirServer/resources/<resourceType>/searchParameters/<code>`|null|
@@ -2170,6 +2210,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/resources/<resourceType>/searchRevIncludes`|null (inherits from `fhirServer/resources/Resource/searchRevIncludes`)|
 |`fhirServer/resources/<resourceType>/searchParameterCombinations`|null (inherits from `fhirServer/resources/Resource/searchParameterCombinations`)|
 |`fhirServer/resources/<resourceType>/profiles/atLeastOne`|null (inherits from `fhirServer/resources/Resource/profiles/atLeastOne`)|
+|`fhirServer/resources/<resourceType>/profiles/notAllowed`|null (inherits from `fhirServer/resources/Resource/profiles/notAllowed`)|
 |`fhirServer/notifications/common/includeResourceTypes`|`["*"]`|
 |`fhirServer/notifications/common/maxNotificationSizeBytes`|1000000|
 |`fhirServer/notifications/common/maxNotificationSizeBehavior`|subset|
@@ -2310,6 +2351,7 @@ must restart the server for that change to take effect.
 |`fhirServer/resources/Resource/searchRevIncludes`|Y|Y|
 |`fhirServer/resources/Resource/searchParameterCombinations`|Y|Y|
 |`fhirServer/resources/Resource/profiles/atLeastOne`|Y|Y|
+|`fhirServer/resources/Resource/profiles/notAllowed`|Y|Y|
 |`fhirServer/resources/<resourceType>/interactions`|Y|Y|
 |`fhirServer/resources/<resourceType>/searchParameters`|Y|Y|
 |`fhirServer/resources/<resourceType>/searchParameters/<code>`|Y|Y|
@@ -2317,6 +2359,7 @@ must restart the server for that change to take effect.
 |`fhirServer/resources/<resourceType>/searchRevIncludes`|Y|Y|
 |`fhirServer/resources/<resourceType>/searchParameterCombinations`|Y|Y|
 |`fhirServer/resources/<resourceType>/profiles/atLeastOne`|Y|Y|
+|`fhirServer/resources/<resourceType>/profiles/notAllowed`|Y|Y|
 |`fhirServer/notifications/common/includeResourceTypes`|N|N|
 |`fhirServer/notifications/common/maxNotificationSizeBytes`|Y|N|
 |`fhirServer/notifications/common/maxNotificationSizeBehavior`|Y|N|

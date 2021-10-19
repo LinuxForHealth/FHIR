@@ -21,6 +21,8 @@ import com.ibm.fhir.core.HTTPReturnPreference;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.Bundle;
+import com.ibm.fhir.model.resource.CarePlan;
+import com.ibm.fhir.model.resource.Condition;
 import com.ibm.fhir.model.resource.Encounter;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
@@ -36,6 +38,8 @@ import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.Xhtml;
 import com.ibm.fhir.model.type.code.BundleType;
+import com.ibm.fhir.model.type.code.CarePlanIntent;
+import com.ibm.fhir.model.type.code.CarePlanStatus;
 import com.ibm.fhir.model.type.code.EncounterStatus;
 import com.ibm.fhir.model.type.code.HTTPVerb;
 import com.ibm.fhir.model.type.code.IssueSeverity;
@@ -60,6 +64,17 @@ public class ProfileValidationConfigTest {
                 .details(CodeableConcept.builder()
                     .text(string("All OK"))
                     .build())
+                .build())
+            .build();
+
+    public static final OperationOutcome PROFILE_NOT_SUPPORTED = OperationOutcome.builder()
+            .issue(Issue.builder()
+                .severity(IssueSeverity.WARNING)
+                .code(IssueType.NOT_SUPPORTED)
+                .details(CodeableConcept.builder()
+                    .text(string("Profile 'profile6' is not supported"))
+                    .build())
+                .expression("CarePlan")
                 .build())
             .build();
 
@@ -187,7 +202,7 @@ public class ProfileValidationConfigTest {
     public void testCreateWithUnsupportedProfileSpecified() throws Exception {
         Patient patient = Patient.builder()
                 .meta(Meta.builder()
-                    .profile(Canonical.of("profile1"), Canonical.of("profile5"))
+                    .profile(Canonical.of("profile1"), Canonical.of("profile9"))
                     .build())
                 .generalPractitioner(Reference.builder()
                     .reference(string("Practitioner/1"))
@@ -208,7 +223,7 @@ public class ProfileValidationConfigTest {
             // Validate results
             List<Issue> issues = e.getIssues();
             assertEquals(1, issues.size());
-            assertEquals("Profile 'profile5' is not supported", issues.get(0).getDetails().getText().getValue());
+            assertEquals("Profile 'profile9' is not supported", issues.get(0).getDetails().getText().getValue());
             assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
             assertEquals(IssueType.NOT_SUPPORTED, issues.get(0).getCode());
         }
@@ -553,7 +568,7 @@ public class ProfileValidationConfigTest {
         Patient patient = Patient.builder()
                 .id("1")
                 .meta(Meta.builder()
-                    .profile(Canonical.of("profile1"), Canonical.of("profile5"))
+                    .profile(Canonical.of("profile1"), Canonical.of("profile9"))
                     .build())
                 .generalPractitioner(Reference.builder()
                     .reference(string("Practitioner/1"))
@@ -574,7 +589,7 @@ public class ProfileValidationConfigTest {
             // Validate results
             List<Issue> issues = e.getIssues();
             assertEquals(1, issues.size());
-            assertEquals("Profile 'profile5' is not supported", issues.get(0).getDetails().getText().getValue());
+            assertEquals("Profile 'profile9' is not supported", issues.get(0).getDetails().getText().getValue());
             assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
             assertEquals(IssueType.NOT_SUPPORTED, issues.get(0).getCode());
         }
@@ -724,7 +739,7 @@ public class ProfileValidationConfigTest {
         Patient patient = Patient.builder()
                 .id("1")
                 .meta(Meta.builder()
-                    .profile(Canonical.of("profile1"), Canonical.of("profile5"))
+                    .profile(Canonical.of("profile1"), Canonical.of("profile9"))
                     .build())
                 .generalPractitioner(Reference.builder()
                     .reference(string("Practitioner/1"))
@@ -763,7 +778,7 @@ public class ProfileValidationConfigTest {
             assertEquals("One or more errors were encountered while validating a 'transaction' request bundle.", issues.get(0).getDetails().getText().getValue());
             assertEquals(IssueSeverity.FATAL, issues.get(0).getSeverity());
             assertEquals(IssueType.INVALID, issues.get(0).getCode());
-            assertEquals("Profile 'profile5' is not supported", issues.get(1).getDetails().getText().getValue());
+            assertEquals("Profile 'profile9' is not supported", issues.get(1).getDetails().getText().getValue());
             assertEquals(IssueSeverity.ERROR, issues.get(1).getSeverity());
             assertEquals(IssueType.NOT_SUPPORTED, issues.get(1).getCode());
         }
@@ -814,6 +829,645 @@ public class ProfileValidationConfigTest {
             // Profile assertion validation successful.
             // Expected FHIRValidator error due to profile not actually being loaded.
             assertEquals("An error occurred during validation", e.getMessage());
+        }
+    }
+
+    /**
+     * Test a create with a profile specified, but not an allowed profile.
+     */
+    @Test
+    public void testCreateWithNonAllowedProfileSpecified() throws Exception {
+        CarePlan carePlan = CarePlan.builder()
+                .meta(Meta.builder()
+                    .profile(Canonical.of("profile8"))
+                    .build())
+                .status(CarePlanStatus.COMPLETED)
+                .intent(CarePlanIntent.PLAN)
+                .subject(Reference.builder()
+                    .reference(string("urn:3"))
+                    .build())
+                .text(Narrative.builder()
+                    .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">Some narrative</div>"))
+                    .status(NarrativeStatus.GENERATED)
+                    .build())
+                .build();
+
+        // Process request
+        FHIRRequestContext.get().setOriginalRequestUri("test");
+        FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
+        try {
+            helper.doCreate("CarePlan", carePlan, null, true);
+            fail();
+        } catch (FHIROperationException e) {
+            // Validate results
+            List<Issue> issues = e.getIssues();
+            assertEquals(1, issues.size());
+            assertEquals("A profile was specified which is not allowed. Resources of type 'CarePlan' are not allowed to declare conformance to any of the following profiles: [profile8, profile6|1]",
+                issues.get(0).getDetails().getText().getValue());
+            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
+            assertEquals(IssueType.BUSINESS_RULE, issues.get(0).getCode());
+        }
+    }
+
+    /**
+     * Test a create with a versioned profile specified, but not an allowed profile.
+     */
+    @Test
+    public void testCreateWithNonAllowedVersionedProfileSpecified() throws Exception {
+        CarePlan carePlan = CarePlan.builder()
+                .meta(Meta.builder()
+                    .profile(Canonical.of("profile8|1"))
+                    .build())
+                .status(CarePlanStatus.COMPLETED)
+                .intent(CarePlanIntent.PLAN)
+                .subject(Reference.builder()
+                    .reference(string("urn:3"))
+                    .build())
+                .text(Narrative.builder()
+                    .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">Some narrative</div>"))
+                    .status(NarrativeStatus.GENERATED)
+                    .build())
+                .build();
+
+        // Process request
+        FHIRRequestContext.get().setOriginalRequestUri("test");
+        FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
+        try {
+            helper.doCreate("CarePlan", carePlan, null, true);
+            fail();
+        } catch (FHIROperationException e) {
+            // Validate results
+            List<Issue> issues = e.getIssues();
+            assertEquals(1, issues.size());
+            assertEquals("A profile was specified which is not allowed. Resources of type 'CarePlan' are not allowed to declare conformance to any of the following profiles: [profile8, profile6|1]",
+                issues.get(0).getDetails().getText().getValue());
+            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
+            assertEquals(IssueType.BUSINESS_RULE, issues.get(0).getCode());
+        }
+    }
+
+    /**
+     * Test a create with a non-versioned profile specified for a versioned non-allowed profile.
+     */
+    @Test
+    public void testCreateWithNonVersionedProfileSpecifiedForVersionedNonAllowedProfile() throws Exception {
+        CarePlan carePlan = CarePlan.builder()
+                .meta(Meta.builder()
+                    .profile(Canonical.of("profile6"))
+                    .build())
+                .status(CarePlanStatus.COMPLETED)
+                .intent(CarePlanIntent.PLAN)
+                .subject(Reference.builder()
+                    .reference(string("urn:3"))
+                    .build())
+                .text(Narrative.builder()
+                    .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">Some narrative</div>"))
+                    .status(NarrativeStatus.GENERATED)
+                    .build())
+                .build();
+
+        // Process request
+        FHIRRequestContext.get().setOriginalRequestUri("test");
+        FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
+        try {
+            FHIRRestOperationResponse response = helper.doCreate("CarePlan", carePlan, null, true);
+            assertEquals(PROFILE_NOT_SUPPORTED, response.getOperationOutcome());
+        } catch (Exception e) {
+            fail();
+        }
+    }
+
+    /**
+     * Test a create with a profile specified, but a not allowed default config profile.
+     */
+    @Test
+    public void testCreateWithNonAllowedProfileSpecifiedDefault() throws Exception {
+        Encounter encounter = Encounter.builder()
+                .meta(Meta.builder()
+                    .profile(Canonical.of("profile4"), Canonical.of("profile7"))
+                    .build())
+                .status(EncounterStatus.FINISHED)
+                .clazz(Coding.builder()
+                    .code(Code.of("AMB"))
+                    .build())
+                .reasonReference(Reference.builder()
+                    .reference(string("urn:2"))
+                    .build())
+                .build();
+
+        // Process request
+        FHIRRequestContext.get().setOriginalRequestUri("test");
+        FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
+        try {
+            helper.doCreate("Encounter", encounter, null, true);
+            fail();
+        } catch (FHIROperationException e) {
+            // Validate results
+            List<Issue> issues = e.getIssues();
+            assertEquals(2, issues.size());
+            assertEquals("A profile was specified which is not allowed. Resources of type 'Encounter' are not allowed to declare conformance to any of the following profiles: [profile7]",
+                issues.get(0).getDetails().getText().getValue());
+            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
+            assertEquals(IssueType.BUSINESS_RULE, issues.get(0).getCode());
+            assertEquals("Profile 'profile7' is not supported", issues.get(1).getDetails().getText().getValue());
+            assertEquals(IssueSeverity.ERROR, issues.get(1).getSeverity());
+            assertEquals(IssueType.NOT_SUPPORTED, issues.get(1).getCode());
+        }
+    }
+
+    /**
+     * Test a create for resource with empty not allowed list.
+     */
+    @Test
+    public void testCreateForResourceWithEmptyNotAllowedList() throws Exception {
+        Condition condition = Condition.builder()
+                .text(Narrative.builder()
+                    .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">Some narrative</div>"))
+                    .status(NarrativeStatus.GENERATED)
+                    .build())
+                .subject(Reference.builder()
+                    .reference(string("urn:3"))
+                    .build())
+                .build();
+
+        // Process request
+        FHIRRequestContext.get().setOriginalRequestUri("test");
+        FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
+        try {
+            FHIRRestOperationResponse response = helper.doCreate("Condition", condition, null, true);
+            assertEquals(ALL_OK, response.getOperationOutcome());
+        } catch (Exception e) {
+            fail();
+        }
+    }
+
+    /**
+     * Test an update with a profile specified, but not an allowed profile.
+     */
+    @Test
+    public void testUpdateWithNonAllowedProfileSpecified() throws Exception {
+        CarePlan carePlan = CarePlan.builder()
+                .id("1")
+                .meta(Meta.builder()
+                    .profile(Canonical.of("profile8"))
+                    .build())
+                .status(CarePlanStatus.COMPLETED)
+                .intent(CarePlanIntent.PLAN)
+                .subject(Reference.builder()
+                    .reference(string("urn:3"))
+                    .build())
+                .text(Narrative.builder()
+                    .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">Some narrative</div>"))
+                    .status(NarrativeStatus.GENERATED)
+                    .build())
+                .build();
+
+        // Process request
+        FHIRRequestContext.get().setOriginalRequestUri("test");
+        FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
+        try {
+            helper.doUpdate("CarePlan", "1", carePlan, null, null, false, true);
+            fail();
+        } catch (FHIROperationException e) {
+            // Validate results
+            List<Issue> issues = e.getIssues();
+            assertEquals(1, issues.size());
+            assertEquals("A profile was specified which is not allowed. Resources of type 'CarePlan' are not allowed to declare conformance to any of the following profiles: [profile8, profile6|1]",
+                issues.get(0).getDetails().getText().getValue());
+            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
+            assertEquals(IssueType.BUSINESS_RULE, issues.get(0).getCode());
+        }
+    }
+
+    /**
+     * Test an update with a versioned profile specified, but not an allowed profile.
+     */
+    @Test
+    public void testUpdateWithNonAllowedVersionedProfileSpecified() throws Exception {
+        CarePlan carePlan = CarePlan.builder()
+                .id("1")
+                .meta(Meta.builder()
+                    .profile(Canonical.of("profile8|1"))
+                    .build())
+                .status(CarePlanStatus.COMPLETED)
+                .intent(CarePlanIntent.PLAN)
+                .subject(Reference.builder()
+                    .reference(string("urn:3"))
+                    .build())
+                .text(Narrative.builder()
+                    .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">Some narrative</div>"))
+                    .status(NarrativeStatus.GENERATED)
+                    .build())
+                .build();
+
+        // Process request
+        FHIRRequestContext.get().setOriginalRequestUri("test");
+        FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
+        try {
+            helper.doUpdate("CarePlan", "1", carePlan, null, null, false, true);
+            fail();
+        } catch (FHIROperationException e) {
+            // Validate results
+            List<Issue> issues = e.getIssues();
+            assertEquals(1, issues.size());
+            assertEquals("A profile was specified which is not allowed. Resources of type 'CarePlan' are not allowed to declare conformance to any of the following profiles: [profile8, profile6|1]",
+                issues.get(0).getDetails().getText().getValue());
+            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
+            assertEquals(IssueType.BUSINESS_RULE, issues.get(0).getCode());
+        }
+    }
+
+    /**
+     * Test an update with a non-versioned profile specified for a versioned non-allowed profile.
+     */
+    @Test
+    public void testUpdateWithNonVersionedProfileSpecifiedForVersionedNonAllowedProfile() throws Exception {
+        CarePlan carePlan = CarePlan.builder()
+                .id("1")
+                .meta(Meta.builder()
+                    .profile(Canonical.of("profile6"))
+                    .build())
+                .status(CarePlanStatus.COMPLETED)
+                .intent(CarePlanIntent.PLAN)
+                .subject(Reference.builder()
+                    .reference(string("urn:3"))
+                    .build())
+                .text(Narrative.builder()
+                    .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">Some narrative</div>"))
+                    .status(NarrativeStatus.GENERATED)
+                    .build())
+                .build();
+
+        // Process request
+        FHIRRequestContext.get().setOriginalRequestUri("test");
+        FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
+        try {
+            FHIRRestOperationResponse response = helper.doUpdate("CarePlan", "1", carePlan, null, null, false, true);
+            assertEquals(PROFILE_NOT_SUPPORTED, response.getOperationOutcome());
+        } catch (Exception e) {
+            fail();
+        }
+    }
+
+    /**
+     * Test an update with a profile specified, but a not allowed default config profile.
+     */
+    @Test
+    public void testUpdateWithNonAllowedProfileSpecifiedDefault() throws Exception {
+        Encounter encounter = Encounter.builder()
+                .id("1")
+                .meta(Meta.builder()
+                    .profile(Canonical.of("profile4"), Canonical.of("profile7"))
+                    .build())
+                .status(EncounterStatus.FINISHED)
+                .clazz(Coding.builder()
+                    .code(Code.of("AMB"))
+                    .build())
+                .reasonReference(Reference.builder()
+                    .reference(string("urn:2"))
+                    .build())
+                .build();
+
+        // Process request
+        FHIRRequestContext.get().setOriginalRequestUri("test");
+        FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
+        try {
+            helper.doUpdate("Encounter", "1", encounter, null, null, false, true);
+            fail();
+        } catch (FHIROperationException e) {
+            // Validate results
+            List<Issue> issues = e.getIssues();
+            assertEquals(2, issues.size());
+            assertEquals("A profile was specified which is not allowed. Resources of type 'Encounter' are not allowed to declare conformance to any of the following profiles: [profile7]",
+                issues.get(0).getDetails().getText().getValue());
+            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
+            assertEquals(IssueType.BUSINESS_RULE, issues.get(0).getCode());
+            assertEquals("Profile 'profile7' is not supported", issues.get(1).getDetails().getText().getValue());
+            assertEquals(IssueSeverity.ERROR, issues.get(1).getSeverity());
+            assertEquals(IssueType.NOT_SUPPORTED, issues.get(1).getCode());
+        }
+    }
+
+    /**
+     * Test an update for resource with empty not allowed list.
+     */
+    @Test
+    public void testUpdateForResourceWithEmptyNotAllowedList() throws Exception {
+        Condition condition = Condition.builder()
+                .id("1")
+                .text(Narrative.builder()
+                    .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">Some narrative</div>"))
+                    .status(NarrativeStatus.GENERATED)
+                    .build())
+                .subject(Reference.builder()
+                    .reference(string("urn:3"))
+                    .build())
+                .build();
+
+        // Process request
+        FHIRRequestContext.get().setOriginalRequestUri("test");
+        FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
+        try {
+            FHIRRestOperationResponse response = helper.doUpdate("Condition", "1", condition, null, null, false, true);
+            assertEquals(ALL_OK, response.getOperationOutcome());
+        } catch (Exception e) {
+            fail();
+        }
+    }
+
+    /**
+     * Test a bundle with a profile specified, but not an allowed profile.
+     */
+    @Test
+    public void testBundleWithNonAllowedProfileSpecified() throws Exception {
+        CarePlan carePlan = CarePlan.builder()
+                .meta(Meta.builder()
+                    .profile(Canonical.of("profile8"))
+                    .build())
+                .status(CarePlanStatus.COMPLETED)
+                .intent(CarePlanIntent.PLAN)
+                .subject(Reference.builder()
+                    .reference(string("urn:3"))
+                    .build())
+                .text(Narrative.builder()
+                    .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">Some narrative</div>"))
+                    .status(NarrativeStatus.GENERATED)
+                    .build())
+                .build();
+
+        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.POST)
+                .url(Uri.of("CarePlan"))
+                .build();
+        Bundle.Entry bundleEntry = Bundle.Entry.builder()
+                .resource(carePlan)
+                .request(bundleEntryRequest)
+                .build();
+
+        Bundle requestBundle = Bundle.builder()
+                .id("bundle1")
+                .type(BundleType.TRANSACTION)
+                .entry(bundleEntry)
+                .build();
+
+        // Process bundle
+        FHIRRequestContext.get().setOriginalRequestUri("test");
+        FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
+        try {
+            helper.doBundle(requestBundle, false);
+            fail();
+        } catch (FHIROperationException e) {
+            // Validate results
+            List<Issue> issues = e.getIssues();
+            assertEquals(2, issues.size());
+            assertEquals("One or more errors were encountered while validating a 'transaction' request bundle.", issues.get(0).getDetails().getText().getValue());
+            assertEquals(IssueSeverity.FATAL, issues.get(0).getSeverity());
+            assertEquals(IssueType.INVALID, issues.get(0).getCode());
+            assertEquals("A profile was specified which is not allowed. Resources of type 'CarePlan' are not allowed to declare conformance to any of the following profiles: [profile8, profile6|1]",
+                issues.get(1).getDetails().getText().getValue());
+            assertEquals(IssueSeverity.ERROR, issues.get(1).getSeverity());
+            assertEquals(IssueType.BUSINESS_RULE, issues.get(1).getCode());
+        }
+    }
+
+    /**
+     * Test a bundle with a versioned profile specified, but not an allowed profile.
+     */
+    @Test
+    public void testBundleWithNonAllowedVersionedProfileSpecified() throws Exception {
+        CarePlan carePlan = CarePlan.builder()
+                .meta(Meta.builder()
+                    .profile(Canonical.of("profile8|1"))
+                    .build())
+                .status(CarePlanStatus.COMPLETED)
+                .intent(CarePlanIntent.PLAN)
+                .subject(Reference.builder()
+                    .reference(string("urn:3"))
+                    .build())
+                .text(Narrative.builder()
+                    .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">Some narrative</div>"))
+                    .status(NarrativeStatus.GENERATED)
+                    .build())
+                .build();
+
+        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.POST)
+                .url(Uri.of("CarePlan"))
+                .build();
+        Bundle.Entry bundleEntry = Bundle.Entry.builder()
+                .resource(carePlan)
+                .request(bundleEntryRequest)
+                .build();
+
+        Bundle requestBundle = Bundle.builder()
+                .id("bundle1")
+                .type(BundleType.TRANSACTION)
+                .entry(bundleEntry)
+                .build();
+
+        // Process request
+        FHIRRequestContext.get().setOriginalRequestUri("test");
+        FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
+        try {
+            helper.doBundle(requestBundle, false);
+            fail();
+        } catch (FHIROperationException e) {
+            // Validate results
+            List<Issue> issues = e.getIssues();
+            assertEquals(2, issues.size());
+            assertEquals("One or more errors were encountered while validating a 'transaction' request bundle.", issues.get(0).getDetails().getText().getValue());
+            assertEquals(IssueSeverity.FATAL, issues.get(0).getSeverity());
+            assertEquals(IssueType.INVALID, issues.get(0).getCode());
+            assertEquals("A profile was specified which is not allowed. Resources of type 'CarePlan' are not allowed to declare conformance to any of the following profiles: [profile8, profile6|1]",
+                issues.get(1).getDetails().getText().getValue());
+            assertEquals(IssueSeverity.ERROR, issues.get(1).getSeverity());
+            assertEquals(IssueType.BUSINESS_RULE, issues.get(1).getCode());
+        }
+    }
+
+    /**
+     * Test a bundle with a non-versioned profile specified for a versioned non-allowed profile.
+     */
+    @Test
+    public void testBundleWithNonVersionedProfileSpecifiedForVersionedNonAllowedProfile() throws Exception {
+        CarePlan carePlan = CarePlan.builder()
+                .id("1")
+                .meta(Meta.builder()
+                    .profile(Canonical.of("profile6"))
+                    .build())
+                .status(CarePlanStatus.COMPLETED)
+                .intent(CarePlanIntent.PLAN)
+                .subject(Reference.builder()
+                    .reference(string("urn:3"))
+                    .build())
+                .text(Narrative.builder()
+                    .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">Some narrative</div>"))
+                    .status(NarrativeStatus.GENERATED)
+                    .build())
+                .build();
+
+        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.PUT)
+                .url(Uri.of("CarePlan/1"))
+                .build();
+        Bundle.Entry bundleEntry = Bundle.Entry.builder()
+                .resource(carePlan)
+                .request(bundleEntryRequest)
+                .build();
+
+        Bundle requestBundle = Bundle.builder()
+                .id("bundle1")
+                .type(BundleType.TRANSACTION)
+                .entry(bundleEntry)
+                .build();
+
+        // Process request
+        FHIRRequestContext.get().setOriginalRequestUri("test");
+        FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
+        try {
+            Bundle responseBundle = helper.doBundle(requestBundle, false);
+            assertEquals(ALL_OK, responseBundle.getEntry().get(0).getResource().as(OperationOutcome.class));
+            assertEquals(PROFILE_NOT_SUPPORTED, responseBundle.getEntry().get(0).getResponse().getOutcome().as(OperationOutcome.class));
+        } catch (Exception e) {
+            fail();
+        }
+    }
+
+    /**
+     * Test a bundle with a profile specified, but a not allowed default config profile.
+     */
+    @Test
+    public void testBundleWithNonAllowedProfileSpecifiedDefault() throws Exception {
+        Encounter encounter = Encounter.builder()
+                .id("1")
+                .meta(Meta.builder()
+                    .profile(Canonical.of("profile4"), Canonical.of("profile7"))
+                    .build())
+                .status(EncounterStatus.FINISHED)
+                .clazz(Coding.builder()
+                    .code(Code.of("AMB"))
+                    .build())
+                .reasonReference(Reference.builder()
+                    .reference(string("urn:2"))
+                    .build())
+                .build();
+
+        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.PUT)
+                .url(Uri.of("Encounter/1"))
+                .build();
+        Bundle.Entry bundleEntry = Bundle.Entry.builder()
+                .resource(encounter)
+                .request(bundleEntryRequest)
+                .build();
+
+        Bundle requestBundle = Bundle.builder()
+                .id("bundle1")
+                .type(BundleType.TRANSACTION)
+                .entry(bundleEntry)
+                .build();
+
+        // Process request
+        FHIRRequestContext.get().setOriginalRequestUri("test");
+        FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
+        try {
+            helper.doBundle(requestBundle, false);
+            fail();
+        } catch (FHIROperationException e) {
+            // Validate results
+            List<Issue> issues = e.getIssues();
+            assertEquals(3, issues.size());
+            assertEquals("One or more errors were encountered while validating a 'transaction' request bundle.", issues.get(0).getDetails().getText().getValue());
+            assertEquals(IssueSeverity.FATAL, issues.get(0).getSeverity());
+            assertEquals(IssueType.INVALID, issues.get(0).getCode());
+            assertEquals("A profile was specified which is not allowed. Resources of type 'Encounter' are not allowed to declare conformance to any of the following profiles: [profile7]",
+                issues.get(1).getDetails().getText().getValue());
+            assertEquals(IssueSeverity.ERROR, issues.get(1).getSeverity());
+            assertEquals(IssueType.BUSINESS_RULE, issues.get(1).getCode());
+            assertEquals("Profile 'profile7' is not supported", issues.get(2).getDetails().getText().getValue());
+            assertEquals(IssueSeverity.ERROR, issues.get(2).getSeverity());
+            assertEquals(IssueType.NOT_SUPPORTED, issues.get(2).getCode());
+        }
+    }
+
+    /**
+     * Test a bundle for resource with empty not allowed list.
+     */
+    @Test
+    public void testBundleForResourceWithEmptyNotAllowedList() throws Exception {
+        Condition condition = Condition.builder()
+                .id("1")
+                .text(Narrative.builder()
+                    .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">Some narrative</div>"))
+                    .status(NarrativeStatus.GENERATED)
+                    .build())
+                .subject(Reference.builder()
+                    .reference(string("urn:3"))
+                    .build())
+                .build();
+
+        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.PUT)
+                .url(Uri.of("Condition/1"))
+                .build();
+        Bundle.Entry bundleEntry = Bundle.Entry.builder()
+                .resource(condition)
+                .request(bundleEntryRequest)
+                .build();
+
+        Bundle requestBundle = Bundle.builder()
+                .id("bundle1")
+                .type(BundleType.TRANSACTION)
+                .entry(bundleEntry)
+                .build();
+
+        // Process request
+        FHIRRequestContext.get().setOriginalRequestUri("test");
+        FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
+        try {
+            Bundle responseBundle = helper.doBundle(requestBundle, false);
+            assertEquals(ALL_OK, responseBundle.getEntry().get(0).getResource().as(OperationOutcome.class));
+        } catch (Exception e) {
+            fail();
+        }
+    }
+
+    /**
+     * Test a create with a profile specified, but not an allowed profile or required profile.
+     */
+    @Test
+    public void testCreateWithNonAllowedNonRequiredProfileSpecified() throws Exception {
+        Patient patient = Patient.builder()
+                .meta(Meta.builder()
+                    .profile(Canonical.of("profile5"))
+                    .build())
+                .generalPractitioner(Reference.builder()
+                    .reference(string("Practitioner/1"))
+                    .build())
+                .text(Narrative.builder()
+                    .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">Some narrative</div>"))
+                    .status(NarrativeStatus.GENERATED)
+                    .build())
+                .build();
+
+        // Process request
+        FHIRRequestContext.get().setOriginalRequestUri("test");
+        FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
+        try {
+            helper.doCreate("Patient", patient, null, true);
+            fail();
+        } catch (FHIROperationException e) {
+            // Validate results
+            List<Issue> issues = e.getIssues();
+            assertEquals(2, issues.size());
+            assertEquals("A profile was specified which is not allowed. Resources of type 'Patient' are not allowed to declare conformance to any of the following profiles: [profile5]",
+                issues.get(0).getDetails().getText().getValue());
+            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
+            assertEquals(IssueType.BUSINESS_RULE, issues.get(0).getCode());
+            assertEquals("A required profile was not specified. Resources of type 'Patient' must declare conformance to at least one of the following profiles: [profile1, profile2|1, profile3]",
+                issues.get(1).getDetails().getText().getValue());
+            assertEquals(IssueSeverity.ERROR, issues.get(1).getSeverity());
+            assertEquals(IssueType.BUSINESS_RULE, issues.get(1).getCode());
         }
     }
 
