@@ -2,7 +2,7 @@
 layout: post
 title:  Conformance
 description: Notes on the Conformance of the IBM FHIR Server
-date:   2021-08-18
+date:   2021-10-19
 permalink: /conformance/
 ---
 
@@ -362,6 +362,8 @@ Type operations are invoked at `[base]/[resourceType]/$[operation]`
 | [$document](https://hl7.org/fhir/R4/operation-composition-document.html) | Composition | Generate a document | Prototype-level implementation |
 | [$apply](https://hl7.org/fhir/R4/operation-plandefinition-apply.html) | PlanDefinition | Applies a PlanDefinition to a given context | A prototype implementation that performs naive conversion |
 | [$everything](https://www.hl7.org/fhir/operation-patient-everything.html) | Patient | Obtain all resources pertaining to a patient | Current implementation supports obtaining all resources for a patient up to an aggregate total of 10,000 resources (at which point it is recommended to use the `$export` operation). This implementation does not currently support using the `_since` and `_count` query parameters. Pagination is not currently supported. |
+| [$member-match](http://build.fhir.org/ig/HL7/davinci-ehrx/OperationDefinition-member-match.html) | Patient | The $member-match operation allows one health plan to retrieve a unique identifier for a member from another health plan using a member's demographic and coverage information. This identifier can then be used to perform subsequent queries and operations. Members implementing a deterministic match will require a match on member id or subscriber id at a minimum.|
+
 
 ### Instance operations
 Instance operations are invoked at `[base]/[resourceType]/[id]/$[operation]`

@@ -17,7 +17,10 @@ import static org.testng.Assert.fail;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Future;
 
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
@@ -37,6 +40,7 @@ import com.ibm.fhir.model.resource.Coverage;
 import com.ibm.fhir.model.resource.OperationDefinition;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.OperationOutcome.Builder;
+import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Patient.Communication;
@@ -76,9 +80,14 @@ import com.ibm.fhir.operation.davinci.hrex.provider.strategy.MemberMatchResult.R
 import com.ibm.fhir.operation.davinci.hrex.provider.strategy.MemberMatchStrategy;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.fhir.persistence.SingleResourceResult;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
+import com.ibm.fhir.persistence.payload.PayloadKey;
+import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
 import com.ibm.fhir.server.operation.spi.FHIRRestOperationResponse;
+import com.ibm.fhir.server.util.FHIRRestHelper.Interaction;
 import com.ibm.fhir.validation.FHIRValidator;
 import com.ibm.fhir.validation.exception.FHIRValidationException;
 
@@ -130,10 +139,10 @@ public class MemberMatchTest {
     }
 
     @Test
-    public void testConfiguration_DisabledByDefault() throws FHIRException {
+    public void testConfiguration_EnabledByDefault() throws FHIRException {
         createContext("default");
         ConfigurationAdapter adapter = ConfigurationFactory.factory().getConfigurationAdapter();
-        assertFalse(adapter.enabled());
+        assertTrue(adapter.enabled());
         assertEquals(adapter.getStrategyKey(), "default");
         FHIRRequestContext.remove();
     }
@@ -146,7 +155,7 @@ public class MemberMatchTest {
     }
 
     @Test
-    public void testConfiguration_EnabledByDefault() throws FHIRException {
+    public void testConfiguration_EnabledOnTenant() throws FHIRException {
         createContext("defaulta");
         ConfigurationAdapter adapter = ConfigurationFactory.factory().getConfigurationAdapter();
         assertTrue(adapter.enabled());
@@ -165,6 +174,14 @@ public class MemberMatchTest {
     @Test
     public void testConfiguration_Default() throws FHIRException {
         createContext("default");
+        ConfigurationAdapter adapter = ConfigurationFactory.factory().getConfigurationAdapter();
+        assertTrue(adapter.enabled());
+        FHIRRequestContext.remove();
+    }
+
+    @Test
+    public void testConfiguration_Disabled() throws FHIRException {
+        createContext("disabled");
         ConfigurationAdapter adapter = ConfigurationFactory.factory().getConfigurationAdapter();
         assertFalse(adapter.enabled());
         FHIRRequestContext.remove();
@@ -432,7 +449,7 @@ public class MemberMatchTest {
         MemberMatchCovergeSearchCompiler compiler = new MemberMatchCovergeSearchCompiler("1-2-3-4");
 
         coverage.accept(compiler);
-        assertEquals(compiler.getSearchParameters().size(), 5);
+        assertEquals(compiler.getSearchParameters().size(), 4);
     }
 
     @Test
@@ -454,7 +471,7 @@ public class MemberMatchTest {
         MemberMatchCovergeSearchCompiler compiler = new MemberMatchCovergeSearchCompiler("1-2-3-4");
 
         coverage.accept(compiler);
-        assertEquals(compiler.getSearchParameters().size(), 3);
+        assertEquals(compiler.getSearchParameters().size(), 2);
     }
 
     @Test
@@ -476,7 +493,7 @@ public class MemberMatchTest {
         MemberMatchCovergeSearchCompiler compiler = new MemberMatchCovergeSearchCompiler("1-2-3-4");
 
         coverage.accept(compiler);
-        assertEquals(compiler.getSearchParameters().size(), 3);
+        assertEquals(compiler.getSearchParameters().size(), 2);
     }
 
     @Test
@@ -498,7 +515,7 @@ public class MemberMatchTest {
         MemberMatchCovergeSearchCompiler compiler = new MemberMatchCovergeSearchCompiler("1-2-3-4");
 
         coverage.accept(compiler);
-        assertEquals(compiler.getSearchParameters().size(), 3);
+        assertEquals(compiler.getSearchParameters().size(), 2);
     }
 
     @Test
@@ -518,7 +535,7 @@ public class MemberMatchTest {
 
         MemberMatchCovergeSearchCompiler compiler = new MemberMatchCovergeSearchCompiler("1-2-3-4");
         coverage.accept(compiler);
-        assertEquals(compiler.getSearchParameters().size(), 3);
+        assertEquals(compiler.getSearchParameters().size(), 2);
     }
 
     @Test
@@ -539,7 +556,7 @@ public class MemberMatchTest {
         MemberMatchCovergeSearchCompiler compiler = new MemberMatchCovergeSearchCompiler("1-2-3-4");
 
         coverage.accept(compiler);
-        assertEquals(compiler.getSearchParameters().size(), 3);
+        assertEquals(compiler.getSearchParameters().size(), 2);
     }
 
     @Test
@@ -559,7 +576,7 @@ public class MemberMatchTest {
         MemberMatchCovergeSearchCompiler compiler = new MemberMatchCovergeSearchCompiler("1-2-3-4");
 
         coverage.accept(compiler);
-        assertEquals(compiler.getSearchParameters().size(), 3);
+        assertEquals(compiler.getSearchParameters().size(), 2);
     }
 
     @Test
@@ -633,12 +650,12 @@ public class MemberMatchTest {
         MemberMatchCovergeSearchCompiler compiler = new MemberMatchCovergeSearchCompiler("1-2-3-4");
 
         coverage.accept(compiler);
-        assertEquals(compiler.getSearchParameters().size(), 3);
+        assertEquals(compiler.getSearchParameters().size(), 2);
 
         Agent.Builder builder = Agent.builder();
         builder.setValidating(false);
-        assertFalse(compiler.visit("test", 0, builder.build()));
-        assertFalse(compiler.visit("class", 0, builder.build()));
+        assertTrue(compiler.visit("test", 0, builder.build()));
+        assertTrue(compiler.visit("class", 0, builder.build()));
     }
 
     @Test
@@ -665,7 +682,7 @@ public class MemberMatchTest {
                     .build();
         MemberMatchCovergeSearchCompiler compiler = new MemberMatchCovergeSearchCompiler("1-2-3-4");
         coverage.accept(compiler);
-        assertEquals(compiler.getSearchParameters().size(), 3);
+        assertEquals(compiler.getSearchParameters().size(), 2);
     }
 
     @Test
@@ -689,7 +706,7 @@ public class MemberMatchTest {
 
         MemberMatchCovergeSearchCompiler compiler = new MemberMatchCovergeSearchCompiler("1-2-3-4");
         coverage.accept(compiler);
-        assertEquals(compiler.getSearchParameters().size(), 3);
+        assertEquals(compiler.getSearchParameters().size(), 2);
     }
 
     @Test
@@ -717,7 +734,7 @@ public class MemberMatchTest {
 
         MemberMatchCovergeSearchCompiler compiler = new MemberMatchCovergeSearchCompiler("1-2-3-4");
         coverage.accept(compiler);
-        assertEquals(compiler.getSearchParameters().size(), 3);
+        assertEquals(compiler.getSearchParameters().size(), 2);
     }
 
     @Test
@@ -741,7 +758,7 @@ public class MemberMatchTest {
 
         MemberMatchCovergeSearchCompiler compiler = new MemberMatchCovergeSearchCompiler("1-2-3-4");
         coverage.accept(compiler);
-        assertEquals(compiler.getSearchParameters().size(), 3);
+        assertEquals(compiler.getSearchParameters().size(), 2);
     }
 
     @Test
@@ -755,7 +772,7 @@ public class MemberMatchTest {
 
         MemberMatchCovergeSearchCompiler compiler = new MemberMatchCovergeSearchCompiler("1-2-3-4");
         coverage.accept(compiler);
-        assertEquals(compiler.getSearchParameters().size(), 3);
+        assertEquals(compiler.getSearchParameters().size(), 2);
     }
 
     @Test
@@ -770,7 +787,7 @@ public class MemberMatchTest {
 
         MemberMatchCovergeSearchCompiler compiler = new MemberMatchCovergeSearchCompiler("1-2-3-4");
         coverage.accept(compiler);
-        assertEquals(compiler.getSearchParameters().size(), 3);
+        assertEquals(compiler.getSearchParameters().size(), 2);
     }
 
     @Test
@@ -799,7 +816,7 @@ public class MemberMatchTest {
         MemberMatchCovergeSearchCompiler compiler = new MemberMatchCovergeSearchCompiler("1-2-3-4");
 
         coverage.accept(compiler);
-        assertEquals(compiler.getSearchParameters().size(), 3);
+        assertEquals(compiler.getSearchParameters().size(), 2);
     }
 
     @Test
@@ -828,7 +845,7 @@ public class MemberMatchTest {
         MemberMatchCovergeSearchCompiler compiler = new MemberMatchCovergeSearchCompiler("1-2-3-4");
 
         coverage.accept(compiler);
-        assertEquals(compiler.getSearchParameters().size(), 3);
+        assertEquals(compiler.getSearchParameters().size(), 2);
     }
 
     @Test
@@ -1410,6 +1427,16 @@ public class MemberMatchTest {
         strategy.execute(ctx, generateInput(), new LocalResourceHelpers(true));
     }
 
+    @Test(expectedExceptions = {FHIROperationException.class})
+    public void testOperationInvokeDisabled() throws Exception {
+        createContext("disabled");
+        FHIROperationContext operationContext = FHIROperationContext.createResourceTypeOperationContext();
+        operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, "POST");
+        Class<? extends Resource> resourceType = Patient.class;
+        MemberMatchOperation operation = new MemberMatchOperation();
+        operation.invoke(operationContext, resourceType, null, null, generateInput(), new LocalResourceHelpers(1,1));
+    }
+
     @Test
     public void testOperationInvoke() throws Exception {
         FHIROperationContext operationContext = FHIROperationContext.createResourceTypeOperationContext();
@@ -1420,6 +1447,31 @@ public class MemberMatchTest {
         assertNotNull(output);
         assertEquals(output.getParameter().size(), 1);
         assertEquals(output.getParameter().get(0).getName().getValue(), "MemberIdentifier");
+    }
+
+    @Test(expectedExceptions = {FHIROperationException.class})
+    public void testMemberMatchStrategy_Execute_Single_WithoutIdentifiers() throws Exception {
+        FHIROperationContext ctx = FHIROperationContext.createResourceTypeOperationContext();
+        DefaultMemberMatchStrategy strategy = new DefaultMemberMatchStrategy();
+        Parameters input = generateInput();
+
+        List<Parameters.Parameter> params = new ArrayList<>();
+
+        Parameters.Parameter param = input.getParameter().get(0);
+        Patient ptnt = param.getResource().as(Patient.class);
+        ptnt = ptnt.toBuilder()
+                .identifier(Collections.emptyList())
+                .build();
+
+        param = param.toBuilder().resource(ptnt).build();
+        params.add(param);
+        params.add(input.getParameter().get(1));
+
+        input = input.toBuilder()
+                .parameter(params)
+                .build();
+
+        strategy.execute(ctx, input, new LocalResourceHelpers(1, 1));
     }
 
     /**
@@ -1458,6 +1510,13 @@ public class MemberMatchTest {
         @Override
         public Bundle doSearch(String type, String compartment, String compartmentId, MultivaluedMap<String, String> queryParameters, String requestUri,
             Resource contextResource) throws Exception {
+            // TODO Auto-generated method stub
+            return doSearch(type, compartment, compartmentId, queryParameters, requestUri, contextResource, false);
+        }
+
+        @Override
+        public Bundle doSearch(String type, String compartment, String compartmentId, MultivaluedMap<String, String> queryParameters, String requestUri,
+            Resource contextResource, boolean checkIfInteractionAllowed) throws Exception {
             if (throwException) {
                 throw new Exception("Test");
             }
@@ -1616,6 +1675,50 @@ public class MemberMatchTest {
         @Override
         public List<Long> doRetrieveIndex(FHIROperationContext operationContext, String resourceTypeName, int count, Instant notModifiedAfter,
             Long afterIndexId) throws Exception {
+            throw new AssertionError("Unused");
+        }
+
+        @Override
+        public void validateInteraction(Interaction interaction, String resourceType) throws FHIROperationException {
+            throw new AssertionError("Unused");
+        }
+
+        @Override
+        public FHIRRestOperationResponse doCreateMeta(FHIRPersistenceEvent event, List<Issue> warnings, String type, Resource resource, String ifNoneExist)
+            throws Exception {
+            throw new AssertionError("Unused");
+        }
+
+        @Override
+        public FHIRRestOperationResponse doCreatePersist(FHIRPersistenceEvent event, List<Issue> warnings, Resource resource) throws Exception {
+            throw new AssertionError("Unused");
+        }
+
+        @Override
+        public FHIRRestOperationResponse doUpdateMeta(FHIRPersistenceEvent event, String type, String id, FHIRPatch patch, Resource newResource,
+            String ifMatchValue, String searchQueryString, boolean skippableUpdate, boolean doValidation, List<Issue> warnings) throws Exception {
+            throw new AssertionError("Unused");
+        }
+
+        @Override
+        public FHIRRestOperationResponse doPatchOrUpdatePersist(FHIRPersistenceEvent event, String type, String id, boolean isPatch, Resource newResource,
+            Resource prevResource, List<Issue> warnings, boolean isDeleted) throws Exception {
+            throw new AssertionError("Unused");
+        }
+
+        @Override
+        public Map<String, Object> buildPersistenceEventProperties(String type, String id, String version, FHIRSearchContext searchContext)
+            throws FHIRPersistenceException {
+            throw new AssertionError("Unused");
+        }
+
+        @Override
+        public String generateResourceId() {
+            throw new AssertionError("Unused");
+        }
+
+        @Override
+        public Future<PayloadKey> storePayload(Resource resource, String logicalId, int newVersionNumber) throws Exception {
             throw new AssertionError("Unused");
         }
     }

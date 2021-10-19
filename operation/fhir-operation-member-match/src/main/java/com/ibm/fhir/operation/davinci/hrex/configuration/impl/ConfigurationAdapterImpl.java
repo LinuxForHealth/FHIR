@@ -16,7 +16,7 @@ import com.ibm.fhir.operation.davinci.hrex.configuration.ConfigurationAdapter;
 public class ConfigurationAdapterImpl implements ConfigurationAdapter {
     @Override
     public boolean enabled() {
-        return FHIRConfigHelper.getBooleanProperty("fhirServer/operations/membermatch/enabled", false);
+        return FHIRConfigHelper.getBooleanProperty("fhirServer/operations/membermatch/enabled", true);
     }
 
     @Override

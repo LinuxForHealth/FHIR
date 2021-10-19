@@ -148,6 +148,7 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
             // defined by the customer, it's all in the Compiler.
             String type = "Patient";
             String requestUri = FHIRRequestContext.get().getOriginalRequestUri();
+            LOG.info("SPs for Patient " + patientCompiler.getSearchParameters());
             Bundle patientBundle = resourceHelper()
                     .doSearch(type, null, null, patientCompiler.getSearchParameters(), requestUri, null);
             int size = patientBundle.getEntry().size();
@@ -171,6 +172,7 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
             coverageToMatch.accept(coverageCompiler);
 
             // essentially a search on beneficiary
+            LOG.info("SPs for Coverage " + coverageCompiler.getSearchParameters());
             Bundle coverageBundle = resourceHelper().doSearch(type, null, null, coverageCompiler.getSearchParameters(), requestUri, null);
 
             if (coverageBundle.getEntry().isEmpty()) {
@@ -529,12 +531,14 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
      * @implNote Coverage is a bit unique here.
      * It's the CoverageToMatch - details of prior health plan coverage provided by the member,
      * typically from their health plan coverage card and has dubious provenance.
+     *
+     * It's also worth mentioning don't fall into the trap of Coverage.type and Coverage.class.type.
+     * These are not equivalent, and should not be searched in lieu of each other.
      */
     public static class MemberMatchCovergeSearchCompiler extends DefaultVisitor {
         private MultivaluedMap<String,String> searchParams = new MultivaluedHashMap<>();
         private String subscriber;
         private Set<String> ids = new HashSet<>();
-        private Set<String> ccs = new HashSet<>();
 
         /**
          * public constructor which automatically enables child element processing.
@@ -554,11 +558,6 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
             if (!ids.isEmpty()) {
                 String val = ids.stream().collect(Collectors.joining(","));
                 temp.add("identifier", val);
-            }
-
-            if (!ccs.isEmpty()) {
-                String val = ccs.stream().collect(Collectors.joining(","));
-                temp.add("type", val);
             }
 
             // The subscriber in $member-match is not necessarily the patient (a.k.a. Coverage.beneficiary).
@@ -628,30 +627,6 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
             if ("subscriberId".equals(elementName)) {
                 // HREX has a custom search parameter - subscriber-id.
                 searchParams.put("subscriber-id", Arrays.asList(string.getValue()));
-            }
-            return false;
-        }
-
-        @Override
-        public boolean visit(String elementName, int elementIndex, BackboneElement element) {
-            // class maps to the search parameter code "type"
-            if ("class".equals(elementName) && element.is(Coverage.Class.class)) {
-                Coverage.Class cc = element.as(Coverage.Class.class);
-                if (cc.getValue() != null && cc.getValue().getValue() != null) {
-                    String value = cc.getValue().getValue();
-                    CodeableConcept codeableConcept = cc.getType();
-                    if (codeableConcept != null) {
-                        for (Coding coding : codeableConcept.getCoding()) {
-                            if (coding.getSystem() != null
-                                    && coding.getSystem().getValue() != null
-                                    && coding.getCode() != null
-                                    && coding.getCode().getValue() != null) {
-                                ccs.add(coding.getSystem().getValue() + "|" +
-                                    coding.getCode().getValue() + "|" + value);
-                            }
-                        }
-                    }
-                }
             }
             return false;
         }
