@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
- 
+
 package com.ibm.fhir.server.rest;
 
 import static com.ibm.fhir.model.type.String.string;
@@ -22,21 +22,21 @@ import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.core.HTTPReturnPreference;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.Bundle.Entry;
-import com.ibm.fhir.model.type.Uri;
-import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
 import com.ibm.fhir.server.operation.spi.FHIRRestOperationResponse;
 
 /**
  * Abstract base class of the {@link FHIRRestInteractionVisitor}. Manages access to the
- * map managing local references (localRefMap) and the array of response Entry objects 
+ * map managing local references (localRefMap) and the array of response Entry objects
  * (responseBundleEntries).
  */
 public abstract class FHIRRestInteractionVisitorBase implements FHIRRestInteractionVisitor {
     private static final Logger log = Logger.getLogger(FHIRRestInteractionVisitorBase.class.getName());
-    
+
     protected static final com.ibm.fhir.model.type.String SC_BAD_REQUEST_STRING = string(Integer.toString(SC_BAD_REQUEST));
     protected static final com.ibm.fhir.model.type.String SC_GONE_STRING = string(Integer.toString(SC_GONE));
     protected static final com.ibm.fhir.model.type.String SC_NOT_FOUND_STRING = string(Integer.toString(SC_NOT_FOUND));
@@ -45,10 +45,10 @@ public abstract class FHIRRestInteractionVisitorBase implements FHIRRestInteract
 
     // the helper we use to do most of the heavy lifting
     protected final FHIRResourceHelpers helpers;
-    
+
     // Used to resolve local references
     protected final Map<String, String> localRefMap;
-    
+
     // Held as an array, so we can be sure of O(1) operations because entries are not processed in order
     private final Entry[] responseBundleEntries;
 
@@ -59,7 +59,7 @@ public abstract class FHIRRestInteractionVisitorBase implements FHIRRestInteract
      * @param responseBundleEntries
      */
     protected FHIRRestInteractionVisitorBase(FHIRResourceHelpers helpers,
-        Map<String, String> localRefMap, Entry[] responseBundleEntries) {
+            Map<String, String> localRefMap, Entry[] responseBundleEntries) {
         this.helpers = helpers;
         this.localRefMap = localRefMap;
         this.responseBundleEntries = responseBundleEntries;
@@ -81,11 +81,11 @@ public abstract class FHIRRestInteractionVisitorBase implements FHIRRestInteract
     protected Entry getResponseEntry(int entryIndex) {
         return responseBundleEntries[entryIndex];
     }
-    
+
     private void logBundledRequestCompletedMsg(String requestDescription, long initialTime, String httpStatus) {
         StringBuffer msg = new StringBuffer();
         double elapsedSecs = (System.currentTimeMillis() - initialTime) / 1000.0;
-        
+
         msg.append("Completed bundle request took:[");
         msg.append(elapsedSecs);
         msg.append(" secs]: ");
@@ -93,7 +93,7 @@ public abstract class FHIRRestInteractionVisitorBase implements FHIRRestInteract
         msg.append(" status:[" + httpStatus + "]");
         log.info(msg.toString());
     }
-    
+
     /**
      * Build an entry for the bundle response
      * @param operationResponse
@@ -103,13 +103,14 @@ public abstract class FHIRRestInteractionVisitorBase implements FHIRRestInteract
      * @return
      * @throws FHIROperationException
      */
-    protected Entry buildResponseBundleEntry(FHIRRestOperationResponse operationResponse, OperationOutcome validationOutcome,
-        String requestDescription, long initialTime) throws FHIROperationException {
+    protected Entry buildResponseBundleEntry(FHIRRestOperationResponse operationResponse,
+            OperationOutcome validationOutcome, String requestDescription, long initialTime)
+            throws FHIROperationException {
 
         Resource resource = operationResponse.getResource();
         URI locationURI = operationResponse.getLocationURI();
         int httpStatus = operationResponse.getStatus().getStatusCode();
-    
+
         Entry.Response.Builder entryResponseBuilder = Entry.Response.builder()
                 .status(string(Integer.toString(httpStatus)))
                 .outcome(validationOutcome);
@@ -122,7 +123,7 @@ public abstract class FHIRRestInteractionVisitorBase implements FHIRRestInteract
         if (locationURI != null) {
             entryResponseBuilder = entryResponseBuilder.location(Uri.of(locationURI.toString()));
         }
-    
+
         Entry.Builder bundleEntryBuilder = Entry.builder();
         if (HTTPReturnPreference.REPRESENTATION.equals(FHIRRequestContext.get().getReturnPreference())) {
             bundleEntryBuilder.resource(resource);
@@ -131,14 +132,14 @@ public abstract class FHIRRestInteractionVisitorBase implements FHIRRestInteract
             // to contain useful information, but the validationOutcome already exists under the Entry.response
             bundleEntryBuilder.resource(operationResponse.getOperationOutcome());
         }
-    
+
         return bundleEntryBuilder.response(entryResponseBuilder.build()).build();
     }
-    
+
     private String getEtagValue(Resource resource) {
         return "W/\"" + resource.getMeta().getVersionId().getValue() + "\"";
     }
-    
+
     /**
      * This method will add a mapping to the local-to-external identifier map if the specified localIdentifier is
      * non-null.

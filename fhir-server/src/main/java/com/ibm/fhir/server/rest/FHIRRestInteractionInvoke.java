@@ -28,6 +28,7 @@ public class FHIRRestInteractionInvoke extends FHIRRestInteractionResource {
 
     /**
      * Public constructor
+     *
      * @param entryIndex
      * @param validationResponseEntry
      * @param requestDescription
@@ -42,9 +43,10 @@ public class FHIRRestInteractionInvoke extends FHIRRestInteractionResource {
      * @param resource
      * @param queryParameters
      */
-    public FHIRRestInteractionInvoke(int entryIndex, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL,
-            long initialTime, FHIROperationContext operationContext, String method, String resourceTypeName, String logicalId,
-            String versionId, Resource resource, MultivaluedMap<String, String> queryParameters) {
+    public FHIRRestInteractionInvoke(int entryIndex, Entry validationResponseEntry, String requestDescription,
+            FHIRUrlParser requestURL, long initialTime, FHIROperationContext operationContext, String method,
+            String resourceTypeName, String logicalId, String versionId, Resource resource,
+            MultivaluedMap<String, String> queryParameters) {
         super(entryIndex, null, resource, validationResponseEntry, requestDescription, requestURL, initialTime);
         this.operationContext = operationContext;
         this.method = method;

@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
- 
+
 package com.ibm.fhir.server.rest;
 
 /**
@@ -13,17 +13,19 @@ package com.ibm.fhir.server.rest;
  * method.
  */
 public interface FHIRRestInteraction {
-    
+
     /**
      * Perform this interaction on the given visitor. Some implementations may chose to
      * update their internal state based on the interaction.
+     *
      * @param visitor
      * @throws Exception
      */
     void accept(FHIRRestInteractionVisitor visitor) throws Exception;
-    
+
     /**
      * Get the index for the response bundle entry
+     *
      * @return
      */
     int getEntryIndex();

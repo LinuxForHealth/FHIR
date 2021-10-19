@@ -29,6 +29,7 @@ public class FHIRRestInteractionUpdate extends FHIRRestInteractionResource {
 
     /**
      * Public constructor
+     *
      * @param entryIndex
      * @param event
      * @param validationResponseEntry
@@ -43,9 +44,10 @@ public class FHIRRestInteractionUpdate extends FHIRRestInteractionResource {
      * @param skippableUpdate
      * @param localIdentifier
      */
-    public FHIRRestInteractionUpdate(int entryIndex, FHIRPersistenceEvent event, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL,
-        long initialTime, String type, String id, Resource newResource, String ifMatchValue,
-        String searchQueryString, boolean skippableUpdate, String localIdentifier) {
+    public FHIRRestInteractionUpdate(int entryIndex, FHIRPersistenceEvent event, Entry validationResponseEntry,
+            String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String id,
+            Resource newResource, String ifMatchValue, String searchQueryString, boolean skippableUpdate,
+            String localIdentifier) {
         super(entryIndex, event, newResource, validationResponseEntry, requestDescription, requestURL, initialTime);
         this.type = type;
         this.id = id;
@@ -58,9 +60,9 @@ public class FHIRRestInteractionUpdate extends FHIRRestInteractionResource {
     @Override
     public void accept(FHIRRestInteractionVisitor visitor) throws Exception {
 
-        FHIRRestOperationResponse result = visitor.doUpdate(getEntryIndex(), getEvent(), getValidationResponseEntry(), getRequestDescription(), getRequestURL(),
-            getInitialTime(), type, id, getNewResource(), getPrevResource(), ifMatchValue, searchQueryString, skippableUpdate, localIdentifier,
-            getWarnings(), deleted);
+        FHIRRestOperationResponse result = visitor.doUpdate(getEntryIndex(), getEvent(), getValidationResponseEntry(),
+                getRequestDescription(), getRequestURL(), getInitialTime(), type, id, getNewResource(),
+                getPrevResource(), ifMatchValue, searchQueryString, skippableUpdate, localIdentifier, getWarnings(), deleted);
 
         // update the resource so we can use it when called in the next processing phase
         if (result != null) {

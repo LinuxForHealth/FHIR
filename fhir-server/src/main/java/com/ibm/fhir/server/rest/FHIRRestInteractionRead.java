@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
- 
+
 package com.ibm.fhir.server.rest;
 
 import javax.ws.rs.core.MultivaluedMap;
@@ -23,9 +23,10 @@ public class FHIRRestInteractionRead extends FHIRRestInteractionBase {
     private final Resource contextResource;
     private final MultivaluedMap<String, String> queryParameters;
     private final boolean checkInteractionAllowed;
-    
+
     /**
      * Public constructor
+     *
      * @param entryIndex
      * @param requestDescription
      * @param requestURL
@@ -38,8 +39,9 @@ public class FHIRRestInteractionRead extends FHIRRestInteractionBase {
      * @param queryParameters
      * @param checkInteractionAllowed
      */
-    public FHIRRestInteractionRead(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String id, boolean throwExcOnNull, boolean includeDeleted,
-        Resource contextResource, MultivaluedMap<String, String> queryParameters, boolean checkInteractionAllowed) {
+    public FHIRRestInteractionRead(int entryIndex, String requestDescription, FHIRUrlParser requestURL,
+            long initialTime, String type, String id, boolean throwExcOnNull, boolean includeDeleted,
+            Resource contextResource, MultivaluedMap<String, String> queryParameters, boolean checkInteractionAllowed) {
         super(entryIndex, requestDescription, requestURL, initialTime);
         this.type = type;
         this.id = id;
@@ -49,7 +51,7 @@ public class FHIRRestInteractionRead extends FHIRRestInteractionBase {
         this.queryParameters = queryParameters;
         this.checkInteractionAllowed = checkInteractionAllowed;
     }
-    
+
     @Override
     public void accept(FHIRRestInteractionVisitor visitor) throws Exception {
         visitor.doRead(getEntryIndex(), getRequestDescription(), getRequestURL(), getInitialTime(), type, id, throwExcOnNull, includeDeleted, contextResource, queryParameters, checkInteractionAllowed);
