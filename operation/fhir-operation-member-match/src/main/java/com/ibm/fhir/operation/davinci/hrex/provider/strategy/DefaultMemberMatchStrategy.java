@@ -284,7 +284,7 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
      * only MUST SUPPORT elements are considered.
      */
     public static class MemberMatchPatientSearchCompiler extends DefaultVisitor {
-        private MultivaluedMap<String,String> searchParams = new MultivaluedHashMap<>();
+        private MultivaluedMap<String,String> searchParams = new MultivaluedHashMap<String,String>();
         private Set<String> telecom = new HashSet<>();
         private Set<String> given = new HashSet<>();
         private Set<String> family = new HashSet<>();
@@ -308,7 +308,7 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
          * @return
          */
         public MultivaluedMap<String,String> getSearchParameters() {
-            MultivaluedMap<String,String> temp = new MultivaluedHashMap<>(searchParams);
+            MultivaluedMap<String,String> temp = new MultivaluedHashMap<String,String>(searchParams);
             if (!telecom.isEmpty()) {
                 String val = telecom.stream().collect(Collectors.joining(","));
                 temp.add("telecom", val);
@@ -536,7 +536,7 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
      * These are not equivalent, and should not be searched in lieu of each other.
      */
     public static class MemberMatchCovergeSearchCompiler extends DefaultVisitor {
-        private MultivaluedMap<String,String> searchParams = new MultivaluedHashMap<>();
+        private MultivaluedMap<String,String> searchParams = new MultivaluedHashMap<String,String>();
         private String subscriber;
         private Set<String> ids = new HashSet<>();
 
@@ -553,7 +553,7 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
          * @return
          */
         public MultivaluedMap<String,String> getSearchParameters() {
-            MultivaluedMap<String,String> temp = new MultivaluedHashMap<>(searchParams);
+            MultivaluedMap<String,String> temp = new MultivaluedHashMap<String,String>(searchParams);
 
             if (!ids.isEmpty()) {
                 String val = ids.stream().collect(Collectors.joining(","));
