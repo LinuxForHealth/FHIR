@@ -96,7 +96,7 @@ import com.ibm.fhir.registry.resource.FHIRRegistryResource.Version;
 import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.server.FHIRBuildIdentifier;
 import com.ibm.fhir.server.operation.FHIROperationRegistry;
-import com.ibm.fhir.server.operation.spi.FHIROperation;
+import com.ibm.fhir.server.spi.operation.FHIROperation;
 import com.ibm.fhir.server.util.RestAuditLogger;
 
 @Path("/")

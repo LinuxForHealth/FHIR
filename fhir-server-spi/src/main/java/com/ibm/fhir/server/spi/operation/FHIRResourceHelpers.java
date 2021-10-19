@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.server.operation.spi;
+package com.ibm.fhir.server.spi.operation;
 
 import java.time.Instant;
 import java.util.List;
@@ -27,7 +27,6 @@ import com.ibm.fhir.persistence.erase.EraseDTO;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.payload.PayloadKey;
 import com.ibm.fhir.search.context.FHIRSearchContext;
-import com.ibm.fhir.server.util.FHIRRestHelper.Interaction;
 
 /**
  * This interface describes the set of helper methods from the FHIR REST layer that are used by custom operation
@@ -38,6 +37,36 @@ public interface FHIRResourceHelpers {
     public static final boolean DO_VALIDATION = true;
     // Constant for indicating whether an update can be skipped when the requested update resource matches the existing one
     public static final boolean SKIPPABLE_UPDATE = true;
+
+    public enum Interaction {
+        CREATE("create"),
+        DELETE("delete"),
+        HISTORY("history"),
+        PATCH("patch"),
+        READ("read"),
+        SEARCH("search"),
+        UPDATE("update"),
+        VREAD("vread");
+
+        private final String value;
+
+        Interaction(String value) {
+            this.value = value;
+        }
+
+        public String value() {
+            return value;
+        }
+
+        public static Interaction from(String value) {
+            for (Interaction interaction : Interaction.values()) {
+                if (interaction.value.equals(value)) {
+                    return interaction;
+                }
+            }
+            throw new IllegalArgumentException(value);
+        }
+    }
 
     /**
      * Validate an interaction for a specified resource type.

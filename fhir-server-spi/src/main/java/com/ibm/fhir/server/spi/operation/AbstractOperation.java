@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.server.operation.spi;
+package com.ibm.fhir.server.spi.operation;
 
 import java.util.ArrayList;
 import java.util.List;

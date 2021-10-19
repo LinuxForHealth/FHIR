@@ -14,8 +14,8 @@ import com.ibm.fhir.model.type.HumanName;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
-import com.ibm.fhir.server.interceptor.FHIRPersistenceInterceptor;
-import com.ibm.fhir.server.interceptor.FHIRPersistenceInterceptorException;
+import com.ibm.fhir.server.spi.interceptor.FHIRPersistenceInterceptor;
+import com.ibm.fhir.server.spi.interceptor.FHIRPersistenceInterceptorException;
 
 /**
  * This class serves as a test implementation of the FHIRPersistenceInterceptor interface.

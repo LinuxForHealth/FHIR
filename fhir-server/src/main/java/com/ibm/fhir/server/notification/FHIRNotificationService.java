@@ -18,9 +18,9 @@ import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
-import com.ibm.fhir.server.interceptor.FHIRPersistenceInterceptor;
-import com.ibm.fhir.server.interceptor.FHIRPersistenceInterceptorException;
 import com.ibm.fhir.server.interceptor.FHIRPersistenceInterceptorMgr;
+import com.ibm.fhir.server.spi.interceptor.FHIRPersistenceInterceptor;
+import com.ibm.fhir.server.spi.interceptor.FHIRPersistenceInterceptorException;
 
 /**
  * This class coordinates the activities of the FHIR Server notification service.

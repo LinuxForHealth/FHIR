@@ -26,7 +26,7 @@ import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.search.SearchConstants;
-import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
+import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 
 /**
  * This is an implementation of a retrieve provider for the CQL Engine that uses

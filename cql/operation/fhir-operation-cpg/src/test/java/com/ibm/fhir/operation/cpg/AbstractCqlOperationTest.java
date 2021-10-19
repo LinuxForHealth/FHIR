@@ -33,8 +33,8 @@ import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.code.OperationKind;
 import com.ibm.fhir.model.type.code.PublicationStatus;
-import com.ibm.fhir.server.operation.spi.FHIROperationContext;
-import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
+import com.ibm.fhir.server.spi.operation.FHIROperationContext;
+import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 
 public class AbstractCqlOperationTest extends BaseCqlOperationTest<AbstractCqlOperation> {
 
