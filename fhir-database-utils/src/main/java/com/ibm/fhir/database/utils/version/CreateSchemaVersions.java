@@ -38,14 +38,14 @@ public class CreateSchemaVersions {
      */
     public static Table buildTableDef(PhysicalDataModel dataModel, String schemaName, boolean addTags) {
         // RECORD_ID is used to make sure we only put one row in this table
-        // Ideally we'd also add a CHECK constraint that RECORD_ID = 1
-        // but this is not supported by the Table builder, and is instead
-        // enforced by the DAO
+        // It is the primary key, and we add a check constraint RECORD_ID = 1
+        // so the two restrictions combined enforce a single row
         Table t = Table.builder(schemaName, SchemaConstants.SCHEMA_VERSIONS)
                 .setVersion(0)
                 .addIntColumn(SchemaConstants.RECORD_ID, false)
                 .addIntColumn(SchemaConstants.VERSION_ID, false)
                 .addPrimaryKey("PK_SCHEMA_VERSIONS", SchemaConstants.RECORD_ID)
+                .addCheckConstraint("CK_ONE_ROW", "RECORD_ID = 1")
                 .build(dataModel);
         dataModel.addTable(t);
         dataModel.addObject(t);
