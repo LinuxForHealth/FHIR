@@ -21,9 +21,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.GZIPInputStream;
 
+import com.ibm.fhir.database.utils.common.CalendarHelper;
 import com.ibm.fhir.persistence.ResourcePayload;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.jdbc.util.CalendarHelper;
 
 /**
  * DAO to fetch the payload objects for a list of resource ids

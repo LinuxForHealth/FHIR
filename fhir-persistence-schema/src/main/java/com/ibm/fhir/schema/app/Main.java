@@ -36,6 +36,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import com.ibm.fhir.core.util.handler.HostnameHandler;
 import com.ibm.fhir.database.utils.api.DataAccessException;
 import com.ibm.fhir.database.utils.api.DatabaseNotReadyException;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
@@ -69,9 +70,13 @@ import com.ibm.fhir.database.utils.tenant.DeleteTenantKeyDAO;
 import com.ibm.fhir.database.utils.tenant.GetTenantDAO;
 import com.ibm.fhir.database.utils.transaction.SimpleTransactionProvider;
 import com.ibm.fhir.database.utils.transaction.TransactionFactory;
+import com.ibm.fhir.database.utils.version.CreateControl;
+import com.ibm.fhir.database.utils.version.CreateSchemaVersions;
 import com.ibm.fhir.database.utils.version.CreateVersionHistory;
 import com.ibm.fhir.database.utils.version.VersionHistoryService;
 import com.ibm.fhir.model.util.ModelSupport;
+import com.ibm.fhir.schema.api.ConcurrentUpdateException;
+import com.ibm.fhir.schema.api.ILeaseManagerConfig;
 import com.ibm.fhir.schema.app.util.TenantKeyFileUtil;
 import com.ibm.fhir.schema.control.BackfillResourceChangeLog;
 import com.ibm.fhir.schema.control.BackfillResourceChangeLogDb2;
@@ -115,6 +120,7 @@ public class Main {
     private static final int EXIT_VALIDATION_FAILED = 3; // validation test failed
     private static final int EXIT_NOT_READY = 4; // DATABASE NOT READY
     private static final int EXIT_TABLESPACE_REMOVAL_NOT_COMPLETE = 5; // Tablespace Removal not complete
+    private static final int EXIT_CONCURRENT_UPDATE = 6; // Another schema update is running and the wait time expired
     private static final double NANOS = 1e9;
 
     // Indicates if the feature is enabled for the DbType
@@ -170,6 +176,9 @@ public class Main {
     private int vacuumCostLimit = 2000;
     private int vacuumThreshold = 1000;
     private Double vacuumScaleFactor = null;
+    
+    // How many seconds to wait to obtain the update lease
+    private int waitForUpdateLeaseSeconds = 10;
 
     // The database type being populated (default: Db2)
     private DbType dbType = DbType.DB2;
@@ -206,6 +215,9 @@ public class Main {
     private int maxConnectionPoolSize = FhirSchemaConstants.DEFAULT_POOL_SIZE;
     private PoolConnectionProvider connectionPool;
     private ITransactionProvider transactionProvider;
+    
+    // Configuration to control how the LeaseManager operates
+    private ILeaseManagerConfig leaseManagerConfig;
 
     // -----------------------------------------------------------------------------------------------------------------
     // The following method is related to the common methods and functions
@@ -246,57 +258,36 @@ public class Main {
     }
 
     /**
-     * builds the common model based on the flags passed in
+     * Add the admin schema objects to the {@link PhysicalDataModel}
      *
-     * @param pdm
-     * @param fhirSchema
-     *            - true indicates if the fhir model is added to the Physical Data Model
-     * @param oauthSchema
-     *            - true indicates if the oauth model is added to the Physical Data Model
-     * @param javaBatchSchema
-     *            - true indicates if the model is added to the Physical Data Model
+     * @param pdm the data model to build
      */
-    protected void buildCommonModel(PhysicalDataModel pdm, boolean fhirSchema, boolean oauthSchema, boolean javaBatchSchema) {
-        if (fhirSchema) {
-
-            FhirSchemaGenerator gen;
-            if (resourceTypeSubset == null || resourceTypeSubset.isEmpty()) {
-                gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), schema.getSchemaName(), isMultitenant());
-            } else {
-                gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), schema.getSchemaName(), isMultitenant(), resourceTypeSubset);
-            }
-
-            gen.buildSchema(pdm);
-            switch (dbType) {
-            case DB2:
-                gen.buildDatabaseSpecificArtifactsDb2(pdm);
-                break;
-            case DERBY:
-                logger.info("No database specific artifacts");
-                break;
-            case POSTGRESQL:
-                gen.buildDatabaseSpecificArtifactsPostgres(pdm);
-                break;
-            default:
-                throw new IllegalStateException("Unsupported db type: " + dbType);
-            }
-        } else if (dropAdmin) {
-            // Add the tenant and tenant_keys tables and any other admin schema stuff
-            FhirSchemaGenerator gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), schema.getSchemaName(), isMultitenant());
-            gen.buildAdminSchema(pdm);
-        }
-
+    protected void buildAdminSchemaModel(PhysicalDataModel pdm) {
+        // Add the tenant and tenant_keys tables and any other admin schema stuff
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), schema.getSchemaName(), isMultitenant());
+        gen.buildAdminSchema(pdm);
+    }
+    
+    /**
+     * Add the OAuth schema objects to the given {@link PhysicalDataModel}
+     * 
+     * @param pdm the model to build
+     */
+    protected void buildOAuthSchemaModel(PhysicalDataModel pdm) {
         // Build/update the Liberty OAuth-related tables
-        if (oauthSchema) {
-            OAuthSchemaGenerator oauthSchemaGenerator = new OAuthSchemaGenerator(schema.getOauthSchemaName());
-            oauthSchemaGenerator.buildOAuthSchema(pdm);
-        }
+        OAuthSchemaGenerator oauthSchemaGenerator = new OAuthSchemaGenerator(schema.getOauthSchemaName());
+        oauthSchemaGenerator.buildOAuthSchema(pdm);
+    }
 
+    /**
+     * Add the JavaBatch schema objects to the given {@link PhysicalDataModel}
+     * 
+     * @param pdm
+     */
+    protected void buildJavaBatchSchemaModel(PhysicalDataModel pdm) {
         // Build/update the Liberty JBatch related tables
-        if (javaBatchSchema) {
-            JavaBatchSchemaGenerator javaBatchSchemaGenerator = new JavaBatchSchemaGenerator(schema.getJavaBatchSchemaName());
-            javaBatchSchemaGenerator.buildJavaBatchSchema(pdm);
-        }
+        JavaBatchSchemaGenerator javaBatchSchemaGenerator = new JavaBatchSchemaGenerator(schema.getJavaBatchSchemaName());
+        javaBatchSchemaGenerator.buildJavaBatchSchema(pdm);
     }
 
     /**
@@ -375,14 +366,187 @@ public class Main {
             throw translator.translate(x);
         }
     }
+    
+    /**
+     * Process the schemas configured to be updated
+     */
+    protected void updateSchemas() {
+        
+        // Make sure that we have the CONTROL table created before we try any
+        // schema update work
+        IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
+        CreateControl.createTableIfNeeded(schema.getAdminSchemaName(), adapter);
+
+        if (updateFhirSchema) {
+            updateFhirSchema();
+        }
+        
+        if (updateOauthSchema) {
+            updateOauthSchema();
+        }
+        
+        if (updateJavaBatchSchema) {
+            updateJavaBatchSchema();
+        }
+    }
+    
+    /**
+     * Add FHIR data schema objects to the given {@link PhysicalDataModel}
+     * @param pdm the data model being built
+     */
+    protected void buildFhirDataSchemaModel(PhysicalDataModel pdm) {
+        FhirSchemaGenerator gen;
+        if (resourceTypeSubset == null || resourceTypeSubset.isEmpty()) {
+            gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), schema.getSchemaName(), isMultitenant());
+        } else {
+            gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), schema.getSchemaName(), isMultitenant(), resourceTypeSubset);
+        }
+
+        gen.buildSchema(pdm);
+        switch (dbType) {
+        case DB2:
+            gen.buildDatabaseSpecificArtifactsDb2(pdm);
+            break;
+        case DERBY:
+            logger.info("No database specific artifacts");
+            break;
+        case POSTGRESQL:
+            gen.buildDatabaseSpecificArtifactsPostgres(pdm);
+            break;
+        default:
+            throw new IllegalStateException("Unsupported db type: " + dbType);
+        }
+    }
+    
+    /**
+     * Update the FHIR data schema
+     */
+    protected void updateFhirSchema() {
+        LeaseManager leaseManager = new LeaseManager(this.translator, connectionPool, transactionProvider, schema.getAdminSchemaName(), schema.getSchemaName(),
+            leaseManagerConfig);
+
+        try {
+            if (!leaseManager.waitForLease(waitForUpdateLeaseSeconds)) {
+                throw new ConcurrentUpdateException("Concurrent update for FHIR data schema: '" + schema.getSchemaName() + "'");
+            }
+            
+            final String targetSchemaName = schema.getSchemaName();
+            IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
+            CreateSchemaVersions.createTableIfNeeded(targetSchemaName, adapter);
+            
+            // If our schema is already at the latest version, we can skip a lot of processing
+            SchemaVersionsManager svm = new SchemaVersionsManager(translator, connectionPool, transactionProvider, targetSchemaName);
+            if (svm.isLatestSchema()) {
+                logger.info("Already at latest version; skipping update for: '" + targetSchemaName + "'");
+            } else {
+                // Build/update the FHIR-related tables as well as the stored procedures
+                PhysicalDataModel pdm = new PhysicalDataModel();
+                buildFhirDataSchemaModel(pdm);
+                boolean isNewDb = updateSchema(pdm);
+                
+                // If the db is multi-tenant, we populate the resource types and parameter names in allocate-tenant.
+                // Otherwise, if its a new schema, populate the resource types and parameters names (codes) now
+                if (!MULTITENANT_FEATURE_ENABLED.contains(dbType) && isNewDb) {
+                    populateResourceTypeAndParameterNameTableEntries(null);
+                }
+        
+                if (MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
+                    logger.info("Refreshing tenant partitions");
+                    refreshTenants();
+                }
+        
+                // backfill the resource_change_log table if needed
+                backfillResourceChangeLog();
+        
+                // perform any updates we need related to the V0010 schema change (IS_DELETED flag)
+                applyDataMigrationForV0010();
+        
+                // V0014 IS_DELETED and LAST_UPDATED added to whole-system LOGICAL_RESOURCES
+                applyDataMigrationForV0014();
+        
+                // Log warning messages that unused tables will be removed in a future release.
+                // TODO: This will no longer be needed after the tables are removed (https://github.com/IBM/FHIR/issues/713).
+                logWarningMessagesForDeprecatedTables();
+                
+                // Mark the schema as up-to-date
+                svm.updateSchemaVersion();
+            }
+        } finally {
+            leaseManager.cancelLease();
+        }
+    }
 
     /**
-     * Update the schema
+     * Build and apply the OAuth schema changes
      */
-    protected void updateSchema() {
-        // Build/update the FHIR-related tables as well as the stored procedures
-        PhysicalDataModel pdm = new PhysicalDataModel();
-        buildCommonModel(pdm, updateFhirSchema, updateOauthSchema, updateJavaBatchSchema);
+    protected void updateOauthSchema() {
+        LeaseManager leaseManager = new LeaseManager(this.translator, connectionPool, transactionProvider, schema.getAdminSchemaName(), schema.getOauthSchemaName(),
+            leaseManagerConfig);
+
+        try {
+            if (!leaseManager.waitForLease(waitForUpdateLeaseSeconds)) {
+                throw new ConcurrentUpdateException("Concurrent update for Liberty OAuth schema: '" + schema.getOauthSchemaName() + "'");
+            }
+            
+            final String targetSchemaName = schema.getOauthSchemaName();
+            IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
+            CreateSchemaVersions.createTableIfNeeded(targetSchemaName, adapter);
+            
+            // If our schema is already at the latest version, we can skip a lot of processing
+            SchemaVersionsManager svm = new SchemaVersionsManager(translator, connectionPool, transactionProvider, targetSchemaName);
+            if (svm.isLatestSchema()) {
+                logger.info("Already at latest version; skipping update for: '" + targetSchemaName + "'");
+            } else {
+                PhysicalDataModel pdm = new PhysicalDataModel();
+                buildOAuthSchemaModel(pdm);
+                updateSchema(pdm);
+                
+                // Mark the schema as up-to-date
+                svm.updateSchemaVersion();
+            }
+        } finally {
+            leaseManager.cancelLease();
+        }
+    }
+
+    /**
+     * Build and apply the JavaBatch schema changes
+     */
+    protected void updateJavaBatchSchema() {
+        LeaseManager leaseManager = new LeaseManager(this.translator, connectionPool, transactionProvider, schema.getAdminSchemaName(), schema.getJavaBatchSchemaName(),
+            leaseManagerConfig);
+
+        try {
+            if (!leaseManager.waitForLease(waitForUpdateLeaseSeconds)) {
+                throw new ConcurrentUpdateException("Concurrent update for Liberty JavaBatch schema: '" + schema.getJavaBatchSchemaName() + "'");
+            }
+            
+            final String targetSchemaName = schema.getJavaBatchSchemaName();
+            IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
+            CreateSchemaVersions.createTableIfNeeded(targetSchemaName, adapter);
+            
+            // If our schema is already at the latest version, we can skip a lot of processing
+            SchemaVersionsManager svm = new SchemaVersionsManager(translator, connectionPool, transactionProvider, targetSchemaName);
+            if (svm.isLatestSchema()) {
+                logger.info("Already at latest version; skipping update for: '" + targetSchemaName + "'");
+            } else {
+                PhysicalDataModel pdm = new PhysicalDataModel();
+                buildJavaBatchSchemaModel(pdm);
+                updateSchema(pdm);
+                
+                // Mark the schema as up-to-date
+                svm.updateSchemaVersion();
+            }
+        } finally {
+            leaseManager.cancelLease();
+        }
+    }
+    
+    /**
+     * Update the schema associated with the given {@link PhysicalDataModel}
+     * @return true if the database is new
+     */
+    protected boolean updateSchema(PhysicalDataModel pdm) {
 
         // The objects are applied in parallel, which relies on each object
         // expressing its dependencies correctly. Changes are only applied
@@ -393,11 +557,10 @@ public class Main {
         IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
 
         // Before we start anything, we need to make sure our schema history
-        // tables are in place. There's only a single history table, which
-        // resides in the admin schema and handles the history of all objects
-        // in any schema being managed.
+        // and control tables are in place. These tables are used to manage 
+        // all FHIR data, oauth and JavaBatch schemas we build
         CreateVersionHistory.createTableIfNeeded(schema.getAdminSchemaName(), adapter);
-
+        
         // Current version history for the data schema
         VersionHistoryService vhs =
                 new VersionHistoryService(schema.getAdminSchemaName(), schema.getSchemaName(), schema.getOauthSchemaName(), schema.getJavaBatchSchemaName());
@@ -406,35 +569,13 @@ public class Main {
         vhs.init();
 
         // Use the version history service to determine if this table existed before we run `applyWithHistory`
-        boolean newDb = vhs.getVersion(schema.getSchemaName(), DatabaseObjectType.TABLE.name(), "PARAMETER_NAMES") == null ||
+        boolean isNewDb = vhs.getVersion(schema.getSchemaName(), DatabaseObjectType.TABLE.name(), "PARAMETER_NAMES") == null ||
                 vhs.getVersion(schema.getSchemaName(), DatabaseObjectType.TABLE.name(), "PARAMETER_NAMES") == 0;
 
         applyModel(pdm, adapter, collector, vhs);
-        // There is a working data model at this point.
-
-        // If the db is multi-tenant, we populate the resource types and parameter names in allocate-tenant.
-        // Otherwise, if its a new schema, populate the resource types and parameters names (codes) now
-        if (!MULTITENANT_FEATURE_ENABLED.contains(dbType) && newDb) {
-            populateResourceTypeAndParameterNameTableEntries(null);
-        }
-
-        if (MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
-            logger.info("Refreshing tenant partitions");
-            refreshTenants();
-        }
-
-        // backfill the resource_change_log table if needed
-        backfillResourceChangeLog();
-
-        // perform any updates we need related to the V0010 schema change (IS_DELETED flag)
-        applyDataMigrationForV0010();
-
-        // V0014 IS_DELETED and LAST_UPDATED added to whole-system LOGICAL_RESOURCES
-        applyDataMigrationForV0014();
-
-        // Log warning messages that unused tables will be removed in a future release.
-        // TODO: This will no longer be needed after the tables are removed (https://github.com/IBM/FHIR/issues/713).
-        logWarningMessagesForDeprecatedTables();
+        // The physical database objects should now match what was defined in the PhysicalDataModel
+        
+        return isNewDb;
     }
 
     /**
@@ -605,6 +746,28 @@ public class Main {
                 tx.setRollbackOnly();
                 throw translator.translate(x);
             }
+        }
+    }
+
+    /**
+     * Build a common PhysicalDataModel containing all the requested schemas
+     * 
+     * @param pdm the model to construct
+     * @param addFhirDataSchema include objects for the FHIR data schema
+     * @param addOAuthSchema include objects for the Liberty OAuth schema
+     * @param addJavaBatchSchema include objects for the Liberty JavaBatch schema
+     */
+    protected void buildCommonModel(PhysicalDataModel pdm, boolean addFhirDataSchema, boolean addOAuthSchema, boolean addJavaBatchSchema) {
+        if (addFhirDataSchema) {
+            buildFhirDataSchemaModel(pdm);
+        }
+        
+        if (addOAuthSchema) {
+            buildOAuthSchemaModel(pdm);
+        }
+        
+        if (addJavaBatchSchema) {
+            buildJavaBatchSchemaModel(pdm);
         }
     }
 
@@ -1373,6 +1536,11 @@ public class Main {
     protected void parseArgs(String[] args) {
         // Arguments are pretty simple, so we go with a basic switch instead of having
         // yet another dependency (e.g. commons-cli).
+        LeaseManagerConfig.Builder lmConfig = LeaseManagerConfig.builder();
+        lmConfig.withHost(new HostnameHandler().getHostname());
+        lmConfig.withLeaseTimeSeconds(100); // default
+        lmConfig.withStayAlive(true);       // default
+        
         for (int i = 0; i < args.length; i++) {
             int nextIdx = (i + 1);
             String arg = args[i];
@@ -1697,6 +1865,8 @@ public class Main {
                 throw new IllegalArgumentException("Invalid argument: '" + arg + "'");
             }
         }
+        
+        this.leaseManagerConfig = lmConfig.build();
     }
 
     /**
@@ -2144,7 +2314,7 @@ public class Main {
                 throw new IllegalArgumentException("[ERROR] Drop not confirmed with --confirm-drop");
             }
         } else if (updateFhirSchema || updateOauthSchema || updateJavaBatchSchema) {
-            updateSchema();
+            updateSchemas();
         } else if (createFhirSchema || createOauthSchema || createJavaBatchSchema) {
             createSchemas();
         } else if (updateProc) {
@@ -2245,6 +2415,9 @@ public class Main {
         } catch (TableSpaceRemovalException x) {
             logger.warning("Tablespace removal is not complete, as an async dependency has not finished dettaching. Please re-try.");
             exitStatus = EXIT_TABLESPACE_REMOVAL_NOT_COMPLETE;
+        } catch (ConcurrentUpdateException x) {
+            logger.log(Level.WARNING, "Update is already running. Please re-try later.", x);
+            exitStatus = EXIT_CONCURRENT_UPDATE;
         } catch (DatabaseNotReadyException x) {
             logger.log(Level.SEVERE, "The database is not yet available. Please re-try.", x);
             exitStatus = EXIT_NOT_READY;

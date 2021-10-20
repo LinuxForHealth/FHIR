@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 import javax.transaction.TransactionSynchronizationRegistry;
 
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.common.CalendarHelper;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
 import com.ibm.fhir.persistence.jdbc.dao.ReindexResourceDAO;
@@ -27,7 +28,6 @@ import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceIndexRecord;
 import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
-import com.ibm.fhir.persistence.jdbc.util.CalendarHelper;
 
 /**
  * PostgreSQL specialization of the DAO used to assist the reindex custom operation

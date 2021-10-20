@@ -24,10 +24,10 @@ import java.util.logging.Logger;
 import java.util.zip.GZIPInputStream;
 
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.common.CalendarHelper;
 import com.ibm.fhir.persistence.ResourcePayload;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
-import com.ibm.fhir.persistence.jdbc.util.CalendarHelper;
 
 /**
  * DAO to fetch resource ids using a time range and optional current resource id as a filter.
