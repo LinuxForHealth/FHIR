@@ -47,9 +47,9 @@ public final class FHIRModelConfig {
     public static final String PROPERTY_EXTENDED_CODEABLE_CONCEPT_VALIDATION = "com.ibm.fhir.model.extendedCodeableConceptValidation";
 
     /**
-     * Used to determine whether unicode control characters are checked
+     * Used to determine whether control characters are checked
      */
-    public static final String PROPERTY_CHECK_UNICODE_CONTROL_CHARS = "com.ibm.fhir.model.checkUnicodeControl";
+    public static final String PROPERTY_CHECK_CONTROL_CHARS = "com.ibm.fhir.model.checkControlChars";
 
     private static final Format DEFAULT_TO_STRING_FORMAT = Format.JSON;
     private static final int DEFAULT_TO_STRING_INDENT_AMOUNT = 2;
@@ -94,12 +94,12 @@ public final class FHIRModelConfig {
         return getPropertyOrDefault(PROPERTY_CHECK_REFERENCE_TYPES, DEFAULT_CHECK_REFERENCE_TYPES, Boolean.class);
     }
 
-    public static void setCheckUnicodeControlChars(boolean checkUnicodeControlChars) {
-        setProperty(PROPERTY_CHECK_UNICODE_CONTROL_CHARS, checkUnicodeControlChars);
+    public static void setCheckForControlChars(boolean checkControlChars) {
+        setProperty(PROPERTY_CHECK_CONTROL_CHARS, checkControlChars);
     }
 
-    public static boolean shouldCheckUnicodeControlChars() {
-        return getPropertyOrDefault(PROPERTY_CHECK_UNICODE_CONTROL_CHARS, DEFAULT_CHECK_UNICODE_CONTROL_CHARS, Boolean.class);
+    public static boolean shouldCheckForControlChars() {
+        return getPropertyOrDefault(PROPERTY_CHECK_CONTROL_CHARS, DEFAULT_CHECK_UNICODE_CONTROL_CHARS, Boolean.class);
     }
 
     public static void setExtendedCodeableConceptValidation(boolean extendedCodeableConceptValidation) {
