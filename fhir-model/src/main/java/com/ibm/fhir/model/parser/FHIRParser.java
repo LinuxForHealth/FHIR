@@ -19,12 +19,6 @@ import com.ibm.fhir.model.util.ValidationSupport;
  */
 public interface FHIRParser {
     /**
-     * Property name for a property that controls whether the parser will ignore or throw an exception on unrecognized elements
-     */
-    @Deprecated
-    public static final String PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS = "com.ibm.fhir.model.parser.ignoreUnrecognizedElements";
-
-    /**
      * Read a resource from the passed InputStream. This method does not close the passed InputStream.
      *
      * @param <T> The resource type to read
