@@ -17,7 +17,8 @@
                     "notAllowed": [
                         "profile8",
                         "profile6|1"
-                    ]
+                    ],
+                    "allowUnknown": true
                 }
             },
             "Condition": {
@@ -26,6 +27,11 @@
                     ],
                     "notAllowed": [
                     ]
+                }
+            },
+           "Encounter": {
+                "profiles": {
+                    "allowUnknown": true
                 }
             },
             "Patient": {
@@ -37,7 +43,8 @@
                     ],
                     "notAllowed": [
                         "profile5"
-                    ]
+                    ],
+                    "allowUnknown": true
                 }
             },
             "Procedure": {
@@ -53,7 +60,8 @@
                     ],
                     "notAllowed": [
                         "profile7"
-                    ]
+                    ],
+                    "allowUnknown": false
                 }
             }
         },
