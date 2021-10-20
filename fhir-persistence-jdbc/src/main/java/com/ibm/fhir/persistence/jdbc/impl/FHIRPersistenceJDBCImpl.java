@@ -57,6 +57,7 @@ import com.ibm.fhir.core.context.FHIRPagingContext;
 import com.ibm.fhir.database.utils.api.DataAccessException;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.api.UndefinedNameException;
 import com.ibm.fhir.database.utils.api.UniqueConstraintViolationException;
 import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.database.utils.query.Select;
@@ -157,7 +158,10 @@ import com.ibm.fhir.persistence.payload.PayloadKey;
 import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.fhir.persistence.util.InputOutputByteStream;
 import com.ibm.fhir.persistence.util.LogicalIdentityProvider;
+import com.ibm.fhir.schema.app.SchemaVersionsManager;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
+import com.ibm.fhir.schema.control.FhirSchemaVersion;
+import com.ibm.fhir.schema.control.GetSchemaVersion;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SummaryValueSet;
 import com.ibm.fhir.search.TotalValueSet;
@@ -2347,7 +2351,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
         try (Connection connection = connectionStrategy.getConnection()) {
             if (connection.isValid(2)) {
-                return buildOKOperationOutcome();
+                // Check the schema version
+                if (checkSchemaIsCurrent(connection)) {
+                    return buildOKOperationOutcome();
+                } else {
+                    return buildSchemaVersionErrorOperationOutcome();
+                }
             } else {
                 return buildErrorOperationOutcome();
             }
@@ -2356,6 +2365,30 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             log.log(Level.SEVERE, fx.getMessage(), e);
             throw fx;
         }
+    }
+    
+    /**
+     * Checks to make sure the installed schema matches the version we expect
+     * @param connection
+     * @return
+     */
+    private boolean checkSchemaIsCurrent(Connection connection) throws SQLException, FHIRPersistenceException {
+        final String schemaName = this.schemaNameSupplier.getSchemaForRequestContext(connection);
+        IDatabaseTranslator translator = FHIRResourceDAOFactory.getTranslatorForFlavor(connectionStrategy.getFlavor());
+
+        int versionId = -1;
+        try {
+            GetSchemaVersion dao = new GetSchemaVersion(schemaName);
+            versionId = dao.run(translator, connection);
+        } catch (UndefinedNameException x) {
+            // definitely the wrong version because our schema_versions tracking table
+            // doesn't exist
+            versionId = -1;
+        }
+        
+        // compare what's in the database with the latest FhirSchemaVersion
+        FhirSchemaVersion latest = SchemaVersionsManager.getLatestFhirSchemaVersion();
+        return versionId == latest.vid();
     }
 
     /**
@@ -2496,6 +2529,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
     private OperationOutcome buildErrorOperationOutcome() {
         return FHIRUtil.buildOperationOutcome("The database connection was not valid", IssueType.NO_STORE, IssueSeverity.ERROR);
+    }
+    
+    private OperationOutcome buildSchemaVersionErrorOperationOutcome() {
+        return FHIRUtil.buildOperationOutcome("The database schema version is old", IssueType.NO_STORE, IssueSeverity.ERROR);
     }
 
     /**

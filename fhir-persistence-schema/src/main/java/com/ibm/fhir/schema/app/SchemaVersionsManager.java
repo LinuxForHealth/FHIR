@@ -78,7 +78,7 @@ public class SchemaVersionsManager {
      * Get the max FhirSchemaVersion based on vid
      * @return
      */
-    private FhirSchemaVersion getLatestFhirSchemaVersion() {
+    public static FhirSchemaVersion getLatestFhirSchemaVersion() {
         Optional<FhirSchemaVersion> maxVersion = Stream.of(FhirSchemaVersion.values()).max((l,r) -> {
             return Integer.compare(l.vid(), r.vid());
         });
