@@ -37,7 +37,7 @@ jobs:
         uses: actions/setup-java@v2.3.1
         with:
           distribution: 'temurin'
-          java-version: ${{ matrix.java }}
+          java-version: '11'
           cache: 'maven'
 
       - name: Gather the environment details
