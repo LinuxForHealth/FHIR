@@ -27,18 +27,6 @@ public abstract class DriveReindexOperation {
     public abstract void waitForStop();
 
     /**
-     * Sleep for the given number of milliseconds, or until interrupted.
-     * @param ms milliseconds
-     */
-    protected void safeSleep(long ms) {
-        try {
-            Thread.sleep(ms);
-        } catch (InterruptedException x) {
-            // NOP
-        }
-    }
-
-    /**
      * Wrapper for strings.
      * @param str the string
      * @return the string

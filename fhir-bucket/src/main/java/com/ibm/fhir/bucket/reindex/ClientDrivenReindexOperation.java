@@ -27,6 +27,7 @@ import org.apache.http.HttpStatus;
 import com.ibm.fhir.bucket.client.FHIRBucketClient;
 import com.ibm.fhir.bucket.client.FHIRBucketClientUtil;
 import com.ibm.fhir.bucket.client.FhirServerResponse;
+import com.ibm.fhir.database.utils.thread.ThreadHandler;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Parameters.Builder;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
@@ -196,7 +197,7 @@ public class ClientDrivenReindexOperation extends DriveReindexOperation {
 
                             // Slow down the ramp-up so we don't hit a new server with
                             // hundreds of requests in one go
-                            safeSleep(1000);
+                            ThreadHandler.safeSleep(ThreadHandler.SECOND);
                         }
 
                         // Keep attempting to retrieve index IDs if we need to
@@ -209,7 +210,7 @@ public class ClientDrivenReindexOperation extends DriveReindexOperation {
                                     this.running = false;
                                 } else {
                                     // Worker threads are still processing, so sleep for a bit before we check again
-                                    safeSleep(5000);
+                                    ThreadHandler.safeSleep(ThreadHandler.FIVE_SECONDS);
                                 }
                             }
                         }
@@ -219,11 +220,11 @@ public class ClientDrivenReindexOperation extends DriveReindexOperation {
                         // could take a while because we have a long tx timeout in Liberty.
                         String lastIndexIdProcessed = getLastIndexIdProcessed();
                         logger.info("Waiting for " + currentThreadCount + " threads to complete, then will resume from index ID '" + lastIndexIdProcessed + "'");
-                        safeSleep(5000);
+                        ThreadHandler.safeSleep(ThreadHandler.FIVE_SECONDS);
                     }
                 } else { // active
                     // Worker threads are active, so sleep for a bit before we check again
-                    safeSleep(5000);
+                    ThreadHandler.safeSleep(ThreadHandler.FIVE_SECONDS);
                 }
             }
         } finally {
@@ -236,7 +237,7 @@ public class ClientDrivenReindexOperation extends DriveReindexOperation {
                 }
                 // Worker threads are still running, so sleep for a bit before we check again
                 logger.info("Waiting for " + currentThreadCount + " threads to complete before exiting");
-                safeSleep(5000);
+                ThreadHandler.safeSleep(ThreadHandler.FIVE_SECONDS);
             }
 
             // Check if there is any reindexing work left to do, and log an appropriate message based on the situation
