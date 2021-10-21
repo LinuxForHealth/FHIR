@@ -62,6 +62,8 @@ public class FHIRConfiguration {
     public static final String PROPERTY_FIELD_RESOURCES_SEARCH_PARAMETER_COMBINATIONS = "searchParameterCombinations";
     public static final String PROPERTY_FIELD_RESOURCES_PROFILES = "profiles";
     public static final String PROPERTY_FIELD_RESOURCES_PROFILES_AT_LEAST_ONE = "atLeastOne";
+    public static final String PROPERTY_FIELD_RESOURCES_PROFILES_NOT_ALLOWED = "notAllowed";
+    public static final String PROPERTY_FIELD_RESOURCES_PROFILES_ALLOW_UNKNOWN = "allowUnknown";
 
     // Auth and security properties
     public static final String PROPERTY_SECURITY_CORS = "fhirServer/security/cors";

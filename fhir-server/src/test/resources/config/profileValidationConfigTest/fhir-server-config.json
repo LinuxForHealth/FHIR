@@ -10,13 +10,41 @@
         },
         "resources": {
             "open": true,
+            "CarePlan": {
+                "profiles": {
+                    "atLeastOne": [
+                    ],
+                    "notAllowed": [
+                        "profile8",
+                        "profile6|1"
+                    ],
+                    "allowUnknown": true
+                }
+            },
+            "Condition": {
+                "profiles": {
+                    "atLeastOne": [
+                    ],
+                    "notAllowed": [
+                    ]
+                }
+            },
+           "Encounter": {
+                "profiles": {
+                    "allowUnknown": true
+                }
+            },
             "Patient": {
                 "profiles": {
                     "atLeastOne": [
                         "profile1",
                         "profile2|1",
                         "profile3"
-                    ]
+                    ],
+                    "notAllowed": [
+                        "profile5"
+                    ],
+                    "allowUnknown": true
                 }
             },
             "Procedure": {
@@ -29,7 +57,11 @@
                 "profiles": {
                     "atLeastOne": [
                         "profile4"
-                    ]
+                    ],
+                    "notAllowed": [
+                        "profile7"
+                    ],
+                    "allowUnknown": false
                 }
             }
         },
