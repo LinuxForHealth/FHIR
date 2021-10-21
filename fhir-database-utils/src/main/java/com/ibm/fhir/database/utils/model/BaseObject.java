@@ -25,6 +25,7 @@ import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.database.utils.api.IVersionHistoryService;
 import com.ibm.fhir.database.utils.api.LockException;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
+import com.ibm.fhir.database.utils.thread.ThreadHandler;
 import com.ibm.fhir.task.api.ITaskCollector;
 import com.ibm.fhir.task.api.ITaskGroup;
 
@@ -242,7 +243,8 @@ public abstract class BaseObject implements IDatabaseObject {
             // for a random period. This hopefully avoids things getting into lock-step
             // which may further increase the chance of a deadlock when we retry
             if (remainingAttempts > 0) {
-                safeSleep();
+                long ms = random.nextInt(5000);
+                ThreadHandler.safeSleep(ms);
             }
         }
     }
@@ -272,19 +274,6 @@ public abstract class BaseObject implements IDatabaseObject {
                 // being used to track the change history
                 vhs.addVersion(getSchemaName(), getObjectType().name(), getObjectName(), getVersion());
             }
-        }
-    }
-
-    /**
-     * Sleep a random amount of time.
-     */
-    protected void safeSleep() {
-        long ms = random.nextInt(5000);
-        try {
-            Thread.sleep(ms);
-        }
-        catch (InterruptedException ix) {
-            // NOP
         }
     }
 

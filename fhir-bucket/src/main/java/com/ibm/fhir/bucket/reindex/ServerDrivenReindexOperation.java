@@ -19,6 +19,7 @@ import org.apache.http.HttpStatus;
 import com.ibm.fhir.bucket.client.FHIRBucketClient;
 import com.ibm.fhir.bucket.client.FHIRBucketClientUtil;
 import com.ibm.fhir.bucket.client.FhirServerResponse;
+import com.ibm.fhir.database.utils.thread.ThreadHandler;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Parameters;
@@ -116,36 +117,23 @@ public class ServerDrivenReindexOperation extends DriveReindexOperation {
 
                             // Slow down the ramp-up so we don't hit a new server with
                             // hundreds of requests in one go
-                            safeSleep(1000);
+                            ThreadHandler.safeSleep(ThreadHandler.SECOND);
                         }
                     } else if (this.running) {
                         // call failed, so wait a bit before we try again
-                        safeSleep(5000);
+                        ThreadHandler.safeSleep(ThreadHandler.FIVE_SECONDS);
                     }
                 } else {
                     // need to wait for all the existing threads to die off before we try to restart. This
                     // could take a while because we have a long tx timeout in Liberty.
                     logger.info("Waiting for current threads to complete before restart: " + currentThreadCount);
-                    safeSleep(5000);
+                    ThreadHandler.safeSleep(ThreadHandler.FIVE_SECONDS);
                 }
 
             } else { // active
                 // worker threads are active, so sleep for a bit before we check again
-                safeSleep(5000);
+                ThreadHandler.safeSleep(ThreadHandler.FIVE_SECONDS);
             }
-        }
-    }
-
-    /**
-     * Sleep for the given number of ms, or until interrupted
-     * @param ms
-     */
-    @Override
-    protected void safeSleep(long ms) {
-        try {
-            Thread.sleep(ms);
-        } catch (InterruptedException x) {
-            // NOP
         }
     }
 
