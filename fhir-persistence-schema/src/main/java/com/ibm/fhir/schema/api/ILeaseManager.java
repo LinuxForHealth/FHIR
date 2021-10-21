@@ -20,10 +20,10 @@ public interface ILeaseManager {
     boolean hasLease();
     
     /**
-     * Should be called frequently during the schema update operation to indicate we're still alive
-     * and processing. Some care is required during long update operations so we don't inadvertently
-     * lose our lease
+     * Marks the heartbeat flag true in the LeaseManager implementation to signal that forward
+     * progress is being made so the lease should continue to be held.
+     * Ignored (not required) if {@link ILeaseManagerConfig#stayAlive()} is true (which is default).
      * @throws IllegalStateException if the lease is no longer owned by this instance
      */
-    void setHeartbeat();
+    void signalHeartbeat();
 }

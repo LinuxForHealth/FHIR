@@ -25,7 +25,7 @@ import com.ibm.fhir.schema.app.LeaseManager;
 import com.ibm.fhir.schema.app.LeaseManagerConfig;
 
 /**
- *
+ * Unit test for the LeaseManager with Derby
  */
 public class DerbyLeaseTest {
     private static final String TARGET_DIR = "target/derby/";
@@ -51,7 +51,7 @@ public class DerbyLeaseTest {
             LeaseManager lm1 = new LeaseManager(adapter.getTranslator(), connectionPool, transactionProvider, ADMIN_SCHEMA_NAME, SCHEMA_NAME, config1);
             boolean gotLease = lm1.waitForLease(1);
             assertTrue(gotLease);
-            lm1.setHeartbeat();
+            lm1.signalHeartbeat();
             ThreadHelper.safeSleep(1000);
             assertTrue(lm1.hasLease());
             

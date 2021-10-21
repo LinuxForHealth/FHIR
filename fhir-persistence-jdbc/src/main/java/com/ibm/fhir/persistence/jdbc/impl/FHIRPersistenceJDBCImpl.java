@@ -2386,9 +2386,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             versionId = -1;
         }
         
-        // compare what's in the database with the latest FhirSchemaVersion
+        // compare what's in the database with the latest FhirSchemaVersion. For now,
+        // we allow the schema to be equal to or ahead of the latest schema known
+        // to this instance. This helps with rolling deploys.
         FhirSchemaVersion latest = SchemaVersionsManager.getLatestFhirSchemaVersion();
-        return versionId == latest.vid();
+        return versionId >= latest.vid();
     }
 
     /**

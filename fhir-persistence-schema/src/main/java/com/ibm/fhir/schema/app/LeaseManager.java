@@ -87,7 +87,7 @@ public class LeaseManager implements ILeaseManager {
     }
 
     @Override
-    public void setHeartbeat() {
+    public void signalHeartbeat() {
         if (this.gotLease) {
             this.heartbeat = true;
         } else {
