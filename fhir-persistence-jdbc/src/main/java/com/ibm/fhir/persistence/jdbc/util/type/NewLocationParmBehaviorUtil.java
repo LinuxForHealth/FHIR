@@ -140,7 +140,7 @@ public class NewLocationParmBehaviorUtil {
             .mult()
             .cos(col(paramAlias, LATITUDE_VALUE))
             .mult()
-            .acos(col(paramAlias, LONGITUDE_VALUE));
+            .cos(col(paramAlias, LONGITUDE_VALUE));
 
         whereClauseSegment.leftParen()
             .col(paramAlias, LATITUDE_VALUE).lte().bind(boundingRadius.getLatitude())
