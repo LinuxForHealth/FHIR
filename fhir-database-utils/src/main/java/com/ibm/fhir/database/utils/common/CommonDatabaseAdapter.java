@@ -29,6 +29,7 @@ import com.ibm.fhir.database.utils.api.IDatabaseTypeAdapter;
 import com.ibm.fhir.database.utils.api.TenantStatus;
 import com.ibm.fhir.database.utils.api.UndefinedNameException;
 import com.ibm.fhir.database.utils.api.UniqueConstraintViolationException;
+import com.ibm.fhir.database.utils.model.CheckConstraint;
 import com.ibm.fhir.database.utils.model.ColumnBase;
 import com.ibm.fhir.database.utils.model.IdentityDef;
 import com.ibm.fhir.database.utils.model.OrderedColumnDef;
@@ -138,7 +139,9 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
      * @param withs the list of table metadata parameters
      * @return
      */
-    protected String buildCreateTableStatement(String schema, String name, List<ColumnBase> columns, PrimaryKeyDef pkDef, IdentityDef identity, String tablespaceName, List<With> withs) {
+    protected String buildCreateTableStatement(String schema, String name, List<ColumnBase> columns, 
+            PrimaryKeyDef pkDef, IdentityDef identity, String tablespaceName, List<With> withs,
+            List<CheckConstraint> checkConstraints) {
         StringBuilder result = new StringBuilder();
         result.append("CREATE TABLE ");
         result.append(getQualifiedName(schema, name));
@@ -161,6 +164,15 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
 
             result.append(cols);
             result.append(')');
+        }
+        
+        // Add any CHECK constraints
+        for (CheckConstraint cc: checkConstraints) {
+            result.append(", CONSTRAINT ");
+            result.append(cc.constraintName);
+            result.append(" CHECK (");
+            result.append(cc.getConstraintExpression());
+            result.append(")");
         }
         result.append(')');
 

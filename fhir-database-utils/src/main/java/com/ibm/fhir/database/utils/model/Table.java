@@ -49,6 +49,8 @@ public class Table extends BaseObject {
 
     // The With parameters on the table
     private final List<With> withs;
+    
+    private final List<CheckConstraint> checkConstraints = new ArrayList<>();
 
     /**
      * Public constructor
@@ -67,11 +69,14 @@ public class Table extends BaseObject {
      * @param dependencies
      * @param tags
      * @param privileges
+     * @param migrations
+     * @param withs
+     * @param checkConstraints
      */
     public Table(String schemaName, String name, int version, String tenantColumnName, Collection<ColumnBase> columns, PrimaryKeyDef pk,
             IdentityDef identity, Collection<IndexDef> indexes, Collection<ForeignKeyConstraint> fkConstraints,
             SessionVariableDef accessControlVar, Tablespace tablespace, List<IDatabaseObject> dependencies, Map<String,String> tags,
-            Collection<GroupPrivilege> privileges, List<Migration> migrations, List<With> withs) {
+            Collection<GroupPrivilege> privileges, List<Migration> migrations, List<With> withs, List<CheckConstraint> checkConstraints) {
         super(schemaName, name, DatabaseObjectType.TABLE, version, migrations);
         this.tenantColumnName = tenantColumnName;
         this.columns.addAll(columns);
@@ -82,6 +87,7 @@ public class Table extends BaseObject {
         this.accessControlVar = accessControlVar;
         this.tablespace = tablespace;
         this.withs = withs;
+        this.checkConstraints.addAll(checkConstraints);
 
         // Adds all dependencies which aren't null.
         // The only circumstances where it is null is when it is self referencial (an FK on itself).
@@ -118,7 +124,8 @@ public class Table extends BaseObject {
     @Override
     public void apply(IDatabaseAdapter target) {
         final String tsName = this.tablespace == null ? null : this.tablespace.getName();
-        target.createTable(getSchemaName(), getObjectName(), this.tenantColumnName, this.columns, this.primaryKey, this.identity, tsName, this.withs);
+        target.createTable(getSchemaName(), getObjectName(), this.tenantColumnName, this.columns, 
+            this.primaryKey, this.identity, tsName, this.withs, this.checkConstraints);
 
         // Now add any indexes associated with this table
         for (IndexDef idx: this.indexes) {
@@ -230,6 +237,9 @@ public class Table extends BaseObject {
 
         // With metadata on the Table
         private List<With> withs = new ArrayList<>();
+        
+        // Check constraints added to the table
+        private List<CheckConstraint> checkConstraints = new ArrayList<>();
 
         /**
          * Private constructor to force creation through factory method
@@ -583,6 +593,11 @@ public class Table extends BaseObject {
             this.uniqueConstraints.put(constraintName, new UniqueConstraint(constraintName, columnName));
             return this;
         }
+        
+        public Builder addCheckConstraint(String constraintName, String constraintExpression) {
+            this.checkConstraints.add(new CheckConstraint(constraintName, constraintExpression));
+            return this;
+        }
 
         /**
          * Add a foreign key constraint pointing to the target table (with enforcement).
@@ -692,7 +707,7 @@ public class Table extends BaseObject {
             // Our schema objects are immutable by design, so all initialization takes place
             // through the constructor
             return new Table(getSchemaName(), getObjectName(), this.version, this.tenantColumnName, buildColumns(), this.primaryKey, this.identity, this.indexes.values(),
-                    this.fkConstraints.values(), this.accessControlVar, this.tablespace, allDependencies, tags, privileges, migrations, withs);
+                    this.fkConstraints.values(), this.accessControlVar, this.tablespace, allDependencies, tags, privileges, migrations, withs, checkConstraints);
 
         }
 
