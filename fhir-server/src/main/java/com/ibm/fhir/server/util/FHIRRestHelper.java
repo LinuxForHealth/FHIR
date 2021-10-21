@@ -2561,10 +2561,10 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      * @throws FHIRValidationException
      */
     private List<Issue> validateResource(Resource resource) throws FHIRValidationException {
-        List<String> atLeastOneProfiles = new ArrayList<>();
-        List<String> atLeastOneProfilesWithoutVersion = new ArrayList<>();
-        List<String> notAllowedProfiles = new ArrayList<>();
-        List<String> notAllowedProfilesWithoutVersion = new ArrayList<>();
+        Set<String> atLeastOneProfiles = new HashSet<>();
+        Set<String> atLeastOneProfilesWithoutVersion = new HashSet<>();
+        Set<String> notAllowedProfiles = new HashSet<>();
+        Set<String> notAllowedProfilesWithoutVersion = new HashSet<>();
         boolean allowUnknown;
 
         // Retrieve the profile configuration
@@ -2580,13 +2580,13 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     FHIRConfigHelper.getStringListProperty(resourceSpecificProfileConfigPath.toString() +
                         FHIRConfiguration.PROPERTY_FIELD_RESOURCES_PROFILES_AT_LEAST_ONE);
             if (resourceSpecificAtLeastOneProfiles != null) {
-                atLeastOneProfiles = resourceSpecificAtLeastOneProfiles;
+                atLeastOneProfiles.addAll(resourceSpecificAtLeastOneProfiles);
             } else {
                 List<String> defaultAtLeastOneProfiles =
                         FHIRConfigHelper.getStringListProperty(defaultProfileConfigPath.toString() +
                             FHIRConfiguration.PROPERTY_FIELD_RESOURCES_PROFILES_AT_LEAST_ONE);
                 if (defaultAtLeastOneProfiles != null) {
-                    atLeastOneProfiles = defaultAtLeastOneProfiles;
+                    atLeastOneProfiles.addAll(defaultAtLeastOneProfiles);
                 }
             }
             
@@ -2606,13 +2606,13 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     FHIRConfigHelper.getStringListProperty(resourceSpecificProfileConfigPath.toString() +
                         FHIRConfiguration.PROPERTY_FIELD_RESOURCES_PROFILES_NOT_ALLOWED);
             if (resourceSpecificNotAllowedProfiles != null) {
-                notAllowedProfiles = resourceSpecificNotAllowedProfiles;
+                notAllowedProfiles.addAll(resourceSpecificNotAllowedProfiles);
             } else {
                 List<String> defaultNotAllowedProfiles =
                         FHIRConfigHelper.getStringListProperty(defaultProfileConfigPath.toString() +
                             FHIRConfiguration.PROPERTY_FIELD_RESOURCES_PROFILES_NOT_ALLOWED);
                 if (defaultNotAllowedProfiles != null) {
-                    notAllowedProfiles = defaultNotAllowedProfiles;
+                    notAllowedProfiles.addAll(defaultNotAllowedProfiles);
                 }
             }
 

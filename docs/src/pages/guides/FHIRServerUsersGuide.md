@@ -3,7 +3,7 @@ layout: post
 title:  IBM FHIR Server User's Guide
 description: IBM FHIR Server User's Guide
 Copyright: years 2017, 2021
-lastupdated: "2021-10-20"
+lastupdated: "2021-10-21"
 permalink: /FHIRServerUsersGuide/
 ---
 
@@ -801,10 +801,10 @@ For example, you can configure a set of FHIRPath Constraints to run for resource
 
 The following configuration parameters can be used to specify rules relating to the set of profiles that are specified in a resource's `meta.profile` element:
 * `fhirServer/resources/<resourceType>/profiles/atLeastOne` - this configuration parameter is used to specify a set of profiles, at least one of which a resource must claim conformance to and be successfully validated against in order to be persisted to the FHIR server.
-* `fhirServer/resources/<resourceType>/profiles/notAllowed`- this configuration parameter is used to specify a set of profiles to which a resource is *not allowed* to claim conformance and be successfully validated against in order to be persisted to the FHIR server.
+* `fhirServer/resources/<resourceType>/profiles/notAllowed`- this configuration parameter is used to specify a set of profiles to which a resource is *not allowed* to claim conformance.
 * `fhirServer/resources/<resourceType>/profiles/allowUnknown`- this configuration parameter is used to indicate whether a warning or an error is issued if a profile specified in a resource's `meta.profile`element is not loaded in the FHIR server. The default value is `true`, meaning unknown profiles are allowed to be specified. The profile will be ignored and just a warning will be returned. If set to `false`, this means unknown profiles are not allowed to be specified. An error will be returned and resource validation will fail.
 
-Before calling the FHIR validator to validate a resource against the set of profiles specified in its `meta.profile` element that it is claiming conformance to, the following pre-validation will be done for that set of profiles based on the configuration parameters listed above:
+Before calling the FHIR validator to validate a resource against the set of profiles specified in its `meta.profile` element that it is claiming conformance to, the following pre-validation will be performed for that set of profiles based on the configuration parameters listed above:
 1.  If the `fhirServer/resources/<resourceType>/profiles/notAllowed` configuration parameter is set to a non-empty list, an error will be returned for any specified profile that is in the list, and validation will fail.
 2. If the `fhirServer/resources/<resourceType>/profiles/allowUnknown` configuration parameter is set to `false`,  an error will be returned for any specified profile that is not loaded in the FHIR server, and validation will fail.
 3. If the `fhirServer/resources/<resourceType>/profiles/atLeastOne` configuration parameter is set to a non-empty list, an error will be returned if none of the specified profiles is in the list, and validation will fail.
