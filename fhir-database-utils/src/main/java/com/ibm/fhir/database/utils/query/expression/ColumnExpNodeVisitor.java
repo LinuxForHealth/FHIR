@@ -228,4 +228,9 @@ public class ColumnExpNodeVisitor implements ExpNodeVisitor<Set<String>> {
     public Set<String> sin(Set<String> arg) {
         return arg;
     }
+
+    @Override
+    public Set<String> radians(Set<String> arg) {
+        return arg;
+    }
 }

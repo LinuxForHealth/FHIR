@@ -131,26 +131,25 @@ public class LocationParmBehaviorUtilTest {
         String expectedSql =
                 "(pX.LATITUDE_VALUE >= ? AND pX.LATITUDE_VALUE <= ? AND pX.LONGITUDE_VALUE >= ? AND pX.LONGITUDE_VALUE <= ?)";
 
-        BoundingBox boundingBox =
-                BoundingBox.builder().maxLatitude(10.0).minLatitude(-10.0).maxLongitude(20.0).minLongitude(-20.0)
-                        .build();
+        BoundingBox boundingBox = BoundingBox.builder()
+                .maxLatitude(10.0)
+                .minLatitude(-10.0)
+                .maxLongitude(20.0)
+                .minLongitude(-20.0)
+                .build();
         runTest(expectedBindVariables, expectedSql, boundingBox);
     }
 
-    @Test(expectedExceptions = {})
+    @Test
     public void testBoundingRadius() throws FHIRPersistenceException {
         List<Object> expectedBindVariables = new ArrayList<>();
-        expectedBindVariables.add(10.0);
-        expectedBindVariables.add(10.0);
-        expectedBindVariables.add(20.0);
-        expectedBindVariables.add(20.0);
-        expectedBindVariables.add(10.0);
-        expectedBindVariables.add(10.0);
+        expectedBindVariables.add(Math.toRadians(10.0));
+        expectedBindVariables.add(Math.toRadians(10.0));
+        expectedBindVariables.add(Math.toRadians(20.0));
         expectedBindVariables.add(4.0);
 
         String expectedSql =
-                "(pX.LATITUDE_VALUE <= ? AND pX.LATITUDE_VALUE >= ? AND pX.LONGITUDE_VALUE <= ? AND pX.LONGITUDE_VALUE >= ? AND "
-                + "ACOS(SIN(?) * SIN(pX.LATITUDE_VALUE) + COS(?) * COS(pX.LATITUDE_VALUE) * COS(pX.LONGITUDE_VALUE)) <= ?)";
+                "(ACOS(SIN(?) * SIN(RADIANS(pX.LATITUDE_VALUE)) + COS(?) * COS(RADIANS(pX.LATITUDE_VALUE)) * COS(? - RADIANS(pX.LONGITUDE_VALUE))) * 6371 <= ?)";
 
         BoundingRadius boundingRadius = BoundingRadius.builder().latitude(10.0).longitude(20.0).radius(4.0).build();
         runTest(expectedBindVariables, expectedSql, boundingRadius);
@@ -159,19 +158,19 @@ public class LocationParmBehaviorUtilTest {
     @Test
     public void testBoundingList() throws FHIRPersistenceException {
         BoundingRadius boundingRadius = BoundingRadius.builder().latitude(10.0).longitude(21.0).radius(4.0).build();
-        BoundingBox boundingBox =
-                BoundingBox.builder().maxLatitude(11.0).minLatitude(-10.0).maxLongitude(20.0).minLongitude(-20.0)
-                        .build();
+        BoundingBox boundingBox = BoundingBox.builder()
+                .maxLatitude(11.0)
+                .minLatitude(-10.0)
+                .maxLongitude(20.0)
+                .minLongitude(-20.0)
+                .build();
 
         List<Bounding> boundingAreas = Arrays.asList(boundingRadius, boundingBox);
 
         List<Object> expectedBindVariables = new ArrayList<>();
-        expectedBindVariables.add(new Double(10.0));
-        expectedBindVariables.add(new Double(10.0));
-        expectedBindVariables.add(new Double(21.0));
-        expectedBindVariables.add(new Double(21.0));
-        expectedBindVariables.add(new Double(10.0));
-        expectedBindVariables.add(new Double(10.0));
+        expectedBindVariables.add(Math.toRadians(10.0));
+        expectedBindVariables.add(Math.toRadians(10.0));
+        expectedBindVariables.add(Math.toRadians(21.0));
         expectedBindVariables.add(new Double(4.0));
         expectedBindVariables.add(-10.0);
         expectedBindVariables.add(11.0);
@@ -179,8 +178,7 @@ public class LocationParmBehaviorUtilTest {
         expectedBindVariables.add(20.0);
 
         String expectedSql =
-                "((pX.LATITUDE_VALUE <= ? AND pX.LATITUDE_VALUE >= ? AND pX.LONGITUDE_VALUE <= ? AND pX.LONGITUDE_VALUE >= ? AND "
-                + "ACOS(SIN(?) * SIN(pX.LATITUDE_VALUE) + COS(?) * COS(pX.LATITUDE_VALUE) * COS(pX.LONGITUDE_VALUE)) <= ?)"
+                "((ACOS(SIN(?) * SIN(RADIANS(pX.LATITUDE_VALUE)) + COS(?) * COS(RADIANS(pX.LATITUDE_VALUE)) * COS(? - RADIANS(pX.LONGITUDE_VALUE))) * 6371 <= ?)"
                 + " OR "
                 + "(pX.LATITUDE_VALUE >= ? AND pX.LATITUDE_VALUE <= ? AND pX.LONGITUDE_VALUE >= ? AND pX.LONGITUDE_VALUE <= ?))";
 
@@ -189,18 +187,30 @@ public class LocationParmBehaviorUtilTest {
 
     @Test
     public void testBoundingMultipleParmsList() throws FHIRPersistenceException {
-        BoundingBox boundingBox1 =
-                BoundingBox.builder().maxLatitude(11.0).minLatitude(-10.0).maxLongitude(20.0).minLongitude(-20.0)
-                        .build();
+        BoundingBox boundingBox1 = BoundingBox.builder()
+                .maxLatitude(11.0)
+                .minLatitude(-10.0)
+                .maxLongitude(20.0)
+                .minLongitude(-20.0)
+                .build();
         boundingBox1.setInstance(0);
-        BoundingBox boundingBox2 =
-                BoundingBox.builder().maxLatitude(11.0).minLatitude(-10.0).maxLongitude(20.0).minLongitude(-20.0)
-                        .build();
+
+        BoundingBox boundingBox2 = BoundingBox.builder()
+                .maxLatitude(11.0)
+                .minLatitude(-10.0)
+                .maxLongitude(20.0)
+                .minLongitude(-20.0)
+                .build();
         boundingBox2.setInstance(0);
-        BoundingBox boundingBox3 =
-                BoundingBox.builder().maxLatitude(11.0).minLatitude(-10.0).maxLongitude(20.0).minLongitude(-20.0)
-                        .build();
+
+        BoundingBox boundingBox3 = BoundingBox.builder()
+                .maxLatitude(11.0)
+                .minLatitude(-10.0)
+                .maxLongitude(20.0)
+                .minLongitude(-20.0)
+                .build();
         boundingBox3.setInstance(1);
+
         BoundingMissing boundingBox4 = new BoundingMissing();
         boundingBox4.setInstance(2);
 

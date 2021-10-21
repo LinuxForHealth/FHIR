@@ -20,6 +20,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.UUID;
 import java.util.logging.LogManager;
 
 import org.testng.annotations.AfterClass;
@@ -35,6 +36,8 @@ import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
 import com.ibm.fhir.model.resource.Location;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.test.TestUtil;
+import com.ibm.fhir.model.type.Id;
+import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.MultiResourceResult;
 import com.ibm.fhir.persistence.SingleResourceResult;
@@ -95,13 +98,20 @@ public class JDBCSearchNearTest {
         }
 
         savedResource = TestUtil.readExampleResource("json/spec/location-example.json");
+        savedResource = savedResource.toBuilder()
+                .id(UUID.randomUUID().toString())
+                .meta(savedResource.getMeta().toBuilder()
+                    .lastUpdated(Instant.now())
+                    .versionId(Id.of("1"))
+                    .build())
+                .build();
 
         ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100, 100);
         FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new IdNameCache<Integer>(), new NameIdCache<Integer>(), rrc);
         persistence   = new FHIRPersistenceJDBCImpl(this.testProps, connectionPool, cache);
 
         SingleResourceResult<Location> result =
-                persistence.create(FHIRPersistenceContextFactory.createPersistenceContext(null), savedResource);
+                persistence.createWithMeta(FHIRPersistenceContextFactory.createPersistenceContext(null), savedResource);
         assertTrue(result.isSuccess());
         assertNotNull(result.getResource());
         savedResource = result.getResource();
@@ -228,7 +238,8 @@ public class JDBCSearchNearTest {
     @Test
     public void testSearchPositionSearchExactMatchWithinRange() throws Exception {
         // 40, -79
-        // Difference to expected location is 1046.6km
+
+        // https://www.movable-type.co.uk/scripts/latlong.html says the expected distance is 466.2 km
         String searchParamCode = "near";
         String queryValue = "40|-79|1046.6|km";
 
