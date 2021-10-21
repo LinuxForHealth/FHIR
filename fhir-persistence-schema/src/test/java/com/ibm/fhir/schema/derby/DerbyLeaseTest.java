@@ -14,11 +14,11 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
-import com.ibm.fhir.database.utils.common.ThreadHelper;
 import com.ibm.fhir.database.utils.derby.DerbyAdapter;
 import com.ibm.fhir.database.utils.derby.DerbyConnectionProvider;
 import com.ibm.fhir.database.utils.derby.DerbyMaster;
 import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
+import com.ibm.fhir.database.utils.thread.ThreadHandler;
 import com.ibm.fhir.database.utils.transaction.SimpleTransactionProvider;
 import com.ibm.fhir.database.utils.version.CreateControl;
 import com.ibm.fhir.schema.app.LeaseManager;
@@ -52,11 +52,11 @@ public class DerbyLeaseTest {
             boolean gotLease = lm1.waitForLease(1);
             assertTrue(gotLease);
             lm1.signalHeartbeat();
-            ThreadHelper.safeSleep(1000);
+            ThreadHandler.safeSleep(ThreadHandler.SECOND);
             assertTrue(lm1.hasLease());
             
             // Sleep for so long our lease expires
-            ThreadHelper.safeSleep(5000);
+            ThreadHandler.safeSleep(ThreadHandler.FIVE_SECONDS);
             assertFalse(lm1.hasLease());
             
             // finally cancel our lease

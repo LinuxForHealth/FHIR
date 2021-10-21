@@ -6,6 +6,8 @@
 
 package com.ibm.fhir.database.utils.thread;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 
 /**
  * ThreadHandler is a common pattern used to control the
@@ -31,5 +33,28 @@ public final class ThreadHandler {
         } catch (InterruptedException x) {
             // NOP. Being woken up early, probably for exit
         }
+    }
+    
+    /**
+     * Sleep until we reach the target wakeUpTime
+     * @param wakeUpTime
+     * @return true if we woke up naturally, false if our sleep was interrupted
+     */
+    public static boolean sleepUntil(Instant wakeUpTime) {
+        boolean wokeUpEarly = false;
+        long gap = Instant.now().until(wakeUpTime, ChronoUnit.MILLIS);
+        while (!wokeUpEarly && gap > 0) {
+            try {
+                Thread.sleep(gap);
+            } catch (InterruptedException x) {
+                wokeUpEarly = true;
+            }
+            
+            // recompute the gap to make sure we fully reach our intended
+            // wake-up time
+            gap = Instant.now().until(wakeUpTime, ChronoUnit.MILLIS);
+        }
+        
+        return !wokeUpEarly;
     }
 }

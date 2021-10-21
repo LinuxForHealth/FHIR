@@ -16,7 +16,7 @@ import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.api.ITransaction;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
-import com.ibm.fhir.database.utils.common.ThreadHelper;
+import com.ibm.fhir.database.utils.thread.ThreadHandler;
 import com.ibm.fhir.schema.api.ILeaseManager;
 import com.ibm.fhir.schema.api.ILeaseManagerConfig;
 import com.ibm.fhir.schema.control.CancelLease;
@@ -158,7 +158,7 @@ public class LeaseManager implements ILeaseManager {
                 if (System.nanoTime() <= endTime) {
                     // Getting a lease is fairly lightweight compared to the rest of the schema update
                     // work, so trying every 1 second is reasonable
-                    ThreadHelper.safeSleep(1000);
+                    ThreadHandler.safeSleep(ThreadHandler.SECOND);
                 } else {
                     timedOut = true;
                 }
@@ -174,7 +174,7 @@ public class LeaseManager implements ILeaseManager {
     private void leaseMaintenanceLoop() {
         Instant wakeupTime = Instant.now().plusSeconds(config.getLeaseTimeSeconds() / 2);
         while (this.running && this.gotLease) {
-            ThreadHelper.sleepUntil(wakeupTime);
+            ThreadHandler.sleepUntil(wakeupTime);
             
             if (this.heartbeat) {
                 // reset the liveness heartbeat.

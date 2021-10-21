@@ -7,24 +7,17 @@
 package com.ibm.fhir.schema.derby;
 
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
-import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
-import com.ibm.fhir.database.utils.common.ThreadHelper;
-import com.ibm.fhir.database.utils.derby.DerbyAdapter;
 import com.ibm.fhir.database.utils.derby.DerbyConnectionProvider;
 import com.ibm.fhir.database.utils.derby.DerbyMaster;
 import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
 import com.ibm.fhir.database.utils.transaction.SimpleTransactionProvider;
-import com.ibm.fhir.database.utils.version.CreateControl;
 import com.ibm.fhir.database.utils.version.CreateWholeSchemaVersion;
-import com.ibm.fhir.schema.app.LeaseManager;
-import com.ibm.fhir.schema.app.LeaseManagerConfig;
 import com.ibm.fhir.schema.app.SchemaVersionsManager;
 import com.ibm.fhir.schema.control.FhirSchemaVersion;
 
