@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import com.ibm.fhir.bucket.api.CosItem;
 import com.ibm.fhir.bucket.api.FileType;
 import com.ibm.fhir.bucket.cos.COSClient;
+import com.ibm.fhir.database.utils.thread.ThreadHandler;
 
 /**
  * Active object to periodically scan COS buckets looking for new
@@ -21,7 +22,7 @@ import com.ibm.fhir.bucket.cos.COSClient;
  */
 public class CosScanner {
     private static final Logger logger = Logger.getLogger(CosScanner.class.getName());
-    
+
     // number of nanos per ms
     private static final long NANO_MS = 1000000;
 
@@ -33,31 +34,31 @@ public class CosScanner {
 
     // COS connection
     private final COSClient client;
-    
+
     // the list of buckets to scan
     private final List<String> buckets;
-    
+
     // main thread control flag
     private volatile boolean running = true;
-    
+
     // Interval between scans of COS looking for new items in the configured buckets
     private long scanIntervalMs;
 
     // active object thread
     private Thread mainLoopThread;
-    
+
     // Access to our data layer for persistence
     private final DataAccess dataAccess;
-    
+
     // Only process files matching these types
     private final Set<FileType> fileTypes;
 
     // optional prefix to narrow the scan inside the bucket
     private final String pathPrefix;
-    
+
     // time tracker for regular heartbeats
     private long lastHeartbeatTime = -1;
-    
+
 
     /**
      * Public constructor
@@ -77,22 +78,22 @@ public class CosScanner {
         this.pathPrefix = pathPrefix;
         this.scanIntervalMs = scanIntervalMs;
     }
-    
+
     /**
      * Run the scanner thread
      */
     public void init() {
         mainLoopThread = new Thread(new Runnable() {
-            
+
             @Override
             public void run() {
                 mainLoop();
             }
-            
+
         });
         mainLoopThread.start();
     }
-    
+
 
     /**
      * Tell the active object to stop any new work, but existing work can
@@ -103,7 +104,7 @@ public class CosScanner {
             logger.info("Stopping CosScanner");
             this.running = false;
         }
-        
+
         this.client.signalStop();
         this.running = false;
         if (mainLoopThread != null) {
@@ -117,7 +118,7 @@ public class CosScanner {
      */
     public void waitForStop() {
         signalStop();
-        
+
         logger.info("Waiting for CosScanner to stop");
         if (mainLoopThread != null) {
             try {
@@ -135,19 +136,19 @@ public class CosScanner {
      */
     public void mainLoop() {
         long nextScanTime = -1;
-        
+
         while (this.running) {
             long start = System.nanoTime();
-            
+
             try {
                 heartbeat();
-                
+
                 if (nextScanTime == -1 || start >= nextScanTime) {
                     scan();
-                    
+
                     double elapsed = (System.nanoTime() - start) / 1e9;
                     logger.info(String.format("Scan complete [took %4.1f s]", elapsed));
-                    
+
                     // roughly schedule the next scan. If the configured scan interval is < 0
                     // then we use an automatic calculation which is 10x the amount of time
                     // it took to complete the previous scan
@@ -158,28 +159,16 @@ public class CosScanner {
                 // Just catch and log so we don't break the main loop
                 logger.severe("Error during COS scan: " + x.getMessage());
             }
-            
+
             // Heartbeat is supposed to be a fraction of the scan interval (e.g. 5s vs. 30s)
             // so we don't need to bother with calculating different sleep schedules to wake
             // up exactly on time for the next heartbeat/scan.
             if (running) {
-                safeSleep(HEARTBEAT_INTERVAL_MS);
+                ThreadHandler.safeSleep(HEARTBEAT_INTERVAL_MS);
             }
         }
     }
 
-    /**
-     * Sleep this thread for the given milliseconds
-     * @param millis
-     */
-    protected void safeSleep(long millis) {
-        try {
-            Thread.sleep(millis);
-        } catch (InterruptedException x) {
-            // NOP
-        }
-    }
-    
     /**
      * Perform a scan for each of the configured buckets
      */
@@ -188,7 +177,7 @@ public class CosScanner {
             client.scan(bucket, this.pathPrefix, CosScanner::fileTyper, ci -> handle(ci));
         }
     }
-    
+
     /**
      * Determine the type of the file based on the suffix
      * @param itemName
@@ -203,7 +192,7 @@ public class CosScanner {
             return FileType.UNKNOWN;
         }
     }
-    
+
     /**
      * Process the item returned by the scan
      * @param item
@@ -213,7 +202,7 @@ public class CosScanner {
         if (fileTypes.contains(item.getFileType())) {
             dataAccess.registerBucketItem(item);
         }
-        
+
         // keep the heartbeat going within the scan just in case a scan
         // takes a really long time
         heartbeat();

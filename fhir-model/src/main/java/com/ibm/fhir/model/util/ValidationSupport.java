@@ -70,7 +70,7 @@ public final class ValidationSupport {
         }
     };
     private static final Set<Character> WHITESPACE = new HashSet<>(Arrays.asList(' ', '\t', '\r', '\n'));
-    private static final Set<Character> UNSUPPORTED_UNICODE = buildUnsupportedUnicodeCharacterSet();
+    private static final Set<Character> UNSUPPORTED_CONTROL_CHARS = buildUnsupportedControlCharacterSet();
 
     private static final char [] BASE64_CHARS = {
         'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
@@ -83,10 +83,10 @@ public final class ValidationSupport {
     private ValidationSupport() { }
 
     /**
-     * Builds a set of unsupported unicode characters per the specification.
+     * Builds a set of unsupported control characters per the specification.
      * @return
      */
-    private static Set<Character> buildUnsupportedUnicodeCharacterSet() {
+    private static Set<Character> buildUnsupportedControlCharacterSet() {
         Set<Character> chars = new HashSet<>();
         for (int i = 0; i < 32; i++) {
             if (i != 9 && i != 10 && i != 13) {
@@ -123,7 +123,7 @@ public final class ValidationSupport {
         for (int i = 0; i < s.length(); i++) {
             char ch = s.charAt(i);
             if (!Character.isWhitespace(ch)) {
-                checkUnsupportedUnicode(s, ch);
+                checkUnsupportedControlCharacters(s, ch);
                 count++;
             } else if (!WHITESPACE.contains(ch)) {
                 throw new IllegalStateException(buildIllegalWhiteSpaceException(s));
@@ -155,19 +155,19 @@ public final class ValidationSupport {
      * @implNote Per the specification: Strings SHOULD not contain Unicode character points below 32
      * except for u0009 (horizontal tab), u0010 (carriage return) and u0013 (line feed).
      */
-    private static void checkUnsupportedUnicode(String s, char ch) {
-        if (FHIRModelConfig.shouldCheckUnicodeControlChars() && UNSUPPORTED_UNICODE.contains(ch)) {
-            throw new IllegalStateException(buildUnicodeException(s));
+    private static void checkUnsupportedControlCharacters(String s, char ch) {
+        if (FHIRModelConfig.shouldCheckForControlChars() && UNSUPPORTED_CONTROL_CHARS.contains(ch)) {
+            throw new IllegalStateException(buildUnsupportedControlCharsException(s));
         }
     }
 
     /**
-     * wraps the unicode exception string
+     * wraps the unsupported control character exception string
      * @param s
      * @return
      */
-    private static String buildUnicodeException(String s) {
-        return new StringBuilder("String value contains unsupported unicode values: [\\0000-0008,0011,0012,0014-0031] value=[")
+    private static String buildUnsupportedControlCharsException(String s) {
+        return new StringBuilder("String value contains unsupported control characters: decimal range=[\\0000-0008,0011,0012,0014-0031] value=[")
             .append(s)
             .append(']')
             .toString();
@@ -203,7 +203,7 @@ public final class ValidationSupport {
                 }
                 previousIsSpace = true;
             } else {
-                checkUnsupportedUnicode(s, current);
+                checkUnsupportedControlCharacters(s, current);
                 if (previousIsSpace) {
                     previousIsSpace = false;
                 }
@@ -264,7 +264,7 @@ public final class ValidationSupport {
         }
         for (int i = 0; i < s.length(); i++) {
             char ch = s.charAt(i);
-            checkUnsupportedUnicode(s, ch);
+            checkUnsupportedControlCharacters(s, ch);
             if (Character.isWhitespace(ch)) {
                 throw new IllegalStateException(String.format("Uri value: '%s' must not contain whitespace", s));
             }

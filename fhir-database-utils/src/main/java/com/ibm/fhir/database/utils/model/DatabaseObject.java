@@ -22,6 +22,7 @@ import com.ibm.fhir.database.utils.api.ITransaction;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.database.utils.api.IVersionHistoryService;
 import com.ibm.fhir.database.utils.api.LockException;
+import com.ibm.fhir.database.utils.thread.ThreadHandler;
 
 /**
  * Represents objects which are part of the database, but which do not belong to
@@ -178,7 +179,8 @@ public abstract class DatabaseObject implements IDatabaseObject {
             // for a random period. This hopefully avoids things getting into lock-step
             // which may further increase the chance of a deadlock when we retry
             if (remainingAttempts > 0) {
-                safeSleep();
+                long ms = random.nextInt(5000);
+                ThreadHandler.safeSleep(ms);
             }
         }
     }
@@ -204,27 +206,11 @@ public abstract class DatabaseObject implements IDatabaseObject {
         }
     }
 
-    /**
-     * Sleep a random amount of time.
-     */
-    protected void safeSleep() {
-        long ms = random.nextInt(5000);
-        try {
-            Thread.sleep(ms);
-        }
-        catch (InterruptedException ix) {
-            // NOP
-        }
-    }
-
     @Override
     public Map<String, String> getTags() {
         return Collections.unmodifiableMap(this.tags);
     }
-    
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.model.IDatabaseObject#visit(java.util.function.Consumer)
-     */
+
     @Override
     public void visit(Consumer<IDatabaseObject> c) {
         c.accept(this);

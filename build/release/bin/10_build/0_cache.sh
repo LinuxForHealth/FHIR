@@ -8,9 +8,10 @@ set -eu -o pipefail
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
 
-# Cache all dependencies and plugins used in build to avoid downstream timeouts during 
+# Cache all dependencies and plugins used in build to avoid downstream timeouts during
 # content fetches
 
+mvn clean install -f fhir-tools -DskipTests
 mvn clean install -f fhir-examples -DskipTests
 mvn -T2C org.apache.maven.plugins:maven-dependency-plugin:3.1.2:go-offline -f fhir-examples -DexcludeReactor=true
 mvn -T2C org.apache.maven.plugins:maven-dependency-plugin:3.1.2:resolve-plugins -f fhir-examples -DexcludeReactor=true

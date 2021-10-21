@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # ----------------------------------------------------------------------------
-# (C) Copyright IBM Corp. 2020
+# (C) Copyright IBM Corp. 2021
 #
 # SPDX-License-Identifier: Apache-2.0
 # ----------------------------------------------------------------------------
@@ -24,21 +24,21 @@ fi
 
 pushd $(pwd)
 
-cd ${WORKSPACE}/fhir-install/src/main/docker/ibm-fhir-schematool/
+cd ${WORKSPACE}/fhir-install/src/main/docker/ibm-fhir-bucket-tool/
 
 # Copy the files over
 mkdir -p target/
-cp ${WORKSPACE}/fhir-persistence-schema/target/fhir-persistence-schema-*cli.jar target/
+cp ${WORKSPACE}/fhir-bucket/target/fhir-bucket-*cli.jar target/
 cp ${WORKSPACE}/LICENSE target/
 
-docker build --build-arg FHIR_VERSION=${BUILD_ID} -t ibm-fhir-schematool:latest .
-DOCKER_IMAGE=$(docker images --filter=reference='ibm-fhir-schematool:latest' --format "{{.ID}}")
+docker build --build-arg FHIR_VERSION=${BUILD_ID} -t ibm-fhir-bucket-tool:latest .
+DOCKER_IMAGE=$(docker images --filter=reference='ibm-fhir-bucket-tool:latest' --format "{{.ID}}")
 echo "Docker Image is:  ${DOCKER_IMAGE}"
 
-docker tag ${DOCKER_IMAGE} ibmcom/ibm-fhir-schematool:${BUILD_ID}
-docker tag ${DOCKER_IMAGE} ibmcom/ibm-fhir-schematool:latest
-docker push ibmcom/ibm-fhir-schematool:${BUILD_ID}
-docker push ibmcom/ibm-fhir-schematool:latest
+docker tag ${DOCKER_IMAGE} ibmcom/ibm-fhir-bucket-tool:${BUILD_ID}
+docker tag ${DOCKER_IMAGE} ibmcom/ibm-fhir-bucket-tool:latest
+docker push ibmcom/ibm-fhir-bucket-tool:${BUILD_ID}
+docker push ibmcom/ibm-fhir-bucket-tool:latest
 
 popd > /dev/null
 

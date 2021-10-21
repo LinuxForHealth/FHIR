@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -26,7 +26,7 @@ import com.ibm.fhir.model.plugin.generator.ModelGenerator;
 /**
  * This class coordinates the calls to the fhir-tool plugin
  *
- * The phase is initialize. To find a list of phases -
+ * The phase is generate-sources. To find a list of phases -
  * https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html#Lifecycle_Reference
  *
  * Run the following to setup the plugin:

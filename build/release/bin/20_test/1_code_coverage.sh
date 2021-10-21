@@ -10,13 +10,13 @@ set -eu -o pipefail
 
 # verify and generate code coverage jacoco.exec and xml files
 
-# fhir-examples
-export BUILD_PROFILES=" $(jq -r '.build[] | select(.type == "fhir-examples").profiles | map(.) | join(",")' build/release/config/release.json)"
-mvn -T2C test org.jacoco:jacoco-maven-plugin:0.8.6:report-aggregate -f fhir-examples
-
 # fhir-tools
 export BUILD_PROFILES=" $(jq -r '.build[] | select(.type == "fhir-tools").profiles | map(.) | join(",")' build/release/config/release.json)"
 mvn -T2C test org.jacoco:jacoco-maven-plugin:0.8.6:report-aggregate -f fhir-tools
+
+# fhir-examples
+export BUILD_PROFILES=" $(jq -r '.build[] | select(.type == "fhir-examples").profiles | map(.) | join(",")' build/release/config/release.json)"
+mvn -T2C test org.jacoco:jacoco-maven-plugin:0.8.6:report-aggregate -f fhir-examples
 
 # fhir-parent
 export BUILD_PROFILES=" $(jq -r '.build[] | select(.type == "fhir-parent").profiles | map(.) | join(",")' build/release/config/release.json)"
