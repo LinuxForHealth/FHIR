@@ -14,7 +14,7 @@ import com.ibm.fhir.database.utils.query.expression.BindMarkerNodeVisitor;
  * A bind marker representing a Instant value
  */
 public class InstantBindMarkerNode extends BindMarkerNode {
-    // The Double value (can be null)
+    // The Instant value (can be null)
     private final Instant value;
 
     public InstantBindMarkerNode(Instant value) {

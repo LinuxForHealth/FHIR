@@ -1108,7 +1108,8 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
      */
     protected WhereFragment getNumberFilter(QueryParameter queryParm, String paramAlias) throws FHIRPersistenceException {
         WhereFragment where = new WhereFragment();
-        NewNumberParmBehaviorUtil.executeBehavior(where, queryParm, paramAlias);
+        NewNumberParmBehaviorUtil behaviorUtil = new NewNumberParmBehaviorUtil();
+        behaviorUtil.executeBehavior(where, queryParm, paramAlias);
         return where;
     }
 
@@ -1839,7 +1840,7 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
         if (PROFILE.equals(code)) {
             return addProfileParam(queryData, resourceType, queryParm);
         }
-        
+
         // Convert all values into CanonicalValues
         boolean versionNotSpecified = true;
         List<CanonicalValue> canonicalValues = new ArrayList<>();
@@ -1850,7 +1851,7 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
             }
             canonicalValues.add(canonicalValue);
         }
-        
+
         if ((versionNotSpecified && URL.equals(code))) {
             // If no version specified and 'url' search parameter, we can process as a normal string parameter
             return addStringParam(queryData, resourceType, queryParm);

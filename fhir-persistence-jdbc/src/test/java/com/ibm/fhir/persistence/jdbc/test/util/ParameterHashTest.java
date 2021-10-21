@@ -30,7 +30,7 @@ import com.ibm.fhir.persistence.jdbc.dto.ReferenceParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.StringParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.TokenParmVal;
 import com.ibm.fhir.persistence.jdbc.util.ParameterHashVisitor;
-import com.ibm.fhir.persistence.jdbc.util.type.NumberParmBehaviorUtil;
+import com.ibm.fhir.persistence.jdbc.util.type.NewNumberParmBehaviorUtil;
 import com.ibm.fhir.search.date.DateTimeHandler;
 import com.ibm.fhir.search.util.ReferenceValue;
 import com.ibm.fhir.search.util.ReferenceValue.ReferenceType;
@@ -70,7 +70,6 @@ public class ParameterHashTest {
 
     @Test
     public void testNullValues() throws Exception {
-
         // Create two number param values, one with null low, and one with null high
         BigDecimal value = new BigDecimal(5);
 
@@ -80,7 +79,7 @@ public class ParameterHashTest {
         num1.setUrl("url5");
         num1.setVersion("version5");
         num1.setValueNumber(value);
-        num1.setValueNumberLow(NumberParmBehaviorUtil.generateLowerBound(value));
+        num1.setValueNumberLow(NewNumberParmBehaviorUtil.generateLowerBound(value));
 
         NumberParmVal num2 = new NumberParmVal();
         num2.setResourceType("Patient");
@@ -88,7 +87,7 @@ public class ParameterHashTest {
         num2.setUrl("url5");
         num2.setVersion("version5");
         num2.setValueNumber(value);
-        num2.setValueNumberHigh(NumberParmBehaviorUtil.generateUpperBound(value));
+        num2.setValueNumberHigh(NewNumberParmBehaviorUtil.generateUpperBound(value));
 
         List<ExtractedParameterValue> parameters1 = Arrays.asList(num1);
         List<ExtractedParameterValue> parameters2 = Arrays.asList(num2);
@@ -161,8 +160,8 @@ public class ParameterHashTest {
         p5.setVersion("version5");
         BigDecimal value5 = new BigDecimal(5);
         p5.setValueNumber(value5);
-        p5.setValueNumberLow(NumberParmBehaviorUtil.generateLowerBound(value5));
-        p5.setValueNumberHigh(NumberParmBehaviorUtil.generateUpperBound(value5));
+        p5.setValueNumberLow(NewNumberParmBehaviorUtil.generateLowerBound(value5));
+        p5.setValueNumberHigh(NewNumberParmBehaviorUtil.generateUpperBound(value5));
 
         LocationParmVal p6 = new LocationParmVal();
         p6.setResourceType("Patient");

@@ -26,14 +26,6 @@ import com.ibm.fhir.search.location.bounding.BoundingType;
  * variables.
  */
 public class NewLocationParmBehaviorUtil {
-
-    /**
-     * Public constructor
-     */
-    public NewLocationParmBehaviorUtil() {
-        // No Operation
-    }
-
     /**
      * build location search query based on the bounding areas.
      *

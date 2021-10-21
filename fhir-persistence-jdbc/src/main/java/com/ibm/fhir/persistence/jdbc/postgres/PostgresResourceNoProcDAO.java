@@ -84,7 +84,6 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
         boolean acquiredFromCache;
         long dbCallStartTime;
         double dbCallDuration;
-        boolean requireParameterUpdate = true;
 
         try {
             resourceTypeId = getResourceTypeIdFromCaches(resource.getResourceType());

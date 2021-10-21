@@ -187,8 +187,7 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
      * @param codeSystemId The id corresponding to the code system name.
      * @throws FHIRPersistenceException
      */
-    @Override
-    public void addCodeSystemsCacheCandidate(String codeSystemName, Integer codeSystemId)  throws FHIRPersistenceException {
+    private void addCodeSystemsCacheCandidate(String codeSystemName, Integer codeSystemId)  throws FHIRPersistenceException {
         final String METHODNAME = "addCodeSystemsCacheCandidate";
         log.entering(CLASSNAME, METHODNAME);
 
@@ -218,8 +217,7 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
      * @param parameterId The id corresponding to the parameter name.
      * @throws FHIRPersistenceException
      */
-    @Override
-    public void addParameterNamesCacheCandidate(String parameterName, Integer parameterId) throws FHIRPersistenceException {
+    private void addParameterNamesCacheCandidate(String parameterName, Integer parameterId) throws FHIRPersistenceException {
         final String METHODNAME = "addParameterNamesCacheCandidate";
         log.entering(CLASSNAME, METHODNAME);
 
@@ -239,7 +237,6 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
         }
 
         log.exiting(CLASSNAME, METHODNAME);
-
     }
 
 
