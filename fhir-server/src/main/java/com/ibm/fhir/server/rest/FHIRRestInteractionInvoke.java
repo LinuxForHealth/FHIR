@@ -11,7 +11,7 @@ import javax.ws.rs.core.MultivaluedMap;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.resource.Bundle.Entry;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.server.operation.spi.FHIROperationContext;
+import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.util.FHIRUrlParser;
 
 /**

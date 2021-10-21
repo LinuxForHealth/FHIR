@@ -15,7 +15,9 @@ import java.util.logging.Logger;
 
 import com.ibm.fhir.core.FHIRUtilities;
 import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
-import com.ibm.fhir.server.operation.spi.FHIROperationContext;
+import com.ibm.fhir.server.spi.interceptor.FHIRPersistenceInterceptor;
+import com.ibm.fhir.server.spi.interceptor.FHIRPersistenceInterceptorException;
+import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 
 /**
  * This class implements the FHIR persistence interceptor framework. This framework allows users to inject business
@@ -25,7 +27,7 @@ import com.ibm.fhir.server.operation.spi.FHIROperationContext;
  *
  * To register an interceptor implementation, develop a class that implements the FHIRPersistenceInterceptor interface,
  * and then insert your implementation class name into a file called
- * META-INF/services/com.ibm.fhir.persistence.FHIRPersistenceInterceptor and store that file in your jar.
+ * META-INF/services/com.ibm.fhir.server.spi.interceptor.FHIRPersistenceInterceptor and store that file in your jar.
  * These "interceptor" jars should be stored in a common place defined by the FHIR Server.
  */
 public class FHIRPersistenceInterceptorMgr {

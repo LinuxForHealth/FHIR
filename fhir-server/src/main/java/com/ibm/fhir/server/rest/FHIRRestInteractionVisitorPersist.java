@@ -29,9 +29,9 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedExceptio
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.server.exception.FHIRRestBundledRequestException;
-import com.ibm.fhir.server.operation.spi.FHIROperationContext;
-import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
-import com.ibm.fhir.server.operation.spi.FHIRRestOperationResponse;
+import com.ibm.fhir.server.spi.operation.FHIROperationContext;
+import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
+import com.ibm.fhir.server.spi.operation.FHIRRestOperationResponse;
 import com.ibm.fhir.server.util.FHIRUrlParser;
 import com.ibm.fhir.server.util.IssueTypeToHttpStatusMapper;
 

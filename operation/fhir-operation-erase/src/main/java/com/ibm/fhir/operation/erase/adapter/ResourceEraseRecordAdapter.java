@@ -17,7 +17,7 @@ import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.persistence.ResourceEraseRecord;
 import com.ibm.fhir.persistence.ResourceEraseRecord.Status;
 import com.ibm.fhir.persistence.erase.EraseDTO;
-import com.ibm.fhir.server.util.FHIROperationUtil;
+import com.ibm.fhir.server.spi.operation.FHIROperationUtil;
 
 /**
  * Adapts the ResourceEraseRecord and EraseDTO to a Parameters object

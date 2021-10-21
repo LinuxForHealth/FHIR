@@ -38,7 +38,7 @@ import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.parser.exception.FHIRParserException;
 import com.ibm.fhir.model.resource.Parameters;
-import com.ibm.fhir.server.operation.spi.FHIROperationContext;
+import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 
 public class BulkDataImportUtilTest {
 

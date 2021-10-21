@@ -1,13 +1,13 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.server.interceptor;
+package com.ibm.fhir.server.spi.interceptor;
 
 import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
-import com.ibm.fhir.server.operation.spi.FHIROperationContext;
+import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 
 /**
  * This interface describes a persistence interceptor. Persistence interceptors are invoked by the FHIR Server to allow

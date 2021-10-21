@@ -32,7 +32,7 @@ import com.ibm.fhir.path.exception.FHIRPathException;
 import com.ibm.fhir.persistence.erase.EraseDTO;
 import com.ibm.fhir.search.compartment.CompartmentUtil;
 import com.ibm.fhir.search.exception.FHIRSearchException;
-import com.ibm.fhir.server.util.FHIROperationUtil;
+import com.ibm.fhir.server.spi.operation.FHIROperationUtil;
 
 /**
  * Erase Rest Implementation implements the parameters processing, authorization

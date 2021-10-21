@@ -1,10 +1,10 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.server.operation.spi;
+package com.ibm.fhir.server.spi.operation;
 
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.OperationDefinition;

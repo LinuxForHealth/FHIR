@@ -46,8 +46,8 @@ import com.ibm.fhir.cql.translator.impl.InJVMCqlTranslationProvider;
 import com.ibm.fhir.model.resource.Library;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
-import com.ibm.fhir.server.operation.spi.AbstractOperation;
-import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
+import com.ibm.fhir.server.spi.operation.AbstractOperation;
+import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 
 public abstract class AbstractCqlOperation extends AbstractOperation {
     

@@ -15,8 +15,27 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>fhir-server</artifactId>
+            <artifactId>fhir-server-spi</artifactId>
             <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>fhir-model</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>fhir-search</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>fhir-persistence</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
         </dependency>
         <!-- Needed for MultiValuedMap -->
         <dependency>
@@ -28,6 +47,6 @@
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <scope>test</scope>
-        </dependency>        
+        </dependency>
     </dependencies>
 </project>

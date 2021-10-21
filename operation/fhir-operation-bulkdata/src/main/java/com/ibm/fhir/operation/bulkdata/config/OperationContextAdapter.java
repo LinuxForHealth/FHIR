@@ -6,7 +6,7 @@
 
 package com.ibm.fhir.operation.bulkdata.config;
 
-import com.ibm.fhir.server.operation.spi.FHIROperationContext;
+import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 
 /**
  * Adapts the OperationContext to the output type.

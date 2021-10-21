@@ -9,7 +9,7 @@ package com.ibm.fhir.server.rest;
 
 import com.ibm.fhir.model.patch.FHIRPatch;
 import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
-import com.ibm.fhir.server.operation.spi.FHIRRestOperationResponse;
+import com.ibm.fhir.server.spi.operation.FHIRRestOperationResponse;
 import com.ibm.fhir.server.util.FHIRUrlParser;
 
 /**

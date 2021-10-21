@@ -21,7 +21,7 @@ import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.resource.OperationDefinition;
 import com.ibm.fhir.operation.bulkdata.processor.BulkDataFactory;
 import com.ibm.fhir.operation.bulkdata.processor.ExportImportBulkData;
-import com.ibm.fhir.server.operation.spi.FHIROperationContext;
+import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 
 public class OperationTest {
     @BeforeClass

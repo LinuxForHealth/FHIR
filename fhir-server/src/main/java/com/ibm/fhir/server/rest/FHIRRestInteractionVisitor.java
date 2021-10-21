@@ -16,8 +16,8 @@ import com.ibm.fhir.model.resource.Bundle.Entry;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
-import com.ibm.fhir.server.operation.spi.FHIROperationContext;
-import com.ibm.fhir.server.operation.spi.FHIRRestOperationResponse;
+import com.ibm.fhir.server.spi.operation.FHIROperationContext;
+import com.ibm.fhir.server.spi.operation.FHIRRestOperationResponse;
 import com.ibm.fhir.server.util.FHIRUrlParser;
 
 /**

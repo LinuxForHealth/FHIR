@@ -14,9 +14,9 @@ import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.OperationDefinition;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.server.operation.spi.AbstractOperation;
-import com.ibm.fhir.server.operation.spi.FHIROperationContext;
-import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
+import com.ibm.fhir.server.spi.operation.AbstractOperation;
+import com.ibm.fhir.server.spi.operation.FHIROperationContext;
+import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 
 /**
  * This class will test what happens if there is a bad OperationDefinition defined for a custom operation.<br/>

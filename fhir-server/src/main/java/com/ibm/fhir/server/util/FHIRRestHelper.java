@@ -113,14 +113,15 @@ import com.ibm.fhir.search.util.ReferenceValue.ReferenceType;
 import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.server.interceptor.FHIRPersistenceInterceptorMgr;
 import com.ibm.fhir.server.operation.FHIROperationRegistry;
-import com.ibm.fhir.server.operation.spi.FHIROperation;
-import com.ibm.fhir.server.operation.spi.FHIROperationContext;
-import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
-import com.ibm.fhir.server.operation.spi.FHIRRestOperationResponse;
 import com.ibm.fhir.server.rest.FHIRRestInteraction;
 import com.ibm.fhir.server.rest.FHIRRestInteractionVisitorMeta;
 import com.ibm.fhir.server.rest.FHIRRestInteractionVisitorPersist;
 import com.ibm.fhir.server.rest.FHIRRestInteractionVisitorReferenceMapping;
+import com.ibm.fhir.server.spi.operation.FHIROperation;
+import com.ibm.fhir.server.spi.operation.FHIROperationContext;
+import com.ibm.fhir.server.spi.operation.FHIROperationUtil;
+import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
+import com.ibm.fhir.server.spi.operation.FHIRRestOperationResponse;
 import com.ibm.fhir.validation.FHIRValidator;
 import com.ibm.fhir.validation.exception.FHIRValidationException;
 
@@ -2723,36 +2724,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         } else if (!resourceValid) {
             throw buildRestException("The requested resource type '" + resourceType + "' is not found",
                 IssueType.NOT_FOUND, IssueSeverity.ERROR);
-        }
-    }
-
-    public enum Interaction {
-        CREATE("create"),
-        DELETE("delete"),
-        HISTORY("history"),
-        PATCH("patch"),
-        READ("read"),
-        SEARCH("search"),
-        UPDATE("update"),
-        VREAD("vread");
-
-        private final String value;
-
-        Interaction(String value) {
-            this.value = value;
-        }
-
-        public String value() {
-            return value;
-        }
-
-        public static Interaction from(String value) {
-            for (Interaction interaction : Interaction.values()) {
-                if (interaction.value.equals(value)) {
-                    return interaction;
-                }
-            }
-            throw new IllegalArgumentException(value);
         }
     }
 

@@ -26,8 +26,8 @@ import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.util.ModelSupport;
-import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
-import com.ibm.fhir.server.operation.spi.FHIRRestOperationResponse;
+import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
+import com.ibm.fhir.server.spi.operation.FHIRRestOperationResponse;
 
 /**
  * Abstract base class of the {@link FHIRRestInteractionVisitor}. Manages access to the
