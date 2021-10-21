@@ -10,10 +10,11 @@ import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
+import com.ibm.fhir.database.utils.model.Privilege;
 import com.ibm.fhir.database.utils.model.Table;
 
 /**
- * Creates the SCHEMA_VERSIONS table. Although this is an administration
+ * Creates the WHOLE_SCHEMA_VERSION table. Although this is an administration
  * table, for least privileges it is stored in the data schema, not the
  * admin schema. This makes it easier to keep data private so that tenants
  * aren't able to see the schema version used by other tenants, but do
@@ -23,13 +24,13 @@ import com.ibm.fhir.database.utils.model.Table;
  * making things a little simpler.
  * <p>
  */
-public class CreateSchemaVersions {
+public class CreateWholeSchemaVersion {
     private static final Logger logger = Logger.getLogger(CreateControl.class.getName());
     public static final String SCHEMA_GROUP_TAG = "SCHEMA_GROUP";
     public static final String ADMIN_GROUP = "FHIR_ADMIN";
 
     /**
-     * Builds the definition of the SCHEMA_VERSIONS table in the schema
+     * Builds the definition of the WHOLE_SCHEMA_VERSION table in the schema
      * identified by schemaName
      * @param dataModel
      * @param schemaName
@@ -40,15 +41,18 @@ public class CreateSchemaVersions {
         // RECORD_ID is used to make sure we only put one row in this table
         // It is the primary key, and we add a check constraint RECORD_ID = 1
         // so the two restrictions combined enforce a single row
-        Table t = Table.builder(schemaName, SchemaConstants.SCHEMA_VERSIONS)
+        Table t = Table.builder(schemaName, SchemaConstants.WHOLE_SCHEMA_VERSION)
                 .setVersion(0)
                 .addIntColumn(SchemaConstants.RECORD_ID, false)
                 .addIntColumn(SchemaConstants.VERSION_ID, false)
-                .addPrimaryKey("PK_SCHEMA_VERSIONS", SchemaConstants.RECORD_ID)
+                .addPrimaryKey("PK_WHOLE_SCHEMA_VERSION", SchemaConstants.RECORD_ID)
                 .addCheckConstraint("CK_ONE_ROW", "RECORD_ID = 1")
                 .build(dataModel);
         dataModel.addTable(t);
         dataModel.addObject(t);
+
+        // The FHIRUSER (sometimes FHIRSERVER) database user needs SELECT on this table
+        t.addPrivilege(SchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.SELECT);
 
         if (addTags) {
             t.addTag(SCHEMA_GROUP_TAG, ADMIN_GROUP);
@@ -58,19 +62,17 @@ public class CreateSchemaVersions {
     }
 
     /**
-     * Create the CONTROL table in the admin schema.
+     * Create the WHOLE_SCHEMA_VERSION table. The table is created in the
+     * target data schema, not the admin schema.
      * <br>
-     * Version id of 0 is used to imply that this table
-     * is not versioned (it is created before the VERSION_HISTORY
-     * table and therefore is not managed by it)
      *
-     * @param adminSchemaName
+     * @param schemaName
      * @param target
      */
-    public static void createTableIfNeeded(String adminSchemaName, IDatabaseAdapter target) {
+    public static void createTableIfNeeded(String schemaName, IDatabaseAdapter target) {
         PhysicalDataModel dataModel = new PhysicalDataModel();
 
-        Table t = buildTableDef(dataModel, adminSchemaName, false);
+        Table t = buildTableDef(dataModel, schemaName, false);
 
         // apply this data model to the target if necessary - note - this table
         // is not managed in the VERSION_HISTORY table
@@ -89,5 +91,18 @@ public class CreateSchemaVersions {
                 }
             }
         }
+    }
+
+    /**
+     * Grant the user privileges so that the row from this table can
+     * be read by the $healthcheck custom operation.
+     * @param target
+     * @param groupName
+     * @param toUser
+     */
+    public static void grantPrivilegesTo(IDatabaseAdapter target, String schemaName, String groupName, String toUser) {
+        PhysicalDataModel dataModel = new PhysicalDataModel();
+        Table t = buildTableDef(dataModel, schemaName, false);
+        t.grant(target, groupName, toUser);
     }
 }

@@ -22,14 +22,14 @@ import com.ibm.fhir.database.utils.derby.DerbyMaster;
 import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
 import com.ibm.fhir.database.utils.transaction.SimpleTransactionProvider;
 import com.ibm.fhir.database.utils.version.CreateControl;
-import com.ibm.fhir.database.utils.version.CreateSchemaVersions;
+import com.ibm.fhir.database.utils.version.CreateWholeSchemaVersion;
 import com.ibm.fhir.schema.app.LeaseManager;
 import com.ibm.fhir.schema.app.LeaseManagerConfig;
 import com.ibm.fhir.schema.app.SchemaVersionsManager;
 import com.ibm.fhir.schema.control.FhirSchemaVersion;
 
 /**
- * Unit test for the SCHEMA_VERSIONS table
+ * Unit test for the WHOLE_SCHEMA_VERSION table
  */
 public class DerbySchemaVersionsTest {
     private static final String TARGET_DIR = "target/derby/";
@@ -41,8 +41,8 @@ public class DerbySchemaVersionsTest {
         DerbyMaster.dropDatabase(dbPath);
         try (DerbyMaster db = new DerbyMaster(dbPath)) {
 
-            // Create the SCHEMA_VERSIONS table
-            db.runWithAdapter(adapter -> CreateSchemaVersions.createTableIfNeeded(SCHEMA_NAME, adapter));
+            // Create the WHOLE_SCHEMA_VERSION table
+            db.runWithAdapter(adapter -> CreateWholeSchemaVersion.createTableIfNeeded(SCHEMA_NAME, adapter));
 
             IConnectionProvider cp = new DerbyConnectionProvider(db, null);
             PoolConnectionProvider connectionPool = new PoolConnectionProvider(cp, 10);

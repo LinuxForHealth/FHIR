@@ -23,8 +23,9 @@ public class SchemaConstants {
     public static final String LEASE_OWNER_UUID = "LEASE_OWNER_UUID";
     public static final String LEASE_UNTIL = "LEASE_UNTIL";
     
-    // the SCHEMA_VERSIONS table
-    public static final String SCHEMA_VERSIONS = "SCHEMA_VERSIONS";
+    // the WHOLE_SCHEMA_VERSION table
+    public static final String WHOLE_SCHEMA_VERSION = "WHOLE_SCHEMA_VERSION";
     public static final String RECORD_ID = "RECORD_ID";
     public static final String VERSION_ID = "VERSION_ID";
+    public static final String FHIR_USER_GRANT_GROUP = "fhiruser";
 }

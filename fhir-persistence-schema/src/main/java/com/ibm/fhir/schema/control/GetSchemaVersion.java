@@ -18,7 +18,7 @@ import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.database.utils.version.SchemaConstants;
 
 /**
- * Get the current schema version from the SCHEMA_VERSIONS table
+ * Get the current schema version from the WHOLE_SCHEMA_VERSION table
  */
 public class GetSchemaVersion implements IDatabaseSupplier<Integer> {
     
@@ -38,10 +38,10 @@ public class GetSchemaVersion implements IDatabaseSupplier<Integer> {
     public Integer run(IDatabaseTranslator translator, Connection c) {
         Integer result;
 
-        // The SCHEMA_VERSIONS table should only contain a single row, which will
+        // The WHOLE_SCHEMA_VERSION table should only contain a single row, which will
         // always have a record_id = 1.
-        final String SCHEMA_VERSIONS = DataDefinitionUtil.getQualifiedName(schemaName, SchemaConstants.SCHEMA_VERSIONS);
-        final String SEL = "SELECT version_id FROM " + SCHEMA_VERSIONS + " WHERE record_id = 1";
+        final String WHOLE_SCHEMA_VERSION = DataDefinitionUtil.getQualifiedName(schemaName, SchemaConstants.WHOLE_SCHEMA_VERSION);
+        final String SEL = "SELECT version_id FROM " + WHOLE_SCHEMA_VERSION + " WHERE record_id = 1";
         try (Statement s = c.createStatement()) {
             ResultSet rs = s.executeQuery(SEL);
             if (rs.next()) {

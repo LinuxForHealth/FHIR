@@ -20,7 +20,7 @@ import com.ibm.fhir.schema.control.GetSchemaVersion;
 import com.ibm.fhir.schema.control.UpdateSchemaVersion;
 
 /**
- * Access layer for SCHEMA_VERSIONS data
+ * Access layer for WHOLE_SCHEMA_VERSION data
  */
 public class SchemaVersionsManager {
     private final IDatabaseTranslator translator;
@@ -59,7 +59,7 @@ public class SchemaVersionsManager {
     
     /**
      * Record the version information for the given schemaName in the
-     * SCHEMA_VERSIONS table, creating a new record if required
+     * WHOLESCHEMA_VERSION table, creating a new record if required
      * @param schemaName
      * @param version
      */
@@ -86,7 +86,7 @@ public class SchemaVersionsManager {
     }
 
     /**
-     * Find the latest FhirSchemaVersion and use it to update the SCHEMA_VERSIONS
+     * Find the latest FhirSchemaVersion and use it to update the WHOLE_SCHEMA_VERSION
      * table
      */
     public void updateSchemaVersion() {
@@ -94,7 +94,7 @@ public class SchemaVersionsManager {
     }
 
     /**
-     * Returns true if the current schema version recorded in SCHEMA_VERSIONS is the
+     * Returns true if the current schema version recorded in WHOLE_SCHEMA_VERSION is the
      * latest FhirSchemaVersion
      * @return
      */

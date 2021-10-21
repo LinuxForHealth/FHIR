@@ -71,7 +71,8 @@ import com.ibm.fhir.database.utils.tenant.GetTenantDAO;
 import com.ibm.fhir.database.utils.transaction.SimpleTransactionProvider;
 import com.ibm.fhir.database.utils.transaction.TransactionFactory;
 import com.ibm.fhir.database.utils.version.CreateControl;
-import com.ibm.fhir.database.utils.version.CreateSchemaVersions;
+import com.ibm.fhir.database.utils.version.CreateWholeSchemaVersion;
+import com.ibm.fhir.database.utils.version.SchemaConstants;
 import com.ibm.fhir.database.utils.version.CreateVersionHistory;
 import com.ibm.fhir.database.utils.version.VersionHistoryService;
 import com.ibm.fhir.model.util.ModelSupport;
@@ -432,7 +433,7 @@ public class Main {
             
             final String targetSchemaName = schema.getSchemaName();
             IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
-            CreateSchemaVersions.createTableIfNeeded(targetSchemaName, adapter);
+            CreateWholeSchemaVersion.createTableIfNeeded(targetSchemaName, adapter);
             
             // If our schema is already at the latest version, we can skip a lot of processing
             SchemaVersionsManager svm = new SchemaVersionsManager(translator, connectionPool, transactionProvider, targetSchemaName);
@@ -490,7 +491,7 @@ public class Main {
             
             final String targetSchemaName = schema.getOauthSchemaName();
             IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
-            CreateSchemaVersions.createTableIfNeeded(targetSchemaName, adapter);
+            CreateWholeSchemaVersion.createTableIfNeeded(targetSchemaName, adapter);
             
             // If our schema is already at the latest version, we can skip a lot of processing
             SchemaVersionsManager svm = new SchemaVersionsManager(translator, connectionPool, transactionProvider, targetSchemaName);
@@ -523,7 +524,7 @@ public class Main {
             
             final String targetSchemaName = schema.getJavaBatchSchemaName();
             IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
-            CreateSchemaVersions.createTableIfNeeded(targetSchemaName, adapter);
+            CreateWholeSchemaVersion.createTableIfNeeded(targetSchemaName, adapter);
             
             // If our schema is already at the latest version, we can skip a lot of processing
             SchemaVersionsManager svm = new SchemaVersionsManager(translator, connectionPool, transactionProvider, targetSchemaName);
@@ -801,6 +802,10 @@ public class Main {
                 pdm.applyGrants(adapter, FhirSchemaConstants.FHIR_USER_GRANT_GROUP, grantTo);
                 pdm.applyGrants(adapter, FhirSchemaConstants.FHIR_OAUTH_GRANT_GROUP, grantTo);
                 pdm.applyGrants(adapter, FhirSchemaConstants.FHIR_BATCH_GRANT_GROUP, grantTo);
+                
+                // Grant SELECT on WHOLE_SCHEMA_VERSION to the FHIR server user
+                // Note the constant comes from SchemaConstants on purpose
+                CreateWholeSchemaVersion.grantPrivilegesTo(adapter, schema.getSchemaName(), SchemaConstants.FHIR_USER_GRANT_GROUP, grantTo);
             } catch (DataAccessException x) {
                 // Something went wrong, so mark the transaction as failed
                 tx.setRollbackOnly();

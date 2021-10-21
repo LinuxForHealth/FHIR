@@ -24,7 +24,7 @@ import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.database.utils.version.SchemaConstants;
 
 /**
- * Update the schema version recorded in the SCHEMA_VERSIONS table
+ * Update the schema version recorded in the WHOLE_SCHEMA_VERSION table
  */
 public class UpdateSchemaVersion implements IDatabaseStatement {
     
@@ -48,8 +48,8 @@ public class UpdateSchemaVersion implements IDatabaseStatement {
 
         // There shouldn't be any concurrency issues, because updates are serialized
         // using the CONTROL table and its lease mechanism (see LeaseManager)
-        final String SCHEMA_VERSIONS = DataDefinitionUtil.getQualifiedName(schemaName, SchemaConstants.SCHEMA_VERSIONS);
-        final String INS = "INSERT INTO " + SCHEMA_VERSIONS + " ("
+        final String WHOLE_SCHEMA_VERSION = DataDefinitionUtil.getQualifiedName(schemaName, SchemaConstants.WHOLE_SCHEMA_VERSION);
+        final String INS = "INSERT INTO " + WHOLE_SCHEMA_VERSION + " ("
                 + " record_id, version_id) "
                 + " VALUES (1, ?)";
         
@@ -69,7 +69,7 @@ public class UpdateSchemaVersion implements IDatabaseStatement {
             
             // Failed because there's a duplicate row...so now we just want to update it
             if (!locked) {
-                final String UPD = "UPDATE " + SCHEMA_VERSIONS
+                final String UPD = "UPDATE " + WHOLE_SCHEMA_VERSION
                         + "  SET version_id = ? "
                         + "WHERE record_id = 1 ";
 
