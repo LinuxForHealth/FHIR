@@ -2387,10 +2387,30 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         }
         
         // compare what's in the database with the latest FhirSchemaVersion. For now,
-        // we allow the schema to be equal to or ahead of the latest schema known
+        // we allow the database schema to be equal to or ahead of the latest schema known
         // to this instance. This helps with rolling deploys.
         FhirSchemaVersion latest = SchemaVersionsManager.getLatestFhirSchemaVersion();
-        return versionId >= latest.vid();
+        final boolean result;
+        if (versionId < 0) {
+            // the new server code is running against a database which hasn't been
+            // updated to include the whole-schema-version and control tables
+            log.warning("Schema update required: whole-schema-version not supported.");
+            result = false; // not supported - database needs to be updated
+        } else if (versionId > latest.vid()) {
+            // the database has been updated, but this is the old code still running
+            log.warning("Deployment update required: database schema version [" + versionId 
+                + "] is newer than code schema version [" + latest.vid() + "]");
+            result = true; // this is OK
+        } else if (versionId < latest.vid()) {
+            // the code is newer than the database schema
+            log.severe("Schema update required: database schema version [" + versionId 
+                + "] is older than code schema version [" + latest.vid() + "]");
+            result = false; // not supported - database needs to be updated
+        } else {
+            // perfect match
+            result = true;
+        }
+        return result;
     }
 
     /**
