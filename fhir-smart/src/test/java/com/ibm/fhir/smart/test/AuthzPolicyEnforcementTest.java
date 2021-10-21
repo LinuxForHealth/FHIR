@@ -50,7 +50,7 @@ import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.context.impl.FHIRSearchContextImpl;
 import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.parameters.QueryParameterValue;
-import com.ibm.fhir.server.interceptor.FHIRPersistenceInterceptorException;
+import com.ibm.fhir.server.spi.interceptor.FHIRPersistenceInterceptorException;
 import com.ibm.fhir.smart.AuthzPolicyEnforcementPersistenceInterceptor;
 import com.ibm.fhir.smart.Scope.Permission;
 

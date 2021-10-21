@@ -27,8 +27,8 @@ import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.persistence.erase.EraseDTO;
-import com.ibm.fhir.server.operation.spi.FHIROperationContext;
-import com.ibm.fhir.server.util.FHIROperationUtil;
+import com.ibm.fhir.server.spi.operation.FHIROperationContext;
+import com.ibm.fhir.server.spi.operation.FHIROperationUtil;
 import com.ibm.fhir.server.util.RestAuditLogger;
 
 /**

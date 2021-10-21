@@ -1,10 +1,10 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.server.interceptor;
+package com.ibm.fhir.server.spi.interceptor;
 
 import java.util.Collection;
 

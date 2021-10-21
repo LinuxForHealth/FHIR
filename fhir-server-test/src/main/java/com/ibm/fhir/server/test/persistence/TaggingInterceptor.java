@@ -11,8 +11,8 @@ import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
-import com.ibm.fhir.server.interceptor.FHIRPersistenceInterceptor;
-import com.ibm.fhir.server.interceptor.FHIRPersistenceInterceptorException;
+import com.ibm.fhir.server.spi.interceptor.FHIRPersistenceInterceptor;
+import com.ibm.fhir.server.spi.interceptor.FHIRPersistenceInterceptorException;
 
 /**
  * A sample persistence interceptor that adds a tag to each resource before it gets persisted.

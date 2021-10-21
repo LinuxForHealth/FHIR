@@ -26,10 +26,10 @@ import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.operation.term.AbstractTermOperation;
-import com.ibm.fhir.server.operation.spi.FHIROperationContext;
-import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
 import com.ibm.fhir.server.registry.ServerRegistryResourceProvider;
-import com.ibm.fhir.server.util.FHIROperationUtil;
+import com.ibm.fhir.server.spi.operation.FHIROperationContext;
+import com.ibm.fhir.server.spi.operation.FHIROperationUtil;
+import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 import com.ibm.fhir.term.util.CodeSystemSupport;
 
 public class CodeSystemClearCacheOperation extends AbstractTermOperation {

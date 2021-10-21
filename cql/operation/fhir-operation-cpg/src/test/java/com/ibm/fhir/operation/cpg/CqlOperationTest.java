@@ -45,8 +45,8 @@ import com.ibm.fhir.model.type.Period;
 import com.ibm.fhir.model.type.code.EncounterStatus;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.registry.FHIRRegistry;
-import com.ibm.fhir.server.operation.spi.FHIROperationContext;
-import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
+import com.ibm.fhir.server.spi.operation.FHIROperationContext;
+import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 
 public class CqlOperationTest extends BaseCqlOperationTest<CqlOperation> {
 

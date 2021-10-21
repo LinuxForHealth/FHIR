@@ -24,8 +24,8 @@ import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.HumanName;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
-import com.ibm.fhir.server.interceptor.FHIRPersistenceInterceptorException;
 import com.ibm.fhir.server.interceptor.FHIRPersistenceInterceptorMgr;
+import com.ibm.fhir.server.spi.interceptor.FHIRPersistenceInterceptorException;
 
 /**
  * This class tests the persistence interceptor feature. The MyInterceptor class is our test interceptor implementation

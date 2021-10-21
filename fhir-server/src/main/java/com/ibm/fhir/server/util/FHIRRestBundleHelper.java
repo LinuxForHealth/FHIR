@@ -47,8 +47,6 @@ import com.ibm.fhir.path.patch.FHIRPathPatch;
 import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.server.exception.FHIRRestBundledRequestException;
-import com.ibm.fhir.server.operation.spi.FHIROperationContext;
-import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
 import com.ibm.fhir.server.rest.FHIRRestInteraction;
 import com.ibm.fhir.server.rest.FHIRRestInteractionCreate;
 import com.ibm.fhir.server.rest.FHIRRestInteractionDelete;
@@ -61,6 +59,8 @@ import com.ibm.fhir.server.rest.FHIRRestInteractionSearch;
 import com.ibm.fhir.server.rest.FHIRRestInteractionUpdate;
 import com.ibm.fhir.server.rest.FHIRRestInteractionVRead;
 import com.ibm.fhir.server.rest.FHIRRestInteractionValidationResponse;
+import com.ibm.fhir.server.spi.operation.FHIROperationContext;
+import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 
 /**
  * Helper for processing bundle entries. Does not perform any persistence operations,

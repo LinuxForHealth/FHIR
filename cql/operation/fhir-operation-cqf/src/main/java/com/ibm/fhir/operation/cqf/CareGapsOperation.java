@@ -34,9 +34,9 @@ import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.search.SearchConstants;
-import com.ibm.fhir.server.operation.spi.FHIROperationContext;
-import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
-import com.ibm.fhir.server.util.FHIROperationUtil;
+import com.ibm.fhir.server.spi.operation.FHIROperationContext;
+import com.ibm.fhir.server.spi.operation.FHIROperationUtil;
+import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 
 public class CareGapsOperation extends AbstractMeasureOperation {
 

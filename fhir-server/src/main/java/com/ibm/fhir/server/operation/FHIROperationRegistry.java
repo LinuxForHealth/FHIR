@@ -25,7 +25,7 @@ import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.util.FHIRUtil;
-import com.ibm.fhir.server.operation.spi.FHIROperation;
+import com.ibm.fhir.server.spi.operation.FHIROperation;
 import com.ibm.fhir.validation.FHIRValidator;
 import com.ibm.fhir.validation.exception.FHIRValidationException;
 

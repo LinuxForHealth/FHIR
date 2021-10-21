@@ -62,7 +62,7 @@ import com.ibm.fhir.server.notifications.nats.FHIRNotificationNATSPublisher;
 import com.ibm.fhir.server.operation.FHIROperationRegistry;
 import com.ibm.fhir.server.registry.ServerRegistryResourceProvider;
 import com.ibm.fhir.server.resolve.ServerResolveFunction;
-import com.ibm.fhir.server.util.FHIROperationUtil;
+import com.ibm.fhir.server.spi.operation.FHIROperationUtil;
 import com.ibm.fhir.term.config.FHIRTermConfig;
 import com.ibm.fhir.term.graph.provider.GraphTermServiceProvider;
 import com.ibm.fhir.term.remote.provider.RemoteTermServiceProvider;

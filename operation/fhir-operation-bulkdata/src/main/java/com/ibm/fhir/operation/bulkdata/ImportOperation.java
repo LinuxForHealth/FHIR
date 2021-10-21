@@ -23,9 +23,9 @@ import com.ibm.fhir.operation.bulkdata.model.type.StorageDetail;
 import com.ibm.fhir.operation.bulkdata.processor.BulkDataFactory;
 import com.ibm.fhir.operation.bulkdata.util.BulkDataImportUtil;
 import com.ibm.fhir.operation.bulkdata.util.CommonUtil;
-import com.ibm.fhir.server.operation.spi.AbstractOperation;
-import com.ibm.fhir.server.operation.spi.FHIROperationContext;
-import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
+import com.ibm.fhir.server.spi.operation.AbstractOperation;
+import com.ibm.fhir.server.spi.operation.FHIROperationContext;
+import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 
 /**
  * BulkData Specification Proposal:

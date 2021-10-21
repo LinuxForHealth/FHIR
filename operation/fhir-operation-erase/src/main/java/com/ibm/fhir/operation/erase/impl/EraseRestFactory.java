@@ -10,7 +10,7 @@ import javax.ws.rs.core.SecurityContext;
 
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.server.operation.spi.FHIROperationContext;
+import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 
 /**
  * Selects the single instance of Erase for a given request.

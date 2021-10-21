@@ -11,7 +11,7 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.resource.Library;
 import com.ibm.fhir.model.resource.Parameters;
-import com.ibm.fhir.server.operation.spi.FHIROperationContext;
+import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 
 public class LibraryDataRequirementsOperationTest extends BaseDataRequirementsOperationTest {
 
