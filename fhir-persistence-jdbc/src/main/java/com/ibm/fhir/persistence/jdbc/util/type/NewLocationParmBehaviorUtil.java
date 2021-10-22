@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.query.WhereFragment;
+import com.ibm.fhir.search.exception.FHIRSearchException;
+import com.ibm.fhir.search.location.NearLocationHandler;
 import com.ibm.fhir.search.location.bounding.Bounding;
 import com.ibm.fhir.search.location.bounding.BoundingBox;
 import com.ibm.fhir.search.location.bounding.BoundingMissing;
@@ -132,6 +134,20 @@ public class NewLocationParmBehaviorUtil {
      */
     public void buildQueryForBoundingRadius(WhereFragment whereClauseSegment, String paramAlias,
             BoundingRadius boundingRadius) {
+
+        // First, emit our bounding box query to scope the points down to just those in the general vicinity
+        BoundingBox boundingBox;
+        try {
+            boundingBox = new NearLocationHandler()
+                    .createBoundingBox(boundingRadius.getLatitude(), boundingRadius.getLongitude(), boundingRadius.getRadius(), "km");
+        } catch (FHIRSearchException e) {
+            // createBoundingBox throws if the units are invalid, but we've already normalized them to km by this point
+            throw new IllegalStateException("Unexpected exception while computing the bounding box for radius search", e);
+        }
+        buildQueryForBoundingBox(whereClauseSegment, boundingBox, paramAlias);
+        whereClauseSegment.and();
+
+        // Then further refine it by having the db calculate the distance bewtween the locations
         // This section of code is based on code from http://janmatuschek.de/LatitudeLongitudeBoundingCoordinates
         // ACOS(SIN(boundingRadiusLatitude) * SIN(LATITUDE_VALUE) + COS(boundingRadiusLatitude) * COS(LATITUDE_VALUE) * COS(boundingRadiusLongitude - LONGITUDE_VALUE) * R
 

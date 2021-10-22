@@ -28,6 +28,8 @@ import com.ibm.fhir.database.utils.query.node.BindMarkerNode;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.util.type.NewLocationParmBehaviorUtil;
+import com.ibm.fhir.search.exception.FHIRSearchException;
+import com.ibm.fhir.search.location.NearLocationHandler;
 import com.ibm.fhir.search.location.bounding.Bounding;
 import com.ibm.fhir.search.location.bounding.BoundingBox;
 import com.ibm.fhir.search.location.bounding.BoundingMissing;
@@ -132,23 +134,31 @@ public class LocationParmBehaviorUtilTest {
                 "(pX.LATITUDE_VALUE >= ? AND pX.LATITUDE_VALUE <= ? AND pX.LONGITUDE_VALUE >= ? AND pX.LONGITUDE_VALUE <= ?)";
 
         BoundingBox boundingBox = BoundingBox.builder()
-                .maxLatitude(10.0)
                 .minLatitude(-10.0)
-                .maxLongitude(20.0)
+                .maxLatitude(10.0)
                 .minLongitude(-20.0)
+                .maxLongitude(20.0)
                 .build();
         runTest(expectedBindVariables, expectedSql, boundingBox);
     }
 
     @Test
-    public void testBoundingRadius() throws FHIRPersistenceException {
+    public void testBoundingRadius() throws FHIRPersistenceException, FHIRSearchException {
+        BoundingBox boundingBoxForRadius = new NearLocationHandler().createBoundingBox(10, 20, 4, "km");
+
         List<Object> expectedBindVariables = new ArrayList<>();
+        expectedBindVariables.add(boundingBoxForRadius.minLatitude);
+        expectedBindVariables.add(boundingBoxForRadius.maxLatitude);
+        expectedBindVariables.add(boundingBoxForRadius.minLongitude);
+        expectedBindVariables.add(boundingBoxForRadius.maxLongitude);
         expectedBindVariables.add(Math.toRadians(10.0));
         expectedBindVariables.add(Math.toRadians(10.0));
         expectedBindVariables.add(Math.toRadians(20.0));
         expectedBindVariables.add(4.0);
 
         String expectedSql =
+                "(pX.LATITUDE_VALUE >= ? AND pX.LATITUDE_VALUE <= ? AND pX.LONGITUDE_VALUE >= ? AND pX.LONGITUDE_VALUE <= ?)"
+                + " AND " +
                 "(ACOS(SIN(?) * SIN(RADIANS(pX.LATITUDE_VALUE)) + COS(?) * COS(RADIANS(pX.LATITUDE_VALUE)) * COS(? - RADIANS(pX.LONGITUDE_VALUE))) * 6371 <= ?)";
 
         BoundingRadius boundingRadius = BoundingRadius.builder().latitude(10.0).longitude(20.0).radius(4.0).build();
@@ -156,7 +166,9 @@ public class LocationParmBehaviorUtilTest {
     }
 
     @Test
-    public void testBoundingList() throws FHIRPersistenceException {
+    public void testBoundingList() throws FHIRPersistenceException, FHIRSearchException {
+        BoundingBox boundingBoxForRadius = new NearLocationHandler().createBoundingBox(10, 21, 4, "km");
+
         BoundingRadius boundingRadius = BoundingRadius.builder().latitude(10.0).longitude(21.0).radius(4.0).build();
         BoundingBox boundingBox = BoundingBox.builder()
                 .maxLatitude(11.0)
@@ -168,6 +180,10 @@ public class LocationParmBehaviorUtilTest {
         List<Bounding> boundingAreas = Arrays.asList(boundingRadius, boundingBox);
 
         List<Object> expectedBindVariables = new ArrayList<>();
+        expectedBindVariables.add(boundingBoxForRadius.minLatitude);
+        expectedBindVariables.add(boundingBoxForRadius.maxLatitude);
+        expectedBindVariables.add(boundingBoxForRadius.minLongitude);
+        expectedBindVariables.add(boundingBoxForRadius.maxLongitude);
         expectedBindVariables.add(Math.toRadians(10.0));
         expectedBindVariables.add(Math.toRadians(10.0));
         expectedBindVariables.add(Math.toRadians(21.0));
@@ -178,7 +194,8 @@ public class LocationParmBehaviorUtilTest {
         expectedBindVariables.add(20.0);
 
         String expectedSql =
-                "((ACOS(SIN(?) * SIN(RADIANS(pX.LATITUDE_VALUE)) + COS(?) * COS(RADIANS(pX.LATITUDE_VALUE)) * COS(? - RADIANS(pX.LONGITUDE_VALUE))) * 6371 <= ?)"
+                "((pX.LATITUDE_VALUE >= ? AND pX.LATITUDE_VALUE <= ? AND pX.LONGITUDE_VALUE >= ? AND pX.LONGITUDE_VALUE <= ?) AND "
+                + "(ACOS(SIN(?) * SIN(RADIANS(pX.LATITUDE_VALUE)) + COS(?) * COS(RADIANS(pX.LATITUDE_VALUE)) * COS(? - RADIANS(pX.LONGITUDE_VALUE))) * 6371 <= ?)"
                 + " OR "
                 + "(pX.LATITUDE_VALUE >= ? AND pX.LATITUDE_VALUE <= ? AND pX.LONGITUDE_VALUE >= ? AND pX.LONGITUDE_VALUE <= ?))";
 
