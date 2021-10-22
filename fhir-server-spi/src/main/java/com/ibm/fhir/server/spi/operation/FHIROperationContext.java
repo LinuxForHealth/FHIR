@@ -80,7 +80,7 @@ public class FHIROperationContext {
     public static final String PROPNAME_REQUEST_PARAMETERS = "REQUEST_PARAMETERS";
 
     /**
-     * The request parameters for this invocation
+     * The response parameters for this invocation
      */
     public static final String PROPNAME_RESPONSE_PARAMETERS = "RESPONSE_PARAMETERS";
 

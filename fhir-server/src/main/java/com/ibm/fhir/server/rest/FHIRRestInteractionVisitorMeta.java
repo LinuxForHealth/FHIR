@@ -150,7 +150,7 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
             }
 
             // Pass back the updated resource so it can be used in the next phase if required
-            return new FHIRRestOperationResponse(resourceWithMeta, logicalId, newVersionNumber, lastUpdated, null);
+            return new FHIRRestOperationResponse(resourceWithMeta, logicalId, null);
         });
     }
 

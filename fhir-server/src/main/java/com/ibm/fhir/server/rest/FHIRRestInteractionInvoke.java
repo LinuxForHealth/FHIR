@@ -38,7 +38,6 @@ public class FHIRRestInteractionInvoke extends FHIRRestInteractionResource {
      * @param resourceTypeName
      * @param logicalId
      * @param versionId
-     * @param operationName
      * @param resource
      * @param queryParameters
      */

@@ -13,7 +13,6 @@ import javax.ws.rs.core.Response;
 
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.persistence.payload.PayloadKey;
 
 /**
@@ -50,7 +49,7 @@ public class FHIRRestOperationResponse {
         setOperationOutcome(operationOutcome);
     }
 
-    public FHIRRestOperationResponse(Resource resource, String resourceId, int versionNumber, Instant lastUpdated, Future<PayloadKey> storePayloadResponse) {
+    public FHIRRestOperationResponse(Resource resource, String resourceId, Future<PayloadKey> storePayloadResponse) {
         this.resource = resource;
         this.resourceId = resourceId;
         this.setStorePayloadResponse(storePayloadResponse);

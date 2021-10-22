@@ -21,7 +21,6 @@ import com.ibm.fhir.model.patch.FHIRPatch;
 import com.ibm.fhir.model.resource.Bundle.Entry;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.ReferenceMappingVisitor;
 import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
@@ -94,11 +93,10 @@ public class FHIRRestInteractionVisitorReferenceMapping extends FHIRRestInteract
 
             // Try offloading storage of the payload. The offloadResponse will be null if not supported
             int newVersionNumber = Integer.parseInt(finalResource.getMeta().getVersionId().getValue());
-            Instant lastUpdated = finalResource.getMeta().getLastUpdated();
             Future<PayloadKey> offloadResponse = storePayload(finalResource, finalResource.getId(), newVersionNumber);
 
             // Pass back the updated resource so it can be used in the next phase if required
-            return new FHIRRestOperationResponse(finalResource, finalResource.getId(), newVersionNumber, lastUpdated, offloadResponse);
+            return new FHIRRestOperationResponse(finalResource, finalResource.getId(), offloadResponse);
         });
     }
 
