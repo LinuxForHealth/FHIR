@@ -7,24 +7,18 @@
 package com.ibm.fhir.persistence.jdbc.test.util;
 
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAMETER_TABLE_ALIAS;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.fail;
+import static com.ibm.fhir.persistence.jdbc.test.util.ParmBehaviorUtilTestHelper.assertExpectedSQL;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.database.utils.query.WhereFragment;
-import com.ibm.fhir.database.utils.query.expression.StringExpNodeVisitor;
-import com.ibm.fhir.database.utils.query.node.BindMarkerNode;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.util.type.NewLocationParmBehaviorUtil;
@@ -36,14 +30,10 @@ import com.ibm.fhir.search.location.bounding.BoundingMissing;
 import com.ibm.fhir.search.location.bounding.BoundingRadius;
 
 public class LocationParmBehaviorUtilTest {
-    private static final Logger log = java.util.logging.Logger.getLogger(LocationParmBehaviorUtilTest.class.getName());
-    private static final Level LOG_LEVEL = Level.INFO;
-
+    //---------------------------------------------------------------------------------------------------------
+    // Supporting Methods:
     private void runTest(List<Object> expectedBindVariables, String expectedSql, Bounding bounding)
             throws FHIRPersistenceException {
-        if (log.isLoggable(LOG_LEVEL)) {
-            log.info("Expected Bind Variables -> " + expectedBindVariables);
-        }
         WhereFragment actualWhereClauseSegment = new WhereFragment();
 
         NewLocationParmBehaviorUtil util = new NewLocationParmBehaviorUtil();
@@ -54,73 +44,22 @@ public class LocationParmBehaviorUtilTest {
         } else {
             util.buildQueryForBoundingMissing(actualWhereClauseSegment, (BoundingMissing)bounding);
         }
-        List<BindMarkerNode> collectBindMarkersInto = new ArrayList<>();
-        StringExpNodeVisitor visitor = new StringExpNodeVisitor(null, collectBindMarkersInto, false);
-        final String actualWhereClauseString = actualWhereClauseSegment.getExpression().visit(visitor);
-
-        if (log.isLoggable(LOG_LEVEL)) {
-            log.info("whereClauseSegment -> " + actualWhereClauseString);
-            log.info("bind variables -> " + collectBindMarkersInto.stream()
-                    .map(b -> b.toValueString("~"))
-                    .collect(Collectors.toList()));
-        }
-        assertEquals(actualWhereClauseString, expectedSql);
-        assertEquals(collectBindMarkersInto.size(), expectedBindVariables.size());
-
-        for (int i=0; i<expectedBindVariables.size(); i++) {
-            Object expectedValue = expectedBindVariables.get(i);
-            BindMarkerNode bindMarker = collectBindMarkersInto.get(i);
-
-            if (!bindMarker.checkTypeAndValue(expectedValue)) {
-                StringBuilder msg = new StringBuilder();
-                msg.append("BIND[").append(i).append("] ")
-                    .append("EXPECTED=").append(expectedValue)
-                    .append("; ACTUAL=").append(bindMarker.toValueString("~"));
-                fail(msg.toString());
-            }
-        }
+        assertExpectedSQL(actualWhereClauseSegment, expectedSql, expectedBindVariables);
     }
 
     private void runTestBoundingList(List<Object> expectedBindVariables, String expectedSql,
             List<Bounding> boundingAreas) throws FHIRPersistenceException {
-        if (log.isLoggable(LOG_LEVEL)) {
-            log.info("Expected Bind Variables -> " + expectedBindVariables);
-        }
         WhereFragment actualWhereClauseSegment = new WhereFragment();
-
         NewLocationParmBehaviorUtil util = new NewLocationParmBehaviorUtil();
         util.buildLocationSearchQuery(actualWhereClauseSegment, boundingAreas, PARAMETER_TABLE_ALIAS);
-        List<BindMarkerNode> collectBindMarkersInto = new ArrayList<>();
-        StringExpNodeVisitor visitor = new StringExpNodeVisitor(null, collectBindMarkersInto, false);
-        final String actualWhereClauseString = actualWhereClauseSegment.getExpression().visit(visitor);
-
-        if (log.isLoggable(LOG_LEVEL)) {
-            log.info("whereClauseSegment -> " + actualWhereClauseString);
-            log.info("bind variables -> " + collectBindMarkersInto.stream()
-                    .map(b -> b.toValueString("~"))
-                    .collect(Collectors.toList()));
-        }
-        assertEquals(actualWhereClauseString, expectedSql);
-        assertEquals(collectBindMarkersInto.size(), expectedBindVariables.size());
-
-        for (int i=0; i<expectedBindVariables.size(); i++) {
-            Object expectedValue = expectedBindVariables.get(i);
-            BindMarkerNode bindMarker = collectBindMarkersInto.get(i);
-
-            if (!bindMarker.checkTypeAndValue(expectedValue)) {
-                StringBuilder msg = new StringBuilder();
-                msg.append("BIND[").append(i).append("] ")
-                    .append("EXPECTED=").append(expectedValue)
-                    .append("; ACTUAL=").append(bindMarker.toValueString("~"));
-                fail(msg.toString());
-            }
-        }
+        assertExpectedSQL(actualWhereClauseSegment, expectedSql, expectedBindVariables);
     }
 
     @BeforeClass
     public static void before() throws FHIRException {
         FHIRRequestContext.get().setTenantId("behavior");
     }
+    //---------------------------------------------------------------------------------------------------------
 
     @Test
     public void testBoundingBox() throws FHIRPersistenceException {

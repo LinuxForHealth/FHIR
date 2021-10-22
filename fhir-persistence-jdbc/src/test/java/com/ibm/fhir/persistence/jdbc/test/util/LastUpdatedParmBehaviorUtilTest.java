@@ -6,16 +6,12 @@
 
 package com.ibm.fhir.persistence.jdbc.test.util;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.fail;
+import static com.ibm.fhir.persistence.jdbc.test.util.ParmBehaviorUtilTestHelper.assertExpectedSQL;
 
 import java.time.Instant;
 import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -23,8 +19,6 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.database.utils.query.WhereFragment;
-import com.ibm.fhir.database.utils.query.expression.StringExpNodeVisitor;
-import com.ibm.fhir.database.utils.query.node.BindMarkerNode;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.persistence.jdbc.util.type.NewLastUpdatedParmBehaviorUtil;
 import com.ibm.fhir.search.SearchConstants;
@@ -35,10 +29,6 @@ import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.parameters.QueryParameterValue;
 
 public class LastUpdatedParmBehaviorUtilTest {
-    private static final Logger log =
-            java.util.logging.Logger.getLogger(LastUpdatedParmBehaviorUtilTest.class.getName());
-    private static final Level LOG_LEVEL = Level.INFO;
-
     //---------------------------------------------------------------------------------------------------------
     // Supporting Methods:
     @BeforeClass
@@ -68,49 +58,19 @@ public class LastUpdatedParmBehaviorUtilTest {
         return parameter;
     }
 
-    private void runTest(QueryParameter queryParm, List<Instant> expectedBindVariables, String expectedSql)
+    private void runTest(QueryParameter queryParm, List<Object> expectedBindVariables, String expectedSql)
             throws Exception {
         runTest(queryParm, expectedBindVariables, expectedSql, "Date", false);
     }
 
-    private void runTest(QueryParameter queryParm, List<Instant> expectedBindVariables, String expectedSql,
+    private void runTest(QueryParameter queryParm, List<Object> expectedBindVariables, String expectedSql,
             String tableAlias, boolean approx) throws Exception {
-        if (log.isLoggable(LOG_LEVEL)) {
-            log.info("Expected Bind Variables -> " + expectedBindVariables);
-        }
         WhereFragment actualWhereClauseSegment = new WhereFragment();
-
         NewLastUpdatedParmBehaviorUtil behavior = new NewLastUpdatedParmBehaviorUtil(null);
         behavior.executeBehavior(actualWhereClauseSegment, queryParm);
-        List<BindMarkerNode> collectBindMarkersInto = new ArrayList<>();
-        StringExpNodeVisitor visitor = new StringExpNodeVisitor(null, collectBindMarkersInto, false);
-        final String actualWhereClauseString = actualWhereClauseSegment.getExpression().visit(visitor);
-
-        if (log.isLoggable(LOG_LEVEL)) {
-            log.info("whereClauseSegment -> " + actualWhereClauseString);
-            log.info("bind variables -> " + collectBindMarkersInto.stream()
-                    .map(b -> b.toValueString("~"))
-                    .collect(Collectors.toList()));
-        }
-        assertEquals(actualWhereClauseString, expectedSql);
-        assertEquals(collectBindMarkersInto.size(), expectedBindVariables.size());
-
-        if (!approx) {
-            for (int i=0; i<expectedBindVariables.size(); i++) {
-                Object expectedValue = expectedBindVariables.get(i);
-                BindMarkerNode bindMarker = collectBindMarkersInto.get(i);
-
-                if (!bindMarker.checkTypeAndValue(expectedValue)) {
-                    StringBuilder msg = new StringBuilder();
-                    msg.append("BIND[").append(i).append("] ")
-                        .append("EXPECTED=").append(expectedValue)
-                        .append("; ACTUAL=").append(bindMarker.toValueString("~"));
-                    fail(msg.toString());
-                }
-            }
-        }
-
+        assertExpectedSQL(actualWhereClauseSegment, expectedSql, expectedBindVariables, approx);
     }
+    //---------------------------------------------------------------------------------------------------------
 
     @Test
     public void testHandleDateRangeComparisonWithExact() throws Exception {
@@ -119,7 +79,7 @@ public class LastUpdatedParmBehaviorUtilTest {
 
         // gt - Greater Than
         QueryParameter queryParm = generateQueryParameter(Prefix.GT, null, vTime);
-        List<Instant> expectedBindVariables = new ArrayList<>();
+        List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(DateTimeHandler.generateUpperBound(Prefix.GT, v, vTime));
         String expectedSql =
                 "(LAST_UPDATED > ?)";
@@ -182,7 +142,7 @@ public class LastUpdatedParmBehaviorUtilTest {
         Instant upper = DateTimeHandler.generateUpperBound(Prefix.EQ, v, vTime);
 
         QueryParameter queryParm = generateQueryParameter(SearchConstants.Prefix.EQ, null, vTime);
-        List<Instant> expectedBindVariables = new ArrayList<>();
+        List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(lower);
         expectedBindVariables.add(upper);
 
@@ -200,7 +160,7 @@ public class LastUpdatedParmBehaviorUtilTest {
         Instant upper = DateTimeHandler.generateUpperBound(Prefix.EQ, v, vTime);
 
         QueryParameter queryParm = generateQueryParameter(SearchConstants.Prefix.EQ, null, vTime, vTime);
-        List<Instant> expectedBindVariables = new ArrayList<>();
+        List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(lower);
         expectedBindVariables.add(upper);
         expectedBindVariables.add(lower);
@@ -221,7 +181,7 @@ public class LastUpdatedParmBehaviorUtilTest {
         Instant upper = DateTimeHandler.generateUpperBound(Prefix.NE, v, vTime);
 
         QueryParameter queryParm = generateQueryParameter(SearchConstants.Prefix.NE, null, vTime);
-        List<Instant> expectedBindVariables = new ArrayList<>();
+        List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(lower);
         expectedBindVariables.add(upper);
 
@@ -238,7 +198,7 @@ public class LastUpdatedParmBehaviorUtilTest {
         TemporalAccessor v = DateTimeHandler.parse(vTime);
 
         QueryParameter queryParm = generateQueryParameter(SearchConstants.Prefix.AP, null, vTime);
-        List<Instant> expectedBindVariables = new ArrayList<>();
+        List<Object> expectedBindVariables = new ArrayList<>();
 
         // Because approximate values are relative to "now", this is hard to test.
         // Add some placeholder variables so we can at least assert that the proper number of bind vars are present.
@@ -261,7 +221,7 @@ public class LastUpdatedParmBehaviorUtilTest {
         TemporalAccessor v2 = DateTimeHandler.parse(vTime);
 
         QueryParameter queryParm = generateQueryParameter(SearchConstants.Prefix.AP, null, vTime, vTime2);
-        List<Instant> expectedBindVariables = new ArrayList<>();
+        List<Object> expectedBindVariables = new ArrayList<>();
 
         // Because approximate values are relative to "now", this is hard to test.
         // Add some placeholder variables so we can at least assert that the proper number of bind vars are present.
@@ -289,7 +249,7 @@ public class LastUpdatedParmBehaviorUtilTest {
         TemporalAccessor v2 = DateTimeHandler.parse(vTime);
 
         QueryParameter queryParm = generateQueryParameter(SearchConstants.Prefix.AP, null, vTime, vTime2);
-        List<Instant> expectedBindVariables = new ArrayList<>();
+        List<Object> expectedBindVariables = new ArrayList<>();
 
         // Because approximate values are relative to "now", this is hard to test.
         // Add some placeholder variables so we can at least assert that the proper number of bind vars are present.
