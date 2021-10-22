@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.query.WhereFragment;
+import com.ibm.fhir.search.exception.FHIRSearchException;
+import com.ibm.fhir.search.location.NearLocationHandler;
 import com.ibm.fhir.search.location.bounding.Bounding;
 import com.ibm.fhir.search.location.bounding.BoundingBox;
 import com.ibm.fhir.search.location.bounding.BoundingMissing;
@@ -26,6 +28,9 @@ import com.ibm.fhir.search.location.bounding.BoundingType;
  * variables.
  */
 public class NewLocationParmBehaviorUtil {
+    // the radius of the earth in km (using a spherical approximation)
+    private static int AVERAGE_RADIUS_OF_EARTH = 6371;
+
     /**
      * build location search query based on the bounding areas.
      *
@@ -87,6 +92,7 @@ public class NewLocationParmBehaviorUtil {
      * @param whereClauseSegment
      * @param missingArea
      */
+    @Deprecated
     public void buildQueryForBoundingMissing(WhereFragment whereClauseSegment,
             BoundingMissing missingArea) {
         // No Operation - the main logic is contained in the process Missing parameter
@@ -128,30 +134,47 @@ public class NewLocationParmBehaviorUtil {
      */
     public void buildQueryForBoundingRadius(WhereFragment whereClauseSegment, String paramAlias,
             BoundingRadius boundingRadius) {
-        // This section of code is based on code from http://janmatuschek.de/LatitudeLongitudeBoundingCoordinates
-        // ACOS(SIN(boundingRadiusLatitude) * SIN(LATITUDE_VALUE) + COS(boundingRadiusLatitude) * COS(LATITUDE_VALUE) * COS(LONGITUDE_VALUE)
-        WhereFragment arcRadius = new WhereFragment();
-        arcRadius
-            .sin(bind(boundingRadius.getLatitude()))
-            .mult()
-            .sin(col(paramAlias, LATITUDE_VALUE))
-            .add()
-            .cos(bind(boundingRadius.getLatitude()))
-            .mult()
-            .cos(col(paramAlias, LATITUDE_VALUE))
-            .mult()
-            .cos(col(paramAlias, LONGITUDE_VALUE));
 
+        // First, emit our bounding box query to scope the points down to just those in the general vicinity
+        BoundingBox boundingBox;
+        try {
+            boundingBox = new NearLocationHandler()
+                    .createBoundingBox(boundingRadius.getLatitude(), boundingRadius.getLongitude(), boundingRadius.getRadius(), "km");
+        } catch (FHIRSearchException e) {
+            // createBoundingBox throws if the units are invalid, but we've already normalized them to km by this point
+            throw new IllegalStateException("Unexpected exception while computing the bounding box for radius search", e);
+        }
+        buildQueryForBoundingBox(whereClauseSegment, boundingBox, paramAlias);
+        whereClauseSegment.and();
+
+        // Then further refine it by having the db calculate the distance bewtween the locations
+        // This section of code is based on code from http://janmatuschek.de/LatitudeLongitudeBoundingCoordinates
+        // ACOS(SIN(boundingRadiusLatitude) * SIN(LATITUDE_VALUE) + COS(boundingRadiusLatitude) * COS(LATITUDE_VALUE) * COS(boundingRadiusLongitude - LONGITUDE_VALUE) * R
+
+        double queryLatitudeInRadians = Math.toRadians(boundingRadius.getLatitude());
+        double queryLongitudeInRadians = Math.toRadians(boundingRadius.getLongitude());
+
+        // First, build the fragments for the longitudinal difference (in radians) and the radian of the latitude in the db
+        WhereFragment longitudeDiff = new WhereFragment().bind(queryLongitudeInRadians).sub().radians(col(paramAlias, LONGITUDE_VALUE));
+        WhereFragment radianLatitude = new WhereFragment().radians(col(paramAlias, LATITUDE_VALUE));
+
+        // Then, use those to build the expression that gets passed to ACOS
+        WhereFragment arcRadius = new WhereFragment()
+            .sin(bind(queryLatitudeInRadians))
+            .mult()
+            .sin(radianLatitude.getExpression())
+            .add()
+            .cos(bind(queryLatitudeInRadians))
+            .mult()
+            .cos(radianLatitude.getExpression())
+            .mult()
+            .cos(longitudeDiff.getExpression());
+
+        // Finally, put it all together
         whereClauseSegment.leftParen()
-            .col(paramAlias, LATITUDE_VALUE).lte().bind(boundingRadius.getLatitude())
-            .and()
-            .col(paramAlias, LATITUDE_VALUE).gte().bind(boundingRadius.getLatitude())
-            .and()
-            .col(paramAlias, LONGITUDE_VALUE).lte().bind(boundingRadius.getLongitude())
-            .and()
-            .col(paramAlias, LONGITUDE_VALUE).gte().bind(boundingRadius.getLongitude())
-            // Check the ARC Radius
-            .and().acos(arcRadius.getExpression()).lte().bind(boundingRadius.getRadius());
-            whereClauseSegment.rightParen();
+            .acos(arcRadius.getExpression()).mult().literal(AVERAGE_RADIUS_OF_EARTH)
+            .lte()
+            .bind(boundingRadius.getRadius())
+            .rightParen();
     }
 }

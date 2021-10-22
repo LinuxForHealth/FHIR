@@ -39,10 +39,10 @@ public class NearLocationHandlerBoundingRadiusTest extends BaseSearchTest {
         List<Bounding> bounding = handler.generateLocationPositionsFromParameters(ctx.getSearchParameters());
         assertNotNull(bounding);
 
-        BoundingRadius boundingBox = (BoundingRadius) bounding.get(0);
-        assertEquals(boundingBox.getLatitude(), Double.valueOf("-90.0"));
-        assertEquals(boundingBox.getLongitude(), Double.valueOf("0.0"));
-        assertEquals(boundingBox.getRadius(), Double.valueOf("1.609344"));
-        assertEquals(boundingBox.getType(), BoundingType.RADIUS);
+        BoundingRadius boundingRadius = (BoundingRadius) bounding.get(0);
+        assertEquals(boundingRadius.getLatitude(), Double.valueOf("-90.0"));
+        assertEquals(boundingRadius.getLongitude(), Double.valueOf("0.0"));
+        assertEquals(boundingRadius.getRadius(), Double.valueOf("1.609344"));
+        assertEquals(boundingRadius.getType(), BoundingType.RADIUS);
     }
 }

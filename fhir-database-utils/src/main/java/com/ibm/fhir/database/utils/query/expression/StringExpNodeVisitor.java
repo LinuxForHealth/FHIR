@@ -433,6 +433,15 @@ public class StringExpNodeVisitor implements ExpNodeVisitor<String> {
         return result.toString();
     }
 
+    @Override
+    public String radians(String arg) {
+        StringBuilder result = new StringBuilder();
+        result.append("RADIANS(");
+        result.append(arg);
+        result.append(")");
+        return result.toString();
+    }
+
     /**
      * Make sure any literal strings we're embedding in our SQL statements are safe. String parameters
      * should almost always use bind variables (which don't require encoding).

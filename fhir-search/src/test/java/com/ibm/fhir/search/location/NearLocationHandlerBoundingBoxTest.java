@@ -10,6 +10,7 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -76,10 +77,10 @@ public class NearLocationHandlerBoundingBoxTest {
         NearLocationHandler handler = new NearLocationHandler();
         BoundingBox boundingBox = handler.createBoundingBox(latitude, longitude, distance, unit);
         assertNotNull(boundingBox);
-        assertEquals(boundingBox.getMinLatitude(), Double.valueOf("30.98662700557291"));
-        assertEquals(boundingBox.getMinLongitude(), Double.valueOf("-51.7266732000822"));
-        assertEquals(boundingBox.getMaxLatitude(), Double.valueOf("49.01337299442709"));
-        assertEquals(boundingBox.getMaxLongitude(), Double.valueOf("-28.2733267999178"));
+        assertApproxEquals(boundingBox.getMinLatitude(), Double.valueOf("30.98662700557291"), 9);
+        assertApproxEquals(boundingBox.getMinLongitude(), Double.valueOf("-51.7266732000822"), 9);
+        assertApproxEquals(boundingBox.getMaxLatitude(), Double.valueOf("49.01337299442709"), 9);
+        assertApproxEquals(boundingBox.getMaxLongitude(), Double.valueOf("-28.2733267999178"), 9);
         assertEquals(boundingBox.getType(), BoundingType.BOX);
 
         // The resulting diagnoal is ~2807.48 km
@@ -96,10 +97,10 @@ public class NearLocationHandlerBoundingBoxTest {
         NearLocationHandler handler = new NearLocationHandler();
         BoundingBox boundingBox = handler.createBoundingBox(latitude, longitude, distance, unit);
         assertNotNull(boundingBox);
-        assertEquals(boundingBox.getMinLatitude(), Double.valueOf("-0.09013372994427096"));
-        assertEquals(boundingBox.getMinLongitude(), Double.valueOf("-0.08983152841195216"));
-        assertEquals(boundingBox.getMaxLatitude(), Double.valueOf("0.09013372994427096"));
-        assertEquals(boundingBox.getMaxLongitude(), Double.valueOf("0.08983152841195216"));
+        assertApproxEquals(boundingBox.getMinLatitude(), Double.valueOf("-0.090133729"), 9);
+        assertApproxEquals(boundingBox.getMinLongitude(), Double.valueOf("-0.089831528"), 9);
+        assertApproxEquals(boundingBox.getMaxLatitude(), Double.valueOf("0.090133729"), 9);
+        assertApproxEquals(boundingBox.getMaxLongitude(), Double.valueOf("0.089831528"), 9);
         assertEquals(boundingBox.getType(), BoundingType.BOX);
     }
 
@@ -129,7 +130,7 @@ public class NearLocationHandlerBoundingBoxTest {
         BoundingBox boundingBox = handler.createBoundingBox(latitude, longitude, distance, unit);
         assertNotNull(boundingBox);
         // At the high latitudes it's going to cover most of the area.
-        assertEquals(boundingBox.getMinLatitude(), Double.valueOf("89.99098662700558"));
+        assertApproxEquals(boundingBox.getMinLatitude(), Double.valueOf("89.990986627"), 9);
         assertEquals(boundingBox.getMinLongitude(), Double.valueOf("-180.0"));
         assertEquals(boundingBox.getMaxLatitude(), Double.valueOf("90.0"));
         assertEquals(boundingBox.getMaxLongitude(), Double.valueOf("180.0"));
@@ -148,7 +149,7 @@ public class NearLocationHandlerBoundingBoxTest {
         // At the low latitudes it's going to cover most of the area.
         assertEquals(boundingBox.getMinLatitude(), Double.valueOf("-90.0"));
         assertEquals(boundingBox.getMinLongitude(), Double.valueOf("-180.0"));
-        assertEquals(boundingBox.getMaxLatitude(), Double.valueOf("-89.99098662700558"));
+        assertApproxEquals(boundingBox.getMaxLatitude(), Double.valueOf("-89.990986627"), 9);
         assertEquals(boundingBox.getMaxLongitude(), Double.valueOf("180.0"));
         assertEquals(boundingBox.getType(), BoundingType.BOX);
     }
@@ -176,8 +177,22 @@ public class NearLocationHandlerBoundingBoxTest {
         // At the low latitudes it's going to cover most of the area.
         assertEquals(boundingBox.getMinLatitude(), Double.valueOf("-90.0"));
         assertEquals(boundingBox.getMinLongitude(), Double.valueOf("-180.0"));
-        assertEquals(boundingBox.getMaxLatitude(), Double.valueOf("-89.99098662700558"));
+        assertApproxEquals(boundingBox.getMaxLatitude(), Double.valueOf("-89.990986627"), 9);
         assertEquals(boundingBox.getMaxLongitude(), Double.valueOf("180.0"));
         assertEquals(boundingBox.getType(), BoundingType.BOX);
+    }
+
+    private void assertApproxEquals(double x, double y, int numberOfDecimalsToCheck) {
+        assertEquals(truncate(x, numberOfDecimalsToCheck), truncate(y, numberOfDecimalsToCheck));
+    }
+
+    // from https://stackoverflow.com/a/21468258/161022
+    private static BigDecimal truncate(double x, int numberOfDecimals)
+    {
+        if ( x > 0) {
+            return new BigDecimal(String.valueOf(x)).setScale(numberOfDecimals, BigDecimal.ROUND_FLOOR);
+        } else {
+            return new BigDecimal(String.valueOf(x)).setScale(numberOfDecimals, BigDecimal.ROUND_CEILING);
+        }
     }
 }

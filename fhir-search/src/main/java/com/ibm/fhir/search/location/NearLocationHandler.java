@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -63,26 +63,6 @@ public class NearLocationHandler {
     }
 
     /**
-     * degrees to radians
-     *
-     * @param deg
-     * @return
-     */
-    public double degree2radians(double deg) {
-        return Math.PI * deg / 180.0;
-    }
-
-    /**
-     * radians to degrees
-     *
-     * @param rad
-     * @return
-     */
-    public double radians2degrees(double rad) {
-        return 180.0 * rad / Math.PI;
-    }
-
-    /**
      * build a bounding box given a latitude, longitude and distance.
      * <br>
      * WGS84 format
@@ -123,8 +103,8 @@ public class NearLocationHandler {
                 // Convert to Radians to do the ARC calculation
                 // Based on https://stackoverflow.com/a/238558/1873438
                 // Verified at https://www.movable-type.co.uk/scripts/latlong.html
-                double latRad = degree2radians(latitude);
-                double lonRad = degree2radians(longitude);
+                double latRad = Math.toRadians(latitude);
+                double lonRad = Math.toRadians(longitude);
 
                 // build bounding box points
                 // The max/min ensures we don't loop infinitely over the pole, and are not taking silly.
@@ -135,15 +115,18 @@ public class NearLocationHandler {
                 double lonMax = lonRad + distance / (RADIUS_MERIDIAN * Math.cos(latRad));
 
                 // Convert back to degrees, and minimize the box.
-                minLatitude  = Math.max(-90, radians2degrees(latMin));
-                maxLatitude  = Math.min(90, radians2degrees(latMax));
-                minLongitude = Math.max(-180, radians2degrees(lonMin));
-                maxLongitude = Math.min(180, radians2degrees(lonMax));
+                minLatitude  = Math.max(-90, Math.toDegrees(latMin));
+                maxLatitude  = Math.min(90, Math.toDegrees(latMax));
+                minLongitude = Math.max(-180, Math.toDegrees(lonMin));
+                maxLongitude = Math.min(180, Math.toDegrees(lonMax));
             }
 
-            BoundingBox boundingBox =
-                    BoundingBox.builder().minLatitude(minLatitude).maxLatitude(maxLatitude).minLongitude(minLongitude)
-                            .maxLongitude(maxLongitude).build();
+            BoundingBox boundingBox = BoundingBox.builder()
+                    .minLatitude(minLatitude)
+                    .maxLatitude(maxLatitude)
+                    .minLongitude(minLongitude)
+                    .maxLongitude(maxLongitude)
+                    .build();
 
             if (logger.isLoggable(Level.FINE)) {
                 logger.fine("distance: [" + convertedDistance + "] km, original unit: [" + unit + "]");
@@ -214,12 +197,12 @@ public class NearLocationHandler {
                             longitude = Double.parseDouble(components[1]);
 
                             // Distance is included
-                            if (components.length >= 3) {
+                            if (components.length > 2) {
                                 distance = Double.parseDouble(components[2]);
                             }
 
                             // The user has set the units value.
-                            if (components.length >= 3) {
+                            if (components.length > 3) {
                                 unit = components[3];
                             }
                         } catch (NumberFormatException | NullPointerException e) {
@@ -274,9 +257,11 @@ public class NearLocationHandler {
                         "Invalid unit: '" + unit + "'. Must a UOM length.");
             }
 
-            BoundingRadius boundingRadiusObj =
-                    BoundingRadius.builder().latitude(latitude).longitude(longitude).radius(convertedDistance)
-                            .build();
+            BoundingRadius boundingRadiusObj = BoundingRadius.builder()
+                    .latitude(latitude)
+                    .longitude(longitude)
+                    .radius(convertedDistance)
+                    .build();
 
             if (logger.isLoggable(Level.FINE)) {
                 logger.fine("distance: [" + convertedDistance + "] km, original unit: [" + unit + "]");

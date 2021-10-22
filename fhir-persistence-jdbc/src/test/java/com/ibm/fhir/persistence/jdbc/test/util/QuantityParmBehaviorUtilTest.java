@@ -6,18 +6,13 @@
 
 package com.ibm.fhir.persistence.jdbc.test.util;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.fail;
+import static com.ibm.fhir.persistence.jdbc.test.util.ParmBehaviorUtilTestHelper.assertExpectedSQL;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.EmptyStackException;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -25,8 +20,6 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.database.utils.query.WhereFragment;
-import com.ibm.fhir.database.utils.query.expression.StringExpNodeVisitor;
-import com.ibm.fhir.database.utils.query.node.BindMarkerNode;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.JDBCConstants;
@@ -39,9 +32,6 @@ import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.parameters.QueryParameterValue;
 
 public class QuantityParmBehaviorUtilTest {
-    private static final Logger log = java.util.logging.Logger.getLogger(QuantityParmBehaviorUtilTest.class.getName());
-    private static final Level LOG_LEVEL = Level.FINE;
-
     //---------------------------------------------------------------------------------------------------------
     // Supporting Methods:
     @BeforeClass
@@ -89,113 +79,35 @@ public class QuantityParmBehaviorUtilTest {
 
     private void runTest(QueryParameter queryParm, List<Object> expectedBindVariables, String expectedSql,
             String tableAlias, boolean sendNull) throws Exception {
-        if (log.isLoggable(LOG_LEVEL)) {
-            log.info("Expected Bind Variables -> " + expectedBindVariables);
-        }
         WhereFragment actualWhereClauseSegment = new WhereFragment();
-
         NewQuantityParmBehaviorUtil behavior = new NewQuantityParmBehaviorUtil(mockIdCache(sendNull));
         behavior.executeBehavior(actualWhereClauseSegment, queryParm, tableAlias);
-        List<BindMarkerNode> collectBindMarkersInto = new ArrayList<>();
-        StringExpNodeVisitor visitor = new StringExpNodeVisitor(null, collectBindMarkersInto, false);
-        final String actualWhereClauseString = actualWhereClauseSegment.getExpression().visit(visitor);
-
-        if (log.isLoggable(LOG_LEVEL)) {
-            log.info("whereClauseSegment -> " + actualWhereClauseString);
-            log.info("bind variables -> " + collectBindMarkersInto.stream()
-                    .map(b -> b.toValueString("~"))
-                    .collect(Collectors.toList()));
-        }
-        assertEquals(actualWhereClauseString, expectedSql);
-        assertEquals(collectBindMarkersInto.size(), expectedBindVariables.size());
-
-        for (int i=0; i<expectedBindVariables.size(); i++) {
-            Object expectedValue = expectedBindVariables.get(i);
-            BindMarkerNode bindMarker = collectBindMarkersInto.get(i);
-
-            if (!bindMarker.checkTypeAndValue(expectedValue)) {
-                StringBuilder msg = new StringBuilder();
-                msg.append("BIND[").append(i).append("] ")
-                    .append("EXPECTED=").append(expectedValue)
-                    .append("; ACTUAL=").append(bindMarker.toValueString("~"));
-                fail(msg.toString());
-            }
-        }
+        assertExpectedSQL(actualWhereClauseSegment, expectedSql, expectedBindVariables);
     }
 
+    // the new query builder cannot generate a where fragment that starts with AND
+    // and so this adds a dummy "1 = 1" to the lhs of the expression to make it valid
     public void runSystemTest(boolean sendNull, String system, List<Object> expectedBindVariables, String expectedSql)
             throws FHIRPersistenceException {
-        if (log.isLoggable(LOG_LEVEL)) {
-            log.info("Expected Bind Variables -> " + expectedBindVariables);
-        }
         JDBCIdentityCache idCache = mockIdCache(sendNull);
-        WhereFragment actualWhereClauseSegment = new WhereFragment();
+        WhereFragment actualWhereClauseSegment = new WhereFragment().literal(1).eq().literal(1);
         String tableAlias = "BASIC";
 
         NewQuantityParmBehaviorUtil behavior = new NewQuantityParmBehaviorUtil(idCache);
         behavior.addSystemIfPresent(actualWhereClauseSegment, tableAlias, system);
-        List<BindMarkerNode> collectBindMarkersInto = new ArrayList<>();
-        StringExpNodeVisitor visitor = new StringExpNodeVisitor(null, collectBindMarkersInto, false);
-        final String actualWhereClauseString = actualWhereClauseSegment.getExpression().visit(visitor);
-
-        if (log.isLoggable(LOG_LEVEL)) {
-            log.info("whereClauseSegment -> " + actualWhereClauseString);
-            log.info("bind variables -> " + collectBindMarkersInto.stream()
-                    .map(b -> b.toValueString("~"))
-                    .collect(Collectors.toList()));
-        }
-        assertEquals(actualWhereClauseString, expectedSql);
-        assertEquals(collectBindMarkersInto.size(), expectedBindVariables.size());
-
-        for (int i=0; i<expectedBindVariables.size(); i++) {
-            Object expectedValue = expectedBindVariables.get(i);
-            BindMarkerNode bindMarker = collectBindMarkersInto.get(i);
-
-            if (!bindMarker.checkTypeAndValue(expectedValue)) {
-                StringBuilder msg = new StringBuilder();
-                msg.append("BIND[").append(i).append("] ")
-                    .append("EXPECTED=").append(expectedValue)
-                    .append("; ACTUAL=").append(bindMarker.toValueString("~"));
-                fail(msg.toString());
-            }
-        }
+        assertExpectedSQL(actualWhereClauseSegment, "1 = 1" + expectedSql, expectedBindVariables);
     }
 
+    // the new query builder cannot generate a where fragment that starts with AND
+    // and so this adds a dummy "1 = 1" to the lhs of the expression to make it valid
     public void runCodeTest(String code, List<Object> expectedBindVariables, String expectedSql)
             throws FHIRPersistenceException {
-        if (log.isLoggable(LOG_LEVEL)) {
-            log.info("Expected Bind Variables -> " + expectedBindVariables);
-        }
-        WhereFragment actualWhereClauseSegment = new WhereFragment();
+        WhereFragment actualWhereClauseSegment = new WhereFragment().literal(1).eq().literal(1);
         String tableAlias = "BASIC";
 
         NewQuantityParmBehaviorUtil behavior = new NewQuantityParmBehaviorUtil(mockIdCache(true));
         behavior.addCodeIfPresent(actualWhereClauseSegment, tableAlias, code);
-        List<BindMarkerNode> collectBindMarkersInto = new ArrayList<>();
-        StringExpNodeVisitor visitor = new StringExpNodeVisitor(null, collectBindMarkersInto, false);
-        final String actualWhereClauseString = actualWhereClauseSegment.getExpression().visit(visitor);
-
-        if (log.isLoggable(LOG_LEVEL)) {
-            log.info("whereClauseSegment -> " + actualWhereClauseString);
-            log.info("bind variables -> " + collectBindMarkersInto.stream()
-                    .map(b -> b.toValueString("~"))
-                    .collect(Collectors.toList()));
-        }
-        assertEquals(actualWhereClauseString, expectedSql);
-        assertEquals(collectBindMarkersInto.size(), expectedBindVariables.size());
-
-        for (int i=0; i<expectedBindVariables.size(); i++) {
-            Object expectedValue = expectedBindVariables.get(i);
-            BindMarkerNode bindMarker = collectBindMarkersInto.get(i);
-
-            if (!bindMarker.checkTypeAndValue(expectedValue)) {
-                StringBuilder msg = new StringBuilder();
-                msg.append("BIND[").append(i).append("] ")
-                    .append("EXPECTED=").append(expectedValue)
-                    .append("; ACTUAL=").append(bindMarker.toValueString("~"));
-                fail(msg.toString());
-            }
-        }
+        assertExpectedSQL(actualWhereClauseSegment, "1 = 1" + expectedSql, expectedBindVariables);
     }
 
     /**
@@ -259,15 +171,9 @@ public class QuantityParmBehaviorUtilTest {
             }
         };
     }
-
     //---------------------------------------------------------------------------------------------------------
+
     @Test
-    public void testPrecisionWithExact() throws Exception {
-
-    }
-
-    // the new query builder cannot generate a where fragment that starts with AND
-    @Test(expectedExceptions = EmptyStackException.class)
     public void testAddSystemIfPresent() throws FHIRPersistenceException {
         String expectedSql = " AND BASIC.CODE_SYSTEM_ID = ?";
         boolean sendNull = false;
@@ -277,8 +183,7 @@ public class QuantityParmBehaviorUtilTest {
         runSystemTest(sendNull, system, expectedBindVariables, expectedSql);
     }
 
-    // the new query builder cannot generate a where fragment that starts with AND
-    @Test(expectedExceptions = EmptyStackException.class)
+    @Test
     public void testAddSystemIfPresentNotFound() throws FHIRPersistenceException {
         String expectedSql = " AND BASIC.CODE_SYSTEM_ID = ?";
         boolean sendNull = true;
@@ -288,8 +193,7 @@ public class QuantityParmBehaviorUtilTest {
         runSystemTest(sendNull, system, expectedBindVariables, expectedSql);
     }
 
-    // the new query builder doesn't currently support generating empty where fragments
-    @Test(expectedExceptions = IllegalStateException.class)
+    @Test
     public void testAddSystemIfPresentEmpty() throws FHIRPersistenceException {
         String expectedSql = "";
         boolean sendNull = true;
@@ -298,8 +202,7 @@ public class QuantityParmBehaviorUtilTest {
         runSystemTest(sendNull, system, expectedBindVariables, expectedSql);
     }
 
-    // the new query builder doesn't currently support generating empty where fragments
-    @Test(expectedExceptions = IllegalStateException.class)
+    @Test
     public void testAddSystemIfPresentNull() throws FHIRPersistenceException {
         String expectedSql = "";
         boolean sendNull = true;
@@ -308,19 +211,17 @@ public class QuantityParmBehaviorUtilTest {
         runSystemTest(sendNull, system, expectedBindVariables, expectedSql);
     }
 
-    // the new query builder cannot generate a where clause fragment that starts with AND
-    @Test(expectedExceptions = EmptyStackException.class)
+    @Test
     public void testAddSystemIfPresentWithNonNullCache() throws FHIRPersistenceException {
         String expectedSql = " AND BASIC.CODE_SYSTEM_ID = ?";
-        boolean sendNull = true;
+        boolean sendNull = false;
         String system = "system-example-quantity";
         List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(1);
         runSystemTest(sendNull, system, expectedBindVariables, expectedSql);
     }
 
-    // the new query builder cannot generate a where fragment that starts with AND
-    @Test(expectedExceptions = EmptyStackException.class)
+    @Test
     public void testAddCodeIfPresent() throws FHIRPersistenceException {
         String expectedSql = " AND BASIC.CODE = ?";
         String code = "target";
@@ -329,8 +230,7 @@ public class QuantityParmBehaviorUtilTest {
         runCodeTest(code, expectedBindVariables, expectedSql);
     }
 
-    // the new query builder doesn't currently support generating empty where fragments
-    @Test(expectedExceptions = IllegalStateException.class)
+    @Test
     public void testAddCodeIfPresentEmpty() throws FHIRPersistenceException {
         String expectedSql = "";
         String code = "";
@@ -338,8 +238,7 @@ public class QuantityParmBehaviorUtilTest {
         runCodeTest(code, expectedBindVariables, expectedSql);
     }
 
-    // the new query builder doesn't currently support generating empty where fragments
-    @Test(expectedExceptions = IllegalStateException.class)
+    @Test
     public void testAddCodeIfPresentNull() throws FHIRPersistenceException {
         String expectedSql = "";
         String code = null;
@@ -541,21 +440,15 @@ public class QuantityParmBehaviorUtilTest {
         String tableAlias = "Basic";
         BigDecimal lowerBound = new BigDecimal("1");
         BigDecimal upperBound = new BigDecimal("2");
+
+        String expectedSql = "(Basic.QUANTITY_VALUE_LOW >= ? AND Basic.QUANTITY_VALUE_HIGH <= ?)";
+        List<Object> expectedBindVariables = new ArrayList<>();
+        expectedBindVariables.add(lowerBound);
+        expectedBindVariables.add(upperBound);
+
         NewNumberParmBehaviorUtil.buildEqualsRangeClause(whereClauseSegment, tableAlias, JDBCConstants.QUANTITY_VALUE,
                 lowerBound, upperBound);
-        List<BindMarkerNode> collectBindMarkersInto = new ArrayList<>();
-        StringExpNodeVisitor visitor = new StringExpNodeVisitor(null, collectBindMarkersInto, false);
-        final String actualWhereClauseString = whereClauseSegment.getExpression().visit(visitor);
-
-        if (log.isLoggable(LOG_LEVEL)) {
-            log.info("whereClauseSegment -> " + actualWhereClauseString);
-            log.info("bind variables -> " + collectBindMarkersInto.stream()
-                    .map(b -> b.toValueString("~"))
-                    .collect(Collectors.toList()));
-        }
-
-        assertEquals(actualWhereClauseString,
-                "(Basic.QUANTITY_VALUE_LOW >= ? AND Basic.QUANTITY_VALUE_HIGH <= ?)");
+        assertExpectedSQL(whereClauseSegment, expectedSql, expectedBindVariables);
     }
 
     @Test

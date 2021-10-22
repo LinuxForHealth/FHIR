@@ -27,6 +27,7 @@ import com.ibm.fhir.database.utils.query.node.IntegerBindMarkerNode;
 import com.ibm.fhir.database.utils.query.node.LongBindMarkerNode;
 import com.ibm.fhir.database.utils.query.node.NotExistsExpNode;
 import com.ibm.fhir.database.utils.query.node.PredicateParser;
+import com.ibm.fhir.database.utils.query.node.RadiansExpNode;
 import com.ibm.fhir.database.utils.query.node.SelectExpNode;
 import com.ibm.fhir.database.utils.query.node.SinExpNode;
 import com.ibm.fhir.database.utils.query.node.StringBindMarkerNode;
@@ -820,6 +821,26 @@ public abstract class BaseWhereAdapter<T> {
      */
     public T acos(ColumnRef arg) {
         predicateParser.addToken(new ACosExpNode(new ColumnExpNode(arg.getRef())));
+        return getThis();
+    }
+
+    /**
+     * Add RADIANS(arg) to the expression
+     * @param arg
+     * @return
+     */
+    public T radians(ExpNode arg) {
+        predicateParser.addToken(new RadiansExpNode(arg));
+        return getThis();
+    }
+
+    /**
+     * Add RADIANS(arg) to the expression
+     * @param arg
+     * @return
+     */
+    public T radians(ColumnRef arg) {
+        predicateParser.addToken(new RadiansExpNode(new ColumnExpNode(arg.getRef())));
         return getThis();
     }
 

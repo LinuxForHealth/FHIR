@@ -90,4 +90,11 @@ public interface ExpNodeVisitor<T> {
      * @return
      */
     T sin(T arg);
+
+    /**
+     * SQL RADIANS function
+     * @param arg
+     * @return
+     */
+    T radians(T arg);
 }

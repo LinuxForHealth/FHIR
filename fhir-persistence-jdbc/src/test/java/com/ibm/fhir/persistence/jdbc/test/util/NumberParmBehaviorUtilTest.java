@@ -6,15 +6,12 @@
 
 package com.ibm.fhir.persistence.jdbc.test.util;
 
+import static com.ibm.fhir.persistence.jdbc.test.util.ParmBehaviorUtilTestHelper.assertExpectedSQL;
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.fail;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -22,8 +19,6 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.database.utils.query.WhereFragment;
-import com.ibm.fhir.database.utils.query.expression.StringExpNodeVisitor;
-import com.ibm.fhir.database.utils.query.node.BindMarkerNode;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.resource.Basic;
 import com.ibm.fhir.model.resource.MolecularSequence;
@@ -37,9 +32,8 @@ import com.ibm.fhir.search.parameters.QueryParameterValue;
  * Unit test for the number behavior utility adapted for the new query builder
  */
 public class NumberParmBehaviorUtilTest {
-    private static final Logger log = java.util.logging.Logger.getLogger(NumberParmBehaviorUtilTest.class.getName());
-    private static final Level LOG_LEVEL = Level.INFO;
-
+    //---------------------------------------------------------------------------------------------------------
+    // Supporting Methods:
     private QueryParameterValue generateParameterValue(String value, SearchConstants.Prefix prefix) {
         QueryParameterValue parameterValue = new QueryParameterValue();
         parameterValue.setPrefix(prefix);
@@ -81,37 +75,11 @@ public class NumberParmBehaviorUtilTest {
     }
 
     private void runTest(QueryParameter queryParm, List<Object> expectedBindVariables, String expectedSql,
-            String tableAlias, Class<?> resourceType)
-            throws FHIRPersistenceException {
+            String tableAlias, Class<?> resourceType) throws FHIRPersistenceException {
         WhereFragment actualWhereClauseSegment = new WhereFragment();
-
         NewNumberParmBehaviorUtil newNumberParmBehaviorUtil = new NewNumberParmBehaviorUtil();
         newNumberParmBehaviorUtil.executeBehavior(actualWhereClauseSegment, queryParm, tableAlias);
-        List<BindMarkerNode> collectBindMarkersInto = new ArrayList<>();
-        StringExpNodeVisitor visitor = new StringExpNodeVisitor(null, collectBindMarkersInto, false);
-        final String actualWhereClauseString = actualWhereClauseSegment.getExpression().visit(visitor);
-
-        if (log.isLoggable(LOG_LEVEL)) {
-            log.info("whereClauseSegment -> " + actualWhereClauseString);
-            log.info("bind variables -> " + collectBindMarkersInto.stream()
-                    .map(b -> b.toValueString("~"))
-                    .collect(Collectors.toList()));
-        }
-        assertEquals(actualWhereClauseString, expectedSql);
-        assertEquals(collectBindMarkersInto.size(), expectedBindVariables.size());
-
-        for (int i=0; i<expectedBindVariables.size(); i++) {
-            Object expectedValue = expectedBindVariables.get(i);
-            BindMarkerNode bindMarker = collectBindMarkersInto.get(i);
-
-            if (!bindMarker.checkTypeAndValue(expectedValue)) {
-                StringBuilder msg = new StringBuilder();
-                msg.append("BIND[").append(i).append("] ")
-                    .append("EXPECTED=").append(expectedValue)
-                    .append("; ACTUAL=").append(bindMarker.toValueString("~"));
-                fail(msg.toString());
-            }
-        }
+        assertExpectedSQL(actualWhereClauseSegment, expectedSql, expectedBindVariables);
     }
 
     @BeforeClass
@@ -123,6 +91,7 @@ public class NumberParmBehaviorUtilTest {
     public static void after() throws FHIRException {
         FHIRRequestContext.get().setTenantId("default");
     }
+    //---------------------------------------------------------------------------------------------------------
 
     @Test
     public void testPrecisionWithExact() throws FHIRPersistenceException {
