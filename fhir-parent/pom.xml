@@ -571,10 +571,21 @@
                 <version>2.9.0</version>
             </dependency>
             <dependency>
-                <!-- [CVE-2021-21290] Netty is an open-source, asynchronous event-driven network application framework, support tinkerpop with latest netty -->
+                <!-- Netty is an open-source, asynchronous event-driven network application framework; used by org.apache.tinkerpop:gremlin-driver -->
+                <!-- [CVE-2021-21290] Local Information Disclosure Vulnerability in Netty on Unix-Like systems due temporary files; patched in 4.1.59.Final -->
+                <!-- [CVE-2021-37136] Bzip2Decoder doesn't allow setting size restrictions for decompressed data; patched in 4.1.68.Final -->
+                <!-- [CVE-2021-37137] SnappyFrameDecoder doesn't restrict chunk length any may buffer skippable chunks in an unnecessary way; patched in 4.1.68.Final -->
                 <groupId>io.netty</groupId>
                 <artifactId>netty-all</artifactId>
-                <version>4.1.63.Final</version>
+                <version>4.1.69.Final</version>
+            </dependency>
+            <dependency>
+                <!-- Used in com.amazonaws:aws-java-sdk which is brought in by com.ibm.stocator:stocator (but marked provided by default) -->
+                <!-- [CVE-2021-37136] Bzip2Decoder doesn't allow setting size restrictions for decompressed data; patched in 4.1.68.Final -->
+                <!-- [CVE-2021-37137] SnappyFrameDecoder doesn't restrict chunk length any may buffer skippable chunks in an unnecessary way; patched in 4.1.68.Final -->
+                <groupId>io.netty</groupId>
+                <artifactId>netty-codec-http</artifactId>
+                <version>4.1.69.Final</version>
             </dependency>
             <dependency>
                 <!--  [CVE-2020-8908] A temp directory creation vulnerability exists in all versions of Guava, addressed in latest versions -->
