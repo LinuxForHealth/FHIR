@@ -245,7 +245,13 @@ For search parameters of type token that are defined on data fields of type `str
 |case sensitivity not specified        |Value is stored as a normalized value (case-insensitive)|
 |code system not specified             |Value is stored as a normalized value (case-insensitive)|
 
-For search parameters of type token that are defined on data fields of type `code`, the values are always treated as case-sensitive, regardless of the case-sensitivity setting of the associated code system.
+For search parameters of type token that are defined on data fields of type `code`, code values which include a system value are always treated as case-sensitive, regardless of the case-sensitivity setting of the associated code system. Code values which do not include a system value are always treated as case-insensitive. This behavior is summarized in the following table:
+
+
+| Code System                          | How Code value is indexed |
+|--------------------------------------|-------------------------------|
+|code has system                       |Value is stored unmodified (case-sensitive)|
+|code does not have system             |Value is stored as a normalized value (case-insensitive)|
 
 The following table describes how the FHIR server performs a token search, based on the case-sensitivity of the code system specified in the search parameter value:
 
