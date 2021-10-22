@@ -11,7 +11,6 @@ import static com.ibm.fhir.persistence.jdbc.test.util.ParmBehaviorUtilTestHelper
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.EmptyStackException;
 import java.util.List;
 import java.util.Set;
 
@@ -85,27 +84,30 @@ public class QuantityParmBehaviorUtilTest {
         behavior.executeBehavior(actualWhereClauseSegment, queryParm, tableAlias);
         assertExpectedSQL(actualWhereClauseSegment, expectedSql, expectedBindVariables);
     }
-    //---------------------------------------------------------------------------------------------------------
 
+    // the new query builder cannot generate a where fragment that starts with AND
+    // and so this adds a dummy "1 = 1" to the lhs of the expression to make it valid
     public void runSystemTest(boolean sendNull, String system, List<Object> expectedBindVariables, String expectedSql)
             throws FHIRPersistenceException {
         JDBCIdentityCache idCache = mockIdCache(sendNull);
-        WhereFragment actualWhereClauseSegment = new WhereFragment();
+        WhereFragment actualWhereClauseSegment = new WhereFragment().literal(1).eq().literal(1);
         String tableAlias = "BASIC";
 
         NewQuantityParmBehaviorUtil behavior = new NewQuantityParmBehaviorUtil(idCache);
         behavior.addSystemIfPresent(actualWhereClauseSegment, tableAlias, system);
-        assertExpectedSQL(actualWhereClauseSegment, expectedSql, expectedBindVariables);
+        assertExpectedSQL(actualWhereClauseSegment, "1 = 1" + expectedSql, expectedBindVariables);
     }
 
+    // the new query builder cannot generate a where fragment that starts with AND
+    // and so this adds a dummy "1 = 1" to the lhs of the expression to make it valid
     public void runCodeTest(String code, List<Object> expectedBindVariables, String expectedSql)
             throws FHIRPersistenceException {
-        WhereFragment actualWhereClauseSegment = new WhereFragment();
+        WhereFragment actualWhereClauseSegment = new WhereFragment().literal(1).eq().literal(1);
         String tableAlias = "BASIC";
 
         NewQuantityParmBehaviorUtil behavior = new NewQuantityParmBehaviorUtil(mockIdCache(true));
         behavior.addCodeIfPresent(actualWhereClauseSegment, tableAlias, code);
-        assertExpectedSQL(actualWhereClauseSegment, expectedSql, expectedBindVariables);
+        assertExpectedSQL(actualWhereClauseSegment, "1 = 1" + expectedSql, expectedBindVariables);
     }
 
     /**
@@ -169,15 +171,9 @@ public class QuantityParmBehaviorUtilTest {
             }
         };
     }
-
     //---------------------------------------------------------------------------------------------------------
+
     @Test
-    public void testPrecisionWithExact() throws Exception {
-
-    }
-
-    // the new query builder cannot generate a where fragment that starts with AND
-    @Test(expectedExceptions = EmptyStackException.class)
     public void testAddSystemIfPresent() throws FHIRPersistenceException {
         String expectedSql = " AND BASIC.CODE_SYSTEM_ID = ?";
         boolean sendNull = false;
@@ -187,8 +183,7 @@ public class QuantityParmBehaviorUtilTest {
         runSystemTest(sendNull, system, expectedBindVariables, expectedSql);
     }
 
-    // the new query builder cannot generate a where fragment that starts with AND
-    @Test(expectedExceptions = EmptyStackException.class)
+    @Test
     public void testAddSystemIfPresentNotFound() throws FHIRPersistenceException {
         String expectedSql = " AND BASIC.CODE_SYSTEM_ID = ?";
         boolean sendNull = true;
@@ -198,8 +193,7 @@ public class QuantityParmBehaviorUtilTest {
         runSystemTest(sendNull, system, expectedBindVariables, expectedSql);
     }
 
-    // the new query builder doesn't currently support generating empty where fragments
-    @Test(expectedExceptions = IllegalStateException.class)
+    @Test
     public void testAddSystemIfPresentEmpty() throws FHIRPersistenceException {
         String expectedSql = "";
         boolean sendNull = true;
@@ -208,8 +202,7 @@ public class QuantityParmBehaviorUtilTest {
         runSystemTest(sendNull, system, expectedBindVariables, expectedSql);
     }
 
-    // the new query builder doesn't currently support generating empty where fragments
-    @Test(expectedExceptions = IllegalStateException.class)
+    @Test
     public void testAddSystemIfPresentNull() throws FHIRPersistenceException {
         String expectedSql = "";
         boolean sendNull = true;
@@ -218,19 +211,17 @@ public class QuantityParmBehaviorUtilTest {
         runSystemTest(sendNull, system, expectedBindVariables, expectedSql);
     }
 
-    // the new query builder cannot generate a where clause fragment that starts with AND
-    @Test(expectedExceptions = EmptyStackException.class)
+    @Test
     public void testAddSystemIfPresentWithNonNullCache() throws FHIRPersistenceException {
         String expectedSql = " AND BASIC.CODE_SYSTEM_ID = ?";
-        boolean sendNull = true;
+        boolean sendNull = false;
         String system = "system-example-quantity";
         List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(1);
         runSystemTest(sendNull, system, expectedBindVariables, expectedSql);
     }
 
-    // the new query builder cannot generate a where fragment that starts with AND
-    @Test(expectedExceptions = EmptyStackException.class)
+    @Test
     public void testAddCodeIfPresent() throws FHIRPersistenceException {
         String expectedSql = " AND BASIC.CODE = ?";
         String code = "target";
@@ -239,8 +230,7 @@ public class QuantityParmBehaviorUtilTest {
         runCodeTest(code, expectedBindVariables, expectedSql);
     }
 
-    // the new query builder doesn't currently support generating empty where fragments
-    @Test(expectedExceptions = IllegalStateException.class)
+    @Test
     public void testAddCodeIfPresentEmpty() throws FHIRPersistenceException {
         String expectedSql = "";
         String code = "";
@@ -248,8 +238,7 @@ public class QuantityParmBehaviorUtilTest {
         runCodeTest(code, expectedBindVariables, expectedSql);
     }
 
-    // the new query builder doesn't currently support generating empty where fragments
-    @Test(expectedExceptions = IllegalStateException.class)
+    @Test
     public void testAddCodeIfPresentNull() throws FHIRPersistenceException {
         String expectedSql = "";
         String code = null;
