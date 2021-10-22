@@ -573,6 +573,7 @@
                 <!-- Netty is an open-source, asynchronous event-driven network application framework; used by org.apache.tinkerpop:gremlin-driver -->
                 <!-- [CVE-2021-21290] Local Information Disclosure Vulnerability in Netty on Unix-Like systems due temporary files; patched in 4.1.59.Final -->
                 <!-- [CVE-2021-37136] Bzip2Decoder doesn't allow setting size restrictions for decompressed data; patched in 4.1.68.Final -->
+                <!-- [CVE-2021-37137] SnappyFrameDecoder doesn't restrict chunk length any may buffer skippable chunks in an unnecessary way; patched in 4.1.68.Final -->
                 <groupId>io.netty</groupId>
                 <artifactId>netty-all</artifactId>
                 <version>4.1.69.Final</version>
