@@ -11,8 +11,6 @@ import static com.ibm.fhir.cql.helpers.ModelHelper.coding;
 import static com.ibm.fhir.cql.helpers.ModelHelper.concept;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhirstring;
 import static com.ibm.fhir.cql.helpers.ModelHelper.valueset;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertSame;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -23,14 +21,16 @@ import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertSame;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
+import org.mockito.MockedStatic;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import org.mockito.MockedStatic;
 
 import com.ibm.fhir.cql.helpers.ParameterMap;
 import com.ibm.fhir.model.resource.Bundle;
@@ -51,8 +51,8 @@ import com.ibm.fhir.model.type.code.EncounterStatus;
 import com.ibm.fhir.model.type.code.ProcedureStatus;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.registry.FHIRRegistry;
-import com.ibm.fhir.server.operation.spi.FHIROperationContext;
-import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
+import com.ibm.fhir.server.spi.operation.FHIROperationContext;
+import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 
 public class CareGapsOperationTest {
 
@@ -70,8 +70,15 @@ public class CareGapsOperationTest {
         String codesystem = "http://snomed.ct/info";
         String encounterCode = "office-visit";
         Coding reason = coding(codesystem, encounterCode);
-        Encounter encounter =
-                Encounter.builder().reasonCode(concept(reason)).status(EncounterStatus.FINISHED).clazz(reason).period(Period.builder().start(DateTime.now()).end(DateTime.now()).build()).build();
+        Encounter encounter = Encounter.builder()
+                .reasonCode(concept(reason))
+                .status(EncounterStatus.FINISHED)
+                .clazz(reason)
+                .period(Period.builder()
+                    .start(DateTime.now())
+                    .end(DateTime.now())
+                    .build())
+                .build();
 
         String procedureCode = "fluoride-application";
         Coding type = coding(codesystem, procedureCode);
@@ -116,7 +123,7 @@ public class CareGapsOperationTest {
             fhirLibraries.stream().forEach(l -> when(mockRegistry.getResource(canonical(l.getUrl(), l.getVersion()).getValue(), Library.class)).thenReturn(l));
 
             Parameters result =
-                    operation.doInvoke(FHIROperationContext.createResourceTypeOperationContext(), Measure.class, null, null, parameters, resourceHelper);
+                    operation.doInvoke(FHIROperationContext.createResourceTypeOperationContext("care-gap"), Measure.class, null, null, parameters, resourceHelper);
             assertNotNull(result);
 
             ParameterMap resultMap = new ParameterMap(result);
@@ -127,7 +134,7 @@ public class CareGapsOperationTest {
 
     @SuppressWarnings("unchecked")
     protected SingleResourceResult<? extends Resource> asResult(Resource patient) {
-        SingleResourceResult<Resource> result = (SingleResourceResult<Resource>) mock(SingleResourceResult.class);
+        SingleResourceResult<Resource> result = mock(SingleResourceResult.class);
         when(result.isSuccess()).thenReturn(true);
         when(result.getResource()).thenReturn(patient);
         return result;

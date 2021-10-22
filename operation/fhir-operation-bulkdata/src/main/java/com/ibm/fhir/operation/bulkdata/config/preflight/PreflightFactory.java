@@ -19,7 +19,7 @@ import com.ibm.fhir.operation.bulkdata.config.preflight.impl.NopPreflight;
 import com.ibm.fhir.operation.bulkdata.config.preflight.impl.S3Preflight;
 import com.ibm.fhir.operation.bulkdata.model.type.Input;
 import com.ibm.fhir.operation.bulkdata.model.type.StorageType;
-import com.ibm.fhir.server.operation.spi.FHIROperationContext;
+import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 
 /**
  * Generates a Preflight ConfigurationTest Object based on the storage type

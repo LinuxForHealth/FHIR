@@ -25,17 +25,15 @@ import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.fhir.persistence.ResourceEraseRecord;
 import com.ibm.fhir.persistence.ResourceEraseRecord.Status;
 import com.ibm.fhir.persistence.SingleResourceResult;
+import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.erase.EraseDTO;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
-import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.payload.PayloadKey;
 import com.ibm.fhir.search.context.FHIRSearchContext;
-import com.ibm.fhir.server.operation.spi.FHIROperationContext;
-import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
-import com.ibm.fhir.server.operation.spi.FHIRRestOperationResponse;
-import com.ibm.fhir.server.util.FHIROperationUtil;
-import com.ibm.fhir.server.util.FHIRRestHelper.Interaction;
+import com.ibm.fhir.server.spi.operation.FHIROperationContext;
+import com.ibm.fhir.server.spi.operation.FHIROperationUtil;
+import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
+import com.ibm.fhir.server.spi.operation.FHIRRestOperationResponse;
 
 /**
  * Helper for Mocking failure tests with the FHIR Resource Helpers
@@ -159,7 +157,7 @@ public class MockFHIRResourceHelpers implements FHIRResourceHelpers {
     }
 
     @Override
-    public Resource doInvoke(FHIROperationContext operationContext, String resourceTypeName, String logicalId, String versionId, String operationName,
+    public Resource doInvoke(FHIROperationContext operationContext, String resourceTypeName, String logicalId, String versionId,
         Resource resource, MultivaluedMap<String, String> queryParameters) throws Exception {
 
         return null;
@@ -198,7 +196,7 @@ public class MockFHIRResourceHelpers implements FHIRResourceHelpers {
     }
 
     @Override
-    public FHIRRestOperationResponse doCreateMeta(FHIRPersistenceEvent event, List<Issue> warnings, String type, Resource resource, 
+    public FHIRRestOperationResponse doCreateMeta(FHIRPersistenceEvent event, List<Issue> warnings, String type, Resource resource,
         String ifNoneExist) throws Exception {
         return null;
     }

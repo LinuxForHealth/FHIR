@@ -25,9 +25,9 @@ import com.ibm.fhir.model.type.code.FHIRAllTypes;
 import com.ibm.fhir.model.type.code.OperationKind;
 import com.ibm.fhir.model.type.code.OperationParameterUse;
 import com.ibm.fhir.model.type.code.PublicationStatus;
-import com.ibm.fhir.server.operation.spi.AbstractOperation;
-import com.ibm.fhir.server.operation.spi.FHIROperationContext;
-import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
+import com.ibm.fhir.server.spi.operation.AbstractOperation;
+import com.ibm.fhir.server.spi.operation.FHIROperationContext;
+import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 
 
 public class MyOperation extends AbstractOperation {

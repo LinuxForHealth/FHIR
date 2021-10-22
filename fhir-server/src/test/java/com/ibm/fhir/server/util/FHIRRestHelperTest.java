@@ -8,7 +8,6 @@ package com.ibm.fhir.server.util;
 
 import static com.ibm.fhir.model.type.String.string;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotEquals;
@@ -56,13 +55,12 @@ import com.ibm.fhir.model.type.code.NarrativeStatus;
 import com.ibm.fhir.model.type.code.ProcedureStatus;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.SingleResourceResult;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
-import com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptor;
-import com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptorException;
-import com.ibm.fhir.persistence.interceptor.impl.FHIRPersistenceInterceptorMgr;
+import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.context.FHIRSearchContextFactory;
+import com.ibm.fhir.server.interceptor.FHIRPersistenceInterceptorMgr;
+import com.ibm.fhir.server.spi.interceptor.FHIRPersistenceInterceptor;
+import com.ibm.fhir.server.spi.interceptor.FHIRPersistenceInterceptorException;
 import com.ibm.fhir.server.test.MockPersistenceImpl;
 import com.ibm.fhir.server.test.MockTransactionAdapter;
 

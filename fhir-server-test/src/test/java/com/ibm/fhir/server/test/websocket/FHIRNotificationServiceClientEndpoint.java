@@ -32,8 +32,8 @@ import javax.websocket.WebSocketContainer;
 
 import org.glassfish.tyrus.core.CloseReasons;
 
-import com.ibm.fhir.notification.FHIRNotificationEvent;
-import com.ibm.fhir.notification.util.FHIRNotificationUtil;
+import com.ibm.fhir.server.notification.FHIRNotificationEvent;
+import com.ibm.fhir.server.notification.FHIRNotificationUtil;
 
 public class FHIRNotificationServiceClientEndpoint extends Endpoint {
     private boolean DEBUG = false;

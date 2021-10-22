@@ -42,7 +42,7 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
-import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
+import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 
 public class ServerFHIRRetrieveProviderTest {
 

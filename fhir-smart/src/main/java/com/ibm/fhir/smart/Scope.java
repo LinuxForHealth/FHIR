@@ -15,7 +15,7 @@ import com.ibm.fhir.model.type.code.ResourceType;
  *      SMART App Launch: Scopes and Launch Context</a>
  */
 public class Scope {
-    public static final String SCOPE_STRING_REGEX = "(user|patient)/" + "([a-zA-Z]+|\\*)" + "\\." + "(read|write|\\*)";
+    public static final String SCOPE_STRING_REGEX = "(user|patient|system)/" + "([a-zA-Z]+|\\*)" + "\\." + "(read|write|\\*)";
 
     private final ContextType contextType;
     private final ResourceType.Value resourceType;
@@ -73,7 +73,7 @@ public class Scope {
     }
 
     /**
-     * @return a scopeString of the form {@code (user|patient)/:resourceType.(read|write|*)}
+     * @return a scopeString of the form {@code (user|patient|system)/:resourceType.(read|write|*)}
      */
     @Override
     public String toString() {
@@ -84,7 +84,8 @@ public class Scope {
 
     public static enum ContextType {
         PATIENT("patient"),
-        USER("user");
+        USER("user"),
+        SYSTEM("system");
 
         private final String value;
 

@@ -56,7 +56,7 @@ import com.ibm.fhir.path.exception.FHIRPathException;
 import com.ibm.fhir.persistence.ResourceEraseRecord;
 import com.ibm.fhir.persistence.ResourceEraseRecord.Status;
 import com.ibm.fhir.persistence.erase.EraseDTO;
-import com.ibm.fhir.server.operation.spi.FHIROperationContext;
+import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 
 /**
  * Tests the Java code for the EraseOperation
@@ -154,7 +154,7 @@ public class EraseTest {
      * @return
      */
     private FHIROperationContext generateContext(String method, String checkRole) {
-        FHIROperationContext ctx = FHIROperationContext.createInstanceOperationContext();
+        FHIROperationContext ctx = FHIROperationContext.createInstanceOperationContext("erase");
         ctx.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, method);
         ctx.setProperty(FHIROperationContext.PROPNAME_SECURITY_CONTEXT, new MockSecurityContext(checkRole));
         ctx.setProperty(FHIROperationContext.PROPNAME_HTTP_REQUEST, new MockHttpServletRequest());

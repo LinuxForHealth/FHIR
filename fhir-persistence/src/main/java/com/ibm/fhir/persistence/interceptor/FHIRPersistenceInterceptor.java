@@ -6,18 +6,22 @@
 
 package com.ibm.fhir.persistence.interceptor;
 
+import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
+
 /**
  * This interface describes a persistence interceptor. Persistence interceptors are invoked by the FHIR Server to allow
  * users to inject business logic into the REST API processing flow. To make use of this interceptor, develop a class
  * that implements this interface, then store your implementation class name in a file called
  * META-INF/services/com.ibm.fhir.persistence.FHIRPersistenceInterceptor within your jar file.
+ * @deprecated
  */
+@Deprecated
 public interface FHIRPersistenceInterceptor {
 
     /**
      * This method is called during the processing of a 'create' REST API invocation, immediately before the new
      * resource is stored by the persistence layer.
-     * 
+     *
      * @param event
      *            information about the 'create' event
      * @throws FHIRPersistenceInterceptorException
@@ -28,7 +32,7 @@ public interface FHIRPersistenceInterceptor {
     /**
      * This method is called during the processing of a 'create' REST API invocation, immediately after the new resource
      * has been stored by the persistence layer.
-     * 
+     *
      * @param event
      *            information about the 'create' event
      * @throws FHIRPersistenceInterceptorException
@@ -39,7 +43,7 @@ public interface FHIRPersistenceInterceptor {
     /**
      * This method is called during the processing of an 'update' REST API invocation, immediately before the updated
      * resource is stored by the persistence layer.
-     * 
+     *
      * @param event
      *            information about the 'update' event
      * @throws FHIRPersistenceInterceptorException
@@ -50,18 +54,18 @@ public interface FHIRPersistenceInterceptor {
     /**
      * This method is called during the processing of an 'update' REST API invocation, immediately after the updated
      * resource has been stored by the persistence layer.
-     * 
+     *
      * @param event
      *            information about the 'update' event
      * @throws FHIRPersistenceInterceptorException
      */
     default void afterUpdate(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
     }
-    
+
     /**
      * This method is called during the processing of an 'patch' REST API invocation, immediately before the updated
      * resource is stored by the persistence layer.
-     * 
+     *
      * @param event
      *            information about the 'patch' event
      * @throws FHIRPersistenceInterceptorException
@@ -72,7 +76,7 @@ public interface FHIRPersistenceInterceptor {
     /**
      * This method is called during the processing of an 'patch' REST API invocation, immediately after the updated
      * resource has been stored by the persistence layer.
-     * 
+     *
      * @param event
      *            information about the 'patch' event
      * @throws FHIRPersistenceInterceptorException
@@ -81,9 +85,9 @@ public interface FHIRPersistenceInterceptor {
     }
 
     /**
-     * This method is called during the processing of a 'delete' REST API invocation, immediately before the 
+     * This method is called during the processing of a 'delete' REST API invocation, immediately before the
      * resource is deleted by the persistence layer.
-     * 
+     *
      * @param event
      *            information about the 'delete' event
      * @throws FHIRPersistenceInterceptorException
@@ -94,18 +98,18 @@ public interface FHIRPersistenceInterceptor {
     /**
      * This method is called during the processing of a 'delete' REST API invocation, immediately after the
      * resource has been deleted by the persistence layer.
-     * 
+     *
      * @param event
      *            information about the 'delete' event
      * @throws FHIRPersistenceInterceptorException
      */
     default void afterDelete(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
     }
-    
+
     /**
      * This method is called during the processing of a 'read' REST API invocation, immediately before the resource is
      * read by the persistence layer.
-     * 
+     *
      * @param event
      *            information about the 'read' event
      * @throws FHIRPersistenceInterceptorException
@@ -116,7 +120,7 @@ public interface FHIRPersistenceInterceptor {
     /**
      * This method is called during the processing of a 'read' REST API invocation, immediately after the resource has
      * been read by the persistence layer.
-     * 
+     *
      * @param event
      *            information about the 'read' event
      * @throws FHIRPersistenceInterceptorException
@@ -127,7 +131,7 @@ public interface FHIRPersistenceInterceptor {
     /**
      * This method is called during the processing of a 'vread' (versioned read) REST API invocation, immediately before
      * the resource is read by the persistence layer.
-     * 
+     *
      * @param event
      *            information about the 'vread' event
      * @throws FHIRPersistenceInterceptorException
@@ -138,7 +142,7 @@ public interface FHIRPersistenceInterceptor {
     /**
      * This method is called during the processing of a 'vread' REST API invocation, immediately after the resource has
      * been read by the persistence layer.
-     * 
+     *
      * @param event
      *            information about the 'vread' event
      * @throws FHIRPersistenceInterceptorException
@@ -149,7 +153,7 @@ public interface FHIRPersistenceInterceptor {
     /**
      * This method is called during the processing of a 'history' REST API invocation, immediately before the resource's
      * history is read by the persistence layer.
-     * 
+     *
      * @param event
      *            information about the 'history' event
      * @throws FHIRPersistenceInterceptorException
@@ -160,7 +164,7 @@ public interface FHIRPersistenceInterceptor {
     /**
      * This method is called during the processing of a 'history' REST API invocation, immediately after the resource's
      * history has been read by the persistence layer.
-     * 
+     *
      * @param event
      *            information about the 'history' event
      * @throws FHIRPersistenceInterceptorException
@@ -171,7 +175,7 @@ public interface FHIRPersistenceInterceptor {
     /**
      * This method is called during the processing of a 'search' REST API invocation, immediately before the search is
      * performed by the persistence layer.
-     * 
+     *
      * @param event
      *            information about the 'search' event
      * @throws FHIRPersistenceInterceptorException
@@ -182,7 +186,7 @@ public interface FHIRPersistenceInterceptor {
     /**
      * This method is called during the processing of a 'search' REST API invocation, immediately after the search has
      * been performed by the persistence layer.
-     * 
+     *
      * @param event
      *            information about the 'search' event
      * @throws FHIRPersistenceInterceptorException

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.persistence.interceptor;
+package com.ibm.fhir.persistence.context;
 
 import java.util.HashMap;
 import java.util.Map;

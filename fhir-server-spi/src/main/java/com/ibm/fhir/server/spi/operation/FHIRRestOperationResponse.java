@@ -1,10 +1,10 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.server.operation.spi;
+package com.ibm.fhir.server.spi.operation;
 
 import java.net.URI;
 import java.util.concurrent.Future;
@@ -13,7 +13,6 @@ import javax.ws.rs.core.Response;
 
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.persistence.payload.PayloadKey;
 
 /**
@@ -25,22 +24,20 @@ public class FHIRRestOperationResponse {
     private Resource resource;
     private Resource prevResource;
     private OperationOutcome operationOutcome;
-    private int versionNumber;
-    private Instant lastUpdated;
     private boolean deleted;
-    
+
     // Flag to indicate the request is complete and can be returned as-is
     private boolean completed;
-    
+
     // A nested response we may get when offloading payload storage (e.g. in COS, Cassandra)
     private Future<PayloadKey> storePayloadResponse;
-    
+
     // The id of the resource, which could be new in the case of create
     private String resourceId;
-    
+
     public FHIRRestOperationResponse() {
     }
-    
+
     public FHIRRestOperationResponse(Response.Status status, URI locationURI, Resource resource) {
         setStatus(status);
         setLocationURI(locationURI);
@@ -51,15 +48,13 @@ public class FHIRRestOperationResponse {
         setLocationURI(locationURI);
         setOperationOutcome(operationOutcome);
     }
-    
-    public FHIRRestOperationResponse(Resource resource, String resourceId, int versionNumber, Instant lastUpdated, Future<PayloadKey> storePayloadResponse) {
+
+    public FHIRRestOperationResponse(Resource resource, String resourceId, Future<PayloadKey> storePayloadResponse) {
         this.resource = resource;
         this.resourceId = resourceId;
-        this.versionNumber = versionNumber;
-        this.lastUpdated = lastUpdated;
         this.setStorePayloadResponse(storePayloadResponse);
     }
-    
+
     public Response.Status getStatus() {
         return status;
     }
@@ -94,7 +89,7 @@ public class FHIRRestOperationResponse {
     public void setOperationOutcome(OperationOutcome operationOutcome) {
         this.operationOutcome = operationOutcome;
     }
-    
+
     /**
      * Getter for the resourceId
      * @return

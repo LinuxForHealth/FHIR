@@ -56,10 +56,10 @@ import com.ibm.fhir.operation.bulkdata.model.type.StorageType;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
+import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
 import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
-import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.payload.PayloadPersistenceHelper;
 import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.fhir.validation.exception.FHIRValidationException;
@@ -301,18 +301,18 @@ public class ChunkWriter extends AbstractItemWriter {
      * @throws FHIRPersistenceException
      */
     public OperationOutcome conditionalFingerprintUpdate(ImportTransientUserData chunkData, boolean skip, Map<String, SaltHash> localCache, FHIRPersistence persistence, FHIRPersistenceContext context, String logicalId, Resource resource) throws FHIRPersistenceException {
-        
+
         // Since issue 1869, we must perform the read at this point in order to obtain the
-        // latest version id. The persistence layer no longer makes any changes to the 
+        // latest version id. The persistence layer no longer makes any changes to the
         // resource so the resource needs to be fully prepared before the persistence
         // create/update call is made
         final Resource oldResource = persistence.read(context, resource.getClass(), logicalId).getResource();
-        
+
         final com.ibm.fhir.model.type.Instant lastUpdated = PayloadPersistenceHelper.getCurrentInstant();
         final int newVersionNumber = oldResource != null && oldResource.getMeta() != null && oldResource.getMeta().getVersionId() != null
                 ? Integer.parseInt(oldResource.getMeta().getVersionId().getValue()) + 1 : 1;
         resource = FHIRPersistenceUtil.copyAndSetResourceMetaFields(resource, logicalId, newVersionNumber, lastUpdated);
-        
+
         OperationOutcome oo;
         if (skip) {
             // Key is scoped to the ResourceType.

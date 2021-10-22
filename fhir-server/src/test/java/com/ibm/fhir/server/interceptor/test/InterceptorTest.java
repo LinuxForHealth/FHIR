@@ -1,10 +1,11 @@
+package com.ibm.fhir.server.interceptor.test;
 /*
  * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.test;
+
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
@@ -22,9 +23,9 @@ import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.HumanName;
 import com.ibm.fhir.model.type.code.IssueType;
-import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
-import com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptorException;
-import com.ibm.fhir.persistence.interceptor.impl.FHIRPersistenceInterceptorMgr;
+import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
+import com.ibm.fhir.server.interceptor.FHIRPersistenceInterceptorMgr;
+import com.ibm.fhir.server.spi.interceptor.FHIRPersistenceInterceptorException;
 
 /**
  * This class tests the persistence interceptor feature. The MyInterceptor class is our test interceptor implementation
@@ -36,6 +37,8 @@ public class InterceptorTest {
     protected static Patient patient = null;
     protected static Patient badPatient = null;
 
+    protected static String PATIENT_ID = "interceptorTest";
+
     public InterceptorTest() {
     }
 
@@ -44,7 +47,9 @@ public class InterceptorTest {
         mgr = FHIRPersistenceInterceptorMgr.getInstance();
         assertNotNull(mgr);
 
-        patient = TestUtil.getMinimalResource(Patient.class);
+        patient = TestUtil.getMinimalResource(Patient.class).toBuilder()
+                .id(PATIENT_ID)
+                .build();
 
         // Inject a new family name of "Exception" to trigger errors from MyInterceptor
         badPatient = patient.toBuilder()
@@ -86,7 +91,7 @@ public class InterceptorTest {
     public void testBeforeRead() throws Exception {
         Map<String, Object> properties = new HashMap<String, Object>();
         properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient");
-        properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, "123");
+        properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, PATIENT_ID);
         FHIRPersistenceEvent event = new FHIRPersistenceEvent(patient, properties);
 
         mgr.fireBeforeReadEvent(event);
@@ -99,7 +104,7 @@ public class InterceptorTest {
     public void testAfterRead() throws Exception {
         Map<String, Object> properties = new HashMap<String, Object>();
         properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient1");
-        properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, "123");
+        properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, PATIENT_ID);
         FHIRPersistenceEvent event = new FHIRPersistenceEvent(patient, properties);
 
         mgr.fireAfterReadEvent(event);
@@ -115,7 +120,7 @@ public class InterceptorTest {
     public void testBeforeVread() throws Exception {
         Map<String, Object> properties = new HashMap<String, Object>();
         properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient");
-        properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, "123");
+        properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, PATIENT_ID);
         properties.put(FHIRPersistenceEvent.PROPNAME_VERSION_ID, "1");
         FHIRPersistenceEvent event = new FHIRPersistenceEvent(patient, properties);
 
@@ -129,7 +134,7 @@ public class InterceptorTest {
     public void testAfterVread() throws Exception {
         Map<String, Object> properties = new HashMap<String, Object>();
         properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient1");
-        properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, "123");
+        properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, PATIENT_ID);
         properties.put(FHIRPersistenceEvent.PROPNAME_VERSION_ID, "1");
         FHIRPersistenceEvent event = new FHIRPersistenceEvent(patient, properties);
 
@@ -144,7 +149,7 @@ public class InterceptorTest {
     public void testBeforeHistory() throws Exception {
         Map<String, Object> properties = new HashMap<String, Object>();
         properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient");
-        properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, "123");
+        properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, PATIENT_ID);
         FHIRPersistenceEvent event = new FHIRPersistenceEvent(patient, properties);
 
         mgr.fireBeforeHistoryEvent(event);
@@ -157,7 +162,7 @@ public class InterceptorTest {
     public void testAfterHistory() throws Exception {
         Map<String, Object> properties = new HashMap<String, Object>();
         properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient1");
-        properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, "123");
+        properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, PATIENT_ID);
         FHIRPersistenceEvent event = new FHIRPersistenceEvent(patient, properties);
 
         mgr.fireAfterHistoryEvent(event);
@@ -172,6 +177,7 @@ public class InterceptorTest {
     public void testBeforeSearch() throws Exception {
         Map<String, Object> properties = new HashMap<String, Object>();
         properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient");
+        properties.put("dummyProp", PATIENT_ID);
         FHIRPersistenceEvent event = new FHIRPersistenceEvent(patient, properties);
 
         mgr.fireBeforeSearchEvent(event);
@@ -184,6 +190,7 @@ public class InterceptorTest {
     public void testAfterSearch() throws Exception {
         Map<String, Object> properties = new HashMap<String, Object>();
         properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient1");
+        properties.put("dummyProp", PATIENT_ID);
         FHIRPersistenceEvent event = new FHIRPersistenceEvent(patient, properties);
 
         mgr.fireAfterSearchEvent(event);
@@ -198,7 +205,7 @@ public class InterceptorTest {
     public void testBeforeUpdate() throws Exception {
         Map<String, Object> properties = new HashMap<String, Object>();
         properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient");
-        properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, "123");
+        properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, PATIENT_ID);
         FHIRPersistenceEvent event = new FHIRPersistenceEvent(patient, properties);
 
         mgr.fireBeforeUpdateEvent(event);
@@ -211,7 +218,7 @@ public class InterceptorTest {
     public void testAfterUpdate() throws Exception {
         Map<String, Object> properties = new HashMap<String, Object>();
         properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient");
-        properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, "123");
+        properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, PATIENT_ID);
         FHIRPersistenceEvent event = new FHIRPersistenceEvent(patient, properties);
 
         mgr.fireAfterUpdateEvent(event);
@@ -271,7 +278,7 @@ public class InterceptorTest {
     public void testBeforeReadException() throws Exception {
         Map<String, Object> properties = new HashMap<String, Object>();
         properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Exception");
-        properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, "123");
+        properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, PATIENT_ID);
         FHIRPersistenceEvent event = new FHIRPersistenceEvent(null, properties);
 
         mgr.fireBeforeReadEvent(event);
@@ -281,7 +288,7 @@ public class InterceptorTest {
     public void testAfterReadException() throws Exception {
         Map<String, Object> properties = new HashMap<String, Object>();
         properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Exception");
-        properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, "123");
+        properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, PATIENT_ID);
         FHIRPersistenceEvent event = new FHIRPersistenceEvent(badPatient, properties);
 
         mgr.fireAfterReadEvent(event);
@@ -291,7 +298,7 @@ public class InterceptorTest {
     public void testBeforeVreadException() throws Exception {
         Map<String, Object> properties = new HashMap<String, Object>();
         properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Exception");
-        properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, "123");
+        properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, PATIENT_ID);
         properties.put(FHIRPersistenceEvent.PROPNAME_VERSION_ID, "1");
         FHIRPersistenceEvent event = new FHIRPersistenceEvent(null, properties);
 
@@ -302,7 +309,7 @@ public class InterceptorTest {
     public void testAfterVreadException() throws Exception {
         Map<String, Object> properties = new HashMap<String, Object>();
         properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Exception");
-        properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, "123");
+        properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, PATIENT_ID);
         properties.put(FHIRPersistenceEvent.PROPNAME_VERSION_ID, "1");
         FHIRPersistenceEvent event = new FHIRPersistenceEvent(badPatient, properties);
 
@@ -313,7 +320,7 @@ public class InterceptorTest {
     public void testBeforeHistoryException() throws Exception {
         Map<String, Object> properties = new HashMap<String, Object>();
         properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Exception");
-        properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, "123");
+        properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, PATIENT_ID);
         FHIRPersistenceEvent event = new FHIRPersistenceEvent(null, properties);
 
         mgr.fireBeforeHistoryEvent(event);
@@ -323,7 +330,7 @@ public class InterceptorTest {
     public void testAfterHistoryException() throws Exception {
         Map<String, Object> properties = new HashMap<String, Object>();
         properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Exception");
-        properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, "123");
+        properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, PATIENT_ID);
         FHIRPersistenceEvent event = new FHIRPersistenceEvent(badPatient, properties);
 
         mgr.fireAfterHistoryEvent(event);

@@ -8,7 +8,7 @@ package com.ibm.fhir.operation.bulkdata.processor;
 
 import com.ibm.fhir.operation.bulkdata.config.OperationContextAdapter;
 import com.ibm.fhir.operation.bulkdata.processor.impl.ExportImportImpl;
-import com.ibm.fhir.server.operation.spi.FHIROperationContext;
+import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 
 /**
  * The BulkData Factory simplifies the creation of an instance of the Import and Export feature.

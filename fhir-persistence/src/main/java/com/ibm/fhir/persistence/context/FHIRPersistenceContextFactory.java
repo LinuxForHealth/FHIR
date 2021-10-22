@@ -13,7 +13,6 @@ import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.persistence.context.impl.FHIRHistoryContextImpl;
 import com.ibm.fhir.persistence.context.impl.FHIRPersistenceContextImpl;
-import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 
 /**

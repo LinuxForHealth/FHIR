@@ -3,24 +3,24 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
- 
+
 package com.ibm.fhir.server.rest;
 
-import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.fhir.model.resource.Bundle.Entry;
-import com.ibm.fhir.server.operation.spi.FHIRRestOperationResponse;
+import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
+import com.ibm.fhir.server.spi.operation.FHIRRestOperationResponse;
 import com.ibm.fhir.server.util.FHIRUrlParser;
 
 /**
  * Represents a FHIR REST CREATE interaction
  */
 public class FHIRRestInteractionCreate extends FHIRRestInteractionResource {
-    
+
     private final String type;
     private final String ifNoneExist;
     private final String localIdentifier;
-    
+
     /**
      * Public constructor
      * @param entryIndex
@@ -43,7 +43,7 @@ public class FHIRRestInteractionCreate extends FHIRRestInteractionResource {
     @Override
     public void accept(FHIRRestInteractionVisitor visitor) throws Exception {
         FHIRRestOperationResponse result = visitor.doCreate(getEntryIndex(), getEvent(), getWarnings(), getValidationResponseEntry(), getRequestDescription(), getRequestURL(), getInitialTime(), type, getNewResource(), ifNoneExist, localIdentifier);
-        
+
         // update the resource so we can use it when called in the next processing phase
         if (result != null && result.getResource() != null) {
             setNewResource(result.getResource());
