@@ -581,6 +581,7 @@
             <dependency>
                 <!-- Used in com.amazonaws:aws-java-sdk which is brought in by com.ibm.stocator:stocator (but marked provided by default) -->
                 <!-- [CVE-2021-37136] Bzip2Decoder doesn't allow setting size restrictions for decompressed data; patched in 4.1.68.Final -->
+                <!-- [CVE-2021-37136] Bzip2Decoder doesn't allow setting size restrictions for decompressed data; patched in 4.1.68.Final -->
                 <groupId>io.netty</groupId>
                 <artifactId>netty-codec-http</artifactId>
                 <version>4.1.69.Final</version>
