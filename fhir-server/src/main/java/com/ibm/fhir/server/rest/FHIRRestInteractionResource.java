@@ -29,6 +29,7 @@ public abstract class FHIRRestInteractionResource extends FHIRRestInteractionBas
 
     /**
      * Protected constructor
+     *
      * @param entryIndex
      * @param event
      * @param newResource
@@ -37,7 +38,8 @@ public abstract class FHIRRestInteractionResource extends FHIRRestInteractionBas
      * @param requestURL
      * @param initialTime
      */
-    protected FHIRRestInteractionResource(int entryIndex, FHIRPersistenceEvent event, Resource newResource, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime) {
+    protected FHIRRestInteractionResource(int entryIndex, FHIRPersistenceEvent event, Resource newResource,
+            Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime) {
         super(entryIndex, requestDescription, requestURL, initialTime);
         this.event = event;
         this.newResource = newResource;

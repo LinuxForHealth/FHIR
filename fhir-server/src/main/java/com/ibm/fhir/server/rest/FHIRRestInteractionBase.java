@@ -35,13 +35,15 @@ public abstract class FHIRRestInteractionBase implements FHIRRestInteraction {
 
     /**
      * Protected constructor
+     *
      * @param entryIndex
      * @param event
      * @param requestDescription
      * @param requestURL
      * @param initialTime
      */
-    protected FHIRRestInteractionBase(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long initialTime) {
+    protected FHIRRestInteractionBase(int entryIndex, String requestDescription, FHIRUrlParser requestURL,
+            long initialTime) {
         this.entryIndex = entryIndex;
         this.requestDescription = requestDescription;
         this.requestURL = requestURL;

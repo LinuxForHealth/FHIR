@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
- 
+
 package com.ibm.fhir.server.rest;
 
 import javax.ws.rs.core.Response.Status;
@@ -16,12 +16,13 @@ import com.ibm.fhir.model.resource.Bundle.Entry;
  */
 public class FHIRRestInteractionIssue extends FHIRRestInteractionBase {
     final Status status;
-    
+
     // The Entry capturing the response. Can be null.
     final Entry responseEntry;
-    
+
     /**
      * Public constructor
+     *
      * @param entryIndex
      * @param initialTime
      * @param status
@@ -32,7 +33,7 @@ public class FHIRRestInteractionIssue extends FHIRRestInteractionBase {
         this.status = status;
         this.responseEntry = responseEntry;
     }
-    
+
     @Override
     public void accept(FHIRRestInteractionVisitor visitor) throws Exception {
         visitor.issue(getEntryIndex(), getRequestDescription(), getInitialTime(), status, responseEntry);

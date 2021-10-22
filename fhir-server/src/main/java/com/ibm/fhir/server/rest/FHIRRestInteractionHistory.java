@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
- 
+
 package com.ibm.fhir.server.rest;
 
 import javax.ws.rs.core.MultivaluedMap;
@@ -14,7 +14,7 @@ import com.ibm.fhir.server.util.FHIRUrlParser;
  * Represents a FHIR REST HISTORY read interaction
  */
 public class FHIRRestInteractionHistory extends FHIRRestInteractionBase {
-    
+
     private final String type;
     private final String id;
     private final MultivaluedMap<String, String> queryParameters;
@@ -22,6 +22,7 @@ public class FHIRRestInteractionHistory extends FHIRRestInteractionBase {
 
     /**
      * Public constructor
+     *
      * @param entryIndex
      * @param requestDescription
      * @param requestURL
@@ -31,7 +32,8 @@ public class FHIRRestInteractionHistory extends FHIRRestInteractionBase {
      * @param queryParameters
      * @param requestUri
      */
-    public FHIRRestInteractionHistory(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String id, MultivaluedMap<String, String> queryParameters, String requestUri) {
+    public FHIRRestInteractionHistory(int entryIndex, String requestDescription, FHIRUrlParser requestURL,
+            long initialTime, String type, String id, MultivaluedMap<String, String> queryParameters, String requestUri) {
         super(entryIndex, requestDescription, requestURL, initialTime);
         this.type = type;
         this.id = id;
@@ -41,6 +43,7 @@ public class FHIRRestInteractionHistory extends FHIRRestInteractionBase {
 
     @Override
     public void accept(FHIRRestInteractionVisitor visitor) throws Exception {
-        visitor.doHistory(getEntryIndex(), getRequestDescription(), getRequestURL(), getInitialTime(), type, id, queryParameters, requestUri);
+        visitor.doHistory(getEntryIndex(), getRequestDescription(), getRequestURL(), getInitialTime(), type, id,
+                queryParameters, requestUri);
     }
 }

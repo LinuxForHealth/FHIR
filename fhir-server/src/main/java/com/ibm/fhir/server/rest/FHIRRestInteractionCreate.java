@@ -23,6 +23,7 @@ public class FHIRRestInteractionCreate extends FHIRRestInteractionResource {
 
     /**
      * Public constructor
+     *
      * @param entryIndex
      * @param validationResponseEntry
      * @param requestDescription
@@ -33,7 +34,9 @@ public class FHIRRestInteractionCreate extends FHIRRestInteractionResource {
      * @param ifNoneExist
      * @param localIdentifier
      */
-    public FHIRRestInteractionCreate(int entryIndex, FHIRPersistenceEvent event, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, Resource resource, String ifNoneExist, String localIdentifier) {
+    public FHIRRestInteractionCreate(int entryIndex, FHIRPersistenceEvent event, Entry validationResponseEntry,
+            String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, Resource resource,
+            String ifNoneExist, String localIdentifier) {
         super(entryIndex, event, resource, validationResponseEntry, requestDescription, requestURL, initialTime);
         this.type = type;
         this.ifNoneExist = ifNoneExist;
