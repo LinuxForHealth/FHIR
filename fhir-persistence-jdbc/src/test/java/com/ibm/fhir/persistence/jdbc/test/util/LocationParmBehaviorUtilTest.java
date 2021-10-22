@@ -6,22 +6,28 @@
 
 package com.ibm.fhir.persistence.jdbc.test.util;
 
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAMETER_TABLE_ALIAS;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.database.utils.query.WhereFragment;
+import com.ibm.fhir.database.utils.query.expression.StringExpNodeVisitor;
+import com.ibm.fhir.database.utils.query.node.BindMarkerNode;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.jdbc.JDBCConstants;
-import com.ibm.fhir.persistence.jdbc.util.type.LocationParmBehaviorUtil;
+import com.ibm.fhir.persistence.jdbc.util.type.NewLocationParmBehaviorUtil;
 import com.ibm.fhir.search.location.bounding.Bounding;
 import com.ibm.fhir.search.location.bounding.BoundingBox;
 import com.ibm.fhir.search.location.bounding.BoundingMissing;
@@ -29,102 +35,84 @@ import com.ibm.fhir.search.location.bounding.BoundingRadius;
 
 public class LocationParmBehaviorUtilTest {
     private static final Logger log = java.util.logging.Logger.getLogger(LocationParmBehaviorUtilTest.class.getName());
-    private static final Level LOG_LEVEL = Level.FINE;
+    private static final Level LOG_LEVEL = Level.INFO;
 
-    private void runTestBoundingBox(List<Object> expectedBindVariables, String expectedSql,
-            BoundingBox boundingBox)
+    private void runTest(List<Object> expectedBindVariables, String expectedSql, Bounding bounding)
             throws FHIRPersistenceException {
-        StringBuilder actualWhereClauseSegment = new StringBuilder();
-        List<Object> actualBindVariables = new ArrayList<>();
+        if (log.isLoggable(LOG_LEVEL)) {
+            log.info("Expected Bind Variables -> " + expectedBindVariables);
+        }
+        WhereFragment actualWhereClauseSegment = new WhereFragment();
 
-        LocationParmBehaviorUtil util = new LocationParmBehaviorUtil();
-        util.buildQueryForBoundingBox(actualWhereClauseSegment, actualBindVariables, boundingBox, JDBCConstants.PARAMETER_TABLE_ALIAS);
+        NewLocationParmBehaviorUtil util = new NewLocationParmBehaviorUtil();
+        if (bounding instanceof BoundingBox) {
+            util.buildQueryForBoundingBox(actualWhereClauseSegment, (BoundingBox)bounding, PARAMETER_TABLE_ALIAS);
+        } else if (bounding instanceof BoundingRadius) {
+            util.buildQueryForBoundingRadius(actualWhereClauseSegment, PARAMETER_TABLE_ALIAS, (BoundingRadius)bounding);
+        } else {
+            util.buildQueryForBoundingMissing(actualWhereClauseSegment, (BoundingMissing)bounding);
+        }
+        List<BindMarkerNode> collectBindMarkersInto = new ArrayList<>();
+        StringExpNodeVisitor visitor = new StringExpNodeVisitor(null, collectBindMarkersInto, false);
+        final String actualWhereClauseString = actualWhereClauseSegment.getExpression().visit(visitor);
 
         if (log.isLoggable(LOG_LEVEL)) {
-            log.info("whereClauseSegment -> " + actualWhereClauseSegment.toString());
-            log.info("bind variables -> " + actualBindVariables);
+            log.info("whereClauseSegment -> " + actualWhereClauseString);
+            log.info("bind variables -> " + collectBindMarkersInto.stream()
+                    .map(b -> b.toValueString("~"))
+                    .collect(Collectors.toList()));
         }
-        assertEquals(actualWhereClauseSegment.toString(), expectedSql);
+        assertEquals(actualWhereClauseString, expectedSql);
+        assertEquals(collectBindMarkersInto.size(), expectedBindVariables.size());
 
-        for (Object o : expectedBindVariables) {
-            actualBindVariables.remove(o);
+        for (int i=0; i<expectedBindVariables.size(); i++) {
+            Object expectedValue = expectedBindVariables.get(i);
+            BindMarkerNode bindMarker = collectBindMarkersInto.get(i);
+
+            if (!bindMarker.checkTypeAndValue(expectedValue)) {
+                StringBuilder msg = new StringBuilder();
+                msg.append("BIND[").append(i).append("] ")
+                    .append("EXPECTED=").append(expectedValue)
+                    .append("; ACTUAL=").append(bindMarker.toValueString("~"));
+                fail(msg.toString());
+            }
         }
-
-        if (log.isLoggable(LOG_LEVEL)) {
-            log.info("leftover - bind variables -> " + actualBindVariables);
-        }
-        assertEquals(actualBindVariables.size(), 0);
-    }
-
-    private void runTestBoundingRadius(List<Object> expectedBindVariables, String expectedSql,
-            BoundingRadius boundingRadius)
-            throws FHIRPersistenceException {
-        StringBuilder actualWhereClauseSegment = new StringBuilder();
-        List<Object> actualBindVariables = new ArrayList<>();
-
-        LocationParmBehaviorUtil util = new LocationParmBehaviorUtil();
-        util.buildQueryForBoundingRadius(actualWhereClauseSegment, actualBindVariables, boundingRadius);
-
-        if (log.isLoggable(LOG_LEVEL)) {
-            log.info("whereClauseSegment -> " + actualWhereClauseSegment.toString());
-            log.info("bind variables -> " + actualBindVariables);
-        }
-        assertEquals(actualWhereClauseSegment.toString(), expectedSql);
-
-        for (Object o : expectedBindVariables) {
-            actualBindVariables.remove(o);
-        }
-
-        if (log.isLoggable(LOG_LEVEL)) {
-            log.info("leftover - bind variables -> " + actualBindVariables);
-        }
-        assertEquals(actualBindVariables.size(), 0);
-    }
-
-    private void runTestBoundingMissing(String expectedSql, BoundingMissing boundingMissing)
-            throws FHIRPersistenceException {
-        StringBuilder actualWhereClauseSegment = new StringBuilder();
-
-        StringBuilder actualParameterClauseSegment = new StringBuilder();
-        actualParameterClauseSegment.append("(P1.PARAMETER_NAME_ID = x AND");
-
-        LocationParmBehaviorUtil util = new LocationParmBehaviorUtil();
-        util.buildQueryForBoundingMissing(actualParameterClauseSegment.toString(), actualWhereClauseSegment,
-                boundingMissing);
-
-        if (log.isLoggable(LOG_LEVEL)) {
-            log.info("whereClauseSegment -> " + actualWhereClauseSegment.toString());
-        }
-        assertEquals(actualWhereClauseSegment.toString(), expectedSql);
     }
 
     private void runTestBoundingList(List<Object> expectedBindVariables, String expectedSql,
-            List<Bounding> boundingAreas)
-            throws FHIRPersistenceException {
-        StringBuilder actualWhereClauseSegment = new StringBuilder();
-        List<Object> actualBindVariables = new ArrayList<>();
+            List<Bounding> boundingAreas) throws FHIRPersistenceException {
+        if (log.isLoggable(LOG_LEVEL)) {
+            log.info("Expected Bind Variables -> " + expectedBindVariables);
+        }
+        WhereFragment actualWhereClauseSegment = new WhereFragment();
 
-        StringBuilder actualParameterClauseSegment = new StringBuilder();
-        actualParameterClauseSegment.append("(P1.PARAMETER_NAME_ID = x AND");
-
-        LocationParmBehaviorUtil util = new LocationParmBehaviorUtil();
-        util.buildLocationSearchQuery(actualParameterClauseSegment.toString(), actualWhereClauseSegment,
-                actualBindVariables, boundingAreas, JDBCConstants.PARAMETER_TABLE_ALIAS);
+        NewLocationParmBehaviorUtil util = new NewLocationParmBehaviorUtil();
+        util.buildLocationSearchQuery(actualWhereClauseSegment, boundingAreas, PARAMETER_TABLE_ALIAS);
+        List<BindMarkerNode> collectBindMarkersInto = new ArrayList<>();
+        StringExpNodeVisitor visitor = new StringExpNodeVisitor(null, collectBindMarkersInto, false);
+        final String actualWhereClauseString = actualWhereClauseSegment.getExpression().visit(visitor);
 
         if (log.isLoggable(LOG_LEVEL)) {
-            log.info("whereClauseSegment -> " + actualWhereClauseSegment.toString());
-            log.info("bind variables -> " + actualBindVariables);
+            log.info("whereClauseSegment -> " + actualWhereClauseString);
+            log.info("bind variables -> " + collectBindMarkersInto.stream()
+                    .map(b -> b.toValueString("~"))
+                    .collect(Collectors.toList()));
         }
-        assertEquals(actualWhereClauseSegment.toString(), expectedSql);
+        assertEquals(actualWhereClauseString, expectedSql);
+        assertEquals(collectBindMarkersInto.size(), expectedBindVariables.size());
 
-        for (Object o : expectedBindVariables) {
-            actualBindVariables.remove(o);
-        }
+        for (int i=0; i<expectedBindVariables.size(); i++) {
+            Object expectedValue = expectedBindVariables.get(i);
+            BindMarkerNode bindMarker = collectBindMarkersInto.get(i);
 
-        if (log.isLoggable(LOG_LEVEL)) {
-            log.info("leftover - bind variables -> " + actualBindVariables);
+            if (!bindMarker.checkTypeAndValue(expectedValue)) {
+                StringBuilder msg = new StringBuilder();
+                msg.append("BIND[").append(i).append("] ")
+                    .append("EXPECTED=").append(expectedValue)
+                    .append("; ACTUAL=").append(bindMarker.toValueString("~"));
+                fail(msg.toString());
+            }
         }
-        assertEquals(actualBindVariables.size(), 0);
     }
 
     @BeforeClass
@@ -132,13 +120,13 @@ public class LocationParmBehaviorUtilTest {
         FHIRRequestContext.get().setTenantId("behavior");
     }
 
-    @Test(expectedExceptions = {})
+    @Test
     public void testBoundingBox() throws FHIRPersistenceException {
         List<Object> expectedBindVariables = new ArrayList<>();
-        expectedBindVariables.add(20.0);
-        expectedBindVariables.add(-20.0);
-        expectedBindVariables.add(10.0);
         expectedBindVariables.add(-10.0);
+        expectedBindVariables.add(10.0);
+        expectedBindVariables.add(-20.0);
+        expectedBindVariables.add(20.0);
 
         String expectedSql =
                 "(pX.LATITUDE_VALUE >= ? AND pX.LATITUDE_VALUE <= ? AND pX.LONGITUDE_VALUE >= ? AND pX.LONGITUDE_VALUE <= ?)";
@@ -146,7 +134,7 @@ public class LocationParmBehaviorUtilTest {
         BoundingBox boundingBox =
                 BoundingBox.builder().maxLatitude(10.0).minLatitude(-10.0).maxLongitude(20.0).minLongitude(-20.0)
                         .build();
-        runTestBoundingBox(expectedBindVariables, expectedSql, boundingBox);
+        runTest(expectedBindVariables, expectedSql, boundingBox);
     }
 
     @Test(expectedExceptions = {})
@@ -161,10 +149,11 @@ public class LocationParmBehaviorUtilTest {
         expectedBindVariables.add(4.0);
 
         String expectedSql =
-                "(pX.LATITUDE_VALUE <= ? AND pX.LATITUDE_VALUE >= ? AND pX.LONGITUDE_VALUE <= ? AND pX.LONGITUDE_VALUE >= ? AND ACOS(SIN(?) * SIN(pX.LATITUDE_VALUE) + COS(?) * COS(pX.LATITUDE_VALUE) * COS(pX.LONGITUDE_VALUE))<= ?";
+                "(pX.LATITUDE_VALUE <= ? AND pX.LATITUDE_VALUE >= ? AND pX.LONGITUDE_VALUE <= ? AND pX.LONGITUDE_VALUE >= ? AND "
+                + "ACOS(SIN(?) * SIN(pX.LATITUDE_VALUE) + COS(?) * COS(pX.LATITUDE_VALUE) * COS(pX.LONGITUDE_VALUE)) <= ?)";
 
         BoundingRadius boundingRadius = BoundingRadius.builder().latitude(10.0).longitude(20.0).radius(4.0).build();
-        runTestBoundingRadius(expectedBindVariables, expectedSql, boundingRadius);
+        runTest(expectedBindVariables, expectedSql, boundingRadius);
     }
 
     @Test
@@ -184,13 +173,16 @@ public class LocationParmBehaviorUtilTest {
         expectedBindVariables.add(new Double(10.0));
         expectedBindVariables.add(new Double(10.0));
         expectedBindVariables.add(new Double(4.0));
-        expectedBindVariables.add(new Double(20.0));
-        expectedBindVariables.add(new Double(-20.0));
-        expectedBindVariables.add(new Double(11.0));
-        expectedBindVariables.add(new Double(-10.0));
+        expectedBindVariables.add(-10.0);
+        expectedBindVariables.add(11.0);
+        expectedBindVariables.add(-20.0);
+        expectedBindVariables.add(20.0);
 
         String expectedSql =
-                "(P1.PARAMETER_NAME_ID = x AND AND  (pX.LATITUDE_VALUE <= ? AND pX.LATITUDE_VALUE >= ? AND pX.LONGITUDE_VALUE <= ? AND pX.LONGITUDE_VALUE >= ? AND ACOS(SIN(?) * SIN(pX.LATITUDE_VALUE) + COS(?) * COS(pX.LATITUDE_VALUE) * COS(pX.LONGITUDE_VALUE))<= ? OR (pX.LATITUDE_VALUE >= ? AND pX.LATITUDE_VALUE <= ? AND pX.LONGITUDE_VALUE >= ? AND pX.LONGITUDE_VALUE <= ?))";
+                "((pX.LATITUDE_VALUE <= ? AND pX.LATITUDE_VALUE >= ? AND pX.LONGITUDE_VALUE <= ? AND pX.LONGITUDE_VALUE >= ? AND "
+                + "ACOS(SIN(?) * SIN(pX.LATITUDE_VALUE) + COS(?) * COS(pX.LATITUDE_VALUE) * COS(pX.LONGITUDE_VALUE)) <= ?)"
+                + " OR "
+                + "(pX.LATITUDE_VALUE >= ? AND pX.LATITUDE_VALUE <= ? AND pX.LONGITUDE_VALUE >= ? AND pX.LONGITUDE_VALUE <= ?))";
 
         runTestBoundingList(expectedBindVariables, expectedSql, boundingAreas);
     }
@@ -231,15 +223,19 @@ public class LocationParmBehaviorUtilTest {
         expectedBindVariables.add(new Double(20.0));
 
         String expectedSql =
-                "(P1.PARAMETER_NAME_ID = x AND AND  (pX.LATITUDE_VALUE >= ? AND pX.LATITUDE_VALUE <= ? AND pX.LONGITUDE_VALUE >= ? AND pX.LONGITUDE_VALUE <= ?) OR (pX.LATITUDE_VALUE >= ? AND pX.LATITUDE_VALUE <= ? AND pX.LONGITUDE_VALUE >= ? AND pX.LONGITUDE_VALUE <= ?)) AND ((P1.PARAMETER_NAME_ID = x AND AND  (pX.LATITUDE_VALUE >= ? AND pX.LATITUDE_VALUE <= ? AND pX.LONGITUDE_VALUE >= ? AND pX.LONGITUDE_VALUE <= ?)))";
+                "((pX.LATITUDE_VALUE >= ? AND pX.LATITUDE_VALUE <= ? AND pX.LONGITUDE_VALUE >= ? AND pX.LONGITUDE_VALUE <= ?) OR "
+                + "(pX.LATITUDE_VALUE >= ? AND pX.LATITUDE_VALUE <= ? AND pX.LONGITUDE_VALUE >= ? AND pX.LONGITUDE_VALUE <= ?))"
+                + " AND "
+                + "((pX.LATITUDE_VALUE >= ? AND pX.LATITUDE_VALUE <= ? AND pX.LONGITUDE_VALUE >= ? AND pX.LONGITUDE_VALUE <= ?))";
 
         runTestBoundingList(expectedBindVariables, expectedSql, boundingAreas);
     }
 
-    @Test(expectedExceptions = {})
+    // the new query builder doesn't currently support generating empty WhereFragments
+    @Test(expectedExceptions = IllegalStateException.class)
     public void testBoundingMissing() throws FHIRPersistenceException {
         String expectedSql = "";
         BoundingMissing boundingMissing = new BoundingMissing();
-        runTestBoundingMissing(expectedSql, boundingMissing);
+        runTest(Collections.emptyList(), expectedSql, boundingMissing);
     }
 }

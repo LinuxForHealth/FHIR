@@ -26,14 +26,6 @@ import com.ibm.fhir.search.location.bounding.BoundingType;
  * variables.
  */
 public class NewLocationParmBehaviorUtil {
-
-    /**
-     * Public constructor
-     */
-    public NewLocationParmBehaviorUtil() {
-        // No Operation
-    }
-
     /**
      * build location search query based on the bounding areas.
      *
@@ -148,7 +140,7 @@ public class NewLocationParmBehaviorUtil {
             .mult()
             .cos(col(paramAlias, LATITUDE_VALUE))
             .mult()
-            .acos(col(paramAlias, LONGITUDE_VALUE));
+            .cos(col(paramAlias, LONGITUDE_VALUE));
 
         whereClauseSegment.leftParen()
             .col(paramAlias, LATITUDE_VALUE).lte().bind(boundingRadius.getLatitude())

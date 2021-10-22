@@ -337,7 +337,10 @@ public class DateTimeHandler {
      */
     public static TemporalAccessor parse(String value) throws FHIRSearchException {
         try {
-            return ModelSupport.truncateTime(DATE_TIME_PARSER_FORMATTER.withResolverStyle(ResolverStyle.SMART).parseBest(value, ZonedDateTime::from, LocalDateTime::from, LocalDate::from, YearMonth::from, Year::from), ChronoUnit.MICROS);
+            TemporalAccessor parsedValue = DATE_TIME_PARSER_FORMATTER
+                    .withResolverStyle(ResolverStyle.SMART)
+                    .parseBest(value, ZonedDateTime::from, LocalDateTime::from, LocalDate::from, YearMonth::from, Year::from);
+            return ModelSupport.truncateTime(parsedValue, ChronoUnit.MICROS);
         } catch (java.time.format.DateTimeParseException dtpe) {
             throw SearchExceptionUtil.buildNewDateTimeFormatException(dtpe);
         }

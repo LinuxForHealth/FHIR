@@ -33,14 +33,9 @@ import com.ibm.fhir.search.parameters.QueryParameterValue;
  * date.
  */
 public class NewDateParmBehaviorUtil {
-
-    public NewDateParmBehaviorUtil() {
-        // No Operation
-    }
-
     /**
      * Generate WHERE clause predicates based on the query parameter data
-     * 
+     *
      * @param whereClauseSegment
      * @param queryParm
      * @param tableAlias
@@ -229,7 +224,7 @@ public class NewDateParmBehaviorUtil {
         Prefix lowerBoundPrefix = lowerBoundQueryParmValue.getPrefix();
         Prefix upperBoundPrefix = upperBoundQueryParmValue.getPrefix();
         boolean expandColumnCheck = Prefix.SA.equals(lowerBoundPrefix) && Prefix.EB.equals(upperBoundPrefix);
-        
+
         buildPredicates(whereClauseSegment, tableAlias, lowerBoundPrefix,
             lowerBoundQueryParmValue.getValueDateLowerBound(), lowerBoundQueryParmValue.getValueDateUpperBound());
         if (expandColumnCheck) {

@@ -7,22 +7,26 @@
 package com.ibm.fhir.persistence.jdbc.test.util;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.fail;
 
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.database.utils.query.WhereFragment;
+import com.ibm.fhir.database.utils.query.expression.StringExpNodeVisitor;
+import com.ibm.fhir.database.utils.query.node.BindMarkerNode;
 import com.ibm.fhir.exception.FHIRException;
-import com.ibm.fhir.persistence.jdbc.util.type.DateParmBehaviorUtil;
+import com.ibm.fhir.persistence.jdbc.util.type.NewDateParmBehaviorUtil;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SearchConstants.Prefix;
 import com.ibm.fhir.search.date.DateTimeHandler;
@@ -63,50 +67,48 @@ public class DateParmBehaviorUtilTest {
         return parameter;
     }
 
-    private void runTest(QueryParameter queryParm, List<Timestamp> expectedBindVariables, String expectedSql)
+    private void runTest(QueryParameter queryParm, List<Instant> expectedBindVariables, String expectedSql)
             throws Exception {
         runTest(queryParm, expectedBindVariables, expectedSql, "Date", false);
     }
 
-    private void runTest(QueryParameter queryParm, List<Timestamp> expectedBindVariables, String expectedSql,
+    private void runTest(QueryParameter queryParm, List<Instant> expectedBindVariables, String expectedSql,
             String tableAlias, boolean approx)
             throws Exception {
         if (log.isLoggable(LOG_LEVEL)) {
             log.info("Expected Bind Variables -> " + expectedBindVariables);
         }
-        StringBuilder actualWhereClauseSegment = new StringBuilder();
-        List<Timestamp> actualBindVariables = new ArrayList<>();
+        WhereFragment actualWhereClauseSegment = new WhereFragment();
 
-        DateParmBehaviorUtil behavior = new DateParmBehaviorUtil();
-        behavior.executeBehavior(actualWhereClauseSegment, queryParm, actualBindVariables,
-                tableAlias);
+        NewDateParmBehaviorUtil newDateParmBehaviorUtil = new NewDateParmBehaviorUtil();
+        newDateParmBehaviorUtil.executeBehavior(actualWhereClauseSegment, queryParm, tableAlias);
+        List<BindMarkerNode> collectBindMarkersInto = new ArrayList<>();
+        StringExpNodeVisitor visitor = new StringExpNodeVisitor(null, collectBindMarkersInto, false);
+        final String actualWhereClauseString = actualWhereClauseSegment.getExpression().visit(visitor);
 
         if (log.isLoggable(LOG_LEVEL)) {
-            log.info("whereClauseSegment -> " + actualWhereClauseSegment.toString());
-            log.info("bind variables -> " + actualBindVariables);
+            log.info("whereClauseSegment -> " + actualWhereClauseString);
+            log.info("bind variables -> " + collectBindMarkersInto.stream()
+                    .map(b -> b.toValueString("~"))
+                    .collect(Collectors.toList()));
         }
-        assertEquals(actualWhereClauseSegment.toString(), expectedSql);
+        assertEquals(actualWhereClauseString, expectedSql);
+        assertEquals(collectBindMarkersInto.size(), expectedBindVariables.size());
 
         if (!approx) {
-            for (Object o : expectedBindVariables) {
-                Timestamp t1 = (Timestamp) o;
-                String i1 = "" + t1;
-                Iterator<Timestamp> ttt = actualBindVariables.iterator();
-                while (ttt.hasNext()) {
-                    Timestamp t2 = ttt.next();
-                    String i2 = "" + t2;
-                    if (i1.compareTo(i2) == 0) {
-                        ttt.remove();
-                    }
+            for (int i=0; i<expectedBindVariables.size(); i++) {
+                Object expectedValue = expectedBindVariables.get(i);
+                BindMarkerNode bindMarker = collectBindMarkersInto.get(i);
+
+                if (!bindMarker.checkTypeAndValue(expectedValue)) {
+                    StringBuilder msg = new StringBuilder();
+                    msg.append("BIND[").append(i).append("] ")
+                        .append("EXPECTED=").append(expectedValue)
+                        .append("; ACTUAL=").append(bindMarker.toValueString("~"));
+                    fail(msg.toString());
                 }
             }
-
-            if (log.isLoggable(LOG_LEVEL)) {
-                log.info("leftover - bind variables -> " + actualBindVariables);
-            }
-            assertEquals(actualBindVariables.size(), 0);
         }
-
     }
 
     @Test
@@ -114,15 +116,15 @@ public class DateParmBehaviorUtilTest {
         String vTime = "2019-12-11T00:00:00+00:00";
 
         TemporalAccessor v = DateTimeHandler.parse(vTime);
-        Timestamp lower = Timestamp.from(DateTimeHandler.generateLowerBound(Prefix.EQ, v, vTime));
-        Timestamp upper = Timestamp.from(DateTimeHandler.generateUpperBound(Prefix.EQ, v, vTime));
+        Instant lower = DateTimeHandler.generateLowerBound(Prefix.EQ, v, vTime);
+        Instant upper = DateTimeHandler.generateUpperBound(Prefix.EQ, v, vTime);
 
         // gt - Greater Than
         QueryParameter queryParm = generateQueryParameter(SearchConstants.Prefix.GT, null, vTime);
-        List<Timestamp> expectedBindVariables = new ArrayList<>();
+        List<Instant> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(upper);
         String expectedSql =
-                " AND ((Date.DATE_END > ?)))";
+                "(Date.DATE_END > ?)";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql);
@@ -132,7 +134,7 @@ public class DateParmBehaviorUtilTest {
         expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(lower);
         expectedSql =
-                " AND ((Date.DATE_START < ?)))";
+                "(Date.DATE_START < ?)";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql);
@@ -142,7 +144,7 @@ public class DateParmBehaviorUtilTest {
         expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(lower);
         expectedSql =
-                " AND ((Date.DATE_END >= ?)))";
+                "(Date.DATE_END >= ?)";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql);
@@ -152,7 +154,7 @@ public class DateParmBehaviorUtilTest {
         expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(upper);
         expectedSql =
-                " AND ((Date.DATE_START <= ?)))";
+                "(Date.DATE_START <= ?)";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql);
@@ -162,7 +164,7 @@ public class DateParmBehaviorUtilTest {
         expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(upper);
         expectedSql =
-                " AND ((Date.DATE_START > ?)))";
+                "(Date.DATE_START > ?)";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql);
@@ -172,7 +174,7 @@ public class DateParmBehaviorUtilTest {
         expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(lower);
         expectedSql =
-                " AND ((Date.DATE_END < ?)))";
+                "(Date.DATE_END < ?)";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql);
@@ -182,15 +184,17 @@ public class DateParmBehaviorUtilTest {
     public void testPrecisionWithEqual() throws Exception {
         String vTime = "2019-12-11T00:00:00+00:00";
         TemporalAccessor v = DateTimeHandler.parse(vTime);
-        Timestamp lower = Timestamp.from(DateTimeHandler.generateLowerBound(Prefix.EQ, v, vTime));
-        Timestamp upper = Timestamp.from(DateTimeHandler.generateUpperBound(Prefix.EQ, v, vTime));
+        Instant lower = DateTimeHandler.generateLowerBound(Prefix.EQ, v, vTime);
+        Instant upper = DateTimeHandler.generateUpperBound(Prefix.EQ, v, vTime);
 
         QueryParameter queryParm = generateQueryParameter(SearchConstants.Prefix.EQ, null, vTime);
-        List<Timestamp> expectedBindVariables = new ArrayList<>();
+        List<Instant> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(lower);
         expectedBindVariables.add(upper);
+        expectedBindVariables.add(upper);
+        expectedBindVariables.add(lower);
         String expectedSql =
-                " AND (((Date.DATE_START >= ? AND Date.DATE_END <= ?))))";
+                "(Date.DATE_START >= ? AND Date.DATE_START <= ? AND Date.DATE_END <= ? AND Date.DATE_END >= ?)";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql);
@@ -200,18 +204,23 @@ public class DateParmBehaviorUtilTest {
     public void testPrecisionWithMultipleValuesForEqual() throws Exception {
         String vTime = "2019-12-11T00:00:00+00:00";
         TemporalAccessor v = DateTimeHandler.parse(vTime);
-        Timestamp lower = Timestamp.from(DateTimeHandler.generateLowerBound(Prefix.EQ, v, vTime));
-        Timestamp upper = Timestamp.from(DateTimeHandler.generateUpperBound(Prefix.EQ, v, vTime));
+        Instant lower = DateTimeHandler.generateLowerBound(Prefix.EQ, v, vTime);
+        Instant upper = DateTimeHandler.generateUpperBound(Prefix.EQ, v, vTime);
 
         QueryParameter queryParm = generateQueryParameter(SearchConstants.Prefix.EQ, null, vTime, vTime);
-        List<Timestamp> expectedBindVariables = new ArrayList<>();
+        List<Instant> expectedBindVariables = new ArrayList<>();
+        expectedBindVariables.add(lower);
+        expectedBindVariables.add(upper);
         expectedBindVariables.add(upper);
         expectedBindVariables.add(lower);
         expectedBindVariables.add(lower);
+        expectedBindVariables.add(upper);
+        expectedBindVariables.add(upper);
         expectedBindVariables.add(lower);
 
         String expectedSql =
-                " AND (((Date.DATE_START >= ? AND Date.DATE_END <= ?)) OR ((Date.DATE_START >= ? AND Date.DATE_END <= ?))))";
+                "(Date.DATE_START >= ? AND Date.DATE_START <= ? AND Date.DATE_END <= ? AND Date.DATE_END >= ? OR" +
+                " Date.DATE_START >= ? AND Date.DATE_START <= ? AND Date.DATE_END <= ? AND Date.DATE_END >= ?)";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql);
@@ -221,16 +230,16 @@ public class DateParmBehaviorUtilTest {
     public void testPrecisionWithNotEqual() throws Exception {
         String vTime = "2019-12-11T00:00:00+00:00";
         TemporalAccessor v = DateTimeHandler.parse(vTime);
-        Timestamp lower = Timestamp.from(DateTimeHandler.generateLowerBound(Prefix.EQ, v, vTime));
-        Timestamp upper = Timestamp.from(DateTimeHandler.generateUpperBound(Prefix.EQ, v, vTime));
+        Instant lower = DateTimeHandler.generateLowerBound(Prefix.EQ, v, vTime);
+        Instant upper = DateTimeHandler.generateUpperBound(Prefix.EQ, v, vTime);
 
         QueryParameter queryParm = generateQueryParameter(SearchConstants.Prefix.NE, null, vTime);
-        List<Timestamp> expectedBindVariables = new ArrayList<>();
+        List<Instant> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(lower);
         expectedBindVariables.add(upper);
 
         String expectedSql =
-                " AND (((Date.DATE_START < ? OR Date.DATE_END > ?))))";
+                "((Date.DATE_START < ? OR Date.DATE_END > ?))";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql);
@@ -239,12 +248,20 @@ public class DateParmBehaviorUtilTest {
     @Test
     public void testPrecisionWithApprox() throws Exception {
         String vTime = "2019-12-11T00:00:00+00:00";
+        TemporalAccessor v = DateTimeHandler.parse(vTime);
 
         QueryParameter queryParm = generateQueryParameter(SearchConstants.Prefix.AP, null, vTime);
-        List<Timestamp> expectedBindVariables = new ArrayList<>();
+        List<Instant> expectedBindVariables = new ArrayList<>();
+
+        // Because approximate values are relative to "now", this is hard to test
+        // Add some placeholder variables so we can at least assert that the proper number of bind vars are present.
+        Instant lowerBound = DateTimeHandler.generateLowerBound(Prefix.AP, v, vTime);
+        Instant upperBound = DateTimeHandler.generateUpperBound(Prefix.AP, v, vTime);
+        expectedBindVariables.add(lowerBound);
+        expectedBindVariables.add(upperBound);
 
         String expectedSql =
-                " AND (((Date.DATE_END >= ? AND Date.DATE_START <= ?))))";
+                "(Date.DATE_END >= ? AND Date.DATE_START <= ?)";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql, "Date", true);
@@ -254,12 +271,25 @@ public class DateParmBehaviorUtilTest {
     public void testPrecisionWithMultipleDifferentApprox() throws Exception {
         String vTime = "2019-12-11T00:00:00+00:00";
         String vTime2 = "2019-01-11T00:00:00+00:00";
+        TemporalAccessor v = DateTimeHandler.parse(vTime);
+        TemporalAccessor v2 = DateTimeHandler.parse(vTime);
 
         QueryParameter queryParm = generateQueryParameter(SearchConstants.Prefix.AP, null, vTime, vTime2);
-        List<Timestamp> expectedBindVariables = new ArrayList<>();
+        List<Instant> expectedBindVariables = new ArrayList<>();
+
+        // Because approximate values are relative to "now", this is hard to test.
+        // Add some placeholder variables so we can at least assert that the proper number of bind vars are present.
+        Instant lowerBound1 = DateTimeHandler.generateLowerBound(Prefix.AP, v, vTime);
+        Instant upperBound1 = DateTimeHandler.generateUpperBound(Prefix.AP, v, vTime);
+        Instant lowerBound2 = DateTimeHandler.generateLowerBound(Prefix.AP, v2, vTime2);
+        Instant upperBound2 = DateTimeHandler.generateUpperBound(Prefix.AP, v2, vTime2);
+        expectedBindVariables.add(lowerBound1);
+        expectedBindVariables.add(upperBound1);
+        expectedBindVariables.add(lowerBound2);
+        expectedBindVariables.add(upperBound2);
 
         String expectedSql =
-                " AND (((Date.DATE_END >= ? AND Date.DATE_START <= ?)) OR ((Date.DATE_END >= ? AND Date.DATE_START <= ?))))";
+                "(Date.DATE_END >= ? AND Date.DATE_START <= ? OR Date.DATE_END >= ? AND Date.DATE_START <= ?)";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql, "Date", true);
@@ -269,12 +299,25 @@ public class DateParmBehaviorUtilTest {
     public void testPrecisionWithMultipleDifferentApproxUTC() throws Exception {
         String vTime = "2019-12-11T00:00:00Z";
         String vTime2 = "2019-01-11T00:00:00Z";
+        TemporalAccessor v = DateTimeHandler.parse(vTime);
+        TemporalAccessor v2 = DateTimeHandler.parse(vTime);
 
         QueryParameter queryParm = generateQueryParameter(SearchConstants.Prefix.AP, null, vTime, vTime2);
-        List<Timestamp> expectedBindVariables = new ArrayList<>();
+        List<Instant> expectedBindVariables = new ArrayList<>();
+
+        // Because approximate values are relative to "now", this is hard to test.
+        // Add some placeholder variables so we can at least assert that the proper number of bind vars are present.
+        Instant lowerBound1 = DateTimeHandler.generateLowerBound(Prefix.AP, v, vTime);
+        Instant upperBound1 = DateTimeHandler.generateUpperBound(Prefix.AP, v, vTime);
+        Instant lowerBound2 = DateTimeHandler.generateLowerBound(Prefix.AP, v2, vTime2);
+        Instant upperBound2 = DateTimeHandler.generateUpperBound(Prefix.AP, v2, vTime2);
+        expectedBindVariables.add(lowerBound1);
+        expectedBindVariables.add(upperBound1);
+        expectedBindVariables.add(lowerBound2);
+        expectedBindVariables.add(upperBound2);
 
         String expectedSql =
-                " AND (((Date.DATE_END >= ? AND Date.DATE_START <= ?)) OR ((Date.DATE_END >= ? AND Date.DATE_START <= ?))))";
+                "(Date.DATE_END >= ? AND Date.DATE_START <= ? OR Date.DATE_END >= ? AND Date.DATE_START <= ?)";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql, "Date", true);

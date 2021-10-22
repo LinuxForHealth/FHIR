@@ -36,7 +36,6 @@ import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchException;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
-import com.ibm.fhir.persistence.jdbc.JDBCConstants;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
 import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
@@ -50,7 +49,6 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
 import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
 import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
 import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCacheUpdater;
-import com.ibm.fhir.persistence.jdbc.util.SqlQueryData;
 import com.ibm.fhir.persistence.util.InputOutputByteStream;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
 
@@ -334,41 +332,6 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
     }
 
     @Override
-    public List<Resource> search(SqlQueryData queryData) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
-        final String METHODNAME = "search(SqlQueryData)";
-        log.entering(CLASSNAME, METHODNAME);
-
-        List<Resource> resources;
-        String sqlSelect = queryData.getQueryString();
-        Object[] bindVariables = queryData.getBindVariables().toArray();
-
-        try {
-            resources = this.runQuery(sqlSelect, bindVariables);
-        } finally {
-            log.exiting(CLASSNAME, METHODNAME);
-        }
-
-        return resources;
-    }
-
-    @Override
-    public int searchCount(SqlQueryData queryData) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
-        final String METHODNAME = "searchCount(SqlQueryData)";
-        log.entering(CLASSNAME, METHODNAME);
-
-        int count;
-        String sqlSelectCount = queryData.getQueryString();
-        Object[] bindVariables = queryData.getBindVariables().toArray();
-
-        try {
-            count = this.runCountQuery(sqlSelectCount, bindVariables);
-        } finally {
-            log.exiting(CLASSNAME, METHODNAME);
-        }
-        return count;
-    }
-
-    @Override
     public void setPersistenceContext(FHIRPersistenceContext context) {
         this.context = context;
     }
@@ -448,49 +411,6 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
         return parameterNameId;
     }
 
-    @Override
-    public List<Long> searchForIds(SqlQueryData queryData) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
-        final String METHODNAME = "searchForIds";
-        log.entering(CLASSNAME, METHODNAME);
-
-        List<Long> resourceIds = new ArrayList<>();
-        Connection connection = getConnection(); // do not close
-        PreparedStatement stmt = null;
-        ResultSet resultSet = null;
-        long dbCallStartTime;
-        double dbCallDuration;
-
-        try {
-            stmt = connection.prepareStatement(queryData.getQueryString());
-            // Inject arguments into the prepared stmt.
-            for (int i = 0; i < queryData.getBindVariables().size(); i++) {
-                Object object = queryData.getBindVariables().get(i);
-                if (object instanceof Timestamp) {
-                    stmt.setTimestamp(i + 1, (Timestamp) object, CalendarHelper.getCalendarForUTC());
-                } else {
-                    stmt.setObject(i + 1, object);
-                }
-            }
-            dbCallStartTime = System.nanoTime();
-            resultSet = stmt.executeQuery();
-            dbCallDuration = (System.nanoTime() - dbCallStartTime) / 1e6;
-            if (log.isLoggable(Level.FINE)) {
-                log.fine("DB search for ids complete. " + queryData + "  executionTime=" + dbCallDuration + "ms");
-            }
-            while (resultSet.next()) {
-                resourceIds.add(resultSet.getLong(1));
-            }
-        } catch (Throwable e) {
-            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure retrieving FHIR Resource Ids");
-            final String errMsg = "Failure retrieving FHIR Resource Ids. SqlQueryData=" + queryData;
-            throw severe(log, fx, errMsg, e);
-        } finally {
-            this.cleanup(resultSet, stmt);
-            log.exiting(CLASSNAME, METHODNAME);
-        }
-        return resourceIds;
-    }
-
     /**
      * Adds a resource type/ resource id pair to a candidate collection for population into the ResourceTypesCache.
      * This pair must be present as a row in the FHIR DB RESOURCE_TYPES table.
@@ -501,8 +421,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
      *            The corresponding id for the resource type.
      * @throws FHIRPersistenceException
      */
-    @Override
-    public void addResourceTypeCacheCandidate(String resourceType, Integer resourceTypeId) throws FHIRPersistenceException {
+    protected void addResourceTypeCacheCandidate(String resourceType, Integer resourceTypeId) throws FHIRPersistenceException {
         final String METHODNAME = "addResourceTypeCacheCandidate";
         log.entering(CLASSNAME, METHODNAME);
 
@@ -764,21 +683,6 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             log.exiting(CLASSNAME, METHODNAME);
         }
         return count;
-    }
-
-    @Override
-    public List<String> searchStringValues(SqlQueryData queryData)
-            throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
-        final String METHODNAME = "searchSTR_VALUES";
-        log.entering(CLASSNAME, METHODNAME);
-
-        String sqlSelect = queryData.getQueryString();
-        Object[] bindVariables = queryData.getBindVariables().toArray();
-        try {
-            return this.runQuery_STR_VALUES(sqlSelect, bindVariables);
-        } finally {
-            log.exiting(CLASSNAME, METHODNAME);
-        }
     }
 
     /**

@@ -37,8 +37,8 @@ public class NewQuantityParmBehaviorUtil {
         this.identityCache = identityCache;
     }
 
-    public void executeBehavior(WhereFragment whereClauseSegment, QueryParameter queryParm,
-            String tableAlias) throws FHIRPersistenceException {
+    public void executeBehavior(WhereFragment whereClauseSegment, QueryParameter queryParm, String tableAlias)
+            throws FHIRPersistenceException {
 
         // Process each parameter value in the query parameter
         boolean parmValueProcessed = false;

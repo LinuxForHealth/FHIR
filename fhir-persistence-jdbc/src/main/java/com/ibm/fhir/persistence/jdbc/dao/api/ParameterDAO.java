@@ -88,23 +88,4 @@ public interface ParameterDAO extends FHIRDbDAO {
      * @throws FHIRPersistenceException
      */
     int acquireCodeSystemId(String codeSystemName) throws FHIRPersistenceException;
-
-    /**
-     * Adds a code system name / code system id pair to a candidate collection for population into the CodeSystemsCache.
-     * This pair must be present as a row in the FHIR DB CODE_SYSTEMS table.
-     * @param codeSystemName A valid code system name.
-     * @param codeSystemId The id corresponding to the code system name.
-     * @throws FHIRPersistenceException
-     */
-    @Deprecated
-    void addCodeSystemsCacheCandidate(String codeSystemName, Integer codeSystemId) throws FHIRPersistenceException;
-
-    /**
-     * Adds a parameter name / parameter id pair to a candidate collection for population into the ParameterNamesCache.
-     * This pair must be present as a row in the FHIR DB PARAMETER_NAMES table.
-     * @param parameterName A valid search or sort parameter name.
-     * @param parameterId The id corresponding to the parameter name.
-     * @throws FHIRPersistenceException
-     */
-    void addParameterNamesCacheCandidate(String parameterName, Integer parameterId) throws FHIRPersistenceException;
 }

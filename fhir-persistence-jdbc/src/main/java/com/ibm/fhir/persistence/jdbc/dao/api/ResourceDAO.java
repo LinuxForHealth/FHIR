@@ -18,7 +18,6 @@ import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
 import com.ibm.fhir.persistence.jdbc.dto.Resource;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
-import com.ibm.fhir.persistence.jdbc.util.SqlQueryData;
 
 /**
  * This Data Access Object interface provides methods creating, updating, and retrieving rows in the FHIR Resource tables.
@@ -78,16 +77,6 @@ public interface ResourceDAO extends FHIRDbDAO {
             throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException;
 
     /**
-     * Executes the search contained in the passed SqlQueryData, using it's encapsulated search string and bind variables.
-     * @param queryData - Contains a search string and (optionally) bind variables.
-     * @return List<Resource> A list of FHIR Resources satisfying the passed search.
-     * @throws FHIRPersistenceDataAccessException
-     * @throws FHIRPersistenceDBConnectException
-     */
-    @Deprecated
-    List<Resource> search(SqlQueryData queryData) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException;
-
-    /**
      * Executes the search contained in the passed {@link Select}, using its encapsulated search string and bind variables.
      * @param select - Contains a search query and (optionally) bind variables.
      * @return List<Resource> A list of FHIR Resources satisfying the passed search.
@@ -95,20 +84,6 @@ public interface ResourceDAO extends FHIRDbDAO {
      * @throws FHIRPersistenceDBConnectException
      */
     List<Resource> search(Select select) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException;
-
-    /**
-     * Executes the search contained in the passed SqlQueryData, using it's encapsulated search string and bind variables.
-     * @param queryData - Contains a search string and (optionally) bind variables.
-     * @return List<String> A list of strings satisfying the passed search.
-     * @throws FHIRPersistenceDataAccessException
-     * @throws FHIRPersistenceDBConnectException
-     * @implNote This method is used within searches which have _include or _revinclude parameters
-     *           in order to return a list of Reference values (e.g. {@code "Patient/<UUID>"})
-     *           to use for filtering the list of resources to be included with the response.
-     */
-    @Deprecated
-    List<String> searchStringValues(SqlQueryData queryData) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException;
-
 
     /**
      * Executes the passed fully-formed SQL Select statement and returns the results
@@ -120,18 +95,6 @@ public interface ResourceDAO extends FHIRDbDAO {
      */
     List<Resource> search(String sqlSelect)
             throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException;
-
-    /**
-     * This method supports the execution of a specialized query designed to return Resource ids, based on the contents
-     * of the passed select statement.
-     * Note that the first column to be selected MUST be the Resource.id column.
-     * @param sqlSelect - A select for Resource ids.
-     * @return - A List of resource ids that satisfy the passed SQL query.
-     * @throws FHIRPersistenceDataAccessException
-     * @throws FHIRPersistenceDBConnectException
-     */
-    @Deprecated
-    List<Long> searchForIds(SqlQueryData  queryData) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException;
 
     /**
      * This method supports the execution of a specialized query designed to return Resource ids, based on the contents
@@ -153,16 +116,6 @@ public interface ResourceDAO extends FHIRDbDAO {
      * @throws FHIRPersistenceDBConnectException
      */
     List<Resource> searchByIds(String resourceType, List<Long> resourceIds) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException;
-
-    /**
-     * Executes a count query based on the data contained in the passed SqlQueryData, using it's encapsulated search string and bind variables.
-     * @param queryData - Contains a search string and (optionally) bind variables.
-     * @return int A count of FHIR Resources satisfying the passed search.
-     * @throws FHIRPersistenceDataAccessException
-     * @throws FHIRPersistenceDBConnectException
-     */
-    @Deprecated
-    int searchCount(SqlQueryData queryData) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException;
 
     /**
      * Executes a count query based on the data contained in the passed {@link Select} statement, using its encapsulated search string and bind variables.
@@ -215,15 +168,6 @@ public interface ResourceDAO extends FHIRDbDAO {
      * @throws FHIRPersistenceDataAccessException
      */
     Integer readResourceTypeId(String parameterName) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException;
-
-    /**
-     * Adds a resource type / resource id pair to a candidate collection for population into the ResourceTypesCache.
-     * This pair must be present as a row in the FHIR DB RESOURCE_TYPES table.
-     * @param resourceType A valid FHIR resource type.
-     * @param resourceTypeId The corresponding id for the resource type.
-     * @throws FHIRPersistenceException
-     */
-    void addResourceTypeCacheCandidate(String resourceType, Integer resourceTypeId) throws FHIRPersistenceException;
 
     /**
      * Inserts the passed Resource DTO and its associated search parameters to the appropriate FHIR resource tables.
