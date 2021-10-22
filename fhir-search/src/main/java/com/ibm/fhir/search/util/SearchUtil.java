@@ -46,6 +46,7 @@ import com.ibm.fhir.model.resource.ValueSet;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Element;
+import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.IssueSeverity;
@@ -1410,11 +1411,7 @@ public class SearchUtil {
                     // Optimization for search parameters that always reference the same system, added under #1929
                     if (!Modifier.MISSING.equals(modifier)) {
                         try {
-                            String implicitSystem = searchParameter.getExtension().stream()
-                                    .filter(e -> SearchConstants.IMPLICIT_SYSTEM_EXT_URL.equals(e.getUrl()) && e.getValue() != null)
-                                    .findFirst()
-                                    .map(e -> e.getValue().as(Uri.class).getValue())
-                                    .orElse(null);
+                            String implicitSystem = findImplicitSystem(searchParameter.getExtension());
                             if (implicitSystem != null) {
                                 parameterValue.setValueSystem(implicitSystem);
                             }
@@ -1452,6 +1449,19 @@ public class SearchUtil {
             parameterValues.add(parameterValue);
         }
         return parameterValues;
+    }
+
+    /**
+     * Look up the IBM-defined implicit system in the given list of Extensions
+     * @param extensions
+     * @return the implicit system value, or null if not found
+     */
+    public static String findImplicitSystem(List<Extension> extensions) {
+        return extensions.stream()
+                .filter(e -> SearchConstants.IMPLICIT_SYSTEM_EXT_URL.equals(e.getUrl()) && e.getValue() != null)
+                .findFirst()
+                .map(e -> e.getValue().as(Uri.class).getValue())
+                .orElse(null);
     }
 
     /**
