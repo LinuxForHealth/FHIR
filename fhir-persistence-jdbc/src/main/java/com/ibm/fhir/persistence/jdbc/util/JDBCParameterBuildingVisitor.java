@@ -83,6 +83,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
 
     public static final String EXCEPTION_MSG = "Unexpected error while processing parameter [%s] with value [%s]";
     public static final String EXCEPTION_MSG_NAME_ONLY = "Unexpected error while processing parameter [%s]";
+    private static final boolean FORCE_CASE_SENSITIVE = true;
 
     // Datetime Limits from
     // DB2: https://www.ibm.com/support/knowledgecenter/en/SSEPGG_11.5.0/com.ibm.db2.luw.sql.ref.doc/doc/r0001029.html
@@ -227,7 +228,16 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             p.setUrl(searchParamUrl);
             p.setVersion(searchParamVersion);
             String system = ModelSupport.getSystem(code);
-            setTokenValues(p, system != null ? Uri.of(system) : null, code.getValue());
+            
+            // See SearchUtil#parseQueryParameterValuesString.
+            if (system == null) {
+                // Can't find an explicit system, so see if there's an implicit one
+                // attached to the code as an (IBM-defined) extension.
+                system = SearchUtil.findImplicitSystem(code.getExtension());
+            }
+
+            // Assume Code values are always case-sensitive, regardless of system
+            setTokenValues(p, system != null ? Uri.of(system) : null, code.getValue(), FORCE_CASE_SENSITIVE);
             result.add(p);
         }
         return false;
@@ -508,7 +518,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             p.setName(searchParamCode);
             p.setUrl(searchParamUrl);
             p.setVersion(searchParamVersion);
-            setTokenValues(p, coding.getSystem(), coding.getCode().getValue());
+            setTokenValues(p, coding.getSystem(), coding.getCode().getValue(), !FORCE_CASE_SENSITIVE);
             result.add(p);
             if (coding.getDisplay() != null && coding.getDisplay().hasValue()) {
                 // Extract as token as normalized string since :text modifier is simple string search
@@ -789,7 +799,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             p.setName(searchParamCode);
             p.setUrl(searchParamUrl);
             p.setVersion(searchParamVersion);
-            setTokenValues(p, identifier.getSystem(), identifier.getValue().getValue());
+            setTokenValues(p, identifier.getSystem(), identifier.getValue().getValue(), !FORCE_CASE_SENSITIVE);
             result.add(p);
             if (identifier.getType() != null) {
                 for (Coding typeCoding : identifier.getType().getCoding()) {
@@ -807,7 +817,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
                         p.setName(SearchUtil.makeCompositeSubCode(cp.getName(), SearchConstants.OF_TYPE_MODIFIER_COMPONENT_TYPE));
                         p.setUrl(cp.getUrl());
                         p.setVersion(cp.getVersion());
-                        setTokenValues(p, typeCoding.getSystem(), typeCoding.getCode().getValue());
+                        setTokenValues(p, typeCoding.getSystem(), typeCoding.getCode().getValue(), !FORCE_CASE_SENSITIVE);
                         cp.addComponent(p);
 
                         // value
@@ -848,7 +858,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
                 p.setName(searchParamCode + SearchConstants.IDENTIFIER_MODIFIER_SUFFIX);
                 p.setUrl(searchParamUrl);
                 p.setVersion(searchParamVersion);
-                setTokenValues(p, identifier.getSystem(), identifier.getValue().getValue());
+                setTokenValues(p, identifier.getSystem(), identifier.getValue().getValue(), !FORCE_CASE_SENSITIVE);
                 result.add(p);
             }
         } catch (FHIRSearchException x) {
@@ -973,15 +983,25 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
      * Configure the system and code values in the parameter. If the system
      * is non-null, determine if it's case-sensitive. If it's non-null and
      * not case-sensitive, normalize the value.
+     * 
+     * If forceCaseSensitive is true, the registry check to determine
+     * case-sensitivity is bypassed and case-sensitive behavior is enabled.
      *
      * @param p
      * @param system
      * @param code
+     * @param forceCaseSensitive if true, bypass case-sensitivity check
      */
-    private void setTokenValues(TokenParmVal p, Uri system, String code) {
+    private void setTokenValues(TokenParmVal p, Uri system, String code, boolean forceCaseSensitive) {
         boolean caseSensitive = false;
+
         if (system != null && system.hasValue()) {
-            caseSensitive = CodeSystemSupport.isCaseSensitive(system.getValue());
+            // only consider forcing case sensitivity if we actually have a system
+            if (forceCaseSensitive) {
+                caseSensitive = true;
+            } else {
+                caseSensitive = CodeSystemSupport.isCaseSensitive(system.getValue());
+            }
             p.setValueSystem(system.getValue());
         }
         p.setValueCode(caseSensitive ? code : SearchUtil.normalizeForSearch(code));
