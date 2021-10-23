@@ -1452,7 +1452,8 @@ public class SearchUtil {
     }
 
     /**
-     * Look up the IBM-defined implicit system in the given list of Extensions
+     * Look up the http://ibm.com/fhir/extension/implicit-system extension in 
+     * the given list of Extensions
      * @param extensions
      * @return the implicit system value, or null if not found
      */
