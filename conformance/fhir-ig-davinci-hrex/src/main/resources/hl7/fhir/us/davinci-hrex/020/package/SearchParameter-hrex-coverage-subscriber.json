@@ -2,9 +2,9 @@
 	"resourceType": "SearchParameter",
 	"id": "hrex-coverage-subscriber",
 	"text": {
-		"status": "generated",
-		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><p><b>url</b>: <code>http://hl7.org/fhir/us/davinci-hrex/SearchParameter/hrex-coverage-subscriber</code></p><p><b>version</b>: 0.2.0</p><p><b>name</b>: HRexCoverageSubscriber</p><p><b>derivedFrom</b>: <a href=\"http://hl7.org/fhir/SearchParameter/Coverage-subscriber\">http://hl7.org/fhir/SearchParameter/Coverage-subscriber</a></p><p><b>status</b>: active</p><p><b>experimental</b>: false</p><p><b>date</b>: Oct 5, 2021, 6:17:41 PM</p><p><b>publisher</b>: HL7 International - Clinical Interoperability Council</p><p><b>contact</b>: <a href=\"http://www.hl7.org/Special/committees/cic\">http://www.hl7.org/Special/committees/cic</a></p><p><b>description</b>: Reference to the subscriber\n\n**NOTE**: This HRex SearchParameter definition extends the usage context of the [capabilitystatement-expectation](http://hl7.org/fhir/R4/extension-capabilitystatement-expectation.html) extension to formally express implementer expectations for these elements:\n\n* multipleAnd\n\n* multipleOr\n\n* modifier\n\n* comparator\n\n* chain</p><p><b>jurisdiction</b>: <span title=\"Codes: {urn:iso:std:iso:3166 US}\">United States of America</span></p><p><b>code</b>: subscriber</p><p><b>base</b>: Coverage</p><p><b>type</b>: reference</p><p><b>expression</b>: Coverage.subscriber</p><p><b>xpath</b>: f:Coverage/f:subscriber</p><p><b>xpathUsage</b>: normal</p><p><b>target</b>: Patient, RelatedPerson</p><p><b>multipleOr</b>: true</p><p><b>modifier</b>: text, not, type, identifier</p></div>"
-	},
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
 	"url": "http://hl7.org/fhir/us/davinci-hrex/SearchParameter/hrex-coverage-subscriber",
 	"version": "0.2.0",
 	"name": "HRexCoverageSubscriber",
