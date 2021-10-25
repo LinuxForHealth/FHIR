@@ -16,10 +16,10 @@ import com.ibm.fhir.operation.davinci.hrex.configuration.ConfigurationFactory;
 import com.ibm.fhir.operation.davinci.hrex.provider.MemberMatchFactory;
 import com.ibm.fhir.operation.davinci.hrex.provider.strategy.MemberMatchStrategy;
 import com.ibm.fhir.registry.FHIRRegistry;
-import com.ibm.fhir.server.operation.spi.AbstractOperation;
-import com.ibm.fhir.server.operation.spi.FHIROperationContext;
-import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
-import com.ibm.fhir.server.util.FHIROperationUtil;
+import com.ibm.fhir.server.spi.operation.AbstractOperation;
+import com.ibm.fhir.server.spi.operation.FHIROperationContext;
+import com.ibm.fhir.server.spi.operation.FHIROperationUtil;
+import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 
 /**
  * Implements the $MemberMatch Operation

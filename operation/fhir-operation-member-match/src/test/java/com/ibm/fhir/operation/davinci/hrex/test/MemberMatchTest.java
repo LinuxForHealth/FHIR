@@ -80,14 +80,13 @@ import com.ibm.fhir.operation.davinci.hrex.provider.strategy.MemberMatchResult.R
 import com.ibm.fhir.operation.davinci.hrex.provider.strategy.MemberMatchStrategy;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.fhir.persistence.SingleResourceResult;
+import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.payload.PayloadKey;
 import com.ibm.fhir.search.context.FHIRSearchContext;
-import com.ibm.fhir.server.operation.spi.FHIROperationContext;
-import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
-import com.ibm.fhir.server.operation.spi.FHIRRestOperationResponse;
-import com.ibm.fhir.server.util.FHIRRestHelper.Interaction;
+import com.ibm.fhir.server.spi.operation.FHIROperationContext;
+import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
+import com.ibm.fhir.server.spi.operation.FHIRRestOperationResponse;
 import com.ibm.fhir.validation.FHIRValidator;
 import com.ibm.fhir.validation.exception.FHIRValidationException;
 
@@ -298,7 +297,7 @@ public class MemberMatchTest {
 
     @Test
     public void testMemberMatchStrategy_OutputSingle() {
-        FHIROperationContext ctx = FHIROperationContext.createResourceTypeOperationContext();
+        FHIROperationContext ctx = FHIROperationContext.createResourceTypeOperationContext("member-match");
         MemberMatchResult single =
                 MemberMatchResult
                     .builder()
@@ -319,7 +318,7 @@ public class MemberMatchTest {
 
     @Test
     public void testMemberMatchStrategy_OutputSingle_NoSystem() {
-        FHIROperationContext ctx = FHIROperationContext.createResourceTypeOperationContext();
+        FHIROperationContext ctx = FHIROperationContext.createResourceTypeOperationContext("member-match");
         MemberMatchResult single =
                 MemberMatchResult
                     .builder()
@@ -339,7 +338,7 @@ public class MemberMatchTest {
 
     @Test
     public void testMemberMatchStrategy_Output_MultipleMatch() {
-        FHIROperationContext ctx = FHIROperationContext.createResourceTypeOperationContext();
+        FHIROperationContext ctx = FHIROperationContext.createResourceTypeOperationContext("member-match");
         MemberMatchResult multipleMatch =
                 MemberMatchResult
                     .builder()
@@ -360,7 +359,7 @@ public class MemberMatchTest {
 
     @Test
     public void testMemberMatchStrategy_Output_NoMatch_MultipleMatch() {
-        FHIROperationContext ctx = FHIROperationContext.createResourceTypeOperationContext();
+        FHIROperationContext ctx = FHIROperationContext.createResourceTypeOperationContext("member-match");
         MemberMatchResult noMatch =
                 MemberMatchResult
                     .builder()
@@ -1374,7 +1373,7 @@ public class MemberMatchTest {
 
     @Test
     public void testMemberMatchStrategy_Execute_NoResults() throws Exception {
-        FHIROperationContext ctx = FHIROperationContext.createResourceTypeOperationContext();
+        FHIROperationContext ctx = FHIROperationContext.createResourceTypeOperationContext("member-match");
         DefaultMemberMatchStrategy strategy = new DefaultMemberMatchStrategy();
         Parameters output = strategy.execute(ctx, generateInput(), new LocalResourceHelpers(0));
         assertNotNull(output);
@@ -1387,7 +1386,7 @@ public class MemberMatchTest {
 
     @Test
     public void testMemberMatchStrategy_Execute_TooMany() throws Exception {
-        FHIROperationContext ctx = FHIROperationContext.createResourceTypeOperationContext();
+        FHIROperationContext ctx = FHIROperationContext.createResourceTypeOperationContext("member-match");
         DefaultMemberMatchStrategy strategy = new DefaultMemberMatchStrategy();
         Parameters output = strategy.execute(ctx, generateInput(), new LocalResourceHelpers(10));
         assertNotNull(output);
@@ -1400,7 +1399,7 @@ public class MemberMatchTest {
 
     @Test
     public void testMemberMatchStrategy_Execute_Single_NoCoverage() throws Exception {
-        FHIROperationContext ctx = FHIROperationContext.createResourceTypeOperationContext();
+        FHIROperationContext ctx = FHIROperationContext.createResourceTypeOperationContext("member-match");
         DefaultMemberMatchStrategy strategy = new DefaultMemberMatchStrategy();
         Parameters output = strategy.execute(ctx, generateInput(), new LocalResourceHelpers(1, 0));
         assertNotNull(output);
@@ -1412,7 +1411,7 @@ public class MemberMatchTest {
 
     @Test
     public void testMemberMatchStrategy_Execute_Single_WithCoverage() throws Exception {
-        FHIROperationContext ctx = FHIROperationContext.createResourceTypeOperationContext();
+        FHIROperationContext ctx = FHIROperationContext.createResourceTypeOperationContext("member-match");
         DefaultMemberMatchStrategy strategy = new DefaultMemberMatchStrategy();
         Parameters output = strategy.execute(ctx, generateInput(), new LocalResourceHelpers(1, 1));
         assertNotNull(output);
@@ -1422,7 +1421,7 @@ public class MemberMatchTest {
 
     @Test(expectedExceptions = {FHIROperationException.class})
     public void testMemberMatchStrategy_Execute_Single_WithException() throws Exception {
-        FHIROperationContext ctx = FHIROperationContext.createResourceTypeOperationContext();
+        FHIROperationContext ctx = FHIROperationContext.createResourceTypeOperationContext("member-match");
         DefaultMemberMatchStrategy strategy = new DefaultMemberMatchStrategy();
         strategy.execute(ctx, generateInput(), new LocalResourceHelpers(true));
     }
@@ -1430,7 +1429,7 @@ public class MemberMatchTest {
     @Test(expectedExceptions = {FHIROperationException.class})
     public void testOperationInvokeDisabled() throws Exception {
         createContext("disabled");
-        FHIROperationContext operationContext = FHIROperationContext.createResourceTypeOperationContext();
+        FHIROperationContext operationContext = FHIROperationContext.createResourceTypeOperationContext("member-match");
         operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, "POST");
         Class<? extends Resource> resourceType = Patient.class;
         MemberMatchOperation operation = new MemberMatchOperation();
@@ -1439,7 +1438,7 @@ public class MemberMatchTest {
 
     @Test
     public void testOperationInvoke() throws Exception {
-        FHIROperationContext operationContext = FHIROperationContext.createResourceTypeOperationContext();
+        FHIROperationContext operationContext = FHIROperationContext.createResourceTypeOperationContext("member-match");
         operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, "POST");
         Class<? extends Resource> resourceType = Patient.class;
         MemberMatchOperation operation = new MemberMatchOperation();
@@ -1451,7 +1450,7 @@ public class MemberMatchTest {
 
     @Test(expectedExceptions = {FHIROperationException.class})
     public void testMemberMatchStrategy_Execute_Single_WithoutIdentifiers() throws Exception {
-        FHIROperationContext ctx = FHIROperationContext.createResourceTypeOperationContext();
+        FHIROperationContext ctx = FHIROperationContext.createResourceTypeOperationContext("member-match");
         DefaultMemberMatchStrategy strategy = new DefaultMemberMatchStrategy();
         Parameters input = generateInput();
 
@@ -1651,12 +1650,6 @@ public class MemberMatchTest {
         }
 
         @Override
-        public Resource doInvoke(FHIROperationContext operationContext, String resourceTypeName, String logicalId, String versionId, String operationName,
-            Resource resource, MultivaluedMap<String, String> queryParameters) throws Exception {
-            throw new AssertionError("Unused");
-        }
-
-        @Override
         public Bundle doBundle(Bundle bundle, boolean skippableUpdates) throws Exception {
             throw new AssertionError("Unused");
         }
@@ -1719,6 +1712,12 @@ public class MemberMatchTest {
 
         @Override
         public Future<PayloadKey> storePayload(Resource resource, String logicalId, int newVersionNumber) throws Exception {
+            throw new AssertionError("Unused");
+        }
+
+        @Override
+        public Resource doInvoke(FHIROperationContext operationContext, String resourceTypeName, String logicalId, String versionId, Resource resource,
+            MultivaluedMap<String, String> queryParameters) throws Exception {
             throw new AssertionError("Unused");
         }
     }
