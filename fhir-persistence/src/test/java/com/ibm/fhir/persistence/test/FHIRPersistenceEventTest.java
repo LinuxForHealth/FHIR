@@ -18,7 +18,7 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.test.TestUtil;
-import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
+import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
 
 /**
  * Tests associated with the FHIRPersistenceContextImpl class.

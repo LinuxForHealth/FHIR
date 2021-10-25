@@ -236,7 +236,7 @@ However, the `|[code]` variant currently behaves like the `[code]` option, match
 
 For search parameters of type token that are defined on data fields of type `ContactPoint`, the FHIR server currently uses the `ContactPoint.system` and the `ContactPoint.value` instead of the `ContactPoint.use` field as described in the specification.
 
-For search parameters of type token that are defined on data fields of type `string`, `code`, `Coding`, `CodeableConcept`, and `Identifier`, the case-sensitivity of the specified code system is used to determine how resource values are indexed and how the FHIR server performs the search. The following table describes how a resource value is indexed, based on the case-sensitivity of the code system specified in the resource value (or in the case of `code` data fields, the code system bound to the data field if the field has a required binding):
+For search parameters of type token that are defined on data fields of type `string`, `Coding`, `CodeableConcept`, and `Identifier`, the case-sensitivity of the specified code system is used to determine how resource values are indexed and how the FHIR server performs the search. The following table describes how a resource value is indexed, based on the case-sensitivity of the code system specified in the resource value:
 
 | Code System case-sensitivity setting | How resource value is indexed |
 |--------------------------------------|-------------------------------|
@@ -244,6 +244,14 @@ For search parameters of type token that are defined on data fields of type `str
 |not case-sensitive                    |Value is stored as a normalized value (case-insensitive)|
 |case sensitivity not specified        |Value is stored as a normalized value (case-insensitive)|
 |code system not specified             |Value is stored as a normalized value (case-insensitive)|
+
+For search parameters of type token that are defined on data fields of type `code`, code values which include a system value are always treated as case-sensitive, regardless of the case-sensitivity setting of the associated code system. Code values which do not include a system value are always treated as case-insensitive. This behavior is summarized in the following table:
+
+
+| Code System                          | How Code value is indexed |
+|--------------------------------------|-------------------------------|
+|code has system                       |Value is stored unmodified (case-sensitive)|
+|code does not have system             |Value is stored as a normalized value (case-insensitive)|
 
 The following table describes how the FHIR server performs a token search, based on the case-sensitivity of the code system specified in the search parameter value:
 

@@ -6,41 +6,34 @@
 
 package com.ibm.fhir.persistence.jdbc.test.util;
 
-import static org.testng.Assert.assertEquals;
+import static com.ibm.fhir.persistence.jdbc.test.util.ParmBehaviorUtilTestHelper.assertExpectedSQL;
 
 import java.math.BigDecimal;
-import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Set;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.database.utils.query.WhereFragment;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.JDBCConstants;
-import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
-import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
-import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
-import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
-import com.ibm.fhir.persistence.jdbc.util.CodeSystemsCache;
-import com.ibm.fhir.persistence.jdbc.util.type.NumberParmBehaviorUtil;
-import com.ibm.fhir.persistence.jdbc.util.type.QuantityParmBehaviorUtil;
+import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
+import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValue;
+import com.ibm.fhir.persistence.jdbc.util.type.NewNumberParmBehaviorUtil;
+import com.ibm.fhir.persistence.jdbc.util.type.NewQuantityParmBehaviorUtil;
 import com.ibm.fhir.search.SearchConstants;
-import com.ibm.fhir.search.parameters.QueryParameterValue;
 import com.ibm.fhir.search.parameters.QueryParameter;
+import com.ibm.fhir.search.parameters.QueryParameterValue;
 
 public class QuantityParmBehaviorUtilTest {
-    private static final Logger log = java.util.logging.Logger.getLogger(QuantityParmBehaviorUtilTest.class.getName());
-    private static final Level LOG_LEVEL = Level.FINE;
-
     //---------------------------------------------------------------------------------------------------------
-    // Supporting Methods: 
+    // Supporting Methods:
     @BeforeClass
     public static void before() throws FHIRException {
         FHIRRequestContext.get().setTenantId("quantity");
@@ -85,136 +78,57 @@ public class QuantityParmBehaviorUtilTest {
     }
 
     private void runTest(QueryParameter queryParm, List<Object> expectedBindVariables, String expectedSql,
-            String tableAlias, boolean sendNull)
-            throws Exception {
-        StringBuilder actualWhereClauseSegment = new StringBuilder();
-        List<Object> actualBindVariables = new ArrayList<>();
-
-        QuantityParmBehaviorUtil behavior = new QuantityParmBehaviorUtil();
-        behavior.executeBehavior(actualWhereClauseSegment, queryParm, actualBindVariables,
-                tableAlias, generateDao(sendNull));
-
-        if (log.isLoggable(LOG_LEVEL)) {
-            log.info("whereClauseSegment -> " + actualWhereClauseSegment.toString());
-            log.info("bind variables -> " + actualBindVariables);
-        }
-        assertEquals(actualWhereClauseSegment.toString(), expectedSql);
-
-        for (Object o : expectedBindVariables) {
-            actualBindVariables.remove(o);
-        }
-
-        if (log.isLoggable(LOG_LEVEL)) {
-            log.info("leftover - bind variables -> " + actualBindVariables);
-        }
-        assertEquals(actualBindVariables.size(), 0);
-
+            String tableAlias, boolean sendNull) throws Exception {
+        WhereFragment actualWhereClauseSegment = new WhereFragment();
+        NewQuantityParmBehaviorUtil behavior = new NewQuantityParmBehaviorUtil(mockIdCache(sendNull));
+        behavior.executeBehavior(actualWhereClauseSegment, queryParm, tableAlias);
+        assertExpectedSQL(actualWhereClauseSegment, expectedSql, expectedBindVariables);
     }
 
-    /*
-     * checks the generated sql
-     */
+    // the new query builder cannot generate a where fragment that starts with AND
+    // and so this adds a dummy "1 = 1" to the lhs of the expression to make it valid
     public void runSystemTest(boolean sendNull, String system, List<Object> expectedBindVariables, String expectedSql)
             throws FHIRPersistenceException {
-        ParameterDAO parameterDao = generateDao(sendNull);
-        StringBuilder actualWhereClauseSegment = new StringBuilder();
+        JDBCIdentityCache idCache = mockIdCache(sendNull);
+        WhereFragment actualWhereClauseSegment = new WhereFragment().literal(1).eq().literal(1);
         String tableAlias = "BASIC";
-        List<Object> actualBindVariables = new ArrayList<>();
 
-        QuantityParmBehaviorUtil behavior = new QuantityParmBehaviorUtil();
-        behavior.addSystemIfPresent(parameterDao, actualWhereClauseSegment, tableAlias, actualBindVariables, system);
-
-        log.fine("whereClauseSegment -> " + actualWhereClauseSegment.toString());
-        log.fine("bind variables -> " + actualBindVariables);
-
-        assertEquals(actualWhereClauseSegment.toString(), expectedSql);
-
-        for (Object o : expectedBindVariables) {
-            actualBindVariables.remove(o);
-        }
-
-        if (log.isLoggable(LOG_LEVEL)) {
-            log.info("leftover - bind variables -> " + actualBindVariables);
-        }
-        assertEquals(actualBindVariables.size(), 0);
+        NewQuantityParmBehaviorUtil behavior = new NewQuantityParmBehaviorUtil(idCache);
+        behavior.addSystemIfPresent(actualWhereClauseSegment, tableAlias, system);
+        assertExpectedSQL(actualWhereClauseSegment, "1 = 1" + expectedSql, expectedBindVariables);
     }
 
-    /*
-     * checks the generated sql
-     */
+    // the new query builder cannot generate a where fragment that starts with AND
+    // and so this adds a dummy "1 = 1" to the lhs of the expression to make it valid
     public void runCodeTest(String code, List<Object> expectedBindVariables, String expectedSql)
             throws FHIRPersistenceException {
-        StringBuilder actualWhereClauseSegment = new StringBuilder();
+        WhereFragment actualWhereClauseSegment = new WhereFragment().literal(1).eq().literal(1);
         String tableAlias = "BASIC";
-        List<Object> actualBindVariables = new ArrayList<>();
 
-        QuantityParmBehaviorUtil behavior = new QuantityParmBehaviorUtil();
-        behavior.addCodeIfPresent(actualWhereClauseSegment, tableAlias, actualBindVariables, code);
-
-        if (log.isLoggable(LOG_LEVEL)) {
-            log.info("whereClauseSegment -> " + actualWhereClauseSegment.toString());
-            log.info("bind variables -> " + actualBindVariables);
-        }
-        assertEquals(actualWhereClauseSegment.toString(), expectedSql);
-
-        for (Object o : expectedBindVariables) {
-            actualBindVariables.remove(o);
-        }
-
-        if (log.isLoggable(LOG_LEVEL)) {
-            log.info("leftover - bind variables -> " + actualBindVariables);
-        }
-        assertEquals(actualBindVariables.size(), 0);
+        NewQuantityParmBehaviorUtil behavior = new NewQuantityParmBehaviorUtil(mockIdCache(true));
+        behavior.addCodeIfPresent(actualWhereClauseSegment, tableAlias, code);
+        assertExpectedSQL(actualWhereClauseSegment, "1 = 1" + expectedSql, expectedBindVariables);
     }
 
-    //------------------------------------------------------------------
-    // To enable mock replacement the method generateDao is here 
-    private ParameterDAO generateDao(boolean sendNull) {
-        return new ParameterDAO() {
-
+    /**
+     * Create and return a mock {@link JDBCIdentityCache}
+     * @param sendNull
+     * @return
+     */
+    private JDBCIdentityCache mockIdCache(boolean sendNull) {
+        return new JDBCIdentityCache() {
             @Override
-            public Connection getConnection() throws FHIRPersistenceDBConnectException {
+            public Integer getResourceTypeId(String resourceType) throws FHIRPersistenceException {
                 return null;
             }
 
             @Override
-            public boolean isDb2Database() {
-                return false;
-            }
-
-            @Override
-            public Map<String, Integer> readAllSearchParameterNames()
-                    throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
+            public String getResourceTypeName(Integer resourceTypeId) throws FHIRPersistenceException {
                 return null;
             }
 
             @Override
-            public Map<String, Integer> readAllCodeSystems()
-                    throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
-                return null;
-            }
-
-            @Override
-            public int readOrAddParameterNameId(String parameterName)
-                    throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
-                return 0;
-            }
-
-            @Override
-            public Integer readParameterNameId(String parameterName)
-                    throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
-                return null;
-            }
-
-            @Override
-            public int readOrAddCodeSystemId(String systemName)
-                    throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
-                return 0;
-            }
-
-            @Override
-            public Integer readCodeSystemId(String systemName)
-                    throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
+            public Integer getCodeSystemId(String codeSystem) throws FHIRPersistenceException {
                 if (sendNull) {
                     return null;
                 }
@@ -222,40 +136,42 @@ public class QuantityParmBehaviorUtilTest {
             }
 
             @Override
-            public int acquireParameterNameId(String parameterName) throws FHIRPersistenceException {
+            public Integer getCanonicalId(String canonicalValue) throws FHIRPersistenceException {
+                return null;
+            }
+
+            @Override
+            public Integer getParameterNameId(String parameterName) throws FHIRPersistenceException {
                 return 0;
             }
 
             @Override
-            public int acquireCodeSystemId(String codeSystemName) throws FHIRPersistenceException {
-                return 0;
+            public Long getCommonTokenValueId(String codeSystem, String tokenValue) {
+                return 0l;
             }
 
             @Override
-            public void addCodeSystemsCacheCandidate(String codeSystemName, Integer codeSystemId)
-                    throws FHIRPersistenceException {
-                // do nothing
+            public Set<Long> getCommonTokenValueIds(Collection<CommonTokenValue> tokenValues) {
+                return null;
             }
 
             @Override
-            public void addParameterNamesCacheCandidate(String parameterName, Integer parameterId)
-                    throws FHIRPersistenceException {
-                // do nothing
+            public List<Long> getCommonTokenValueIdList(String tokenValue) {
+                return null;
             }
 
             @Override
-            public FHIRDbFlavor getFlavor() {
-                // do nothing
+            public List<String> getResourceTypeNames() throws FHIRPersistenceException {
+                return null;
+            }
+
+            @Override
+            public List<Integer> getResourceTypeIds() throws FHIRPersistenceException {
                 return null;
             }
         };
     }
-
     //---------------------------------------------------------------------------------------------------------
-    @Test
-    public void testPrecisionWithExact() throws Exception {
-
-    }
 
     @Test
     public void testAddSystemIfPresent() throws FHIRPersistenceException {
@@ -297,9 +213,8 @@ public class QuantityParmBehaviorUtilTest {
 
     @Test
     public void testAddSystemIfPresentWithNonNullCache() throws FHIRPersistenceException {
-        CodeSystemsCache.putCodeSystemId("quantity~default", "system-example-quantity", 1);
         String expectedSql = " AND BASIC.CODE_SYSTEM_ID = ?";
-        boolean sendNull = true;
+        boolean sendNull = false;
         String system = "system-example-quantity";
         List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(1);
@@ -341,9 +256,9 @@ public class QuantityParmBehaviorUtilTest {
         expectedBindVariables.add(1);
         expectedBindVariables.add("code");
         String expectedSql =
-                " AND (((Basic.QUANTITY_VALUE_HIGH > ? OR Basic.QUANTITY_VALUE_LOW > ? "
+                "((Basic.QUANTITY_VALUE_HIGH > ? OR Basic.QUANTITY_VALUE_LOW > ? "
                 + "OR Basic.QUANTITY_VALUE IS NOT NULL AND Basic.QUANTITY_VALUE_HIGH IS NULL) "
-                + "AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)))";
+                + "AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql, false);
@@ -356,9 +271,9 @@ public class QuantityParmBehaviorUtilTest {
         expectedBindVariables.add(1);
         expectedBindVariables.add("code");
         expectedSql =
-                " AND (((Basic.QUANTITY_VALUE_LOW < ? OR Basic.QUANTITY_VALUE_HIGH < ? "
+                "((Basic.QUANTITY_VALUE_LOW < ? OR Basic.QUANTITY_VALUE_HIGH < ? "
                 + "OR Basic.QUANTITY_VALUE IS NOT NULL AND Basic.QUANTITY_VALUE_LOW IS NULL) "
-                + "AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)))";
+                + "AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql, false);
@@ -371,9 +286,9 @@ public class QuantityParmBehaviorUtilTest {
         expectedBindVariables.add(1);
         expectedBindVariables.add("code");
         expectedSql =
-                " AND (((Basic.QUANTITY_VALUE_HIGH > ? OR Basic.QUANTITY_VALUE_LOW >= ? "
+                "((Basic.QUANTITY_VALUE_HIGH > ? OR Basic.QUANTITY_VALUE_LOW >= ? "
                 + "OR Basic.QUANTITY_VALUE IS NOT NULL AND Basic.QUANTITY_VALUE_HIGH IS NULL) "
-                + "AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)))";
+                + "AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql, false);
@@ -386,9 +301,9 @@ public class QuantityParmBehaviorUtilTest {
         expectedBindVariables.add(1);
         expectedBindVariables.add("code");
         expectedSql =
-                " AND (((Basic.QUANTITY_VALUE_LOW < ? OR Basic.QUANTITY_VALUE_HIGH <= ? "
+                "((Basic.QUANTITY_VALUE_LOW < ? OR Basic.QUANTITY_VALUE_HIGH <= ? "
                 + "OR Basic.QUANTITY_VALUE IS NOT NULL AND Basic.QUANTITY_VALUE_LOW IS NULL) "
-                + "AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)))";
+                + "AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql, false);
@@ -400,7 +315,7 @@ public class QuantityParmBehaviorUtilTest {
         expectedBindVariables.add(1);
         expectedBindVariables.add("code");
         expectedSql =
-                " AND ((Basic.QUANTITY_VALUE_LOW > ? AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)))";
+                "(Basic.QUANTITY_VALUE_LOW > ? AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql, false);
@@ -412,7 +327,7 @@ public class QuantityParmBehaviorUtilTest {
         expectedBindVariables.add(1);
         expectedBindVariables.add("code");
         expectedSql =
-                " AND ((Basic.QUANTITY_VALUE_HIGH < ? AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)))";
+                "(Basic.QUANTITY_VALUE_HIGH < ? AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql, false);
@@ -421,7 +336,7 @@ public class QuantityParmBehaviorUtilTest {
     @Test
     public void testPrecisionWithEqual() throws Exception {
         // in this case, our code if missing Prefix, it injects EQ.
-        // therefore this test case tests two conditions 
+        // therefore this test case tests two conditions
         // Condition:
         //  [parameter]=100
         //  [parameter]=eq100
@@ -432,8 +347,8 @@ public class QuantityParmBehaviorUtilTest {
         expectedBindVariables.add(new BigDecimal(100.5));
         expectedBindVariables.add(1);
         expectedBindVariables.add("code");
-        String expectedSql = " AND (((Basic.QUANTITY_VALUE_LOW >= ? AND Basic.QUANTITY_VALUE_HIGH <= ?) "
-                + "AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)))";
+        String expectedSql = "((Basic.QUANTITY_VALUE_LOW >= ? AND Basic.QUANTITY_VALUE_HIGH <= ?) "
+                + "AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql, false);
@@ -442,7 +357,7 @@ public class QuantityParmBehaviorUtilTest {
     @Test
     public void testPrecisionWithMultipleValuesForEqual() throws Exception {
         // in this case, our code if missing Prefix, it injects EQ.
-        // therefore this test case tests two conditions 
+        // therefore this test case tests two conditions
         // Condition:
         //  [parameter]=100,1.00
         //  [parameter]=eq100,1.00
@@ -450,7 +365,7 @@ public class QuantityParmBehaviorUtilTest {
         /*
          * We want this SQL generated which appropriately conditions the multiple values
          * together.
-         * 
+         *
          * <pre>
          * AND (
          * (
@@ -497,15 +412,15 @@ public class QuantityParmBehaviorUtilTest {
         expectedBindVariables.add(1);
         expectedBindVariables.add("code");
 
-        String expectedSql = " AND (((Basic.QUANTITY_VALUE_LOW >= ? AND Basic.QUANTITY_VALUE_HIGH <= ?) AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?) "
-                + "OR ((Basic.QUANTITY_VALUE_LOW >= ? AND Basic.QUANTITY_VALUE_HIGH <= ?) AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)))";
+        String expectedSql = "((Basic.QUANTITY_VALUE_LOW >= ? AND Basic.QUANTITY_VALUE_HIGH <= ?) AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?) "
+                + "OR ((Basic.QUANTITY_VALUE_LOW >= ? AND Basic.QUANTITY_VALUE_HIGH <= ?) AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql, false);
     }
 
     /*
-     * we want to make sure the equalclause is well balanced
+     * we want to make sure the equals clause is well balanced
      * <pre>
      * (
      * (
@@ -521,16 +436,19 @@ public class QuantityParmBehaviorUtilTest {
      */
     @Test
     public void testEqualsClauseBuilder() {
-        StringBuilder whereClauseSegment = new StringBuilder();
-        List<Object> bindVariables = new ArrayList<>();
+        WhereFragment whereClauseSegment = new WhereFragment();
         String tableAlias = "Basic";
         BigDecimal lowerBound = new BigDecimal("1");
         BigDecimal upperBound = new BigDecimal("2");
-        NumberParmBehaviorUtil.buildEqualsRangeClause(whereClauseSegment, bindVariables, tableAlias, JDBCConstants.QUANTITY_VALUE,
-                lowerBound, upperBound);
 
-        assertEquals(whereClauseSegment.toString(),
-                "(Basic.QUANTITY_VALUE_LOW >= ? AND Basic.QUANTITY_VALUE_HIGH <= ?)");
+        String expectedSql = "(Basic.QUANTITY_VALUE_LOW >= ? AND Basic.QUANTITY_VALUE_HIGH <= ?)";
+        List<Object> expectedBindVariables = new ArrayList<>();
+        expectedBindVariables.add(lowerBound);
+        expectedBindVariables.add(upperBound);
+
+        NewNumberParmBehaviorUtil.buildEqualsRangeClause(whereClauseSegment, tableAlias, JDBCConstants.QUANTITY_VALUE,
+                lowerBound, upperBound);
+        assertExpectedSQL(whereClauseSegment, expectedSql, expectedBindVariables);
     }
 
     @Test
@@ -545,8 +463,8 @@ public class QuantityParmBehaviorUtilTest {
         expectedBindVariables.add(1);
         expectedBindVariables.add("code");
 
-        String expectedSql = " AND (((Basic.QUANTITY_VALUE_LOW < ? OR Basic.QUANTITY_VALUE_LOW IS NULL "
-                + "OR Basic.QUANTITY_VALUE_HIGH > ? OR Basic.QUANTITY_VALUE_HIGH IS NULL) AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)))";
+        String expectedSql = "((Basic.QUANTITY_VALUE_LOW < ? OR Basic.QUANTITY_VALUE_LOW IS NULL "
+                + "OR Basic.QUANTITY_VALUE_HIGH > ? OR Basic.QUANTITY_VALUE_HIGH IS NULL) AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql, false);
@@ -570,11 +488,11 @@ public class QuantityParmBehaviorUtilTest {
         expectedBindVariables.add(1);
         expectedBindVariables.add("code");
 
-        String expectedSql = " AND (((Basic.QUANTITY_VALUE_HIGH >= ? AND Basic.QUANTITY_VALUE_LOW <= ? "
+        String expectedSql = "((Basic.QUANTITY_VALUE_HIGH >= ? AND Basic.QUANTITY_VALUE_LOW <= ? "
                 + "OR Basic.QUANTITY_VALUE IS NULL AND (Basic.QUANTITY_VALUE_HIGH >= ? AND Basic.QUANTITY_VALUE_HIGH <= ? "
                 + "OR Basic.QUANTITY_VALUE_LOW >= ? AND Basic.QUANTITY_VALUE_LOW <= ?) "
                 + "OR Basic.QUANTITY_VALUE IS NOT NULL AND (Basic.QUANTITY_VALUE_HIGH >= ? AND Basic.QUANTITY_VALUE_LOW IS NULL "
-                + "OR Basic.QUANTITY_VALUE_LOW <= ? AND Basic.QUANTITY_VALUE_HIGH IS NULL)) AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)))";
+                + "OR Basic.QUANTITY_VALUE_LOW <= ? AND Basic.QUANTITY_VALUE_HIGH IS NULL)) AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql, false);
@@ -598,11 +516,11 @@ public class QuantityParmBehaviorUtilTest {
         expectedBindVariables.add(1);
         expectedBindVariables.add("code");
 
-        String expectedSql = " AND (((Basic.QUANTITY_VALUE_HIGH >= ? AND Basic.QUANTITY_VALUE_LOW <= ? "
+        String expectedSql = "((Basic.QUANTITY_VALUE_HIGH >= ? AND Basic.QUANTITY_VALUE_LOW <= ? "
                 + "OR Basic.QUANTITY_VALUE IS NULL AND (Basic.QUANTITY_VALUE_HIGH >= ? AND Basic.QUANTITY_VALUE_HIGH <= ? "
                 + "OR Basic.QUANTITY_VALUE_LOW >= ? AND Basic.QUANTITY_VALUE_LOW <= ?) "
                 + "OR Basic.QUANTITY_VALUE IS NOT NULL AND (Basic.QUANTITY_VALUE_HIGH >= ? AND Basic.QUANTITY_VALUE_LOW IS NULL "
-                + "OR Basic.QUANTITY_VALUE_LOW <= ? AND Basic.QUANTITY_VALUE_HIGH IS NULL)) AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)))";
+                + "OR Basic.QUANTITY_VALUE_LOW <= ? AND Basic.QUANTITY_VALUE_HIGH IS NULL)) AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql, false);
@@ -626,11 +544,11 @@ public class QuantityParmBehaviorUtilTest {
         expectedBindVariables.add(new BigDecimal(110.5));
         expectedBindVariables.add(1);
         expectedBindVariables.add("code");
-        String expectedSql = " AND (((Basic.QUANTITY_VALUE_HIGH >= ? AND Basic.QUANTITY_VALUE_LOW <= ? "
+        String expectedSql = "((Basic.QUANTITY_VALUE_HIGH >= ? AND Basic.QUANTITY_VALUE_LOW <= ? "
                 + "OR Basic.QUANTITY_VALUE IS NULL AND (Basic.QUANTITY_VALUE_HIGH >= ? AND Basic.QUANTITY_VALUE_HIGH <= ? "
                 + "OR Basic.QUANTITY_VALUE_LOW >= ? AND Basic.QUANTITY_VALUE_LOW <= ?) "
                 + "OR Basic.QUANTITY_VALUE IS NOT NULL AND (Basic.QUANTITY_VALUE_HIGH >= ? AND Basic.QUANTITY_VALUE_LOW IS NULL "
-                + "OR Basic.QUANTITY_VALUE_LOW <= ? AND Basic.QUANTITY_VALUE_HIGH IS NULL)) AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)))";
+                + "OR Basic.QUANTITY_VALUE_LOW <= ? AND Basic.QUANTITY_VALUE_HIGH IS NULL)) AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql, false);
@@ -667,7 +585,7 @@ public class QuantityParmBehaviorUtilTest {
         expectedBindVariables.add(new BigDecimal("110.005"));
         expectedBindVariables.add(1);
         expectedBindVariables.add("code");
-        String expectedSql = " AND (((Basic.QUANTITY_VALUE_HIGH >= ? AND Basic.QUANTITY_VALUE_LOW <= ? "
+        String expectedSql = "((Basic.QUANTITY_VALUE_HIGH >= ? AND Basic.QUANTITY_VALUE_LOW <= ? "
                 + "OR Basic.QUANTITY_VALUE IS NULL AND (Basic.QUANTITY_VALUE_HIGH >= ? AND Basic.QUANTITY_VALUE_HIGH <= ? "
                 + "OR Basic.QUANTITY_VALUE_LOW >= ? AND Basic.QUANTITY_VALUE_LOW <= ?) "
                 + "OR Basic.QUANTITY_VALUE IS NOT NULL AND (Basic.QUANTITY_VALUE_HIGH >= ? AND Basic.QUANTITY_VALUE_LOW IS NULL "
@@ -676,7 +594,7 @@ public class QuantityParmBehaviorUtilTest {
                 + "OR Basic.QUANTITY_VALUE IS NULL AND (Basic.QUANTITY_VALUE_HIGH >= ? AND Basic.QUANTITY_VALUE_HIGH <= ? "
                 + "OR Basic.QUANTITY_VALUE_LOW >= ? AND Basic.QUANTITY_VALUE_LOW <= ?) "
                 + "OR Basic.QUANTITY_VALUE IS NOT NULL AND (Basic.QUANTITY_VALUE_HIGH >= ? AND Basic.QUANTITY_VALUE_LOW IS NULL "
-                + "OR Basic.QUANTITY_VALUE_LOW <= ? AND Basic.QUANTITY_VALUE_HIGH IS NULL)) AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)))";
+                + "OR Basic.QUANTITY_VALUE_LOW <= ? AND Basic.QUANTITY_VALUE_HIGH IS NULL)) AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql, false);

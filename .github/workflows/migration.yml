@@ -33,10 +33,12 @@ jobs:
           cd fhir/
           git fetch --no-tags --prune --depth=1 origin +refs/heads/${BASE}:refs/remotes/origin/${BASE}
 
-      - name: Setup java
-        uses: joschi/setup-jdk@v2.3.0
+      - name: Set up java
+        uses: actions/setup-java@v2.3.1
         with:
-          java-version: 11
+          distribution: 'temurin'
+          java-version: '11'
+          cache: 'maven'
 
       - name: Gather the environment details
         if: always()

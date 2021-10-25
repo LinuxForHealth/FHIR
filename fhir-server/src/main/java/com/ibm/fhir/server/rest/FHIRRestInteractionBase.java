@@ -3,14 +3,13 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
- 
+
 package com.ibm.fhir.server.rest;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
-import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.fhir.server.util.FHIRUrlParser;
 
 /**
@@ -18,10 +17,10 @@ import com.ibm.fhir.server.util.FHIRUrlParser;
  * common functions
  */
 public abstract class FHIRRestInteractionBase implements FHIRRestInteraction {
-    
+
     // The index of the entry related to this operation in the original bundle
     private final int entryIndex;
-    
+
     // Description of the request for logging
     private final String requestDescription;
 
@@ -33,16 +32,18 @@ public abstract class FHIRRestInteractionBase implements FHIRRestInteraction {
 
     // Any warnings collected when processing this entry
     private final List<Issue> warnings;
-    
+
     /**
      * Protected constructor
+     *
      * @param entryIndex
      * @param event
      * @param requestDescription
      * @param requestURL
      * @param initialTime
      */
-    protected FHIRRestInteractionBase(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long initialTime) {
+    protected FHIRRestInteractionBase(int entryIndex, String requestDescription, FHIRUrlParser requestURL,
+            long initialTime) {
         this.entryIndex = entryIndex;
         this.requestDescription = requestDescription;
         this.requestURL = requestURL;

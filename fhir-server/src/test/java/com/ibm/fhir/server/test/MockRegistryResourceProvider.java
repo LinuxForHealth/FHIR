@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -115,6 +115,29 @@ public class MockRegistryResourceProvider implements FHIRRegistryResourceProvide
         }
     };
 
+    StructureDefinition profile5sd = StructureDefinition.builder()
+            .url(Uri.of("profile5"))
+            .name(com.ibm.fhir.model.type.String.of("profile5"))
+            .status(PublicationStatus.ACTIVE)
+            .kind(StructureDefinitionKind.RESOURCE)
+            ._abstract(com.ibm.fhir.model.type.Boolean.FALSE)
+            .type(Uri.of("Patient"))
+            .derivation(TypeDerivationRule.CONSTRAINT)
+            .build();
+
+    FHIRRegistryResource profile5 = new FHIRRegistryResource(
+        StructureDefinition.class,
+        profile5sd.getId(),
+        profile5sd.getUrl().getValue(),
+        Version.from("1"),
+        profile5sd.getKind().getValue(),
+        profile5sd.getType().getValue()) {
+        @Override
+        public Resource getResource() {
+            return profile5sd;
+        }
+    };
+
     /**
      * Get the registry resource from this provider for the given resource type, url and version
      *
@@ -139,6 +162,8 @@ public class MockRegistryResourceProvider implements FHIRRegistryResourceProvide
             return profile3;
         } else if (url.equals("profile4")) {
             return profile4;
+        } else if (url.equals("profile5")) {
+            return profile5;
         } else {
             return null;
         }

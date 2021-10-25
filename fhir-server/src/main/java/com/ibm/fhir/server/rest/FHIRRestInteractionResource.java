@@ -3,21 +3,21 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
- 
+
 package com.ibm.fhir.server.rest;
 
 import com.ibm.fhir.model.resource.Bundle.Entry;
-import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
 import com.ibm.fhir.server.util.FHIRUrlParser;
 
 /**
  * Base for resource-oriented {@link FHIRRestInteraction} implementations which include a validationResponseEntry.
  */
 public abstract class FHIRRestInteractionResource extends FHIRRestInteractionBase {
-    
+
     private final Entry validationResponseEntry;
-    
+
     // The event dispatched at various points while processing this interaction
     private final FHIRPersistenceEvent event;
 
@@ -29,6 +29,7 @@ public abstract class FHIRRestInteractionResource extends FHIRRestInteractionBas
 
     /**
      * Protected constructor
+     *
      * @param entryIndex
      * @param event
      * @param newResource
@@ -37,7 +38,8 @@ public abstract class FHIRRestInteractionResource extends FHIRRestInteractionBas
      * @param requestURL
      * @param initialTime
      */
-    protected FHIRRestInteractionResource(int entryIndex, FHIRPersistenceEvent event, Resource newResource, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime) {
+    protected FHIRRestInteractionResource(int entryIndex, FHIRPersistenceEvent event, Resource newResource,
+            Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime) {
         super(entryIndex, requestDescription, requestURL, initialTime);
         this.event = event;
         this.newResource = newResource;
@@ -50,7 +52,7 @@ public abstract class FHIRRestInteractionResource extends FHIRRestInteractionBas
     public Entry getValidationResponseEntry() {
         return validationResponseEntry;
     }
-    
+
     /**
      * Setter for updatedResource
      * @param resource
@@ -66,7 +68,7 @@ public abstract class FHIRRestInteractionResource extends FHIRRestInteractionBas
     public Resource getNewResource() {
         return newResource;
     }
-    
+
     /**
      * Setter for prevResource
      * @param prevResource
@@ -74,7 +76,7 @@ public abstract class FHIRRestInteractionResource extends FHIRRestInteractionBas
     public void setPrevResource(Resource prevResource) {
         this.prevResource = prevResource;
     }
-    
+
     /**
      * Get the previous resource
      * @return

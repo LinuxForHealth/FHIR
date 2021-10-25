@@ -31,7 +31,7 @@ public class FHIRConfiguration {
     public static final String PROPERTY_DEFAULT_HANDLING = "fhirServer/core/defaultHandling";
     public static final String PROPERTY_ALLOW_CLIENT_HANDLING_PREF = "fhirServer/core/allowClientHandlingPref";
     public static final String PROPERTY_CHECK_REFERENCE_TYPES = "fhirServer/core/checkReferenceTypes";
-    public static final String PROPERTY_CHECK_UNICODE_CONTROL = "fhirServer/core/checkUnicodeControl";
+    public static final String PROPERTY_CHECK_CONTROL_CHARS = "fhirServer/core/checkControlCharacters";
     public static final String PROPERTY_CONDITIONAL_DELETE_MAX_NUMBER = "fhirServer/core/conditionalDeleteMaxNumber";
     public static final String PROPERTY_SERVER_REGISTRY_RESOURCE_PROVIDER_ENABLED = "fhirServer/core/serverRegistryResourceProviderEnabled";
     public static final String PROPERTY_SERVER_RESOLVE_FUNCTION_ENABLED = "fhirServer/core/serverResolveFunctionEnabled";
@@ -62,6 +62,8 @@ public class FHIRConfiguration {
     public static final String PROPERTY_FIELD_RESOURCES_SEARCH_PARAMETER_COMBINATIONS = "searchParameterCombinations";
     public static final String PROPERTY_FIELD_RESOURCES_PROFILES = "profiles";
     public static final String PROPERTY_FIELD_RESOURCES_PROFILES_AT_LEAST_ONE = "atLeastOne";
+    public static final String PROPERTY_FIELD_RESOURCES_PROFILES_NOT_ALLOWED = "notAllowed";
+    public static final String PROPERTY_FIELD_RESOURCES_PROFILES_ALLOW_UNKNOWN = "allowUnknown";
 
     // Auth and security properties
     public static final String PROPERTY_SECURITY_CORS = "fhirServer/security/cors";
@@ -126,8 +128,6 @@ public class FHIRConfiguration {
     // Search config properties
     public static final String PROPERTY_SEARCH_BOUNDING_AREA_RADIUS_TYPE = "fhirServer/search/useBoundingRadius";
     public static final String PROPERTY_USE_STORED_COMPARTMENT_PARAM = "fhirServer/search/useStoredCompartmentParam";
-    @Deprecated
-    public static final String PROPERTY_SEARCH_ENABLE_OPT_QUERY_BUILDER = "fhirServer/search/enableOptQueryBuilder";
 
     public static final String PROPERTY_SEARCH_ENABLE_LEGACY_WHOLE_SYSTEM_SEARCH_PARAMS = "fhirServer/search/enableLegacyWholeSystemSearchParams";
 

@@ -20,10 +20,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.common.CalendarHelper;
 import com.ibm.fhir.persistence.ResourceChangeLogRecord;
 import com.ibm.fhir.persistence.ResourceChangeLogRecord.ChangeType;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.jdbc.util.CalendarHelper;
 
 /**
  * Simple DAO to read records from the RESOURCE_CHANGE_LOG table

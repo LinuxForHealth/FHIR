@@ -46,8 +46,8 @@ import com.ibm.fhir.model.type.PositiveInt;
 import com.ibm.fhir.operation.bulkdata.OperationConstants;
 import com.ibm.fhir.operation.bulkdata.OperationConstants.ExportType;
 import com.ibm.fhir.operation.bulkdata.model.PollingLocationResponse;
-import com.ibm.fhir.server.operation.spi.FHIROperationContext;
-import com.ibm.fhir.server.operation.spi.FHIROperationContext.Type;
+import com.ibm.fhir.server.spi.operation.FHIROperationContext;
+import com.ibm.fhir.server.spi.operation.FHIROperationContext.Type;
 
 /**
  * Test Export util

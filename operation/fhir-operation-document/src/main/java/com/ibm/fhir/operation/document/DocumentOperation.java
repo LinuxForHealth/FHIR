@@ -31,11 +31,11 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.registry.FHIRRegistry;
-import com.ibm.fhir.server.operation.spi.AbstractOperation;
-import com.ibm.fhir.server.operation.spi.FHIROperationContext;
-import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
-import com.ibm.fhir.server.operation.spi.FHIRRestOperationResponse;
-import com.ibm.fhir.server.util.FHIROperationUtil;
+import com.ibm.fhir.server.spi.operation.AbstractOperation;
+import com.ibm.fhir.server.spi.operation.FHIROperationContext;
+import com.ibm.fhir.server.spi.operation.FHIROperationUtil;
+import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
+import com.ibm.fhir.server.spi.operation.FHIRRestOperationResponse;
 
 public class DocumentOperation extends AbstractOperation {
     @Override

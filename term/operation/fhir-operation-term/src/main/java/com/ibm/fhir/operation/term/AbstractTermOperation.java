@@ -20,9 +20,9 @@ import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.registry.FHIRRegistry;
-import com.ibm.fhir.server.operation.spi.AbstractOperation;
-import com.ibm.fhir.server.operation.spi.FHIROperationContext;
-import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
+import com.ibm.fhir.server.spi.operation.AbstractOperation;
+import com.ibm.fhir.server.spi.operation.FHIROperationContext;
+import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 import com.ibm.fhir.term.service.FHIRTermService;
 
 public abstract class AbstractTermOperation extends AbstractOperation {

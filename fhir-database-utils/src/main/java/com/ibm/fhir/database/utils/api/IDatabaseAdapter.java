@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.function.Supplier;
 
+import com.ibm.fhir.database.utils.model.CheckConstraint;
 import com.ibm.fhir.database.utils.model.ColumnBase;
 import com.ibm.fhir.database.utils.model.IdentityDef;
 import com.ibm.fhir.database.utils.model.OrderedColumnDef;
@@ -76,9 +77,10 @@ public interface IDatabaseAdapter {
      * @param identity
      * @param tablespaceName
      * @param withs
+     * @param checkConstraints
      */
     public void createTable(String schemaName, String name, String tenantColumnName, List<ColumnBase> columns,
-            PrimaryKeyDef primaryKey, IdentityDef identity, String tablespaceName, List<With> withs);
+            PrimaryKeyDef primaryKey, IdentityDef identity, String tablespaceName, List<With> withs, List<CheckConstraint> checkConstraints);
 
     /**
      * Add a new column to an existing table

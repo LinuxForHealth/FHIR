@@ -32,7 +32,7 @@ import com.ibm.fhir.operation.bulkdata.model.PollingLocationResponse;
 import com.ibm.fhir.operation.bulkdata.model.transformer.JobIdEncodingTransformer;
 import com.ibm.fhir.search.compartment.CompartmentUtil;
 import com.ibm.fhir.search.exception.FHIRSearchException;
-import com.ibm.fhir.server.operation.spi.FHIROperationContext;
+import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 
 /**
  * BulkData Util captures common methods

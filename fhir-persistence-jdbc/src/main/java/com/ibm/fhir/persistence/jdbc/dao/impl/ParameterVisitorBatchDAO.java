@@ -24,6 +24,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.config.FHIRConfigHelper;
+import com.ibm.fhir.database.utils.common.CalendarHelper;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.JDBCConstants;
 import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
@@ -40,7 +41,6 @@ import com.ibm.fhir.persistence.jdbc.dto.StringParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.TokenParmVal;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
-import com.ibm.fhir.persistence.jdbc.util.CalendarHelper;
 import com.ibm.fhir.persistence.jdbc.util.CanonicalSupport;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
 import com.ibm.fhir.search.util.ReferenceValue;

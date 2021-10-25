@@ -26,9 +26,9 @@ import com.ibm.fhir.operation.bulkdata.config.preflight.PreflightFactory;
 import com.ibm.fhir.operation.bulkdata.processor.BulkDataFactory;
 import com.ibm.fhir.operation.bulkdata.util.BulkDataExportUtil;
 import com.ibm.fhir.operation.bulkdata.util.CommonUtil;
-import com.ibm.fhir.server.operation.spi.AbstractOperation;
-import com.ibm.fhir.server.operation.spi.FHIROperationContext;
-import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
+import com.ibm.fhir.server.spi.operation.AbstractOperation;
+import com.ibm.fhir.server.spi.operation.FHIROperationContext;
+import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 
 /**
  * <a href="https://hl7.org/Fhir/uv/bulkdata/OperationDefinition-export.html">BulkDataAccess V1.0.0: STU1 -

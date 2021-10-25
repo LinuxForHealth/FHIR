@@ -20,9 +20,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.common.CalendarHelper;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
-import com.ibm.fhir.persistence.jdbc.util.CalendarHelper;
 
 /**
  * Simple DAO to retrieve index IDs (i.e. logical resource IDs) from the LOGICAL_RESOURCES table.

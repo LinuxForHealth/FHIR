@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        java: [ 'openjdk11' ]
+        java: [ '11' ]
       fail-fast: false
     steps:
     - name: Checkout the Main Branch
@@ -23,10 +23,12 @@ jobs:
       with:
         ref: refs/heads/main
         fetch-depth: 1
-    - name: Setup OpenJDK
-      uses: joschi/setup-jdk@v2.3.0
+    - name: Setup java
+      uses: actions/setup-java@v2.3.1
       with:
+        distribution: 'temurin'
         java-version: ${{ matrix.java }}
+        cache: 'maven'
     - name: Build and Release
       env:
         BASE: origin/${{ github['base_ref'] }}
@@ -40,7 +42,7 @@ jobs:
         GPG_KEY_FILE: ${{ secrets.GPG_KEY_FILE }}
         OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
         OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-        JAVA_HOME: /opt/hostedtoolcache/AdoptOpenJDK/1.0.0-ga-11-jdk-hotspot-linux-x64-normal-latest/x64/
+        OLD_JAVA_HOME: /opt/hostedtoolcache/AdoptOpenJDK/1.0.0-ga-11-jdk-hotspot-linux-x64-normal-latest/x64/
       run: |
         . build/release/global.sh
         bash build/release/00_prep.sh

@@ -24,6 +24,7 @@ import com.ibm.fhir.database.utils.common.AddForeignKeyConstraint;
 import com.ibm.fhir.database.utils.common.CommonDatabaseAdapter;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.database.utils.common.GetSequenceNextValueDAO;
+import com.ibm.fhir.database.utils.model.CheckConstraint;
 import com.ibm.fhir.database.utils.model.ColumnBase;
 import com.ibm.fhir.database.utils.model.ForeignKeyConstraint;
 import com.ibm.fhir.database.utils.model.IdentityDef;
@@ -76,14 +77,14 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
 
     @Override
     public void createTable(String schemaName, String name, String tenantColumnName, List<ColumnBase> columns, PrimaryKeyDef primaryKey,
-            IdentityDef identity, String tablespaceName, List<With> withs) {
+            IdentityDef identity, String tablespaceName, List<With> withs, List<CheckConstraint> checkConstraints) {
         // Derby doesn't support partitioning, so we ignore tenantColumnName
         if (tenantColumnName != null) {
             warnOnce(MessageKey.MULTITENANCY, "Derby does not support multi-tenancy on: [" + name + "]");
         }
 
         // We also ignore tablespace for Derby
-        String ddl = buildCreateTableStatement(schemaName, name, columns, primaryKey, identity, null, With.EMPTY);
+        String ddl = buildCreateTableStatement(schemaName, name, columns, primaryKey, identity, null, With.EMPTY, checkConstraints);
         runStatement(ddl);
     }
 

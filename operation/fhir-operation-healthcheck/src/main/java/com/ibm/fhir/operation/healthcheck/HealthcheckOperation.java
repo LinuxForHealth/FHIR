@@ -22,10 +22,10 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
-import com.ibm.fhir.server.operation.spi.AbstractOperation;
-import com.ibm.fhir.server.operation.spi.FHIROperationContext;
-import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
-import com.ibm.fhir.server.util.FHIROperationUtil;
+import com.ibm.fhir.server.spi.operation.AbstractOperation;
+import com.ibm.fhir.server.spi.operation.FHIROperationContext;
+import com.ibm.fhir.server.spi.operation.FHIROperationUtil;
+import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 
 public class HealthcheckOperation extends AbstractOperation {
 

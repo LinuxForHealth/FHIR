@@ -22,7 +22,7 @@ import com.ibm.fhir.model.resource.ValueSet;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.persistence.SingleResourceResult;
-import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
+import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 import com.ibm.fhir.term.service.FHIRTermService;
 import com.ibm.fhir.term.service.LookupOutcome;
 import com.ibm.fhir.term.service.ValidationOutcome;

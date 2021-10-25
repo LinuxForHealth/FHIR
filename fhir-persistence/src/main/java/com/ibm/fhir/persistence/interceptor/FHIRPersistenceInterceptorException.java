@@ -11,6 +11,10 @@ import java.util.Collection;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 
+/**
+ * @deprecated moved to com.ibm.fhir.server.interceptor in fhir-server
+ */
+@Deprecated
 public class FHIRPersistenceInterceptorException extends FHIRPersistenceException {
     private static final long serialVersionUID = 1L;
 
@@ -27,11 +31,11 @@ public class FHIRPersistenceInterceptorException extends FHIRPersistenceExceptio
         super.withIssue(issues);
         return this;
     }
-    
+
     @Override
     public FHIRPersistenceInterceptorException withIssue(Collection<OperationOutcome.Issue> issues) {
         super.withIssue(issues);
         return this;
     }
-    
+
 }

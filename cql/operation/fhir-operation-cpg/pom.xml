@@ -28,12 +28,14 @@
             <groupId>com.ibm.fhir</groupId>
             <artifactId>fhir-model</artifactId>
             <version>${project.version}</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>com.ibm.fhir</groupId>
-            <artifactId>fhir-server</artifactId>
+            <artifactId>fhir-server-spi</artifactId>
             <version>${project.version}</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>

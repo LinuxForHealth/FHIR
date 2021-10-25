@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -21,6 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.bucket.scanner.DataAccess;
+import com.ibm.fhir.database.utils.thread.ThreadHandler;
 
 /**
  * Very simple emulation of a possible interop workload. Adds some random
@@ -215,20 +216,8 @@ public class InteropWorkload {
             } catch (Exception x) {
                 // log and snooze a little before we try again
                 logger.severe("Error in main loop: " + x.getMessage());
-                safeSleep(60000);
+                ThreadHandler.safeSleep(ThreadHandler.MINUTE);
             }
-        }
-    }
-
-    /**
-     * Sleep for the requested number of milliseconds
-     * @param millis
-     */
-    private void safeSleep(long millis) {
-        try {
-            Thread.sleep(millis);
-        } catch (InterruptedException x) {
-            // NOP. Being woken up early, probably for exit
         }
     }
 

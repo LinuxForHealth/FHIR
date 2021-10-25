@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
- 
+
 package com.ibm.fhir.server.rest;
 
 import com.ibm.fhir.model.resource.Bundle.Entry;
@@ -15,13 +15,14 @@ public class FHIRRestInteractionValidationResponse extends FHIRRestInteractionRe
 
     /**
      * Public constructor
+     *
      * @param entryIndex
      * @param validationResponseEntry
      */
     public FHIRRestInteractionValidationResponse(int entryIndex, Entry validationResponseEntry, String requestDescription, long initialTime) {
         super(entryIndex, null, null, validationResponseEntry, requestDescription, null, initialTime);
     }
-    
+
     @Override
     public void accept(FHIRRestInteractionVisitor visitor) throws Exception {
         visitor.validationResponse(getEntryIndex(), getValidationResponseEntry(), getRequestDescription(), getInitialTime());

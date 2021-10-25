@@ -24,10 +24,10 @@ import com.ibm.fhir.model.type.ParameterDefinition;
 import com.ibm.fhir.model.type.RelatedArtifact;
 import com.ibm.fhir.model.type.code.PublicationStatus;
 import com.ibm.fhir.model.type.code.RelatedArtifactType;
-import com.ibm.fhir.server.operation.spi.AbstractOperation;
-import com.ibm.fhir.server.operation.spi.FHIROperationContext;
-import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
-import com.ibm.fhir.server.util.FHIROperationUtil;
+import com.ibm.fhir.server.spi.operation.AbstractOperation;
+import com.ibm.fhir.server.spi.operation.FHIROperationContext;
+import com.ibm.fhir.server.spi.operation.FHIROperationUtil;
+import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 
 public abstract class AbstractDataRequirementsOperation extends AbstractOperation {
     public static final String PARAM_OUT_RETURN = "return";

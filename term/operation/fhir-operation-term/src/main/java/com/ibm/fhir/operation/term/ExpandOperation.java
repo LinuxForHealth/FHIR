@@ -6,7 +6,7 @@
 
 package com.ibm.fhir.operation.term;
 
-import static com.ibm.fhir.server.util.FHIROperationUtil.getOutputParameters;
+import static com.ibm.fhir.server.spi.operation.FHIROperationUtil.getOutputParameters;
 import static com.ibm.fhir.term.util.ValueSetSupport.isExpanded;
 
 import com.ibm.fhir.exception.FHIROperationException;
@@ -16,8 +16,8 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.ValueSet;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.registry.FHIRRegistry;
-import com.ibm.fhir.server.operation.spi.FHIROperationContext;
-import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
+import com.ibm.fhir.server.spi.operation.FHIROperationContext;
+import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 import com.ibm.fhir.term.service.ExpansionParameters;
 import com.ibm.fhir.term.service.exception.FHIRTermServiceException;
 

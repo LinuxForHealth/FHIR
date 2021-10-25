@@ -7,7 +7,7 @@
 package com.ibm.fhir.server.listener;
 
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_CHECK_REFERENCE_TYPES;
-import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_CHECK_UNICODE_CONTROL;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_CHECK_CONTROL_CHARS;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_DATASOURCES;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_EXTENDED_CODEABLE_CONCEPT_VALIDATION;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_CONNECTIONPROPS;
@@ -52,17 +52,17 @@ import com.ibm.fhir.database.utils.derby.DerbyServerPropertiesMgr;
 import com.ibm.fhir.model.config.FHIRModelConfig;
 import com.ibm.fhir.model.lang.util.LanguageRegistryUtil;
 import com.ibm.fhir.model.util.FHIRUtil;
-import com.ibm.fhir.notification.websocket.impl.FHIRNotificationServiceEndpointConfig;
-import com.ibm.fhir.notifications.kafka.impl.FHIRNotificationKafkaPublisher;
-import com.ibm.fhir.notifications.nats.impl.FHIRNotificationNATSPublisher;
 import com.ibm.fhir.path.function.registry.FHIRPathFunctionRegistry;
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.server.notification.kafka.FHIRNotificationKafkaPublisher;
+import com.ibm.fhir.server.notification.websocket.FHIRNotificationServiceEndpointConfig;
+import com.ibm.fhir.server.notifications.nats.FHIRNotificationNATSPublisher;
 import com.ibm.fhir.server.operation.FHIROperationRegistry;
 import com.ibm.fhir.server.registry.ServerRegistryResourceProvider;
 import com.ibm.fhir.server.resolve.ServerResolveFunction;
-import com.ibm.fhir.server.util.FHIROperationUtil;
+import com.ibm.fhir.server.spi.operation.FHIROperationUtil;
 import com.ibm.fhir.term.config.FHIRTermConfig;
 import com.ibm.fhir.term.graph.provider.GraphTermServiceProvider;
 import com.ibm.fhir.term.remote.provider.RemoteTermServiceProvider;
@@ -207,8 +207,8 @@ public class FHIRServletContextListener implements ServletContextListener {
             Boolean extendedCodeableConceptValidation = fhirConfig.getBooleanProperty(PROPERTY_EXTENDED_CODEABLE_CONCEPT_VALIDATION, Boolean.TRUE);
             FHIRModelConfig.setExtendedCodeableConceptValidation(extendedCodeableConceptValidation);
 
-            Boolean checkUnicodeChars = fhirConfig.getBooleanProperty(PROPERTY_CHECK_UNICODE_CONTROL, Boolean.TRUE);
-            FHIRModelConfig.setCheckUnicodeControlChars(checkUnicodeChars);
+            Boolean checkUnicodeChars = fhirConfig.getBooleanProperty(PROPERTY_CHECK_CONTROL_CHARS, Boolean.TRUE);
+            FHIRModelConfig.setCheckForControlChars(checkUnicodeChars);
 
             log.fine("Initializing FHIRRegistry...");
             FHIRRegistry.getInstance();

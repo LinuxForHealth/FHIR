@@ -8,8 +8,6 @@ package com.ibm.fhir.model.util.test.unicode;
 
 import static org.testng.Assert.fail;
 
-import java.nio.charset.Charset;
-
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.util.ValidationSupport;
@@ -83,40 +81,5 @@ public class ValidationSupportUnicodeCharTest {
             }
             fail("Unexpected pass with char: " + c.getEscapedValue());
         }
-    }
-
-    @Test
-    public void testUnicodeChar() {
-        UnicodeChar ch = new UnicodeChar(65);
-        System.out.println(ch.getBytes().length);
-        System.out.println(new String(ch.getBytes()));
-
-        ch = new UnicodeChar(100);
-        System.out.println(ch.getBytes().length);
-        System.out.println(new String(ch.getBytes()));
-
-        ch = new UnicodeChar(1024);
-        System.out.println(ch.getBytes().length);
-        System.out.println(new String(ch.getBytes()));
-
-        ch = new UnicodeChar(2048);
-        System.out.println(ch.getBytes().length);
-        System.out.println(new String(ch.getBytes()));
-
-        ch = new UnicodeChar(4096);
-        System.out.println(ch.getBytes().length);
-        System.out.println(new String(ch.getBytes()));
-
-        ch = new UnicodeChar(10000);
-        System.out.println(ch.getBytes().length);
-        System.out.println(new String(ch.getBytes()));
-
-        ch = new UnicodeChar(20000);
-        System.out.println(ch.getBytes().length);
-        System.out.println(new String(ch.getBytes()));
-
-        ch = new UnicodeChar(1114111);
-        System.out.println(ch.getBytes().length);
-        System.out.println(new String(ch.getBytes(), Charset.forName("UTF-16")));
     }
 }

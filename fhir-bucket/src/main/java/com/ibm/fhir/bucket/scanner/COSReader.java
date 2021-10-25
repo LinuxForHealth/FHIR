@@ -30,6 +30,7 @@ import com.ibm.fhir.bucket.api.ResourceBundleError;
 import com.ibm.fhir.bucket.api.ResourceEntry;
 import com.ibm.fhir.bucket.api.ResourceRef;
 import com.ibm.fhir.bucket.cos.COSClient;
+import com.ibm.fhir.database.utils.thread.ThreadHandler;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
@@ -48,10 +49,10 @@ import com.ibm.fhir.validation.exception.FHIRValidationException;
  */
 public class COSReader {
     private static final Logger logger = Logger.getLogger(COSReader.class.getName());
-    
+
     // The type of file we are supposed to process
     private final FileType fileType;
-    
+
     // Abstraction of our connection to cloud object storage
     private final COSClient client;
 
@@ -60,10 +61,10 @@ public class COSReader {
 
     // The pool used to parallelize loading
     private final ExecutorService pool;
-    
+
     // Access to the data in the bucket schema
     private final DataAccess dataAccess;
-    
+
     // active object thread
     private Thread mainLoopThread;
 
@@ -71,19 +72,19 @@ public class COSReader {
     private Lock lock = new ReentrantLock();
     private Condition resourceLimit = lock.newCondition();
     private int inflight = 0;
-    
+
     // never allow more than this number of items to be allocated to this instance
     private int maxInflight;
-    
+
     // ask the database to allocate more items when the current inflight drops below this threshold
     private int rescanThreshold;
 
     // active object running flag
     private volatile boolean running = true;
-    
+
     // Try to skip over rows we've already processed in a bundle
     private final boolean incremental;
-    
+
     // Only process lines for which no resources have been recorded. More expensive.
     private final boolean incrementalExact;
 
@@ -92,9 +93,9 @@ public class COSReader {
 
     // The cost of a bundle compared to a single resource
     private final double bundleCostFactor;
-    
+
     private final List<BucketPath> bucketPaths;
-    
+
     /**
      * Public constructor
      * @param commonPool thread pool shared by the readers and request handler
@@ -121,7 +122,7 @@ public class COSReader {
         this.bundleCostFactor = bundleCostFactor;
         this.bucketPaths = new ArrayList<>(bucketPaths);
     }
-    
+
     /**
      * Tell the main thread of this active object that it should start shutting down
      */
@@ -130,7 +131,7 @@ public class COSReader {
             logger.info("Stopping COS reader");
             this.running = false;
         }
-        
+
         if (mainLoopThread != null) {
             // interrupt it in case it's stuck doing IO
             this.mainLoopThread.interrupt();
@@ -144,14 +145,14 @@ public class COSReader {
             }
         }
     }
-    
+
     /**
      * Tell the main loop thread to stop
      */
     public void waitForStop() {
         signalStop();
         logger.info("Waiting for COS reader to stop");
-        
+
         if (mainLoopThread != null) {
             try {
                 // give it a few seconds to respond
@@ -176,7 +177,7 @@ public class COSReader {
      */
     public void mainAllocationLoop() {
         while (this.running) {
-            
+
             int free = 0;
             int allocated = 0;
             lock.lock();
@@ -185,7 +186,7 @@ public class COSReader {
                 while (running && this.inflight >= this.rescanThreshold) {
                     resourceLimit.await();
                 }
-                
+
                 // Calculate the max number of jobs we can request to be allocated
                 // to this instance from the database. Need to be careful with
                 // possible contention here because we are holding the lock during
@@ -205,7 +206,7 @@ public class COSReader {
                 // before trying again as these things are never fixed quickly
                 logger.severe("Error in main allocation loop. Sleeping before retry");
                 if (this.running) {
-                    safeSleep(60000L);
+                    ThreadHandler.safeSleep(ThreadHandler.MINUTE);
                 }
             } finally {
                 lock.unlock();
@@ -215,24 +216,10 @@ public class COSReader {
                 // We have more capacity than work is currently available in the database,
                 // so take a nap before checking again
                 logger.fine("No work. Napping");
-                safeSleep(10000L);
+                ThreadHandler.safeSleep(ThreadHandler.TEN_SECONDS);
             }
         }
     }
-    
-    /**
-     * Sleep current thread for given number of milliseconds or until
-     * the thread is interrupted.
-     * @param millis
-     */
-    protected void safeSleep(long millis) {
-        try {
-            Thread.sleep(millis);
-        } catch (InterruptedException x) {
-            // woken up early from sleep, probably shutting down, so this is a NOP
-        }
-    }
-
 
     /**
      * Ask the database to allocate up to free jobs for this loader
@@ -243,15 +230,15 @@ public class COSReader {
         logger.info("allocateJobs[" + fileType.name() + "]: free = " + free);
         List<BucketLoaderJob> jobList = new ArrayList<>();
         dataAccess.allocateJobs(jobList, fileType, free, recycleSeconds, this.bucketPaths);
-        
+
         logger.info("Allocated job count["  + fileType.name() + "]: " + jobList.size());
-        
+
         // Tell each job to call us back when they are done
         jobList.stream().forEach(job -> job.registerCallback(jd -> markJobDone(jd)));
 
         // add each job to the pool
         jobList.stream().forEach(job -> process(job));
-        
+
         return jobList.size();
     }
 
@@ -262,16 +249,16 @@ public class COSReader {
     protected void markJobDone(final BucketLoaderJob job) {
         // The number of seconds the whole job took to complete (including queue time)
         double elapsedSeconds = (job.getProcessingEndTime() - job.getProcessingStartTime()) / 1e9;
-        
+
         // The response time of the last call...which is useful if the request is one big bundle
         double lastCallTime = job.getLastCallResponseTime() / 1e3;
-        
+
         int resources = job.getTotalResourceCount();
         double rps = Double.NaN;
         if (lastCallTime > 0) {
             rps = resources / lastCallTime;
         }
-        
+
         try {
             // Log some useful info so we can eyeball rate/progress in the logs
             logger.info(String.format("Completed entry: %s [took %.3f secs, lastCall: %.3f secs, resources: %d, rate: %.1f resources/sec]", job.toString(), elapsedSeconds, lastCallTime, resources, rps));
@@ -283,7 +270,7 @@ public class COSReader {
             try {
                 inflight--;
                 logger.info("Job completed[" + fileType.name() + "] inflight count now: " + inflight);
-                
+
                 // Apply some hysteresis before we wake up the allocation
                 // thread. This is so we fetch larger allocations in fewer
                 // calls to the database
@@ -332,7 +319,7 @@ public class COSReader {
             }
         } catch (Exception x) {
             // make sure we don't propagate exceptions back to the pool thread. This probably
-            // means we are having problems talking to COS or the FHIRBUCKET tracking database 
+            // means we are having problems talking to COS or the FHIRBUCKET tracking database
             // because parsing and processing errors are handled inside the processNDJSON/processJSON
             // methods
             logger.log(Level.SEVERE, "Error processing job: " + job.toString(), x);
@@ -378,7 +365,7 @@ public class COSReader {
             return 1;
         }
     }
-    
+
     /**
      * Read the resources from the given reader
      * @param is
@@ -392,23 +379,23 @@ public class COSReader {
             if (maxLineNumber != null) {
                 // line numbers start at 0
                 skipLines = maxLineNumber + 1;
-                
+
                 logger.info(job.toString() + "; previously processed, so skipping lines: " + skipLines);
             }
         }
-        
+
         // Reading as a continuous stream appears to be problematic,
         // so we have to take a line-based approach
         boolean success = true;
         try {
             int lineNumber = 0;
             String line;
-            
+
             // skip lines we've already processed if we're doing an incremental load
             while (lineNumber < skipLines && (line = br.readLine()) != null) {
                 lineNumber++;
             }
-            
+
             while ((line = br.readLine()) != null) {
                 // Skip this line if we can find logical ids have already been recorded for it
                 // (from a previous load run). This is version-specific, so if the version has
@@ -416,7 +403,7 @@ public class COSReader {
                 if (incrementalExact && getLogicalIdsForLine(job, lineNumber).size() > 0) {
                     continue;
                 }
-                
+
                 // note that we don't increment the job counter until we actually
                 // submit something to the process queue
                 StringReader lineReader = new StringReader(line);
@@ -425,7 +412,7 @@ public class COSReader {
                 } catch (FHIRParserException x) {
                     // Something is wrong with this current line:
                     logger.log(Level.WARNING, line, x);
-                    
+
                     // Record the error in the database
                     ResourceBundleError error = new ResourceBundleError(lineNumber, "Parse error: " + x.getMessage());
                     dataAccess.recordErrors(job.getResourceBundleLoadId(), lineNumber, Collections.singletonList(error));
@@ -439,7 +426,7 @@ public class COSReader {
         }
     }
 
-    
+
     /**
      * Process the resource parsed from the input stream
      * @param details of the job being processed
@@ -449,26 +436,26 @@ public class COSReader {
      */
     protected boolean process(BucketLoaderJob job, Resource resource, int lineNumber, String line) {
         boolean result = false;
-        
+
         try {
             validateInput(resource);
             result = true;
         } catch (FHIROperationException e) {
             logger.warning("Resource validation failed: " + e.getMessage());
-            
+
             String info = e.getIssues().stream()
                     .flatMap(issue -> Stream.of(issue.getDetails()))
                     .flatMap(details -> Stream.of(details.getText()))
                     .flatMap(text -> Stream.of(text.getValue()))
                     .collect(Collectors.joining(", "));
-            
+
             if (logger.isLoggable(Level.FINER)) {
                 logger.finer("Validation warnings for input resource: [" + info + "]");
             }
-            
+
             ResourceBundleError error = new ResourceBundleError(lineNumber, info);
             dataAccess.recordErrors(job.getResourceBundleLoadId(), lineNumber, Collections.singletonList(error));
-            
+
         } catch (FHIRValidationException e) {
             logger.warning("Resource validation exception: " + e.getMessage());
             ResourceBundleError error = new ResourceBundleError(lineNumber, e.getMessage());
@@ -485,7 +472,7 @@ public class COSReader {
                 result = false;
                 ResourceBundleError error = new ResourceBundleError(lineNumber, x.getMessage());
                 dataAccess.recordErrors(job.getResourceBundleLoadId(), lineNumber, Collections.singletonList(error));
-                
+
                 if (logger.isLoggable(Level.FINE)) {
                     // write the full error and resource to the log file
                     logger.fine(job.getObjectKey() + "[" + lineNumber + "]: " + line);
@@ -493,7 +480,7 @@ public class COSReader {
                 }
             }
         }
-        
+
         return result;
     }
 
@@ -542,7 +529,7 @@ public class COSReader {
     /**
      * Find the set of logicalIds have been created for the given line
      * of the bundle/version described in the given BucketLoaderJob. This
-     * can be useful 
+     * can be useful
      * @param job
      * @param lineNumber
      * @return

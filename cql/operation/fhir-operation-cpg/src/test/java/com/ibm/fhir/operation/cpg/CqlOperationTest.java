@@ -10,8 +10,6 @@ import static com.ibm.fhir.cql.helpers.ModelHelper.coding;
 import static com.ibm.fhir.cql.helpers.ModelHelper.concept;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhirboolean;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhirstring;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -20,12 +18,14 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.fail;
 
 import javax.ws.rs.core.MultivaluedMap;
 
-import org.testng.annotations.Test;
 import org.mockito.MockedStatic;
+import org.testng.annotations.Test;
 
 import com.ibm.fhir.cql.Constants;
 import com.ibm.fhir.cql.helpers.LibraryHelper;
@@ -45,8 +45,8 @@ import com.ibm.fhir.model.type.Period;
 import com.ibm.fhir.model.type.code.EncounterStatus;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.registry.FHIRRegistry;
-import com.ibm.fhir.server.operation.spi.FHIROperationContext;
-import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
+import com.ibm.fhir.server.spi.operation.FHIROperationContext;
+import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 
 public class CqlOperationTest extends BaseCqlOperationTest<CqlOperation> {
 
@@ -63,8 +63,15 @@ public class CqlOperationTest extends BaseCqlOperationTest<CqlOperation> {
         String encounterCode = "office-visit";
         Coding reason = coding(codesystem, encounterCode);
 
-        Encounter encounter =
-                Encounter.builder().reasonCode(concept(reason)).status(EncounterStatus.FINISHED).clazz(reason).period(Period.builder().start(DateTime.now()).end(DateTime.now()).build()).build();
+        Encounter encounter = Encounter.builder()
+                .reasonCode(concept(reason))
+                .status(EncounterStatus.FINISHED)
+                .clazz(reason)
+                .period(Period.builder()
+                    .start(DateTime.now())
+                    .end(DateTime.now())
+                    .build())
+                .build();
 
         String expression = "[Encounter] e where e.status = 'finished'";
 
@@ -85,7 +92,7 @@ public class CqlOperationTest extends BaseCqlOperationTest<CqlOperation> {
 
             // when(mockRegistry.getResource(javastring(fhirHelpers.getUrl()), Library.class)).thenReturn(fhirHelpers);
 
-            FHIROperationContext ctx = FHIROperationContext.createSystemOperationContext();
+            FHIROperationContext ctx = FHIROperationContext.createSystemOperationContext(null);
             Parameters result = getOperation().doInvoke(ctx, null, null, null, parameters, resourceHelper);
             assertNotNull(result);
 
@@ -136,7 +143,7 @@ public class CqlOperationTest extends BaseCqlOperationTest<CqlOperation> {
             canonical = ModelHelper.canonical(modelInfo.getUrl(), modelInfo.getVersion());
             when(mockRegistry.getResource(canonical.getValue(), Library.class)).thenReturn(modelInfo);
 
-            FHIROperationContext ctx = FHIROperationContext.createSystemOperationContext();
+            FHIROperationContext ctx = FHIROperationContext.createSystemOperationContext("cql");
             getOperation().doInvoke(ctx, null, null, null, parameters, resourceHelper);
         }
     }
@@ -158,7 +165,7 @@ public class CqlOperationTest extends BaseCqlOperationTest<CqlOperation> {
             FHIRRegistry mockRegistry = spy(FHIRRegistry.class);
             staticRegistry.when(FHIRRegistry::getInstance).thenReturn(mockRegistry);
 
-            FHIROperationContext ctx = FHIROperationContext.createSystemOperationContext();
+            FHIROperationContext ctx = FHIROperationContext.createSystemOperationContext("cql");
             getOperation().doInvoke(ctx, null, null, null, parameters, resourceHelper);
             fail("Missing expected Exception");
         } catch (FHIROperationException fex) {
@@ -189,7 +196,7 @@ public class CqlOperationTest extends BaseCqlOperationTest<CqlOperation> {
             FHIRRegistry mockRegistry = spy(FHIRRegistry.class);
             staticRegistry.when(FHIRRegistry::getInstance).thenReturn(mockRegistry);
 
-            FHIROperationContext ctx = FHIROperationContext.createSystemOperationContext();
+            FHIROperationContext ctx = FHIROperationContext.createSystemOperationContext("cql");
             Parameters result = getOperation().doInvoke(ctx, null, null, null, parameters, resourceHelper);
 
             assertNotNull(result);

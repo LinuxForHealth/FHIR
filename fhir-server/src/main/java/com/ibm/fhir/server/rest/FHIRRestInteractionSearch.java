@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
- 
+
 package com.ibm.fhir.server.rest;
 
 import javax.ws.rs.core.MultivaluedMap;
@@ -20,12 +20,13 @@ public class FHIRRestInteractionSearch extends FHIRRestInteractionBase {
     private final String compartment;
     private final String compartmentId;
     private final MultivaluedMap<String, String> queryParameters;
-    private final String requestUri;    
+    private final String requestUri;
     private final Resource contextResource;
     private final boolean checkInteractionAllowed;
-    
+
     /**
      * Public constructor
+     *
      * @param entryIndex
      * @param requestDescription
      * @param requestURL
@@ -38,9 +39,10 @@ public class FHIRRestInteractionSearch extends FHIRRestInteractionBase {
      * @param contextResource
      * @param checkInteractionAllowed
      */
-    public FHIRRestInteractionSearch(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String compartment, String compartmentId,
-        MultivaluedMap<String, String> queryParameters, String requestUri,
-        Resource contextResource, boolean checkInteractionAllowed) {
+    public FHIRRestInteractionSearch(int entryIndex, String requestDescription, FHIRUrlParser requestURL,
+            long initialTime, String type, String compartment, String compartmentId,
+            MultivaluedMap<String, String> queryParameters, String requestUri, Resource contextResource,
+            boolean checkInteractionAllowed) {
         super(entryIndex, requestDescription, requestURL, initialTime);
         this.type = type;
         this.compartment = compartment;

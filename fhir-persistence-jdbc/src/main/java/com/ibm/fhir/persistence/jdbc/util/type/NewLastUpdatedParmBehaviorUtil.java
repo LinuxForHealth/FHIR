@@ -209,7 +209,7 @@ public class NewLastUpdatedParmBehaviorUtil {
                     .col(lastUpdatedColumn()).gte().bind(lowerBound)
                     .and()
                     .col(lastUpdatedColumn()).lte().bind(upperBound)
-                    .rightParen();
+                .rightParen();
         } else {
             // @formatter:off
             whereClauseSegment.leftParen().col(lastUpdatedColumn()).eq().bind(lowerBound).rightParen();
@@ -226,8 +226,12 @@ public class NewLastUpdatedParmBehaviorUtil {
      */
     public void buildNotEqualsRangeClause(WhereFragment whereClauseSegment, Instant lowerBound, Instant upperBound) {
         // @formatter:off
-        whereClauseSegment.leftParen().col(lastUpdatedColumn()).lt().bind(lowerBound)
-        .col(lastUpdatedColumn()).gt().bind(upperBound).rightParen();
+        whereClauseSegment
+            .leftParen()
+                .col(lastUpdatedColumn()).lt().bind(lowerBound)
+                .or()
+                .col(lastUpdatedColumn()).gt().bind(upperBound)
+            .rightParen();
         // @formatter:on
     }
 }

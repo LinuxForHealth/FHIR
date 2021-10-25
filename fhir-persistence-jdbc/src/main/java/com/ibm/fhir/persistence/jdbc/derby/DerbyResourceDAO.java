@@ -21,6 +21,7 @@ import java.util.logging.Logger;
 
 import javax.transaction.TransactionSynchronizationRegistry;
 
+import com.ibm.fhir.database.utils.common.CalendarHelper;
 import com.ibm.fhir.database.utils.derby.DerbyMaster;
 import com.ibm.fhir.database.utils.derby.DerbyTranslator;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
@@ -39,7 +40,6 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
 import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
-import com.ibm.fhir.persistence.jdbc.util.CalendarHelper;
 import com.ibm.fhir.persistence.jdbc.util.ParameterTableSupport;
 import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
 

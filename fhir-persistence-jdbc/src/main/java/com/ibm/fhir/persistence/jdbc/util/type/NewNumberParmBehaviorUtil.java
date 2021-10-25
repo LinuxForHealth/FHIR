@@ -35,10 +35,6 @@ import com.ibm.fhir.search.parameters.QueryParameterValue;
 public class NewNumberParmBehaviorUtil {
     protected static final BigDecimal FACTOR = new BigDecimal(".1");
 
-    private NewNumberParmBehaviorUtil() {
-        // No operation
-    }
-
     /**
      * Add the filter predicate logic to the given whereClauseSegment
      * @param whereClauseSegment
@@ -46,8 +42,7 @@ public class NewNumberParmBehaviorUtil {
      * @param tableAlias
      * @throws FHIRPersistenceException
      */
-    public static void executeBehavior(WhereFragment whereClauseSegment, QueryParameter queryParm,
-            String tableAlias)
+    public void executeBehavior(WhereFragment whereClauseSegment, QueryParameter queryParm, String tableAlias)
             throws FHIRPersistenceException {
 
         // Process each parameter value in the query parameter
