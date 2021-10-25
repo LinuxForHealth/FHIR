@@ -89,9 +89,7 @@ pool.connections.max=400
 disable.hostname.verification=true
 ```
 
-## 2. Synthetic Data Loader
-
-## 3. Drive Load
+## 2. Synthetic Data Loader and 3. Drive Load
 
 ### Background
 
