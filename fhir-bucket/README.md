@@ -306,6 +306,33 @@ To run using PostgreSQL, change the relevant arguments to:
 | `--buffer-recycle-count` | The number of times should we use the same set of patient ids during the synthetic load |
 | `--no-scan` | Disables the periodically scan of COS looking for new entries. The default is false|
 
+*Database Properties*
+
+|Property|Description|
+|--------|-----------|
+|db.host | The database server hostname|
+|db.port | The database server port|
+|db.database | The name of the database|
+|user | A username with connect and admin permissions on the target database|
+|password | The user password for connecting to the database|
+|sslConnection | true or anything else, true triggers JDBC to use ssl, an example --prop sslConnection=true |
+
+A sample properties file can be found at https://github.com/IBM/FHIR/blob/master/fhir-persistence-schema/db2.properties
+
+*COS Properties* 
+
+|Property|Description|
+|--------|-----------|
+|cos.api.key | the IBM COS API key or S3 access key|
+|cos.srvinstid | the IBM COS service instance id or S3 secret key|
+|cos.endpoint.url | the IBM COS or S3 End point URL.|
+|cos.location | the IBM COS or S3 location.|
+|cos.bucket.name | the IBM COS or S3 bucket name to import from.|
+|cos.credential.ibm | if use IBM credential(Y/N), default(Y)|
+|cos.request.timeout | Request Timeout in milliseconds|
+|cos.socket.timeout | Socket Timeout in milliseconds|
+|cos.max.keys | The max keys to return per list objects request|
+
 ### Internals
 
 The purpose of fhir-bucket is to exercise the ingestion capability of the IBM FHIR Server (or any FHIR Server, for that matter). It scans IBM Cloud Object Store using the S3 connector and registers each matching entry in a tracking database.
