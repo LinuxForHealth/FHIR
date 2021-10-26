@@ -7,8 +7,6 @@
 package com.ibm.fhir.server.test;
 
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertTrue;
 
 import java.util.UUID;
 import javax.ws.rs.core.Response;
@@ -17,8 +15,6 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.client.FHIRRequestHeader;
 import com.ibm.fhir.client.FHIRResponse;
-import com.ibm.fhir.core.HTTPReturnPreference;
-import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.test.TestUtil;
 
@@ -27,7 +23,6 @@ import com.ibm.fhir.model.test.TestUtil;
  */
 public class UpdateIfNoneMatchTest extends FHIRServerTestBase {
     private static final String HEADERNAME_IF_NONE_MATCH = "If-None-Match";
-    private static final String HEADERNAME_PREFER = "Prefer";
 
     @Test
     public void testCreateOnUpdate() throws Exception {
@@ -53,9 +48,6 @@ public class UpdateIfNoneMatchTest extends FHIRServerTestBase {
 
             // Read back the patient and make sure it is still at version 1
             response = client.read(Patient.class.getSimpleName(), patientLogicalId);
-            // Search on the patient id, and see how many results we get. There should only
-            // be one.
-            response = client.read("Patient", patientLogicalId);
             assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
 
             patient =  response.getResource(Patient.class);

@@ -48,13 +48,14 @@
   v_current_resource_id  BIGINT := NULL;
   v_resource_id          BIGINT := NULL;
   v_resource_type_id        INT := NULL;
+  v_currently_deleted      CHAR(1) := NULL;
   v_new_resource            INT := 0;
   v_duplicate               INT := 0;
   v_current_version         INT := 0;
   v_change_type            CHAR(1) := NULL;
   
   -- Because we don't really update any existing key, so use NO KEY UPDATE to achieve better concurrence performance. 
-  lock_cur CURSOR (t_resource_type_id INT, t_logical_id VARCHAR(255)) FOR SELECT logical_resource_id, parameter_hash FROM {{SCHEMA_NAME}}.logical_resources WHERE resource_type_id = t_resource_type_id AND logical_id = t_logical_id FOR NO KEY UPDATE;
+  lock_cur CURSOR (t_resource_type_id INT, t_logical_id VARCHAR(255)) FOR SELECT logical_resource_id, parameter_hash, is_deleted FROM {{SCHEMA_NAME}}.logical_resources WHERE resource_type_id = t_resource_type_id AND logical_id = t_logical_id FOR NO KEY UPDATE;
 
 BEGIN
   -- LOADED ON: {{DATE}}
@@ -67,7 +68,7 @@ BEGIN
 
   -- Get a lock at the system-wide logical resource level
   OPEN lock_cur(t_resource_type_id := v_resource_type_id, t_logical_id := p_logical_id);
-  FETCH lock_cur INTO v_logical_resource_id, o_current_parameter_hash;
+  FETCH lock_cur INTO v_logical_resource_id, o_current_parameter_hash, v_currently_deleted;
   CLOSE lock_cur;
   
   -- Create the resource if we don't have it already
@@ -83,7 +84,7 @@ BEGIN
       -- row exists, so we just need to obtain a lock on it. Because logical resource records are
       -- never deleted, we don't need to worry about it disappearing again before we grab the row lock
       OPEN lock_cur (t_resource_type_id := v_resource_type_id, t_logical_id := p_logical_id);
-      FETCH lock_cur INTO t_logical_resource_id, o_current_parameter_hash;
+      FETCH lock_cur INTO t_logical_resource_id, o_current_parameter_hash, v_currently_deleted;
       CLOSE lock_cur;
 
       -- Since the resource did not previously exist, set o_current_parameter_hash back to NULL
@@ -116,7 +117,8 @@ BEGIN
         RAISE 'Schema data corruption - missing logical resource' USING ERRCODE = '99002';
     END IF;
 
-    IF p_if_none_match == 0
+    -- If-None-Match does not apply if the resource is currently deleted
+    IF v_currently_deleted = 'N' && p_if_none_match == 0
     THEN
         -- If-None-Match hit    
         RAISE 'If-None-Match - Existing resource' USING ERRCODE = '99003';
