@@ -26,7 +26,26 @@
                     "atLeastOne": [
                     ],
                     "notAllowed": [
-                    ]
+                    ],
+                    "allowUnknown": false,
+                    "defaultVersions": {
+                        "profile4":"2"
+                    }
+                }
+            },
+            "Device": {
+                "profiles": {
+                    "atLeastOne": [
+                        "profile10|1"
+                    ],
+                    "notAllowed": [
+                        "profile11|1"
+                    ],
+                    "defaultVersions": {
+                        "profile10":"1",
+                        "profile11":"1"
+                    },
+                    "allowUnknown": true
                 }
             },
            "Encounter": {
@@ -44,7 +63,10 @@
                     "notAllowed": [
                         "profile5"
                     ],
-                    "allowUnknown": true
+                    "allowUnknown": true,
+                    "defaultVersions": {
+                        "profile3":"2"
+                    }
                 }
             },
             "Procedure": {
