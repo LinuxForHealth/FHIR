@@ -2,7 +2,7 @@
 layout: post
 title:  Conformance
 description: Notes on the Conformance of the IBM FHIR Server
-date:   2021-08-18
+date:   2021-10-19
 permalink: /conformance/
 ---
 

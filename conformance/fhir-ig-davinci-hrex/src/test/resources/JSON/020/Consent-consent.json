@@ -1,0 +1,87 @@
+{
+	"resourceType": "Consent",
+	"id": "consent",
+	"text": {
+		"status": "generated",
+		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><p><b>status</b>: active</p><p><b>scope</b>: <span title=\"Codes: {http://terminology.hl7.org/CodeSystem/consentscope patient-privacy}\">Privacy Consent</span></p><p><b>category</b>: <span title=\"Codes: {http://terminology.hl7.org/CodeSystem/v3-ActCode IDSCL}\">information disclosure</span></p><p><b>patient</b>: <span></span></p><p><b>source</b>: <a href=\"http://example.org/DocumentReference/someconsent.pdf\">http://example.org/DocumentReference/someconsent.pdf</a></p><h3>Policies</h3><table class=\"grid\"><tr><td>-</td><td><b>Uri</b></td></tr><tr><td>*</td><td><a href=\"http://hl7.org/fhir/us/davinci-hrex/consent-oauth#regular\">http://hl7.org/fhir/us/davinci-hrex/consent-oauth#regular</a></td></tr></table><blockquote><p><b>provision</b></p><p><b>type</b>: permit</p><p><b>period</b>: 2022-01-01 --&gt; 2022-01-31</p><h3>Actors</h3><table class=\"grid\"><tr><td>-</td><td><b>Role</b></td><td><b>Reference</b></td></tr><tr><td>*</td><td><span title=\"Codes: {http://terminology.hl7.org/CodeSystem/v3-ParticipationType IRCP}\">information recipient</span></td><td><span></span></td></tr></table><p><b>action</b>: <span title=\"Codes: {http://terminology.hl7.org/CodeSystem/consentaction disclose}\">Disclose</span></p></blockquote></div>"
+	},
+	"status": "active",
+	"scope": {
+		"coding": [
+			{
+				"system": "http://terminology.hl7.org/CodeSystem/consentscope",
+				"code": "patient-privacy"
+			}
+		]
+	},
+	"category": [
+		{
+			"coding": [
+				{
+					"system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+					"code": "IDSCL"
+				}
+			]
+		}
+	],
+	"patient": {
+		"identifier": {
+			"type": {
+				"coding": [
+					{
+						"system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+						"code": "MB"
+					}
+				]
+			},
+			"system": "http://example.org/target-payer/identifiers/member",
+			"value": "55678",
+			"assigner": {
+				"display": "Old Payer"
+			}
+		}
+	},
+	"sourceReference": {
+		"reference": "http://example.org/DocumentReference/someconsent.pdf"
+	},
+	"policy": [
+		{
+			"uri": "http://hl7.org/fhir/us/davinci-hrex/consent-oauth#regular"
+		}
+	],
+	"provision": {
+		"type": "permit",
+		"period": {
+			"start": "2022-01-01",
+			"end": "2022-01-31"
+		},
+		"actor": [
+			{
+				"role": {
+					"coding": [
+						{
+							"system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+							"code": "IRCP"
+						}
+					]
+				},
+				"reference": {
+					"identifier": {
+						"system": "http://example.org/old-payer",
+						"value": "DH10001235"
+					}
+				}
+			}
+		],
+		"action": [
+			{
+				"coding": [
+					{
+						"system": "http://terminology.hl7.org/CodeSystem/consentaction",
+						"code": "disclose"
+					}
+				]
+			}
+		]
+	}
+}

@@ -1,0 +1,19 @@
+{
+	"resourceType": "Practitioner",
+	"id": "min",
+	"text": {
+		"status": "generated",
+		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><p><b>identifier</b>: id: A1B2C3</p><p><b>name</b>: Bone </p></div>"
+	},
+	"identifier": [
+		{
+			"system": "http://example.org/some-code-system",
+			"value": "A1B2C3"
+		}
+	],
+	"name": [
+		{
+			"family": "Bone"
+		}
+	]
+}

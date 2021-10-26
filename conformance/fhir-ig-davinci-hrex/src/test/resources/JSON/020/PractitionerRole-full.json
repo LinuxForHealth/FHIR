@@ -1,0 +1,80 @@
+{
+	"resourceType": "PractitionerRole",
+	"id": "full",
+	"text": {
+		"status": "generated",
+		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><p><b>practitioner</b>: <a href=\"Practitioner-full.html\">Generated Summary: id: 9941339108, id: 9941339108, id: 25456; Bone </a></p><p><b>organization</b>: <a href=\"Organization-full.html\">Generated Summary: id: 11223344, id: 11223344, id: 55566667, id: 0123456789, id: 918273645; active; name: New Health Plan; Phone: 1-800-123-4567, Phone: 1-234-567-8901, info@newhealthplan.org</a></p><p><b>code</b>: <span title=\"Codes: {http://nucc.org/provider-taxonomy 111N00000X}\">Chiropractor</span>, <span title=\"Codes: {http://nucc.org/provider-taxonomy 122300000X}\">Dentist</span></p><p><b>specialty</b>: <span title=\"Codes: {http://nucc.org/provider-taxonomy 103TE1100X}\">Exercise &amp; Sports Psychologist</span>, <span title=\"Codes: {http://nucc.org/provider-taxonomy 103TF0000X}\">Family Psychologist</span></p><p><b>location</b>: </p><ul><li><a href=\"http://example.org/some-clinic/Location/1874\">http://example.org/some-clinic/Location/1874</a></li><li><a href=\"http://example.org/some-clinic/Location/9233\">http://example.org/some-clinic/Location/9233</a></li></ul><p><b>telecom</b>: ph: 1-222-333-4444, <a href=\"mailto:ronald.bone@newpayer.com\">ronald.bone@newpayer.com</a>, 1(111)-1111111 - after 5pm</p><p><b>endpoint</b>: </p><ul><li><a href=\"http://example.org/some-clinic/EndPoint/1\">http://example.org/some-clinic/EndPoint/1</a></li><li><a href=\"http://example.org/some-clinic/EndPoint/2\">http://example.org/some-clinic/EndPoint/2</a></li></ul></div>"
+	},
+	"practitioner": {
+		"reference": "Practitioner/full"
+	},
+	"organization": {
+		"reference": "Organization/full"
+	},
+	"code": [
+		{
+			"coding": [
+				{
+					"system": "http://nucc.org/provider-taxonomy",
+					"code": "111N00000X"
+				}
+			]
+		},
+		{
+			"coding": [
+				{
+					"system": "http://nucc.org/provider-taxonomy",
+					"code": "122300000X"
+				}
+			]
+		}
+	],
+	"specialty": [
+		{
+			"coding": [
+				{
+					"system": "http://nucc.org/provider-taxonomy",
+					"code": "103TE1100X"
+				}
+			]
+		},
+		{
+			"coding": [
+				{
+					"system": "http://nucc.org/provider-taxonomy",
+					"code": "103TF0000X"
+				}
+			]
+		}
+	],
+	"location": [
+		{
+			"reference": "http://example.org/some-clinic/Location/1874"
+		},
+		{
+			"reference": "http://example.org/some-clinic/Location/9233"
+		}
+	],
+	"telecom": [
+		{
+			"system": "phone",
+			"value": "1-222-333-4444"
+		},
+		{
+			"system": "email",
+			"value": "ronald.bone@newpayer.com"
+		},
+		{
+			"system": "pager",
+			"value": "1(111)-1111111 - after 5pm"
+		}
+	],
+	"endpoint": [
+		{
+			"reference": "http://example.org/some-clinic/EndPoint/1"
+		},
+		{
+			"reference": "http://example.org/some-clinic/EndPoint/2"
+		}
+	]
+}

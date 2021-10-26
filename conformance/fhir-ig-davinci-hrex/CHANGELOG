@@ -1,0 +1,28 @@
+# Da Vinci Health Record Exchange (HRex) - 0.2.0 - STU R1 - 2nd ballot
+- Commit https://github.com/HL7/davinci-ehrx/commit/21edf8c77008748576b47214ecc8e74741cddd6f
+
+*13 OCT 2021*
+
+1. - Modified ig-r4.json to remove unsupported values from the parameters array, such as  `copyrightyear`, `releaselabel`.
+
+2. - Change targetProfile for us-core profile references to dependency on 3.1.1, so it's not conflicting with 4.0.0 (http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|3.1.1)
+    - StructureDefinition-hrex-coverage.json
+    - StructureDefinition-hrex-task-data-request.json
+    - StructureDefinition-hrex-provenance.json
+    - StructureDefinition-hrex-practitionerrole.json
+    - StructureDefinition-hrex-practitioner.json
+    - StructureDefinition-hrex-patient-member.json
+    - StructureDefinition-hrex-patient-demographics.json
+    - StructureDefinition-hrex-organization.json
+    - StructureDefinition-hrex-parameters-member-match-in.json
+    - StructureDefinition-hrex-parameters-member-match-out.json
+
+    
+# Known Issues
+WARNING: Slice-specific constraints: [dom-2, dom-4, dom-3, hrex-cov-1, dom-6, dom-5] found on element: Parameters.parameter:CoverageToMatch.resource are not supported
+Oct 15, 2021 11:53:57 AM com.ibm.fhir.profile.ConstraintGenerator generate
+WARNING: Constraint was not generated due to the following error: Discriminator not generated (elementDefinition: Parameters.parameter:memberPatient, profile: http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-parameters-member-match-in)
+Oct 15, 2021 11:53:57 AM com.ibm.fhir.profile.ConstraintGenerator generate
+WARNING: Constraint was not generated due to the following error: Discriminator not generated (elementDefinition: Parameters.parameter:CoverageToMatch, profile: http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-parameters-member-match-in)
+Oct 15, 2021 11:53:57 AM com.ibm.fhir.profile.ConstraintGenerator generate
+WARNING: Constraint was not generated due to the following error: Discriminator not generated (elementDefinition: Parameters.parameter:CoverageToLink, profile: http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-parameters-member-match-in)

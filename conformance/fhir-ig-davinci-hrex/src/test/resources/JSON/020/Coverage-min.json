@@ -1,0 +1,18 @@
+{
+	"resourceType": "Coverage",
+	"id": "min",
+	"text": {
+		"status": "generated",
+		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><p><b>status</b>: active</p><p><b>subscriberId</b>: 97531</p><p><b>beneficiary</b>: <a href=\"http://example.org/new-payer/fhir/Patient/pat1\">http://example.org/new-payer/fhir/Patient/pat1</a></p><p><b>payor</b>: <a href=\"Organization-min.html\">Generated Summary: id: 0123456789; active; name: New Health Plan</a></p></div>"
+	},
+	"status": "active",
+	"subscriberId": "97531",
+	"beneficiary": {
+		"reference": "http://example.org/new-payer/fhir/Patient/pat1"
+	},
+	"payor": [
+		{
+			"reference": "Organization/min"
+		}
+	]
+}

@@ -1,0 +1,55 @@
+{
+	"resourceType": "Task",
+	"id": "query-status",
+	"text": {
+		"status": "generated",
+		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><p><b>basedOn</b>: <a href=\"http://example.org/new-payer/CommunicationRequest/57\">http://example.org/new-payer/CommunicationRequest/57</a></p><p><b>status</b>: in-progress</p><p><b>businessStatus</b>: <span title=\"Codes: \">Results will be reviewed for release on Monday</span></p><p><b>intent</b>: order</p><p><b>code</b>: <span title=\"Codes: {http://hl7.org/fhir/us/davinci-hrex/CodeSystem/hrex-temp data-request}\">data request task</span></p><p><b>for</b>: <a href=\"http://example.org/new-payer/fhir/Patient/pat1\">http://example.org/new-payer/fhir/Patient/pat1</a></p><p><b>authoredOn</b>: Jul 31, 2020, 2:07:15 AM</p><p><b>requester</b>: <a href=\"Organization-full.html\">Generated Summary: id: 11223344, id: 11223344, id: 55566667, id: 0123456789, id: 918273645; active; name: New Health Plan; Phone: 1-800-123-4567, Phone: 1-234-567-8901, info@newhealthplan.org</a></p><p><b>owner</b>: <a href=\"http://example.org/new-payer/fhir/Organization/hl7pay\">http://example.org/new-payer/fhir/Organization/hl7pay</a></p><p><b>reasonCode</b>: <span title=\"Codes: \">Support prior authorization decision-making</span></p><p><b>reasonReference</b>: <a href=\"http://example.org/new-payer/fhir/Claim/123\">http://example.org/new-payer/fhir/Claim/123</a></p><h3>Inputs</h3><table class=\"grid\"><tr><td>-</td><td><b>Type</b></td><td><b>Value[x]</b></td></tr><tr><td>*</td><td><span title=\"Codes: {http://hl7.org/fhir/us/davinci-hrex/CodeSystem/hrex-temp data-query}\">data query input</span></td><td>Condition?patient=Patient/pat1&amp;clinical-status=active&amp;code=http%3A%2F%2Fsnomed.info%2Fsct%7C73211009</td></tr></table></div>"
+	},
+	"basedOn": [
+		{
+			"reference": "http://example.org/new-payer/CommunicationRequest/57"
+		}
+	],
+	"status": "in-progress",
+	"businessStatus": {
+		"text": "Results will be reviewed for release on Monday"
+	},
+	"intent": "order",
+	"code": {
+		"coding": [
+			{
+				"system": "http://hl7.org/fhir/us/davinci-hrex/CodeSystem/hrex-temp",
+				"code": "data-request"
+			}
+		]
+	},
+	"for": {
+		"reference": "http://example.org/new-payer/fhir/Patient/pat1"
+	},
+	"authoredOn": "2020-07-30T20:07:15-06:00",
+	"requester": {
+		"reference": "Organization/full"
+	},
+	"owner": {
+		"reference": "http://example.org/new-payer/fhir/Organization/hl7pay"
+	},
+	"reasonCode": {
+		"text": "Support prior authorization decision-making"
+	},
+	"reasonReference": {
+		"reference": "http://example.org/new-payer/fhir/Claim/123"
+	},
+	"input": [
+		{
+			"type": {
+				"coding": [
+					{
+						"system": "http://hl7.org/fhir/us/davinci-hrex/CodeSystem/hrex-temp",
+						"code": "data-query"
+					}
+				]
+			},
+			"valueString": "Condition?patient=Patient/pat1&clinical-status=active&code=http%3A%2F%2Fsnomed.info%2Fsct%7C73211009"
+		}
+	]
+}

@@ -486,12 +486,18 @@ public class Operation extends FHIRResource {
         Response.Status status = Response.Status.OK;
         Object o = operationContext.getProperty(FHIROperationContext.PROPNAME_STATUS_TYPE);
         if (o != null) {
-            status = (Response.Status) o;
-            if (Response.Status.ACCEPTED.equals(status)) {
-                // This change is for BulkData operations which manipulate the response code.
-                // Operations that return Accepted need to implement their own approach.
+            if (o instanceof Integer) {
                 Object ox = operationContext.getProperty(FHIROperationContext.PROPNAME_RESPONSE);
                 return (Response) ox;
+            } else {
+                // Else we're on a status
+                status = (Response.Status) o;
+                if (Response.Status.ACCEPTED.equals(status)) {
+                    // This change is for BulkData operations which manipulate the response code.
+                    // Operations that return Accepted need to implement their own approach.
+                    Object ox = operationContext.getProperty(FHIROperationContext.PROPNAME_RESPONSE);
+                    return (Response) ox;
+                }
             }
         }
 
