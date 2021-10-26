@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.ws.rs.core.Response;
+
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Parameters;
@@ -106,7 +107,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
                 .collect(Collectors.toList());
 
         for (String resourceType : resourceTypes) {
-            checkScopes(resourceType, neededPermission, scopesFromToken);
+            checkSystemScopes(resourceType, neededPermission, scopesFromToken);
         }
     }
 
@@ -155,7 +156,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
                 .collect(Collectors.toList());
 
         for (String resourceType : resourceTypes) {
-            checkScopes(resourceType, neededPermission, scopesFromToken);
+            checkSystemScopes(resourceType, neededPermission, scopesFromToken);
         }
     }
 
@@ -186,7 +187,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
             break;
         case SYSTEM:
             Parameters parameters = (Parameters) context.getProperty(FHIROperationContext.PROPNAME_REQUEST_PARAMETERS);
-            Optional<Parameter> typesParam = parameters.getParameter().stream().filter(p -> "_types".equals(p.getName().getValue())).findFirst();
+            Optional<Parameter> typesParam = parameters.getParameter().stream().filter(p -> "_type".equals(p.getName().getValue())).findFirst();
             if (typesParam.isPresent()) {
                 String typesString = typesParam.get().getValue().as(ModelSupport.FHIR_STRING).getValue();
                 resourceTypes = Arrays.asList(typesString.split(","));
@@ -523,6 +524,30 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
 
         String msg = requiredPermission.value() + " permission for '" + resourceType +
                 "' is not granted by any of the provided scopes: " + approvedScopes;
+        if (log.isLoggable(Level.FINE)) {
+            log.fine(msg);
+        }
+        throw new FHIRPersistenceInterceptorException(msg)
+                .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.FORBIDDEN));
+    }
+
+    /**
+     * Check whether the permissions required for the current interaction are granted by the approved *system* scopes.
+     *
+     * @see #checkScopes(String, Permission, List)
+     */
+    private void checkSystemScopes(String resourceType, Permission requiredPermission, List<Scope> systemScopes) throws FHIRPersistenceInterceptorException {
+        for (Scope scope : systemScopes) {
+            // "Resource" is used for "*" which applies to all resource types
+            if (scope.getResourceType() == ResourceType.Value.RESOURCE || scope.getResourceType().value().equals(resourceType)) {
+                if (hasPermission(scope.getPermission(), requiredPermission)) {
+                    return;
+                }
+            }
+        }
+
+        String msg = requiredPermission.value() + " permission for '" + resourceType +
+                "' is not granted by any of the provided 'system/' scopes: " + systemScopes;
         if (log.isLoggable(Level.FINE)) {
             log.fine(msg);
         }
