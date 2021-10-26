@@ -103,7 +103,7 @@ public class FHIRRestInteractionVisitorReferenceMapping extends FHIRRestInteract
     @Override
     public FHIRRestOperationResponse doUpdate(int entryIndex, FHIRPersistenceEvent event, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL,
         long initialTime, String type, String id, Resource resource, Resource prevResource, String ifMatchValue, String searchQueryString,
-        boolean skippableUpdate, String localIdentifier, List<Issue> warnings, boolean isDeleted) throws Exception {
+        boolean skippableUpdate, String localIdentifier, List<Issue> warnings, boolean isDeleted, Integer ifNoneMatch) throws Exception {
 
         // Use doOperation for common exception handling
         return doOperation(entryIndex, requestDescription, initialTime, () -> {

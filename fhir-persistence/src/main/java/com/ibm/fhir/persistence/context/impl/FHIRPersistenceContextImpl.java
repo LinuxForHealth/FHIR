@@ -21,6 +21,7 @@ public class FHIRPersistenceContextImpl implements FHIRPersistenceContext {
     private FHIRHistoryContext historyContext;
     private FHIRSearchContext searchContext;
     private boolean includeDeleted = false;
+    private Integer ifNoneMatch;
 
     public FHIRPersistenceContextImpl(FHIRPersistenceEvent pe) {
         this.persistenceEvent = pe;
@@ -31,6 +32,16 @@ public class FHIRPersistenceContextImpl implements FHIRPersistenceContext {
         setIncludeDeleted(includeDeleted);
     }
 
+    /**
+     * Public constructor
+     * @param pe
+     * @param ifNoneMatch
+     */
+    public FHIRPersistenceContextImpl(FHIRPersistenceEvent pe, Integer ifNoneMatch) {
+        this.persistenceEvent = pe;
+        setIfNoneMatch(ifNoneMatch);
+    }
+    
     public FHIRPersistenceContextImpl(FHIRPersistenceEvent pe, FHIRHistoryContext hc) {
         this.persistenceEvent = pe;
         this.historyContext = hc;
@@ -66,7 +77,24 @@ public class FHIRPersistenceContextImpl implements FHIRPersistenceContext {
         return includeDeleted;
     }
 
+    /**
+     * Setter for the includeDeleted flag
+     * @param includeDeleted
+     */
     public void setIncludeDeleted(boolean includeDeleted) {
         this.includeDeleted = includeDeleted;
+    }
+
+    /**
+     * Setter for the If-None-Match header value
+     * @param ifNoneMatch
+     */
+    public void setIfNoneMatch(Integer ifNoneMatch) {
+        this.ifNoneMatch = ifNoneMatch;
+    }
+
+    @Override
+    public Integer getIfNoneMatch() {
+        return this.ifNoneMatch;
     }
 }

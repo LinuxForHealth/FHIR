@@ -37,7 +37,10 @@ public interface FHIRResourceHelpers {
     public static final boolean DO_VALIDATION = true;
     // Constant for indicating whether an update can be skipped when the requested update resource matches the existing one
     public static final boolean SKIPPABLE_UPDATE = true;
-
+    
+    // Constant for when we don't use the If-Not-Match header value
+    public static final Integer IF_NOT_MATCH_NULL = null;
+    
     public enum Interaction {
         CREATE("create"),
         DELETE("delete"),
@@ -164,11 +167,12 @@ public interface FHIRResourceHelpers {
      * @param prevResource
      * @param warnings
      * @param isDeleted
+     * @param ifNoneMatch
      * @return
      * @throws Exception
      */
     public FHIRRestOperationResponse doPatchOrUpdatePersist(FHIRPersistenceEvent event, String type, String id, boolean isPatch,
-        Resource newResource, Resource prevResource, List<Issue> warnings, boolean isDeleted) throws Exception;
+        Resource newResource, Resource prevResource, List<Issue> warnings, boolean isDeleted, Integer ifNoneMatch) throws Exception;
 
     /**
      * Builds a collection of properties that will be passed to the persistence interceptors.
@@ -203,12 +207,14 @@ public interface FHIRResourceHelpers {
      * @param skippableUpdate
      *            if true, and the resource content in the update matches the existing resource on the server, then skip the update;
      *            if false, then always attempt the update
+     * @param ifNoneMatch 
+     *            conditional create-on-update
      * @return a FHIRRestOperationResponse that contains the results of the operation
      * @throws Exception
      */
     default FHIRRestOperationResponse doUpdate(String type, String id, Resource newResource, String ifMatchValue,
-            String searchQueryString, boolean skippableUpdate) throws Exception {
-        return doUpdate(type, id, newResource, ifMatchValue, searchQueryString, skippableUpdate, DO_VALIDATION);
+            String searchQueryString, boolean skippableUpdate, Integer ifNoneMatch) throws Exception {
+        return doUpdate(type, id, newResource, ifMatchValue, searchQueryString, skippableUpdate, DO_VALIDATION, ifNoneMatch);
     }
 
     /**
@@ -229,11 +235,13 @@ public interface FHIRResourceHelpers {
      *            if false, then always attempt the update
      * @param doValidation
      *            if true, validate the resource; if false, assume the resource has already been validated
+     * @param ifNoneMatch 
+     *            conditional create-on-update
      * @return a FHIRRestOperationResponse that contains the results of the operation
      * @throws Exception
      */
     FHIRRestOperationResponse doUpdate(String type, String id, Resource newResource, String ifMatchValue,
-            String searchQueryString, boolean skippableUpdate, boolean doValidation) throws Exception;
+            String searchQueryString, boolean skippableUpdate, boolean doValidation, Integer ifNoneMatch) throws Exception;
 
     /**
      * Performs a patch operation (a new version of the Resource will be stored).

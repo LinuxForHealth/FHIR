@@ -19,6 +19,7 @@ import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
+import com.ibm.fhir.persistence.InteractionStatus;
 import com.ibm.fhir.persistence.MultiResourceResult;
 import com.ibm.fhir.persistence.ResourceChangeLogRecord;
 import com.ibm.fhir.persistence.ResourcePayload;
@@ -47,6 +48,7 @@ public class MockPersistenceImpl implements FHIRPersistence {
         
         SingleResourceResult.Builder<T> resultBuilder = new SingleResourceResult.Builder<T>()
                 .success(true)
+                .interactionStatus(InteractionStatus.MODIFIED)
                 .resource(resource);
         return resultBuilder.build();
     }
@@ -58,11 +60,13 @@ public class MockPersistenceImpl implements FHIRPersistence {
         // TODO. Why this logic? Definitely worthy of a comment
         if (logicalId.startsWith("generated")) {
             return new SingleResourceResult.Builder<T>()
+                    .interactionStatus(InteractionStatus.READ)
                     .success(true)
                     .resource(null).build();
         } else {
             T updatedResource = (T) Patient.builder().id("test").meta(Meta.builder().versionId(Id.of("1")).lastUpdated(Instant.now()).build()).build();
             return new SingleResourceResult.Builder<T>()
+                    .interactionStatus(InteractionStatus.READ)
                     .success(true)
                     .resource(updatedResource).build();
         }
@@ -75,11 +79,13 @@ public class MockPersistenceImpl implements FHIRPersistence {
         if (logicalId.startsWith("generated")) {
             return new SingleResourceResult.Builder<T>()
                     .success(true)
+                    .interactionStatus(InteractionStatus.READ)
                     .resource(null).build();
         } else {
             T updatedResource = (T) Patient.builder().id("test").meta(Meta.builder().versionId(Id.of("1")).lastUpdated(Instant.now()).build()).build();
             return new SingleResourceResult.Builder<T>()
                     .success(true)
+                    .interactionStatus(InteractionStatus.READ)
                     .resource(updatedResource).build();
         }
     }
@@ -100,6 +106,7 @@ public class MockPersistenceImpl implements FHIRPersistence {
         SingleResourceResult.Builder<T> resultBuilder = new SingleResourceResult.Builder<T>()
                 .success(true)
                 .resource(resource) // persistence layer should no longer change the resource!
+                .interactionStatus(InteractionStatus.MODIFIED)
                 .outcome(operationOutcome);
         return resultBuilder.build();
     }
@@ -152,6 +159,7 @@ public class MockPersistenceImpl implements FHIRPersistence {
         T updatedResource = (T) Patient.builder().id("test").meta(Meta.builder().versionId(Id.of("1")).lastUpdated(Instant.now()).build()).build();
         SingleResourceResult.Builder<T> resultBuilder = new SingleResourceResult.Builder<T>()
                 .success(true)
+                .interactionStatus(InteractionStatus.MODIFIED)
                 .resource(updatedResource);
         return resultBuilder.build();
     }

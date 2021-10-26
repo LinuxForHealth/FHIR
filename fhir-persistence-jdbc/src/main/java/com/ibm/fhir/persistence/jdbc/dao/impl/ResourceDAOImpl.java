@@ -32,6 +32,7 @@ import javax.transaction.TransactionSynchronizationRegistry;
 import com.ibm.fhir.database.utils.common.CalendarHelper;
 import com.ibm.fhir.database.utils.query.QueryUtil;
 import com.ibm.fhir.database.utils.query.Select;
+import com.ibm.fhir.persistence.InteractionStatus;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchException;
@@ -89,10 +90,10 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
 
     // @formatter:off
     //                                                                                 0                 1
-    //                                                                                 1 2 3 4 5 6 7 8 9 0
+    //                                                                                 1 2 3 4 5 6 7 8 9 0 1
     // @formatter:on
     // Don't forget that we must account for IN and OUT parameters.
-    private static final String SQL_INSERT_WITH_PARAMETERS = "CALL %s.add_any_resource(?,?,?,?,?,?,?,?,?,?)";
+    private static final String SQL_INSERT_WITH_PARAMETERS = "CALL %s.add_any_resource(?,?,?,?,?,?,?,?,?,?,?)";
 
     // Read version history of the resource identified by its logical-id
     private static final String SQL_HISTORY =
@@ -469,8 +470,27 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
         return resourceTypeId;
     }
 
+    /**
+     * Test for If-None-Match conditional create-on-update behavior. The If-None-Match
+     * header value is encoded by the REST layer (minimizes propagation of user input)
+     * using the following rules
+     *   If-None-Match: null then ifNoneMatch = null
+     *   If-None-Match: * then ifNoneMatch = 0
+     *   
+     * Other values such as W/"1" are intentionally unsupported because their
+     * behavior may be unintuitive, especially around deleted resources. 
+     * @param ifNoneMatch the encoded If-None-Match header value
+     * @param currentVersionId the current version of the resource to compare with
+     * @return
+     */
+    protected boolean checkIfNoneMatch(Integer ifNoneMatch, int currentVersionId) {
+        // we currently don't care about a version match
+        return ifNoneMatch != null && ifNoneMatch == 0;
+    }
+
     @Override
-    public Resource insert(Resource resource, List<ExtractedParameterValue> parameters, String parameterHashB64, ParameterDAO parameterDao)
+    public Resource insert(Resource resource, List<ExtractedParameterValue> parameters, String parameterHashB64, ParameterDAO parameterDao,
+            Integer ifNoneMatch)
             throws FHIRPersistenceException {
         final String METHODNAME = "insert(Resource, List<ExtractedParameterValue>";
         log.entering(CLASSNAME, METHODNAME);
@@ -517,9 +537,10 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             stmt.setString(5, resource.isDeleted() ? "Y": "N");
             stmt.setInt(6, resource.getVersionId());
             stmt.setString(7, parameterHashB64);
-            stmt.registerOutParameter(8, Types.BIGINT);  // logical_resource_id
-            stmt.registerOutParameter(9, Types.BIGINT);  // resource_id
-            stmt.registerOutParameter(10, Types.VARCHAR); // current_hash
+            setInt(stmt, 8, ifNoneMatch);
+            stmt.registerOutParameter(9, Types.BIGINT);  // logical_resource_id
+            stmt.registerOutParameter(10, Types.BIGINT);  // resource_id
+            stmt.registerOutParameter(11, Types.VARCHAR); // current_hash
 
             stmt.execute();
             long latestTime = System.nanoTime();
@@ -566,8 +587,11 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
                 double paramInsertDuration = (latestTime-paramInsertStartTime)/1e6;
                 log.fine("Successfully inserted Resource. id=" + resource.getId() + " total=" + totalDuration + "ms, proc=" + dbCallDuration + "ms, param=" + paramInsertDuration + "ms");
             }
-        } catch (FHIRPersistenceDBConnectException |
 
+            // We don't have any additional information on what change was actually
+            // made, we only know that the resource was either created or updated
+            resource.setInteractionStatus(InteractionStatus.MODIFIED);
+        } catch (FHIRPersistenceDBConnectException |
                 FHIRPersistenceDataAccessException e) {
             throw e;
         } catch (SQLIntegrityConstraintViolationException e) {
@@ -577,6 +601,8 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             if ("99001".equals(e.getSQLState())) {
                 // this is just a concurrency update, so there's no need to log the SQLException here
                 throw new FHIRPersistenceVersionIdMismatchException("Encountered version id mismatch while inserting Resource");
+            } else if ("99003".equals(e.getSQLState())) {
+                resource.setInteractionStatus(InteractionStatus.IF_NONE_MATCH_EXISTED);
             } else {
                 FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("SQLException encountered while inserting Resource.");
                 throw severe(log, fx, e);
@@ -787,5 +813,20 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
         }
 
         return resultMap;
+    }
+
+    /**
+     * Set an int parameter in the statement, handling null as required
+     * @param ps
+     * @param index
+     * @param value
+     * @throws SQLException
+     */
+    protected void setInt(PreparedStatement ps, int index, Integer value) throws SQLException {
+        if (value == null) {
+            ps.setNull(index, Types.INTEGER);
+        } else {
+            ps.setInt(index, value);
+        }
     }
 }

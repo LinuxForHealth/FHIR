@@ -659,6 +659,15 @@ public class FHIRRestBundleHelper {
             ifMatchBundleValue = requestEntry.getRequest().getIfMatch().getValue();
         }
 
+        // Conditional create-on-update
+        Integer ifNoneMatch = null;
+        if (requestEntry.getRequest().getIfNoneMatch() != null) {
+            String ifNoneMatchValue = requestEntry.getRequest().getIfNoneMatch().getValue();
+            if ("*".equals(ifNoneMatchValue)) {
+                ifNoneMatch = Integer.valueOf(0);
+            }
+        }
+
         // Extract the local identifier which may be used by other resources in the bundle to reference this resource
         String localIdentifier = retrieveLocalIdentifier(requestEntry);
 
@@ -671,7 +680,7 @@ public class FHIRRestBundleHelper {
         // Create the event we'll use for this resource interaction
         FHIRPersistenceEvent event = new FHIRPersistenceEvent(resource, helpers.buildPersistenceEventProperties(type, id, null, null));
         result = new FHIRRestInteractionUpdate(entryIndex, event, validationResponseEntry, requestDescription, requestURL, initialTime,
-            type, id, resource, ifMatchBundleValue, requestURL.getQuery(), skippableUpdate, localIdentifier);
+            type, id, resource, ifMatchBundleValue, requestURL.getQuery(), skippableUpdate, localIdentifier, ifNoneMatch);
 
         return result;
     }

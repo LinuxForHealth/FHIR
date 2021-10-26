@@ -22,6 +22,7 @@ import java.util.logging.Logger;
 import javax.transaction.TransactionSynchronizationRegistry;
 
 import com.ibm.fhir.database.utils.common.CalendarHelper;
+import com.ibm.fhir.persistence.InteractionStatus;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchException;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
@@ -50,7 +51,9 @@ public class PostgresResourceDAO extends ResourceDAOImpl {
     private static final Logger logger = Logger.getLogger(CLASSNAME);
 
     private static final String SQL_READ_RESOURCE_TYPE = "{CALL %s.add_resource_type(?, ?)}";
-    private static final String SQL_INSERT_WITH_PARAMETERS = "{CALL %s.add_any_resource(?,?,?,?,?,?,?,?,?,?)}";
+    
+    // 11 args
+    private static final String SQL_INSERT_WITH_PARAMETERS = "{CALL %s.add_any_resource(?,?,?,?,?,?,?,?,?,?,?)}";
 
     // DAO used to obtain sequence values from FHIR_REF_SEQUENCE
     private FhirRefSequenceDAO fhirRefSequenceDAO;
@@ -65,7 +68,8 @@ public class PostgresResourceDAO extends ResourceDAOImpl {
     }
 
     @Override
-    public Resource insert(Resource resource, List<ExtractedParameterValue> parameters, String parameterHashB64, ParameterDAO parameterDao)
+    public Resource insert(Resource resource, List<ExtractedParameterValue> parameters, String parameterHashB64, 
+            ParameterDAO parameterDao, Integer ifNoneMatch)
             throws FHIRPersistenceException {
         final String METHODNAME = "insert(Resource, List<ExtractedParameterValue, ParameterDAO>";
         logger.entering(CLASSNAME, METHODNAME);
@@ -105,14 +109,16 @@ public class PostgresResourceDAO extends ResourceDAOImpl {
             stmt.setString(6, UUID.randomUUID().toString());
             stmt.setInt(7, resource.getVersionId());
             stmt.setString(8, parameterHashB64);
-            stmt.registerOutParameter(9, Types.BIGINT);
-            stmt.registerOutParameter(10, Types.VARCHAR); // The old parameter_hash
+            setInt(stmt, 9, ifNoneMatch);
+            stmt.registerOutParameter(10, Types.BIGINT);
+            stmt.registerOutParameter(11, Types.VARCHAR); // The old parameter_hash
 
             dbCallStartTime = System.nanoTime();
             stmt.execute();
             dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
 
             resource.setId(stmt.getLong(9));
+            resource.setInteractionStatus(InteractionStatus.MODIFIED);
 
             // Parameter time
             // To keep things simple for the postgresql use-case, we just use a visitor to
@@ -143,6 +149,8 @@ public class PostgresResourceDAO extends ResourceDAOImpl {
             if ("99001".equals(e.getSQLState())) {
                 // this is just a concurrency update, so there's no need to log the SQLException here
                 throw new FHIRPersistenceVersionIdMismatchException("Encountered version id mismatch while inserting Resource");
+            } else if ("99003".equals(e.getSQLState())) {
+                resource.setInteractionStatus(InteractionStatus.IF_NONE_MATCH_EXISTED);
             } else {
                 FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("SQLException encountered while inserting Resource.");
                 throw severe(logger, fx, e);

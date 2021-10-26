@@ -23,6 +23,7 @@ public class FHIRRestInteractionUpdate extends FHIRRestInteractionResource {
     private final String searchQueryString;
     private final boolean skippableUpdate;
     private final String localIdentifier;
+    private final Integer ifNoneMatch;
 
     // The deleted flag status when we read the current resource value
     private boolean deleted;
@@ -43,11 +44,12 @@ public class FHIRRestInteractionUpdate extends FHIRRestInteractionResource {
      * @param searchQueryString
      * @param skippableUpdate
      * @param localIdentifier
+     * @param ifNoneMatch
      */
     public FHIRRestInteractionUpdate(int entryIndex, FHIRPersistenceEvent event, Entry validationResponseEntry,
             String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String id,
             Resource newResource, String ifMatchValue, String searchQueryString, boolean skippableUpdate,
-            String localIdentifier) {
+            String localIdentifier, Integer ifNoneMatch) {
         super(entryIndex, event, newResource, validationResponseEntry, requestDescription, requestURL, initialTime);
         this.type = type;
         this.id = id;
@@ -55,6 +57,7 @@ public class FHIRRestInteractionUpdate extends FHIRRestInteractionResource {
         this.searchQueryString = searchQueryString;
         this.skippableUpdate = skippableUpdate;
         this.localIdentifier = localIdentifier;
+        this.ifNoneMatch = ifNoneMatch;
     }
 
     @Override
@@ -62,7 +65,7 @@ public class FHIRRestInteractionUpdate extends FHIRRestInteractionResource {
 
         FHIRRestOperationResponse result = visitor.doUpdate(getEntryIndex(), getEvent(), getValidationResponseEntry(),
                 getRequestDescription(), getRequestURL(), getInitialTime(), type, id, getNewResource(),
-                getPrevResource(), ifMatchValue, searchQueryString, skippableUpdate, localIdentifier, getWarnings(), deleted);
+                getPrevResource(), ifMatchValue, searchQueryString, skippableUpdate, localIdentifier, getWarnings(), deleted, ifNoneMatch);
 
         // update the resource so we can use it when called in the next processing phase
         if (result != null) {

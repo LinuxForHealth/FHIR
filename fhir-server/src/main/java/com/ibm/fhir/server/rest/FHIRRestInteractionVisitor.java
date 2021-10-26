@@ -178,13 +178,15 @@ public interface FHIRRestInteractionVisitor {
      *            the accumulated list of warnings gathered while processing the interaction
      * @param isDeleted
      *            flag to indicate if the resource is currently deleted
+     * @param ifNoneMatch
+     *            conditional create-on-update
      * @return a FHIRRestOperationResponse that contains the results of the operation
      * @throws Exception
      */
     FHIRRestOperationResponse doUpdate(int entryIndex, FHIRPersistenceEvent event, Entry validationResponseEntry,
             String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String id,
             Resource newResource, Resource prevResource, String ifMatchValue, String searchQueryString,
-            boolean skippableUpdate, String localIdentifier, List<Issue> warnings, boolean isDeleted) throws Exception;
+            boolean skippableUpdate, String localIdentifier, List<Issue> warnings, boolean isDeleted, Integer ifNoneMatch) throws Exception;
 
     /**
      * Performs a patch operation (a new version of the Resource will be stored).

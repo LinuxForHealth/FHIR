@@ -22,12 +22,14 @@
 --   p_is_deleted:  the soft delete flag
 --   p_version:     the intended version id for this resource
 --   p_parameter_hash_b64: Base64 encoded hash of parameter values
+--   p_if_none_match: conditional create-on-update
 --   o_logical_resource_id: output field returning the newly assigned logical_resource_id value
 --   o_resource_id: output field returning the newly assigned resource_id value
 --   o_current_parameter_hash: Base64 current parameter hash if existing resource
 -- Exceptions:
 --   SQLSTATE 99001: on version conflict (concurrency)
 --   SQLSTATE 99002: missing expected row (data integrity)
+--   SQLSTATE 99003: If-None-Match conditional create-on-update match
 -- ----------------------------------------------------------------------------
     ( IN p_resource_type                VARCHAR( 36 OCTETS),
       IN p_logical_id                   VARCHAR(255 OCTETS), 
@@ -36,6 +38,7 @@
       IN p_is_deleted                      CHAR(  1),
       IN p_version                          INT,
       IN p_parameter_hash_b64           VARCHAR(44 OCTETS),
+      IN p_if_none_match                    INT,
       OUT o_logical_resource_id          BIGINT,
       OUT o_resource_row_id              BIGINT,
       OUT o_current_parameter_hash      VARCHAR(44 OCTETS)
@@ -130,6 +133,12 @@ BEGIN
         SIGNAL SQLSTATE '99002' SET MESSAGE_TEXT = 'Schema data corruption - missing logical resource';
     END IF;
 
+    IF p_if_none_match == 0
+    THEN
+        -- If-None-Match: * hit    
+        SIGNAL SQLSTATE '99003' SET MESSAGE_TEXT = 'If-None-Match - Existing resource';
+    END IF;
+    
     -- Concurrency check:
     --   the version parameter we've been given (which is also embedded in the JSON payload) must be 
     --   one greater than the current version, otherwise we've hit a concurrent update race condition

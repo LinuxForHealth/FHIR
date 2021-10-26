@@ -19,10 +19,13 @@
 --   p_last_updated the last_updated time given by the FHIR server
 --   p_is_deleted: the soft delete flag
 --   p_version_id: the intended new version id of the resource (matching the JSON payload)
+--   p_parameter_hash_b64 the Base64 encoded hash of parameter values
+--   p_if_none_match the encoded If-None-Match value
 --   o_resource_id: output field returning the newly assigned resource_id value
 -- Exceptions:
 --   SQLSTATE 99001: on version conflict (concurrency)
 --   SQLSTATE 99002: missing expected row (data integrity)
+--   SQLSTATE 99003: If-None-Match
 -- ----------------------------------------------------------------------------
     ( IN p_resource_type                 VARCHAR( 36),
       IN p_logical_id                    VARCHAR(255), 
@@ -32,6 +35,7 @@
       IN p_source_key                    VARCHAR( 64),
       IN p_version                           INT,
       IN p_parameter_hash_b64            VARCHAR( 44),
+      IN p_if_none_match                     INT,
       OUT o_logical_resource_id           BIGINT,
       OUT o_current_parameter_hash       VARCHAR( 44))
     LANGUAGE plpgsql
@@ -110,6 +114,12 @@ BEGIN
     THEN
         -- our concurrency protection means that this shouldn't happen
         RAISE 'Schema data corruption - missing logical resource' USING ERRCODE = '99002';
+    END IF;
+
+    IF p_if_none_match == 0
+    THEN
+        -- If-None-Match hit    
+        RAISE 'If-None-Match - Existing resource' USING ERRCODE = '99003';
     END IF;
 
     -- Concurrency check:
