@@ -139,7 +139,7 @@ public final class FHIRRegistryUtil {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(FHIRRegistryUtil.class.getClassLoader().getResourceAsStream(path), StandardCharsets.UTF_8))) {
             return FHIRParser.parser(Format.JSON).parse(reader);
         } catch (Exception e) {
-            log.warning("Unable to load resource: " + path + " due to the following exception: " + e.getMessage());
+            log.log(Level.WARNING, "Unable to load resource: " + path, e);
         }
         return null;
     }

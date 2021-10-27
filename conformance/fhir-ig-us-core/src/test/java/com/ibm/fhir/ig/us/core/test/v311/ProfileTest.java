@@ -57,8 +57,7 @@ public class ProfileTest {
             });
             assertEquals(countErrors(issues), 0);
         } catch (Exception e) {
-            System.out.println("Exception with " + path);
-            fail(e.toString());
+            fail("Exception with " + path, e);
         }
     }
 
