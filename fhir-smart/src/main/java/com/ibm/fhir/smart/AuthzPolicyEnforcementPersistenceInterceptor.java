@@ -207,28 +207,50 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
     public void beforeRead(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
         String resourceType = event.getFhirResourceType();
         DecodedJWT jwt = JWT.decode(getAccessToken());
-        checkScopes(resourceType, Permission.READ, getScopesFromToken(jwt));
-        enforceDirectPatientAccess(resourceType, event.getFhirResourceId(), jwt);
+
+        if (PATIENT.equals(resourceType)) {
+            enforceDirectPatientAccess(resourceType, event.getFhirResourceId(), jwt);
+        } else {
+            checkScopes(resourceType, Permission.READ, getScopesFromToken(jwt));
+        }
     }
 
     @Override
     public void beforeVread(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
         String resourceType = event.getFhirResourceType();
         DecodedJWT jwt = JWT.decode(getAccessToken());
-        checkScopes(resourceType, Permission.READ, getScopesFromToken(jwt));
-        enforceDirectPatientAccess(resourceType, event.getFhirResourceId(), jwt);
+
+        if (PATIENT.equals(resourceType)) {
+            enforceDirectPatientAccess(resourceType, event.getFhirResourceId(), jwt);
+        } else {
+            checkScopes(resourceType, Permission.READ, getScopesFromToken(jwt));
+        }
     }
 
     @Override
     public void beforeHistory(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
         String resourceType = event.getFhirResourceType();
         DecodedJWT jwt = JWT.decode(getAccessToken());
-        checkScopes(resourceType, Permission.READ, getScopesFromToken(jwt));
-        enforceDirectPatientAccess(resourceType, event.getFhirResourceId(), jwt);
+
+        if (PATIENT.equals(resourceType)) {
+            enforceDirectPatientAccess(resourceType, event.getFhirResourceId(), jwt);
+        } else {
+            checkScopes(resourceType, Permission.READ, getScopesFromToken(jwt));
+        }
     }
 
     private void enforceDirectPatientAccess(String resourceType, String resourceId, DecodedJWT jwt) throws FHIRPersistenceInterceptorException {
-        if (PATIENT.equals(resourceType)) {
+        List<Scope> scopesFromToken = getScopesFromToken(jwt);
+        Map<ContextType, List<Scope>> groupedScopes = getScopesFromToken(jwt).stream()
+                .collect(Collectors.groupingBy(s -> s.getContextType()));
+
+        if (isApprovedByScopes(resourceType, Permission.READ, groupedScopes.get(ContextType.USER)) ||
+                isApprovedByScopes(resourceType, Permission.READ, groupedScopes.get(ContextType.SYSTEM))) {
+            return;
+        }
+
+        // If a patient/ scope is the only approving scope, then check the patient context
+        if (isApprovedByScopes(resourceType, Permission.READ, groupedScopes.get(ContextType.PATIENT))) {
             Set<String> patientIdFromToken = getPatientIdFromToken(jwt);
             if (!patientIdFromToken.contains(resourceId)) {
                 String msg = "Interaction with 'Patient/" + resourceId +
@@ -236,6 +258,15 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
                 throw new FHIRPersistenceInterceptorException(msg)
                         .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.FORBIDDEN));
             }
+        } else {
+            // no approving scopes
+            String msg = "Read permission for '" + resourceType +
+                    "' is not granted by any of the provided scopes: " + scopesFromToken;
+            if (log.isLoggable(Level.FINE)) {
+                log.fine(msg);
+            }
+            throw new FHIRPersistenceInterceptorException(msg)
+                    .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.FORBIDDEN));
         }
     }
 
@@ -513,22 +544,15 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
      * @throws FHIRPersistenceInterceptorException if the interaction is not permitted
      */
     private void checkScopes(String resourceType, Permission requiredPermission, List<Scope> approvedScopes) throws FHIRPersistenceInterceptorException {
-        for (Scope scope : approvedScopes) {
-            // "Resource" is used for "*" which applies to all resource types
-            if (scope.getResourceType() == ResourceType.Value.RESOURCE || scope.getResourceType().value().equals(resourceType)) {
-                if (hasPermission(scope.getPermission(), requiredPermission)) {
-                    return;
-                }
+        if (!isApprovedByScopes(resourceType, requiredPermission, approvedScopes)) {
+            String msg = requiredPermission.value() + " permission for '" + resourceType +
+                    "' is not granted by any of the provided scopes: " + approvedScopes;
+            if (log.isLoggable(Level.FINE)) {
+                log.fine(msg);
             }
+            throw new FHIRPersistenceInterceptorException(msg)
+                    .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.FORBIDDEN));
         }
-
-        String msg = requiredPermission.value() + " permission for '" + resourceType +
-                "' is not granted by any of the provided scopes: " + approvedScopes;
-        if (log.isLoggable(Level.FINE)) {
-            log.fine(msg);
-        }
-        throw new FHIRPersistenceInterceptorException(msg)
-                .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.FORBIDDEN));
     }
 
     /**
@@ -537,22 +561,31 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
      * @see #checkScopes(String, Permission, List)
      */
     private void checkSystemScopes(String resourceType, Permission requiredPermission, List<Scope> systemScopes) throws FHIRPersistenceInterceptorException {
-        for (Scope scope : systemScopes) {
+        if (!isApprovedByScopes(resourceType, requiredPermission, systemScopes)) {
+            String msg = requiredPermission.value() + " permission for '" + resourceType +
+                    "' is not granted by any of the provided 'system/' scopes: " + systemScopes;
+            if (log.isLoggable(Level.FINE)) {
+                log.fine(msg);
+            }
+            throw new FHIRPersistenceInterceptorException(msg)
+                    .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.FORBIDDEN));
+        }
+    }
+
+    private boolean isApprovedByScopes(String resourceType, Permission requiredPermission, List<Scope> approvedScopes) {
+        if (approvedScopes == null) {
+            return false;
+        }
+
+        for (Scope scope : approvedScopes) {
             // "Resource" is used for "*" which applies to all resource types
             if (scope.getResourceType() == ResourceType.Value.RESOURCE || scope.getResourceType().value().equals(resourceType)) {
                 if (hasPermission(scope.getPermission(), requiredPermission)) {
-                    return;
+                    return true;
                 }
             }
         }
-
-        String msg = requiredPermission.value() + " permission for '" + resourceType +
-                "' is not granted by any of the provided 'system/' scopes: " + systemScopes;
-        if (log.isLoggable(Level.FINE)) {
-            log.fine(msg);
-        }
-        throw new FHIRPersistenceInterceptorException(msg)
-                .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.FORBIDDEN));
+        return false;
     }
 
     /**
