@@ -25,11 +25,10 @@
 -- Exceptions:
 --   SQLSTATE 99001: on version conflict (concurrency)
 --   SQLSTATE 99002: missing expected row (data integrity)
---   SQLSTATE 99003: If-None-Match
 -- ----------------------------------------------------------------------------
     ( IN p_resource_type                 VARCHAR( 36),
       IN p_logical_id                    VARCHAR(255), 
-      IN p_payload                          BYTEA,
+      IN p_payload                         BYTEA,
       IN p_last_updated                TIMESTAMP,
       IN p_is_deleted                       CHAR(  1),
       IN p_source_key                    VARCHAR( 64),
@@ -37,7 +36,8 @@
       IN p_parameter_hash_b64            VARCHAR( 44),
       IN p_if_none_match                     INT,
       OUT o_logical_resource_id           BIGINT,
-      OUT o_current_parameter_hash       VARCHAR( 44))
+      OUT o_current_parameter_hash       VARCHAR( 44),
+      OUT o_interaction_status               INT)
     LANGUAGE plpgsql
      AS $$
 
@@ -58,6 +58,9 @@
   lock_cur CURSOR (t_resource_type_id INT, t_logical_id VARCHAR(255)) FOR SELECT logical_resource_id, parameter_hash, is_deleted FROM {{SCHEMA_NAME}}.logical_resources WHERE resource_type_id = t_resource_type_id AND logical_id = t_logical_id FOR NO KEY UPDATE;
 
 BEGIN
+  -- default value unless we hit If-None-Match
+  o_interaction_status := 0;
+
   -- LOADED ON: {{DATE}}
   v_schema_name := '{{SCHEMA_NAME}}';
   SELECT resource_type_id INTO v_resource_type_id 
@@ -118,10 +121,13 @@ BEGIN
     END IF;
 
     -- If-None-Match does not apply if the resource is currently deleted
-    IF v_currently_deleted = 'N' && p_if_none_match == 0
+    IF v_currently_deleted = 'N' AND p_if_none_match = 0
     THEN
-        -- If-None-Match hit    
-        RAISE 'If-None-Match - Existing resource' USING ERRCODE = '99003';
+        -- If-None-Match hit. Raising an exception here causes PostgreSQL to mark the
+        -- connection with a fatal error, so instead we use an out parameter to
+        -- indicate the match
+        o_interaction_status := 1;
+        RETURN;
     END IF;
 
     -- Concurrency check:

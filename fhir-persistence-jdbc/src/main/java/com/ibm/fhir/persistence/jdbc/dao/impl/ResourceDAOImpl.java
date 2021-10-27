@@ -91,10 +91,10 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
 
     // @formatter:off
     //                                                                                 0                 1
-    //                                                                                 1 2 3 4 5 6 7 8 9 0 1
+    //                                                                                 1 2 3 4 5 6 7 8 9 0 1 2
     // @formatter:on
     // Don't forget that we must account for IN and OUT parameters.
-    private static final String SQL_INSERT_WITH_PARAMETERS = "CALL %s.add_any_resource(?,?,?,?,?,?,?,?,?,?,?)";
+    private static final String SQL_INSERT_WITH_PARAMETERS = "CALL %s.add_any_resource(?,?,?,?,?,?,?,?,?,?,?,?)";
 
     // Read version history of the resource identified by its logical-id
     private static final String SQL_HISTORY =
@@ -542,56 +542,61 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             stmt.registerOutParameter(9, Types.BIGINT);  // logical_resource_id
             stmt.registerOutParameter(10, Types.BIGINT);  // resource_id
             stmt.registerOutParameter(11, Types.VARCHAR); // current_hash
+            stmt.registerOutParameter(12, Types.INTEGER); // o_interaction_status
 
             stmt.execute();
             long latestTime = System.nanoTime();
             double dbCallDuration = (latestTime-dbCallStartTime)/1e6;
 
-            resource.setId(stmt.getLong(8));
-            long versionedResourceRowId = stmt.getLong(9);
-            String currentHash = stmt.getString(10);
-            if (large) {
-                String largeStmtString = String.format(LARGE_BLOB, resource.getResourceType());
-                try (PreparedStatement ps = connection.prepareStatement(largeStmtString)) {
-                    // Use the long id to update the record in the database with the large object.
-                    ps.setBinaryStream(1, resource.getDataStream().inputStream());
-                    ps.setLong(2, versionedResourceRowId);
-                    long dbCallStartTime2 = System.nanoTime();
-                    int numberOfRows = -1;
-                    ps.execute();
-                    double dbCallDuration2 = (System.nanoTime() - dbCallStartTime2) / 1e6;
-                    if (log.isLoggable(Level.FINE)) {
-                        log.fine("DB update large blob complete. ROWS=[" + numberOfRows + "] SQL=[" + largeStmtString + "]  executionTime=" + dbCallDuration2
-                            + "ms");
+            resource.setId(stmt.getLong(9));
+            final long versionedResourceRowId = stmt.getLong(10);
+            final String currentHash = stmt.getString(11);
+            final int interactionStatus = stmt.getInt(12);
+            if (interactionStatus == 1) {
+                // No update, so no need to make any more changes
+                resource.setInteractionStatus(InteractionStatus.IF_NONE_MATCH_EXISTED);
+            } else {
+                resource.setInteractionStatus(InteractionStatus.MODIFIED);
+
+                if (large) {
+                    String largeStmtString = String.format(LARGE_BLOB, resource.getResourceType());
+                    try (PreparedStatement ps = connection.prepareStatement(largeStmtString)) {
+                        // Use the long id to update the record in the database with the large object.
+                        ps.setBinaryStream(1, resource.getDataStream().inputStream());
+                        ps.setLong(2, versionedResourceRowId);
+                        long dbCallStartTime2 = System.nanoTime();
+                        int numberOfRows = -1;
+                        ps.execute();
+                        double dbCallDuration2 = (System.nanoTime() - dbCallStartTime2) / 1e6;
+                        if (log.isLoggable(Level.FINE)) {
+                            log.fine("DB update large blob complete. ROWS=[" + numberOfRows + "] SQL=[" + largeStmtString + "]  executionTime=" + dbCallDuration2
+                                + "ms");
+                        }
                     }
                 }
-            }
-
-            // Parameter time
-            // TODO FHIR_ADMIN schema name needs to come from the configuration/context
-            // We can skip the parameter insert if we've been given parameterHashB64 and
-            // it matches the current value just returned by the stored procedure call
-            long paramInsertStartTime = latestTime;
-            if (parameters != null && (parameterHashB64 == null || !parameterHashB64.equals(currentHash))) {
-                JDBCIdentityCache identityCache = new JDBCIdentityCacheImpl(cache, this, parameterDao, getResourceReferenceDAO());
-                try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(connection, "FHIR_ADMIN", resource.getResourceType(), true,
-                    resource.getId(), 100, identityCache, resourceReferenceDAO, this.transactionData)) {
-                    for (ExtractedParameterValue p: parameters) {
-                        p.accept(pvd);
+    
+                // Parameter time
+                // TODO FHIR_ADMIN schema name needs to come from the configuration/context
+                // We can skip the parameter insert if we've been given parameterHashB64 and
+                // it matches the current value just returned by the stored procedure call
+                long paramInsertStartTime = latestTime;
+                if (parameters != null && (parameterHashB64 == null || !parameterHashB64.equals(currentHash))) {
+                    JDBCIdentityCache identityCache = new JDBCIdentityCacheImpl(cache, this, parameterDao, getResourceReferenceDAO());
+                    try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(connection, "FHIR_ADMIN", resource.getResourceType(), true,
+                        resource.getId(), 100, identityCache, resourceReferenceDAO, this.transactionData)) {
+                        for (ExtractedParameterValue p: parameters) {
+                            p.accept(pvd);
+                        }
                     }
                 }
+    
+                if (log.isLoggable(Level.FINE)) {
+                    latestTime = System.nanoTime();
+                    double totalDuration = (latestTime - dbCallStartTime) / 1e6;
+                    double paramInsertDuration = (latestTime-paramInsertStartTime)/1e6;
+                    log.fine("Successfully inserted Resource. id=" + resource.getId() + " total=" + totalDuration + "ms, proc=" + dbCallDuration + "ms, param=" + paramInsertDuration + "ms");
+                }    
             }
-
-            if (log.isLoggable(Level.FINE)) {
-                latestTime = System.nanoTime();
-                double totalDuration = (latestTime - dbCallStartTime) / 1e6;
-                double paramInsertDuration = (latestTime-paramInsertStartTime)/1e6;
-                log.fine("Successfully inserted Resource. id=" + resource.getId() + " total=" + totalDuration + "ms, proc=" + dbCallDuration + "ms, param=" + paramInsertDuration + "ms");
-            }
-
-            // We don't have any additional information on what change was actually
-            // made, we only know that the resource was either created or updated
-            resource.setInteractionStatus(InteractionStatus.MODIFIED);
         } catch (FHIRPersistenceDBConnectException |
                 FHIRPersistenceDataAccessException e) {
             throw e;
@@ -602,8 +607,6 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             if (FHIRDAOConstants.SQLSTATE_WRONG_VERSION.equals(e.getSQLState())) {
                 // this is just a concurrency update, so there's no need to log the SQLException here
                 throw new FHIRPersistenceVersionIdMismatchException("Encountered version id mismatch while inserting Resource");
-            } else if (FHIRDAOConstants.SQLSTATE_MATCHES.equals(e.getSQLState())) {
-                resource.setInteractionStatus(InteractionStatus.IF_NONE_MATCH_EXISTED);
             } else {
                 FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("SQLException encountered while inserting Resource.");
                 throw severe(log, fx, e);

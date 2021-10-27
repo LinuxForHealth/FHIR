@@ -29,7 +29,6 @@
 -- Exceptions:
 --   SQLSTATE 99001: on version conflict (concurrency)
 --   SQLSTATE 99002: missing expected row (data integrity)
---   SQLSTATE 99003: If-None-Match conditional create-on-update match
 -- ----------------------------------------------------------------------------
     ( IN p_resource_type                VARCHAR( 36 OCTETS),
       IN p_logical_id                   VARCHAR(255 OCTETS), 
@@ -41,7 +40,8 @@
       IN p_if_none_match                    INT,
       OUT o_logical_resource_id          BIGINT,
       OUT o_resource_row_id              BIGINT,
-      OUT o_current_parameter_hash      VARCHAR(44 OCTETS)
+      OUT o_current_parameter_hash      VARCHAR(44 OCTETS),
+      OUT o_interaction_status              INT
     )
     LANGUAGE SQL
     MODIFIES SQL DATA
@@ -53,7 +53,7 @@ BEGIN
   DECLARE v_resource_id          BIGINT     DEFAULT NULL;
   DECLARE v_resource_type_id        INT     DEFAULT NULL;
   DECLARE v_new_resource            INT     DEFAULT 0;
-  DECLATE v_currently_deleted      CHAR(1)  DEFAULT NULL;
+  DECLARE v_currently_deleted      CHAR(1)  DEFAULT NULL;
   DECLARE v_not_found               INT     DEFAULT 0;
   DECLARE v_duplicate               INT     DEFAULT 0;
   DECLARE v_current_version         INT     DEFAULT 0;
@@ -64,6 +64,9 @@ BEGIN
   DECLARE CONTINUE HANDLER FOR NOT FOUND          SET v_not_found = 1;
   DECLARE CONTINUE HANDLER FOR c_duplicate        SET v_duplicate = 1;
 
+  -- interaction status defaults to 0 unless we hit If-None-Match
+  SET o_interaction_status = 0;
+  
   -- use a variable for the schema in our prepared statements to make them easier 
   -- to write
   SET v_schema_name = '{{SCHEMA_NAME}}';
@@ -135,10 +138,11 @@ BEGIN
     END IF;
 
     -- If-None-Match does not apply if the current resource is deleted
-    IF v_currently_deleted = 'N' && p_if_none_match == 0
+    IF v_currently_deleted = 'N' AND p_if_none_match = 0
     THEN
-        -- If-None-Match: * hit    
-        SIGNAL SQLSTATE '99003' SET MESSAGE_TEXT = 'If-None-Match - Existing resource';
+        -- If-None-Match: * hit
+        SET o_interaction_status = 1;
+        RETURN;
     END IF;
     
     -- Concurrency check:
