@@ -1,0 +1,51 @@
+{
+	"resourceType": "ValueSet",
+	"id": "hrex-consent-policy",
+	"text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+	"url": "http://hl7.org/fhir/us/davinci-hrex/ValueSet/hrex-consent-policy",
+	"version": "0.2.0",
+	"name": "HRexConsentPolicy",
+	"title": "HRex Consent Policy ValueSet",
+	"status": "draft",
+	"date": "2021-10-05T18:17:41+00:00",
+	"publisher": "HL7 International - Clinical Interoperability Council",
+	"contact": [
+		{
+			"telecom": [
+				{
+					"system": "url",
+					"value": "http://www.hl7.org/Special/committees/cic"
+				}
+			]
+		}
+	],
+	"description": "The set of policy URIs for use in HRex data disclosureconsent assertions",
+	"jurisdiction": [
+		{
+			"coding": [
+				{
+					"system": "urn:iso:std:iso:3166",
+					"code": "US"
+				}
+			]
+		}
+	],
+	"compose": {
+		"include": [
+			{
+				"system": "urn:ietf:rfc:3986",
+				"concept": [
+					{
+						"code": "http://hl7.org/fhir/us/davinci-hrex/consent-oauth#regular"
+					},
+					{
+						"code": "http://hl7.org/fhir/us/davinci-hrex/consent-oauth#sensitive"
+					}
+				]
+			}
+		]
+	}
+}

@@ -1,0 +1,39 @@
+{
+	"resourceType": "Practitioner",
+	"id": "full",
+	"text": {
+		"status": "generated",
+		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><p><b>identifier</b>: id: 9941339108, id: 9941339108, id: 25456</p><p><b>name</b>: Bone </p><blockquote><p><b>qualification</b></p><p><b>code</b>: <span title=\"Codes: \">Cardiologist</span></p></blockquote><blockquote><p><b>qualification</b></p><p><b>code</b>: <span title=\"Codes: \">Surgeon</span></p></blockquote></div>"
+	},
+	"identifier": [
+		{
+			"system": "http://example.org/some-code-system",
+			"value": "9941339108"
+		},
+		{
+			"system": "http://hl7.org/fhir/sid/us-npi",
+			"value": "9941339108"
+		},
+		{
+			"system": "http://todo/medicare-certification-number",
+			"value": "25456"
+		}
+	],
+	"name": [
+		{
+			"family": "Bone"
+		}
+	],
+	"qualification": [
+		{
+			"code": {
+				"text": "Cardiologist"
+			}
+		},
+		{
+			"code": {
+				"text": "Surgeon"
+			}
+		}
+	]
+}

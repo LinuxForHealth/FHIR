@@ -55,7 +55,7 @@ public abstract class AbstractOperation implements FHIROperation {
         validateOperationContext(operationContext, resourceType, parameters);
         validateInputParameters(operationContext, resourceType, logicalId, versionId, parameters);
         Parameters result = doInvoke(operationContext, resourceType, logicalId, versionId, parameters, resourceHelper);
-        validateOutputParameters(result);
+        validateOutputParameters(operationContext, result);
         return result;
     }
 
@@ -127,7 +127,7 @@ public abstract class AbstractOperation implements FHIROperation {
             String logicalId,
             String versionId,
             Parameters parameters) throws FHIROperationException {
-        validateParameters(parameters, OperationParameterUse.IN);
+        validateParameters(operationContext, parameters, OperationParameterUse.IN);
     }
 
     protected void validateOperationContext(FHIROperationContext operationContext, Class<? extends Resource> resourceType, Parameters parameters) throws FHIROperationException {
@@ -227,12 +227,17 @@ public abstract class AbstractOperation implements FHIROperation {
         }
     }
 
-    protected void validateOutputParameters(Parameters result) throws FHIROperationException {
-        validateParameters(result, OperationParameterUse.OUT);
+    protected void validateOutputParameters(FHIROperationContext operationContext, Parameters result) throws FHIROperationException {
+        validateParameters(operationContext, result, OperationParameterUse.OUT);
     }
 
-    protected void validateParameters(Parameters parameters, OperationParameterUse use) throws FHIROperationException {
+    protected void validateParameters(FHIROperationContext operationContext, Parameters parameters, OperationParameterUse use) throws FHIROperationException {
         String direction = OperationParameterUse.IN.equals(use) ? "input" : "output";
+
+        // Shortcut when we want to pass something specific backup
+        if ("output".equals(direction) && operationContext.getProperty(FHIROperationContext.PROPNAME_RESPONSE) != null) {
+            return;
+        }
 
         // Retrieve the set of parameters from the OperationDefinition matching the specified use (in/out).
         List<OperationDefinition.Parameter> opDefParameters = getParameterDefinitions(use);

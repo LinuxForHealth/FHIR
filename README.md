@@ -108,6 +108,7 @@ The IBM FHIR Server is modular and extensible. The following tables provide an o
 |fhir-operation-validate|An implementation of the FHIR resource [$validate operation](https://www.hl7.org/fhir/R4/operation-resource-validate.html)|false|
 |fhir-operation-everything|An implementation of the FHIR patient [`$everything`](https://www.hl7.org/fhir/operation-patient-everything.html) operation|false|
 |fhir-operation-erase|A hard delete operation for resource instances referred to as the `$erase` operation. See the [README.md](operation/fhir-operation-erase/README.md)|false|
+|fhir-operation-member-match|An extensible framework and reference implementation for Davinci HREX $member-match using the default IBM FHIR Server. See the [README.md](operation/fhir-operation-member-match/README.md) *experimental*|false|
 
 #### Client
 |Module|Description|Java API-stable|

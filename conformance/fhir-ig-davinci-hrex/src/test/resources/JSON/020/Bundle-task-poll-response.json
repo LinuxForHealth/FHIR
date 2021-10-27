@@ -1,0 +1,148 @@
+{
+	"resourceType": "Bundle",
+	"id": "task-poll-response",
+	"type": "searchset",
+	"total": 1,
+	"link": [
+		{
+			"relation": "self",
+			"url": "http://example.org/ehr/fhir/Task?_id=c94fb961-310c-41f1-a54f-fc5f2dba49ee&_include=Task:output"
+		}
+	],
+	"entry": [
+		{
+			"fullUrl": "https://example.org/fhir/r4/Task/c94fb961-310c-41f1-a54f-fc5f2dba49ee",
+			"resource": {
+				"resourceType": "Task",
+				"id": "c94fb961-310c-41f1-a54f-fc5f2dba49ee",
+				"text": {
+					"status": "generated",
+					"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><p><b>status</b>: completed</p><p><b>intent</b>: order</p><p><b>code</b>: <span title=\"Codes: {http://hl7.org/fhir/us/davinci-hrex/CodeSystem/hrex-temp data-request}\">data request task</span></p><p><b>for</b>: <a href=\"http://example.org/ehr/fhir/Patient/pat1\">http://example.org/ehr/fhir/Patient/pat1</a></p><p><b>authoredOn</b>: Jul 31, 2020, 2:07:15 AM</p><p><b>requester</b>: <a href=\"Organization-full.html\">Generated Summary: id: 11223344, id: 11223344, id: 55566667, id: 0123456789, id: 918273645; active; name: New Health Plan; Phone: 1-800-123-4567, Phone: 1-234-567-8901, info@newhealthplan.org</a></p><p><b>owner</b>: <a href=\"http://example.org/ehr/fhir/Organization/ehr\">http://example.org/ehr/fhir/Organization/ehr</a></p><p><b>reasonCode</b>: <span title=\"Codes: \">Support prior authorization decision-making</span></p><p><b>reasonReference</b>: <a href=\"http://example.org/new-payer/fhir/Claim/123\">http://example.org/new-payer/fhir/Claim/123</a></p><h3>Inputs</h3><table class=\"grid\"><tr><td>-</td><td><b>Type</b></td><td><b>Value[x]</b></td></tr><tr><td>*</td><td><span title=\"Codes: {http://hl7.org/fhir/us/davinci-hrex/CodeSystem/hrex-temp data-code}\">data code input</span></td><td><span title=\"Codes: {http://loinc.org 34108-1}\">Outpatient Note</span></td></tr></table><h3>Outputs</h3><table class=\"grid\"><tr><td>-</td><td><b>Type</b></td><td><b>Value[x]</b></td></tr><tr><td>*</td><td><span title=\"Codes: {http://hl7.org/fhir/us/davinci-hrex/CodeSystem/hrex-temp data-value}\">data values output</span></td><td><a href=\"http://example.org/ehr/fhir/DocumentReference/287Q73J237\">http://example.org/ehr/fhir/DocumentReference/287Q73J237</a></td></tr></table></div>"
+				},
+				"status": "completed",
+				"intent": "order",
+				"code": {
+					"coding": [
+						{
+							"system": "http://hl7.org/fhir/us/davinci-hrex/CodeSystem/hrex-temp",
+							"code": "data-request"
+						}
+					]
+				},
+				"for": {
+					"reference": "http://example.org/ehr/fhir/Patient/pat1"
+				},
+				"authoredOn": "2020-07-30T20:07:15-06:00",
+				"requester": {
+					"reference": "Organization/full"
+				},
+				"owner": {
+					"reference": "http://example.org/ehr/fhir/Organization/ehr"
+				},
+				"reasonCode": {
+					"text": "Support prior authorization decision-making"
+				},
+				"reasonReference": {
+					"reference": "http://example.org/new-payer/fhir/Claim/123"
+				},
+				"input": [
+					{
+						"type": {
+							"coding": [
+								{
+									"system": "http://hl7.org/fhir/us/davinci-hrex/CodeSystem/hrex-temp",
+									"code": "data-code"
+								}
+							]
+						},
+						"valueCodeableConcept": {
+							"coding": [
+								{
+									"system": "http://loinc.org",
+									"code": "34108-1"
+								}
+							]
+						}
+					}
+				],
+				"output": [
+					{
+						"type": {
+							"coding": [
+								{
+									"system": "http://hl7.org/fhir/us/davinci-hrex/CodeSystem/hrex-temp",
+									"code": "data-value"
+								}
+							]
+						},
+						"valueReference": {
+							"reference": "http://example.org/ehr/fhir/DocumentReference/287Q73J237"
+						}
+					}
+				]
+			},
+			"search": {
+				"mode": "match"
+			}
+		},
+		{
+			"fullUrl": "https://example.org/fhir/r4/DocumentReference/287Q73J237",
+			"resource": {
+				"resourceType": "DocumentReference",
+				"text": {
+					"status": "generated",
+					"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n            <a href=\"http://localhost:9556/svc/fhir/Binary/1e404af3-077f-4bee-b7a6-a9be97e1ce32\">Document: urn:oid:129.6.58.92.88336</a> undefined, created 24/12/2005\n          </div>"
+				},
+				"status": "current",
+				"type": {
+					"coding": [
+						{
+							"system": "http://ihe.net/connectathon/classCodes",
+							"code": "History and Physical",
+							"display": "History and Physical"
+						}
+					]
+				},
+				"category": [
+					{
+						"coding": [
+							{
+								"system": "http://loinc.org",
+								"code": "47039-3",
+								"display": "Inpatient Admission history and physical note"
+							}
+						]
+					}
+				],
+				"subject": {
+					"reference": "http://example.org/ehr/fhir/Patient/pat1"
+				},
+				"date": "2013-07-01T23:11:33+10:00",
+				"author": [
+					{
+						"reference": "Practitioner/a4"
+					}
+				],
+				"description": "Physical",
+				"content": [
+					{
+						"attachment": {
+							"contentType": "text/plain",
+							"language": "en-US",
+							"url": "http://localhost:9556/svc/fhir/Binary/1e404af3-077f-4bee-b7a6-a9be97e1ce32",
+							"title": "Physical",
+							"creation": "2005-12-24"
+						},
+						"format": {
+							"system": "urn:oid:1.3.6.1.4.1.19376.1.2.3",
+							"code": "urn:ihe:pcc:handp:2008"
+						}
+					}
+				]
+			},
+			"search": {
+				"mode": "include"
+			}
+		}
+	]
+}

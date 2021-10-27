@@ -1,0 +1,82 @@
+{
+	"resourceType": "Task",
+	"id": "document-complete",
+	"text": {
+		"status": "generated",
+		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><p><b>status</b>: completed</p><p><b>intent</b>: order</p><p><b>code</b>: <span title=\"Codes: {http://hl7.org/fhir/us/davinci-hrex/CodeSystem/hrex-temp data-request}\">data request task</span></p><p><b>for</b>: <a href=\"http://example.org/new-payer/fhir/Patient/pat1\">http://example.org/new-payer/fhir/Patient/pat1</a></p><p><b>authoredOn</b>: Jul 31, 2020, 2:07:15 AM</p><p><b>requester</b>: <a href=\"Organization-full.html\">Generated Summary: id: 11223344, id: 11223344, id: 55566667, id: 0123456789, id: 918273645; active; name: New Health Plan; Phone: 1-800-123-4567, Phone: 1-234-567-8901, info@newhealthplan.org</a></p><p><b>owner</b>: <a href=\"http://example.org/new-payer/fhir/Organization/hl7pay\">http://example.org/new-payer/fhir/Organization/hl7pay</a></p><p><b>reasonCode</b>: <span title=\"Codes: \">Support prior authorization decision-making</span></p><p><b>reasonReference</b>: <a href=\"http://example.org/new-payer/fhir/Claim/123\">http://example.org/new-payer/fhir/Claim/123</a></p><h3>Inputs</h3><table class=\"grid\"><tr><td>-</td><td><b>Type</b></td><td><b>Value[x]</b></td></tr><tr><td>*</td><td><span title=\"Codes: {http://hl7.org/fhir/us/davinci-hrex/CodeSystem/hrex-temp data-code}\">data code input</span></td><td><span title=\"Codes: {http://loinc.org 34108-1}\">Outpatient Note</span></td></tr></table><blockquote><p><b>output</b></p><p><b>type</b>: <span title=\"Codes: {http://hl7.org/fhir/us/davinci-hrex/CodeSystem/hrex-temp data-value}\">data values output</span></p><p><b>value</b>: <a href=\"http://example.org/new-payer/fhir/DocumentReference/727A23K5133\">http://example.org/new-payer/fhir/DocumentReference/727A23K5133</a></p></blockquote><blockquote><p><b>output</b></p><p><b>type</b>: <span title=\"Codes: {http://hl7.org/fhir/us/davinci-hrex/CodeSystem/hrex-temp data-value}\">data values output</span></p><p><b>value</b>: <a href=\"http://example.org/new-payer/fhir/DocumentReference/287Q73J237\">http://example.org/new-payer/fhir/DocumentReference/287Q73J237</a></p></blockquote></div>"
+	},
+	"status": "completed",
+	"intent": "order",
+	"code": {
+		"coding": [
+			{
+				"system": "http://hl7.org/fhir/us/davinci-hrex/CodeSystem/hrex-temp",
+				"code": "data-request"
+			}
+		]
+	},
+	"for": {
+		"reference": "http://example.org/new-payer/fhir/Patient/pat1"
+	},
+	"authoredOn": "2020-07-30T20:07:15-06:00",
+	"requester": {
+		"reference": "Organization/full"
+	},
+	"owner": {
+		"reference": "http://example.org/new-payer/fhir/Organization/hl7pay"
+	},
+	"reasonCode": {
+		"text": "Support prior authorization decision-making"
+	},
+	"reasonReference": {
+		"reference": "http://example.org/new-payer/fhir/Claim/123"
+	},
+	"input": [
+		{
+			"type": {
+				"coding": [
+					{
+						"system": "http://hl7.org/fhir/us/davinci-hrex/CodeSystem/hrex-temp",
+						"code": "data-code"
+					}
+				]
+			},
+			"valueCodeableConcept": {
+				"coding": [
+					{
+						"system": "http://loinc.org",
+						"code": "34108-1"
+					}
+				]
+			}
+		}
+	],
+	"output": [
+		{
+			"type": {
+				"coding": [
+					{
+						"system": "http://hl7.org/fhir/us/davinci-hrex/CodeSystem/hrex-temp",
+						"code": "data-value"
+					}
+				]
+			},
+			"valueReference": {
+				"reference": "http://example.org/new-payer/fhir/DocumentReference/727A23K5133"
+			}
+		},
+		{
+			"type": {
+				"coding": [
+					{
+						"system": "http://hl7.org/fhir/us/davinci-hrex/CodeSystem/hrex-temp",
+						"code": "data-value"
+					}
+				]
+			},
+			"valueReference": {
+				"reference": "http://example.org/new-payer/fhir/DocumentReference/287Q73J237"
+			}
+		}
+	]
+}

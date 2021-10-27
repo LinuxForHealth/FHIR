@@ -1,0 +1,16 @@
+{
+	"resourceType": "Organization",
+	"id": "min",
+	"text": {
+		"status": "generated",
+		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><p><b>identifier</b>: id: 0123456789</p><p><b>active</b>: true</p><p><b>name</b>: New Health Plan</p></div>"
+	},
+	"identifier": [
+		{
+			"system": "http://hl7.org/fhir/sid/us-npi",
+			"value": "0123456789"
+		}
+	],
+	"active": true,
+	"name": "New Health Plan"
+}

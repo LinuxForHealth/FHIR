@@ -186,7 +186,7 @@ public abstract class ProfilesTestBase extends FHIRServerTestBase {
     public void checkProfileExistsOnServer() throws Exception {
         grabProfilesFromServerOneTime();
         List<String> requiredProfiles = getRequiredProfiles();
-        Map<String, Integer> checks = requiredProfiles.stream().collect(Collectors.toMap(x -> "" + x, x -> new Integer(0)));
+        Map<String, Integer> checks = requiredProfiles.stream().collect(Collectors.toMap(x -> "" + x, x -> Integer.valueOf(0)));
         for (String requiredProfile : requiredProfiles) {
             boolean v = listOfProfiles.contains(requiredProfile);
             if (!v) {

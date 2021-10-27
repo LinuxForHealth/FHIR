@@ -1,0 +1,28 @@
+{
+	"resourceType": "Coverage",
+	"id": "full",
+	"text": {
+		"status": "generated",
+		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><p><b>identifier</b>: id: 1039399818, id: 234567</p><p><b>status</b>: active</p><p><b>subscriberId</b>: 97531</p><p><b>beneficiary</b>: <a href=\"http://example.org/new-payer/fhir/Patient/pat1\">http://example.org/new-payer/fhir/Patient/pat1</a></p><p><b>payor</b>: <a href=\"Organization-full.html\">Generated Summary: id: 11223344, id: 11223344, id: 55566667, id: 0123456789, id: 918273645; active; name: New Health Plan; Phone: 1-800-123-4567, Phone: 1-234-567-8901, info@newhealthplan.org</a></p></div>"
+	},
+	"identifier": [
+		{
+			"system": "http://example.org/someOrg/identifiers/whatever",
+			"value": "1039399818"
+		},
+		{
+			"system": "http://example.org/new-payer/identifiers/coverage",
+			"value": "234567"
+		}
+	],
+	"status": "active",
+	"subscriberId": "97531",
+	"beneficiary": {
+		"reference": "http://example.org/new-payer/fhir/Patient/pat1"
+	},
+	"payor": [
+		{
+			"reference": "Organization/full"
+		}
+	]
+}

@@ -75,7 +75,7 @@ public class ConformsToFunction extends FHIRPathAbstractFunction {
         String url = getStringValue(arguments.get(0)).string();
 
         if (FHIRRegistry.getInstance().hasResource(url, StructureDefinition.class)) {
-            StructureDefinition structureDefinition = FHIRRegistry.getInstance().getResource(url,  StructureDefinition.class);
+            StructureDefinition structureDefinition = FHIRRegistry.getInstance().getResource(url, StructureDefinition.class);
 
             if (FHIRPathType.FHIR_UNKNOWN_RESOURCE_TYPE.equals(type)) {
                 if (!StructureDefinitionKind.RESOURCE.equals(structureDefinition.getKind())) {
