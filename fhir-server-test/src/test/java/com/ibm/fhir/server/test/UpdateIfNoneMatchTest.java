@@ -86,8 +86,17 @@ public class UpdateIfNoneMatchTest extends FHIRServerTestBase {
             final FHIRRequestHeader ifNoneMatch = new FHIRRequestHeader(HEADERNAME_IF_NONE_MATCH, "*");
             response = client.update(patient, ifNoneMatch);
             status = response.getStatus();
-            assertEquals(status, 201); // Undeleted the resource, treated as Created
+            assertEquals(status, 201); // Undeleted the resource, treated as Created (per Touchstone)
             assertEquals(response.getETag(), "W/\"3\"");
         }
+    }
+
+    /**
+     * Build a bundle containing create-on-update interactions with IfNoneMatch
+     * @throws Exception
+     */
+    @Test
+    public void testCreateOnUpdateBundle() throws Exception {
+        // 
     }
 }

@@ -638,7 +638,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 warnings.addAll(validateInput(newResource));
             }
 
-            // Perform the "version-aware" update check, and also find out if the resource was deleted.
+            // Perform the "version-aware" update check
             if (ior.getPrevResource() != null) {
                 performVersionAwareUpdateCheck(ior.getPrevResource(), ifMatchValue);
 
@@ -774,7 +774,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             } else {
                 if (result.getStatus() == InteractionStatus.IF_NONE_MATCH_EXISTED) {
                     // Use the location assigned to the previous resource because we're
-                    // not updating anything. . Also, we don't fire any 'after' event
+                    // not updating anything. Also, we don't fire any 'after' event
                     // for the same reason.
                     ior.setResource(prevResource); // resource wasn't changed
                     ior.setLocationURI(FHIRUtil.buildLocationURI(type, prevResource));

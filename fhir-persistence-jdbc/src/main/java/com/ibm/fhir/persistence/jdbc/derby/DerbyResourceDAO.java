@@ -29,6 +29,7 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchException;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
+import com.ibm.fhir.persistence.jdbc.dao.api.FHIRDAOConstants;
 import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
@@ -141,10 +142,10 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
             FHIRPersistenceFKVException fx = new FHIRPersistenceFKVException("Encountered FK violation while inserting Resource.");
             throw severe(logger, fx, e);
         } catch(SQLException e) {
-            if ("99001".equals(e.getSQLState())) {
+            if (FHIRDAOConstants.SQLSTATE_WRONG_VERSION.equals(e.getSQLState())) {
                 // this is just a concurrency update, so there's no need to log the SQLException here
                 throw new FHIRPersistenceVersionIdMismatchException("Encountered version id mismatch while inserting Resource");
-            } else if ("99003".equals(e.getSQLState())) {
+            } else if (FHIRDAOConstants.SQLSTATE_MATCHES.equals(e.getSQLState())) {
                 resource.setInteractionStatus(InteractionStatus.IF_NONE_MATCH_EXISTED);
             } else {
                 FHIRPersistenceException fx = new FHIRPersistenceException("SQLException encountered while inserting Resource.");
@@ -409,14 +410,14 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
             if (!v_currently_deleted && checkIfNoneMatch(ifNoneMatch, v_current_version)) {
                 // Conditional create-on-update If-None-Match matches the current resource, so skip the update
                 logger.fine(() -> "Resource " + v_resource_type + "/" + p_logical_id + " [" + p_version + "] matches [If-None-Match: " + ifNoneMatch + "]");
-                throw new SQLException("If-None-Match - record exists", "99003");
+                throw new SQLException("If-None-Match - record exists", FHIRDAOConstants.SQLSTATE_MATCHES);
             } else if (p_version != v_current_version + 1) {
                 // Concurrency check:
                 //   the version parameter we've been given (which is also embedded in the JSON payload) must be
                 //   one greater than the current version, otherwise we've hit a concurrent update race condition
                 // mimic the exception we'd see from one of our stored procedures
                 logger.warning("Concurrent update of resource: " + v_resource_type + "/" + p_logical_id + " [" + p_version + " != " + (v_current_version+1) + "]");
-                throw new SQLException("Concurrent update - mismatch of version in JSON", "99001");
+                throw new SQLException("Concurrent update - mismatch of version in JSON", FHIRDAOConstants.SQLSTATE_WRONG_VERSION);
             }
 
             // existing resource, so need to delete all its parameters unless they share

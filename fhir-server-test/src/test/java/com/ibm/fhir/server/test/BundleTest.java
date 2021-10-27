@@ -2508,6 +2508,236 @@ public class BundleTest extends FHIRServerTestBase {
     }
 
     /**
+     * To test If-None-Match (conditional create-on-update) we must use 
+     * multiple requests because:
+     *   "A resource can only appear in a transaction once (by identity)."
+     * Requests:
+     *   1. Transaction Bundle with PUT Patient/randomId (create-on-update - 201 Created)
+     *   2. Transaction Bundle with PUT Patient/randomId (skip update - 304 Not Modified)
+     *   3. DELETE Patient/randomId (deleted - 200 OK)
+     *   4. Transaction Bundle with PUT Patient/randomId (create-on-update - 201 Created)
+     */
+    @Test
+    public void testTransactionBundleWithIfNoneMatch() throws Exception {
+        String randomId = UUID.randomUUID().toString();
+        Patient patient = Patient.builder()
+                .id(randomId)
+                .active(com.ibm.fhir.model.type.Boolean.TRUE)
+                .build();
+        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.PUT)
+                .ifNoneMatch("*")
+                .url(Uri.of("Patient/"+randomId))
+                .build();
+        Bundle.Entry bundleEntry = Bundle.Entry.builder()
+                .fullUrl(Uri.of("urn:1"))
+                .resource(patient)
+                .request(bundleEntryRequest)
+                .build();
+
+        Bundle requestBundle = Bundle.builder()
+                .id("bundle1")
+                .type(BundleType.TRANSACTION)
+                .entry(bundleEntry)
+                .build();
+
+        // Process bundle
+        FHIRRequestHeader returnPref = FHIRRequestHeader.header(PREFER_HEADER_NAME, PREFER_HEADER_RETURN_REPRESENTATION);
+        FHIRResponse response = client.transaction(requestBundle, returnPref);
+        assertNotNull(response);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle responseBundle = response.getResource(Bundle.class);
+        printBundle("PUT", "response", responseBundle);
+
+        // Validate results
+        assertNotNull(responseBundle);
+        assertEquals(responseBundle.getEntry().size(), 1);
+
+        Bundle.Entry entry1 = responseBundle.getEntry().get(0);
+        assertNotNull(entry1.getResource());
+        assertEquals(entry1.getResponse().getStatus().getValue(), "201");
+        assertEquals(entry1.getResponse().getLocation().getValue(), "Patient/"+randomId+"/_history/1");
+
+        
+        // Interaction 2. PUT the same patient again. Should be skipped because IfNoneMatch
+        Bundle.Entry bundleEntry2 = Bundle.Entry.builder()
+                .fullUrl(Uri.of("urn:2"))
+                .resource(patient)
+                .request(bundleEntryRequest)
+                .build();
+        requestBundle = Bundle.builder()
+                .id("bundle2")
+                .type(BundleType.TRANSACTION)
+                .entry(bundleEntry2)
+                .build();
+
+        // Process bundle
+        FHIRResponse response2 = client.transaction(requestBundle, returnPref);
+        assertNotNull(response2);
+        assertResponse(response2.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle responseBundle2 = response2.getResource(Bundle.class);
+        printBundle("PUT", "response", responseBundle2);
+
+        // Validate results
+        assertNotNull(responseBundle2);
+        assertEquals(responseBundle2.getEntry().size(), 1);
+        Bundle.Entry entry2 = responseBundle2.getEntry().get(0);
+        assertEquals(entry2.getResponse().getStatus().getValue(), "304");
+        assertEquals(entry2.getResponse().getLocation().getValue(), "Patient/"+randomId+"/_history/1");
+        // 304 does not include a response body, so can't check the response resource
+
+        // Interaction 3. DELETE the patient
+        FHIRResponse response3 = client.delete(Patient.class.getSimpleName(), randomId);
+        assertNotNull(response3);
+        assertResponse(response3.getResponse(), Response.Status.OK.getStatusCode());
+        
+        // Interaction 4. Undelete
+        Bundle.Entry bundleEntry4 = Bundle.Entry.builder()
+                .fullUrl(Uri.of("urn:2"))
+                .resource(patient)
+                .request(bundleEntryRequest)
+                .build();
+        requestBundle = Bundle.builder()
+                .id("bundle4")
+                .type(BundleType.TRANSACTION)
+                .entry(bundleEntry4)
+                .build();
+
+        // Process bundle
+        FHIRResponse response4 = client.transaction(requestBundle, returnPref);
+        assertNotNull(response4);
+        assertResponse(response4.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle responseBundle4 = response4.getResource(Bundle.class);
+        printBundle("PUT", "response", responseBundle4);
+
+        // Validate results
+        assertNotNull(responseBundle4);
+        assertEquals(responseBundle4.getEntry().size(), 1);
+        Bundle.Entry entry4 = responseBundle4.getEntry().get(0);
+
+        // Undelete uses 201 Created to pass Touchstone
+        assertEquals(entry4.getResponse().getStatus().getValue(), "201");
+        
+        // Version 2 is the delete marker, so should be version 3 after undelete
+        assertEquals(entry4.getResponse().getLocation().getValue(), "Patient/"+randomId+"/_history/3");
+    }
+
+    /**
+     * To test If-None-Match (conditional create-on-update) we must use 
+     * multiple requests because:
+     *   "A resource can only appear in a transaction once (by identity)."
+     * Requests:
+     *   1. Transaction Bundle with PUT Patient/randomId (create-on-update - 201 Created)
+     *   2. Transaction Bundle with PUT Patient/randomId (skip update - 304 Not Modified)
+     *   3. DELETE Patient/randomId (deleted - 200 OK)
+     *   4. Transaction Bundle with PUT Patient/randomId (create-on-update - 201 Created)
+     */
+    @Test
+    public void testBatchBundleWithIfNoneMatch() throws Exception {
+        String randomId = UUID.randomUUID().toString();
+        Patient patient = Patient.builder()
+                .id(randomId)
+                .active(com.ibm.fhir.model.type.Boolean.TRUE)
+                .build();
+        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.PUT)
+                .ifNoneMatch("*")
+                .url(Uri.of("Patient/"+randomId))
+                .build();
+        Bundle.Entry bundleEntry = Bundle.Entry.builder()
+                .fullUrl(Uri.of("urn:1"))
+                .resource(patient)
+                .request(bundleEntryRequest)
+                .build();
+
+        Bundle requestBundle = Bundle.builder()
+                .id("bundle1")
+                .type(BundleType.BATCH)
+                .entry(bundleEntry)
+                .build();
+
+        // Process bundle
+        FHIRRequestHeader returnPref = FHIRRequestHeader.header(PREFER_HEADER_NAME, PREFER_HEADER_RETURN_REPRESENTATION);
+        FHIRResponse response = client.transaction(requestBundle, returnPref);
+        assertNotNull(response);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle responseBundle = response.getResource(Bundle.class);
+        printBundle("PUT", "response", responseBundle);
+
+        // Validate results
+        assertNotNull(responseBundle);
+        assertEquals(responseBundle.getEntry().size(), 1);
+
+        Bundle.Entry entry1 = responseBundle.getEntry().get(0);
+        assertNotNull(entry1.getResource());
+        assertEquals(entry1.getResponse().getStatus().getValue(), "201");
+        assertEquals(entry1.getResponse().getLocation().getValue(), "Patient/"+randomId+"/_history/1");
+
+        
+        // Interaction 2. PUT the same patient again. Should be skipped because IfNoneMatch
+        Bundle.Entry bundleEntry2 = Bundle.Entry.builder()
+                .fullUrl(Uri.of("urn:2"))
+                .resource(patient)
+                .request(bundleEntryRequest)
+                .build();
+        requestBundle = Bundle.builder()
+                .id("bundle2")
+                .type(BundleType.BATCH)
+                .entry(bundleEntry2)
+                .build();
+
+        // Process bundle
+        FHIRResponse response2 = client.transaction(requestBundle, returnPref);
+        assertNotNull(response2);
+        assertResponse(response2.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle responseBundle2 = response2.getResource(Bundle.class);
+        printBundle("PUT", "response", responseBundle2);
+
+        // Validate results
+        assertNotNull(responseBundle2);
+        assertEquals(responseBundle2.getEntry().size(), 1);
+        Bundle.Entry entry2 = responseBundle2.getEntry().get(0);
+        assertEquals(entry2.getResponse().getStatus().getValue(), "304");
+        assertEquals(entry2.getResponse().getLocation().getValue(), "Patient/"+randomId+"/_history/1");
+        // 304 does not include a response body, so can't check the response resource
+
+        // Interaction 3. DELETE the patient
+        FHIRResponse response3 = client.delete(Patient.class.getSimpleName(), randomId);
+        assertNotNull(response3);
+        assertResponse(response3.getResponse(), Response.Status.OK.getStatusCode());
+        
+        // Interaction 4. Undelete
+        Bundle.Entry bundleEntry4 = Bundle.Entry.builder()
+                .fullUrl(Uri.of("urn:2"))
+                .resource(patient)
+                .request(bundleEntryRequest)
+                .build();
+        requestBundle = Bundle.builder()
+                .id("bundle4")
+                .type(BundleType.BATCH)
+                .entry(bundleEntry4)
+                .build();
+
+        // Process bundle
+        FHIRResponse response4 = client.transaction(requestBundle, returnPref);
+        assertNotNull(response4);
+        assertResponse(response4.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle responseBundle4 = response4.getResource(Bundle.class);
+        printBundle("PUT", "response", responseBundle4);
+
+        // Validate results
+        assertNotNull(responseBundle4);
+        assertEquals(responseBundle4.getEntry().size(), 1);
+        Bundle.Entry entry4 = responseBundle4.getEntry().get(0);
+
+        // Undelete uses 201 Created to pass Touchstone
+        assertEquals(entry4.getResponse().getStatus().getValue(), "201");
+        
+        // Version 2 is the delete marker, so should be version 3 after undelete
+        assertEquals(entry4.getResponse().getLocation().getValue(), "Patient/"+randomId+"/_history/3");
+    }
+
+    /**
      * Helper function to create a set of Observations, and return them in a
      * response bundle.
      */

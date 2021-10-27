@@ -71,12 +71,14 @@ public class FHIRRestInteractionUpdate extends FHIRRestInteractionResource {
         if (result != null) {
             if (result.getResource() != null) {
                 setNewResource(result.getResource());
-                this.deleted = result.isDeleted();
             }
 
             if (result.getPrevResource() != null) {
                 setPrevResource(result.getPrevResource());
             }
+            
+            // Record the deletion status so we can return the correct response when undeleting
+            this.deleted = result.isDeleted();
         }
     }
 }

@@ -38,6 +38,7 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchException;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
+import com.ibm.fhir.persistence.jdbc.dao.api.FHIRDAOConstants;
 import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
@@ -598,10 +599,10 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             FHIRPersistenceFKVException fx = new FHIRPersistenceFKVException("Encountered FK violation while inserting Resource.");
             throw severe(log, fx, e);
         } catch (SQLException e) {
-            if ("99001".equals(e.getSQLState())) {
+            if (FHIRDAOConstants.SQLSTATE_WRONG_VERSION.equals(e.getSQLState())) {
                 // this is just a concurrency update, so there's no need to log the SQLException here
                 throw new FHIRPersistenceVersionIdMismatchException("Encountered version id mismatch while inserting Resource");
-            } else if ("99003".equals(e.getSQLState())) {
+            } else if (FHIRDAOConstants.SQLSTATE_MATCHES.equals(e.getSQLState())) {
                 resource.setInteractionStatus(InteractionStatus.IF_NONE_MATCH_EXISTED);
             } else {
                 FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("SQLException encountered while inserting Resource.");

@@ -120,7 +120,10 @@ public class FHIRRestInteractionVisitorReferenceMapping extends FHIRRestInteract
             // TODO support payload offload here
 
             // Pass back the updated resource so it can be used in the next phase
-            return new FHIRRestOperationResponse(null, null, newResource);
+            FHIRRestOperationResponse result = new FHIRRestOperationResponse(null, null, newResource);
+            result.setDeleted(isDeleted);
+            
+            return result;
         });
     }
 

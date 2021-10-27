@@ -140,16 +140,13 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
                 resolveConditionalReferences(resourceWithMeta);
             }
 
-            final int newVersionNumber = Integer.parseInt(resourceWithMeta.getMeta().getVersionId().getValue());
-            final Instant lastUpdated = resourceWithMeta.getMeta().getLastUpdated();
-            final String logicalId = resourceWithMeta.getId();
-
             // Add the mapping between localIdentifier and the new logicalId from the resource
             if (localIdentifier != null && !localRefMap.containsKey(localIdentifier)) {
                 addLocalRefMapping(localIdentifier, resourceWithMeta);
             }
 
             // Pass back the updated resource so it can be used in the next phase if required
+            final String logicalId = resourceWithMeta.getId();
             return new FHIRRestOperationResponse(resourceWithMeta, logicalId, null);
         });
     }
@@ -183,10 +180,6 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
             if (this.transaction) {
                 resolveConditionalReferences(resourceWithMeta);
             }
-
-//            final int newVersionNumber = Integer.parseInt(resourceWithMeta.getMeta().getVersionId().getValue());
-//            final Instant lastUpdated = resourceWithMeta.getMeta().getLastUpdated();
-//            final String logicalId = resourceWithMeta.getId();
 
             // Add the mapping between localIdentifier and the new logicalId from the resource
             if (localIdentifier != null && !localRefMap.containsKey(localIdentifier)) {
