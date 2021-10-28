@@ -154,15 +154,15 @@ public class MockRegistryResourceProvider implements FHIRRegistryResourceProvide
      */
     @Override
     public FHIRRegistryResource getRegistryResource(Class<? extends Resource> resourceType, String url, String version) {
-        if (url.equals("profile1")) {
+        if (url.equals("profile1") && (version == null || version.equals("1"))) {
             return profile1;
-        } else if (url.equals("profile2")) {
+        } else if (url.equals("profile2") && (version == null || version.equals("1"))) {
             return profile2;
-        } else if (url.equals("profile3")) {
+        } else if (url.equals("profile3") && (version == null || version.equals("1"))) {
             return profile3;
-        } else if (url.equals("profile4")) {
+        } else if (url.equals("profile4") && (version == null || version.equals("1"))) {
             return profile4;
-        } else if (url.equals("profile5")) {
+        } else if (url.equals("profile5") && (version == null || version.equals("1"))) {
             return profile5;
         } else {
             return null;

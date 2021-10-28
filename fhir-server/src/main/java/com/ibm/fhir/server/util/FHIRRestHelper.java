@@ -44,6 +44,7 @@ import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
+import com.ibm.fhir.config.PropertyGroup.PropertyEntry;
 import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.core.HTTPHandlingPreference;
 import com.ibm.fhir.core.context.FHIRPagingContext;
@@ -61,11 +62,13 @@ import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.resource.StructureDefinition;
+import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Decimal;
 import com.ibm.fhir.model.type.Extension;
+import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.UnsignedInt;
 import com.ibm.fhir.model.type.Uri;
@@ -2600,6 +2603,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         Set<String> notAllowedProfiles = new HashSet<>();
         Set<String> notAllowedProfilesWithoutVersion = new HashSet<>();
         boolean allowUnknown;
+        Map<String, String> defaultVersions = new HashMap<>();
+        boolean defaultVersionsSpecified = false;
+        Resource resourceToValidate = resource;
 
         // Retrieve the profile configuration
         try {
@@ -2671,6 +2677,39 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 allowUnknown = FHIRConfigHelper.getBooleanProperty(defaultProfileConfigPath.toString() +
                     FHIRConfiguration.PROPERTY_FIELD_RESOURCES_PROFILES_ALLOW_UNKNOWN, Boolean.TRUE);
             }            
+            
+            if (log.isLoggable(Level.FINER)) {
+                log.finer("Allow unknown: " + allowUnknown);
+            }
+            
+            // Get the 'defaultVersions' entries
+            PropertyGroup resourceSpecificDefaultVersionsGroup =
+                    FHIRConfigHelper.getPropertyGroup(resourceSpecificProfileConfigPath.toString() +
+                        FHIRConfiguration.PROPERTY_FIELD_RESOURCES_PROFILES_DEFAULT_VERSIONS);
+            if (resourceSpecificDefaultVersionsGroup != null) {
+                defaultVersionsSpecified = true;
+                for (PropertyEntry entry : resourceSpecificDefaultVersionsGroup.getProperties()) {
+                    defaultVersions.put(entry.getName(), (String) entry.getValue());
+                }
+            } else {
+                PropertyGroup allResourceDefaultVersionsGroup =
+                        FHIRConfigHelper.getPropertyGroup(defaultProfileConfigPath.toString() +
+                            FHIRConfiguration.PROPERTY_FIELD_RESOURCES_PROFILES_DEFAULT_VERSIONS);
+                if (allResourceDefaultVersionsGroup != null) {
+                    defaultVersionsSpecified = true;
+                    for (PropertyEntry entry : allResourceDefaultVersionsGroup.getProperties()) {
+                        defaultVersions.put(entry.getName(), (String) entry.getValue());
+                    }
+                }
+            }
+            
+            if (log.isLoggable(Level.FINER)) {
+                log.finer("Default profile versions: [");
+                for (String profile : defaultVersions.keySet()) {
+                    log.finer("  " + profile + " : " + defaultVersions.get(profile));
+                }
+                log.finer("]");
+            }
         } catch (Exception e) {
             throw new FHIRValidationException("Error retrieving profile configuration.", e);
         }
@@ -2678,10 +2717,13 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         // Validate asserted profiles if necessary:
         // - if 'atLeastOne' is a non-empty list OR
         // - if 'notAllowed' is a non-empty list OR
-        // - if 'allowUnknown' is set to false
-        if (!notAllowedProfiles.isEmpty() || !atLeastOneProfiles.isEmpty() || !allowUnknown) {
+        // - if 'allowUnknown' is set to false OR
+        // - if 'defaultVersions' exists (empty or not)
+        if (!notAllowedProfiles.isEmpty() || !atLeastOneProfiles.isEmpty() || !allowUnknown || defaultVersionsSpecified) {
             List<Issue> issues = new ArrayList<>();
             boolean validProfileFound = false;
+            boolean defaultVersionUsed = false;
+            List<Canonical> defaultVersionAssertedProfiles = new ArrayList<>();;
 
             // Get the profiles asserted for this resource
             List<String> resourceAssertedProfiles = ProfileSupport.getResourceAssertedProfiles(resource);
@@ -2689,22 +2731,30 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 log.fine("Asserted profiles: " + resourceAssertedProfiles);
             }
 
-            // Validate the asserted profiles.
-            // For 'atLeastOne' profiles, check that at least one asserted profile is in the list of 'atLeastOne' profiles.
-            // For 'notAllowed' profiles, check that no asserted profile is in the list of 'notAllowed' profiles.
-            // If an 'atLeastOne' or 'notAllowed' profile specifies a version, an asserted profile must be an exact match.
-            // If an 'atLeastOne' or 'notAllowed' profile does not specify a version, any asserted profile of the same name
-            // will be a match regardless if it specifies a version or not.
+            // Validate the asserted profiles
             for (String resourceAssertedProfile : resourceAssertedProfiles) {
-                if (!notAllowedProfiles.isEmpty() || !atLeastOneProfiles.isEmpty()) {
-                    // Check if asserted profile contains a version
-                    String strippedAssertedProfile = null;
-                    int index = resourceAssertedProfile.indexOf("|");
-                    if (index != -1) {
-                        strippedAssertedProfile = resourceAssertedProfile.substring(0, index);
+                // Check if asserted profile contains a version
+                String strippedAssertedProfile = null;
+                int index = resourceAssertedProfile.indexOf("|");
+                if (index != -1) {
+                    strippedAssertedProfile = resourceAssertedProfile.substring(0, index);
+                } else {
+                    // Check if assertedProfile has a default version
+                    String defaultVersion = defaultVersions.get(resourceAssertedProfile);
+                    if (defaultVersion != null) {
+                        defaultVersionUsed = true;
+                        strippedAssertedProfile = resourceAssertedProfile;
+                        resourceAssertedProfile = resourceAssertedProfile + "|" + defaultVersion;
                     }
+                }
+                defaultVersionAssertedProfiles.add(Canonical.of(resourceAssertedProfile));
 
-                    // Look for exact match or match after stripping version from asserted profile
+                if (!notAllowedProfiles.isEmpty() || !atLeastOneProfiles.isEmpty()) {
+                    // For 'atLeastOne' profiles, check that at least one asserted profile is in the list of 'atLeastOne' profiles.
+                    // For 'notAllowed' profiles, check that no asserted profile is in the list of 'notAllowed' profiles.
+                    // If an 'atLeastOne' or 'notAllowed' profile specifies a version, an asserted profile must be an exact match.
+                    // If an 'atLeastOne' or 'notAllowed' profile does not specify a version, any asserted profile of the same name
+                    // will be a match regardless if it specifies a version or not.
                     if (notAllowedProfiles.contains(resourceAssertedProfile) ||
                             notAllowedProfilesWithoutVersion.contains(strippedAssertedProfile)) {
                         // For 'notAllowed' profiles, a match means an invalid profile was found
@@ -2747,9 +2797,16 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             if (!issues.isEmpty()) {
                 return issues;
             }
-        }
 
-        return validator.validate(resource);
+            // If any asserted profiles have a default version specified, make a copy of the
+            // resource with the new asserted profile values and validate against the copy.
+            if (defaultVersionUsed) {
+                Meta metaCopy = resource.getMeta().toBuilder().profile(defaultVersionAssertedProfiles).build();
+                resourceToValidate = resource.toBuilder().meta(metaCopy).build();
+            }
+        }
+        
+        return validator.validate(resourceToValidate);
     }
 
     @Override

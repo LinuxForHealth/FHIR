@@ -25,6 +25,7 @@ import com.ibm.fhir.model.resource.AllergyIntolerance;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.CarePlan;
 import com.ibm.fhir.model.resource.Condition;
+import com.ibm.fhir.model.resource.Device;
 import com.ibm.fhir.model.resource.Encounter;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
@@ -198,16 +199,18 @@ public class ProfileValidationConfigTest {
     }
 
     /**
-     * Test a create with an unsupported profile specified.
+     * Test a create with an unsupported profile specified and allow unknown true.
      */
     @Test
-    public void testCreateWithUnsupportedProfileSpecified() throws Exception {
-        Patient patient = Patient.builder()
+    public void testCreateWithUnsupportedProfileSpecifiedAndAllowUnknownTrue() throws Exception {
+        CarePlan carePlan = CarePlan.builder()
                 .meta(Meta.builder()
-                    .profile(Canonical.of("profile1"), Canonical.of("profile9"))
+                    .profile(Canonical.of("profile7"))
                     .build())
-                .generalPractitioner(Reference.builder()
-                    .reference(string("Practitioner/1"))
+                .status(CarePlanStatus.COMPLETED)
+                .intent(CarePlanIntent.PLAN)
+                .subject(Reference.builder()
+                    .reference(string("urn:3"))
                     .build())
                 .text(Narrative.builder()
                     .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">Some narrative</div>"))
@@ -219,13 +222,14 @@ public class ProfileValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doCreate("Patient", patient, null, true);
+            FHIRRestOperationResponse response = helper.doCreate("CarePlan", carePlan, null, true);
+            List<Issue> issues = response.getOperationOutcome().getIssue();
+            assertEquals(issues.size(), 1);
+            assertEquals(issues.get(0).getDetails().getText().getValue(), "Profile 'profile7' is not supported");
+            assertEquals(issues.get(0).getSeverity(), IssueSeverity.WARNING);
+            assertEquals(issues.get(0).getCode(), IssueType.NOT_SUPPORTED);
+        } catch (Exception e) {
             fail();
-        } catch (FHIRValidationException e) {
-            // Validate results.
-            // Profile assertion validation successful.
-            // Expected FHIRValidator error due to profile not actually being loaded.
-            assertEquals(e.getMessage(), "An error occurred during validation");
         }
     }
 
@@ -268,7 +272,7 @@ public class ProfileValidationConfigTest {
     public void testCreateWithRequiredProfileWithVersionSpecified() throws Exception {
         Patient patient = Patient.builder()
                 .meta(Meta.builder()
-                    .profile(Canonical.of("profile1|3"))
+                    .profile(Canonical.of("profile1|1"))
                     .build())
                 .generalPractitioner(Reference.builder()
                     .reference(string("Practitioner/1"))
@@ -559,17 +563,19 @@ public class ProfileValidationConfigTest {
     }
 
     /**
-     * Test an update with an unsupported profile specified.
+     * Test an update with an unsupported profile specified and allow unknown true.
      */
     @Test
-    public void testUpdateWithUnsupportedProfileSpecified() throws Exception {
-        Patient patient = Patient.builder()
+    public void testUpdateWithUnsupportedProfileSpecifiedAndAllowUnknownTrue() throws Exception {
+        CarePlan carePlan = CarePlan.builder()
                 .id("1")
                 .meta(Meta.builder()
-                    .profile(Canonical.of("profile1"), Canonical.of("profile9"))
+                    .profile(Canonical.of("profile7"))
                     .build())
-                .generalPractitioner(Reference.builder()
-                    .reference(string("Practitioner/1"))
+                .status(CarePlanStatus.COMPLETED)
+                .intent(CarePlanIntent.PLAN)
+                .subject(Reference.builder()
+                    .reference(string("urn:3"))
                     .build())
                 .text(Narrative.builder()
                     .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">Some narrative</div>"))
@@ -581,13 +587,14 @@ public class ProfileValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doUpdate("Patient", "1", patient, null, null, false, true, null);
+            FHIRRestOperationResponse response = helper.doUpdate("CarePlan", "1", carePlan, null, null, false, true, null);
+            List<Issue> issues = response.getOperationOutcome().getIssue();
+            assertEquals(issues.size(), 1);
+            assertEquals(issues.get(0).getDetails().getText().getValue(), "Profile 'profile7' is not supported");
+            assertEquals(issues.get(0).getSeverity(), IssueSeverity.WARNING);
+            assertEquals(issues.get(0).getCode(), IssueType.NOT_SUPPORTED);
+        } catch (Exception e) {
             fail();
-        } catch (FHIRValidationException e) {
-            // Validate results.
-            // Profile assertion validation successful.
-            // Expected FHIRValidator error due to profile not actually being loaded.
-            assertEquals(e.getMessage(), "An error occurred during validation");
         }
     }
 
@@ -728,17 +735,19 @@ public class ProfileValidationConfigTest {
     }
 
     /**
-     * Test bundle with an unsupported profile specified.
+     * Test bundle with an unsupported profile specified and allow unknown true.
      */
     @Test
-    public void testBundleWithUnsupportedProfileSpecified() throws Exception {
-        Patient patient = Patient.builder()
+    public void testBundleWithUnsupportedProfileSpecifiedAndAllowUnknownTrue() throws Exception {
+        CarePlan carePlan = CarePlan.builder()
                 .id("1")
                 .meta(Meta.builder()
-                    .profile(Canonical.of("profile1"), Canonical.of("profile9"))
+                    .profile(Canonical.of("profile7"))
                     .build())
-                .generalPractitioner(Reference.builder()
-                    .reference(string("Practitioner/1"))
+                .status(CarePlanStatus.COMPLETED)
+                .intent(CarePlanIntent.PLAN)
+                .subject(Reference.builder()
+                    .reference(string("urn:3"))
                     .build())
                 .text(Narrative.builder()
                     .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">Some narrative</div>"))
@@ -748,10 +757,10 @@ public class ProfileValidationConfigTest {
 
         Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder()
                 .method(HTTPVerb.PUT)
-                .url(Uri.of("Patient/1"))
+                .url(Uri.of("CarePlan/1"))
                 .build();
         Bundle.Entry bundleEntry = Bundle.Entry.builder()
-                .resource(patient)
+                .resource(carePlan)
                 .request(bundleEntryRequest)
                 .build();
 
@@ -765,13 +774,15 @@ public class ProfileValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doBundle(requestBundle, false);
+            Bundle responseBundle = helper.doBundle(requestBundle, false);
+            assertEquals(responseBundle.getEntry().get(0).getResource().as(OperationOutcome.class), ALL_OK);
+            List<Issue> issues = responseBundle.getEntry().get(0).getResponse().getOutcome().as(OperationOutcome.class).getIssue();
+            assertEquals(issues.size(), 1);
+            assertEquals(issues.get(0).getDetails().getText().getValue(), "Profile 'profile7' is not supported");
+            assertEquals(issues.get(0).getSeverity(), IssueSeverity.WARNING);
+            assertEquals(issues.get(0).getCode(), IssueType.NOT_SUPPORTED);
+        } catch (Exception e) {
             fail();
-        } catch (FHIRValidationException e) {
-            // Validate results.
-            // Profile assertion validation successful.
-            // Expected FHIRValidator error due to profile not actually being loaded.
-            assertEquals(e.getMessage(), "An error occurred during validation");
         }
     }
 
@@ -1695,6 +1706,141 @@ public class ProfileValidationConfigTest {
             assertEquals(issues.get(1).getDetails().getText().getValue(), "Profile 'profile9' is not supported");
             assertEquals(issues.get(1).getSeverity(), IssueSeverity.ERROR);
             assertEquals(issues.get(1).getCode(), IssueType.NOT_SUPPORTED);
+        }
+    }
+
+    /**
+     * Test a create with a valid default version required profile specified which is unsupported.
+     */
+    @Test
+    public void testCreateWithRequiredProfileAndDefaultVersionSpecifiedAndUnsupported() throws Exception {
+        Patient patient = Patient.builder()
+                .meta(Meta.builder()
+                    .profile(Canonical.of("profile3"))
+                    .build())
+                .generalPractitioner(Reference.builder()
+                    .reference(string("Practitioner/1"))
+                    .build())
+                .text(Narrative.builder()
+                    .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">Some narrative</div>"))
+                    .status(NarrativeStatus.GENERATED)
+                    .build())
+                .build();
+
+        // Process request
+        FHIRRequestContext.get().setOriginalRequestUri("test");
+        FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
+        try {
+            FHIRRestOperationResponse response = helper.doCreate("Patient", patient, null, true);
+            List<Issue> issues = response.getOperationOutcome().getIssue();
+            assertEquals(issues.size(), 1);
+            assertEquals(issues.get(0).getDetails().getText().getValue(), "Profile 'profile3|2' is not supported");
+            assertEquals(issues.get(0).getSeverity(), IssueSeverity.WARNING);
+            assertEquals(issues.get(0).getCode(), IssueType.NOT_SUPPORTED);
+        } catch (Exception e) {
+            fail();
+        }
+    }
+
+    /**
+     * Test a create with a valid default version required profile specified for versioned profile.
+     */
+    @Test
+    public void testCreateWithRequiredProfileAndDefaultVersionSpecifiedForVersionedProfile() throws Exception {
+        Device device = Device.builder()
+                .meta(Meta.builder()
+                    .profile(Canonical.of("profile10"))
+                    .build())
+                .patient(Reference.builder()
+                    .reference(string("urn:3"))
+                    .build())
+                .text(Narrative.builder()
+                    .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">Some narrative</div>"))
+                    .status(NarrativeStatus.GENERATED)
+                    .build())
+                .build();
+
+        // Process request
+        FHIRRequestContext.get().setOriginalRequestUri("test");
+        FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
+        try {
+            FHIRRestOperationResponse response = helper.doCreate("Device", device, null, true);
+            List<Issue> issues = response.getOperationOutcome().getIssue();
+            assertEquals(issues.size(), 1);
+            assertEquals(issues.get(0).getDetails().getText().getValue(), "Profile 'profile10|1' is not supported");
+            assertEquals(issues.get(0).getSeverity(), IssueSeverity.WARNING);
+            assertEquals(issues.get(0).getCode(), IssueType.NOT_SUPPORTED);
+        } catch (Exception e) {
+            fail();
+        }
+    }
+
+    /**
+     * Test a create with a default version not allowed profile specified for versioned profile.
+     */
+    @Test
+    public void testCreateWithNonAllowedProfileAndDefaultVersionSpecifiedForVersionedProfile() throws Exception {
+        Device device = Device.builder()
+                .meta(Meta.builder()
+                    .profile(Canonical.of("profile10"), Canonical.of("profile11"))
+                    .build())
+                .patient(Reference.builder()
+                    .reference(string("urn:3"))
+                    .build())
+                .text(Narrative.builder()
+                    .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">Some narrative</div>"))
+                    .status(NarrativeStatus.GENERATED)
+                    .build())
+                .build();
+
+        // Process request
+        FHIRRequestContext.get().setOriginalRequestUri("test");
+        FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
+        try {
+            helper.doCreate("Device", device, null, true);
+            fail();
+        } catch (FHIROperationException e) {
+            // Validate results
+            List<Issue> issues = e.getIssues();
+            assertEquals(issues.size(), 1);
+            assertEquals(issues.get(0).getDetails().getText().getValue(),
+                    "A profile was specified which is not allowed. Resources of type 'Device' are not allowed to declare conformance to any of the following profiles: [profile11|1]");
+            assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
+            assertEquals(issues.get(0).getCode(), IssueType.BUSINESS_RULE);
+        }
+    }
+
+    /**
+     * Test a create with a default version unsupported profile and allow unknown false.
+     */
+    @Test
+    public void testCreateWithUnsupportedProfileDefaultVersionAndAllowUnknownFalse() throws Exception {
+        Condition condition = Condition.builder()
+                .meta(Meta.builder()
+                    .profile(Canonical.of("profile4"))
+                    .build())
+                .text(Narrative.builder()
+                    .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">Some narrative</div>"))
+                    .status(NarrativeStatus.GENERATED)
+                    .build())
+                .subject(Reference.builder()
+                    .reference(string("urn:3"))
+                    .build())
+                .build();
+
+        // Process request
+        FHIRRequestContext.get().setOriginalRequestUri("test");
+        FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
+        try {
+            helper.doCreate("Condition", condition, null, true);
+            fail();
+        } catch (FHIROperationException e) {
+            // Validate results
+            List<Issue> issues = e.getIssues();
+            assertEquals(issues.size(), 1);
+            assertEquals(issues.get(0).getDetails().getText().getValue(), "Profile 'profile4|2' is not supported");
+            assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
+            assertEquals(issues.get(0).getCode(), IssueType.NOT_SUPPORTED);
         }
     }
 

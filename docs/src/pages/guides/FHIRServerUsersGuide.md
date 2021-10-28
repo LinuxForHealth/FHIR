@@ -3,7 +3,7 @@ layout: post
 title:  IBM FHIR Server User's Guide
 description: IBM FHIR Server User's Guide
 Copyright: years 2017, 2021
-lastupdated: "2021-10-21"
+lastupdated: "2021-10-26"
 permalink: /FHIRServerUsersGuide/
 ---
 
@@ -801,13 +801,15 @@ For example, you can configure a set of FHIRPath Constraints to run for resource
 
 The following configuration parameters can be used to specify rules relating to the set of profiles that are specified in a resource's `meta.profile` element:
 * `fhirServer/resources/<resourceType>/profiles/atLeastOne` - this configuration parameter is used to specify a set of profiles, at least one of which a resource must claim conformance to and be successfully validated against in order to be persisted to the FHIR server.
-* `fhirServer/resources/<resourceType>/profiles/notAllowed`- this configuration parameter is used to specify a set of profiles to which a resource is *not allowed* to claim conformance.
-* `fhirServer/resources/<resourceType>/profiles/allowUnknown`- this configuration parameter is used to indicate whether a warning or an error is issued if a profile specified in a resource's `meta.profile`element is not loaded in the FHIR server. The default value is `true`, meaning unknown profiles are allowed to be specified. The profile will be ignored and just a warning will be returned. If set to `false`, this means unknown profiles are not allowed to be specified. An error will be returned and resource validation will fail.
+* `fhirServer/resources/<resourceType>/profiles/notAllowed` - this configuration parameter is used to specify a set of profiles to which a resource is *not allowed* to claim conformance.
+* `fhirServer/resources/<resourceType>/profiles/allowUnknown` - this configuration parameter is used to indicate whether a warning or an error is issued if a profile specified in a resource's `meta.profile` element is not loaded in the FHIR server. The default value is `true`, meaning unknown profiles are allowed to be specified. The profile will be ignored and just a warning will be returned. If set to `false`, this means unknown profiles are not allowed to be specified. An error will be returned and resource validation will fail.
+* `fhirServer/resources/<resourceType>/profiles/defaultVersions` - this configuration parameter is used to specify which version of a profile will be used during resource validation if the profile specified in a resource's `meta.profile` element does not contain a version. If a default profile version is not configured using this configuration parameter for an asserted profile, the FHIR server will determine the default version to use for validation.
 
 Before calling the FHIR validator to validate a resource against the set of profiles specified in its `meta.profile` element that it is claiming conformance to, the following pre-validation will be performed for that set of profiles based on the configuration parameters listed above:
-1.  If the `fhirServer/resources/<resourceType>/profiles/notAllowed` configuration parameter is set to a non-empty list, an error will be returned for any specified profile that is in the list, and validation will fail.
-2. If the `fhirServer/resources/<resourceType>/profiles/allowUnknown` configuration parameter is set to `false`,  an error will be returned for any specified profile that is not loaded in the FHIR server, and validation will fail.
-3. If the `fhirServer/resources/<resourceType>/profiles/atLeastOne` configuration parameter is set to a non-empty list, an error will be returned if none of the specified profiles is in the list, and validation will fail.
+1. If any specified profile does not contain a version, and that profile is in the set of profiles configured to have a default version via the `fhirServer/resources/<resourceType>/profiles/defaultVersions` configuration parameter, the default version for that profile will be appended to the profile name, and it is this new profile name containing the version which will be evaluated against in the following steps. 
+2. If the `fhirServer/resources/<resourceType>/profiles/notAllowed` configuration parameter is set to a non-empty list, an error will be returned for any specified profile that is in the list, and validation will fail.
+3. If the `fhirServer/resources/<resourceType>/profiles/allowUnknown` configuration parameter is set to `false`,  an error will be returned for any specified profile that is not loaded in the FHIR server, and validation will fail.
+4. If the `fhirServer/resources/<resourceType>/profiles/atLeastOne` configuration parameter is set to a non-empty list, an error will be returned if none of the specified profiles is in the list, and validation will fail.
 
 If the resource passes pre-validation successfully, it will then be passed to the FHIR validator to validate conformance to the specified set of profiles.
 
@@ -824,7 +826,11 @@ The following example configuration shows how to define these configuration para
                         "http://ibm.com/fhir/profile/partnerA",
                         "http://ibm.com/fhir/profile/partnerB|1.0"
                     ],
-                    "allowUnknown": false
+                    "allowUnknown": false,
+                    "defaultVersions": {
+                        "http://ibm.com/fhir/profile/partnerA": "1.1",
+                        "http://ibm.com/fhir/profile/partnerE": "2.0"
+                    }
                 }
             },
             "Patient": {
@@ -834,6 +840,20 @@ The following example configuration shows how to define these configuration para
                         "http://ibm.com/fhir/profile/partnerD|2.0"
                     ]
                 }
+            },
+            "Resource": {
+                "profiles": {
+                    "notAllowed": [
+                        "http://ibm.com/fhir/profile/partnerF",
+                        "http://ibm.com/fhir/profile/partnerG|4.0.0",
+                        "http://ibm.com/fhir/profile/partnerH"
+                    ],
+                    "defaultVersions": {
+                        "http://ibm.com/fhir/profile/partnerI": "1.0",
+                        "http://ibm.com/fhir/profile/partnerJ": "3.1.1",
+                        "http://ibm.com/fhir/profile/partnerK": "1.1"
+                    }
+                }
             }
         },
         …
@@ -842,17 +862,22 @@ The following example configuration shows how to define these configuration para
 ```
 
 Given this configuration, in order for an `Observation` resource to be persisted to the FHIR server:
-* the resource's `meta.profile` element must specify either the `http://ibm.com/fhir/profile/partnerA` profile or the `http://ibm.com/fhir/profile/partnerB|1.0` profile or both, based on the `fhirServer/resources/Observation/profiles/atLeastOne` list. Other profiles may be specified as well assuming they pass the following checks.
-* the resource's `meta.profile` element must not specify any profile which is not loaded in the FHIR server, based on the `fhirServer/resources/Observation/profiles/allowUnknown` value of `false`
-* the resource must successfully validate against all specified profiles
+* The resource's `meta.profile` element must specify either the `http://ibm.com/fhir/profile/partnerA` profile or the `http://ibm.com/fhir/profile/partnerB|1.0` profile or both, based on the `fhirServer/resources/Observation/profiles/atLeastOne` list. Other profiles may be specified as well assuming they pass the following checks.
+* The resource's `meta.profile` element must not specify any profile which is specified in the `fhirServer/resources/Resource/profiles/notAllowed` list. Since the `notAllowed` property is not specified in the `fhirServer/resources/Observation/profiles` section, it is inherited from the `fhirServer/resources/Resource/profiles` section if specified there.
+* The resource's `meta.profile` element must not specify any profile which is not loaded in the FHIR server, based on the `fhirServer/resources/Observation/profiles/allowUnknown` value of `false`.
+* The resource must successfully validate against all specified profiles. Note that if the `http://ibm.com/fhir/profile/partnerA` profile is specified, what is actually evaluated against and eventually passed to the FHIR validator is `http://ibm.com/fhir/profile/partnerA|1.1`. This is because the `http://ibm.com/fhir/profile/partnerA` profile is specified in the `fhirServer/resources/Observation/profiles/defaultVersions` set with a default version of `1.1`.
 
 In order for a `Patient` resource to be persisted to the FHIR server:
-* the resource's `meta.profile` element cannot specify either the `http://ibm.com/fhir/profile/partnerC` profile or the `http://ibm.com/fhir/profile/partnerD|2.0` profile, based on the `fhirServer/resources/Observation/profiles/notAllowed` list
-* the resource must successfully validate against all specified profiles.
+* The resource's `meta.profile` element is not required to specify any profile since the `atLeastOne` property is not specified in the `fhirServer/resources/Patient/profiles` section, nor is it specified in the `fhirServer/resources/Resource/profiles` section, where the property would be inherited from if specified. Any valid `Patient` profile may be specified assuming it passes the following checks.
+* The resource's `meta.profile` element cannot specify either the `http://ibm.com/fhir/profile/partnerC` profile or the `http://ibm.com/fhir/profile/partnerD|2.0` profile, based on the `fhirServer/resources/Patient/profiles/notAllowed` list.
+* The resource's `meta.profile` element may specify a profile which is not loaded in the FHIR server. Based on the absence of the `allowUnknown` property in the `fhirServer/resources/Patient/profiles` section, as well as the absence of that property in the `fhirServer/resources/Resource/profiles` section (where the property would be inherited from if specified), the default value of `true` is used. This means unknown profiles (not loaded in the FHIR server) will be allowed and will simply be ignored.
+* The resource must successfully validate against all specified profiles. Note that since the `defaultVersions` property is not specified in the `fhirServer/resources/Patient/profiles` section, this property will be inherited from the `fhirServer/resources/Resource/profiles/defaultVersions` property. So if a profile is specified in the resource's `meta.profile` element that is in the set of `defaultVersions` profiles, what will actually be evaluated against and eventually passed to the FHIR validator is the original profile name with its specified default version appended to it.
 
-Since the `fhirServer/resources/Patient/profiles/allowUnknown` configuration parameter is not specified for `Patient` resources, the default value of `true` is used, meaning a profile that is not loaded in the FHIR server can be specified, and will simply be ignored.
+If a profile in either the list specified by the `fhirServer/resources/<resourceType>/profiles/atLeastOne` configuration parameter or the list specified by the `fhirServer/resources/<resourceType>/profiles/notAllowed` configuration parameter contains a version, for example `http://ibm.com/fhir/profile/partner|1.0`, then a profile of the same name specified in the resource's `meta.profile` element will only be considered a match if it contains exactly the same version. However, if a profile in the lists specified by the configuration parameters does not contain a version, for example `http://ibm.com/fhir/profile/partner`, then a profile of the same name specified in the resource's `meta.profile` element will be considered a match whether it contains a version or not. 
 
-If a profile in either the list specified by the `fhirServer/resources/<resourceType>/profiles/atLeastOne` configuration parameter or the list specified by the `fhirServer/resources/<resourceType>/profiles/notAllowed` configuration parameter contains a version, for example `http://ibm.com/fhir/profile/partner|1.0`, then a profile of the same name specified in the resource's `meta.profile` element will only be considered a match if it contains exactly the same version. However, if a profile in the lists specified by the configuration parameters does not contain a version, for example `http://ibm.com/fhir/profile/partner`, then a profile of the same name specified in the resource's `meta.profile` element will be considered a match whether it contains a version or not. Using the example configuration above for the `Observation` resource type, if the profile `http://ibm.com/fhir/profile/partnerA|3.2` was specified in a resource's `meta.profile` element then it would be considered a match for the `http://ibm.com/fhir/profile/partnerA` profile specified in the `fhirServer/resources/Observation/profiles/atLeastOne` list. Conversely, if the profile `http://ibm.com/fhir/profile/partnerB` was specified in the resource's `meta.profile` element then it would *not* be considered a match for the `http://ibm.com/fhir/profile/partnerB|1.0` profile specified in the `fhirServer/resources/Observation/profiles/atLeastOne` list.
+Keep in mind that a profile name specified in the resource's `meta.profile` element could be modified due to the resource's `fhirServer/resources/<resourceType>/profiles/defaultVersions` configuration. It is this modified profile name that is used in the matching process and in the resource's validation, but only for those purposes. The `meta.profile` element of the original resource itself is not updated with the modified profile name.
+
+Using the example configuration above for the `Observation` resource type, if the profile `http://ibm.com/fhir/profile/partnerA|3.2` was specified in a resource's `meta.profile` element then it would be considered a match for the `http://ibm.com/fhir/profile/partnerA` profile specified in the `fhirServer/resources/Observation/profiles/atLeastOne` list. Conversely, if the profile `http://ibm.com/fhir/profile/partnerB` was specified in the resource's `meta.profile` element then it would *not* be considered a match for the `http://ibm.com/fhir/profile/partnerB|1.0` profile specified in the `fhirServer/resources/Observation/profiles/atLeastOne` list.
 
 The IBM FHIR Server pre-packages all conformance resources from the core specification.
 
@@ -2055,15 +2080,19 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/resources/Resource/profiles/atLeastOne`|string list|A comma-separated list of profiles, at least one of which must be specified in a resource's `meta.profile` element and successfully validated against in order for a resource to be persisted to the FHIR server. Individual resource types may override this value via `fhirServer/resources/<resourceType>/profiles/atLeastOne`. Omitting this property or specifying an empty list is equivalent to not requiring any profile assertions for a resource.|
 |`fhirServer/resources/Resource/profiles/notAllowed`|string list|A comma-separated list of profiles that are not allowed to be specified in a resource's `meta.profile` element, and thus cannot be validated against in order for a resource to be persisted to the FHIR server. Individual resource types may override this value via `fhirServer/resources/<resourceType>/profiles/notAllowed`. Omitting this property or specifying an empty list is equivalent to allowing any profile assertions for a resource.|
 |`fhirServer/resources/Resource/profiles/allowUnknown`|boolean|Indicates if profiles are allowed to be specified in a resource's `meta.profile` element that are not loaded in the FHIR server. If set to `false`, specifying a profile that is not loaded in the FHIR server results in an error and a resource validation failure. If set to `true`, a warning will be issued and the profile will be ignored. The default value is `true`. Individual resource types may override this value via `fhirServer/resources/<resourceType>/profiles/allowUnknown`.|
+|`fhirServer/resources/Resource/profiles/defaultVersions`|object|A set of profiles for which default profile versions are specified. If a profile in this set is asserted for a resource, and the asserted profile URL does not include a version, the version specified for the profile in this set will be used during resource validation. In cases where asserted profiles do not include a version, and are not in this set, the FHIR server will determine the default version of the profile to be used during resource validation. Individual resource types may override this set of profiles via `fhirServer/resources/<resourceType>/profiles/defaultVersions`.|
+|`fhirServer/resources/Resource/profiles/defaultVersions/<profile>`|string|The version of the profile definition to use for the profile `<profile>` during resource validation when this profile is asserted.|
 |`fhirServer/resources/<resourceType>/interactions`|string list|A list of strings that represent the RESTful interactions (create, read, vread, update, patch, delete, history, and/or search) to support for this resource type. For resources without the property, the value of `fhirServer/resources/Resource/interactions` is used.|
 |`fhirServer/resources/<resourceType>/searchParameters`|object|The set of search parameters to support for this resource type. Global search parameters defined on the `Resource` resource can be overridden on a per-resourceType basis.|
 |`fhirServer/resources/<resourceType>/searchParameters/<code>`|string|The URL of the search parameter definition to use for the search parameter `<code>` on resources of type `<resourceType>`.|
 |`fhirServer/resources/<resourceType>/searchIncludes`|string list|A comma-separated list of \_include values supported for this resource type. An empty list, `[]`, can be used to indicate that no \_include values are supported. For resources without the property, the value of `fhirServer/resources/Resource/searchIncludes` is used.|
 |`fhirServer/resources/<resourceType>/searchRevIncludes`|string list|A comma-separated list of \_revinclude values supported for this resource type. An empty list, `[]`, can be used to indicate that no \_revinclude values are supported. For resources without the property, the value of `fhirServer/resources/Resource/searchRevIncludes` is used.|
 |`fhirServer/resources/<resourceType>/searchParameterCombinations`|string list|A comma-separated list of search parameter combinations supported for this resource type. Each search parameter combination is a string, where a plus sign, `+`, separates the search parameters that can be used in combination. To indicate that searching without any search parameters is allowed, an empty string must be included in the list. Including an asterisk, `*`, in the list indicates support of any search parameter combination. For resources without the property, the value of `fhirServer/resources/Resource/searchParameterCombinations` is used.|
-|`fhirServer/resources/<resourceType>/profiles/atLeastOne`|string list|A comma-separated list of profiles, at least one of which must be specified in a resource's `meta.profile` element and be successfully validated against in order for a resource of this type to be persisted to the FHIR server. If this property is not specified, or if an empty list is specified, the value of `fhirServer/resources/Resource/profiles/atLeastOne` will be used.|
-|`fhirServer/resources/<resourceType>/profiles/notAllowed`|string list|A comma-separated list of profiles that are not allowed to be specified in a resource's `meta.profile` element, and thus cannot be validated against in order for a resource to be persisted to the FHIR server. If this property is not specified, or if an empty list is specified, the value of `fhirServer/resources/Resource/profiles/notAllowed` will be used.|
+|`fhirServer/resources/<resourceType>/profiles/atLeastOne`|string list|A comma-separated list of profiles, at least one of which must be specified in a resource's `meta.profile` element and be successfully validated against in order for a resource of this type to be persisted to the FHIR server. If this property is not specified, the value of `fhirServer/resources/Resource/profiles/atLeastOne` will be used. If an empty list is specified, it is equivalent to not requiring any profile assertions for this resource type.|
+|`fhirServer/resources/<resourceType>/profiles/notAllowed`|string list|A comma-separated list of profiles that are not allowed to be specified in a resource's `meta.profile` element, and thus cannot be validated against in order for a resource to be persisted to the FHIR server. If this property is not specified, the value of `fhirServer/resources/Resource/profiles/notAllowed` will be used. If an empty list is specified, it is equivalent to allowing any profile assertions for this resource type.|
 |`fhirServer/resources/<resourceType>/profiles/allowUnknown`|boolean|Indicates if profiles are allowed to be specified in a resource's `meta.profile` element that are not loaded in the FHIR server. If set to `false`, specifying a profile that is not loaded in the FHIR server results in an error and a resource validation failure. If set to `true`, a warning will be issued and the profile will be ignored. If this property is not specified, the value of `fhirServer/resources/Resource/profiles/allowUnknown` will be used.|
+|`fhirServer/resources/<resourceType>/profiles/defaultVersions`|object|A set of profiles for which default profile versions are specified for this resource type. If a profile in this set is asserted for a resource, and the asserted profile URL does not include a version, the version specified for the profile in this set will be used during resource validation. In cases where asserted profiles do not include a version, and are not in this set, the FHIR server will determine the default version of the profile to be used during resource validation. If this property is not specified, the value of `fhirServer/resources/Resource/profiles/defaultVersions` will be used.|
+|`fhirServer/resources/<resourceType>/profiles/defaultVersions/<profile>`|string|The version of the profile definition to use for the profile `<profile>` during resource validation when this profile is asserted for this resource type.|
 |`fhirServer/notifications/common/includeResourceTypes`|string list|A comma-separated list of resource types for which notification event messages should be published.|
 |`fhirServer/notifications/common/maxNotificationSizeBytes`|integer|The maximum size in bytes of the notification that should be sent|
 |`fhirServer/notifications/common/maxNotificationSizeBehavior`|string|The behavior of the notification framework when a notification is over the maxNotificationSizeBytes. Valid values are subset and omit|
@@ -2212,12 +2241,15 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/resources/open`|true|
 |`fhirServer/resources/Resource/interactions`|null (all interactions supported)|
 |`fhirServer/resources/Resource/searchParameters`|null (all global search parameters supported)|
+|`fhirServer/resources/Resource/searchParameters/<code>`|null|
 |`fhirServer/resources/Resource/searchIncludes`|null (all \_include values supported)|
 |`fhirServer/resources/Resource/searchRevIncludes`|null (all \_revinclude values supported)|
 |`fhirServer/resources/Resource/searchParameterCombinations`|null (all search parameter combinations supported)|
 |`fhirServer/resources/Resource/profiles/atLeastOne`|null (no resource profile assertions required)|
 |`fhirServer/resources/Resource/profiles/notAllowed`|null (any resource profile assertions allowed)|
 |`fhirServer/resources/Resource/profiles/allowUnknown`|true|
+|`fhirServer/resources/Resource/profiles/defaultVersions`|null (FHIR server determines default versions)|
+|`fhirServer/resources/Resource/profiles/defaultVersions/<profile>`|null|
 |`fhirServer/resources/<resourceType>/interactions`|null (inherits from `fhirServer/resources/Resource/interactions`)|
 |`fhirServer/resources/<resourceType>/searchParameters`|null (all type-specific search parameters supported)|
 |`fhirServer/resources/<resourceType>/searchParameters/<code>`|null|
@@ -2227,6 +2259,8 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/resources/<resourceType>/profiles/atLeastOne`|null (inherits from `fhirServer/resources/Resource/profiles/atLeastOne`)|
 |`fhirServer/resources/<resourceType>/profiles/notAllowed`|null (inherits from `fhirServer/resources/Resource/profiles/notAllowed`)|
 |`fhirServer/resources/<resourceType>/profiles/allowUnknown`|null (inherits from `fhirServer/resources/Resource/profiles/allowUnknown`)|
+|`fhirServer/resources/<resourceType>/profiles/defaultVersions`|null (inherits from `fhirServer/resources/Resource/profiles/defaultVersions`)|
+|`fhirServer/resources/<resourceType>/profiles/defaultVersions/<profile>`|null|
 |`fhirServer/notifications/common/includeResourceTypes`|`["*"]`|
 |`fhirServer/notifications/common/maxNotificationSizeBytes`|1000000|
 |`fhirServer/notifications/common/maxNotificationSizeBehavior`|subset|
@@ -2373,6 +2407,8 @@ must restart the server for that change to take effect.
 |`fhirServer/resources/Resource/profiles/atLeastOne`|Y|Y|
 |`fhirServer/resources/Resource/profiles/notAllowed`|Y|Y|
 |`fhirServer/resources/Resource/profiles/allowUnknown`|Y|Y|
+|`fhirServer/resources/Resource/profiles/defaultVersions`|Y|Y|
+|`fhirServer/resources/Resource/profiles/defaultVersions/<profile>`|Y|Y|
 |`fhirServer/resources/<resourceType>/interactions`|Y|Y|
 |`fhirServer/resources/<resourceType>/searchParameters`|Y|Y|
 |`fhirServer/resources/<resourceType>/searchParameters/<code>`|Y|Y|
@@ -2382,6 +2418,8 @@ must restart the server for that change to take effect.
 |`fhirServer/resources/<resourceType>/profiles/atLeastOne`|Y|Y|
 |`fhirServer/resources/<resourceType>/profiles/notAllowed`|Y|Y|
 |`fhirServer/resources/<resourceType>/profiles/allowUnknown`|Y|Y|
+|`fhirServer/resources/<resourceType>/profiles/defaultVersions`|Y|Y|
+|`fhirServer/resources/<resourceType>/profiles/defaultVersions/<profile>`|Y|Y|
 |`fhirServer/notifications/common/includeResourceTypes`|N|N|
 |`fhirServer/notifications/common/maxNotificationSizeBytes`|Y|N|
 |`fhirServer/notifications/common/maxNotificationSizeBehavior`|Y|N|
