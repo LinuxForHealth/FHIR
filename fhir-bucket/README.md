@@ -20,7 +20,7 @@ The IBM FHIR Server supports a custom operation to rebuild or "reindex" the sear
 
 With server-side-driven, the fhir-bucket will repeatedly call the `$reindex` operation. The user selects a date or timestamp as the reindex "marker", which is used to determine which resources have been reindexed, and which still need to be reindexed. When a resource is successfully reindexed, it is marked with this user-selected timestamp. Each reindex REST call will process up to the requested number of resources and return an OperationOutcome resource containing issues describing which resources were processed. When there are no resources left to update, the call returns an OperationOutcome with one issue, with an issue diagnostic value "Reindex complete", indicating that the reindex is complete.
 
-With client-side-driven, the fhir-bucket will repeatedly call two operations in parallel; the `$retrieve-index` operation to determine the list of resources available to reindex, and the `$reindex` operation with a list of resources to reindex. Driving the reindex this way avoids database contention associated with updating the reindex timestamp of each resource with reindex "marker", which is used by the server-side-driven approach to keep track of the next resource to reindex.
+With client-side-driven, the fhir-bucket will repeatedly call two operations in parallel; the `$retrieve-index` operation to determine the list of resources available to reindex, and the `$reindex` operation with a list of resources to reindex. Driving the reindex this way avoids database contention associated with updating the reindex timestamp of each resource with the reindex marker, which is used by the server-side-driven approach to keep track of the next resource to reindex.
 
 To avoid read timeouts, the number of resources processed in a single reindex call can be limited. Reindex calls can be made in parallel to increase throughput. The best number for concurrent requests depends on the capabilities of the underlying platform and any desire to balance load with other users. Concurrency up to 200 threads have been tested. Monitor the IBM FHIR Server response times when increasing concurrency. Also, make sure that the connection pool configured in the FHIR server cluster can support the required number of threads. This also means that the database needs to be configured to support this number of connections (sessions) plus any overhead.
 
@@ -291,7 +291,7 @@ To run using PostgreSQL, change the relevant arguments to:
 | `--max-concurrent-ndjson-files pool-size` | The maximum number of NDJSON files to read in parallel. Typically a small number, like the default which is 1. |
 | `--max-concurrent-json-files pool-size` | The maximum number of JSON files to read in parallel. Each JSON file translates to a single FHIR request, which may be a single resource, or a bundle with many resources. |
 | `--max-concurrent-fhir-requests pool-size` | The maximum number concurrent FHIR requests. For example, an NDJSON file may contain millions of records. Although a single NDJSON file is read sequentially, each resource (row) can be processed in parallel, up to this limit |
-| `--connection-pool-size pool-size` | The maximum size of the database connection pool. Threads will block and wait if the current number of active connections exceeds this value. Default size is 10.|
+| `--connection-pool-size pool-size` | The maximum size of the local tracking database's connection pool. Threads will block and wait if the current number of active connections exceeds this value. Default size is 10.|
 | `--recycle-seconds seconds` | Artificially force discovered entries to be reloaded some time after they have been loaded successfully. This permits the loader to be set up in a continuous mode of operation, where the resource bundles are loaded over and over again, generating new resources to fill the target system with lots of data. The processing times for each load is tracked, so this can be used to look for regression. |
 | `--path-prefix prefix` | Limit the discovery scan to keys with the given prefix. |
 | `--pool-shutdown-timeout-seconds seconds` | How many seconds to wait for the resource pool to shutdown when the loader has been asked to terminate. This value should be slightly longer than the Liberty transaction timeout.|
@@ -300,9 +300,9 @@ To run using PostgreSQL, change the relevant arguments to:
 | `--target-bucket` | The break bundles into bite-sized pieces to avoid tx timeouts. Store new bundles under this bucket.|
 | `--target-prefix` | The break bundles into bite-sized pieces to avoid tx timeouts. Store new bundles under this key prefix.|
 | `--max-resources-per-bundle` | The maximum number of resources to pack in a Bundle|
-| `--patient-buffer-size` | The number ofpatients should we load into the buffer during the synthetic load |
-| `--buffer-recycle-count` | The number of times should we use the same set of patient ids during the synthetic load |
-| `--no-scan` | Disables the periodically scan of COS looking for new entries. The default is false|
+| `--patient-buffer-size` | The number of patients should we load into the buffer during the synthetic load |
+| `--buffer-recycle-count` | The number of times we should use the same set of patient ids during the synthetic load |
+| `--no-scan` | Disables the periodic scan of COS looking for new entries. The default is false|
 
 *Database Properties*
 
