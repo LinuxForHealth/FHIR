@@ -1,10 +1,95 @@
-## fhir-bucket - Synthetic Data Loader
-Scans cloud object storage buckets and uploads data using the FHIR REST API.
+# fhir-bucket
 
-In addition to data loading, the app also can:
+fhir-bucket is a multi-threaded standalone Java application to run load against the IBM FHIR Server.
 
-* Make FHIR read/search calls at high volume to stress the read performance of the server.
-* Drive the $reindex custom operation using concurrent requests. The reindex operation is needed when the search parameter configuration is changed and the user wants to update the extracted parameter values which are used to support indexes.
+*Custom Load Types*
+
+1. *Reindex* - Drive the $reindex custom operation using concurrent requests. The reindex operation is needed when the search parameter configuration is changed and the user wants to update the extracted parameter values which are used to support indexes.
+- *Server* - Executes a Server-Side Client Reindex ($reindex)
+- *Client* - Executes a Client-Side Reindex Operation ($reindex)
+
+2. *Synthetic Data Loader* - Scans cloud object storage buckets and uploads data using the FHIR REST API
+
+3. *Drive Load* - Make FHIR read/search calls at high volume to stress the read performance of the server.
+
+## 1. Reindex - Driving the `$reindex` Custom Operation
+
+When the IBM FHIR Server stores a FHIR resource, it extracts a configurable set of searchable parameter values and stores them in specially indexed tables which are used to support search queries. When the search parameter configuration is changed (perhaps because a profile has been updated), users may want to apply this new configuration to resources already stored. By default, such configuration changes only apply to new resources.
+
+The IBM FHIR Server supports a custom operation to rebuild or "reindex" the search parameters extracted from resources currently stored. There are two approaches for driving the reindex, server-side-driven or client-side-driven. Using server-side-driven is the default; to use client-side-driven, include the `--reindex-client-side-driven` parameter.
+
+With server-side-driven, the fhir-bucket will repeatedly call the `$reindex` operation. The user selects a date or timestamp as the reindex "marker", which is used to determine which resources have been reindexed, and which still need to be reindexed. When a resource is successfully reindexed, it is marked with this user-selected timestamp. Each reindex REST call will process up to the requested number of resources and return an OperationOutcome resource containing issues describing which resources were processed. When there are no resources left to update, the call returns an OperationOutcome with one issue, with an issue diagnostic value "Reindex complete", indicating that the reindex is complete.
+
+With client-side-driven, the fhir-bucket will repeatedly call two operations in parallel; the `$retrieve-index` operation to determine the list of resources available to reindex, and the `$reindex` operation with a list of resources to reindex. Driving the reindex this way avoids database contention associated with updating the reindex timestamp of each resource with the reindex marker, which is used by the server-side-driven approach to keep track of the next resource to reindex.
+
+To avoid read timeouts, the number of resources processed in a single reindex call can be limited. Reindex calls can be made in parallel to increase throughput. The best number for concurrent requests depends on the capabilities of the underlying platform and any desire to balance load with other users. Concurrency up to 200 threads have been tested. Monitor the IBM FHIR Server response times when increasing concurrency. Also, make sure that the connection pool configured in the FHIR server cluster can support the required number of threads. This also means that the database needs to be configured to support this number of connections (sessions) plus any overhead.
+
+The fhir-bucket main app has been extended to support driving a reindex operation with high concurrency. 
+
+```
+java \
+  -Djava.util.logging.config.file=logging.properties \
+  -jar "${JAR}" \
+  --fhir-properties your-fhir-server.properties \
+  --tenant-name your-tenant-name \
+  --max-concurrent-fhir-requests 100 \
+  --no-scan \
+  --reindex-tstamp 2020-12-01T00:00:00Z \
+  --reindex-resource-count 50 \
+  --reindex-concurrent-requests 20 \
+  --reindex-client-side-driven
+```
+
+The format of the reindex timestamp can be a date `YYYY-MM-DD` representing `00:00:00` UTC on the given day, or an ISO timestamp `YYYY-MM-DDThh:mm:ssZ`.
+
+Values for `--reindex-resource-count` larger than 1000 will be clamped to 1000 to ensure that the `$reindex` server calls return within a reasonable time.
+
+The value for `--reindex-concurrent-requests` can be increased/decreased to maximize throughput or avoid overloading a system. The number represents the total number of client threads used to invoke the $reindex operation. Each thread uses its own connection to the IBM FHIR Server so you must also set `--max-concurrent-fhir-requests` to be at least equal to `--reindex-concurrent-requests`.
+
+If the client-side-driven reindex is unable to be completed due to an error or timeout, the reindex can be resumed by using the `--reindex-start-with-index-id` parameter. If this needs to be done, first check the fhir-bucket log and find the first index ID that was not successful. Then, by specifying that index ID for the value of `--reindex-start-with-index-id` when starting the client-side-driven reindex, the reindex is resumed from that point, instead of starting completely over.
+
+| Property | Description |
+|---|---|
+| `--reindex-tstamp` | 'yyyy-MM-dd' or ISO 8601 dateTime which the reindex is using to start the operation|
+| `--reindex-resource-count` | The count to index in a single request. e.g. 100 with a maximum value is 1000.|
+| `--reindex-concurrent-requests` | The simultaneous requests used to execute concurrently |
+| `--reindex-client-side-driven` | Switches between Client driven $reindex and Server side driven reindex. True or false, false by default. |
+| `--reindex-start-with-index-id` | A index-id used with Client driven $reindex to drive reindexing from the Client side.|
+| `--fhir-properties` | Properties file for the IBM FHIR Server |
+
+### IBM FHIR Server Properties - The FHIR Properties
+
+| Property | Type | Description |
+|---|---|---|
+| `fhir.server.host` |String| The hostname of the IBM FHIR Server |
+| `fhir.server.port` |Integer| The HTTPS port for the IBM FHIR Server |
+| `fhir.server.user` |String| The fhir user, e.g. fhiruser |
+| `fhir.server.pass` |String| The fhir user's password e.g. change-password |
+| `fhir.server.endpoint` |String| The path to the IBM FHIR Server, typically `/fhir-server/api/v4` |
+| `truststore` |String| The path to the truststore used to secure communications between the fhir-bucket Java application and the IBM FHIR Server e.g. fhirClientTrustStore.p12|
+| `truststore.pass` |String| The truststore password, e.g. `change-password` |
+| `read.timeout` | Integer | The timeout for any HTTP Read in milliseconds|
+| `connect.timeout` | Integer | The timeout for any HTTP Connection in milliseconds|
+| `pool.connections.max` | Integer | The maximum pool size for the HTTP Connections, e.g. 400 |
+| `disable.hostname.verification` | Boolean | Disables hostname checking when establishing an HTTP Connection. |
+
+**Example**
+
+```
+fhir.server.host=localhost
+fhir.server.port=9443
+fhir.server.user=fhiruser
+fhir.server.pass=change-password
+fhir.server.endpoint=/fhir-server/api/v4
+truststore=fhirClientTrustStore.p12
+truststore.pass=change-password
+read.timeout=125000
+connect.timeout=20000
+pool.connections.max=400
+disable.hostname.verification=true
+```
+
+## 2. Synthetic Data Loader and 3. Drive Load
 
 ### Background
 
@@ -108,7 +193,7 @@ As a one-time activity, create the schema objects using the following command:
 ```
 #!/usr/bin/env bash
 
-JAR="~/git/FHIR/fhir-bucket/target/fhir-bucket-4.4.0-SNAPSHOT-cli.jar"
+JAR="~/git/FHIR/fhir-bucket/target/fhir-bucket-*-SNAPSHOT-cli.jar"
 
 java -jar "${JAR}"               \
   --db-type db2                  \
@@ -121,7 +206,7 @@ If using a local Derby instance:
 ```
 #!/usr/bin/env bash
 
-JAR="~/git/FHIR/fhir-bucket/target/fhir-bucket-4.4.0-SNAPSHOT-cli.jar"
+JAR="~/git/FHIR/fhir-bucket/target/fhir-bucket-*-SNAPSHOT-cli.jar"
 
 java -jar "${JAR}"                 \
   --db-type derby                  \
@@ -134,7 +219,7 @@ If using a local PostgreSQL instance:
 ```
 #!/usr/bin/env bash
 
-JAR="~/git/FHIR/fhir-bucket/target/fhir-bucket-4.4.0-SNAPSHOT-cli.jar"
+JAR="~/git/FHIR/fhir-bucket/target/fhir-bucket-*-SNAPSHOT-cli.jar"
 
 java -jar "${JAR}"                    \
   --db-type postgresql                \
@@ -152,7 +237,7 @@ The following script can be used to run the bucket loader from a local build:
 ```
 #!/usr/bin/env bash
 
-JAR="~/git/FHIR/fhir-bucket/target/fhir-bucket-4.4.0-SNAPSHOT-cli.jar"
+JAR="~/git/FHIR/fhir-bucket/target/fhir-bucket-*-SNAPSHOT-cli.jar"
 
 java -jar "${JAR}"                  \
   --db-type db2                     \
@@ -187,29 +272,64 @@ To run using PostgreSQL, change the relevant arguments to:
 ...
 ```
 
-| command-line options |
-| ------- |
-| `--incremental` </br> If the loader is stopped or fails before a bundle completes, the bundle will be reclaimed by another loader instance after the heartbeat timeout expires (60s). If the `--incremental` option is specified, the loader skips lines already processed in the NDJSON file. This is reasonably quick but is approximate, and may end up skipping rows due to threaded processing when the loader terminated. |
-| `--incremental-exact` </br> the FHIRBUCKET tracking database is checked for every line in the NDJSON to see if any resources have been recorded for it, and if so, processing will be skipped. |
-| `--db-type type` </br> where `type` is one of: db2, derby, postgresql. Specifies the type of database to use for the FHIRBUCKET tracking data. |
-| `--db-properties properties-file` </br>  Connection properties file for the database |
-| `--cos-properties properties-file` </br>  Connection properties file for COS | 
-| `--fhir-properties properties-file` </br> Connection properties file for the FHIR server |
-| `--bucket cos-bucket-name` </br> The bucket name in COS |
-| `--tenant-name fhir-tenant-name` </br> The IBM FHIR Server tenant name|
-| `--file-type file-type` </br> One of: JSON, NDJSON. Used to limit the discovery scan to a particular type of file/entry |       
-| `--max-concurrent-ndjson-files pool-size` </br> The maximum number of NDJSON files to read in parallel. Typically a small number, like the default which is 1. |
-| `--max-concurrent-json-files pool-size` </br> The maximum number of JSON files to read in parallel. Each JSON file translates to a single FHIR request, which may be a single resource, or a bundle with many resources. |
-| `--max-concurrent-fhir-requests pool-size` </br> The maximum number concurrent FHIR requests. For example, an NDJSON file may contain millions of records. Although a single NDJSON file is read sequentially, each resource (row) can be processed in parallel, up to this limit |
-| `--connection-pool-size pool-size` </br> The maximum size of the database connection pool. Threads will block and wait if the current number of active connections exceeds this value |
-| `--recycle-seconds seconds` </br> Artificially force discovered entries to be reloaded some time after they have been loaded successfully. This permits the loader to be set up in a continuous mode of operation, where the resource bundles are loaded over and over again, generating new resources to fill the target system with lots of data. The processing times for each load is tracked, so this can be used to look for regression.
-| `--cos-scan-interval-ms millis` </br> The number of milliseconds to wait before scanning the COS bucket again to discover new entries |
-| `--path-prefix prefix` </br> Limit the discovery scan to keys with the given prefix. |
-| `--pool-shutdown-timeout-seconds seconds` </br> How many seconds to wait for the resource pool to shutdown when the loader has been asked to terminate. This value should be slightly longer than the Liberty transaction timeout.
-| `--create-schema` </br> Creates a new or updates an existing database schema. The program will exit after the schema operations have completed.|
+| Property Name | Description |
+| -------------------- | -----|
+| `--db-type type` | where `type` is one of: db2, derby, postgresql. Specifies the type of database to use for the FHIRBUCKET tracking data. |
+| `--create-schema` | Creates a new or updates an existing database schema. The program will exit after the schema operations have completed.|
+| `--schema-name` | The custom schema used for FHIRBUCKET tracking data. The default is `FHIRBUCKET`.|
+| `--tenant-name fhir-tenant-name` | The IBM FHIR Server tenant name|
+| `--cos-properties properties-file` | Connection properties file for COS | 
+| `--db-properties properties-file` | Connection properties file for the database |
+| `--db-prop` | Individual Connection Property name-value pair for the database|
+| `--fhir-properties properties-file` | Connection properties file for the FHIR server *Refer to prior section for details, *IBM FHIR Server Properties - The FHIR Properties*|
+| `--bucket cos-bucket-name` | The bucket name in COS |
+| `--bucket-path` | The path to use in the bucket in COS|
+| `--file-type file-type` | One of: JSON, NDJSON. Used to limit the discovery scan to a particular type of file/entry |
+| `--cos-scan-interval-ms millis` | The number of milliseconds to wait before scanning the COS bucket again to discover new entries. Default is 300000|
+| `--incremental` | If the loader is stopped or fails before a bundle completes, the bundle will be reclaimed by another loader instance after the heartbeat timeout expires (60s). If the `--incremental` option is specified, the loader skips lines already processed in the NDJSON file. This is reasonably quick but is approximate, and may end up skipping rows due to threaded processing when the loader terminated. |
+| `--incremental-exact` | the FHIRBUCKET tracking schema in the database is checked for every line in the NDJSON to see if any resources have been recorded for it, and if so, processing will be skipped. |
+| `--max-concurrent-ndjson-files pool-size` | The maximum number of NDJSON files to read in parallel. Typically a small number, like the default which is 1. |
+| `--max-concurrent-json-files pool-size` | The maximum number of JSON files to read in parallel. Each JSON file translates to a single FHIR request, which may be a single resource, or a bundle with many resources. |
+| `--max-concurrent-fhir-requests pool-size` | The maximum number concurrent FHIR requests. For example, an NDJSON file may contain millions of records. Although a single NDJSON file is read sequentially, each resource (row) can be processed in parallel, up to this limit |
+| `--connection-pool-size pool-size` | The maximum size of the local tracking database's connection pool. Threads will block and wait if the current number of active connections exceeds this value. Default size is 10.|
+| `--recycle-seconds seconds` | Artificially force discovered entries to be reloaded some time after they have been loaded successfully. This permits the loader to be set up in a continuous mode of operation, where the resource bundles are loaded over and over again, generating new resources to fill the target system with lots of data. The processing times for each load is tracked, so this can be used to look for regression. |
+| `--path-prefix prefix` | Limit the discovery scan to keys with the given prefix. |
+| `--pool-shutdown-timeout-seconds seconds` | How many seconds to wait for the resource pool to shutdown when the loader has been asked to terminate. This value should be slightly longer than the Liberty transaction timeout.|
+| `--concurrent-payer-requests` | The number of concurrent requests for the workload. Default is 40.|
+| `--bundle-cost-factor` | Cost to processing bundles to reduce concurrency and avoid overload/timeouts|
+| `--target-bucket` | The break bundles into bite-sized pieces to avoid tx timeouts. Store new bundles under this bucket.|
+| `--target-prefix` | The break bundles into bite-sized pieces to avoid tx timeouts. Store new bundles under this key prefix.|
+| `--max-resources-per-bundle` | The maximum number of resources to pack in a Bundle|
+| `--patient-buffer-size` | The number of patients should we load into the buffer during the synthetic load |
+| `--buffer-recycle-count` | The number of times we should use the same set of patient ids during the synthetic load |
+| `--no-scan` | Disables the periodic scan of COS looking for new entries. The default is false|
 
+*Database Properties*
 
+|Property|Description|
+|--------|-----------|
+|db.host | The database server hostname|
+|db.port | The database server port|
+|db.database | The name of the database|
+|user | A username with connect and admin permissions on the target database|
+|password | The user password for connecting to the database|
+|sslConnection | true or anything else, true triggers JDBC to use ssl, an example --prop sslConnection=true |
 
+A sample properties file can be found at https://github.com/IBM/FHIR/blob/master/fhir-persistence-schema/db2.properties
+
+*COS Properties* 
+
+|Property|Description|
+|--------|-----------|
+|cos.api.key | the IBM COS API key or S3 access key|
+|cos.srvinstid | the IBM COS service instance id or S3 secret key|
+|cos.endpoint.url | the IBM COS or S3 End point URL.|
+|cos.location | the IBM COS or S3 location.|
+|cos.bucket.name | the IBM COS or S3 bucket name to import from.|
+|cos.credential.ibm | if use IBM credential(Y/N), default(Y)|
+|cos.request.timeout | Request Timeout in milliseconds|
+|cos.socket.timeout | Socket Timeout in milliseconds|
+|cos.max.keys | The max keys to return per list objects request|
 
 ### Internals
 
@@ -351,38 +471,4 @@ java.util.logging.FileHandler.pattern=fhirbucket-%u-%g.log
 
 
 
-## Driving the `$reindex` Custom Operation
 
-When the IBM FHIR Server stores a FHIR resource, it extracts a configurable set of searchable parameter values and stores them in specially indexed tables which are used to support search queries. When the search parameter configuration is changed (perhaps because a profile has been updated), users may want to apply this new configuration to resources already stored. By default, such configuration changes only apply to new resources.
-
-The IBM FHIR Server supports a custom operation to rebuild or "reindex" the search parameters extracted from resources currently stored. There are two approaches for driving the reindex, server-side-driven or client-side-driven. Using server-side-driven is the default; to use client-side-driven, include the `--reindex-client-side-driven` parameter.
-
-With server-side-driven, the fhir-bucket will repeatedly call the `$reindex` operation. The user selects a date or timestamp as the reindex "marker", which is used to determine which resources have been reindexed, and which still need to be reindexed. When a resource is successfully reindexed, it is marked with this user-selected timestamp. Each reindex REST call will process up to the requested number of resources and return an OperationOutcome resource containing issues describing which resources were processed. When there are no resources left to update, the call returns an OperationOutcome with one issue, with an issue diagnostic value "Reindex complete", indicating that the reindex is complete.
-
-With client-side-driven, the fhir-bucket will repeatedly call two operations in parallel; the `$retrieve-index` operation to determine the list of resources available to reindex, and the `$reindex` operation with a list of resources to reindex. Driving the reindex this way avoids database contention associated with updating the reindex timestamp of each resource with reindex "marker", which is used by the server-side-driven approach to keep track of the next resource to reindex.
-
-To avoid read timeouts, the number of resources processed in a single reindex call can be limited. Reindex calls can be made in parallel to increase throughput. The best number for concurrent requests depends on the capabilities of the underlying platform and any desire to balance load with other users. Concurrency up to 200 threads have been tested. Monitor the IBM FHIR Server response times when increasing concurrency. Also, make sure that the connection pool configured in the FHIR server cluster can support the required number of threads. This also means that the database needs to be configured to support this number of connections (sessions) plus any overhead.
-
-The fhir-bucket main app has been extended to support driving a reindex operation with high concurrency. 
-
-```
-java \
-  -Djava.util.logging.config.file=logging.properties \
-  -jar "${JAR}" \
-  --fhir-properties your-fhir-server.properties \
-  --tenant-name your-tenant-name \
-  --max-concurrent-fhir-requests 100 \
-  --no-scan \
-  --reindex-tstamp 2020-12-01T00:00:00Z \
-  --reindex-resource-count 50 \
-  --reindex-concurrent-requests 20 \
-  --reindex-client-side-driven
-```
-
-The format of the reindex timestamp can be a date `YYYY-MM-DD` representing `00:00:00` UTC on the given day, or an ISO timestamp `YYYY-MM-DDThh:mm:ssZ`.
-
-Values for `--reindex-resource-count` larger than 1000 will be clamped to 1000 to ensure that the `$reindex` server calls return within a reasonable time.
-
-The value for `--reindex-concurrent-requests` can be increased/decreased to maximize throughput or avoid overloading a system. The number represents the total number of client threads used to invoke the $reindex operation. Each thread uses its own connection to the IBM FHIR Server so you must also set `--max-concurrent-fhir-requests` to be at least equal to `--reindex-concurrent-requests`.
-
-If the client-side-driven reindex is unable to be completed due to an error or timeout, the reindex can be resumed by using the `--reindex-start-with-index-id` parameter. If this needs to be done, first check the fhir-bucket log and find the first index ID that was not successful. Then, by specifying that index ID for the value of `--reindex-start-with-index-id` when starting the client-side-driven reindex, the reindex is resumed from that point, instead of starting completely over.
