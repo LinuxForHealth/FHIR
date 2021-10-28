@@ -402,7 +402,7 @@ public class Capabilities extends FHIRResource {
                     .profile(Canonical.of("http://hl7.org/fhir/profiles/" + resourceTypeName))
                     .interaction(interactions)
                     .operation(ops)
-                    .versioning(ResourceVersionPolicy.VERSIONED)
+                    .versioning(ResourceVersionPolicy.VERSIONED_UPDATE)
                     .conditionalCreate(com.ibm.fhir.model.type.Boolean.TRUE)
                     .conditionalUpdate(com.ibm.fhir.model.type.Boolean.TRUE)
                     .updateCreate(isUpdateCreate)
