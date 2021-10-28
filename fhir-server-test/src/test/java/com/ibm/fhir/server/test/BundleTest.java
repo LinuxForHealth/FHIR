@@ -2512,10 +2512,12 @@ public class BundleTest extends FHIRServerTestBase {
      * multiple requests because:
      *   "A resource can only appear in a transaction once (by identity)."
      * Requests:
+     * <pre>
      *   1. Transaction Bundle with PUT Patient/randomId (create-on-update - 201 Created)
      *   2. Transaction Bundle with PUT Patient/randomId (skip update - 304 Not Modified)
      *   3. DELETE Patient/randomId (deleted - 200 OK)
      *   4. Transaction Bundle with PUT Patient/randomId (create-on-update - 201 Created)
+     * </pre>
      */
     @Test
     public void testTransactionBundleWithIfNoneMatch() throws Exception {

@@ -24,8 +24,6 @@ import com.ibm.fhir.persistence.test.common.AbstractIfNoneMatchTest;
 
 /**
  * Concrete subclass for IfNoneMatch tests run against the JDBC schema.
- * @author markd
- *
  */
 public class JDBCIfNoneMatchTest extends AbstractIfNoneMatchTest {
 

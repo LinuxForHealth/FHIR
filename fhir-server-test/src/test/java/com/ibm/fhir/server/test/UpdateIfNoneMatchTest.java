@@ -90,13 +90,4 @@ public class UpdateIfNoneMatchTest extends FHIRServerTestBase {
             assertEquals(response.getETag(), "W/\"3\"");
         }
     }
-
-    /**
-     * Build a bundle containing create-on-update interactions with IfNoneMatch
-     * @throws Exception
-     */
-    @Test
-    public void testCreateOnUpdateBundle() throws Exception {
-        // 
-    }
 }

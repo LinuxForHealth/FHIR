@@ -475,9 +475,10 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
      * Test for If-None-Match conditional create-on-update behavior. The If-None-Match
      * header value is encoded by the REST layer (minimizes propagation of user input)
      * using the following rules
+     * <pre>
      *   If-None-Match: null then ifNoneMatch = null
      *   If-None-Match: * then ifNoneMatch = 0
-     *   
+     * </pre>
      * Other values such as W/"1" are intentionally unsupported because their
      * behavior may be unintuitive, especially around deleted resources. 
      * @param ifNoneMatch the encoded If-None-Match header value

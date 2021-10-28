@@ -177,7 +177,7 @@ public class Update extends FHIRResource {
      * @param value
      * @return
      */
-    private Integer encodeIfNoneMatch(String value) {
+    private Integer encodeIfNoneMatch(String value) throws FHIROperationException {
         if (value == null || value.isEmpty()) {
             return null;
         }
@@ -193,10 +193,14 @@ public class Update extends FHIRResource {
         if (value.length() > 4 && value.startsWith("W/\"") && value.endsWith("\"")) {
             // the bit in the middle should be an integer
             value = value.substring(3, value.length()-1);
-            Integer.parseInt(value); // just check it's an int for now
-            throw new IllegalArgumentException("If-None-Match with specific version not supported");
+            try {
+                Integer.parseInt(value); // just check it's an int for now
+            } catch (NumberFormatException x) {
+                throw buildRestException("Invalid If-None-Match value", IssueType.INVALID);
+            }
+            throw buildRestException("If-None-Match with specific version not supported", IssueType.INVALID);
         } else {
-            throw new IllegalArgumentException("Invalid If-None-Match value");
+            throw buildRestException("Invalid If-None-Match value", IssueType.INVALID);
         }
     }
 }

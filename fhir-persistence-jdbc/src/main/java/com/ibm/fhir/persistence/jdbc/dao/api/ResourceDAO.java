@@ -176,7 +176,7 @@ public interface ResourceDAO extends FHIRDbDAO {
      * @param parameters A collection of search parameters to be persisted along with the passed Resource
      * @param parameterHashB64 Base64 encoded SHA-256 hash of parameters
      * @param parameterDao The Parameter DAO
-     * @param encoded ifNoneMatch conditional create create-on-update value
+     * @param ifNoneMatch 0 for conditional create-on-update behavior; otherwise null
      * @return Resource The Resource DTO
      * @throws FHIRPersistenceDataAccessException
      * @throws FHIRPersistenceDBConnectException

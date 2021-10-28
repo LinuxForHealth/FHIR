@@ -53,7 +53,7 @@ public class PostgresResourceDAO extends ResourceDAOImpl {
 
     private static final String SQL_READ_RESOURCE_TYPE = "{CALL %s.add_resource_type(?, ?)}";
     
-    // 11 args
+    // 12 args (9 in, 3 out)
     private static final String SQL_INSERT_WITH_PARAMETERS = "{CALL %s.add_any_resource(?,?,?,?,?,?,?,?,?,?,?,?)}";
 
     // DAO used to obtain sequence values from FHIR_REF_SEQUENCE

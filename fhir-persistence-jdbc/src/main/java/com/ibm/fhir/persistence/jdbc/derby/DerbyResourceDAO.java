@@ -195,7 +195,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
      * @param p_parameterHashB64
      * @param conn
      * @param parameterDao
-     * @param encoded ifNoneMatch conditional create-on-update
+     * @param ifNoneMatch 0 for conditional create-on-update behavior; otherwise null
      * @return the resource_id for the entry we created
      * @throws Exception
      */
