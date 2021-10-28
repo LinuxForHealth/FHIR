@@ -85,6 +85,7 @@ import com.ibm.fhir.model.type.code.FHIRVersion;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.PublicationStatus;
 import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.ResourceVersionPolicy;
 import com.ibm.fhir.model.type.code.RestfulCapabilityMode;
 import com.ibm.fhir.model.type.code.SystemRestfulInteraction;
 import com.ibm.fhir.model.type.code.TypeRestfulInteraction;
@@ -401,6 +402,7 @@ public class Capabilities extends FHIRResource {
                     .profile(Canonical.of("http://hl7.org/fhir/profiles/" + resourceTypeName))
                     .interaction(interactions)
                     .operation(ops)
+                    .versioning(ResourceVersionPolicy.VERSIONED_UPDATE)
                     .conditionalCreate(com.ibm.fhir.model.type.Boolean.TRUE)
                     .conditionalUpdate(com.ibm.fhir.model.type.Boolean.TRUE)
                     .updateCreate(isUpdateCreate)
