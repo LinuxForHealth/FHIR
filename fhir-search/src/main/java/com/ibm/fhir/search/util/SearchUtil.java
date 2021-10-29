@@ -297,25 +297,41 @@ public class SearchUtil {
             for (SearchParameter sp : unfilteredSearchParameters) {
                 String code = sp.getCode().getValue();
                 String url = sp.getUrl().getValue();
+                String version = sp.getVersion() == null ? null : sp.getVersion().getValue();
+                String canonical = url + (version == null ? "" : "|" + version);
 
                 if (includedSPs.containsKey(code)) {
-                    String configuredUrl = includedSPs.get(code);
-                    if (configuredUrl != null && configuredUrl.equals(url)) {
-                        results.put(code, sp);
-                    } else if (log.isLoggable(Level.FINE)) {
-                        log.fine("Skipping search parameter with id='" + sp.getId() + "'. "
-                                + "Tenant configuration for resource='" + resourceType + "' code='" + code + "' url='" + configuredUrl
-                                + "' does not match url '" + url + "'");
-                    }
+                    String configuredCanonical = includedSPs.get(code);
+                    if (configuredCanonical != null && configuredCanonical.contains("|")) {
+                        if (configuredCanonical.equals(canonical)) {
+                            results.put(code, sp);
+                        } else if (log.isLoggable(Level.FINE)) {
+                            log.fine("Skipping search parameter with id='" + sp.getId() + "'. "
+                                    + "Tenant configuration for resource='" + resourceType + "' code='" + code + "' url='" + configuredCanonical
+                                    + "' does not match url '" + url + "'");
+                        }
+                    } else if (configuredCanonical != null) {
+                        if (configuredCanonical.equals(url)) {
+                            results.put(code, sp);
+                        } else if (log.isLoggable(Level.FINE)) {
+                            log.fine("Skipping search parameter with id='" + sp.getId() + "'. "
+                                    + "Tenant configuration for resource='" + resourceType + "' code='" + code + "' url='" + configuredCanonical
+                                    + "' does not match url '" + url + "'");
+                        }
+                    } 
                 } else if (includeAll) {
                     // If "*" is contained in the included SP urls, then include the search parameter
                     // if it doesn't conflict with any of the previously added parameters
                     if (!results.containsKey(code)) {
                         results.put(code, sp);
                     } else {
-                        String configuredUrl = results.get(code).getUrl().getValue();
+                        SearchParameter configuredSP = results.get(code);
+                        String configuredUrl = configuredSP.getUrl().getValue();
+                        String configuredVersion = configuredSP.getVersion() == null ? null : configuredSP.getVersion().getValue();
+                        String configuredCanonical = configuredUrl + (configuredVersion == null ? "" : "|" + configuredVersion);
+
                         log.warning("Skipping search parameter with id='" + sp.getId() + "'. "
-                                + "Found multiple search parameters, '" + configuredUrl + "' and '" + url + "', for code '" + code
+                                + "Found multiple search parameters, '" + configuredCanonical + "' and '" + canonical + "', for code '" + code
                                 + "' on resource type '" + resourceType + "'; use search parameter filtering to disambiguate.");
                     }
                 }
@@ -1452,7 +1468,7 @@ public class SearchUtil {
     }
 
     /**
-     * Look up the http://ibm.com/fhir/extension/implicit-system extension in 
+     * Look up the http://ibm.com/fhir/extension/implicit-system extension in
      * the given list of Extensions
      * @param extensions
      * @return the implicit system value, or null if not found
@@ -2878,17 +2894,17 @@ public class SearchUtil {
         // First split by union operator.
         for (String subExpression : expression.split("\\|")) {
             Class<?> dataType = resourceType;
-            
+
             // Strip any enclosing parens
             subExpression = subExpression.trim();
             if (subExpression.startsWith("(") && subExpression.endsWith(")")) {
                 subExpression = subExpression.substring(1, subExpression.length()-1);
             }
-            
+
             // Strip out '.where()' functions, handling nested parentheses
             subExpression = subExpression
                     .replaceAll("\\.where(?=\\()(?:(?=.*?\\((?!.*?\\1)(.*\\)(?!.*\\2).*))(?=.*?\\)(?!.*?\\2)(.*)).)+?.*?(?=\\1)[^(]*(?=\\2$)", "");
-            
+
             // Split into components
             for (String component : subExpression.split("\\.")) {
                 component = component.trim();
