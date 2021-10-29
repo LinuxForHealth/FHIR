@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,7 +7,6 @@
 package com.ibm.fhir.search.parameters;
 
 import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertNotEquals;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
@@ -74,7 +73,7 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         List<SearchParameter> result = SearchUtil.getApplicableSearchParameters("Patient");
         assertNotNull(result);
         printSearchParameters("testGetApplicableSearchParameters3/Patient", result);
-        assertEquals(35, result.size());
+        assertEquals(37, result.size());
 
         result = SearchUtil.getApplicableSearchParameters("Observation");
         assertNotNull(result);
@@ -144,7 +143,7 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         List<SearchParameter> result = SearchUtil.getApplicableSearchParameters("Patient");
         assertNotNull(result);
         printSearchParameters("testGetApplicableSearchParameters7/Patient", result);
-        assertEquals(35, result.size());
+        assertEquals(37, result.size());
 
         result = SearchUtil.getApplicableSearchParameters("Device");
         assertNotNull(result);
@@ -162,7 +161,7 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         List<SearchParameter> result = SearchUtil.getApplicableSearchParameters("Patient");
         assertNotNull(result);
         printSearchParameters("testGetSearchParameters2", result);
-        assertEquals(29, result.size());
+        assertEquals(31, result.size());
     }
 
     @Test
@@ -356,10 +355,10 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         List<SearchParameter> result = SearchUtil.getApplicableSearchParameters("Patient");
         assertNotNull(result);
         printSearchParameters("testDynamicSearchParameters2/Patient", result);
-        assertEquals(35, result.size());
+        assertEquals(37, result.size());
 
         // Sleep a bit to allow file mod times to register.
-        Thread.sleep(1000);
+        Thread.sleep(100);
 
         // Copy our first hidden file into place.
         // This should add two tenant-specific search parameters.
@@ -374,7 +373,7 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         result = SearchUtil.getApplicableSearchParameters("Patient");
         assertNotNull(result);
         printSearchParameters("testDynamicSearchParameters2/Patient", result);
-        assertNotEquals(33, result.size());
+        assertEquals(33, result.size());
 
         // Sleep a bit to allow file mod times to register.
         Thread.sleep(1000);
@@ -389,7 +388,7 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         result = SearchUtil.getApplicableSearchParameters("Patient");
         assertNotNull(result);
         printSearchParameters("testDynamicSearchParameters2/Patient", result);
-        assertEquals(35, result.size());
+        assertEquals(37, result.size());
     }
 
     @Test
@@ -400,7 +399,7 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         List<SearchParameter> result = SearchUtil.getApplicableSearchParameters("Patient");
         assertNotNull(result);
         printSearchParameters("testGetSearchParametersWithAllResource", result);
-        assertEquals(31, result.size());
+        assertEquals(33, result.size());
 
         // confirm that favorite-number exists as well as the RESOURCE level favorite-color
         List<String> codes = result.stream().map(r -> r.getCode().getValue()).collect(Collectors.toList());

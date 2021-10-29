@@ -230,7 +230,7 @@ public class SearchUtil {
         // Retrieve the SPs associated with the specified resource type and filter per the filter rules.
         ParametersMap spMap = spBuiltin.get(resourceType);
         if (spMap != null && !spMap.isEmpty()) {
-            result.addAll(filterSearchParameters(filterRules, resourceType, spMap.values()));
+            result.addAll(filterSearchParameters(filterRules, resourceType, spMap));
         }
 
         if (!SearchConstants.RESOURCE_RESOURCE.equals(resourceType)) {
@@ -238,7 +238,7 @@ public class SearchUtil {
             spMap = spBuiltin.get(SearchConstants.RESOURCE_RESOURCE);
             if (spMap != null && !spMap.isEmpty()) {
                 Collection<SearchParameter> superParams =
-                        filterSearchParameters(filterRules, SearchConstants.RESOURCE_RESOURCE, spMap.values());
+                        filterSearchParameters(filterRules, SearchConstants.RESOURCE_RESOURCE, spMap);
                 Map<String, SearchParameter> resultCodes = result.stream()
                         .collect(Collectors.toMap(sp -> sp.getCode().getValue(), sp -> sp));
 
@@ -266,73 +266,72 @@ public class SearchUtil {
      * The filter rules are contained in a Map<String, List<String>> that is keyed by resource type.
      * The value of each Map entry is a list of search parameter names that should be included in our filtered result.
      *
-     * @param filterRules
-     *     a Map containing filter rules
+     * @param allFilterRules
+     *     a Map containing filter rules for all resource types
      * @param resourceType
      *     the resource type associated with each of the unfiltered SearchParameters
      * @param unfilteredSearchParameters
-     *     the unfiltered Collection of SearchParameter objects
+     *     the ParametersMap of unfiltered SearchParameter objects for this resource type
      * @return a filtered Collection of SearchParameters
      * @implSpec This method guarantees that each search parameter returned in the Collection will have a unique code.
      */
-    private static Collection<SearchParameter> filterSearchParameters(Map<String, Map<String, String>> filterRules,
-            String resourceType, Collection<SearchParameter> unfilteredSearchParameters) {
+    private static Collection<SearchParameter> filterSearchParameters(Map<String, Map<String, String>> allFilterRules,
+            String resourceType, ParametersMap unfilteredSearchParameters) {
         Map<String, SearchParameter> results = new HashMap<>();
 
         // First, retrieve the filter rule (list of SP urls to be included) for the specified resource type.
         // We know that the SearchParameters in the unfiltered list are all associated with this resource type,
         // so we can use this same "url list" for each Search Parameter in the unfiltered list.
-        Map<String, String> includedSPs = filterRules.get(resourceType);
+        Map<String, String> filterRules = allFilterRules.get(resourceType);
 
-        if (includedSPs == null) {
+        if (filterRules == null) {
             // If the specified resource type wasn't found in the Map then retrieve the wildcard entry if present.
-            includedSPs = filterRules.get(SearchConstants.WILDCARD_FILTER);
+            filterRules = allFilterRules.get(SearchConstants.WILDCARD_FILTER);
         }
 
         // If we found a non-empty list of search parameters to filter on, then do the filtering.
-        if (includedSPs != null && !includedSPs.isEmpty()) {
-            boolean includeAll = includedSPs.containsKey(SearchConstants.WILDCARD_FILTER);
+        if (filterRules != null && !filterRules.isEmpty()) {
+            boolean includeAll = false;
 
-            // Walk through the unfiltered list and select the ones to be included in our result.
-            for (SearchParameter sp : unfilteredSearchParameters) {
-                String code = sp.getCode().getValue();
-                String url = sp.getUrl().getValue();
-                String version = sp.getVersion() == null ? null : sp.getVersion().getValue();
-                String canonical = url + (version == null ? "" : "|" + version);
+            for (Entry<String, String> filterRule : filterRules.entrySet()) {
+                if (SearchConstants.WILDCARD_FILTER.equals(filterRule.getValue())) {
+                    includeAll = true;
+                } else {
+                    SearchParameter sp = unfilteredSearchParameters.lookupByCanonical(filterRule.getValue());
+                    if (sp != null) {
+                        results.put(filterRule.getKey(), sp);
+                    }
+                }
+            }
 
-                if (includedSPs.containsKey(code)) {
-                    String configuredCanonical = includedSPs.get(code);
-                    if (configuredCanonical != null && configuredCanonical.contains("|")) {
-                        if (configuredCanonical.equals(canonical)) {
-                            results.put(code, sp);
-                        } else if (log.isLoggable(Level.FINE)) {
-                            log.fine("Skipping search parameter with id='" + sp.getId() + "'. "
-                                    + "Tenant configuration for resource='" + resourceType + "' code='" + code + "' url='" + configuredCanonical
-                                    + "' does not match url '" + url + "'");
-                        }
-                    } else if (configuredCanonical != null) {
-                        if (configuredCanonical.equals(url)) {
-                            results.put(code, sp);
-                        } else if (log.isLoggable(Level.FINE)) {
-                            log.fine("Skipping search parameter with id='" + sp.getId() + "'. "
-                                    + "Tenant configuration for resource='" + resourceType + "' code='" + code + "' url='" + configuredCanonical
-                                    + "' does not match url '" + url + "'");
-                        }
-                    } 
-                } else if (includeAll) {
-                    // If "*" is contained in the included SP urls, then include the search parameter
-                    // if it doesn't conflict with any of the previously added parameters
-                    if (!results.containsKey(code)) {
-                        results.put(code, sp);
+            if (includeAll) {
+                // Add all search parameters that don't conflict with the configured list
+                for (Entry<String, Set<SearchParameter>> spByCode : unfilteredSearchParameters.codeEntries()) {
+                    String code = spByCode.getKey();
+                    Set<SearchParameter> spSet = spByCode.getValue();
+
+                    if (results.containsKey(code)) {
+                        log.fine("Skipping search parameters for code '" + code + "' on resource type '" + resourceType
+                                + "' because the configured set contains " + results.get(code));
                     } else {
-                        SearchParameter configuredSP = results.get(code);
-                        String configuredUrl = configuredSP.getUrl().getValue();
-                        String configuredVersion = configuredSP.getVersion() == null ? null : configuredSP.getVersion().getValue();
-                        String configuredCanonical = configuredUrl + (configuredVersion == null ? "" : "|" + configuredVersion);
+                        if (spSet.size() > 1) {
+                            StringBuilder canonicalUrlSetStringBuilder = new StringBuilder("[");
+                            String delim = "";
+                            for (SearchParameter sp : spSet) {
+                                canonicalUrlSetStringBuilder.append(delim);
+                                canonicalUrlSetStringBuilder.append(sp.getUrl().getValue());
+                                if (sp.getVersion() != null) {
+                                    canonicalUrlSetStringBuilder.append("|").append(sp.getVersion().getValue());
+                                }
+                                delim = ", ";
+                            }
+                            String canonicalUrls = canonicalUrlSetStringBuilder.append("]").toString();
 
-                        log.warning("Skipping search parameter with id='" + sp.getId() + "'. "
-                                + "Found multiple search parameters, '" + configuredCanonical + "' and '" + canonical + "', for code '" + code
-                                + "' on resource type '" + resourceType + "'; use search parameter filtering to disambiguate.");
+                            log.warning("Found multiple search parameters for code '" + code
+                                   + "' on resource type '" + resourceType + "': " + canonicalUrls
+                                   + "; use search parameter filtering to disambiguate.");
+                        }
+                        results.put(code, spSet.iterator().next());
                     }
                 }
             }
@@ -402,11 +401,12 @@ public class SearchUtil {
     }
 
     /**
-     * Returns the SearchParameter map (keyed by resource type) for the specified
-     * tenant-id, or null if there are no SearchParameters for the tenant.
+     * Returns the extended search parameters for the specified tenant-id, the default tenant,
+     * or null if there are no extended search parameters.
      *
      * @param tenantId
      *     the tenant-id whose SearchParameters should be returned.
+     * @return a map of ParametersMap objects keyed by resource type
      * @throws FileNotFoundException
      */
     private static Map<String, ParametersMap> getTenantOrDefaultSPMap(String tenantId) throws Exception {
@@ -579,7 +579,7 @@ public class SearchUtil {
     /**
      * @param resourceType
      * @param uri
-     * @return the SearchParameter for type {@code resourceType} with url {@code uri} or null if it doesn't exist
+     * @return the SearchParameter for type {@code resourceType} with canonical url {@code uri} or null if it doesn't exist
      * @throws Exception
      */
     public static SearchParameter getSearchParameter(String resourceType, Canonical uri) throws Exception {
@@ -596,15 +596,43 @@ public class SearchUtil {
             if (result != null) {
 
                 // Check if this search parameter applies to the base Resource type
-                ResourceType rt = result.getBase().get(0).as(ResourceType.class);
+                ResourceType rt = result.getBase().get(0);
                 if (SearchConstants.RESOURCE_RESOURCE.equals(rt.getValue())) {
                     resourceType = rt.getValue();
                 }
-                Collection<SearchParameter> filteredResult =
-                        filterSearchParameters(getFilterRules(), resourceType, Collections.singleton(result));
 
-                // If our filtered result is non-empty, then just return the first (and only) item.
-                result = (filteredResult.isEmpty() ? null : filteredResult.iterator().next());
+                Map<String, Map<String, String>> allFilterRules = getFilterRules();
+                Map<String, String> filterRules = getFilterRules().get(resourceType);
+                if (filterRules == null) {
+                    // If the specified resource type wasn't found in the Map then retrieve the wildcard entry if present.
+                    filterRules = allFilterRules.get(SearchConstants.WILDCARD_FILTER);
+                }
+
+                // If we found a non-empty list of search parameters to filter on, then do the filtering.
+                if (filterRules != null && !filterRules.isEmpty()) {
+                    boolean includeAll = false;
+
+                    for (Entry<String, String> filterRule : filterRules.entrySet()) {
+                        if (SearchConstants.WILDCARD_FILTER.equals(filterRule.getValue())) {
+                            includeAll = true;
+                        } else if (result.getCode().getValue().equals(filterRule.getKey())) {
+                            String url = result.getUrl().getValue();
+
+                            if (filterRule.getValue().equals(uri.getValue()) || filterRule.getValue().equals(url)) {
+                                return result;
+                            } else {
+                                // Configuration has mapped this code to a different search parameter
+                                return null;
+                            }
+                        }
+                    }
+
+                    // If we got here, then we havn't found an explicit rule for this search parameter
+                    // so filter out the result if there's no applicable wildcard rule
+                    if (!includeAll) {
+                        result = null;
+                    }
+                }
             }
         }
         return result;
@@ -622,13 +650,13 @@ public class SearchUtil {
         if (spMaps != null && !spMaps.isEmpty()) {
             ParametersMap parametersMap = spMaps.get(resourceType);
             if (parametersMap != null && !parametersMap.isEmpty()) {
-                result = parametersMap.lookupByUrl(uri.getValue());
+                result = parametersMap.lookupByCanonical(uri.getValue());
             }
 
             if (result == null) {
                 parametersMap = spMaps.get(SearchConstants.RESOURCE_RESOURCE);
                 if (parametersMap != null && !parametersMap.isEmpty()) {
-                    result = parametersMap.lookupByUrl(uri.getValue());
+                    result = parametersMap.lookupByCanonical(uri.getValue());
                 }
             }
         }

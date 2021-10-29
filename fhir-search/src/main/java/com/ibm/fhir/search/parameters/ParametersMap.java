@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -71,7 +71,7 @@ public class ParametersMap {
         canonicalMap.put(url, parameter);
 
         if (version != null) {
-            String canonical = url + (version == null ? "" : "|" + version);
+            String canonical = url + "|" + version;
             if (canonicalMap.containsKey(canonical)) {
                 SearchParameter previous = canonicalMap.get(canonical);
                 if (previous.getExpression() == null || previous.getExpression().equals(parameter.getExpression())) {

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,6 +7,7 @@
 package com.ibm.fhir.search.parameters;
 
 import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertNotEquals;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
@@ -29,6 +30,7 @@ import com.ibm.fhir.search.util.SearchUtil;
  * Tests the ParametersUtil through the SearchUtil.
  */
 public class ParametersSearchUtilTest extends BaseSearchTest {
+    public static final boolean DEBUG = false;
 
     @Override
     @BeforeClass
@@ -63,7 +65,7 @@ public class ParametersSearchUtilTest extends BaseSearchTest {
         List<SearchParameter> result = SearchUtil.getApplicableSearchParameters("Patient");
         assertNotNull(result);
         printSearchParameters("testGetSearchParameters2/Patient", result);
-        assertEquals(35, result.size());
+        assertEquals(37, result.size());
 
         result = SearchUtil.getApplicableSearchParameters("Observation");
         assertNotNull(result);
@@ -146,11 +148,44 @@ public class ParametersSearchUtilTest extends BaseSearchTest {
         List<SearchParameter> result = SearchUtil.getApplicableSearchParameters("Patient");
         assertNotNull(result);
         printSearchParameters("testGetSearchParameters6/Patient", result);
-        assertEquals(35, result.size());
+        assertEquals(37, result.size());
 
         result = SearchUtil.getApplicableSearchParameters("Device");
         assertNotNull(result);
         printSearchParameters("testGetSearchParameters6/Device", result);
         assertEquals(18, result.size());
+    }
+
+    @Test
+    public void testVersionedSearchParameterFilter() throws Exception {
+        // Test filtering of search parameters for Patient (default tenant).
+        FHIRRequestContext.set(new FHIRRequestContext("tenant4"));
+
+        List<SearchParameter> result = SearchUtil.getApplicableSearchParameters("Device");
+        assertNotNull(result);
+        printSearchParameters("testVersionedSearchParameterFilter/Device", result);
+        boolean found = false;
+        for (SearchParameter sp : result) {
+            System.out.println(sp.getUrl().getValue() + "|" + sp.getVersion().getValue());
+            if ("http://hl7.org/fhir/us/core/SearchParameter/us-core-device-type".equals(sp.getUrl().getValue())) {
+                assertNotEquals("4.0.0", sp.getVersion());
+                found = true;
+            }
+        }
+        assertTrue(found);
+
+        FHIRRequestContext.set(new FHIRRequestContext("tenant5"));
+
+        result = SearchUtil.getApplicableSearchParameters("Device");
+        assertNotNull(result);
+        printSearchParameters("testVersionedSearchParameterFilter/Device", result);
+        found = false;
+        for (SearchParameter sp : result) {
+            if ("http://hl7.org/fhir/us/core/SearchParameter/us-core-device-type".equals(sp.getUrl().getValue())) {
+                assertNotEquals("3.1.1", sp.getVersion());
+                found = true;
+            }
+        }
+        assertTrue(found);
     }
 }
