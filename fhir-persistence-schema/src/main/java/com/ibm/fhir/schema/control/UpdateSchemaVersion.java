@@ -8,18 +8,10 @@ package com.ibm.fhir.schema.control;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Timestamp;
-import java.time.Instant;
-import java.util.Calendar;
-import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
-import com.ibm.fhir.database.utils.api.IDatabaseSupplier;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
-import com.ibm.fhir.database.utils.common.CalendarHelper;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.database.utils.version.SchemaConstants;
 
@@ -43,23 +35,32 @@ public class UpdateSchemaVersion implements IDatabaseStatement {
         this.version = version;
     }
 
+    /**
+     * Get the statement string for inserting a record into WHOLE_SCHEMA_VERSION
+     * @return the SQL insert statement
+     */
+    protected String getInsertSQL(String schemaName) {
+        final String WHOLE_SCHEMA_VERSION = DataDefinitionUtil.getQualifiedName(schemaName, SchemaConstants.WHOLE_SCHEMA_VERSION);
+        final String INS = "INSERT INTO " + WHOLE_SCHEMA_VERSION + " ("
+                + " record_id, version_id) "
+                + " VALUES (1, ?)";
+        return INS;
+    }
+
     @Override
     public void run(IDatabaseTranslator translator, Connection c) {
 
         // There shouldn't be any concurrency issues, because updates are serialized
         // using the CONTROL table and its lease mechanism (see LeaseManager)
-        final String WHOLE_SCHEMA_VERSION = DataDefinitionUtil.getQualifiedName(schemaName, SchemaConstants.WHOLE_SCHEMA_VERSION);
-        final String INS = "INSERT INTO " + WHOLE_SCHEMA_VERSION + " ("
-                + " record_id, version_id) "
-                + " VALUES (1, ?)";
-        
-        boolean locked = false;
-        while (!locked) {
+        final String INS = getInsertSQL(this.schemaName);        
+        boolean complete = false;
+        while (!complete) {
             try (PreparedStatement ps = c.prepareStatement(INS)) {
                 ps.setInt(1, version.vid());
                 
-                ps.executeUpdate();
-                locked = true; // we inserted the row, so we must own the lock
+                if (1 == ps.executeUpdate()) {
+                    complete = true; // we inserted the row, so we must own the lock
+                }
             } catch (SQLException x) {
                 // if the row is a duplicate, we drop through to the SEL statement
                 if (!translator.isDuplicate(x)) {
@@ -68,7 +69,8 @@ public class UpdateSchemaVersion implements IDatabaseStatement {
             }
             
             // Failed because there's a duplicate row...so now we just want to update it
-            if (!locked) {
+            if (!complete) {
+                final String WHOLE_SCHEMA_VERSION = DataDefinitionUtil.getQualifiedName(schemaName, SchemaConstants.WHOLE_SCHEMA_VERSION);
                 final String UPD = "UPDATE " + WHOLE_SCHEMA_VERSION
                         + "  SET version_id = ? "
                         + "WHERE record_id = 1 ";
@@ -76,12 +78,12 @@ public class UpdateSchemaVersion implements IDatabaseStatement {
                 try (PreparedStatement ps = c.prepareStatement(UPD)) {
                     ps.setInt(1, version.vid());
                     
-                    // Note that if we tried to update to update the row but no rows were affected,
-                    // it means that we were unable to obtain the lease because it is held by another
-                    // instance, hence result == FALSE
+                    // Note that if we tried to update the row but no rows were affected,
+                    // it means that the row was deleted before we could change it. If
+                    // that's the case, we just repeat the loop
                     int rows = ps.executeUpdate();
                     if (rows == 1) {
-                        locked = true; // we're done
+                        complete = true;
                     }
                 } catch (SQLException x) {
                     throw translator.translate(x);

@@ -376,7 +376,9 @@ public class Main {
         // Make sure that we have the CONTROL table created before we try any
         // schema update work
         IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
-        CreateControl.createTableIfNeeded(schema.getAdminSchemaName(), adapter);
+        try (ITransaction tx = transactionProvider.getTransaction()) {
+            CreateControl.createTableIfNeeded(schema.getAdminSchemaName(), adapter);
+        }
 
         if (updateFhirSchema) {
             updateFhirSchema();
@@ -433,7 +435,9 @@ public class Main {
             
             final String targetSchemaName = schema.getSchemaName();
             IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
-            CreateWholeSchemaVersion.createTableIfNeeded(targetSchemaName, adapter);
+            try (ITransaction tx = transactionProvider.getTransaction()) {
+                CreateWholeSchemaVersion.createTableIfNeeded(targetSchemaName, adapter);
+            }
             
             // If our schema is already at the latest version, we can skip a lot of processing
             SchemaVersionsManager svm = new SchemaVersionsManager(translator, connectionPool, transactionProvider, targetSchemaName);
@@ -469,8 +473,14 @@ public class Main {
                 // TODO: This will no longer be needed after the tables are removed (https://github.com/IBM/FHIR/issues/713).
                 logWarningMessagesForDeprecatedTables();
                 
-                // Mark the schema as up-to-date
+                // Apply privileges if asked
+                if (grantTo != null) {
+                    grantPrivilegesForFhirData();
+                }
+                
+                // Finally, update the whole schema version
                 svm.updateSchemaVersion();
+                
             }
         } finally {
             leaseManager.cancelLease();
@@ -491,7 +501,9 @@ public class Main {
             
             final String targetSchemaName = schema.getOauthSchemaName();
             IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
-            CreateWholeSchemaVersion.createTableIfNeeded(targetSchemaName, adapter);
+            try (ITransaction tx = transactionProvider.getTransaction()) {
+                CreateWholeSchemaVersion.createTableIfNeeded(targetSchemaName, adapter);
+            }
             
             // If our schema is already at the latest version, we can skip a lot of processing
             SchemaVersionsManager svm = new SchemaVersionsManager(translator, connectionPool, transactionProvider, targetSchemaName);
@@ -501,6 +513,11 @@ public class Main {
                 PhysicalDataModel pdm = new PhysicalDataModel();
                 buildOAuthSchemaModel(pdm);
                 updateSchema(pdm);
+                
+                // Apply privileges if asked
+                if (grantTo != null) {
+                    grantPrivilegesForOAuth();
+                }
                 
                 // Mark the schema as up-to-date
                 svm.updateSchemaVersion();
@@ -524,8 +541,10 @@ public class Main {
             
             final String targetSchemaName = schema.getJavaBatchSchemaName();
             IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
-            CreateWholeSchemaVersion.createTableIfNeeded(targetSchemaName, adapter);
-            
+            try (ITransaction tx = transactionProvider.getTransaction()) {
+                CreateWholeSchemaVersion.createTableIfNeeded(targetSchemaName, adapter);
+            }
+
             // If our schema is already at the latest version, we can skip a lot of processing
             SchemaVersionsManager svm = new SchemaVersionsManager(translator, connectionPool, transactionProvider, targetSchemaName);
             if (svm.isLatestSchema()) {
@@ -535,6 +554,11 @@ public class Main {
                 buildJavaBatchSchemaModel(pdm);
                 updateSchema(pdm);
                 
+                // Apply privileges if asked
+                if (grantTo != null) {
+                    grantPrivilegesForBatch();
+                }
+
                 // Mark the schema as up-to-date
                 svm.updateSchemaVersion();
             }
@@ -560,8 +584,10 @@ public class Main {
         // Before we start anything, we need to make sure our schema history
         // and control tables are in place. These tables are used to manage 
         // all FHIR data, oauth and JavaBatch schemas we build
-        CreateVersionHistory.createTableIfNeeded(schema.getAdminSchemaName(), adapter);
-        
+        try (ITransaction tx = transactionProvider.getTransaction()) {
+            CreateVersionHistory.createTableIfNeeded(schema.getAdminSchemaName(), adapter);
+        }
+
         // Current version history for the data schema
         VersionHistoryService vhs =
                 new VersionHistoryService(schema.getAdminSchemaName(), schema.getSchemaName(), schema.getOauthSchemaName(), schema.getJavaBatchSchemaName());
@@ -736,6 +762,12 @@ public class Main {
                     IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
                     pdm.applyProcedures(adapter);
                     pdm.applyFunctions(adapter);
+                    
+                    // Because we're replacing the procedures, we should also check if
+                    // we need to apply the associated privileges
+                    if (this.grantTo != null) {
+                        pdm.applyProcedureAndFunctionGrants(adapter, FhirSchemaConstants.FHIR_USER_GRANT_GROUP, grantTo);
+                    }
                 } catch (DataAccessException x) {
                     // Something went wrong, so mark the transaction as failed
                     tx.setRollbackOnly();
@@ -772,8 +804,67 @@ public class Main {
         }
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
-    // The following method is related to the Privilege feature
+    /**
+     * Apply grants to the FHIR data schema objects
+     */
+    protected void grantPrivilegesForFhirData() {
+
+        final IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
+        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
+            try {
+                PhysicalDataModel pdm = new PhysicalDataModel();
+                buildFhirDataSchemaModel(pdm);
+                pdm.applyGrants(adapter, FhirSchemaConstants.FHIR_USER_GRANT_GROUP, grantTo);
+                
+                // Grant SELECT on WHOLE_SCHEMA_VERSION to the FHIR server user
+                // Note the constant comes from SchemaConstants on purpose
+                CreateWholeSchemaVersion.grantPrivilegesTo(adapter, schema.getSchemaName(), SchemaConstants.FHIR_USER_GRANT_GROUP, grantTo);
+            } catch (DataAccessException x) {
+                // Something went wrong, so mark the transaction as failed
+                tx.setRollbackOnly();
+                throw x;
+            }
+        }
+    }
+
+    /**
+     * Apply grants to the OAuth schema objects
+     */
+    protected void grantPrivilegesForOAuth() {
+        final IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
+        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
+            try {
+                PhysicalDataModel pdm = new PhysicalDataModel();
+                buildOAuthSchemaModel(pdm);
+                pdm.applyGrants(adapter, FhirSchemaConstants.FHIR_OAUTH_GRANT_GROUP, grantTo);
+                
+            } catch (DataAccessException x) {
+                // Something went wrong, so mark the transaction as failed
+                tx.setRollbackOnly();
+                throw x;
+            }
+        }
+        
+    }
+
+    /**
+     * Apply grants to the JavaBatch schema objects
+     */
+    protected void grantPrivilegesForBatch() {
+        final IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
+        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
+            try {
+                PhysicalDataModel pdm = new PhysicalDataModel();
+                buildJavaBatchSchemaModel(pdm);
+                pdm.applyGrants(adapter, FhirSchemaConstants.FHIR_BATCH_GRANT_GROUP, grantTo);
+            } catch (DataAccessException x) {
+                // Something went wrong, so mark the transaction as failed
+                tx.setRollbackOnly();
+                throw x;
+            }
+        }
+    }
+
     /**
      * Grant the minimum required set of privileges on the FHIR schema objects
      * to the grantTo user. All tenant data access is via this user, and is the
@@ -791,26 +882,17 @@ public class Main {
             grantFhirSchema = true;
             grantJavaBatchSchema = true;
         }
-
-        // Build/update the tables as well as the stored procedures
-        PhysicalDataModel pdm = new PhysicalDataModel();
-        buildCommonModel(pdm, updateFhirSchema || grantFhirSchema, updateOauthSchema || grantOauthSchema, updateJavaBatchSchema || grantJavaBatchSchema);
-
-        final IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
-        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
-            try {
-                pdm.applyGrants(adapter, FhirSchemaConstants.FHIR_USER_GRANT_GROUP, grantTo);
-                pdm.applyGrants(adapter, FhirSchemaConstants.FHIR_OAUTH_GRANT_GROUP, grantTo);
-                pdm.applyGrants(adapter, FhirSchemaConstants.FHIR_BATCH_GRANT_GROUP, grantTo);
-                
-                // Grant SELECT on WHOLE_SCHEMA_VERSION to the FHIR server user
-                // Note the constant comes from SchemaConstants on purpose
-                CreateWholeSchemaVersion.grantPrivilegesTo(adapter, schema.getSchemaName(), SchemaConstants.FHIR_USER_GRANT_GROUP, grantTo);
-            } catch (DataAccessException x) {
-                // Something went wrong, so mark the transaction as failed
-                tx.setRollbackOnly();
-                throw x;
-            }
+        
+        if (grantFhirSchema) {
+            grantPrivilegesForFhirData();
+        }
+        
+        if (grantOauthSchema) {
+            grantPrivilegesForOAuth();
+        }
+        
+        if (grantJavaBatchSchema) {
+            grantPrivilegesForBatch();
         }
     }
 
@@ -2324,6 +2406,8 @@ public class Main {
             createSchemas();
         } else if (updateProc) {
             updateProcedures();
+        } else if (grantTo != null) {
+            grantPrivileges();
         } else if (this.listTenants) {
             listTenants();
         } else if (this.allocateTenant) {
@@ -2347,10 +2431,6 @@ public class Main {
                 throw new IllegalArgumentException("[ERROR] --tenant-key <key-value> should not be specified together with --drop-all-tenant-keys");
             }
             revokeTenantKey();
-        }
-
-        if (this.grantTo != null) {
-            grantPrivileges();
         }
 
         long elapsed = System.nanoTime() - start;

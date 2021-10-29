@@ -516,6 +516,27 @@ public class PhysicalDataModel implements IDataModel {
     }
 
     /**
+     * Grant the privileges for any registered procedures and functions to the given username
+     * @param target
+     * @param groupName
+     * @param username
+     */
+    public void applyProcedureAndFunctionGrants(IDatabaseAdapter target, String groupName, String username) {
+        int total = functions.size() + procedures.size();
+        int count = 1;
+        
+        for (IDatabaseObject fn: procedures) {
+            logger.fine(String.format("Granting privileges [%d/%d] %s", count++, total, fn.toString()));
+            fn.grant(target, groupName, username);
+        }
+
+        for (IDatabaseObject fn: functions) {
+            logger.fine(String.format("Granting privileges [%d/%d] %s", count++, total, fn.toString()));
+            fn.grant(target, groupName, username);
+        }
+    }
+
+    /**
      * Drop the tablespace associated with the given tenant.
      * @param tenantId
      */

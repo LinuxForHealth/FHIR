@@ -21,6 +21,7 @@ import com.ibm.fhir.schema.api.ILeaseManager;
 import com.ibm.fhir.schema.api.ILeaseManagerConfig;
 import com.ibm.fhir.schema.control.CancelLease;
 import com.ibm.fhir.schema.control.GetLease;
+import com.ibm.fhir.schema.control.GetLeasePostgresql;
 
 /**
  * Manages acquisition and maintenance of the lease we need before we
@@ -141,7 +142,7 @@ public class LeaseManager implements ILeaseManager {
                 // Establish our first lease expiry time
                 this.leaseUntil = Instant.now().plusSeconds(config.getLeaseTimeSeconds());
                 try (Connection c = connectionPool.getConnection()) {
-                    GetLease cmd = new GetLease(adminSchema, schemaName, config.getHost(), leaseId, leaseUntil);
+                    GetLease cmd = getLeaseDAO();
                     gotLease = cmd.run(translator, c);
                 } catch (SQLException x) {
                     throw translator.translate(x);
@@ -207,7 +208,7 @@ public class LeaseManager implements ILeaseManager {
         try (ITransaction tx = transactionProvider.getTransaction()) {
             this.leaseUntil = Instant.now().plusSeconds(config.getLeaseTimeSeconds());
             try (Connection c = connectionPool.getConnection()) {
-                GetLease cmd = new GetLease(adminSchema, schemaName, config.getHost(), leaseId, leaseUntil);
+                GetLease cmd = getLeaseDAO();
                 gotLease = cmd.run(translator, c);
                 
                 if (!gotLease) {
@@ -223,6 +224,22 @@ public class LeaseManager implements ILeaseManager {
                 running = false;
             }
         }
+    }
+
+    /**
+     * Get the GetLease DAO appropriate for the current database
+     * @return the GetLease DAO
+     */
+    private GetLease getLeaseDAO() {
+        final GetLease result;
+        switch (this.translator.getType()) {
+        case POSTGRESQL:
+            result = new GetLeasePostgresql(adminSchema, schemaName, config.getHost(), leaseId, leaseUntil);
+            break;
+        default:
+            result = new GetLease(adminSchema, schemaName, config.getHost(), leaseId, leaseUntil);
+        }
+        return result;
     }
 
     /**
