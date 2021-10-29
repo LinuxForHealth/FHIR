@@ -53,7 +53,6 @@ import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.server.spi.operation.FHIRRestOperationResponse;
 import com.ibm.fhir.server.util.FHIRRestHelper;
-import com.ibm.fhir.validation.exception.FHIRValidationException;
 
 public class ProfileValidationConfigTest {
 
@@ -257,11 +256,11 @@ public class ProfileValidationConfigTest {
         try {
             helper.doCreate("Patient", patient, null, true);
             fail();
-        } catch (FHIRValidationException e) {
+        } catch (FHIROperationException e) {
             // Validate results.
             // Profile assertion validation successful.
             // Expected FHIRValidator error due to profile not actually being loaded.
-            assertEquals(e.getMessage(), "An error occurred during validation");
+            assertEquals(e.getMessage(), "Error validating resource.");
         }
     }
 
@@ -289,11 +288,11 @@ public class ProfileValidationConfigTest {
         try {
             helper.doCreate("Patient", patient, null, true);
             fail();
-        } catch (FHIRValidationException e) {
+        } catch (FHIROperationException e) {
             // Validate results.
             // Profile assertion validation successful.
             // Expected FHIRValidator error due to profile not actually being loaded.
-            assertEquals(e.getMessage(), "An error occurred during validation");
+            assertEquals(e.getMessage(), "Error validating resource.");
         }
     }
 
@@ -321,11 +320,11 @@ public class ProfileValidationConfigTest {
         try {
             helper.doCreate("Patient", patient, null, true);
             fail();
-        } catch (FHIRValidationException e) {
+        } catch (FHIROperationException e) {
             // Validate results.
             // Profile assertion validation successful.
             // Expected FHIRValidator error due to profile not actually being loaded.
-            assertEquals(e.getMessage(), "An error occurred during validation");
+            assertEquals(e.getMessage(), "Error validating resource.");
         }
     }
 
@@ -420,11 +419,11 @@ public class ProfileValidationConfigTest {
         try {
             helper.doCreate("Encounter", encounter, null, true);
             fail();
-        } catch (FHIRValidationException e) {
+        } catch (FHIROperationException e) {
             // Validate results.
             // Profile assertion validation successful.
             // Expected FHIRValidator error due to profile not actually being loaded.
-            assertEquals(e.getMessage(), "An error occurred during validation");
+            assertEquals(e.getMessage(), "Error validating resource.");
         }
     }
 
@@ -452,11 +451,11 @@ public class ProfileValidationConfigTest {
         try {
             helper.doCreate("Encounter", encounter, null, true);
             fail();
-        } catch (FHIRValidationException e) {
+        } catch (FHIROperationException e) {
             // Validate results.
             // Profile assertion validation successful.
             // Expected FHIRValidator error due to profile not actually being loaded.
-            assertEquals(e.getMessage(), "An error occurred during validation");
+            assertEquals(e.getMessage(), "Error validating resource.");
         }
     }
 
@@ -623,11 +622,11 @@ public class ProfileValidationConfigTest {
         try {
             helper.doUpdate("Patient", "1", patient, null, null, false, true, null);
             fail();
-        } catch (FHIRValidationException e) {
+        } catch (FHIROperationException e) {
             // Validate results.
             // Profile assertion validation successful.
             // Expected FHIRValidator error due to profile not actually being loaded.
-            assertEquals(e.getMessage(), "An error occurred during validation");
+            assertEquals(e.getMessage(), "Error validating resource.");
         }
     }
 
@@ -824,13 +823,10 @@ public class ProfileValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doBundle(requestBundle, false);
+            Bundle responseBundle = helper.doBundle(requestBundle, false);
+            assertEquals(responseBundle.getEntry().get(0).getResource().as(OperationOutcome.class), ALL_OK);
+        } catch (Exception e) {
             fail();
-        } catch (FHIRValidationException e) {
-            // Validate results.
-            // Profile assertion validation successful.
-            // Expected FHIRValidator error due to profile not actually being loaded.
-            assertEquals(e.getMessage(), "An error occurred during validation");
         }
     }
 

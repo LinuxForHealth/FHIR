@@ -518,4 +518,13 @@ public interface FHIRResourceHelpers {
      * @return a Future response to the payload store operation, or null if it is not supported
      */
     Future<PayloadKey> storePayload(Resource resource, String logicalId, int newVersionNumber) throws Exception;
+
+    /**
+     * Validate a resource. First validate profile assertions for the resource if configured to do so,
+     * then validate the resource itself.
+     * @param resource the resource to be validated
+     * @return A list of validation errors and warnings
+     * @throws FHIROperationException
+     */
+    List<Issue> validateResource(Resource resource) throws FHIROperationException;
 }

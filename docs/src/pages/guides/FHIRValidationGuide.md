@@ -2,7 +2,7 @@
 layout: post
 title: FHIR Validation Guide
 description: FHIR Validation Guide
-date:   2021-10-07
+date:   2021-10-29
 permalink: /FHIRValidationGuide/
 ---
 
@@ -221,7 +221,10 @@ The latest version of the fhir-validation-distribution.zip artifact includes the
 
 ## The IBM FHIR Server $validate operation
 
-The IBM FHIR Server provides a basic implementation of the $validate operation that invokes the FHIRValidator via a REST API. The $validate operation will validate against the base specification and any profiles asserted in `Resource.meta.profile`. The optional `profile` parameter is not currently supported.
+The IBM FHIR Server provides a basic implementation of the $validate operation that invokes the FHIRValidator via a REST API. By default, the $validate operation will validate a resource against the base specification and any profiles asserted in its `Resource.meta.profile` element. The default behavior may be changed in one of the following ways:
+
+- If a profile is specified via the optional `profile` parameter, the $validate operation will validate a resource against the base specification and the specified profile only. It will not validate against any profiles asserted in the `Resource.meta.profile` element.
+- If the `profile` parameter is not specified, but the `mode` parameter is specified, and the `mode` parameter value is either `create` or `update`, the $validate operation will validate a resource against the base specification and any profiles asserted in its `Resource.meta.profile` element, but will do so based on profile configuration properties specified in the `fhirServer/resources/<resourceType>/profiles` section of the `fhir-server-config.json` file (see the [user guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#51-configuration-properties-reference) for configuration details).
 
 ## ValueSet membership checking (FHIRPath `memberOf` function)
 

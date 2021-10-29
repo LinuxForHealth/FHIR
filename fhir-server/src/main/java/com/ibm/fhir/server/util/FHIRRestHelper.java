@@ -1464,7 +1464,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      * @return A list of validation warnings
      */
     private List<OperationOutcome.Issue> validateInput(Resource resource)
-            throws FHIRValidationException, FHIROperationException {
+            throws FHIROperationException {
         List<OperationOutcome.Issue> issues = validateResource(resource);
         if (!issues.isEmpty()) {
             for (OperationOutcome.Issue issue : issues) {
@@ -2588,16 +2588,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         return result;
     }
 
-    /**
-     * Validate a resource. First validate profile assertions for the resource if configured to do so,
-     * then validate the resource itself.
-     *
-     * @param resource
-     *            the resource to be validated
-     * @return A list of validation errors and warnings
-     * @throws FHIRValidationException
-     */
-    private List<Issue> validateResource(Resource resource) throws FHIRValidationException {
+    @Override
+    public List<Issue> validateResource(Resource resource) throws FHIROperationException {
         Set<String> atLeastOneProfiles = new HashSet<>();
         Set<String> atLeastOneProfilesWithoutVersion = new HashSet<>();
         Set<String> notAllowedProfiles = new HashSet<>();
@@ -2711,7 +2703,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 log.finer("]");
             }
         } catch (Exception e) {
-            throw new FHIRValidationException("Error retrieving profile configuration.", e);
+            throw new FHIROperationException("Error retrieving profile configuration.", e);
         }
 
         // Validate asserted profiles if necessary:
@@ -2719,8 +2711,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         // - if 'notAllowed' is a non-empty list OR
         // - if 'allowUnknown' is set to false OR
         // - if 'defaultVersions' exists (empty or not)
+        List<Issue> issues = new ArrayList<>();
         if (!notAllowedProfiles.isEmpty() || !atLeastOneProfiles.isEmpty() || !allowUnknown || defaultVersionsSpecified) {
-            List<Issue> issues = new ArrayList<>();
             boolean validProfileFound = false;
             boolean defaultVersionUsed = false;
             List<Canonical> defaultVersionAssertedProfiles = new ArrayList<>();;
@@ -2806,7 +2798,13 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             }
         }
         
-        return validator.validate(resourceToValidate);
+        try {
+            issues = validator.validate(resourceToValidate);
+        } catch (FHIRValidationException e) {
+            throw new FHIROperationException("Error validating resource.", e);
+        }
+        
+        return issues;
     }
 
     @Override

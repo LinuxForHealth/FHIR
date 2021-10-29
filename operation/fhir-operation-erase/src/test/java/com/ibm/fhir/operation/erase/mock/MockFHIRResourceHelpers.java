@@ -7,6 +7,7 @@
 package com.ibm.fhir.operation.erase.mock;
 
 import java.time.Instant;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -222,5 +223,10 @@ public class MockFHIRResourceHelpers implements FHIRResourceHelpers {
     public Map<String, Object> buildPersistenceEventProperties(String type, String id, String version, FHIRSearchContext searchContext)
         throws FHIRPersistenceException {
         return null;
+    }
+
+    @Override
+    public List<Issue> validateResource(Resource resource) throws FHIROperationException {
+        return Collections.emptyList();
     }
 }
