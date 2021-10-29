@@ -103,7 +103,7 @@ public class FHIRRestInteractionVisitorReferenceMapping extends FHIRRestInteract
     @Override
     public FHIRRestOperationResponse doUpdate(int entryIndex, FHIRPersistenceEvent event, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL,
         long initialTime, String type, String id, Resource resource, Resource prevResource, String ifMatchValue, String searchQueryString,
-        boolean skippableUpdate, String localIdentifier, List<Issue> warnings, boolean isDeleted) throws Exception {
+        boolean skippableUpdate, String localIdentifier, List<Issue> warnings, boolean isDeleted, Integer ifNoneMatch) throws Exception {
 
         // Use doOperation for common exception handling
         return doOperation(entryIndex, requestDescription, initialTime, () -> {
@@ -120,7 +120,10 @@ public class FHIRRestInteractionVisitorReferenceMapping extends FHIRRestInteract
             // TODO support payload offload here
 
             // Pass back the updated resource so it can be used in the next phase
-            return new FHIRRestOperationResponse(null, null, newResource);
+            FHIRRestOperationResponse result = new FHIRRestOperationResponse(null, null, newResource);
+            result.setDeleted(isDeleted);
+            
+            return result;
         });
     }
 

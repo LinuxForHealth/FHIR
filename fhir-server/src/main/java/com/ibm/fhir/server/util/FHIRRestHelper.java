@@ -87,6 +87,7 @@ import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
+import com.ibm.fhir.persistence.InteractionStatus;
 import com.ibm.fhir.persistence.ResourceChangeLogRecord;
 import com.ibm.fhir.persistence.ResourceEraseRecord;
 import com.ibm.fhir.persistence.SingleResourceResult;
@@ -389,7 +390,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         validateInteraction(Interaction.PATCH, type);
 
         try {
-            return doPatchOrUpdate(type, id, patch, null, ifMatchValue, searchQueryString, skippableUpdate, DO_VALIDATION);
+            return doPatchOrUpdate(type, id, patch, null, ifMatchValue, searchQueryString, skippableUpdate, DO_VALIDATION, IF_NOT_MATCH_NULL);
         } finally {
             log.exiting(this.getClass().getName(), "doPatch");
         }
@@ -397,14 +398,14 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
     @Override
     public FHIRRestOperationResponse doUpdate(String type, String id, Resource newResource, String ifMatchValue,
-            String searchQueryString, boolean skippableUpdate, boolean doValidation) throws Exception {
+            String searchQueryString, boolean skippableUpdate, boolean doValidation, Integer ifNoneMatch) throws Exception {
         log.entering(this.getClass().getName(), "doUpdate");
 
         // Validate that interaction is allowed for given resource type
         validateInteraction(Interaction.UPDATE, type);
 
         try {
-            return doPatchOrUpdate(type, id, null, newResource, ifMatchValue, searchQueryString, skippableUpdate, doValidation);
+            return doPatchOrUpdate(type, id, null, newResource, ifMatchValue, searchQueryString, skippableUpdate, doValidation, ifNoneMatch);
         } finally {
             log.exiting(this.getClass().getName(), "doUpdate");
         }
@@ -414,16 +415,18 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      * Common handling of PATCH or UPDATE interactions
      * @param type
      * @param id
+     * @param patch
      * @param newResource
      * @param ifMatchValue
      * @param searchQueryString
      * @param skippableUpdate
      * @param doValidation
+     * @param ifNoneMatch
      * @return
      * @throws Exception
      */
     private FHIRRestOperationResponse doPatchOrUpdate(String type, String id, FHIRPatch patch, Resource newResource, String ifMatchValue,
-            String searchQueryString, boolean skippableUpdate, boolean doValidation) throws Exception {
+            String searchQueryString, boolean skippableUpdate, boolean doValidation, Integer ifNoneMatch) throws Exception {
         FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
         txn.begin();
 
@@ -442,7 +445,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             }
 
             // Persist the resource
-            FHIRRestOperationResponse ior = doPatchOrUpdatePersist(event, type, id, patch != null, metaResponse.getResource(), metaResponse.getPrevResource(), warnings, metaResponse.isDeleted());
+            FHIRRestOperationResponse ior = doPatchOrUpdatePersist(event, type, id, patch != null, metaResponse.getResource(), metaResponse.getPrevResource(), warnings, metaResponse.isDeleted(),
+                    ifNoneMatch);
 
             txn.commit();
             txn = null;
@@ -637,7 +641,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 warnings.addAll(validateInput(newResource));
             }
 
-            // Perform the "version-aware" update check, and also find out if the resource was deleted.
+            // Perform the "version-aware" update check
             if (ior.getPrevResource() != null) {
                 performVersionAwareUpdateCheck(ior.getPrevResource(), ifMatchValue);
 
@@ -712,7 +716,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     @Override
     public FHIRRestOperationResponse doPatchOrUpdatePersist(FHIRPersistenceEvent event, String type, String id,
             boolean isPatch, Resource newResource, Resource prevResource,
-            List<Issue> warnings, boolean isDeleted) throws Exception {
+            List<Issue> warnings, boolean isDeleted, Integer ifNoneMatch) throws Exception {
         log.entering(this.getClass().getName(), "doPatchOrUpdatePersist");
 
         // We'll only start a new transaction here if we don't have one. We'll only
@@ -734,13 +738,14 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             checkIdAndMeta(newResource);
 
             FHIRPersistenceContext persistenceContext =
-                    FHIRPersistenceContextFactory.createPersistenceContext(event);
+                    FHIRPersistenceContextFactory.createPersistenceContext(event, ifNoneMatch);
             boolean updateCreate = (prevResource == null);
             final SingleResourceResult<Resource> result;
             if (updateCreate) {
                 // resource shouldn't exist, so we assume it's a create
                 result = persistence.createWithMeta(persistenceContext, newResource);
             } else {
+                // resource already exists, so we know it's an update
                 result = persistence.updateWithMeta(persistenceContext, newResource);
             }
 
@@ -758,14 +763,32 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             // Invoke the 'afterUpdate' interceptor methods.
             if (updateCreate) {
-                ior.setStatus(Response.Status.CREATED);
-                getInterceptorMgr().fireAfterCreateEvent(event);
-            } else {
-                ior.setStatus(Response.Status.OK);
-                if (isPatch) {
-                    getInterceptorMgr().fireAfterPatchEvent(event);
+                if (result.getStatus() == InteractionStatus.IF_NONE_MATCH_EXISTED) {
+                    // Use the location assigned to the previous resource because we're
+                    // not updating anything. Also, we don't fire any 'after' event
+                    // for the same reason.
+                    ior.setResource(prevResource); // resource wasn't changed
+                    ior.setLocationURI(FHIRUtil.buildLocationURI(type, prevResource));
+                    ior.setStatus(Response.Status.NOT_MODIFIED);
                 } else {
-                    getInterceptorMgr().fireAfterUpdateEvent(event);
+                    ior.setStatus(Response.Status.CREATED);
+                    getInterceptorMgr().fireAfterCreateEvent(event);
+                }
+            } else {
+                if (result.getStatus() == InteractionStatus.IF_NONE_MATCH_EXISTED) {
+                    // Use the location assigned to the previous resource because we're
+                    // not updating anything. Also, we don't fire any 'after' event
+                    // for the same reason.
+                    ior.setResource(prevResource); // resource wasn't changed
+                    ior.setLocationURI(FHIRUtil.buildLocationURI(type, prevResource));
+                    ior.setStatus(Response.Status.NOT_MODIFIED);
+                } else {
+                    ior.setStatus(Response.Status.OK);
+                    if (isPatch) {
+                        getInterceptorMgr().fireAfterPatchEvent(event);
+                    } else {
+                        getInterceptorMgr().fireAfterUpdateEvent(event);
+                    }
                 }
             }
 

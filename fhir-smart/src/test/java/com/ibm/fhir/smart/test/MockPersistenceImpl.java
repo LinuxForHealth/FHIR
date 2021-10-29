@@ -22,6 +22,7 @@ import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
+import com.ibm.fhir.persistence.InteractionStatus;
 import com.ibm.fhir.persistence.MultiResourceResult;
 import com.ibm.fhir.persistence.ResourceChangeLogRecord;
 import com.ibm.fhir.persistence.ResourcePayload;
@@ -77,12 +78,14 @@ public class MockPersistenceImpl implements FHIRPersistence {
             return new SingleResourceResult.Builder<T>()
                     .success(true)
                     .resource((T)patient)
+                    .interactionStatus(InteractionStatus.READ)
                     .build();
         }
 
         if (resourceType == Observation.class) {
             return new SingleResourceResult.Builder<T>()
                     .success(true)
+                    .interactionStatus(InteractionStatus.READ)
                     .resource((T)observation)
                     .build();
         }
@@ -91,11 +94,13 @@ public class MockPersistenceImpl implements FHIRPersistence {
             if (ENCOUNTER_ID_GOOD.equals(logicalId)) {
                 return new SingleResourceResult.Builder<T>()
                         .success(true)
+                        .interactionStatus(InteractionStatus.READ)
                         .resource((T)encounter_in_patient_compartment)
                         .build();
             } else if (ENCOUNTER_ID_BAD.equals(logicalId)){
                 return new SingleResourceResult.Builder<T>()
                         .success(true)
+                        .interactionStatus(InteractionStatus.READ)
                         .resource((T)encounter_not_in_patient_compartment)
                         .build();
             } else {
@@ -113,6 +118,7 @@ public class MockPersistenceImpl implements FHIRPersistence {
         if (resourceType == Patient.class) {
             return new SingleResourceResult.Builder<T>()
                     .success(true)
+                    .interactionStatus(InteractionStatus.READ)
                     .resource((T)patient)
                     .build();
         }
@@ -120,6 +126,7 @@ public class MockPersistenceImpl implements FHIRPersistence {
         if (resourceType == Observation.class) {
             return new SingleResourceResult.Builder<T>()
                     .success(true)
+                    .interactionStatus(InteractionStatus.READ)
                     .resource((T)observation)
                     .build();
         }

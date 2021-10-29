@@ -19,6 +19,8 @@
 --   p_last_updated the last_updated time given by the FHIR server
 --   p_is_deleted: the soft delete flag
 --   p_version_id: the intended new version id of the resource (matching the JSON payload)
+--   p_parameter_hash_b64 the Base64 encoded hash of parameter values
+--   p_if_none_match the encoded If-None-Match value
 --   o_resource_id: output field returning the newly assigned resource_id value
 -- Exceptions:
 --   SQLSTATE 99001: on version conflict (concurrency)
@@ -26,14 +28,16 @@
 -- ----------------------------------------------------------------------------
     ( IN p_resource_type                 VARCHAR( 36),
       IN p_logical_id                    VARCHAR(255), 
-      IN p_payload                          BYTEA,
+      IN p_payload                         BYTEA,
       IN p_last_updated                TIMESTAMP,
       IN p_is_deleted                       CHAR(  1),
       IN p_source_key                    VARCHAR( 64),
       IN p_version                           INT,
       IN p_parameter_hash_b64            VARCHAR( 44),
+      IN p_if_none_match                     INT,
       OUT o_logical_resource_id           BIGINT,
-      OUT o_current_parameter_hash       VARCHAR( 44))
+      OUT o_current_parameter_hash       VARCHAR( 44),
+      OUT o_interaction_status               INT)
     LANGUAGE plpgsql
      AS $$
 
@@ -44,15 +48,19 @@
   v_current_resource_id  BIGINT := NULL;
   v_resource_id          BIGINT := NULL;
   v_resource_type_id        INT := NULL;
+  v_currently_deleted      CHAR(1) := NULL;
   v_new_resource            INT := 0;
   v_duplicate               INT := 0;
   v_current_version         INT := 0;
   v_change_type            CHAR(1) := NULL;
   
   -- Because we don't really update any existing key, so use NO KEY UPDATE to achieve better concurrence performance. 
-  lock_cur CURSOR (t_resource_type_id INT, t_logical_id VARCHAR(255)) FOR SELECT logical_resource_id, parameter_hash FROM {{SCHEMA_NAME}}.logical_resources WHERE resource_type_id = t_resource_type_id AND logical_id = t_logical_id FOR NO KEY UPDATE;
+  lock_cur CURSOR (t_resource_type_id INT, t_logical_id VARCHAR(255)) FOR SELECT logical_resource_id, parameter_hash, is_deleted FROM {{SCHEMA_NAME}}.logical_resources WHERE resource_type_id = t_resource_type_id AND logical_id = t_logical_id FOR NO KEY UPDATE;
 
 BEGIN
+  -- default value unless we hit If-None-Match
+  o_interaction_status := 0;
+
   -- LOADED ON: {{DATE}}
   v_schema_name := '{{SCHEMA_NAME}}';
   SELECT resource_type_id INTO v_resource_type_id 
@@ -63,7 +71,7 @@ BEGIN
 
   -- Get a lock at the system-wide logical resource level
   OPEN lock_cur(t_resource_type_id := v_resource_type_id, t_logical_id := p_logical_id);
-  FETCH lock_cur INTO v_logical_resource_id, o_current_parameter_hash;
+  FETCH lock_cur INTO v_logical_resource_id, o_current_parameter_hash, v_currently_deleted;
   CLOSE lock_cur;
   
   -- Create the resource if we don't have it already
@@ -79,7 +87,7 @@ BEGIN
       -- row exists, so we just need to obtain a lock on it. Because logical resource records are
       -- never deleted, we don't need to worry about it disappearing again before we grab the row lock
       OPEN lock_cur (t_resource_type_id := v_resource_type_id, t_logical_id := p_logical_id);
-      FETCH lock_cur INTO t_logical_resource_id, o_current_parameter_hash;
+      FETCH lock_cur INTO t_logical_resource_id, o_current_parameter_hash, v_currently_deleted;
       CLOSE lock_cur;
 
       -- Since the resource did not previously exist, set o_current_parameter_hash back to NULL
@@ -110,6 +118,16 @@ BEGIN
     THEN
         -- our concurrency protection means that this shouldn't happen
         RAISE 'Schema data corruption - missing logical resource' USING ERRCODE = '99002';
+    END IF;
+
+    -- If-None-Match does not apply if the resource is currently deleted
+    IF v_currently_deleted = 'N' AND p_if_none_match = 0
+    THEN
+        -- If-None-Match hit. Raising an exception here causes PostgreSQL to mark the
+        -- connection with a fatal error, so instead we use an out parameter to
+        -- indicate the match
+        o_interaction_status := 1;
+        RETURN;
     END IF;
 
     -- Concurrency check:

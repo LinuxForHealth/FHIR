@@ -47,6 +47,7 @@ import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.path.function.registry.FHIRPathFunctionRegistry;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
+import com.ibm.fhir.persistence.InteractionStatus;
 import com.ibm.fhir.persistence.MultiResourceResult;
 import com.ibm.fhir.persistence.ResourceChangeLogRecord;
 import com.ibm.fhir.persistence.ResourcePayload;
@@ -298,6 +299,7 @@ public class ServerResolveFunctionTest {
 
             SingleResourceResult.Builder<T> resultBuilder = new SingleResourceResult.Builder<T>()
                     .success(true)
+                    .interactionStatus(InteractionStatus.MODIFIED)
                     .resource(resource);
 
             return resultBuilder.build();
@@ -313,6 +315,7 @@ public class ServerResolveFunctionTest {
 
             SingleResourceResult.Builder<T> resultBuilder = new SingleResourceResult.Builder<T>()
                     .success(!versions.isEmpty())
+                    .interactionStatus(InteractionStatus.READ)
                     .resource(!versions.isEmpty() ? (T) versions.get(versions.size() - 1) : null);
 
             return resultBuilder.build();
@@ -331,6 +334,7 @@ public class ServerResolveFunctionTest {
 
             SingleResourceResult.Builder<T> resultBuilder = new SingleResourceResult.Builder<T>()
                     .success(index >= 0 && index < versions.size())
+                    .interactionStatus(InteractionStatus.READ)
                     .resource((index >= 0 && index < versions.size()) ? (T) versions.get(index) : null);
 
             return resultBuilder.build();
@@ -445,6 +449,7 @@ public class ServerResolveFunctionTest {
 
             SingleResourceResult.Builder<T> resultBuilder = new SingleResourceResult.Builder<T>()
                     .success(true)
+                    .interactionStatus(InteractionStatus.MODIFIED)
                     .resource(resource);
 
             return resultBuilder.build();

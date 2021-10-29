@@ -22,6 +22,7 @@
 --   p_is_deleted:  the soft delete flag
 --   p_version:     the intended version id for this resource
 --   p_parameter_hash_b64: Base64 encoded hash of parameter values
+--   p_if_none_match: conditional create-on-update
 --   o_logical_resource_id: output field returning the newly assigned logical_resource_id value
 --   o_resource_id: output field returning the newly assigned resource_id value
 --   o_current_parameter_hash: Base64 current parameter hash if existing resource
@@ -36,9 +37,11 @@
       IN p_is_deleted                      CHAR(  1),
       IN p_version                          INT,
       IN p_parameter_hash_b64           VARCHAR(44 OCTETS),
+      IN p_if_none_match                    INT,
       OUT o_logical_resource_id          BIGINT,
       OUT o_resource_row_id              BIGINT,
-      OUT o_current_parameter_hash      VARCHAR(44 OCTETS)
+      OUT o_current_parameter_hash      VARCHAR(44 OCTETS),
+      OUT o_interaction_status              INT
     )
     LANGUAGE SQL
     MODIFIES SQL DATA
@@ -50,6 +53,7 @@ BEGIN
   DECLARE v_resource_id          BIGINT     DEFAULT NULL;
   DECLARE v_resource_type_id        INT     DEFAULT NULL;
   DECLARE v_new_resource            INT     DEFAULT 0;
+  DECLARE v_currently_deleted      CHAR(1)  DEFAULT NULL;
   DECLARE v_not_found               INT     DEFAULT 0;
   DECLARE v_duplicate               INT     DEFAULT 0;
   DECLARE v_current_version         INT     DEFAULT 0;
@@ -60,6 +64,9 @@ BEGIN
   DECLARE CONTINUE HANDLER FOR NOT FOUND          SET v_not_found = 1;
   DECLARE CONTINUE HANDLER FOR c_duplicate        SET v_duplicate = 1;
 
+  -- interaction status defaults to 0 unless we hit If-None-Match
+  SET o_interaction_status = 0;
+  
   -- use a variable for the schema in our prepared statements to make them easier 
   -- to write
   SET v_schema_name = '{{SCHEMA_NAME}}';
@@ -72,7 +79,7 @@ BEGIN
   
   -- FOR UPDATE WITH RS does not appear to work using a prepared statement and
   -- cursor, so we have to run this directly against the logical_resources table.
-  SELECT logical_resource_id, parameter_hash INTO v_logical_resource_id, o_current_parameter_hash
+  SELECT logical_resource_id, parameter_hash, is_deleted INTO v_logical_resource_id, o_current_parameter_hash, v_currently_deleted
     FROM {{SCHEMA_NAME}}.logical_resources
    WHERE resource_type_id = v_resource_type_id AND logical_id = p_logical_id
      FOR UPDATE WITH RS
@@ -94,7 +101,7 @@ BEGIN
     THEN
       -- row exists, so we just need to obtain a lock on it. Because logical resource records are
       -- never deleted, we don't need to worry about it disappearing again before we grab the row lock
-      SELECT logical_resource_id, parameter_hash INTO v_logical_resource_id, o_current_parameter_hash
+      SELECT logical_resource_id, parameter_hash, is_deleted INTO v_logical_resource_id, o_current_parameter_hash, v_currently_deleted
         FROM {{SCHEMA_NAME}}.logical_resources
        WHERE resource_type_id = v_resource_type_id AND logical_id = p_logical_id
          FOR UPDATE WITH RS
@@ -130,6 +137,14 @@ BEGIN
         SIGNAL SQLSTATE '99002' SET MESSAGE_TEXT = 'Schema data corruption - missing logical resource';
     END IF;
 
+    -- If-None-Match does not apply if the current resource is deleted
+    IF v_currently_deleted = 'N' AND p_if_none_match = 0
+    THEN
+        -- If-None-Match: * hit
+        SET o_interaction_status = 1;
+        RETURN;
+    END IF;
+    
     -- Concurrency check:
     --   the version parameter we've been given (which is also embedded in the JSON payload) must be 
     --   one greater than the current version, otherwise we've hit a concurrent update race condition

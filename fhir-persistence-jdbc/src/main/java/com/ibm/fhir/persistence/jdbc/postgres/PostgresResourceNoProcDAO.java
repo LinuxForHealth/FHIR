@@ -24,10 +24,12 @@ import java.util.logging.Logger;
 import javax.transaction.TransactionSynchronizationRegistry;
 
 import com.ibm.fhir.database.utils.common.CalendarHelper;
+import com.ibm.fhir.persistence.InteractionStatus;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchException;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
+import com.ibm.fhir.persistence.jdbc.dao.api.FHIRDAOConstants;
 import com.ibm.fhir.persistence.jdbc.dao.api.FhirRefSequenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
@@ -73,7 +75,8 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
     }
 
     @Override
-    public Resource insert(Resource resource, List<ExtractedParameterValue> parameters, String parameterHashB64, ParameterDAO parameterDao)
+    public Resource insert(Resource resource, List<ExtractedParameterValue> parameters, String parameterHashB64, 
+            ParameterDAO parameterDao, Integer ifNoneMatch)
             throws FHIRPersistenceException {
         final String METHODNAME = "insert";
         logger.entering(CLASSNAME, METHODNAME);
@@ -115,13 +118,15 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
                 resource.getVersionId(),
                 parameterHashB64,
                 connection,
-                parameterDao
+                parameterDao,
+                ifNoneMatch
                 );
 
 
             dbCallDuration = (System.nanoTime() - dbCallStartTime)/1e6;
 
             resource.setId(resourceId);
+            resource.setInteractionStatus(InteractionStatus.MODIFIED);
             if (logger.isLoggable(Level.FINE)) {
                 logger.fine("Successfully inserted Resource. id=" + resource.getId() + " executionTime=" + dbCallDuration + "ms");
             }
@@ -131,9 +136,11 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
             FHIRPersistenceFKVException fx = new FHIRPersistenceFKVException("Encountered FK violation while inserting Resource.");
             throw severe(logger, fx, e);
         } catch(SQLException e) {
-            if ("99001".equals(e.getSQLState())) {
+            if (FHIRDAOConstants.SQLSTATE_WRONG_VERSION.equals(e.getSQLState())) {
                 // this is just a concurrency update, so there's no need to log the SQLException here
                 throw new FHIRPersistenceVersionIdMismatchException("Encountered version id mismatch while inserting Resource");
+            } else if (FHIRDAOConstants.SQLSTATE_MATCHES.equals(e.getSQLState())) {
+                resource.setInteractionStatus(InteractionStatus.IF_NONE_MATCH_EXISTED);
             } else {
                 FHIRPersistenceException fx = new FHIRPersistenceException("SQLException encountered while inserting Resource.");
                 throw severe(logger, fx, e);
@@ -184,8 +191,10 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
      * @return the resource_id for the entry we created
      * @throws Exception
      */
-    public long storeResource(String tablePrefix, List<ExtractedParameterValue> parameters, String p_logical_id, InputStream p_payload, Timestamp p_last_updated, boolean p_is_deleted,
-        String p_source_key, Integer p_version, String parameterHashB64, Connection conn, ParameterDAO parameterDao) throws Exception {
+    public long storeResource(String tablePrefix, List<ExtractedParameterValue> parameters, String p_logical_id, 
+            InputStream p_payload, Timestamp p_last_updated, boolean p_is_deleted,
+            String p_source_key, Integer p_version, String parameterHashB64, Connection conn, 
+            ParameterDAO parameterDao, Integer ifNoneMatch) throws Exception {
 
         final String METHODNAME = "storeResource() for " + tablePrefix + " resource";
         logger.entering(CLASSNAME, METHODNAME);
@@ -318,12 +327,16 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
                 }
             }
 
-            // Concurrency check:
-            //   the version parameter we've been given (which is also embedded in the JSON payload) must be
-            //   one greater than the current version, otherwise we've hit a concurrent update race condition
-            if (p_version != v_current_version + 1) {
+            if (checkIfNoneMatch(ifNoneMatch, v_current_version)) {
+                // Conditional create-on-update If-None-Match matches the current resource, so skip the update
+                logger.fine(() -> "Resource " + v_resource_type + "/" + p_logical_id + " [" + p_version + "] matches [If-None-Match: " + ifNoneMatch + "]");
+                throw new SQLException("If-None-Match - record exists", FHIRDAOConstants.SQLSTATE_MATCHES);
+            } else if (p_version != v_current_version + 1) {
+                // Concurrency check:
+                //   the version parameter we've been given (which is also embedded in the JSON payload) must be
+                //   one greater than the current version, otherwise we've hit a concurrent update race condition
                 // mimic the exception we'd see from one of our stored procedures
-                throw new SQLException("Concurrent update - mismatch of version in JSON", "99001");
+                throw new SQLException("Concurrent update - mismatch of version in JSON", FHIRDAOConstants.SQLSTATE_WRONG_VERSION);
             }
 
             // existing resource, so need to delete all its parameters

@@ -89,6 +89,10 @@ public abstract class AbstractPersistenceTest {
     protected FHIRPersistenceContext getDefaultPersistenceContext() throws Exception {
         return FHIRPersistenceContextFactory.createPersistenceContext(null);
     }
+    protected FHIRPersistenceContext getPersistenceContextIfNoneMatch() throws Exception {
+        final int ifNoneMatch = 0;
+        return FHIRPersistenceContextFactory.createPersistenceContext(null, ifNoneMatch);
+    }
     protected FHIRPersistenceContext getPersistenceContextForSearch(FHIRSearchContext ctxt) {
         return FHIRPersistenceContextFactory.createPersistenceContext(null, ctxt);
     }

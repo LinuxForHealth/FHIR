@@ -513,7 +513,7 @@ public class ProfileValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doUpdate("Patient", "1", patient, null, null, false, true);
+            helper.doUpdate("Patient", "1", patient, null, null, false, true, null);
             fail();
         } catch (FHIROperationException e) {
             // Validate results
@@ -549,7 +549,7 @@ public class ProfileValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doUpdate("Patient", "1", patient, null, null, true, true);
+            helper.doUpdate("Patient", "1", patient, null, null, true, true, null);
             fail();
         } catch (FHIROperationException e) {
             // Validate results
@@ -587,7 +587,7 @@ public class ProfileValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            FHIRRestOperationResponse response = helper.doUpdate("CarePlan", "1", carePlan, null, null, false, true);
+            FHIRRestOperationResponse response = helper.doUpdate("CarePlan", "1", carePlan, null, null, false, true, null);
             List<Issue> issues = response.getOperationOutcome().getIssue();
             assertEquals(issues.size(), 1);
             assertEquals(issues.get(0).getDetails().getText().getValue(), "Profile 'profile7' is not supported");
@@ -621,7 +621,7 @@ public class ProfileValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doUpdate("Patient", "1", patient, null, null, false, true);
+            helper.doUpdate("Patient", "1", patient, null, null, false, true, null);
             fail();
         } catch (FHIRValidationException e) {
             // Validate results.
@@ -1025,7 +1025,7 @@ public class ProfileValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doUpdate("CarePlan", "1", carePlan, null, null, false, true);
+            helper.doUpdate("CarePlan", "1", carePlan, null, null, false, true, null);
             fail();
         } catch (FHIROperationException e) {
             // Validate results
@@ -1063,7 +1063,7 @@ public class ProfileValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doUpdate("CarePlan", "1", carePlan, null, null, false, true);
+            helper.doUpdate("CarePlan", "1", carePlan, null, null, false, true, null);
             fail();
         } catch (FHIROperationException e) {
             // Validate results
@@ -1101,7 +1101,7 @@ public class ProfileValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            FHIRRestOperationResponse response = helper.doUpdate("CarePlan", "1", carePlan, null, null, false, true);
+            FHIRRestOperationResponse response = helper.doUpdate("CarePlan", "1", carePlan, null, null, false, true, null);
             assertEquals(response.getOperationOutcome(), PROFILE_NOT_SUPPORTED);
         } catch (Exception e) {
             fail();
@@ -1131,7 +1131,7 @@ public class ProfileValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doUpdate("Encounter", "1", encounter, null, null, false, true);
+            helper.doUpdate("Encounter", "1", encounter, null, null, false, true, null);
             fail();
         } catch (FHIROperationException e) {
             // Validate results
@@ -1164,7 +1164,7 @@ public class ProfileValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            FHIRRestOperationResponse response = helper.doUpdate("Condition", "1", condition, null, null, false, true);
+            FHIRRestOperationResponse response = helper.doUpdate("Condition", "1", condition, null, null, false, true, null);
             assertEquals(response.getOperationOutcome(), ALL_OK);
         } catch (Exception e) {
             fail();
@@ -1645,7 +1645,7 @@ public class ProfileValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doUpdate("AllergyIntolerance", "1", allergyIntolerance, null, null, false, true);
+            helper.doUpdate("AllergyIntolerance", "1", allergyIntolerance, null, null, false, true, null);
             fail();
         } catch (FHIROperationException e) {
             // Validate results

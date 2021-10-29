@@ -2063,7 +2063,7 @@ public class FHIRRestHelperTest {
         Mockito.verify(persistence).createWithMeta(any(), patientCaptor.capture());
         assertEquals(patientCaptor.getValue().getMeta().getTag().get(0), TAG);
 
-        helper.doUpdate("Patient", "123", patientWithId, null, null, false);
+        helper.doUpdate("Patient", "123", patientWithId, null, null, false, null);
         Mockito.verify(persistence).updateWithMeta(any(), patientCaptor.capture());
         assertEquals(patientCaptor.getValue().getMeta().getTag().get(0), TAG);
     }

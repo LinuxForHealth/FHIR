@@ -88,6 +88,7 @@ import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
+import com.ibm.fhir.persistence.InteractionStatus;
 import com.ibm.fhir.persistence.MultiResourceResult;
 import com.ibm.fhir.persistence.ResourceChangeLogRecord;
 import com.ibm.fhir.persistence.ResourceEraseRecord;
@@ -184,6 +185,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     private static final String CLASSNAME = FHIRPersistenceJDBCImpl.class.getName();
     private static final Logger log = Logger.getLogger(CLASSNAME);
     private static final int DATA_BUFFER_INITIAL_SIZE = 10*1024; // 10KiB
+    private static final Integer IF_NONE_MATCH_NULL = null;
 
     protected static final String TXN_JNDI_NAME = "java:comp/UserTransaction";
     public static final String TRX_SYNCH_REG_JNDI_NAME = "java:comp/TransactionSynchronizationRegistry";
@@ -405,7 +407,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             // Persist the Resource DTO.
             resourceDao.setPersistenceContext(context);
             ExtractedSearchParameters searchParameters = this.extractSearchParameters(updatedResource, resourceDTO);
-            resourceDao.insert(resourceDTO, searchParameters.getParameters(), searchParameters.getParameterHashB64(), parameterDao);
+            resourceDao.insert(resourceDTO, searchParameters.getParameters(), searchParameters.getParameterHashB64(), parameterDao, context.getIfNoneMatch());
             if (log.isLoggable(Level.FINE)) {
                 log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
                             + ", version=" + resourceDTO.getVersionId());
@@ -413,6 +415,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
             SingleResourceResult.Builder<T> resultBuilder = new SingleResourceResult.Builder<T>()
                     .success(true)
+                    .interactionStatus(resourceDTO.getInteractionStatus())
                     .resource(updatedResource);
 
             // Add supplemental issues to the OperationOutcome
@@ -587,14 +590,22 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             // Persist the Resource DTO.
             resourceDao.setPersistenceContext(context);
             ExtractedSearchParameters searchParameters = this.extractSearchParameters(resource, resourceDTO);
-            resourceDao.insert(resourceDTO, searchParameters.getParameters(), searchParameters.getParameterHashB64(), parameterDao);
+            resourceDao.insert(resourceDTO, searchParameters.getParameters(), searchParameters.getParameterHashB64(), 
+                    parameterDao, context.getIfNoneMatch());
+            
             if (log.isLoggable(Level.FINE)) {
-                log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
-                            + ", version=" + resourceDTO.getVersionId());
+                if (resourceDTO.getInteractionStatus() == InteractionStatus.IF_NONE_MATCH_EXISTED) {
+                    log.fine("If-None-Match: Existing FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
+                    + ", version=" + resourceDTO.getVersionId());
+                } else {
+                    log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
+                                + ", version=" + resourceDTO.getVersionId());
+                }
             }
 
             SingleResourceResult.Builder<T> resultBuilder = new SingleResourceResult.Builder<T>()
                     .success(true)
+                    .interactionStatus(resourceDTO.getInteractionStatus())
                     .resource(resource);
 
             // Add supplemental issues to an OperationOutcome
@@ -1033,6 +1044,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
                 SingleResourceResult<T> result = new SingleResourceResult.Builder<T>()
                         .success(true)
+                        .interactionStatus(InteractionStatus.READ)
                         .resource(existingResource)
                         .build();
 
@@ -1052,7 +1064,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
             // Persist the logically deleted Resource DTO.
             resourceDao.setPersistenceContext(context);
-            resourceDao.insert(resourceDTO, null, null, null);
+            resourceDao.insert(resourceDTO, null, null, null, IF_NONE_MATCH_NULL);
 
             if (log.isLoggable(Level.FINE)) {
                 log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
@@ -1061,6 +1073,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
             SingleResourceResult<T> result = new SingleResourceResult.Builder<T>()
                     .success(true)
+                    .interactionStatus(InteractionStatus.MODIFIED)
                     .resource(updatedResource)
                     .build();
 
@@ -1168,6 +1181,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                     .success(true)
                     .resource(resource)
                     .deleted(resourceIsDeleted)
+                    .interactionStatus(InteractionStatus.READ)
                     .build();
 
             return result;
@@ -1373,6 +1387,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
             SingleResourceResult<T> result = new SingleResourceResult.Builder<T>()
                     .success(true)
+                    .interactionStatus(InteractionStatus.READ)
                     .resource(resource)
                     .build();
 

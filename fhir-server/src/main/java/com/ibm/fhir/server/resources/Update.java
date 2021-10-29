@@ -47,6 +47,8 @@ import com.ibm.fhir.server.util.RestAuditLogger;
 @RequestScoped
 public class Update extends FHIRResource {
     private static final Logger log = java.util.logging.Logger.getLogger(Update.class.getName());
+    private static final Integer IF_NONE_MATCH_ZERO = Integer.valueOf(0);
+    private static final Integer IF_NONE_MATCH_NULL = null;
 
     public Update() throws Exception {
         super();
@@ -55,7 +57,9 @@ public class Update extends FHIRResource {
     @PUT
     @Path("{type}/{id}")
     public Response update(@PathParam("type") String type, @PathParam("id") String id, Resource resource,
-            @HeaderParam(HttpHeaders.IF_MATCH) String ifMatch, @HeaderParam(FHIRConstants.UPDATE_IF_MODIFIED_HEADER) boolean onlyIfModified) {
+            @HeaderParam(HttpHeaders.IF_MATCH) String ifMatch, 
+            @HeaderParam(FHIRConstants.UPDATE_IF_MODIFIED_HEADER) boolean onlyIfModified, 
+            @HeaderParam(HttpHeaders.IF_NONE_MATCH) String ifNoneMatchHdr) {
         log.entering(this.getClass().getName(), "update(String,String,Resource)");
         Date startTime = new Date();
         Response.Status status = null;
@@ -64,9 +68,10 @@ public class Update extends FHIRResource {
         try {
             checkInitComplete();
             checkType(type);
+            Integer ifNoneMatch = encodeIfNoneMatch(ifNoneMatchHdr);
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            ior = helper.doUpdate(type, id, resource, ifMatch, null, onlyIfModified);
+            ior = helper.doUpdate(type, id, resource, ifMatch, null, onlyIfModified, ifNoneMatch);
 
             ResponseBuilder response =
                     Response.ok().location(toUri(getAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
@@ -127,7 +132,7 @@ public class Update extends FHIRResource {
             }
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            ior = helper.doUpdate(type, null, resource, ifMatch, searchQueryString, onlyIfModified);
+            ior = helper.doUpdate(type, null, resource, ifMatch, searchQueryString, onlyIfModified, IF_NONE_MATCH_NULL);
 
             ResponseBuilder response =
                     Response.ok().location(toUri(getAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
@@ -163,6 +168,39 @@ public class Update extends FHIRResource {
             }
 
             log.exiting(this.getClass().getName(), "conditionalUpdate(String,Resource)");
+        }
+    }
+
+    /**
+     * Encode the header value to a simple integer which makes it a lot easier
+     * and safer to pass down to the persistence layer.
+     * @param value
+     * @return
+     */
+    private Integer encodeIfNoneMatch(String value) throws FHIROperationException {
+        if (value == null || value.isEmpty()) {
+            return null;
+        }
+        
+        if ("*".equals(value)) {
+            // FHIR resource version numbers start at 1, so we use 0 to represent
+            // all values "*"
+            return IF_NONE_MATCH_ZERO;
+        }
+        
+        // Values of the form W/"1" where 1 is the version number would result
+        // in less-than-intuitive behavior and so are not supported at this time
+        if (value.length() > 4 && value.startsWith("W/\"") && value.endsWith("\"")) {
+            // the bit in the middle should be an integer
+            value = value.substring(3, value.length()-1);
+            try {
+                Integer.parseInt(value); // just check it's an int for now
+            } catch (NumberFormatException x) {
+                throw buildRestException("Invalid If-None-Match value", IssueType.INVALID);
+            }
+            throw buildRestException("If-None-Match with specific version not supported", IssueType.INVALID);
+        } else {
+            throw buildRestException("Invalid If-None-Match value", IssueType.INVALID);
         }
     }
 }

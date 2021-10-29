@@ -23,14 +23,20 @@ public class SingleResourceResult<T extends Resource> {
     final T resource;
     final OperationOutcome outcome;
     final boolean deleted;
-
+    final InteractionStatus interactionStatus;
+    
     private SingleResourceResult(Builder<T> builder) {
         success = ValidationSupport.requireNonNull(builder.success, "success");
         resource = builder.resource;
         outcome = builder.outcome;
         deleted = builder.deleted;
+        interactionStatus = builder.interactionStatus;
         if (!success && (outcome == null || outcome.getIssue().isEmpty())) {
             throw new IllegalStateException("Failed interaction results must include an OperationOutcome with one or more issue.");
+        }
+        
+        if (interactionStatus == null) {
+            throw new IllegalStateException("All interaction results must include a valid InteractionStatus");
         }
     }
 
@@ -61,6 +67,15 @@ public class SingleResourceResult<T extends Resource> {
     public T getResource() {
         return resource;
     }
+
+    /**
+     * Getter for the interaction status
+     * @return
+     */
+    public InteractionStatus getStatus() {
+        return this.interactionStatus;
+    }
+    
     /**
      * An OperationOutcome that represents the outcome of the interaction
      *
@@ -73,10 +88,11 @@ public class SingleResourceResult<T extends Resource> {
 
     // result builder
     public static class Builder<T extends Resource> {
-        boolean success;
-        T resource;
-        OperationOutcome outcome;
-        boolean deleted;
+        private boolean success;
+        private T resource;
+        private OperationOutcome outcome;
+        private boolean deleted;
+        private InteractionStatus interactionStatus;
 
         /**
          * Whether or not the interaction was successful
@@ -95,7 +111,19 @@ public class SingleResourceResult<T extends Resource> {
         }
 
         /**
+         * Sets the interaction status
+         * 
+         * @param status
+         * @return a reference to this Builder instance
+         */
+        public Builder<T> interactionStatus(InteractionStatus interactionStatus) {
+            this.interactionStatus = interactionStatus;
+            return this;
+        }
+
+        /**
          * Whether or not the resource is deleted
+         * 
          * @param flag
          * @return A reference to this Builder instance
          */

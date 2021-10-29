@@ -162,11 +162,11 @@ public class FHIRRestInteractionVisitorPersist extends FHIRRestInteractionVisito
     public FHIRRestOperationResponse doUpdate(int entryIndex, FHIRPersistenceEvent event, Entry validationResponseEntry,
             String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String id,
             Resource newResource, Resource prevResource, String ifMatchValue, String searchQueryString,
-            boolean skippableUpdate, String localIdentifier, List<Issue> warnings, boolean isDeleted) throws Exception {
+            boolean skippableUpdate, String localIdentifier, List<Issue> warnings, boolean isDeleted, Integer ifNoneMatch) throws Exception {
 
         doInteraction(entryIndex, requestDescription, initialTime, () -> {
 
-            FHIRRestOperationResponse ior = helpers.doPatchOrUpdatePersist(event, type, id, false, newResource, prevResource, warnings, isDeleted);
+            FHIRRestOperationResponse ior = helpers.doPatchOrUpdatePersist(event, type, id, false, newResource, prevResource, warnings, isDeleted, ifNoneMatch);
             OperationOutcome validationOutcome = null;
             if (validationResponseEntry != null && validationResponseEntry.getResponse() != null) {
                 validationOutcome = validationResponseEntry.getResponse().getOutcome().as(OperationOutcome.class);
@@ -188,7 +188,7 @@ public class FHIRRestInteractionVisitorPersist extends FHIRRestInteractionVisito
         // really just an update as far as the persistence layer is concerned
         doInteraction(entryIndex, requestDescription, initialTime, () -> {
             FHIRRestOperationResponse ior = helpers.doPatchOrUpdatePersist(event, type, id, true, newResource, prevResource,
-                warnings, false);
+                warnings, false, null);
             OperationOutcome validationOutcome = null;
             if (validationResponseEntry != null && validationResponseEntry.getResponse() != null) {
                 validationOutcome = validationResponseEntry.getResponse().getOutcome().as(OperationOutcome.class);

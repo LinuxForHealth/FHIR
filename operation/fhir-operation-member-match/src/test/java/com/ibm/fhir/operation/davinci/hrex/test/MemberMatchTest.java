@@ -1613,7 +1613,7 @@ public class MemberMatchTest {
 
         @Override
         public FHIRRestOperationResponse doUpdate(String type, String id, Resource newResource, String ifMatchValue, String searchQueryString,
-            boolean skippableUpdate, boolean doValidation) throws Exception {
+            boolean skippableUpdate, boolean doValidation, Integer ifNoneMatch) throws Exception {
             throw new AssertionError("Unused");
         }
 
@@ -1695,7 +1695,7 @@ public class MemberMatchTest {
 
         @Override
         public FHIRRestOperationResponse doPatchOrUpdatePersist(FHIRPersistenceEvent event, String type, String id, boolean isPatch, Resource newResource,
-            Resource prevResource, List<Issue> warnings, boolean isDeleted) throws Exception {
+            Resource prevResource, List<Issue> warnings, boolean isDeleted, Integer ifNoneMatch) throws Exception {
             throw new AssertionError("Unused");
         }
 

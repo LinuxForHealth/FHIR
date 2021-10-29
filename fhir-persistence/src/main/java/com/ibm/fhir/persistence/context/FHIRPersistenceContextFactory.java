@@ -41,6 +41,15 @@ public class FHIRPersistenceContextFactory {
     public static FHIRPersistenceContext createPersistenceContext(FHIRPersistenceEvent event, boolean includeDeleted) {
         return new FHIRPersistenceContextImpl(event, includeDeleted);
     }
+    
+    /**
+     * Returns a FHIRPersistenceContext that contains a FHIRPersistenceEvent instance.
+     * @param event the FHIRPersistenceEvent instance to be contained in the FHIRPersistenceContext instance
+     * @param ifNoneExist flag to tell the persistence layer to apply conditional create-on-update logic.
+     */
+    public static FHIRPersistenceContext createPersistenceContext(FHIRPersistenceEvent event, Integer ifNoneExist) {
+        return new FHIRPersistenceContextImpl(event, ifNoneExist);
+    }
 
     /**
      * Returns a FHIRPersistenceContext that contains a FHIRPersistenceEvent and a FHIRHistoryContext.

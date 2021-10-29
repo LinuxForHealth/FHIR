@@ -24,10 +24,12 @@ import javax.transaction.TransactionSynchronizationRegistry;
 import com.ibm.fhir.database.utils.common.CalendarHelper;
 import com.ibm.fhir.database.utils.derby.DerbyMaster;
 import com.ibm.fhir.database.utils.derby.DerbyTranslator;
+import com.ibm.fhir.persistence.InteractionStatus;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchException;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
+import com.ibm.fhir.persistence.jdbc.dao.api.FHIRDAOConstants;
 import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
@@ -77,21 +79,9 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
         super(connection, schemaName, flavor, trxSynchRegistry, cache, rrd, ptdi);
     }
 
-    /**
-     * Inserts the passed FHIR Resource and associated search parameters to a Derby or PostgreSql FHIR database.
-     * The search parameters are stored first by calling the passed parameterDao. Then the Resource is stored
-     * by sql.
-     * @param resource The FHIR Resource to be inserted.
-     * @param parameters The Resource's search parameters to be inserted.
-     * @oaram parameterHashB64
-     * @param parameterDao
-     * @return The Resource DTO
-     * @throws FHIRPersistenceDataAccessException
-     * @throws FHIRPersistenceDBConnectException
-     * @throws FHIRPersistenceVersionIdMismatchException
-     */
     @Override
-    public Resource  insert(Resource resource, List<ExtractedParameterValue> parameters, String parameterHashB64, ParameterDAO parameterDao)
+    public Resource  insert(Resource resource, List<ExtractedParameterValue> parameters, String parameterHashB64, ParameterDAO parameterDao,
+            Integer ifNoneMatch)
             throws FHIRPersistenceException {
         final String METHODNAME = "insert";
         logger.entering(CLASSNAME, METHODNAME);
@@ -133,13 +123,16 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
                 resource.getVersionId(),
                 parameterHashB64,
                 connection,
-                parameterDao
+                parameterDao,
+                ifNoneMatch
                 );
 
 
             dbCallDuration = (System.nanoTime() - dbCallStartTime)/1e6;
 
             resource.setId(resourceId);
+            resource.setInteractionStatus(InteractionStatus.MODIFIED);
+
             if (logger.isLoggable(Level.FINE)) {
                 logger.fine("Successfully inserted Resource. id=" + resource.getId() + " executionTime=" + dbCallDuration + "ms");
             }
@@ -149,9 +142,11 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
             FHIRPersistenceFKVException fx = new FHIRPersistenceFKVException("Encountered FK violation while inserting Resource.");
             throw severe(logger, fx, e);
         } catch(SQLException e) {
-            if ("99001".equals(e.getSQLState())) {
+            if (FHIRDAOConstants.SQLSTATE_WRONG_VERSION.equals(e.getSQLState())) {
                 // this is just a concurrency update, so there's no need to log the SQLException here
                 throw new FHIRPersistenceVersionIdMismatchException("Encountered version id mismatch while inserting Resource");
+            } else if (FHIRDAOConstants.SQLSTATE_MATCHES.equals(e.getSQLState())) {
+                resource.setInteractionStatus(InteractionStatus.IF_NONE_MATCH_EXISTED);
             } else {
                 FHIRPersistenceException fx = new FHIRPersistenceException("SQLException encountered while inserting Resource.");
                 throw severe(logger, fx, e);
@@ -200,12 +195,14 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
      * @param p_parameterHashB64
      * @param conn
      * @param parameterDao
-     * @param p_parameterHashB64 Base64 encoded parameter hash value
+     * @param ifNoneMatch 0 for conditional create-on-update behavior; otherwise null
      * @return the resource_id for the entry we created
      * @throws Exception
      */
-    public long storeResource(String tablePrefix, List<ExtractedParameterValue> parameters, String p_logical_id, InputStream p_payload, Timestamp p_last_updated, boolean p_is_deleted,
-        String p_source_key, Integer p_version, String p_parameterHashB64, Connection conn, ParameterDAO parameterDao) throws Exception {
+    public long storeResource(String tablePrefix, List<ExtractedParameterValue> parameters, 
+            String p_logical_id, InputStream p_payload, Timestamp p_last_updated, boolean p_is_deleted,
+            String p_source_key, Integer p_version, String p_parameterHashB64, Connection conn, 
+            ParameterDAO parameterDao, Integer ifNoneMatch) throws Exception {
 
         final Calendar UTC = CalendarHelper.getCalendarForUTC();
         final String METHODNAME = "storeResource() for " + tablePrefix + " resource";
@@ -217,7 +214,9 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
         boolean v_new_resource = false;
         boolean v_not_found = false;
         boolean v_duplicate = false;
+        boolean v_currently_deleted = false;
         int v_current_version;
+        final InteractionStatus interactionStatus;
 
         // used to bypass param delete/insert if all param values are the same
         String currentParameterHash = null;
@@ -256,7 +255,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
         if (logger.isLoggable(Level.FINEST)) {
             logger.finest("Getting LOGICAL_RESOURCES row lock for: " + v_resource_type + "/" + p_logical_id);
         }
-        final String SELECT_FOR_UPDATE = "SELECT logical_resource_id, parameter_hash FROM logical_resources WHERE resource_type_id = ? AND logical_id = ? FOR UPDATE WITH RS";
+        final String SELECT_FOR_UPDATE = "SELECT logical_resource_id, parameter_hash, is_deleted FROM logical_resources WHERE resource_type_id = ? AND logical_id = ? FOR UPDATE WITH RS";
         try (PreparedStatement stmt = conn.prepareStatement(SELECT_FOR_UPDATE)) {
             stmt.setInt(1, v_resource_type_id);
             stmt.setString(2, p_logical_id);
@@ -267,6 +266,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
                 }
                 v_logical_resource_id = rs.getLong(1);
                 currentParameterHash = rs.getString(2);
+                v_currently_deleted = "Y".equals(rs.getString(3));
             }
             else {
                 if (logger.isLoggable(Level.FINEST)) {
@@ -347,6 +347,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
                             }
                             v_logical_resource_id = res.getLong(1);
                             currentParameterHash = res.getString(2);
+                            v_currently_deleted = "Y".equals(res.getString(3));
                             res.next();
                         } else {
                             // Extremely unlikely as we should never delete logical resource records
@@ -405,13 +406,18 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
                 }
             }
 
-            // Concurrency check:
-            //   the version parameter we've been given (which is also embedded in the JSON payload) must be
-            //   one greater than the current version, otherwise we've hit a concurrent update race condition
-            if (p_version != v_current_version + 1) {
+            // If-None-Match doesn't apply if the current record is deleted
+            if (!v_currently_deleted && checkIfNoneMatch(ifNoneMatch, v_current_version)) {
+                // Conditional create-on-update If-None-Match matches the current resource, so skip the update
+                logger.fine(() -> "Resource " + v_resource_type + "/" + p_logical_id + " [" + p_version + "] matches [If-None-Match: " + ifNoneMatch + "]");
+                throw new SQLException("If-None-Match - record exists", FHIRDAOConstants.SQLSTATE_MATCHES);
+            } else if (p_version != v_current_version + 1) {
+                // Concurrency check:
+                //   the version parameter we've been given (which is also embedded in the JSON payload) must be
+                //   one greater than the current version, otherwise we've hit a concurrent update race condition
                 // mimic the exception we'd see from one of our stored procedures
                 logger.warning("Concurrent update of resource: " + v_resource_type + "/" + p_logical_id + " [" + p_version + " != " + (v_current_version+1) + "]");
-                throw new SQLException("Concurrent update - mismatch of version in JSON", "99001");
+                throw new SQLException("Concurrent update - mismatch of version in JSON", FHIRDAOConstants.SQLSTATE_WRONG_VERSION);
             }
 
             // existing resource, so need to delete all its parameters unless they share

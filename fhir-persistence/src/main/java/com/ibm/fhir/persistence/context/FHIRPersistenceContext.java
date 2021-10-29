@@ -37,4 +37,14 @@ public interface FHIRPersistenceContext {
      * Indicates whether the persistence layer should include "deleted" resources in the operation response.
      */
     boolean includeDeleted();
+    
+    /**
+     * Get the encoded ifNoneMatch value which is interpreted as follows:
+     * <pre>
+     *    null: create-on-update proceeds as normal
+     *       0: create-on-update returns 304 if resource exists, 201 if created
+     * </pre>
+     * @return the value from the If-None-Match header in the PUT request
+     */
+    Integer getIfNoneMatch();
 }

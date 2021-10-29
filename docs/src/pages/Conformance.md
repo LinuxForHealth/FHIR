@@ -25,6 +25,17 @@ The IBM FHIR Server implements a linear versioning scheme for resources and full
 By default, the IBM FHIR Server allows all supported API interactions (`create`, `read`, `vread`, `history`, `search`, `update`, `patch`, `delete`). However, it is possible to configure which of these interactions are allowed on a per resource basis through a set of interaction rules. See the [user guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#412-fhir-rest-api) for details.
 
 ### HTTP Headers
+
+The IBM FHIR Server supports headers to modify the behavior of interactions according to the HL7 FHIR specification [HTTP API summary](https://www.hl7.org/fhir/http.html#summary) with the following changes/additions:
+
+| Interaction    | Path         | Verb          | Header                    | Description |
+| -------------- | ------------ | ------------- | ------------------------- | ----------- |
+| update         | /[type]/[id] | PUT           | If-None-Match             | Custom support for conditional create-on-update |
+| update         | /[type]/[id] | PUT           | X-FHIR-UPDATE-IF-MODIFIED | Custom support for conditional update           |
+| _any_          | _any_        | _any_         | X-FHIR-TENANT-ID          | Custom support for multi-tenancy                |
+| _any_          | _any_        | _any_         | X-FHIR-DSID               | Custom support for multiple datasources         |
+
+
 In addition to the content negotiation headers required in the FHIR specification, the IBM FHIR Server supports two client preferences via the `Prefer` header:
 * [return preference](https://www.hl7.org/fhir/http.html#ops)
 * [handling preference](https://www.hl7.org/fhir/search.html#errors)
@@ -42,7 +53,59 @@ In `lenient` mode, the client must [check the self uri](https://www.hl7.org/fhir
 
 Note: In addition to controlling whether or not the server returns an error for unexpected search parameters, the handling preference is also used to control whether or not the server will return an error for unexpected elements in the JSON representation of a Resource as defined at https://www.hl7.org/fhir/json.html.
 
-Additionally, the IBM FHIR Server supports a custom header, `X-FHIR-UPDATE-IF-MODIFIED`, for clients to opt in to a specific update optimization. See Section 5.2. Conditional Update of the [Performance Guide](guides/FHIRPerformanceGuide) for more information.
+The IBM FHIR Server supports a custom header, `X-FHIR-UPDATE-IF-MODIFIED`, for clients to opt in to a specific update optimization. See Section 5.2. Conditional Update of the [Performance Guide](guides/FHIRPerformanceGuide) for more information.
+
+The IBM FHIR Server also supports conditional create-on-update using the `If-None-Match` header. This IBM FHIR Server-specific feature allows clients to use a `PUT` (update) interaction which behaves as follows:
+
+    1. `If-None-Match: "*"`: If the resource does not yet exist, create the resource and return `201 Created`;
+    2. `If-None-Match: "*"`: If the resource does exist, do nothing and return `304 Not Modified`.
+
+The only supported value for If-None-Match conditional create-on-update is `"*"`. This feature can also be used for `PUT` requests in transaction or batch bundles by specifying the `ifNoneMatch` field similarly in the request element:
+```
+{
+    "resourceType" : "Bundle",
+    "id": "1234abc",
+    "type" : "transaction",
+    "entry" : [ {
+        "resource" : {
+            "resourceType" : "Patient",
+            "id": "17be8b731ac-25b7637c-97a8-468a-b37f-a6ea4d75d122",
+            "active" : true,
+            "name" : [ {
+                "family" : "Lovelace",
+                "given" : [ "Ada" ]
+            } ],
+            "gender" : "female"
+        },
+        "request" : {
+            "method" : "PUT",
+            "url" : "Patient/17be8b731ac-25b7637c-97a8-468a-b37f-a6ea4d75d122",
+            "ifNoneMatch": "*"
+        }
+    }
+    ]
+}
+
+```
+
+If a match is found, the response bundle entry contains the location of the current resource and a status of `304` (Not Modified):
+```
+{
+  "resourceType": "Bundle",
+  "type": "transaction-response",
+  "entry": [
+    {
+      "response": {
+        "id": "17be8b731ac-25b7637c-97a8-468a-b37f-a6ea4d75d122",
+        "status": "304",
+        "location": "Patient/17be8b731ac-25b7637c-97a8-468a-b37f-a6ea4d75d122/_history/1",
+        "etag": "W/\"1\"",
+        "lastModified": "2021-10-28T10:11:08.824322Z"
+      }
+    }
+  ]
+}
+```
 
 Finally, the IBM FHIR Server supports multi-tenancy through custom headers as defined at https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#49-multi-tenancy. By default, the server will look for a tenantId in a `X-FHIR-TENANT-ID` header and a datastoreId in the `X-FHIR-DSID` header, and use `default` for either one if the headers are not present.
 

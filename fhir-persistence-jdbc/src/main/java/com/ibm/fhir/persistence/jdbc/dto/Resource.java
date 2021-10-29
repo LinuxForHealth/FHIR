@@ -8,6 +8,7 @@ package com.ibm.fhir.persistence.jdbc.dto;
 
 import java.sql.Timestamp;
 
+import com.ibm.fhir.persistence.InteractionStatus;
 import com.ibm.fhir.persistence.util.InputOutputByteStream;
 
 /**
@@ -56,6 +57,11 @@ public class Resource {
      *  This is the <resourceType>_RESOURCES.IS_DELETED column
      */
     private boolean deleted;
+    
+    /**
+     * The status of the interaction at the database - what change was actually made and why
+     */
+    private InteractionStatus interactionStatus;
 
 
     public Resource() {
@@ -137,6 +143,20 @@ public class Resource {
      */
     public void setDataStream(InputOutputByteStream dataStream) {
         this.dataStream = dataStream;
+    }
+
+    /**
+     * @return the interactionStatus
+     */
+    public InteractionStatus getInteractionStatus() {
+        return interactionStatus;
+    }
+
+    /**
+     * @param interactionStatus the interactionStatus to set
+     */
+    public void setInteractionStatus(InteractionStatus interactionStatus) {
+        this.interactionStatus = interactionStatus;
     }
 }
 
