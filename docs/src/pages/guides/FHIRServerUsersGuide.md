@@ -526,7 +526,7 @@ To extend the server with additional operations, see [Section 4.1.2 Custom opera
 
 #### 4.1.1.1 $validate
 The `$validate` operation checks whether the attached content would be acceptable either generally, or as a create, update, or delete against an existing resource instance or type. By default, the `$validate` operation will validate a resource against the base specification and any profiles asserted in its `Resource.meta.profile` element. The default behavior may be changed in one of the following ways:
-* If a profile is specified via the optional `profile` parameter, the $validate operation will validate a resource against the base specification and the specified profile only. It will not validate against any profiles asserted in the `Resource.meta.profile` element.
+* If a profile is specified via the optional `profile` parameter, the $validate operation will validate a resource against the base specification and the specified profile only. It will not validate against any other profiles asserted in the `Resource.meta.profile` element.
 * If the `profile` parameter is not specified, but the `mode` parameter is specified, and the `mode` parameter value is either `create` or `update`, the $validate operation will validate a resource against the base specification and any profiles asserted in its `Resource.meta.profile` element, but will do so based on profile configuration properties specified in the `fhirServer/resources/<resourceType>/profiles` section of the `fhir-server-config.json` file (see the [Configuration properties reference](#51-configuration-properties-reference) for configuration details).
 
 
