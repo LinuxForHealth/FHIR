@@ -18,6 +18,7 @@ import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.schema.control.FhirSchemaVersion;
 import com.ibm.fhir.schema.control.GetSchemaVersion;
 import com.ibm.fhir.schema.control.UpdateSchemaVersion;
+import com.ibm.fhir.schema.control.UpdateSchemaVersionPostgresql;
 
 /**
  * Access layer for WHOLE_SCHEMA_VERSION data
@@ -66,7 +67,14 @@ public class SchemaVersionsManager {
     public void updateSchemaVersionId(FhirSchemaVersion version) {
         try (ITransaction tx = transactionProvider.getTransaction()) {
             try (Connection c = connectionProvider.getConnection()) {
-                UpdateSchemaVersion cmd = new UpdateSchemaVersion(schemaName, version);
+                final UpdateSchemaVersion cmd;
+                switch (this.translator.getType()) {
+                case POSTGRESQL:
+                    cmd = new UpdateSchemaVersionPostgresql(schemaName, version);
+                    break;
+                default:
+                    cmd = new UpdateSchemaVersion(schemaName, version);
+                }
                 cmd.run(translator, c);
             } catch (SQLException x) {
                 throw translator.translate(x);

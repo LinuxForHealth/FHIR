@@ -376,7 +376,9 @@ public class Main {
         // Make sure that we have the CONTROL table created before we try any
         // schema update work
         IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
-        CreateControl.createTableIfNeeded(schema.getAdminSchemaName(), adapter);
+        try (ITransaction tx = transactionProvider.getTransaction()) {
+            CreateControl.createTableIfNeeded(schema.getAdminSchemaName(), adapter);
+        }
 
         if (updateFhirSchema) {
             updateFhirSchema();
@@ -433,7 +435,9 @@ public class Main {
             
             final String targetSchemaName = schema.getSchemaName();
             IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
-            CreateWholeSchemaVersion.createTableIfNeeded(targetSchemaName, adapter);
+            try (ITransaction tx = transactionProvider.getTransaction()) {
+                CreateWholeSchemaVersion.createTableIfNeeded(targetSchemaName, adapter);
+            }
             
             // If our schema is already at the latest version, we can skip a lot of processing
             SchemaVersionsManager svm = new SchemaVersionsManager(translator, connectionPool, transactionProvider, targetSchemaName);
@@ -469,8 +473,14 @@ public class Main {
                 // TODO: This will no longer be needed after the tables are removed (https://github.com/IBM/FHIR/issues/713).
                 logWarningMessagesForDeprecatedTables();
                 
-                // Mark the schema as up-to-date
+                // Apply privileges if asked
+                if (grantTo != null) {
+                    grantPrivilegesForFhirData();
+                }
+                
+                // Finally, update the whole schema version
                 svm.updateSchemaVersion();
+                
             }
         } finally {
             leaseManager.cancelLease();
@@ -491,7 +501,9 @@ public class Main {
             
             final String targetSchemaName = schema.getOauthSchemaName();
             IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
-            CreateWholeSchemaVersion.createTableIfNeeded(targetSchemaName, adapter);
+            try (ITransaction tx = transactionProvider.getTransaction()) {
+                CreateWholeSchemaVersion.createTableIfNeeded(targetSchemaName, adapter);
+            }
             
             // If our schema is already at the latest version, we can skip a lot of processing
             SchemaVersionsManager svm = new SchemaVersionsManager(translator, connectionPool, transactionProvider, targetSchemaName);
@@ -501,6 +513,11 @@ public class Main {
                 PhysicalDataModel pdm = new PhysicalDataModel();
                 buildOAuthSchemaModel(pdm);
                 updateSchema(pdm);
+                
+                // Apply privileges if asked
+                if (grantTo != null) {
+                    grantPrivilegesForOAuth();
+                }
                 
                 // Mark the schema as up-to-date
                 svm.updateSchemaVersion();
@@ -524,8 +541,10 @@ public class Main {
             
             final String targetSchemaName = schema.getJavaBatchSchemaName();
             IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
-            CreateWholeSchemaVersion.createTableIfNeeded(targetSchemaName, adapter);
-            
+            try (ITransaction tx = transactionProvider.getTransaction()) {
+                CreateWholeSchemaVersion.createTableIfNeeded(targetSchemaName, adapter);
+            }
+
             // If our schema is already at the latest version, we can skip a lot of processing
             SchemaVersionsManager svm = new SchemaVersionsManager(translator, connectionPool, transactionProvider, targetSchemaName);
             if (svm.isLatestSchema()) {
@@ -535,6 +554,11 @@ public class Main {
                 buildJavaBatchSchemaModel(pdm);
                 updateSchema(pdm);
                 
+                // Apply privileges if asked
+                if (grantTo != null) {
+                    grantPrivilegesForBatch();
+                }
+
                 // Mark the schema as up-to-date
                 svm.updateSchemaVersion();
             }
@@ -560,8 +584,10 @@ public class Main {
         // Before we start anything, we need to make sure our schema history
         // and control tables are in place. These tables are used to manage 
         // all FHIR data, oauth and JavaBatch schemas we build
-        CreateVersionHistory.createTableIfNeeded(schema.getAdminSchemaName(), adapter);
-        
+        try (ITransaction tx = transactionProvider.getTransaction()) {
+            CreateVersionHistory.createTableIfNeeded(schema.getAdminSchemaName(), adapter);
+        }
+
         // Current version history for the data schema
         VersionHistoryService vhs =
                 new VersionHistoryService(schema.getAdminSchemaName(), schema.getSchemaName(), schema.getOauthSchemaName(), schema.getJavaBatchSchemaName());
@@ -736,6 +762,12 @@ public class Main {
                     IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
                     pdm.applyProcedures(adapter);
                     pdm.applyFunctions(adapter);
+                    
+                    // Because we're replacing the procedures, we should also check if
+                    // we need to apply the associated privileges
+                    if (this.grantTo != null) {
+                        pdm.applyProcedureAndFunctionGrants(adapter, FhirSchemaConstants.FHIR_USER_GRANT_GROUP, grantTo);
+                    }
                 } catch (DataAccessException x) {
                     // Something went wrong, so mark the transaction as failed
                     tx.setRollbackOnly();
@@ -772,8 +804,67 @@ public class Main {
         }
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
-    // The following method is related to the Privilege feature
+    /**
+     * Apply grants to the FHIR data schema objects
+     */
+    protected void grantPrivilegesForFhirData() {
+
+        final IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
+        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
+            try {
+                PhysicalDataModel pdm = new PhysicalDataModel();
+                buildFhirDataSchemaModel(pdm);
+                pdm.applyGrants(adapter, FhirSchemaConstants.FHIR_USER_GRANT_GROUP, grantTo);
+                
+                // Grant SELECT on WHOLE_SCHEMA_VERSION to the FHIR server user
+                // Note the constant comes from SchemaConstants on purpose
+                CreateWholeSchemaVersion.grantPrivilegesTo(adapter, schema.getSchemaName(), SchemaConstants.FHIR_USER_GRANT_GROUP, grantTo);
+            } catch (DataAccessException x) {
+                // Something went wrong, so mark the transaction as failed
+                tx.setRollbackOnly();
+                throw x;
+            }
+        }
+    }
+
+    /**
+     * Apply grants to the OAuth schema objects
+     */
+    protected void grantPrivilegesForOAuth() {
+        final IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
+        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
+            try {
+                PhysicalDataModel pdm = new PhysicalDataModel();
+                buildOAuthSchemaModel(pdm);
+                pdm.applyGrants(adapter, FhirSchemaConstants.FHIR_OAUTH_GRANT_GROUP, grantTo);
+                
+            } catch (DataAccessException x) {
+                // Something went wrong, so mark the transaction as failed
+                tx.setRollbackOnly();
+                throw x;
+            }
+        }
+        
+    }
+
+    /**
+     * Apply grants to the JavaBatch schema objects
+     */
+    protected void grantPrivilegesForBatch() {
+        final IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
+        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
+            try {
+                PhysicalDataModel pdm = new PhysicalDataModel();
+                buildJavaBatchSchemaModel(pdm);
+                pdm.applyGrants(adapter, FhirSchemaConstants.FHIR_BATCH_GRANT_GROUP, grantTo);
+            } catch (DataAccessException x) {
+                // Something went wrong, so mark the transaction as failed
+                tx.setRollbackOnly();
+                throw x;
+            }
+        }
+    }
+
     /**
      * Grant the minimum required set of privileges on the FHIR schema objects
      * to the grantTo user. All tenant data access is via this user, and is the
@@ -791,26 +882,17 @@ public class Main {
             grantFhirSchema = true;
             grantJavaBatchSchema = true;
         }
-
-        // Build/update the tables as well as the stored procedures
-        PhysicalDataModel pdm = new PhysicalDataModel();
-        buildCommonModel(pdm, updateFhirSchema || grantFhirSchema, updateOauthSchema || grantOauthSchema, updateJavaBatchSchema || grantJavaBatchSchema);
-
-        final IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
-        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
-            try {
-                pdm.applyGrants(adapter, FhirSchemaConstants.FHIR_USER_GRANT_GROUP, grantTo);
-                pdm.applyGrants(adapter, FhirSchemaConstants.FHIR_OAUTH_GRANT_GROUP, grantTo);
-                pdm.applyGrants(adapter, FhirSchemaConstants.FHIR_BATCH_GRANT_GROUP, grantTo);
-                
-                // Grant SELECT on WHOLE_SCHEMA_VERSION to the FHIR server user
-                // Note the constant comes from SchemaConstants on purpose
-                CreateWholeSchemaVersion.grantPrivilegesTo(adapter, schema.getSchemaName(), SchemaConstants.FHIR_USER_GRANT_GROUP, grantTo);
-            } catch (DataAccessException x) {
-                // Something went wrong, so mark the transaction as failed
-                tx.setRollbackOnly();
-                throw x;
-            }
+        
+        if (grantFhirSchema) {
+            grantPrivilegesForFhirData();
+        }
+        
+        if (grantOauthSchema) {
+            grantPrivilegesForOAuth();
+        }
+        
+        if (grantJavaBatchSchema) {
+            grantPrivilegesForBatch();
         }
     }
 
@@ -944,93 +1026,111 @@ public class Main {
             return;
         }
 
-        // IMPORTANT! Check the schema name aligns with the actual schema for this tenant
-        checkSchemaForTenant();
+        // Make sure only a single instance of this is running on a given schema
+        LeaseManager leaseManager = new LeaseManager(this.translator, connectionPool, transactionProvider, schema.getAdminSchemaName(), schema.getSchemaName(),
+            leaseManagerConfig);
 
-        // The key we'll use for this tenant. This key should be used in subsequent
-        // activities related to this tenant, such as setting the tenant context.
-        if (tenantKeyFileUtil.keyFileExists(tenantKeyFileName)) {
-            // Only if the Tenant Key file is provided as a parameter is it not null.
-            // in this case we want special behavior.
-            tenantKey = this.tenantKeyFileUtil.readTenantFile(tenantKeyFileName);
-        } else {
-            tenantKey = getRandomKey();
-        }
-
-        // The salt is used when we hash the tenantKey. We're just using SHA-256 for
-        // the hash here, not multiple rounds of a password hashing algorithm. It's
-        // sufficient in our case because we are using a 32-byte random value as the
-        // key, giving 256 bits of entropy.
-        final String tenantSalt = getRandomKey();
-
-        Db2Adapter adapter = new Db2Adapter(connectionPool);
-
-        // Conditionally skip if the tenant name and key exist (this enables idempotency)
-        boolean skip = checkIfTenantNameAndTenantKeyExists(adapter, tenantName, tenantKey, skipIfTenantExists);
-        if (skip) {
-            return;
-        }
-
-        if (tenantKeyFileName == null) {
-            logger.info("Allocating new tenant: " + tenantName + " [key=" + tenantKey + "]");
-        } else {
-            logger.info("Allocating new tenant: " + tenantName + " [tenantKeyFileName=" + tenantKeyFileName + "]");
-        }
-
-        // Open a new transaction and associate it with our connection pool. Remember
-        // that we don't support distributed transactions, so all connections within
-        // this transaction must come from the same pool
-        int tenantId;
-        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
-            try {
-                tenantId =
-                        adapter.allocateTenant(schema.getAdminSchemaName(), schema.getSchemaName(), tenantName, tenantKey, tenantSalt, FhirSchemaConstants.TENANT_SEQUENCE);
-
-                // The tenant-id is important because this is also used to identify the partition number
-                logger.info("Tenant Id[" + tenantName + "] = [" + tenantId + "]");
-            } catch (DataAccessException x) {
-                // Something went wrong, so mark the transaction as failed
-                tx.setRollbackOnly();
-                throw x;
+        try {
+            if (!leaseManager.waitForLease(waitForUpdateLeaseSeconds)) {
+                throw new ConcurrentUpdateException("Concurrent update (allocate-tenant) for FHIR data schema: '" + schema.getSchemaName() + "'");
             }
-        }
 
-        // Build/update the tables as well as the stored procedures
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), schema.getSchemaName(), isMultitenant());
-        PhysicalDataModel pdm = new PhysicalDataModel();
-        gen.buildSchema(pdm);
-
-        // Get the data model to create the table partitions. This is threaded, so transactions are
-        // handled within each thread by the adapter. This means we should probably pull some of
-        // that logic out of the adapter and handle it at a higher level. Note...the extent size used
-        // for the partitions needs to match the extent size of the original table tablespace (FHIR_TS)
-        // so this must be constant.
-        pdm.addTenantPartitions(adapter, schema.getSchemaName(), tenantId, FhirSchemaConstants.FHIR_TS_EXTENT_KB);
-
-        // Fill any static data tables (which are also partitioned by tenant)
-        // Prepopulate the Resource Type Tables and Parameters Name/Code Table
-        populateResourceTypeAndParameterNameTableEntries(tenantId);
-
-        // Now all the table partitions have been allocated, we can mark the tenant as ready
-        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
-            try {
-                adapter.updateTenantStatus(schema.getAdminSchemaName(), tenantId, TenantStatus.ALLOCATED);
-            } catch (DataAccessException x) {
-                // Something went wrong, so mark the transaction as failed
-                tx.setRollbackOnly();
-                throw x;
+            // IMPORTANT! Check the schema name aligns with the actual schema for this tenant
+            checkSchemaForTenant();
+    
+            // The key we'll use for this tenant. This key should be used in subsequent
+            // activities related to this tenant, such as setting the tenant context.
+            if (tenantKeyFileUtil.keyFileExists(tenantKeyFileName)) {
+                // Only if the Tenant Key file is provided as a parameter is it not null.
+                // in this case we want special behavior.
+                tenantKey = this.tenantKeyFileUtil.readTenantFile(tenantKeyFileName);
+            } else {
+                tenantKey = getRandomKey();
             }
-        }
-
-        if (tenantKeyFileName == null) {
-            logger.info("Allocated tenant: " + tenantName + " [key=" + tenantKey + "] with Id = " + tenantId);
-            logger.info("The tenantKey JSON follows: \t\n{\"tenantKey\": \"" + tenantKey + "\"}");
-        } else {
-            logger.info("Allocated tenant: " + tenantName + " [tenantKeyFileName=" + tenantKeyFileName + "] with Id = "
-                    + tenantId);
-            if (!tenantKeyFileUtil.keyFileExists(tenantKeyFileName)) {
-                tenantKeyFileUtil.writeTenantFile(tenantKeyFileName, tenantKey);
+    
+            // The salt is used when we hash the tenantKey. We're just using SHA-256 for
+            // the hash here, not multiple rounds of a password hashing algorithm. It's
+            // sufficient in our case because we are using a 32-byte random value as the
+            // key, giving 256 bits of entropy.
+            final String tenantSalt = getRandomKey();
+    
+            Db2Adapter adapter = new Db2Adapter(connectionPool);
+    
+            // Conditionally skip if the tenant name and key exist (this enables idempotency)
+            boolean skip = checkIfTenantNameAndTenantKeyExists(adapter, tenantName, tenantKey, skipIfTenantExists);
+            if (skip) {
+                return;
             }
+    
+            if (tenantKeyFileName == null) {
+                logger.info("Allocating new tenant: " + tenantName + " [key=" + tenantKey + "]");
+            } else {
+                logger.info("Allocating new tenant: " + tenantName + " [tenantKeyFileName=" + tenantKeyFileName + "]");
+            }
+    
+            // Open a new transaction and associate it with our connection pool. Remember
+            // that we don't support distributed transactions, so all connections within
+            // this transaction must come from the same pool
+            int tenantId;
+            try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
+                try {
+                    tenantId =
+                            adapter.allocateTenant(schema.getAdminSchemaName(), schema.getSchemaName(), tenantName, tenantKey, tenantSalt, FhirSchemaConstants.TENANT_SEQUENCE);
+    
+                    // The tenant-id is important because this is also used to identify the partition number
+                    logger.info("Tenant Id[" + tenantName + "] = [" + tenantId + "]");
+                } catch (DataAccessException x) {
+                    // Something went wrong, so mark the transaction as failed
+                    tx.setRollbackOnly();
+                    throw x;
+                }
+            }
+    
+            // Build/update the tables as well as the stored procedures
+            FhirSchemaGenerator gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), schema.getSchemaName(), isMultitenant());
+            PhysicalDataModel pdm = new PhysicalDataModel();
+            gen.buildSchema(pdm);
+    
+            // Get the data model to create the table partitions. This is threaded, so transactions are
+            // handled within each thread by the adapter. This means we should probably pull some of
+            // that logic out of the adapter and handle it at a higher level. Note...the extent size used
+            // for the partitions needs to match the extent size of the original table tablespace (FHIR_TS)
+            // so this must be constant.
+            pdm.addTenantPartitions(adapter, schema.getSchemaName(), tenantId, FhirSchemaConstants.FHIR_TS_EXTENT_KB);
+    
+            // Fill any static data tables (which are also partitioned by tenant)
+            // Prepopulate the Resource Type Tables and Parameters Name/Code Table
+            populateResourceTypeAndParameterNameTableEntries(tenantId);
+    
+            // Now all the table partitions have been allocated, we can mark the tenant as ready
+            try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
+                try {
+                    adapter.updateTenantStatus(schema.getAdminSchemaName(), tenantId, TenantStatus.ALLOCATED);
+                } catch (DataAccessException x) {
+                    // Something went wrong, so mark the transaction as failed
+                    tx.setRollbackOnly();
+                    throw x;
+                }
+            }
+            
+            if (grantTo != null) {
+                // If the --grant-to has been given, we also need to apply that here, although
+                // this really ought to be done when the schema is first built
+                grantPrivileges();
+            }
+    
+            if (tenantKeyFileName == null) {
+                logger.info("Allocated tenant: " + tenantName + " [key=" + tenantKey + "] with Id = " + tenantId);
+                logger.info("The tenantKey JSON follows: \t\n{\"tenantKey\": \"" + tenantKey + "\"}");
+            } else {
+                logger.info("Allocated tenant: " + tenantName + " [tenantKeyFileName=" + tenantKeyFileName + "] with Id = "
+                        + tenantId);
+                if (!tenantKeyFileUtil.keyFileExists(tenantKeyFileName)) {
+                    tenantKeyFileUtil.writeTenantFile(tenantKeyFileName, tenantKey);
+                }
+            }
+        } finally {
+            leaseManager.cancelLease();
         }
     }
 
@@ -2324,10 +2424,10 @@ public class Main {
             createSchemas();
         } else if (updateProc) {
             updateProcedures();
-        } else if (this.listTenants) {
-            listTenants();
         } else if (this.allocateTenant) {
             allocateTenant();
+        } else if (this.listTenants) {
+            listTenants();
         } else if (this.refreshTenants) {
             refreshTenants();
         } else if (this.testTenant) {
@@ -2347,9 +2447,9 @@ public class Main {
                 throw new IllegalArgumentException("[ERROR] --tenant-key <key-value> should not be specified together with --drop-all-tenant-keys");
             }
             revokeTenantKey();
-        }
-
-        if (this.grantTo != null) {
+        } else if (grantTo != null) {
+            // Finally, if --grant-to has been specified on its own, we simply rerun all the grants
+            // which allows granting server to more than one user if that's required
             grantPrivileges();
         }
 

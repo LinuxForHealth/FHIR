@@ -6,6 +6,8 @@ This module is built into two different jar files. The default jar is included w
 
 The executable command line interface (cli) version of this module can be downloaded from the project [Releases tab](https://github.com/IBM/FHIR/releases).
 
+The schema tool protects itself when multiple instances of the tool are run concurrently. This can happen in cloud deployment environments where multiple instances of the IBM FHIR Server are deployed, with each running their own schema-update tool before starting the server process. Instances of the schema update tool first acquire a `lease` before they perform any operations on a particular schema (for example: creating a new table or altering an existing table). An instance will try to acquire a lease for 10s. If it is unable to do so, it will exit with an error message and exit code 6. If multiple instances of the tool are run concurrently, the instance blocked waiting for the lease may eventually acquire the lease after the first instance completes within the 10s window. If the first instance successfully updated the schema, the second instance will see that the schema is now up-to-date and will skip further processing for that schema. If the first instance failed to update the schema, the second instance will attempt to apply the changes again.
+
 ## Getting started
 ### Creating the database and user
 
@@ -34,7 +36,6 @@ To create the PostgreSQL database and database user, use the following commands:
 psql postgres
 >postgres=# create database fhirdb;
 >postgres=# create user fhirserver with password 'change-password';
->postgres=# grant all privileges on database fhirdb to fhirserver;
 ```
 
 ### Printing the schema
@@ -99,24 +100,47 @@ For PostgreSQL:
 ### Deploy new schema or update an existing schema
 For Db2:
 
+The FHIRSERVER user is the database user used by the IBM FHIR Server to connect
+to the database. This user is granted the minimal set of privileges required
+for the IBM FHIR Server to operate. The FHIRADMIN user should only be used
+for schema updates, not for IBM FHIR Server access.
+
 ```
 --prop-file db2.properties
 --schema-name FHIRDATA
 --update-schema
+--grant-to FHIRSERVER
 ```
 
+If the --grant-to is provided, the grants will be processed after the schema
+objects have been created for a particular schema. No grant changes will be
+applied if the schema is already at the latest version according to the
+`{schema}.WHOLE_SCHEMA_VERSION` table. If grants need to be applied, then
+run the schema tool using only the --grant-to option without --update-schema.
+
 For PostgreSQL:
+
+The FHIRSERVER user is the database user used by the IBM FHIR Server to connect
+to the database. This user is granted the minimal set of privileges required
+for the IBM FHIR Server to operate. The FHIRADMIN user should only be used
+for schema updates, not for IBM FHIR Server access.
 
 ```
 --prop-file postgresql.properties
 --schema-name FHIRDATA
 --update-schema
+--grant-to FHIRSERVER
 --db-type postgresql
 ```
+If the --grant-to is provided, the grants will be processed after the schema
+objects have been created for a particular schema. No grant changes will be
+applied if the schema is already at the latest version according to the
+`{schema}.WHOLE_SCHEMA_VERSION` table. If grants need to be applied, then
+run the schema tool using only the --grant-to option without --update-schema.
 
 When updating the postgres schema, the autovacuum settings are configured.
 
-### Grant privileges to data access user (Db2 only)
+### Grant privileges to another data access user
 
 ```
 --prop-file db2.properties

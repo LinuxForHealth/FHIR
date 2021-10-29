@@ -45,8 +45,12 @@ public class GetLease implements IDatabaseSupplier<Boolean> {
     
     /**
      * Public constructor
+     * 
      * @param adminSchema
      * @param schemaName
+     * @param host
+     * @param leaseId
+     * @param leaseUntil
      */
     public GetLease(String adminSchema, String schemaName, String host, String leaseId, Instant leaseUntil) {
         this.adminSchema = adminSchema;
@@ -56,8 +60,22 @@ public class GetLease implements IDatabaseSupplier<Boolean> {
         this.leaseUntil = leaseUntil;
     }
 
+    /**
+     * Get the insert statement
+     * 
+     * @return
+     */
+    protected String getInsertSQL(final String adminSchema) {
+        final String CONTROL = DataDefinitionUtil.getQualifiedName(adminSchema, SchemaConstants.CONTROL);
+        final String result = "INSERT INTO " + CONTROL + " ("
+                + " schema_name, lease_owner_host, lease_owner_uuid, lease_until) "
+                + " VALUES (?, ?, ?, ?)";
+        return result;
+    }
+
     @Override
     public Boolean run(IDatabaseTranslator translator, Connection c) {
+        final String CONTROL = DataDefinitionUtil.getQualifiedName(adminSchema, SchemaConstants.CONTROL);
         Boolean result = Boolean.FALSE;
         
         // Try to obtain the lease. This operation is supposed to be in a
@@ -66,10 +84,7 @@ public class GetLease implements IDatabaseSupplier<Boolean> {
         // If the instance owns the lease but a lease update fails, the instance 
         // is expected to terminate immediately.
         final Calendar utc = CalendarHelper.getCalendarForUTC();
-        final String CONTROL = DataDefinitionUtil.getQualifiedName(adminSchema, SchemaConstants.CONTROL);
-        final String INS = "INSERT INTO " + CONTROL + " ("
-                + " schema_name, lease_owner_host, lease_owner_uuid, lease_until) "
-                + " VALUES (?, ?, ?, ?)";
+        final String INS = getInsertSQL(this.adminSchema);
         
         boolean locked = false;
         while (!locked) {
@@ -78,10 +93,14 @@ public class GetLease implements IDatabaseSupplier<Boolean> {
                 ps.setString(2, host);
                 ps.setString(3, leaseId);
                 ps.setTimestamp(4, Timestamp.from(leaseUntil), utc);
-                
-                ps.executeUpdate();
-                locked = true; // we inserted the row, so we must own the lock
-                result = Boolean.TRUE; // and also own the lease
+
+                // To support PostgreSQL, we need to ON CONFLICT DO NOTHING - if
+                // there's a conflict executeUpdate would return 0 instead of
+                // an exception
+                if (1 == ps.executeUpdate()) {
+                    locked = true; // we inserted the row, so we must own the lock
+                    result = Boolean.TRUE; // and also own the lease
+                }
             } catch (SQLException x) {
                 // if the row is a duplicate, we drop through to the SEL statement
                 if (!translator.isDuplicate(x)) {
@@ -127,9 +146,9 @@ public class GetLease implements IDatabaseSupplier<Boolean> {
                         ps.setTimestamp(5, Timestamp.from(Instant.now()), utc);
                         ps.setString(6, leaseId);
                         
-                        // Note that if we tried to update to update the row but no rows were affected,
+                        // Note that if we tried to update the row but no rows were affected,
                         // it means that we were unable to obtain the lease because it is held by another
-                        // instance, hence result == FALSE
+                        // instance (and hasn't expired), hence result == FALSE
                         int rows = ps.executeUpdate();
                         if (rows == 1) {
                             result = Boolean.TRUE; // row updated, therefore we own the lease
