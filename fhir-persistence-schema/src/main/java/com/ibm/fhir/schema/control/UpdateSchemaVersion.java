@@ -28,7 +28,9 @@ public class UpdateSchemaVersion implements IDatabaseStatement {
     
     /**
      * Public constructor
+     * 
      * @param schemaName
+     * @param version
      */
     public UpdateSchemaVersion(String schemaName, FhirSchemaVersion version) {
         this.schemaName = schemaName;
@@ -41,10 +43,10 @@ public class UpdateSchemaVersion implements IDatabaseStatement {
      */
     protected String getInsertSQL(String schemaName) {
         final String WHOLE_SCHEMA_VERSION = DataDefinitionUtil.getQualifiedName(schemaName, SchemaConstants.WHOLE_SCHEMA_VERSION);
-        final String INS = "INSERT INTO " + WHOLE_SCHEMA_VERSION + " ("
+        final String result = "INSERT INTO " + WHOLE_SCHEMA_VERSION + " ("
                 + " record_id, version_id) "
                 + " VALUES (1, ?)";
-        return INS;
+        return result;
     }
 
     @Override

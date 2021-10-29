@@ -17,7 +17,9 @@ public class UpdateSchemaVersionPostgresql extends UpdateSchemaVersion {
         
     /**
      * Public constructor
+     * 
      * @param schemaName
+     * @param version
      */
     public UpdateSchemaVersionPostgresql(String schemaName, FhirSchemaVersion version) {
         super(schemaName, version);

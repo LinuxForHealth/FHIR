@@ -7,7 +7,6 @@
 package com.ibm.fhir.schema.control;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -27,7 +26,7 @@ public class GetSchemaVersion implements IDatabaseSupplier<Integer> {
     
     /**
      * Public constructor
-     * @param adminSchema
+     * 
      * @param schemaName
      */
     public GetSchemaVersion(String schemaName) {

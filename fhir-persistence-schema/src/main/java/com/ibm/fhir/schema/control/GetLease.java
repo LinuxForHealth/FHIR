@@ -45,8 +45,12 @@ public class GetLease implements IDatabaseSupplier<Boolean> {
     
     /**
      * Public constructor
+     * 
      * @param adminSchema
      * @param schemaName
+     * @param host
+     * @param leaseId
+     * @param leaseUntil
      */
     public GetLease(String adminSchema, String schemaName, String host, String leaseId, Instant leaseUntil) {
         this.adminSchema = adminSchema;
@@ -58,14 +62,15 @@ public class GetLease implements IDatabaseSupplier<Boolean> {
 
     /**
      * Get the insert statement
+     * 
      * @return
      */
     protected String getInsertSQL(final String adminSchema) {
         final String CONTROL = DataDefinitionUtil.getQualifiedName(adminSchema, SchemaConstants.CONTROL);
-        final String INS = "INSERT INTO " + CONTROL + " ("
+        final String result = "INSERT INTO " + CONTROL + " ("
                 + " schema_name, lease_owner_host, lease_owner_uuid, lease_until) "
                 + " VALUES (?, ?, ?, ?)";
-        return INS;
+        return result;
     }
 
     @Override
