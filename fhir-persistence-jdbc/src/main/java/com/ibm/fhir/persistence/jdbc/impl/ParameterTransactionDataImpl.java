@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.transaction.SystemException;
-import javax.transaction.UserTransaction;
+import jakarta.transaction.SystemException;
+import jakarta.transaction.UserTransaction;
 
 import com.ibm.fhir.persistence.jdbc.TransactionData;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceProfileRec;

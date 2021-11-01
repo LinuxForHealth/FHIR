@@ -8,9 +8,9 @@ package com.ibm.fhir.persistence.jdbc.impl;
 
 import java.util.logging.Logger;
 
-import javax.transaction.Status;
-import javax.transaction.Synchronization;
-import javax.transaction.TransactionSynchronizationRegistry;
+import jakarta.transaction.Status;
+import jakarta.transaction.Synchronization;
+import jakarta.transaction.TransactionSynchronizationRegistry;
 
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.TransactionData;

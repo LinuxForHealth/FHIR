@@ -10,9 +10,9 @@ import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.transaction.Status;
-import javax.transaction.TransactionSynchronizationRegistry;
-import javax.transaction.UserTransaction;
+import jakarta.transaction.Status;
+import jakarta.transaction.TransactionSynchronizationRegistry;
+import jakarta.transaction.UserTransaction;
 
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;

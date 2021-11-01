@@ -6,8 +6,8 @@
 
 package com.ibm.fhir.persistence.jdbc.test.connection;
 
-import javax.transaction.Synchronization;
-import javax.transaction.TransactionSynchronizationRegistry;
+import jakarta.transaction.Synchronization;
+import jakarta.transaction.TransactionSynchronizationRegistry;
 
 import com.ibm.fhir.persistence.jdbc.connection.FHIRUserTransactionAdapter;
 

@@ -8,7 +8,7 @@ package com.ibm.fhir.persistence.jdbc;
 
 import java.sql.Connection;
 
-import javax.transaction.TransactionSynchronizationRegistry;
+import jakarta.transaction.TransactionSynchronizationRegistry;
 
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.DatabaseTranslatorFactory;

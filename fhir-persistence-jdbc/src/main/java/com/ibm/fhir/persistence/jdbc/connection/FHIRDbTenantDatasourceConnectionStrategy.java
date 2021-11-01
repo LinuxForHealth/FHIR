@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
-import javax.transaction.TransactionSynchronizationRegistry;
+import jakarta.transaction.TransactionSynchronizationRegistry;
 
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;

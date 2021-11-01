@@ -41,8 +41,8 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 import javax.naming.InitialContext;
-import javax.transaction.TransactionSynchronizationRegistry;
-import javax.transaction.UserTransaction;
+import jakarta.transaction.TransactionSynchronizationRegistry;
+import jakarta.transaction.UserTransaction;
 
 import com.ibm.fhir.config.DefaultFHIRConfigProvider;
 import com.ibm.fhir.config.FHIRConfigHelper;

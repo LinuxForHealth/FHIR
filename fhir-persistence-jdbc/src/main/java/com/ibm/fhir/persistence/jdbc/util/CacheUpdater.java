@@ -10,8 +10,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
 
-import javax.transaction.Status;
-import javax.transaction.Synchronization;
+import jakarta.transaction.Status;
+import jakarta.transaction.Synchronization;
 
 /**
  * This is an abstract base class encapsulating functionality related to adding entries to a 

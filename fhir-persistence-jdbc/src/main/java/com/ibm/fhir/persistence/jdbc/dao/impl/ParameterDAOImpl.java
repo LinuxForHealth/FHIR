@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.transaction.TransactionSynchronizationRegistry;
+import jakarta.transaction.TransactionSynchronizationRegistry;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.JDBCConstants;

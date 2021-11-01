@@ -8,9 +8,9 @@ package com.ibm.fhir.persistence.jdbc.test.connection;
 
 import static org.testng.Assert.assertEquals;
 
-import javax.transaction.RollbackException;
-import javax.transaction.Status;
-import javax.transaction.UserTransaction;
+import jakarta.transaction.RollbackException;
+import jakarta.transaction.Status;
+import jakarta.transaction.UserTransaction;
 
 import org.testng.annotations.Test;
 

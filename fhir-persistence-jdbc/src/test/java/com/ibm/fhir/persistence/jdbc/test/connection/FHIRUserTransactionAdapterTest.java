@@ -10,7 +10,7 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
-import javax.transaction.Status;
+import jakarta.transaction.Status;
 
 import org.testng.annotations.Test;
 

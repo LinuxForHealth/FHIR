@@ -27,7 +27,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.transaction.TransactionSynchronizationRegistry;
+import jakarta.transaction.TransactionSynchronizationRegistry;
 
 import com.ibm.fhir.database.utils.common.CalendarHelper;
 import com.ibm.fhir.database.utils.query.QueryUtil;
