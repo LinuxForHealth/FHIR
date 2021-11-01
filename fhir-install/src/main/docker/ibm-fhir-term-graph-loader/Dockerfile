@@ -8,7 +8,7 @@
 
 # IBM Semeru Runtimes provides Non-official docker images. These are maintained by IBM.
 # The link to Semeru is at https://hub.docker.com/r/ibmsemeruruntime/open-11-jdk
-FROM ibmsemeruruntime/open-11-jdk:ubi_min-jre-latest as base
+FROM ibmsemeruruntime/open-11-jdk:ubi_min-jre as base
 
 # Create the base working directory
 RUN mkdir -p /opt/ibm/fhir/graph/loader/workarea
