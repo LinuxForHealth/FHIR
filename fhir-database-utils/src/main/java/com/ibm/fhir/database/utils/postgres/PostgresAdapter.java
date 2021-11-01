@@ -28,6 +28,7 @@ import com.ibm.fhir.database.utils.api.UndefinedNameException;
 import com.ibm.fhir.database.utils.common.AddForeignKeyConstraint;
 import com.ibm.fhir.database.utils.common.CommonDatabaseAdapter;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
+import com.ibm.fhir.database.utils.common.SchemaInfoObject;
 import com.ibm.fhir.database.utils.model.CheckConstraint;
 import com.ibm.fhir.database.utils.model.ColumnBase;
 import com.ibm.fhir.database.utils.model.ForeignKeyConstraint;
@@ -453,5 +454,13 @@ public class PostgresAdapter extends CommonDatabaseAdapter {
             }
         }
         super.createOrReplaceFunction(schemaName, functionName, supplier);
+    }
+
+    @Override
+    public List<SchemaInfoObject> listSchemaObjects(String schemaName) {
+        List<SchemaInfoObject> result = new ArrayList<>();
+        PostgresListTablesForSchema dao = new PostgresListTablesForSchema(schemaName);
+        result.addAll(runStatement(dao));
+        return result;
     }
 }

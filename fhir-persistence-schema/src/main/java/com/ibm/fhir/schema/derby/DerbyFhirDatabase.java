@@ -114,6 +114,14 @@ public class DerbyFhirDatabase implements AutoCloseable, IConnectionProvider {
     }
 
     /**
+     * Get the FHIR data schema name
+     * @return
+     */
+    public String getSchemaName() {
+        return SCHEMA_NAME;
+    }
+
+    /**
      * prepopulates the bootstrapped derby database with static lookup data.
      * 
      * @throws SQLException

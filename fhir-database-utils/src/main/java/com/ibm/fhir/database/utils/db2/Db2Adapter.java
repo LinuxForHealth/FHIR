@@ -35,6 +35,7 @@ import com.ibm.fhir.database.utils.api.UndefinedNameException;
 import com.ibm.fhir.database.utils.common.CommonDatabaseAdapter;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.database.utils.common.DropColumn;
+import com.ibm.fhir.database.utils.common.SchemaInfoObject;
 import com.ibm.fhir.database.utils.model.CheckConstraint;
 import com.ibm.fhir.database.utils.model.ColumnBase;
 import com.ibm.fhir.database.utils.model.IdentityDef;
@@ -638,5 +639,13 @@ public class Db2Adapter extends CommonDatabaseAdapter {
     public void reorgTable(String schemaName, String tableName) {
         Db2Reorg cmd = new Db2Reorg(schemaName, tableName);
         runStatement(cmd);
+    }
+
+    @Override
+    public List<SchemaInfoObject> listSchemaObjects(String schemaName) {
+        List<SchemaInfoObject> result = new ArrayList<>();
+        Db2ListTablesForSchema listTables = new Db2ListTablesForSchema(schemaName);
+        result.addAll(runStatement(listTables));
+        return result;
     }
 }

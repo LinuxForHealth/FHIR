@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.schema.derby;
 
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
@@ -37,14 +38,14 @@ public class DerbyFhirDatabaseTest {
         DerbyMaster.dropDatabase(DB_NAME);
         try (DerbyFhirDatabase db = new DerbyFhirDatabase(DB_NAME)) {
             System.out.println("FHIR database created successfully.");
-            checkDatabase(db);
+            checkDatabase(db, db.getSchemaName());
             testMigrationFunction(db);
         }
 
         // Now that we've got an existing database, let's try the creation again...which should be a NOP
         try (DerbyFhirDatabase db = new DerbyFhirDatabase(DB_NAME)) {
             System.out.println("FHIR database exists.");
-            checkDatabase(db);
+            checkDatabase(db, db.getSchemaName());
         }
     }
 
@@ -63,13 +64,22 @@ public class DerbyFhirDatabaseTest {
         }
     }
 
-    protected void checkDatabase(IConnectionProvider cp) throws SQLException {
+    /**
+     * Check the FHIR database schema has been set up correctly
+     * @param cp
+     * @throws SQLException
+     */
+    protected void checkDatabase(IConnectionProvider cp, String schemaName) throws SQLException {
 
         try (Connection c = cp.getConnection()) {
             try {
                 JdbcTarget tgt = new JdbcTarget(c);
                 DerbyAdapter adapter = new DerbyAdapter(tgt);
                 checkRefSequence(adapter);
+                
+                // Check that we have the correct number of tables. This will need to be updated
+                // whenever tables are added or removed
+                assertEquals(adapter.listSchemaObjects(schemaName).size(), 1792);
                 c.commit();
             } catch (Throwable t) {
                 c.rollback();

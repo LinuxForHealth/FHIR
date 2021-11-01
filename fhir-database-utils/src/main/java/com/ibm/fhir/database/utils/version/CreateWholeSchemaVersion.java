@@ -94,6 +94,24 @@ public class CreateWholeSchemaVersion {
     }
 
     /**
+     * Drop the WHOLE_SCHEMA_VERSION table if it exists in the given schema
+     * @param schemaName
+     * @param target
+     */
+    public static void dropTable(String schemaName, IDatabaseAdapter target) {
+        PhysicalDataModel dataModel = new PhysicalDataModel();
+
+        Table t = buildTableDef(dataModel, schemaName, false);
+
+        // apply this data model to the target if necessary - note - this table
+        // is not managed in the VERSION_HISTORY table so we need to perform this
+        // manually.
+        if (t.exists(target)) {
+            dataModel.drop(target);
+        }
+    }
+
+    /**
      * Grant the user privileges so that the row from this table can
      * be read by the $healthcheck custom operation.
      * @param target

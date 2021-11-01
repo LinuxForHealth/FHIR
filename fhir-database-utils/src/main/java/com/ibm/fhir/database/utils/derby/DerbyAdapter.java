@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.database.utils.derby;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -24,6 +25,7 @@ import com.ibm.fhir.database.utils.common.AddForeignKeyConstraint;
 import com.ibm.fhir.database.utils.common.CommonDatabaseAdapter;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.database.utils.common.GetSequenceNextValueDAO;
+import com.ibm.fhir.database.utils.common.SchemaInfoObject;
 import com.ibm.fhir.database.utils.model.CheckConstraint;
 import com.ibm.fhir.database.utils.model.ColumnBase;
 import com.ibm.fhir.database.utils.model.ForeignKeyConstraint;
@@ -366,5 +368,13 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
             // NOP
         }
         createView(schemaName, viewName, selectClause);
+    }
+
+    @Override
+    public List<SchemaInfoObject> listSchemaObjects(String schemaName) {
+        List<SchemaInfoObject> result = new ArrayList<>();
+        DerbyListTablesForSchema dao = new DerbyListTablesForSchema(schemaName);
+        result.addAll(runStatement(dao));
+        return result;
     }
 }
