@@ -7,7 +7,7 @@ package com.ibm.fhir.operation.erase.mock;
 
 import java.security.Principal;
 
-import javax.ws.rs.core.SecurityContext;
+import jakarta.ws.rs.core.SecurityContext;
 
 /**
  * Mocks the java security context for testing of the rest layer

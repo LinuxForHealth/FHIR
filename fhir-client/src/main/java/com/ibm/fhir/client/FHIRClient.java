@@ -9,7 +9,7 @@ package com.ibm.fhir.client;
 import java.security.KeyStore;
 
 import jakarta.json.JsonObject;
-import javax.ws.rs.client.WebTarget;
+import jakarta.ws.rs.client.WebTarget;
 
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Resource;

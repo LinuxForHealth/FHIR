@@ -8,10 +8,10 @@ package com.ibm.fhir.provider.util;
 
 import java.util.List;
 
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.Response;
 
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.resource.OperationOutcome;

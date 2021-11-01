@@ -8,9 +8,9 @@ package com.ibm.fhir.client.impl;
 
 import java.io.IOException;
 
-import javax.ws.rs.client.ClientRequestContext;
-import javax.ws.rs.client.ClientRequestFilter;
-import javax.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.client.ClientRequestContext;
+import jakarta.ws.rs.client.ClientRequestFilter;
+import jakarta.ws.rs.core.MultivaluedMap;
 
 /**
  * This class is responsible for adding the Authorization header to outbound REST API requests.
@@ -36,7 +36,7 @@ public class FHIROAuth2Authenticator implements ClientRequestFilter {
     }
 
     /* (non-Javadoc)
-     * @see javax.ws.rs.client.ClientRequestFilter#filter(javax.ws.rs.client.ClientRequestContext)
+     * @see jakarta.ws.rs.client.ClientRequestFilter#filter(jakarta.ws.rs.client.ClientRequestContext)
      * 
      * This method is called by the JAX-RS client runtime and will add an Authorization header to the
      * outbound REST API request to supply the necessary oauth 2.0 access token.

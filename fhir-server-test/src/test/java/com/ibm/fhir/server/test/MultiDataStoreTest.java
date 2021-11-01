@@ -11,7 +11,7 @@ import static org.testng.AssertJUnit.assertNotNull;
 
 import java.util.UUID;
 
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 
 import org.testng.annotations.Test;
 

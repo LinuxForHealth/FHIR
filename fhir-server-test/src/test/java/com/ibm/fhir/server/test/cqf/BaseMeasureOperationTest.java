@@ -13,8 +13,8 @@ import java.util.Collection;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.core.Response;
 
 import org.testng.SkipException;
 import org.testng.annotations.BeforeClass;

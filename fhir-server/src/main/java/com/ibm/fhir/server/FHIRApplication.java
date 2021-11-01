@@ -10,8 +10,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import javax.ws.rs.RuntimeType;
-import javax.ws.rs.core.Application;
+import jakarta.ws.rs.RuntimeType;
+import jakarta.ws.rs.core.Application;
 
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;

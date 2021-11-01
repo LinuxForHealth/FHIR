@@ -11,7 +11,7 @@ import static org.testng.AssertJUnit.assertNotNull;
 
 import java.util.List;
 
-import javax.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.MultivaluedMap;
 
 import org.testng.annotations.Test;
 

@@ -9,7 +9,7 @@ package com.ibm.fhir.server.spi.operation;
 import java.net.URI;
 import java.util.concurrent.Future;
 
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Resource;

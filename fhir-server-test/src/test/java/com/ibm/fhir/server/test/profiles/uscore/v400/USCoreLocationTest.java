@@ -12,7 +12,7 @@ import static org.testng.Assert.assertTrue;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 
 import org.testng.annotations.Test;
 

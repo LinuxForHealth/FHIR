@@ -9,8 +9,8 @@ import java.time.ZoneOffset;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import javax.ws.rs.core.MultivaluedHashMap;
-import javax.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.MultivaluedHashMap;
+import jakarta.ws.rs.core.MultivaluedMap;
 
 import org.opencds.cqf.cql.engine.data.DataProvider;
 import org.opencds.cqf.cql.engine.retrieve.RetrieveProvider;

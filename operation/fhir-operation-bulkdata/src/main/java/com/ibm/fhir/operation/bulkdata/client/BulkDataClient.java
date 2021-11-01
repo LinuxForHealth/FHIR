@@ -25,8 +25,8 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javax.crypto.KeyGenerator;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
 
 import org.apache.http.Consts;
 import org.apache.http.HttpEntity;

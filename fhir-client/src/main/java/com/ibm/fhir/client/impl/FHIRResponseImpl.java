@@ -11,8 +11,8 @@ import java.time.Instant;
 import java.util.Date;
 
 import jakarta.json.JsonObject;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.core.Response;
 
 import com.ibm.fhir.client.FHIRResponse;
 import com.ibm.fhir.model.resource.Resource;

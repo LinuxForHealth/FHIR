@@ -27,7 +27,7 @@ import javax.batch.runtime.context.StepContext;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Any;
 import javax.inject.Inject;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 
 import com.ibm.fhir.bulkdata.audit.BulkAuditLogger;
 import com.ibm.fhir.bulkdata.common.BulkDataUtils;
@@ -144,10 +144,10 @@ public class ChunkWriter extends AbstractItemWriter {
 
                     for (Resource fhirResource : fhirResourceList) {
                         long startTime = System.currentTimeMillis();
-                        javax.ws.rs.core.Response.Status status = javax.ws.rs.core.Response.Status.PRECONDITION_FAILED;
+                        jakarta.ws.rs.core.Response.Status status = jakarta.ws.rs.core.Response.Status.PRECONDITION_FAILED;
                         try {
                             BulkDataUtils.validateInput(fhirResource);
-                            status = javax.ws.rs.core.Response.Status.OK;
+                            status = jakarta.ws.rs.core.Response.Status.OK;
                         } catch (FHIRValidationException | FHIROperationException e) {
                             logger.warning("Failed to validate '" + fhirResource.getId() + "' due to error: " + e.getMessage());
                             failedNum++;

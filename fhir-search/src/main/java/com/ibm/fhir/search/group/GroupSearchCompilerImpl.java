@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.logging.Logger;
 
-import javax.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.MultivaluedMap;
 
 import com.ibm.fhir.model.resource.Group;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -52,7 +52,7 @@ public class GroupSearchCompilerImpl implements GroupSearchCompiler {
             throw new GroupSearchCompilerException("The Group must be active");
         }
 
-        MultivaluedMap<String, String> queryParams = new javax.ws.rs.core.MultivaluedHashMap<>();
+        MultivaluedMap<String, String> queryParams = new jakarta.ws.rs.core.MultivaluedHashMap<>();
         try {
             FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
             EvaluationContext evaluationContext = new EvaluationContext(group);

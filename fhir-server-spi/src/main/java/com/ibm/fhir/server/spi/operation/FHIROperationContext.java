@@ -9,7 +9,7 @@ package com.ibm.fhir.server.spi.operation;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.core.HttpHeaders;
 
 /**
  * This class holds context information for custom operation invocations.
@@ -37,19 +37,19 @@ public class FHIROperationContext {
     public static final String PROPNAME_PERSISTENCE_IMPL = "PERSISTENCE_IMPL";
 
     /**
-     * This property is of type javax.ws.rs.core.UriInfo and contains Application and Request
+     * This property is of type jakarta.ws.rs.core.UriInfo and contains Application and Request
      * URI information associated with the REST API request for which the interceptor is being invoked.
      */
     public static final String PROPNAME_URI_INFO = "URI_INFO";
 
     /**
-     * This property is of type javax.ws.rs.core.HttpHeaders and contains the set of HTTP headers
+     * This property is of type jakarta.ws.rs.core.HttpHeaders and contains the set of HTTP headers
      * associated with the REST API request.
      */
     public static final String PROPNAME_HTTP_HEADERS = "HTTP_HEADERS";
 
     /**
-     * This property is of type javax.ws.rs.core.SecurityContext and contains security-related information
+     * This property is of type jakarta.ws.rs.core.SecurityContext and contains security-related information
      * associated with the REST API request for which the interceptor is being invoked.
      */
     public static final String PROPNAME_SECURITY_CONTEXT = "SECURITY_CONTEXT";

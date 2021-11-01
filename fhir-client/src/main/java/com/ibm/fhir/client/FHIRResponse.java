@@ -9,7 +9,7 @@ package com.ibm.fhir.client;
 import java.net.URI;
 import java.time.Instant;
 
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 
 /**
  * This interface represents a response received from a FHIR REST API invocation.

@@ -8,8 +8,8 @@ package com.ibm.fhir.server.util;
 
 import java.nio.charset.StandardCharsets;
 
-import javax.ws.rs.core.MultivaluedHashMap;
-import javax.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.MultivaluedHashMap;
+import jakarta.ws.rs.core.MultivaluedMap;
 
 import org.apache.http.client.utils.URLEncodedUtils;
 

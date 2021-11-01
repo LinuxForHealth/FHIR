@@ -8,7 +8,7 @@ package com.ibm.fhir.server.test.cqf;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 
 import org.testng.annotations.Test;
 

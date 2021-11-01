@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.MultivaluedMap;
 
 import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.exception.FHIROperationException;
@@ -84,8 +84,8 @@ public class ApplyOperation extends AbstractOperation {
         try {
             checkAndValidateResourceType(resourceType);
 
-            javax.ws.rs.core.UriInfo uriInfo =
-                    (javax.ws.rs.core.UriInfo) operationContext.getProperty(FHIROperationContext.PROPNAME_URI_INFO);
+            jakarta.ws.rs.core.UriInfo uriInfo =
+                    (jakarta.ws.rs.core.UriInfo) operationContext.getProperty(FHIROperationContext.PROPNAME_URI_INFO);
             MultivaluedMap<String, String> queryParameters = uriInfo.getQueryParameters();
 
             // Get the minimally required parameters (path/query)

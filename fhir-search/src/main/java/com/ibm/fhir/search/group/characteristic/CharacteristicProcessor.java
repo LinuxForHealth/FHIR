@@ -6,7 +6,7 @@
 
 package com.ibm.fhir.search.group.characteristic;
 
-import javax.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.MultivaluedMap;
 
 import com.ibm.fhir.model.resource.Group;
 

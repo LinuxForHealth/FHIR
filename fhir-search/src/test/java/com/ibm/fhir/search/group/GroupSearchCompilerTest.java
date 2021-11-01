@@ -9,7 +9,7 @@ package com.ibm.fhir.search.group;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 
-import javax.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.MultivaluedMap;
 
 import org.testng.annotations.Test;
 

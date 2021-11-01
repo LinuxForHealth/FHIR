@@ -13,7 +13,7 @@ import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.Properties;
 
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;

@@ -10,8 +10,8 @@ import static com.ibm.fhir.model.type.String.string;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
