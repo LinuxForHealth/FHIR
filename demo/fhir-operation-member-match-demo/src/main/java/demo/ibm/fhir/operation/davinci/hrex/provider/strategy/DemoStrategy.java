@@ -8,8 +8,10 @@ package demo.ibm.fhir.operation.davinci.hrex.provider.strategy;
 
 import java.util.logging.Logger;
 
+import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.Parameters;
+import com.ibm.fhir.operation.davinci.hrex.configuration.ConfigurationFactory;
 import com.ibm.fhir.operation.davinci.hrex.provider.strategy.DefaultMemberMatchStrategy;
 import com.ibm.fhir.operation.davinci.hrex.provider.strategy.MemberMatchResult;
 
@@ -34,6 +36,8 @@ public class DemoStrategy extends DefaultMemberMatchStrategy {
     @Override
     public MemberMatchResult executeMemberMatch() throws FHIROperationException {
         LOG.info("executeMemberMatch for strategy - " + this.getMemberMatchIdentifier());
+        PropertyGroup group = ConfigurationFactory.factory().getConfigurationAdapter().getExtendedStrategyPropertyGroup();
+        LOG.info("executeMemberMatch Extend Strategy Config is " + group.getJsonObj());
         return super.executeMemberMatch();
     }
 }
