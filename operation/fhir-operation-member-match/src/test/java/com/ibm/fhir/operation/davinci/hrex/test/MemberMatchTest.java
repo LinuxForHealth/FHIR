@@ -1720,5 +1720,10 @@ public class MemberMatchTest {
             MultivaluedMap<String, String> queryParameters) throws Exception {
             throw new AssertionError("Unused");
         }
+        
+        @Override
+        public List<Issue> validateResource(Resource resource) throws FHIROperationException {
+            throw new AssertionError("Unused");
+        }
     }
 }

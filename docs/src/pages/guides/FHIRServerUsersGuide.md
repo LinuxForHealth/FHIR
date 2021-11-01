@@ -3,7 +3,7 @@ layout: post
 title:  IBM FHIR Server User's Guide
 description: IBM FHIR Server User's Guide
 Copyright: years 2017, 2021
-lastupdated: "2021-10-26"
+lastupdated: "2021-10-29"
 permalink: /FHIRServerUsersGuide/
 ---
 
@@ -525,7 +525,10 @@ The server also bundles `$reindex` to reindex instances of Resources so they are
 To extend the server with additional operations, see [Section 4.1.2 Custom operations](#412-custom-operations)
 
 #### 4.1.1.1 $validate
-The `$validate` operation checks whether the attached content would be acceptable either generally, or as a create, update, or delete against an existing resource instance or type.
+The `$validate` operation checks whether the attached content would be acceptable either generally, or as a create, update, or delete against an existing resource instance or type. By default, the `$validate` operation will validate a resource against the base specification and any profiles asserted in its `Resource.meta.profile` element. The default behavior may be changed in one of the following ways:
+* If a profile is specified via the optional `profile` parameter, the $validate operation will validate a resource against the base specification and the specified profile only. It will not validate against any other profiles asserted in the `Resource.meta.profile` element.
+* If the `profile` parameter is not specified, but the `mode` parameter is specified, and the `mode` parameter value is either `create` or `update`, the $validate operation will validate a resource against the base specification and any profiles asserted in its `Resource.meta.profile` element, but will do so based on profile configuration properties specified in the `fhirServer/resources/<resourceType>/profiles` section of the `fhir-server-config.json` file (see the [Configuration properties reference](#51-configuration-properties-reference) for configuration details).
+
 
 https://www.hl7.org/fhir/r4/resource-operations.html#validate
 
@@ -765,7 +768,7 @@ The FHIR specification provides a number of different validation resources inclu
 2.  ISO XML Schematron rules
 3.  Structure Definitions / Profiles for standard resource types, data types and built-in value sets
 
-The FHIR server validates incoming resources for create and update interactions using the resource definitions and their corresponding FHIRPath constraints. Additionally, the FHIR server provides the following `$validate` operation that API consumers can use to POST resources and get validation feedback:
+The FHIR server validates incoming resources for create and update interactions using the resource definitions and their corresponding FHIRPath constraints. Additionally, the FHIR server provides the [$validate](#411-packaged-operations) operation that API consumers can use to POST resources and get validation feedback:
 ```
 POST <base>/<resourceType>/$validate
 ```

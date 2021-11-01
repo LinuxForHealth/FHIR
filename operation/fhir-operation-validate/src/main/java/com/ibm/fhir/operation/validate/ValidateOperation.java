@@ -19,6 +19,7 @@ import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.Uri;
@@ -51,11 +52,21 @@ public class ValidateOperation extends AbstractOperation {
 
             List<OperationOutcome.Issue> issues;
             Parameter profileParameter = getParameter(parameters, "profile");
+            Parameter modeParameter = getParameter(parameters, "mode");
+            
             if (profileParameter != null && profileParameter.getValue() != null) {
+                // If the 'profile' parameter is specified, always validate the resource against that profile.
                 Uri profileUri = profileParameter.getValue().as(Uri.class);
                 String profile = profileUri == null ? null : profileUri.getValue();
                 issues = FHIRValidator.validator().validate(resource, profile);
+            } else if (modeParameter != null && modeParameter.getValue() != null
+                    && ("create".equals(modeParameter.getValue().as(Code.class).getValue())
+                            || "update".equals(modeParameter.getValue().as(Code.class).getValue()))) {
+                // If the 'mode' parameter is specified and its value is 'create' or 'update', validate the resource
+                // against the FHIR server config's profile properties and the resource's asserted profiles.
+                issues = resourceHelper.validateResource(resource);
             } else {
+                // Standard validation against the resource's asserted profiles.
                 issues = FHIRValidator.validator().validate(resource);
             }
 
