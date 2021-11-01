@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,7 +8,8 @@ package com.ibm.fhir.audit.impl;
 
 import static com.ibm.fhir.audit.AuditLogServiceConstants.IGNORED_AUDIT_EVENT_TYPE;
 
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -101,7 +102,7 @@ public class KafkaService implements AuditLogService {
     @Override
     public void stop(PropertyGroup auditLogProperties) throws Exception {
         try{
-            this.producer.close(30, TimeUnit.SECONDS);
+            this.producer.close(Duration.of(30, ChronoUnit.SECONDS));
         } catch(InterruptException ie) {
             logger.warning("During shutdown... stopping the producer");
         }
