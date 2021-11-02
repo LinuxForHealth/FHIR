@@ -16,16 +16,18 @@ import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
 import org.apache.commons.configuration2.builder.fluent.Parameters;
 import org.apache.commons.configuration2.ex.ConfigurationException;
 
-/*
+/**
  * This class will load a Configuration from a property file, then override parameters based on environment variables.
  */
 public class ConfigLoader {
+    public static final String STORAGE_DATACENTER = "storage.cql.local-datacenter";
     public static final String STORAGE_HOSTNAME = "storage.hostname";
     public static final String STORAGE_PORT = "storage.port";
     public static final String STORAGE_USERNAME = "storage.username";
     public static final String STORAGE_PASSWORD = "storage.password";
     public static final String INDEX_SEARCH_HOSTNAME = "index.search.hostname";
     public static final String INDEX_SEARCH_PORT = "index.search.port";
+    public static final String STORAGE_DATACENTER_ENV = "TERM_STORAGE_DATACENTER";
     public static final String STORAGE_HOSTNAME_ENV = "TERM_" + STORAGE_HOSTNAME.toUpperCase().replaceAll("\\.", "_");
     public static final String STORAGE_PORT_ENV = "TERM_" + STORAGE_PORT.toUpperCase().replaceAll("\\.", "_");
     public static final String STORAGE_USERNAME_ENV = "TERM_" + STORAGE_USERNAME.toUpperCase().replaceAll("\\.", "_");
@@ -43,6 +45,7 @@ public class ConfigLoader {
         if (propFileName == null) {
             LOG.info("Could not load configuration from property file. ");
             configuration = new BaseConfiguration();
+
             configuration.setProperty("storage.backend", "cql");
             configuration.setProperty("storage.batch-loading", "true");
             configuration.setProperty(STORAGE_HOSTNAME, "127.0.0.1");
@@ -52,6 +55,7 @@ public class ConfigLoader {
             configuration.setProperty("cache.tx-cache-size", "100000");
             configuration.setProperty("cache.tx-dirty-size", "10000");
             configuration.setProperty("ids.block-size", "500000");
+            configuration.setProperty("storage.cql.local-datacenter", "datacenter1");
         } else {
             Parameters params = new Parameters();
             FileBasedConfigurationBuilder<FileBasedConfiguration> builder = new FileBasedConfigurationBuilder<FileBasedConfiguration>(
@@ -87,6 +91,11 @@ public class ConfigLoader {
         String indexSearchPort = System.getenv(INDEX_SEARCH_PORT_ENV);
         if (indexSearchPort != null) {
             configuration.setProperty(INDEX_SEARCH_PORT, indexSearchPort);
+        }
+
+        String datacenter = System.getenv(STORAGE_DATACENTER_ENV);
+        if (datacenter != null) {
+            configuration.setProperty(STORAGE_DATACENTER, datacenter);
         }
 
         return configuration;
