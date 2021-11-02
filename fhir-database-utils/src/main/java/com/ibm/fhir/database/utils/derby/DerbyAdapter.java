@@ -44,7 +44,7 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
     // Different warning messages we track so that we only have to report them once
     private enum MessageKey {
         MULTITENANCY, CREATE_VAR, CREATE_PERM, ENABLE_ROW_ACCESS, DISABLE_ROW_ACCESS, PARTITIONING,
-        ROW_TYPE, ROW_ARR_TYPE, DROP_TYPE, CREATE_PROC, DROP_PROC, TABLESPACE, ALTER_TABLE_SEQ_CACHE
+        ROW_TYPE, ROW_ARR_TYPE, DROP_TYPE, CREATE_PROC, DROP_PROC, DROP_PERM, TABLESPACE, ALTER_TABLE_SEQ_CACHE
     }
 
     // Just warn once for each unique message key. This cleans up build logs a lot
@@ -157,6 +157,11 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
     }
 
     @Override
+    public void dropPermission(String schemaName, String permissionName) {
+        warnOnce(MessageKey.DROP_PERM, "Drop permission not supported in Derby");
+    }
+
+    @Override
     public void createTablespace(String tablespaceName) {
         logger.fine("Create tablespace not supported in Derby");
     }
@@ -209,11 +214,14 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
         // the "RESTRICT" keyword is mandatory in Derby
         final String sname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
         final String ddl = "DROP SEQUENCE " + sname + " RESTRICT";
-
+        
         try {
             runStatement(ddl);
         } catch (UndefinedNameException x) {
             logger.warning(ddl + "; Sequence not found");
+        } catch (Exception sx) {
+            logger.warning("Drop sequence failed - DDL: " + ddl);
+            throw sx;
         }
     }
 

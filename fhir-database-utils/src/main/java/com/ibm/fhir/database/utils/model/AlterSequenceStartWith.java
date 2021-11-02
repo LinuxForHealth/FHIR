@@ -50,7 +50,7 @@ public class AlterSequenceStartWith extends BaseObject {
 
     @Override
     public void drop(IDatabaseAdapter target) {
-        target.dropSequence(getSchemaName(), getObjectName());
+        // NOP. Sequence will be dropped by the object initially creating it
     }
 
     @Override

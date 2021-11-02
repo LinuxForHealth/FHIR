@@ -679,32 +679,42 @@ public class Main {
                 try {
                     JdbcTarget target = new JdbcTarget(c);
                     IDatabaseAdapter adapter = getDbAdapter(dbType, target);
+                    VersionHistoryService vhs =
+                            new VersionHistoryService(schema.getAdminSchemaName(), schema.getSchemaName(), schema.getOauthSchemaName(), schema.getJavaBatchSchemaName());
+                    vhs.setTransactionProvider(transactionProvider);
+                    vhs.setTarget(adapter);
 
                     if (dropFhirSchema) {
                         // Just drop the objects associated with the FHIRDATA schema group
+                        final String schemaName = schema.getSchemaName();
                         pdm.drop(adapter, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
-                        CreateWholeSchemaVersion.dropTable(schema.getSchemaName(), adapter);
-                        if (!checkSchemaIsEmpty(adapter, schema.getSchemaName())) {
-                            throw new DataAccessException("Schema '" + schema.getSchemaName() + "' not empty after drop");
+                        CreateWholeSchemaVersion.dropTable(schemaName, adapter);
+                        if (!checkSchemaIsEmpty(adapter, schemaName)) {
+                            throw new DataAccessException("Schema '" + schemaName + "' not empty after drop");
                         }
+                        vhs.clearVersionHistory(schemaName);
                     }
 
                     if (dropOauthSchema) {
                         // Just drop the objects associated with the OAUTH schema group
+                        final String schemaName = schema.getOauthSchemaName();
                         pdm.drop(adapter, FhirSchemaGenerator.SCHEMA_GROUP_TAG, OAuthSchemaGenerator.OAUTH_GROUP);
-                        CreateWholeSchemaVersion.dropTable(schema.getOauthSchemaName(), adapter);
-                        if (!checkSchemaIsEmpty(adapter, schema.getOauthSchemaName())) {
-                            throw new DataAccessException("Schema '" + schema.getOauthSchemaName() + "' not empty after drop");
+                        CreateWholeSchemaVersion.dropTable(schemaName, adapter);
+                        if (!checkSchemaIsEmpty(adapter, schemaName)) {
+                            throw new DataAccessException("Schema '" + schemaName + "' not empty after drop");
                         }
+                        vhs.clearVersionHistory(schemaName);
                     }
 
                     if (dropJavaBatchSchema) {
                         // Just drop the objects associated with the BATCH schema group
+                        final String schemaName = schema.getJavaBatchSchemaName();
                         pdm.drop(adapter, FhirSchemaGenerator.SCHEMA_GROUP_TAG, JavaBatchSchemaGenerator.BATCH_GROUP);
-                        CreateWholeSchemaVersion.dropTable(schema.getJavaBatchSchemaName(), adapter);
-                        if (!checkSchemaIsEmpty(adapter, schema.getJavaBatchSchemaName())) {
-                            throw new DataAccessException("Schema '" + schema.getJavaBatchSchemaName() + "' not empty after drop");
+                        CreateWholeSchemaVersion.dropTable(schemaName, adapter);
+                        if (!checkSchemaIsEmpty(adapter, schemaName)) {
+                            throw new DataAccessException("Schema '" + schemaName + "' not empty after drop");
                         }
+                        vhs.clearVersionHistory(schemaName);
                     }
 
                     if (dropAdmin) {
