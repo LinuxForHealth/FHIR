@@ -4,48 +4,53 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.database.utils.db2;
+package com.ibm.fhir.database.utils.postgres;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.ibm.fhir.database.utils.api.IDatabaseSupplier;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
-import com.ibm.fhir.database.utils.common.SchemaInfoObject;
-import com.ibm.fhir.database.utils.common.SchemaInfoObject.Type;
 
 /**
- * DAO to fetch the names of tables in the given schema
+ * DAO to check if a named foreign key (FK) constraint exists
  */
-public class Db2ListTablesForSchema implements IDatabaseSupplier<List<SchemaInfoObject>> {
+public class PostgresDoesForeignKeyConstraintExist implements IDatabaseSupplier<Boolean> {
     
     // The schema of the table
     private final String schemaName;
+    
+    // The name of the foreign key constraint
+    private final String constraintName;
 
     /**
      * Public constructor
      * @param schemaName
      */
-    public Db2ListTablesForSchema(String schemaName) {
+    public PostgresDoesForeignKeyConstraintExist(String schemaName, String constraintName) {
         this.schemaName = DataDefinitionUtil.assertValidName(schemaName);
+        this.constraintName = DataDefinitionUtil.assertValidName(constraintName);
     }
 
     @Override
-    public List<SchemaInfoObject> run(IDatabaseTranslator translator, Connection c) {
-        List<SchemaInfoObject> result = new ArrayList<>();
-        // Grab the list of tables for the configured schema from the DB2 catalog
-        final String sql = "SELECT tabname FROM SYSCAT.TABLES WHERE tabschema = ?";
-        
+    public Boolean run(IDatabaseTranslator translator, Connection c) {
+        Boolean result = Boolean.FALSE;
+        final String sql = ""
+            + "SELECT 1 "
+            + "  FROM pg_constraint "
+            + " WHERE contype = 'f' "
+            + "   AND connamespace = ?::regnamespace "
+            + "   AND conname = ? ";
+         
         try (PreparedStatement ps = c.prepareStatement(sql)) {
             ps.setString(1, schemaName);
+            ps.setString(2, constraintName);
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                result.add(new SchemaInfoObject(Type.TABLE, rs.getString(1)));
+            if(rs.next()) {
+                result = Boolean.TRUE;
             }
         }
         catch (SQLException x) {

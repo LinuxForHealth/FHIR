@@ -20,9 +20,9 @@ import com.ibm.fhir.database.utils.common.SchemaInfoObject;
 import com.ibm.fhir.database.utils.common.SchemaInfoObject.Type;
 
 /**
- * DAO to fetch the names of tables in the given schema
+ * DAO to fetch the names of views in the given schema
  */
-public class Db2ListTablesForSchema implements IDatabaseSupplier<List<SchemaInfoObject>> {
+public class Db2ListViewsForSchema implements IDatabaseSupplier<List<SchemaInfoObject>> {
     
     // The schema of the table
     private final String schemaName;
@@ -31,21 +31,21 @@ public class Db2ListTablesForSchema implements IDatabaseSupplier<List<SchemaInfo
      * Public constructor
      * @param schemaName
      */
-    public Db2ListTablesForSchema(String schemaName) {
+    public Db2ListViewsForSchema(String schemaName) {
         this.schemaName = DataDefinitionUtil.assertValidName(schemaName);
     }
 
     @Override
     public List<SchemaInfoObject> run(IDatabaseTranslator translator, Connection c) {
         List<SchemaInfoObject> result = new ArrayList<>();
-        // Grab the list of tables for the configured schema from the DB2 catalog
-        final String sql = "SELECT tabname FROM SYSCAT.TABLES WHERE tabschema = ?";
+        // Grab the list of views for the configured schema from the DB2 catalog
+        final String sql = "SELECT viewname FROM SYSCAT.VIEWS WHERE viewschema = ?";
         
         try (PreparedStatement ps = c.prepareStatement(sql)) {
             ps.setString(1, schemaName);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                result.add(new SchemaInfoObject(Type.TABLE, rs.getString(1)));
+                result.add(new SchemaInfoObject(Type.VIEW, rs.getString(1)));
             }
         }
         catch (SQLException x) {

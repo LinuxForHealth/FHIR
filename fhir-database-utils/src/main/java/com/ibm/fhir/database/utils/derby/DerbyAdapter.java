@@ -373,8 +373,15 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
     @Override
     public List<SchemaInfoObject> listSchemaObjects(String schemaName) {
         List<SchemaInfoObject> result = new ArrayList<>();
-        DerbyListTablesForSchema dao = new DerbyListTablesForSchema(schemaName);
-        result.addAll(runStatement(dao));
+        DerbyListTablesForSchema listTables = new DerbyListTablesForSchema(schemaName);
+        result.addAll(runStatement(listTables));
+        
+        DerbyListViewsForSchema listViews = new DerbyListViewsForSchema(schemaName);
+        result.addAll(runStatement(listViews));
+        
+        DerbyListSequencesForSchema listSequences = new DerbyListSequencesForSchema(schemaName);
+        result.addAll(runStatement(listSequences));
+        
         return result;
     }
 }

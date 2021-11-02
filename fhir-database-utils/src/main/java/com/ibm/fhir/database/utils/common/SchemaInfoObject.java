@@ -12,9 +12,10 @@ package com.ibm.fhir.database.utils.common;
  */
 public class SchemaInfoObject {
     public static enum Type {
-        TABLE,
         INDEX,
         PROCEDURE,
+        SEQUENCE,
+        TABLE,
         VIEW
     }
 

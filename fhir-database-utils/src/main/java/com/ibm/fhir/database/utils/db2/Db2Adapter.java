@@ -646,6 +646,13 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         List<SchemaInfoObject> result = new ArrayList<>();
         Db2ListTablesForSchema listTables = new Db2ListTablesForSchema(schemaName);
         result.addAll(runStatement(listTables));
+        
+        Db2ListViewsForSchema listViews = new Db2ListViewsForSchema(schemaName);
+        result.addAll(runStatement(listViews));
+        
+        Db2ListSequencesForSchema listSequences = new Db2ListSequencesForSchema(schemaName);
+        result.addAll(runStatement(listSequences));
+        
         return result;
     }
 }

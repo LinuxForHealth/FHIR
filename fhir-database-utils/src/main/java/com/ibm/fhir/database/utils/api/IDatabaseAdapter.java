@@ -447,7 +447,6 @@ public interface IDatabaseAdapter {
      */
     public boolean doesTableExist(String schemaName, String objectName);
 
-
     /**
      * Create a database schema
      *
