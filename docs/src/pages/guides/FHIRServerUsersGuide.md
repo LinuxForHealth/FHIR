@@ -2207,9 +2207,9 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/storageProviders/<source>/requiresAccessToken`|boolean|controls the `$bulkdata-status` response to indicate Bulk Data storageprovider requires an accessToken using `requiresAccessToken`.|
 |`fhirServer/operations/erase/enabled`|boolean|Enables the $erase operation|
 |`fhirServer/operations/erase/allowedRoles`|list|The list of allowed roles, allowed entries are: `FHIRUsers` every authenticated user, `FHIROperationAdmin` which is authenticated `FHIRAdmin` users|
-|`fhirServer/operations/member-match/enabled`|boolean|Enables or disables the $member-match|
-|`fhirServer/operations/member-match/strategy`|string|The key identifying the Member Match strategy|
-|`fhirServer/operations/member-match/extendedProps`|object|The extended options for the extended member match implementation|
+|`fhirServer/operations/membermatch/enabled`|boolean|Enables or disables the $member-match|
+|`fhirServer/operations/membermatch/strategy`|string|The key identifying the Member Match strategy|
+|`fhirServer/operations/membermatch/extendedProps`|object|The extended options for the extended member match implementation|
 
 
 ### 5.1.2 Default property values
@@ -2351,9 +2351,9 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/storageProviders/<source>/requiresAccessToken`|false|
 |`fhirServer/operations/erase/enabled`|false|
 |`fhirServer/operations/erase/allowedRoles`|empty, all roles|
-|`fhirServer/operations/member-match/enabled`|true|
-|`fhirServer/operations/member-match/strategy`|default|
-|`fhirServer/operations/member-match/extendedProps`|empty|
+|`fhirServer/operations/membermatch/enabled`|true|
+|`fhirServer/operations/membermatch/strategy`|default|
+|`fhirServer/operations/membermatch/extendedProps`|empty|
 
 ### 5.1.3 Property attributes
 Depending on the context of their use, config properties can be:
@@ -2527,9 +2527,9 @@ must restart the server for that change to take effect.
 |`fhirServer/bulkdata/storageProviders/<source>/requiresAccessToken`|Y|Y|
 |`fhirServer/operations/erase/enabled`|Y|Y|
 |`fhirServer/operations/erase/allowedRoles`|Y|Y|
-|`fhirServer/operations/member-match/enabled`|Y|Y|
-|`fhirServer/operations/member-match/strategy`|Y|Y|
-|`fhirServer/operations/member-match/extendedProps`|Y|Y|
+|`fhirServer/operations/membermatch/enabled`|Y|Y|
+|`fhirServer/operations/membermatch/strategy`|Y|Y|
+|`fhirServer/operations/membermatch/extendedProps`|Y|Y|
 
 ## 5.2 Keystores, truststores, and the IBM FHIR server
 
