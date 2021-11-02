@@ -37,7 +37,9 @@ public class DemoStrategy extends DefaultMemberMatchStrategy {
     public MemberMatchResult executeMemberMatch() throws FHIROperationException {
         LOG.info("executeMemberMatch for strategy - " + this.getMemberMatchIdentifier());
         PropertyGroup group = ConfigurationFactory.factory().getConfigurationAdapter().getExtendedStrategyPropertyGroup();
-        LOG.info("executeMemberMatch Extend Strategy Config is " + group.getJsonObj());
+        if (group != null) {
+            LOG.info("executeMemberMatch Extend Strategy Config is " + group.getJsonObj());
+        }
         return super.executeMemberMatch();
     }
 }
