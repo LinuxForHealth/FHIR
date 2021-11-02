@@ -17,7 +17,7 @@ spec:
           value: "true"
         - name: TERM_CONFIG_PROPS
           value: "conf/janusgraph-cassandra-elasticsearch.properties"
-        - name: TERM_DATACENTER
+        - name: TERM_STORAGE_DATACENTER
           value: "dc1"
         - name: TERM_STORAGE_HOSTNAME
           value: "namespace-k8ssandra-dc1-stargate-service"
