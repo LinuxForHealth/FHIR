@@ -214,7 +214,7 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
         // the "RESTRICT" keyword is mandatory in Derby
         final String sname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
         final String ddl = "DROP SEQUENCE " + sname + " RESTRICT";
-        
+
         try {
             runStatement(ddl);
         } catch (UndefinedNameException x) {

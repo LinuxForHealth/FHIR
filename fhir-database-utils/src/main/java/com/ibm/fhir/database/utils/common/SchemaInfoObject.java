@@ -11,7 +11,8 @@ package com.ibm.fhir.database.utils.common;
  * A database object (table, index, view etc) existing within a schema
  */
 public class SchemaInfoObject {
-    public static enum Type {
+    public enum Type {
+        FUNCTION,
         INDEX,
         PROCEDURE,
         SEQUENCE,
