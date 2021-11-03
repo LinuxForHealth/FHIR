@@ -101,14 +101,6 @@ public class ParametersMap {
         return codeMap.get(searchParameterCode);
     }
 
-    /**
-     * @deprecated use {@link #lookupByCanonical(String)}, which takes an optional version, instead
-     */
-    @Deprecated
-    public SearchParameter lookupByUrl(String searchParameterUrl) {
-        return canonicalMap.get(searchParameterUrl);
-    }
-
     public SearchParameter lookupByCanonical(String searchParameterCanonical) {
         return canonicalMap.get(searchParameterCanonical);
     }
@@ -131,16 +123,6 @@ public class ParametersMap {
 
     public Set<Entry<String, Set<SearchParameter>>> codeEntries() {
         return Collections.unmodifiableSet(codeMap.entrySet());
-    }
-
-    /**
-     * @deprecated use {@link #canonicalEntries()} instead
-     */
-    @Deprecated
-    public Set<Entry<String, SearchParameter>> urlEntries() {
-        return Collections.unmodifiableSet(canonicalMap.entrySet().stream()
-                .filter(e -> !e.getKey().contains("|"))
-                .collect(Collectors.toSet()));
     }
 
     /**
