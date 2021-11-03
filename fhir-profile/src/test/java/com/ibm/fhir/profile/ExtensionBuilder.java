@@ -24,7 +24,7 @@ public class ExtensionBuilder extends ProfileBuilder {
      */
     public ExtensionBuilder(String url, String version, String type) {
         super(Extension.class, url, version);
-        fixed("Extension.url", string("http://ibm.com/fhir/StructureDefinition/favorite-team"));
+        fixed("Extension.url", string(url));
         type("Extension.value[x]", ProfileBuilder.type(type));
     }
 
