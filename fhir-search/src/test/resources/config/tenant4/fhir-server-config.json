@@ -5,8 +5,8 @@
             "open": true,
             "Device": {
                 "searchParameters": {
-                    "patient": "http://hl7.org/fhir/us/core/SearchParameter/us-core-device-patient|3.1.1",
-                    "type": "http://hl7.org/fhir/us/core/SearchParameter/us-core-device-type|3.1.1"
+                    "a": "http://example.com/SearchParameter/sp_a|1.0.0",
+                    "b": "http://example.com/SearchParameter/sp_b|1.0.0"
                 }
             },
             "Observation": {

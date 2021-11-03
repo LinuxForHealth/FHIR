@@ -33,13 +33,6 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <!-- Strictly for testing with search parameters loaded from new providers -->
-            <groupId>${project.groupId}</groupId>
-            <artifactId>fhir-ig-us-core</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-validation</artifactId>
             <version>${project.version}</version>

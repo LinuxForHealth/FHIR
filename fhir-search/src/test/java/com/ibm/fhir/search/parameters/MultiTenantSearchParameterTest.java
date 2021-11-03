@@ -148,7 +148,7 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         result = SearchUtil.getApplicableSearchParameters("Device");
         assertNotNull(result);
         printSearchParameters("testGetApplicableSearchParameters7/Device", result);
-        assertEquals(18, result.size());
+        assertEquals(20, result.size());
     }
 
     @Test

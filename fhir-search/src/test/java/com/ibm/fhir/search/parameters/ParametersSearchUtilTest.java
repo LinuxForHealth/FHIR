@@ -153,7 +153,7 @@ public class ParametersSearchUtilTest extends BaseSearchTest {
         result = SearchUtil.getApplicableSearchParameters("Device");
         assertNotNull(result);
         printSearchParameters("testGetSearchParameters6/Device", result);
-        assertEquals(18, result.size());
+        assertEquals(20, result.size());
     }
 
     @Test
@@ -167,8 +167,8 @@ public class ParametersSearchUtilTest extends BaseSearchTest {
         boolean found = false;
         for (SearchParameter sp : result) {
             System.out.println(sp.getUrl().getValue() + "|" + sp.getVersion().getValue());
-            if ("http://hl7.org/fhir/us/core/SearchParameter/us-core-device-type".equals(sp.getUrl().getValue())) {
-                assertNotEquals("4.0.0", sp.getVersion());
+            if ("http://example.com/SearchParameter/sp_a".equals(sp.getUrl().getValue())) {
+                assertNotEquals("1.0.1", sp.getVersion());
                 found = true;
             }
         }
@@ -181,8 +181,8 @@ public class ParametersSearchUtilTest extends BaseSearchTest {
         printSearchParameters("testVersionedSearchParameterFilter/Device", result);
         found = false;
         for (SearchParameter sp : result) {
-            if ("http://hl7.org/fhir/us/core/SearchParameter/us-core-device-type".equals(sp.getUrl().getValue())) {
-                assertNotEquals("3.1.1", sp.getVersion());
+            if ("http://example.com/SearchParameter/sp_a".equals(sp.getUrl().getValue())) {
+                assertNotEquals("1.0.0", sp.getVersion());
                 found = true;
             }
         }
