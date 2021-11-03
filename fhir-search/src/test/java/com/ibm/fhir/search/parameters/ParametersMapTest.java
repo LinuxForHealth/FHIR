@@ -50,6 +50,28 @@ public class ParametersMapTest {
           .code(Code.of("b"))
           .expression(string("extension.value as String"))
           .build();
+  SearchParameter sp_b1 = SearchParameter.builder()
+          .url(Uri.of("http://ibm.com/fhir/test/sp_b"))
+          .version("1")
+          .status(PublicationStatus.ACTIVE)
+          .name(string("b"))
+          .base(ResourceType.RESOURCE)
+          .type(SearchParamType.STRING)
+          .description(Markdown.of("Param with code 'b'"))
+          .code(Code.of("b"))
+          .expression(string("extension.value as String"))
+          .build();
+  SearchParameter sp_b2 = SearchParameter.builder()
+          .url(Uri.of("http://ibm.com/fhir/test/sp_b"))
+          .version("2")
+          .status(PublicationStatus.ACTIVE)
+          .name(string("b"))
+          .base(ResourceType.RESOURCE)
+          .type(SearchParamType.STRING)
+          .description(Markdown.of("Param with code 'b'"))
+          .code(Code.of("b"))
+          .expression(string("extension.value as String"))
+          .build();
 
   @Test
   public void testParametersMap() {
@@ -57,17 +79,21 @@ public class ParametersMapTest {
       pm.insert("a", sp_a1);
       pm.insert("a", sp_a2);
       pm.insert("b", sp_b);
+      pm.insert("b", sp_b1);
+      pm.insert("b", sp_b2);
 
       assertTrue(pm.lookupByCode("a").contains(sp_a1));
       assertTrue(pm.lookupByCode("a").contains(sp_a2));
-      assertTrue(pm.lookupByCode("b").contains(sp_b));
+      assertTrue(pm.lookupByCode("b").contains(sp_b2));
 
-      assertEquals(pm.lookupByUrl("http://ibm.com/fhir/test/sp_a1"), sp_a1);
-      assertEquals(pm.lookupByUrl("http://ibm.com/fhir/test/sp_a2"), sp_a2);
-      assertEquals(pm.lookupByUrl("http://ibm.com/fhir/test/sp_b"), sp_b);
+      assertEquals(pm.lookupByCanonical("http://ibm.com/fhir/test/sp_a1"), sp_a1);
+      assertEquals(pm.lookupByCanonical("http://ibm.com/fhir/test/sp_a2"), sp_a2);
+      assertEquals(pm.lookupByCanonical("http://ibm.com/fhir/test/sp_b"), sp_b2);
+      assertEquals(pm.lookupByCanonical("http://ibm.com/fhir/test/sp_b|1"), sp_b1);
+      assertEquals(pm.lookupByCanonical("http://ibm.com/fhir/test/sp_b|2"), sp_b2);
 
       assertTrue(pm.codeEntries().size() == 2);
-      assertTrue(pm.urlEntries().size() == 3);
+      assertTrue(pm.canonicalEntries().size() == 5); // versionless ones for a1, a2, and b2; versioned ones for b1 and b2
   }
 
   /**
@@ -82,10 +108,10 @@ public class ParametersMapTest {
       assertTrue(pm.lookupByCode("b").contains(sp_b));
       assertTrue(pm.lookupByCode("b2").contains(sp_b));
 
-      assertEquals(pm.lookupByUrl("http://ibm.com/fhir/test/sp_b"), sp_b);
+      assertEquals(pm.lookupByCanonical("http://ibm.com/fhir/test/sp_b"), sp_b);
 
       assertTrue(pm.codeEntries().size() == 2);
-      assertTrue(pm.urlEntries().size() == 1);
+      assertTrue(pm.canonicalEntries().size() == 1);
   }
 
   /**
@@ -99,9 +125,9 @@ public class ParametersMapTest {
 
       assertTrue(pm.lookupByCode("b").contains(sp_b));
 
-      assertEquals(pm.lookupByUrl("http://ibm.com/fhir/test/sp_b"), sp_b);
+      assertEquals(pm.lookupByCanonical("http://ibm.com/fhir/test/sp_b"), sp_b);
 
       assertTrue(pm.codeEntries().size() == 1);
-      assertTrue(pm.urlEntries().size() == 1);
+      assertTrue(pm.canonicalEntries().size() == 1);
   }
 }

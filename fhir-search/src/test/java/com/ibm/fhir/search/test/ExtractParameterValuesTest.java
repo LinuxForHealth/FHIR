@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -131,9 +131,6 @@ public class ExtractParameterValuesTest extends BaseSearchTest {
 
     @Test
     public void testWithEmptyExpressionAndTenant() throws Exception {
-        // Looking only for built-in search parameters for "Patient".
-
-        // Use tenant1 since it doesn't have any tenant-specific search parameters for resourceType Medication.
         FHIRRequestContext.set(new FHIRRequestContext("tenant5"));
 
         String testFile = "extract/observation-some.json";
@@ -204,8 +201,4 @@ public class ExtractParameterValuesTest extends BaseSearchTest {
 
         runTest(testFile, Patient.class, false, builder.build(), false);
     }
-
-
-
-
 }
