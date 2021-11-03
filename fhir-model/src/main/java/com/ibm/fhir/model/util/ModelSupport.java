@@ -1107,12 +1107,15 @@ public final class ModelSupport {
             Map<Class<?>, Map<String,ElementInfo>> elementInfoMapCache) {
         Map<String, ElementInfo> elementInfoMap = new LinkedHashMap<>();
 
+        // Loop through this class and its supertypes to collect ElementInfo for all the fields
         for (Class<?> clazz : getClosure(modelClass)) {
+            // If we've already created ElementInfo for this class, then use that
             if (elementInfoMapCache.containsKey(clazz)) {
                 elementInfoMap.putAll(elementInfoMapCache.get(clazz));
                 continue;
             }
 
+            // Else use reflection and model annotations to construct ElementInfo for all fields in this class
             for (Field field : clazz.getDeclaredFields()) {
                 int modifiers = field.getModifiers();
                 if (Modifier.isStatic(modifiers) || Modifier.isVolatile(modifiers)) {
