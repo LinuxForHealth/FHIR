@@ -5,7 +5,7 @@
  */
 package com.ibm.fhir.bucket.app;
 
-
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
@@ -43,6 +44,7 @@ import com.ibm.fhir.bucket.scanner.COSReader;
 import com.ibm.fhir.bucket.scanner.CosScanner;
 import com.ibm.fhir.bucket.scanner.DataAccess;
 import com.ibm.fhir.bucket.scanner.FHIRClientResourceProcessor;
+import com.ibm.fhir.bucket.scanner.LocalFileReader;
 import com.ibm.fhir.bucket.scanner.ResourceHandler;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
@@ -142,6 +144,10 @@ public class Main {
 
     // The COS reader handling NDJSON files (which are processed one at a time
     private COSReader ndJsonReader;
+    
+    // A reader which simply scans a local directory, bypassing the database and COS
+    private String baseDirectory;
+    private LocalFileReader localFileReader;
 
     // The active object processing resources read from COS
     private ResourceHandler resourceHandler;
@@ -267,6 +273,13 @@ public class Main {
                     this.cosBucketList.add(args[++i]);
                 } else {
                     throw new IllegalArgumentException("missing value for --bucket");
+                }
+                break;
+            case "--scan-local-dir":
+                if (i < args.length + 1) {
+                    this.baseDirectory = args[++i];
+                } else {
+                    throw new IllegalArgumentException("missing value for --scan-local-dir");
                 }
                 break;
             case "--file-type":
@@ -824,7 +837,18 @@ public class Main {
 
         // Only need to initialize the DataAccess layer if we're loading from COS
         DataAccess dataAccess = null;
-        if (cosProperties != null && cosProperties.size() > 0) {
+        
+        if (baseDirectory != null) {
+            // Data access will be null here, which is OK because we're not using the database
+            // to track anything
+            final IResourceEntryProcessor resourceEntryProcessor = new FHIRClientResourceProcessor(fhirClient, dataAccess);
+            this.resourceHandler = new ResourceHandler(this.commonPool, this.maxConcurrentFhirRequests, resourceEntryProcessor);
+            Set<FileType> fileTypes = Collections.singleton(FileType.JSON);
+            localFileReader = new LocalFileReader(commonPool, fileTypes, baseDirectory, 
+                resource -> resourceHandler.process(resource), DEFAULT_CONNECTION_POOL_SIZE, 
+                bundleCostFactor);
+            localFileReader.init();
+        } else if (cosProperties != null && cosProperties.size() > 0) {
             cosClient = new COSClient(cosProperties);
 
             // DataAccess hides the details of our interactions with the FHIRBUCKET tracking tables
@@ -838,7 +862,7 @@ public class Main {
             }
 
             // Decide how we want to process resource bundles
-            IResourceEntryProcessor resourceEntryProcessor;
+            final IResourceEntryProcessor resourceEntryProcessor;
             if (this.targetBucket != null && this.targetBucket.length() > 0) {
                 // No fhirClient required here...process each resource locally
                 resourceEntryProcessor = new BundleBreakerResourceProcessor(cosClient, this.maxResourcesPerBundle, this.targetBucket, this.targetPrefix);
@@ -861,11 +885,11 @@ public class Main {
             }
 
             if (fileTypes.contains(FileType.NDJSON)) {
-                this.jsonReader = new COSReader(commonPool, FileType.NDJSON, cosClient,
+                this.ndJsonReader = new COSReader(commonPool, FileType.NDJSON, cosClient,
                     resource -> resourceHandler.process(resource),
                     this.maxConcurrentNdJsonFiles, dataAccess, incremental, recycleSeconds,
                     incrementalExact, this.bundleCostFactor, bucketPaths);
-                this.jsonReader.init();
+                this.ndJsonReader.init();
             }
         }
 
