@@ -9,6 +9,7 @@ package com.ibm.fhir.search.test;
 import org.testng.annotations.Test;
 import org.testng.annotations.BeforeClass;
 
+import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.examples.Index;
 import com.ibm.fhir.model.spec.test.R4ExamplesDriver;
