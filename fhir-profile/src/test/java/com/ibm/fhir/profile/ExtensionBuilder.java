@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 package com.ibm.fhir.profile;
 
 import static com.ibm.fhir.model.type.String.string;
