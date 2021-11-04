@@ -50,6 +50,7 @@ import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.database.utils.common.JdbcConnectionProvider;
 import com.ibm.fhir.database.utils.common.JdbcPropertyAdapter;
 import com.ibm.fhir.database.utils.common.JdbcTarget;
+import com.ibm.fhir.database.utils.common.SchemaInfoObject;
 import com.ibm.fhir.database.utils.db2.Db2Adapter;
 import com.ibm.fhir.database.utils.db2.Db2GetTenantVariable;
 import com.ibm.fhir.database.utils.db2.Db2SetTenantVariable;
@@ -678,26 +679,52 @@ public class Main {
                 try {
                     JdbcTarget target = new JdbcTarget(c);
                     IDatabaseAdapter adapter = getDbAdapter(dbType, target);
+                    VersionHistoryService vhs =
+                            new VersionHistoryService(schema.getAdminSchemaName(), schema.getSchemaName(), schema.getOauthSchemaName(), schema.getJavaBatchSchemaName());
+                    vhs.setTransactionProvider(transactionProvider);
+                    vhs.setTarget(adapter);
 
-                    if (dropFhirSchema || dropOauthSchema || dropJavaBatchSchema) {
+                    if (dropFhirSchema) {
                         // Just drop the objects associated with the FHIRDATA schema group
+                        final String schemaName = schema.getSchemaName();
                         pdm.drop(adapter, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
+                        CreateWholeSchemaVersion.dropTable(schemaName, adapter);
+                        if (!checkSchemaIsEmpty(adapter, schemaName)) {
+                            throw new DataAccessException("Schema '" + schemaName + "' not empty after drop");
+                        }
+                        vhs.clearVersionHistory(schemaName);
                     }
 
                     if (dropOauthSchema) {
                         // Just drop the objects associated with the OAUTH schema group
+                        final String schemaName = schema.getOauthSchemaName();
                         pdm.drop(adapter, FhirSchemaGenerator.SCHEMA_GROUP_TAG, OAuthSchemaGenerator.OAUTH_GROUP);
+                        CreateWholeSchemaVersion.dropTable(schemaName, adapter);
+                        if (!checkSchemaIsEmpty(adapter, schemaName)) {
+                            throw new DataAccessException("Schema '" + schemaName + "' not empty after drop");
+                        }
+                        vhs.clearVersionHistory(schemaName);
                     }
 
                     if (dropJavaBatchSchema) {
                         // Just drop the objects associated with the BATCH schema group
+                        final String schemaName = schema.getJavaBatchSchemaName();
                         pdm.drop(adapter, FhirSchemaGenerator.SCHEMA_GROUP_TAG, JavaBatchSchemaGenerator.BATCH_GROUP);
+                        CreateWholeSchemaVersion.dropTable(schemaName, adapter);
+                        if (!checkSchemaIsEmpty(adapter, schemaName)) {
+                            throw new DataAccessException("Schema '" + schemaName + "' not empty after drop");
+                        }
+                        vhs.clearVersionHistory(schemaName);
                     }
 
                     if (dropAdmin) {
                         // Just drop the objects associated with the ADMIN schema group
                         CreateVersionHistory.generateTable(pdm, ADMIN_SCHEMANAME, true);
+                        CreateControl.buildTableDef(pdm, ADMIN_SCHEMANAME, true);
                         pdm.drop(adapter, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.ADMIN_GROUP);
+                        if (!checkSchemaIsEmpty(adapter, schema.getAdminSchemaName())) {
+                            throw new DataAccessException("Schema '" + schema.getAdminSchemaName() + "' not empty after drop");
+                        }
                     }
                 } catch (Exception x) {
                     c.rollback();
@@ -2381,6 +2408,22 @@ public class Main {
         }
     }
 
+    /**
+     * Check to see if we have anything left over in a schema we expect to be empty
+     * @param adapter
+     * @param schemaName
+     * @return
+     */
+    private boolean checkSchemaIsEmpty(IDatabaseAdapter adapter, String schemaName) {
+        List<SchemaInfoObject> schemaObjects = adapter.listSchemaObjects(schemaName);
+        boolean result = schemaObjects.isEmpty();
+        if (!result) {
+            // When called, we expect the schema to be empty, so let's dump what we have
+            final String remaining = schemaObjects.stream().map(Object::toString).collect(Collectors.joining(","));
+            logger.warning("Remaining objects in schema '" + schemaName + "': [" + remaining + "]");
+        }
+        return result;
+    }
     /**
      * Process the requested operation
      */

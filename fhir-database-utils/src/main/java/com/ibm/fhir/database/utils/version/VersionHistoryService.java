@@ -129,6 +129,28 @@ public class VersionHistoryService implements IVersionHistoryService {
         AddVersionDAO dao = new AddVersionDAO(adminSchemaName, objectSchema, objectType, objectName, version);
         target.runStatement(dao);
     }
+    
+    /**
+     * Remove the version history information for all objects in the given schema
+     * @param objectSchema
+     */
+    public void clearVersionHistory(String objectSchema) {
+        try (ITransaction tx = transactionProvider.getTransaction()) {
+            try {
+                // Only perform the clear if the table exists, otherwise we
+                // can safely assume there's no history left
+                if (target.doesTableExist(adminSchemaName, SchemaConstants.VERSION_HISTORY)) {
+                    ClearVersionHistoryDAO dao = new ClearVersionHistoryDAO(adminSchemaName, objectSchema);
+                    target.runStatement(dao);
+                }
+            } catch (DataAccessException x) {
+                // Something went wrong, so mark the transaction as failed
+                tx.setRollbackOnly();
+                throw x;
+            }
+        }
+        
+    }
 
     /**
      * Insert all the entries in the versionHistoryMap in a new transaction (useful

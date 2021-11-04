@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.function.Supplier;
 
+import com.ibm.fhir.database.utils.common.SchemaInfoObject;
 import com.ibm.fhir.database.utils.model.CheckConstraint;
 import com.ibm.fhir.database.utils.model.ColumnBase;
 import com.ibm.fhir.database.utils.model.IdentityDef;
@@ -446,7 +447,6 @@ public interface IDatabaseAdapter {
      */
     public boolean doesTableExist(String schemaName, String objectName);
 
-
     /**
      * Create a database schema
      *
@@ -584,4 +584,11 @@ public interface IDatabaseAdapter {
      * @param selectClause
      */
     public void createOrReplaceView(String schemaName, String objectName, String selectClause);
+    
+    /**
+     * List the objects present in the given schema
+     * @param schemaName
+     * @return
+     */
+    List<SchemaInfoObject> listSchemaObjects(String schemaName);
 }

@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.database.utils.derby;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -24,6 +25,7 @@ import com.ibm.fhir.database.utils.common.AddForeignKeyConstraint;
 import com.ibm.fhir.database.utils.common.CommonDatabaseAdapter;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.database.utils.common.GetSequenceNextValueDAO;
+import com.ibm.fhir.database.utils.common.SchemaInfoObject;
 import com.ibm.fhir.database.utils.model.CheckConstraint;
 import com.ibm.fhir.database.utils.model.ColumnBase;
 import com.ibm.fhir.database.utils.model.ForeignKeyConstraint;
@@ -42,7 +44,7 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
     // Different warning messages we track so that we only have to report them once
     private enum MessageKey {
         MULTITENANCY, CREATE_VAR, CREATE_PERM, ENABLE_ROW_ACCESS, DISABLE_ROW_ACCESS, PARTITIONING,
-        ROW_TYPE, ROW_ARR_TYPE, DROP_TYPE, CREATE_PROC, DROP_PROC, TABLESPACE, ALTER_TABLE_SEQ_CACHE
+        ROW_TYPE, ROW_ARR_TYPE, DROP_TYPE, CREATE_PROC, DROP_PROC, DROP_PERM, TABLESPACE, ALTER_TABLE_SEQ_CACHE
     }
 
     // Just warn once for each unique message key. This cleans up build logs a lot
@@ -155,6 +157,11 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
     }
 
     @Override
+    public void dropPermission(String schemaName, String permissionName) {
+        warnOnce(MessageKey.DROP_PERM, "Drop permission not supported in Derby");
+    }
+
+    @Override
     public void createTablespace(String tablespaceName) {
         logger.fine("Create tablespace not supported in Derby");
     }
@@ -212,6 +219,9 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
             runStatement(ddl);
         } catch (UndefinedNameException x) {
             logger.warning(ddl + "; Sequence not found");
+        } catch (Exception sx) {
+            logger.warning("Drop sequence failed - DDL: " + ddl);
+            throw sx;
         }
     }
 
@@ -366,5 +376,20 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
             // NOP
         }
         createView(schemaName, viewName, selectClause);
+    }
+
+    @Override
+    public List<SchemaInfoObject> listSchemaObjects(String schemaName) {
+        List<SchemaInfoObject> result = new ArrayList<>();
+        DerbyListTablesForSchema listTables = new DerbyListTablesForSchema(schemaName);
+        result.addAll(runStatement(listTables));
+        
+        DerbyListViewsForSchema listViews = new DerbyListViewsForSchema(schemaName);
+        result.addAll(runStatement(listViews));
+        
+        DerbyListSequencesForSchema listSequences = new DerbyListSequencesForSchema(schemaName);
+        result.addAll(runStatement(listSequences));
+        
+        return result;
     }
 }

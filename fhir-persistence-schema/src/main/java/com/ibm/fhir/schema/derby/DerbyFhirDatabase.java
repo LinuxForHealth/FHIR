@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -111,6 +111,14 @@ public class DerbyFhirDatabase implements AutoCloseable, IConnectionProvider {
         
         // Populates Lookup tables
         populateResourceTypeAndParameterNameTableEntries();
+    }
+
+    /**
+     * Get the FHIR data schema name
+     * @return
+     */
+    public String getSchemaName() {
+        return SCHEMA_NAME;
     }
 
     /**

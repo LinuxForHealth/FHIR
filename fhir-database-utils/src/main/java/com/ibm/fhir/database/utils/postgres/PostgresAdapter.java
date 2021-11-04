@@ -28,6 +28,8 @@ import com.ibm.fhir.database.utils.api.UndefinedNameException;
 import com.ibm.fhir.database.utils.common.AddForeignKeyConstraint;
 import com.ibm.fhir.database.utils.common.CommonDatabaseAdapter;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
+import com.ibm.fhir.database.utils.common.DropForeignKeyConstraint;
+import com.ibm.fhir.database.utils.common.SchemaInfoObject;
 import com.ibm.fhir.database.utils.model.CheckConstraint;
 import com.ibm.fhir.database.utils.model.ColumnBase;
 import com.ibm.fhir.database.utils.model.ForeignKeyConstraint;
@@ -37,6 +39,7 @@ import com.ibm.fhir.database.utils.model.PrimaryKeyDef;
 import com.ibm.fhir.database.utils.model.Privilege;
 import com.ibm.fhir.database.utils.model.Table;
 import com.ibm.fhir.database.utils.model.With;
+import com.ibm.fhir.database.utils.tenant.DropViewDAO;
 
 /**
  * A PostgreSql database target
@@ -190,6 +193,28 @@ public class PostgresAdapter extends CommonDatabaseAdapter {
     @Override
     public boolean doesTableExist(String schemaName, String tableName) {
         PostgresDoesTableExist dao = new PostgresDoesTableExist(schemaName, tableName);
+        return runStatement(dao);
+    }
+
+    /**
+     * Check if the named view currently exists
+     * @param schemaName
+     * @param viewName
+     * @return
+     */
+    private boolean doesViewExist(String schemaName, String viewName) {
+        PostgresDoesViewExist dao = new PostgresDoesViewExist(schemaName, viewName);
+        return runStatement(dao);
+    }
+
+    /**
+     * Check if the named index currently exists
+     * @param schemaName
+     * @param indexName
+     * @return
+     */
+    private boolean doesIndexExist(String schemaName, String indexName) {
+        PostgresDoesIndexExist dao = new PostgresDoesIndexExist(schemaName, indexName);
         return runStatement(dao);
     }
 
@@ -453,5 +478,58 @@ public class PostgresAdapter extends CommonDatabaseAdapter {
             }
         }
         super.createOrReplaceFunction(schemaName, functionName, supplier);
+    }
+
+    @Override
+    public List<SchemaInfoObject> listSchemaObjects(String schemaName) {
+        List<SchemaInfoObject> result = new ArrayList<>();
+        PostgresListTablesForSchema listTables = new PostgresListTablesForSchema(schemaName);
+        result.addAll(runStatement(listTables));
+        
+        PostgresListViewsForSchema listViews = new PostgresListViewsForSchema(schemaName);
+        result.addAll(runStatement(listViews));
+        
+        PostgresListSequencesForSchema listSequences = new PostgresListSequencesForSchema(schemaName);
+        result.addAll(runStatement(listSequences));
+
+        return result;
+    }
+    
+    @Override
+    public void dropForeignKey(String schemaName, String tableName, String constraintName) {
+        // For PostgreSQL, we need to make sure the constraint exists before
+        // we drop it, because exceptions break the transaction
+        PostgresDoesForeignKeyConstraintExist fkExists = new PostgresDoesForeignKeyConstraintExist(schemaName, constraintName);
+        if (runStatement(fkExists)) {
+            super.dropForeignKey(schemaName, tableName, constraintName);
+        }
+    }
+    
+    @Override
+    public void dropTable(String schemaName, String tableName) {
+
+        // Check the table exists first, otherwise the exception will
+        // break the current transaction (PostgreSQL behavior)
+        if (doesTableExist(schemaName, tableName)) {
+            super.dropTable(schemaName, tableName);
+        }
+    }
+    
+    @Override
+    public void dropView(String schemaName, String viewName) {
+        // Check the view exists before we try to drop it, otherwise
+        // the exception will break the current transaction
+        if (doesViewExist(schemaName, viewName)) {
+            super.dropView(schemaName, viewName);
+        }
+    }
+
+    @Override
+    public void dropIndex(String schemaName, String indexName) {
+        // Check the index exists before we try to drop it, otherwise
+        // the exception will break the current transaction
+        if (doesIndexExist(schemaName, indexName)) {
+            super.dropIndex(schemaName, indexName);
+        }
     }
 }
