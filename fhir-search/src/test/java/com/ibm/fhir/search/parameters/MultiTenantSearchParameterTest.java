@@ -15,11 +15,13 @@ import static org.testng.AssertJUnit.assertTrue;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.resource.Basic;
 import com.ibm.fhir.model.resource.Device;
 import com.ibm.fhir.model.resource.Observation;
@@ -39,12 +41,18 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         FHIRConfiguration.setConfigHome("target/test-classes");
     }
 
+    @AfterMethod
+    public void cleanup() throws FHIRException {
+        // Restore the threadLocal FHIRRequestContext to the default tenant
+        FHIRRequestContext.get().setTenantId("default");
+    }
+
     @Test
     public void testGetApplicableSearchParameters2() throws Exception {
         // Looking only for built-in search parameters for "Patient".
 
         // Use tenant1 since it doesn't have any tenant-specific search parameters for resourceType Medication.
-        FHIRRequestContext.set(new FHIRRequestContext("tenant1"));
+        FHIRRequestContext.get().setTenantId("tenant1");
 
         // Using Medication because tenant1 has filters in place for Patient and Observation
         List<SearchParameter> result = SearchUtil.getApplicableSearchParameters("Medication");
@@ -68,7 +76,7 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         // Looking for built-in and tenant-specific search parameters for "Patient" and "Observation".
 
         // Use the default tenant since it has some Patient search parameters defined.
-        FHIRRequestContext.set(new FHIRRequestContext("default"));
+        FHIRRequestContext.get().setTenantId("default");
 
         List<SearchParameter> result = SearchUtil.getApplicableSearchParameters("Patient");
         assertNotNull(result);
@@ -86,7 +94,7 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         // Looking for built-in and tenant-specific search parameters for "Observation".
 
         // Use tenant1 since it has some Patient search parameters defined.
-        FHIRRequestContext.set(new FHIRRequestContext("tenant1"));
+        FHIRRequestContext.get().setTenantId("tenant1");
 
         // tenant1's filtering includes only 1 search parameter for Observation.
         List<SearchParameter> result = SearchUtil.getApplicableSearchParameters("Observation");
@@ -101,7 +109,7 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
     @Test
     public void testGetApplicableSearchParameters5() throws Exception {
         // Test filtering of search parameters for Device (tenant1).
-        FHIRRequestContext.set(new FHIRRequestContext("tenant1"));
+        FHIRRequestContext.get().setTenantId("tenant1");
 
         List<SearchParameter> result = SearchUtil.getApplicableSearchParameters("Device");
         assertNotNull(result);
@@ -115,7 +123,7 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
     @Test
     public void testGetApplicableSearchParameters6() throws Exception {
         // Test filtering of search parameters for Patient (tenant1).
-        FHIRRequestContext.set(new FHIRRequestContext("tenant1"));
+        FHIRRequestContext.get().setTenantId("tenant1");
 
         List<SearchParameter> result = SearchUtil.getApplicableSearchParameters("Patient");
         assertNotNull(result);
@@ -138,7 +146,7 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
     @Test
     public void testGetApplicableSearchParameters7() throws Exception {
         // Test filtering of search parameters for Patient (default tenant).
-        FHIRRequestContext.set(new FHIRRequestContext("default"));
+        FHIRRequestContext.get().setTenantId("default");
 
         List<SearchParameter> result = SearchUtil.getApplicableSearchParameters("Patient");
         assertNotNull(result);
@@ -148,7 +156,7 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         result = SearchUtil.getApplicableSearchParameters("Device");
         assertNotNull(result);
         printSearchParameters("testGetApplicableSearchParameters7/Device", result);
-        assertEquals(18, result.size());
+        assertEquals(20, result.size());
     }
 
     @Test
@@ -156,7 +164,7 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         // Looking only for built-in search parameters for "Patient".
 
         // Use tenant3 since it doesn't have any tenant-specific search parameters.
-        FHIRRequestContext.set(new FHIRRequestContext("tenant3"));
+        FHIRRequestContext.get().setTenantId("tenant3");
 
         List<SearchParameter> result = SearchUtil.getApplicableSearchParameters("Patient");
         assertNotNull(result);
@@ -167,7 +175,7 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
     @Test
     public void testGetSearchParameter1() throws Exception {
         // Use tenant1 since it has some Patient search parameters defined.
-        FHIRRequestContext.set(new FHIRRequestContext("tenant1"));
+        FHIRRequestContext.get().setTenantId("tenant1");
 
         SearchParameter result = SearchUtil.getSearchParameter(Basic.class, "measurement-type");
         assertNotNull(result);
@@ -176,7 +184,7 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
     @Test
     public void testGetSearchParameter2() throws Exception {
         // Use tenant1 since it has some Patient search parameters defined.
-        FHIRRequestContext.set(new FHIRRequestContext("tenant1"));
+        FHIRRequestContext.get().setTenantId("tenant1");
 
         SearchParameter result = SearchUtil.getSearchParameter(Observation.class, "value-range");
         assertNotNull(result);
@@ -197,7 +205,7 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
 
     @Test
     public void testGetSearchParameter3() throws Exception {
-        FHIRRequestContext.set(new FHIRRequestContext("tenant1"));
+        FHIRRequestContext.get().setTenantId("tenant1");
         SearchParameter result = SearchUtil.getSearchParameter("Observation", "value-range-value");
         assertNull(result);
     }
@@ -205,7 +213,7 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
     @Test
     public void testGetSearchParameter4() throws Exception {
         // Use tenant1 since it has some Patient search parameters defined.
-        FHIRRequestContext.set(new FHIRRequestContext("tenant1"));
+        FHIRRequestContext.get().setTenantId("tenant1");
 
         SearchParameter result = SearchUtil.getSearchParameter("Device", "patient");
         assertNotNull(result);
@@ -241,14 +249,14 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
 
     @Test
     public void testGetSearchParameter7() throws Exception {
-        FHIRRequestContext.set(new FHIRRequestContext("tenant1"));
+        FHIRRequestContext.get().setTenantId("tenant1");
         SearchParameter result = SearchUtil.getSearchParameter("Observation", "_lastUpdated");
         assertNotNull(result);
     }
 
     @Test
     public void testGetSearchParameter8() throws Exception {
-        FHIRRequestContext.set(new FHIRRequestContext("tenant1"));
+        FHIRRequestContext.get().setTenantId("tenant1");
         SearchParameter result = SearchUtil.getSearchParameter(Observation.class, "_lastUpdated");
         assertNotNull(result);
     }
@@ -261,14 +269,14 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
 
     @Test
     public void testGetSearchParameter10() throws Exception {
-        FHIRRequestContext.set(new FHIRRequestContext("tenant1"));
+        FHIRRequestContext.get().setTenantId("tenant1");
         SearchParameter result = SearchUtil.getSearchParameter("Observation", "device");
         assertNull(result);
     }
 
     @Test
     public void testGetSearchParameter11() throws Exception {
-        FHIRRequestContext.set(new FHIRRequestContext("tenant1"));
+        FHIRRequestContext.get().setTenantId("tenant1");
         SearchParameter result = SearchUtil.getSearchParameter("Observation", "code");
         assertNotNull(result);
     }
@@ -282,7 +290,7 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
     @Test
     void testDynamicSearchParameters1() throws Exception {
         // Test behavior of dynamic updates to search parameters.
-        FHIRRequestContext.set(new FHIRRequestContext("tenant2"));
+        FHIRRequestContext.get().setTenantId("tenant2");
 
         String mainFile = "target/test-classes/config/tenant2/extension-search-parameters.json";
         String hiddenFile1 = mainFile + ".hide1";
@@ -336,7 +344,7 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
     @Test
     void testDynamicSearchParameters2() throws Exception {
         // Test behavior related to falling back to default tenant.
-        FHIRRequestContext.set(new FHIRRequestContext("tenant2"));
+        FHIRRequestContext.get().setTenantId("tenant2");
 
         String mainFile = "target/test-classes/config/tenant2/extension-search-parameters.json";
         String hiddenFile1 = mainFile + ".hide1";
@@ -394,7 +402,7 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
     @Test
     public void testGetSearchParametersWithAllResource() throws Exception {
         // Looking only for built-in search parameters for "Patient" versus "Resource"
-        FHIRRequestContext.set(new FHIRRequestContext("tenant6"));
+        FHIRRequestContext.get().setTenantId("tenant6");
 
         List<SearchParameter> result = SearchUtil.getApplicableSearchParameters("Patient");
         assertNotNull(result);
