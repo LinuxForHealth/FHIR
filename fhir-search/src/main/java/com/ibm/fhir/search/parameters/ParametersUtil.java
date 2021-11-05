@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -106,7 +106,7 @@ public final class ParametersUtil {
                         + "and default tenant " + originalTenantId, e);
             }
         } else {
-            for (String tenant : config.getConfiguredTenants()) {
+            for (String tenant : configuredTenants) {
                 try {
                     // Ensure we get the extension search parameters for the proper tenant
                     FHIRRequestContext.get().setTenantId(tenant);

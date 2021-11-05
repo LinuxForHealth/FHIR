@@ -29,7 +29,7 @@ public class ExtensionSearchParametersResourceProvider extends AbstractRegistryR
     private static final Logger log = Logger.getLogger(ExtensionSearchParametersResourceProvider.class.getName());
 
     private static final String NO_TENANT_SP_MAP_LOGGING =
-            "No tenant-specific search parameters found for tenant '%s'; trying %s ";
+            "No tenant-specific search parameters found for tenant '%s'; trying '%s'";
 
     /*
      * This is our in-memory cache of SearchParameter objects. The cache is organized at the top level by tenant-id.

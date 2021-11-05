@@ -23,7 +23,9 @@ import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.resource.Basic;
 import com.ibm.fhir.model.resource.Device;
 import com.ibm.fhir.model.resource.Observation;
+import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.SearchParameter;
+import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.search.test.BaseSearchTest;
 import com.ibm.fhir.search.util.SearchUtil;
 
@@ -280,6 +282,80 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
     public void testGetSearchParameter12() throws Exception {
         SearchParameter result = SearchUtil.getSearchParameter("FamilyMemberHistory", "code");
         assertNotNull(result);
+    }
+
+    @Test
+    void testDynamicSearchParameters() throws Exception {
+        FHIRRegistry registry = FHIRRegistry.getInstance();
+        SearchParameter searchParameter;
+
+        // Test behavior of dynamic updates to search parameters.
+        FHIRRequestContext.get().setTenantId("tenant2");
+
+        String mainFile = "target/test-classes/config/tenant2/extension-search-parameters.json";
+        String hiddenFile1 = mainFile + ".hide1";
+        String hiddenFile2 = mainFile + ".hide2";
+
+        // First, remove any copy of the main file that might exist.
+        // Our initial state will be no tenant-specific search parameters present.
+        deleteFile(mainFile);
+
+        // Next, let's make sure we cannot find either of the tenant-specific search parameters.
+        assertSearchParamsArentVisible();
+
+        // Sleep a bit to allow file mod times to register.
+        Thread.sleep(500);
+
+        // Copy our first hidden file into place.
+        // This should add two tenant-specific search parameters.
+        copyFile(hiddenFile1, mainFile);
+
+        // Verify that we can now "see" the two tenant-specific search parameters in the registry (dynamic)
+        searchParameter = registry.getResource("http://ibm.com/fhir/SearchParameter/Patient-favorite-mlb-team",
+                SearchParameter.class);
+        assertNotNull(searchParameter);
+        searchParameter = registry.getResource("http://ibm.com/fhir/SearchParameter/Patient-favorite-nfl-team",
+                SearchParameter.class);
+        assertNotNull(searchParameter);
+
+        // Verify that we still CANT "see" the two tenant-specific search parameters from SearchUtil (not dynamic)
+        assertSearchParamsArentVisible();
+
+        // Sleep a bit to allow file mod times to register.
+        Thread.sleep(500);
+
+        // Next, copy our second hidden file into place.
+        // This should effectively remove the "favorite-nfl-team" search parameter.
+        copyFile(hiddenFile2, mainFile);
+
+        // Verify that we can now "see" only the first tenant-specific search parameter in the registry (dynamic)
+        searchParameter = registry.getResource("http://ibm.com/fhir/SearchParameter/Patient-favorite-mlb-team",
+                SearchParameter.class);
+        assertNotNull(searchParameter);
+        searchParameter = registry.getResource("http://ibm.com/fhir/SearchParameter/Patient-favorite-nfl-team",
+                SearchParameter.class);
+        assertNull(searchParameter);
+
+        // Verify that we still CANT "see" the two tenant-specific search parameters from SearchUtil (not dynamic)
+        assertSearchParamsArentVisible();
+
+        // Finally, remove the tenant-specific file altogether and make sure we
+        // can't find either search parameter in the registry.
+        deleteFile(mainFile);
+
+        searchParameter = registry.getResource("http://ibm.com/fhir/SearchParameter/Patient-favorite-mlb-team",
+                SearchParameter.class);
+        assertNull(searchParameter);
+        searchParameter = registry.getResource("http://ibm.com/fhir/SearchParameter/Patient-favorite-nfl-team",
+                SearchParameter.class);
+        assertNull(searchParameter);
+    }
+
+    private void assertSearchParamsArentVisible() throws Exception {
+        SearchParameter searchParameter = SearchUtil.getSearchParameter(Patient.class, "favorite-mlb-team");
+        assertNull(searchParameter);
+        searchParameter = SearchUtil.getSearchParameter(Patient.class, "favorite-nfl-team");
+        assertNull(searchParameter);
     }
 
     @Test

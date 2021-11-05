@@ -3,7 +3,7 @@ layout: post
 title:  IBM FHIR Server User's Guide
 description: IBM FHIR Server User's Guide
 Copyright: years 2017, 2021
-lastupdated: "2021-10-29"
+lastupdated: "2021-11-08"
 permalink: /FHIRServerUsersGuide/
 ---
 
@@ -895,7 +895,7 @@ search parameters from the registry.
 
 For performance reasons, the registry search parameters are retrieved once and only once during startup.
 
-The set of search parameters can filtered / refined via `fhirServer/resources/[resourceType]/searchParameters` as described in the [Search configuration guide](https://ibm.github.io/FHIR/guides/FHIRSearchConfiguration#12-filtering).
+The set of search parameters can filtered / refined via `fhirServer/resources/[resourceType]/searchParameters` as described in the [Search configuration guide](https://ibm.github.io/FHIR/guides/FHIRSearchConfiguration#13-filtering).
 
 ## 4.7 FHIR client API
 
@@ -2010,7 +2010,7 @@ In this case, since the `fhirServer/resources/open` property is set to `false`, 
 
 Whole-system search and whole-system history are special cases. Since no resource type is specified on a whole-system request, validation will be done against the `Resource` resource type. In the above configuration example, a whole-system search request such as `GET [base]?_lastUpdated=gt2020-01-01` will fail because the `Resource` resource type is not specified. If the configuration were to have the `fhirServer/resources/open` property set to `true`, or if the `Resource` resource type were specified in the `fhirServer/resources` property group, then the whole-system search request would be allowed, assuming the `search` interaction was valid for the `Resource` resource type.
 
-In addition to interaction configuration, the `fhirServer/resources` property group also provides the ability to configure search parameter filtering and profile validation. See [Search configuration](https://ibm.github.io/FHIR/guides/FHIRSearchConfiguration#12-filtering) and [Resource validation](#44-resource-validation) respectively for details.
+In addition to interaction configuration, the `fhirServer/resources` property group also provides the ability to configure search parameter filtering and profile validation. See [Search configuration](https://ibm.github.io/FHIR/guides/FHIRSearchConfiguration#13-filtering) and [Resource validation](#44-resource-validation) respectively for details.
 
 ## 4.12.1 Using the IBM FHIR Server behind a proxy
 It is possible to run the IBM FHIR Server behind a reverse proxy such as Kubernetes Ingress or an API Gateway.

@@ -88,7 +88,7 @@ public class SearchParameterResolver {
 
     // This is actually a lot of processing. We should cache search parameter
     // resolutions.
-    private Set<String> normalizePath(String dataType, String path) {
+    private Set<String> normalizePath(String resourceType, String path) {
         // TODO: What we really need is FhirPath parsing to just get the path
         // MedicationAdministration.medication.as(CodeableConcept)
         // MedicationAdministration.medication.as(Reference)
@@ -107,7 +107,7 @@ public class SearchParameterResolver {
             part = removeParens(part);
 
             // Trim off DataType
-            if (part.startsWith(dataType)) {
+            if (part.startsWith(resourceType)) {
                 part = part.substring(part.indexOf(".") + 1, part.length());
 
                 // Split into components
