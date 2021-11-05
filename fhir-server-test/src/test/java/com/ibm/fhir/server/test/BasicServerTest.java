@@ -94,7 +94,7 @@ public class BasicServerTest extends FHIRServerTestBase {
         assertTrue(instance);
 
         List<Issue> issues = FHIRValidator.validator().validate(conf);
-        assertFalse(FHIRValidationUtil.hasErrors(issues));
+        assertFalse(FHIRValidationUtil.hasErrors(issues), "CapabilityStatement has validation errors: " + issues);
         if (FHIRValidationUtil.hasWarnings(issues)) {
             String out;
             if (DEBUG) {

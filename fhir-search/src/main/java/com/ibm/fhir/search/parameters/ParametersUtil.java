@@ -71,7 +71,7 @@ public final class ParametersUtil {
     private static final String COMMA = ",";
     private static final String EQUALS = "=";
 
-    private static final Map<String, Map<String, ParametersMap>> searchParameters = buildSearchParametersMap();
+    private static final Map<String, Map<String, ParametersMap>> searchParameters = buildSearchParameterMaps();
 
     private static final String MISSING_EXPRESSION = "/NONE/";
 
@@ -91,9 +91,9 @@ public final class ParametersUtil {
      * Loads search parameters from the registry and applies filtering to construct
      * a per-tenant mapping from resource type to ParametersMap.
      *
-     * @return a tenant-aware map of maps from resourceType to ParametersMaps
+     * @return a tenant-keyed map of maps from resourceType to ParametersMap
      */
-    private static Map<String, Map<String, ParametersMap>> buildSearchParametersMap() {
+    private static Map<String, Map<String, ParametersMap>> buildSearchParameterMaps() {
         HashMap<String, Map<String, ParametersMap>> result = new HashMap<>();
 
         FHIRConfiguration config = FHIRConfiguration.getInstance();
@@ -136,15 +136,20 @@ public final class ParametersUtil {
 
     private static Map<String, ParametersMap> computeTenantSPs(PropertyGroup rsrcsGroup) throws Exception {
         Map<String, ParametersMap> paramMapsByType = new HashMap<>();
+
+        // The set of resourceTypes with implicit or explicit wildcard (* = *) entries.
+        // This is the set we'll need to revisit after processing all the configured codes.
         Set<String> resourceTypesWithWildcardParams = new HashSet<>();
+
+        // The set of explicitly-configured codes for each resource type.
         Map<String, Set<String>> configuredCodes = new HashMap<>();
+
         boolean supportOmittedRsrcTypes = true;
 
         if (rsrcsGroup != null) {
             List<PropertyEntry> rsrcsEntries = rsrcsGroup.getProperties();
             if (rsrcsEntries != null && !rsrcsEntries.isEmpty()) {
                 for (PropertyEntry rsrcsEntry : rsrcsEntries) {
-                    ParametersMap paramMap = new ParametersMap();
 
                     // Check special property for including omitted resource types
                     if (FHIRConfiguration.PROPERTY_FIELD_RESOURCES_OPEN.equals(rsrcsEntry.getName())) {
@@ -155,38 +160,8 @@ public final class ParametersUtil {
                         }
                     } else {
                         String resourceType = rsrcsEntry.getName();
-                        PropertyGroup resourceTypeGroup = (PropertyGroup) rsrcsEntry.getValue();
-                        if (resourceTypeGroup != null) {
-                            // Get search parameters
-                            PropertyGroup spGroup = resourceTypeGroup.getPropertyGroup(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_SEARCH_PARAMETERS);
-                            if (spGroup != null) {
-                                List<PropertyEntry> spEntries = spGroup.getProperties();
-                                if (spEntries != null && !spEntries.isEmpty()) {
-                                    for (PropertyEntry spEntry : spEntries) {
-                                        String code = spEntry.getName();
-                                        if (SearchConstants.WILDCARD.equals(code)) {
-                                            resourceTypesWithWildcardParams.add(resourceType);
-                                        } else if (spEntry.getValue() instanceof String) {
-                                            SearchParameter sp = FHIRRegistry.getInstance()
-                                                    .getResource((String)spEntry.getValue(), SearchParameter.class);
-                                            if (sp != null) {
-                                                if (sp.getExpression() == null || !sp.getExpression().hasValue()) {
-                                                    if (log.isLoggable(Level.FINE)) {
-                                                        log.fine(String.format(MISSING_EXPRESSION_WARNING, sp.getCode().getValue()));
-                                                    }
-                                                } else {
-                                                    paramMap.insert(code, sp);
-                                                    configuredCodes.computeIfAbsent(resourceType, k -> new HashSet<>())
-                                                            .add(code);
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            } else {
-                                resourceTypesWithWildcardParams.add(resourceType);
-                            }
-                        }
+                        ParametersMap paramMap = getExplicitParams(resourceTypesWithWildcardParams, rsrcsEntry);
+                        configuredCodes.put(resourceType, paramMap.getCodes());
                         paramMapsByType.put(resourceType, paramMap);
                     }
                 }
@@ -194,7 +169,7 @@ public final class ParametersUtil {
         }
 
         if (supportOmittedRsrcTypes) {
-            // All other resource types include all search parameters
+            // All other resource types include all search parameters (the default)
             for (String resourceType : ALL_RESOURCE_TYPES) {
                 if (!paramMapsByType.containsKey(resourceType)) {
                     resourceTypesWithWildcardParams.add(resourceType);
@@ -202,8 +177,58 @@ public final class ParametersUtil {
             }
         }
 
+        addWildcardParams(paramMapsByType, resourceTypesWithWildcardParams, configuredCodes);
+
+        return Collections.unmodifiableMap(paramMapsByType);
+    }
+
+    private static ParametersMap getExplicitParams(Set<String> resourceTypesWithWildcardParams,
+            PropertyEntry rsrcsEntry) throws Exception {
+        ParametersMap paramMap = new ParametersMap();
+        String resourceType = rsrcsEntry.getName();
+
+        PropertyGroup resourceTypeGroup = (PropertyGroup) rsrcsEntry.getValue();
+        if (resourceTypeGroup != null) {
+            // Get search parameters
+            PropertyGroup spGroup = resourceTypeGroup.getPropertyGroup(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_SEARCH_PARAMETERS);
+            if (spGroup != null) {
+                List<PropertyEntry> spEntries = spGroup.getProperties();
+                if (spEntries != null && !spEntries.isEmpty()) {
+                    for (PropertyEntry spEntry : spEntries) {
+                        String code = spEntry.getName();
+                        if (SearchConstants.WILDCARD.equals(code)) {
+                            resourceTypesWithWildcardParams.add(resourceType);
+                        } else if (spEntry.getValue() instanceof String) {
+                            SearchParameter sp = FHIRRegistry.getInstance()
+                                    .getResource((String)spEntry.getValue(), SearchParameter.class);
+                            if (sp != null) {
+                                if (sp.getExpression() == null || !sp.getExpression().hasValue()) {
+                                    if (log.isLoggable(Level.FINE)) {
+                                        log.fine(String.format(MISSING_EXPRESSION_WARNING, sp.getCode().getValue()));
+                                    }
+                                } else {
+                                    paramMap.insert(code, sp);
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                resourceTypesWithWildcardParams.add(resourceType);
+            }
+        }
+
+        return paramMap;
+    }
+
+    private static void addWildcardParams(Map<String, ParametersMap> paramMapsByType,
+            Set<String> resourceTypesWithWildcardParams, Map<String, Set<String>> configuredCodes) {
+
         for (SearchParameter sp : getAllSearchParameters()) {
+            // For each resource type this search parameter applies to
             for (ResourceType resourceType : sp.getBase()) {
+
+                // If this resource type includes a wildcard entry (i.e. includes codes that weren't explicitly configured)
                 if (resourceTypesWithWildcardParams.contains(resourceType.getValue()) && sp.getCode().hasValue()) {
                     if (sp.getExpression() == null || !sp.getExpression().hasValue()) {
                         if (log.isLoggable(Level.FINE)) {
@@ -215,6 +240,8 @@ public final class ParametersUtil {
                             paramMap = new ParametersMap();
                             paramMapsByType.put(resourceType.getValue(), paramMap);
                         }
+
+                        // Only add it if the code wasn't explicitly configured in fhir-server-config
                         Set<String> configuredCodesForType = configuredCodes.get(resourceType.getValue());
                         if (configuredCodesForType != null && configuredCodesForType.contains(sp.getCode().getValue())) {
                             if (log.isLoggable(Level.FINE)) {
@@ -229,20 +256,34 @@ public final class ParametersUtil {
                         }
                     }
                 }
+
             }
         }
-
-        return Collections.unmodifiableMap(paramMapsByType);
     }
 
-    public static Map<String, ParametersMap> getTenantSPs(String tenant) {
-        return searchParameters.get(tenant);
+    /**
+     * Get the applicable SearchParameter objects for a particular tenant.
+     *
+     * @param tenantId
+     * @return a set of ParametersMaps, organized by resource type; never null
+     */
+    public static Map<String, ParametersMap> getTenantSPs(String tenantId) {
+        if (searchParameters.containsKey(tenantId)) {
+            return searchParameters.get(tenantId);
+        } else {
+            log.warning("No search parameter configuration was loaded for tenant " + tenantId);
+            return new HashMap<>();
+        }
     }
 
+    /**
+     * Get all search parameters of all types from the registry.
+     *
+     * @return
+     */
     public static Set<SearchParameter> getAllSearchParameters() {
         Set<SearchParameter> searchParameters = new LinkedHashSet<>(2048);
         for (SearchParamType.Value searchParamType : SearchParamType.Value.values()) {
-
             searchParameters.addAll(FHIRRegistry.getInstance().getSearchParameters(searchParamType.value()));
         }
         return searchParameters;

@@ -99,6 +99,10 @@ public class ParametersMap {
         }
     }
 
+    public Set<String> getCodes() {
+        return codeMap.keySet();
+    }
+
     public Set<SearchParameter> lookupByCode(String searchParameterCode) {
         return codeMap.get(searchParameterCode);
     }

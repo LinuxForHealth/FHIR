@@ -1164,9 +1164,6 @@ public class SearchUtil {
 
         String tenantId = FHIRRequestContext.get().getTenantId();
         Map<String, ParametersMap> paramsByResourceType = ParametersUtil.getTenantSPs(tenantId);
-        if (paramsByResourceType == null) {
-            return result; // empty
-        }
 
         for (String type : new String[]{resourceType, SearchConstants.RESOURCE_RESOURCE}) {
             ParametersMap parametersMap = paramsByResourceType.get(type);
