@@ -15,11 +15,8 @@ import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.io.Reader;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
@@ -27,10 +24,6 @@ import java.util.Set;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.model.format.Format;
-import com.ibm.fhir.model.parser.FHIRParser;
-import com.ibm.fhir.model.parser.exception.FHIRParserException;
-import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Markdown;
@@ -57,26 +50,6 @@ public class ParametersUtilTest extends BaseSearchTest {
             Assert.assertNotNull(outBA);
         }
         assertEquals(params.size(), 1385);
-    }
-
-    @Test
-    public void testPopulateSearchParameterMapFromFile() throws IOException, FHIRParserException {
-        File customSearchParams = new File("src/test/resources/config/tenant1/extension-search-parameters.json");
-        if (DEBUG) {
-            System.out.println(customSearchParams.getAbsolutePath());
-        }
-        Reader reader = new FileReader(customSearchParams);
-        Bundle bundle = FHIRParser.parser(Format.JSON).parse(reader);
-        Map<String, ParametersMap> params = ParametersUtil.buildSearchParametersMapFromBundle(bundle);
-        if (DEBUG) {
-            System.out.println(params.keySet());
-        }
-
-        // validates checks
-        assertNotNull(params);
-        assertFalse(params.isEmpty());
-        assertEquals(params.size(), 2);
-
     }
 
     @Test

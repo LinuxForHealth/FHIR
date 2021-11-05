@@ -188,9 +188,9 @@ public class SearchUtil {
         for (String type : new String[]{resourceType, SearchConstants.RESOURCE_RESOURCE}) {
             ParametersMap parametersMap = paramsByResourceType.get(type);
             if (parametersMap != null) {
-                Set<SearchParameter> searchParams = parametersMap.lookupByCode(code);
-                if (searchParams != null && !searchParams.isEmpty()) {
-                    return searchParams.iterator().next();
+                SearchParameter searchParam = parametersMap.lookupByCode(code);
+                if (searchParam != null) {
+                    return searchParam;
                 }
             }
         }
@@ -1151,13 +1151,13 @@ public class SearchUtil {
         for (String type : new String[]{SearchConstants.RESOURCE_RESOURCE, resourceType}) {
             ParametersMap parametersMap = paramsByResourceType.get(type);
             if (parametersMap != null) {
-                for (Entry<String, Set<SearchParameter>> entry : parametersMap.codeEntries()) {
+                for (Entry<String, SearchParameter> entry : parametersMap.codeEntries()) {
                     String code = entry.getKey();
                     if (log.isLoggable(Level.FINE) && result.containsKey(code)) {
                         log.fine("Code '" + code + "' is defined for both " + SearchConstants.RESOURCE_RESOURCE
                             + " and " + resourceType + "; using " + resourceType);
                     }
-                    result.put(entry.getKey(), entry.getValue().iterator().next());
+                    result.put(code, entry.getValue());
                 }
             }
         }

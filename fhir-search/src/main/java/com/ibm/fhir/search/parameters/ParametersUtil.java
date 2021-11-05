@@ -23,7 +23,6 @@ import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.config.PropertyGroup.PropertyEntry;
 import com.ibm.fhir.exception.FHIRException;
-import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.type.code.SearchParamType;
@@ -61,7 +60,6 @@ public final class ParametersUtil {
 
     // Logging:
     public static final String LOG_PARAMETERS = "Parameter is loaded -> %s";
-    public static final String MISSING_EXPRESSION_WARNING = "Skipping parameter '%s' with missing expression";
     public static final String LOG_HEADER = "BASE:RESOURCE_NAME:SearchParameter";
     public static final String LOG_SIZE = "Size: %s";
     private static final String LOG_OUTPUT = "%s|%s|%s";
@@ -202,13 +200,7 @@ public final class ParametersUtil {
                             SearchParameter sp = FHIRRegistry.getInstance()
                                     .getResource((String)spEntry.getValue(), SearchParameter.class);
                             if (sp != null) {
-                                if (sp.getExpression() == null || !sp.getExpression().hasValue()) {
-                                    if (log.isLoggable(Level.FINE)) {
-                                        log.fine(String.format(MISSING_EXPRESSION_WARNING, sp.getCode().getValue()));
-                                    }
-                                } else {
-                                    paramMap.insert(code, sp);
-                                }
+                                paramMap.insert(code, sp);
                             }
                         }
                     }
@@ -230,35 +222,38 @@ public final class ParametersUtil {
 
                 // If this resource type includes a wildcard entry (i.e. includes codes that weren't explicitly configured)
                 if (resourceTypesWithWildcardParams.contains(resourceType.getValue()) && sp.getCode().hasValue()) {
-                    if (sp.getExpression() == null || !sp.getExpression().hasValue()) {
+                    ParametersMap paramMap = paramMapsByType.get(resourceType.getValue());
+                    if (paramMap == null) {
+                        paramMap = new ParametersMap();
+                        paramMapsByType.put(resourceType.getValue(), paramMap);
+                    }
+
+                    // Only add it if the code wasn't explicitly configured in fhir-server-config
+                    Set<String> configuredCodesForType = configuredCodes.get(resourceType.getValue());
+                    if (configuredCodesForType != null && configuredCodesForType.contains(sp.getCode().getValue())) {
                         if (log.isLoggable(Level.FINE)) {
-                            log.fine(String.format(MISSING_EXPRESSION_WARNING, sp.getCode().getValue()));
+                            String canonical = getCanonicalUrl(sp);
+                            log.fine("Skipping search parameter '" + canonical + "' because code '" +
+                                    sp.getCode() + "' is already configured.");
                         }
                     } else {
-                        ParametersMap paramMap = paramMapsByType.get(resourceType.getValue());
-                        if (paramMap == null) {
-                            paramMap = new ParametersMap();
-                            paramMapsByType.put(resourceType.getValue(), paramMap);
-                        }
-
-                        // Only add it if the code wasn't explicitly configured in fhir-server-config
-                        Set<String> configuredCodesForType = configuredCodes.get(resourceType.getValue());
-                        if (configuredCodesForType != null && configuredCodesForType.contains(sp.getCode().getValue())) {
-                            if (log.isLoggable(Level.FINE)) {
-                                String url = sp.getUrl().getValue();
-                                String version = (sp.getVersion() == null) ? null : sp.getVersion().getValue();
-                                String canonical = (version == null) ? url : url + "|" + version;
-                                log.fine("Skipping search parameter '" + canonical + "' because code '" +
-                                        sp.getCode() + "' is already configured.");
-                            }
-                        } else {
-                            paramMap.insert(sp.getCode().getValue(), sp);
-                        }
+                        paramMap.insert(sp.getCode().getValue(), sp);
                     }
                 }
 
             }
         }
+    }
+
+    /**
+     * Construct the canonical URL from the SearchParameter's url and version
+     *
+     * @return the url of this search parameter with a version postfix (if version is non-null)
+     */
+    public static String getCanonicalUrl(SearchParameter sp) {
+        String url = sp.getUrl().getValue();
+        String version = (sp.getVersion() == null) ? null : sp.getVersion().getValue();
+        return (version == null) ? url : url + "|" + version;
     }
 
     /**
@@ -287,58 +282,6 @@ public final class ParametersUtil {
             searchParameters.addAll(FHIRRegistry.getInstance().getSearchParameters(searchParamType.value()));
         }
         return searchParameters;
-    }
-
-    /**
-     * Builds a Map of ParameterMaps from the passed Bundle.
-     *
-     * @param bundle a Bundle of type Collection with entries of type SearchParameter
-     * @return a Map of ParameterMaps, keyed by resourceType
-     * @throws ClassCastException if the Bundle contains entries of any type other than SearchParameter
-     */
-    public static Map<String, ParametersMap> buildSearchParametersMapFromBundle(Bundle bundle) {
-        Map<String, ParametersMap> typeToParamMap = new HashMap<>();
-
-        for (Bundle.Entry entry : bundle.getEntry()) {
-            SearchParameter parameter = entry.getResource().as(SearchParameter.class);
-
-            // Conditional Logging intentionally avoids forming of the String.
-            if (log.isLoggable(Level.FINE)) {
-                log.fine(String.format(LOG_PARAMETERS, parameter.getCode().getValue()));
-            }
-
-            if (parameter.getExpression() == null || !parameter.getExpression().hasValue()) {
-                if (log.isLoggable(Level.FINE)) {
-                    log.fine(String.format(MISSING_EXPRESSION, parameter.getCode().getValue()));
-                }
-            } else {
-                /*
-                 * In R4, SearchParameter changes from a single Base resource to an array.
-                 * As Base is an array, there are going be potential collisions in the map.
-                 */
-                List<ResourceType> types = parameter.getBase();
-                for (ResourceType type : types) {
-                    String base = type.getValue();
-
-                    ParametersMap map = typeToParamMap.get(base);
-                    if (map == null) {
-                        map = new ParametersMap();
-                        typeToParamMap.put(base, map);
-                    }
-
-                    // check and warn if the parameter name and code do not agree.
-                    String code = parameter.getCode().getValue();
-                    String name = parameter.getName().getValue();
-                    checkAndWarnForIssueWithCodeAndName(code, name);
-
-                    // add the map entry with keys for both the code and the url
-                    map.insert(code, parameter);
-                }
-            }
-        }
-
-        // Return an unmodifiable copy, lest there be side effects.
-        return Collections.unmodifiableMap(typeToParamMap);
     }
 
     /**

@@ -82,9 +82,8 @@ public class ParametersMapTest {
       pm.insert("b", sp_b1);
       pm.insert("b", sp_b2);
 
-      assertTrue(pm.lookupByCode("a").contains(sp_a1));
-      assertTrue(pm.lookupByCode("a").contains(sp_a2));
-      assertTrue(pm.lookupByCode("b").contains(sp_b2));
+      assertEquals(pm.lookupByCode("a"), sp_a2);
+      assertEquals(pm.lookupByCode("b"), sp_b2);
 
       assertEquals(pm.lookupByCanonical("http://ibm.com/fhir/test/sp_a1"), sp_a1);
       assertEquals(pm.lookupByCanonical("http://ibm.com/fhir/test/sp_a2"), sp_a2);
@@ -105,8 +104,8 @@ public class ParametersMapTest {
       pm.insert("b", sp_b);
       pm.insert("b2", sp_b);
 
-      assertTrue(pm.lookupByCode("b").contains(sp_b));
-      assertTrue(pm.lookupByCode("b2").contains(sp_b));
+      assertEquals(pm.lookupByCode("b"), sp_b);
+      assertEquals(pm.lookupByCode("b2"), sp_b);
 
       assertEquals(pm.lookupByCanonical("http://ibm.com/fhir/test/sp_b"), sp_b);
 
@@ -123,7 +122,7 @@ public class ParametersMapTest {
       pm.insert("b", sp_b);
       pm.insert("b", sp_b);
 
-      assertTrue(pm.lookupByCode("b").contains(sp_b));
+      assertEquals(pm.lookupByCode("b"), sp_b);
 
       assertEquals(pm.lookupByCanonical("http://ibm.com/fhir/test/sp_b"), sp_b);
 
