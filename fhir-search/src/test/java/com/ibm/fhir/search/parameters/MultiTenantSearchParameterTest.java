@@ -12,8 +12,8 @@ import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
+import java.util.Set;
 
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
@@ -46,7 +46,7 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         FHIRRequestContext.get().setTenantId("tenant1");
 
         // Using Medication because tenant1 has filters in place for Patient and Observation
-        List<SearchParameter> result = SearchUtil.getSearchParameters("Medication");
+        Map<String, SearchParameter> result = SearchUtil.getSearchParameters("Medication");
         assertNotNull(result);
         printSearchParameters("testGetApplicableSearchParameters2", result);
         assertEquals(15, result.size());
@@ -56,7 +56,7 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
     public void testGetApplicableSearchParameters1() throws Exception {
         // Simple test looking only for built-in search parameters for Observation.class.
         // Use default tenant id ("default") which has no Observation tenant-specifc search parameters.
-        List<SearchParameter> result = SearchUtil.getSearchParameters("Observation");
+        Map<String, SearchParameter> result = SearchUtil.getSearchParameters("Observation");
         assertNotNull(result);
         printSearchParameters("testGetApplicableSearchParameters1", result);
         assertEquals(44, result.size());
@@ -69,7 +69,7 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         // Use the default tenant since it has some Patient search parameters defined.
         FHIRRequestContext.get().setTenantId("default");
 
-        List<SearchParameter> result = SearchUtil.getSearchParameters("Patient");
+        Map<String, SearchParameter> result = SearchUtil.getSearchParameters("Patient");
         assertNotNull(result);
         printSearchParameters("testGetApplicableSearchParameters3/Patient", result);
         assertEquals(37, result.size());
@@ -88,11 +88,12 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         FHIRRequestContext.get().setTenantId("tenant1");
 
         // tenant1's filtering includes 2 search parameters for Observation.
-        List<SearchParameter> result = SearchUtil.getSearchParameters("Observation");
+        Map<String, SearchParameter> result = SearchUtil.getSearchParameters("Observation");
         assertNotNull(result);
         printSearchParameters("testGetApplicableSearchParameters4/Observation", result);
         assertEquals(8, result.size());
-        List<String> codes = getSearchParameterCodes(result);
+
+        Set<String> codes = result.keySet();
         assertTrue(codes.contains("code"));
         assertTrue(codes.contains("_id"));
     }
@@ -102,11 +103,12 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         // Test filtering of search parameters for Device (tenant1).
         FHIRRequestContext.get().setTenantId("tenant1");
 
-        List<SearchParameter> result = SearchUtil.getSearchParameters("Device");
+        Map<String, SearchParameter> result = SearchUtil.getSearchParameters("Device");
         assertNotNull(result);
         printSearchParameters("testGetApplicableSearchParameters5/Device", result);
         assertEquals(8, result.size());
-        List<String> codes = getSearchParameterCodes(result);
+
+        Set<String> codes = result.keySet();
         assertTrue(codes.contains("patient"));
         assertTrue(codes.contains("organization"));
     }
@@ -116,11 +118,12 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         // Test filtering of search parameters for Patient (tenant1).
         FHIRRequestContext.get().setTenantId("tenant1");
 
-        List<SearchParameter> result = SearchUtil.getSearchParameters("Patient");
+        Map<String, SearchParameter> result = SearchUtil.getSearchParameters("Patient");
         assertNotNull(result);
         printSearchParameters("testGetApplicableSearchParameters6/Patient", result);
         assertEquals(10, result.size());
-        List<String> codes = getSearchParameterCodes(result);
+
+        Set<String> codes = result.keySet();
         assertTrue(codes.contains("active"));
         assertTrue(codes.contains("address"));
         assertTrue(codes.contains("birthdate"));
@@ -139,7 +142,7 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         // Test filtering of search parameters for Patient (default tenant).
         FHIRRequestContext.get().setTenantId("default");
 
-        List<SearchParameter> result = SearchUtil.getSearchParameters("Patient");
+        Map<String, SearchParameter> result = SearchUtil.getSearchParameters("Patient");
         assertNotNull(result);
         printSearchParameters("testGetApplicableSearchParameters7/Patient", result);
         assertEquals(37, result.size());
@@ -157,7 +160,7 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         // Use tenant3 since it doesn't have any tenant-specific search parameters.
         FHIRRequestContext.get().setTenantId("tenant3");
 
-        List<SearchParameter> result = SearchUtil.getSearchParameters("Patient");
+        Map<String, SearchParameter> result = SearchUtil.getSearchParameters("Patient");
         printSearchParameters("testGetSearchParameters", result);
         System.out.println("tenant: " + FHIRRequestContext.get().getTenantId());
         assertNotNull(result);
@@ -284,13 +287,13 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         // Looking only for built-in search parameters for "Patient" versus "Resource"
         FHIRRequestContext.get().setTenantId("tenant6");
 
-        List<SearchParameter> result = SearchUtil.getSearchParameters("Patient");
+        Map<String, SearchParameter> result = SearchUtil.getSearchParameters("Patient");
         assertNotNull(result);
         printSearchParameters("testGetSearchParametersWithAllResource", result);
         assertEquals(33, result.size());
 
         // confirm that favorite-number exists as well as the RESOURCE level favorite-color
-        List<String> codes = result.stream().map(r -> r.getCode().getValue()).collect(Collectors.toList());
+        Set<String> codes = result.keySet();
         assertTrue(codes.contains("favorite-number"));
         assertTrue(codes.contains("favorite-color"));
 
@@ -298,7 +301,7 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         assertNotNull(result);
         printSearchParameters("testGetSearchParametersWithAllResource", result);
         assertEquals(27, result.size());
-        codes = result.stream().map(r -> r.getCode().getValue()).collect(Collectors.toList());
+        codes = result.keySet();
 
         // confirm that favorite-number exists as well and the RESOURCE level favorite-color does not
         assertTrue(codes.contains("favorite-number"));

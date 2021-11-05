@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang3.tuple.Pair;
@@ -37,9 +38,9 @@ public class SearchParameterResolver {
         }
 
         // XXX should this use the registry (all parameters) or the filtered set of search parameters for a given tenant?
-        List<SearchParameter> params = SearchUtil.getSearchParameters(resourceType);
+        Map<String, SearchParameter> params = SearchUtil.getSearchParameters(resourceType);
 
-        for (SearchParameter param : params) {
+        for (SearchParameter param : params.values()) {
             if (name != null && param.getName().getValue().equals(name)) {
                 return param;
             }

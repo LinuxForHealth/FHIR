@@ -14,8 +14,9 @@ import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.FileTime;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.LogManager;
 
@@ -76,33 +77,26 @@ public abstract class BaseSearchTest {
         FHIRRequestContext.remove();
     }
 
-    /**
-     * This function returns a list containing the names of the SearchParameters contained in the input list.
-     *
-     * @param spList
-     *            the list of SearchParameter from which to collect the names
-     * @return the list of search parameter names
-     */
-    protected List<String> getSearchParameterCodes(List<SearchParameter> spList) {
-        List<String> result = new ArrayList<>();
-        for (SearchParameter sp : spList) {
-            result.add(sp.getCode().getValue());
-        }
-        return result;
-    }
-
     /*
      * The SearchParameters return an array of values, now the printSearchParameters returns all values.
      * @param label
      * @param spList
      */
-    protected void printSearchParameters(String label, List<SearchParameter> spList) {
-        if (DEBUG && spList != null) {
+    @SuppressWarnings("unused")
+    protected void printSearchParameters(String label, Map<String, SearchParameter> parameters) {
+        if (DEBUG && parameters != null) {
             System.out.println("\nTest: " + label + "\nSearch Parameters:");
-            for (SearchParameter sp : spList) {
+            for (Entry<String, SearchParameter> entry : parameters.entrySet()) {
+                String code = entry.getKey();
+                SearchParameter sp = entry.getValue();
+
+                String url = sp.getUrl().getValue();
+                String version = (sp.getVersion() == null) ? null : sp.getVersion().getValue();
+                String canonical = (version == null) ? url : url + "|" + version;
+
                 List<ResourceType> resources = sp.getBase();
                 for (ResourceType resource : resources) {
-                    System.out.println("\t" + resource.getValue() + ":" + sp.getCode().getValue());
+                    System.out.println("\t" + resource.getValue() + ":" + code + ":" + canonical);
                 }
             }
         }
