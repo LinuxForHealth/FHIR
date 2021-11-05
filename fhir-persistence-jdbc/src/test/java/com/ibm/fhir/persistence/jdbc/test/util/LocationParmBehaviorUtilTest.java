@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -32,6 +33,16 @@ import com.ibm.fhir.search.location.bounding.BoundingRadius;
 public class LocationParmBehaviorUtilTest {
     //---------------------------------------------------------------------------------------------------------
     // Supporting Methods:
+    @BeforeClass
+    public void before() throws FHIRException {
+        FHIRRequestContext.get().setTenantId("behavior");
+    }
+
+    @AfterClass
+    public void after() throws FHIRException {
+        FHIRRequestContext.get().setTenantId("default");
+    }
+
     private void runTest(List<Object> expectedBindVariables, String expectedSql, Bounding bounding)
             throws FHIRPersistenceException {
         WhereFragment actualWhereClauseSegment = new WhereFragment();
@@ -53,11 +64,6 @@ public class LocationParmBehaviorUtilTest {
         NewLocationParmBehaviorUtil util = new NewLocationParmBehaviorUtil();
         util.buildLocationSearchQuery(actualWhereClauseSegment, boundingAreas, PARAMETER_TABLE_ALIAS);
         assertExpectedSQL(actualWhereClauseSegment, expectedSql, expectedBindVariables);
-    }
-
-    @BeforeClass
-    public static void before() throws FHIRException {
-        FHIRRequestContext.get().setTenantId("behavior");
     }
     //---------------------------------------------------------------------------------------------------------
 
