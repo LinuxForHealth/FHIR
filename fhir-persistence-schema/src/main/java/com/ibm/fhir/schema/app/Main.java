@@ -2103,10 +2103,9 @@ public class Main {
     private Set<String> getResourceTypes() {
         Set<String> result;
         if (this.resourceTypeSubset == null || this.resourceTypeSubset.isEmpty()) {
-            // pass 'false' to getResourceTypes to avoid building tables for abstract resource types
             // Should simplify FhirSchemaGenerator and always pass in this list. When switching
             // over to false, migration is required to drop the tables no longer required.
-            final boolean includeAbstractResourceTypes = true;
+            final boolean includeAbstractResourceTypes = false;
             result = ModelSupport.getResourceTypes(includeAbstractResourceTypes).stream().map(Class::getSimpleName).collect(Collectors.toSet());
         } else {
             result = this.resourceTypeSubset;
