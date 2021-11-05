@@ -486,4 +486,10 @@ Note: the jar file is stored locally in `fhir-persistence-schema/target` or in t
     - grants.sql:  `db2 -tvf grants.sql`
     - stored-procedures.sql:  `db2 -td@ -vf stored-procedures.sql`
 
+
+# V0021 - Drops the DOMAINRESOURCE and RESOURCE tables
+
+If there is data in the DOMAINRESOURCE and RESOURCE table groups, which is unexpected, the administrator may run the tool with `--force-unused-table-removal` to force the removal of the unused tables.
+
+
 FHIR® is the registered trademark of HL7 and is used with the permission of HL7.
