@@ -2561,6 +2561,7 @@ public class Main {
                     logger.info("V0021 Migration: Removing Abstract Tables from schema '" + schemaName + "'");
                     MigrateV0021AbstractTypeRemoval cmd = new MigrateV0021AbstractTypeRemoval(adapter, adminSchemaName, schemaName, forceUnusedTableRemoval);
                     adapter.runStatement(cmd);
+                    logger.info("V0021 Migration: Completed the Removal of the Abstract Tables from schema '" + schemaName + "'");
                 }
             } catch (DataAccessException x) {
                 // Something went wrong, so mark the transaction as failed

@@ -15,6 +15,7 @@ import java.util.List;
 
 import com.ibm.fhir.database.utils.api.IDatabaseSupplier;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.model.DbType;
 
 /**
  * Checks to see if any of the tables exist in the target database.
@@ -87,7 +88,7 @@ public class UnusedTableRemovalNeedsV0021Migration implements IDatabaseSupplier<
      * @return
      */
     public boolean checkDb2(IDatabaseTranslator translator, Connection c) {
-        final String sql = "SELECT tabname FROM SYSCAT.TABLES TABS"
+        final String sql = "SELECT 1 FROM SYSCAT.TABLES TABS"
                 + " WHERE TABS.tabschema = ? "
                 + "     AND TABS.tabname in ( " + addParameterMarkers(TABLE_COUNT) + " )";
         return hasTables(translator, c, sql);
@@ -103,7 +104,7 @@ public class UnusedTableRemovalNeedsV0021Migration implements IDatabaseSupplier<
     public boolean checkDerby(IDatabaseTranslator translator, Connection c) {
         // Grab the list of tables for the configured schema from the Derby sys catalog
         final String sql = ""
-                + "SELECT tables.tablename FROM sys.systables AS tables "
+                + "SELECT 1 FROM sys.systables AS tables "
                 + "  JOIN sys.sysschemas AS schemas "
                 + "    ON (tables.schemaid = schemas.schemaid) "
                 + " WHERE schemas.schemaname = ?"
@@ -122,8 +123,8 @@ public class UnusedTableRemovalNeedsV0021Migration implements IDatabaseSupplier<
         // Grab the list of tables for the configured schema from the PostgreSQL schema
         // catalog
         final String sql = ""
-                + "SELECT table_name FROM information_schema.tables "
-                + " WHERE table_schema = ?"
+                + "SELECT 1 FROM information_schema.tables "
+                + " WHERE table_schema = lower(?)"
                 + "     AND table_name in (" + addParameterMarkers(TABLE_COUNT) + ")";
         return hasTables(translator, c, sql);
     }
@@ -157,7 +158,11 @@ public class UnusedTableRemovalNeedsV0021Migration implements IDatabaseSupplier<
             ps.setString(i++, schemaName);
 
             for (String deprecatedTable : DEPRECATED_TABLES) {
-                ps.setString(i++, deprecatedTable);
+                if (translator.getType() == DbType.POSTGRESQL) {
+                    ps.setString(i++, deprecatedTable.toLowerCase());
+                } else {
+                    ps.setString(i++, deprecatedTable);
+                }
             }
             ResultSet rs = ps.executeQuery();
             return rs.next();

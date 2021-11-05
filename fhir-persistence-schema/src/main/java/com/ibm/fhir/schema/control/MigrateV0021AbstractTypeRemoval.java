@@ -14,6 +14,7 @@ import java.sql.Statement;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.api.DataAccessException;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
@@ -33,6 +34,19 @@ import com.ibm.fhir.database.utils.model.DbType;
 public class MigrateV0021AbstractTypeRemoval implements IDatabaseStatement {
 
     private static final Logger LOG = Logger.getLogger(MigrateV0021AbstractTypeRemoval.class.getName());
+
+    private static final List<String> VALUE_TYPES = Arrays.asList(
+        "RESOURCE_TOKEN_REFS",
+        "DATE_VALUES",
+        "LATLNG_VALUES",
+        "NUMBER_VALUES",
+        "QUANTITY_VALUES",
+        "STR_VALUES",
+        "PROFILES",
+        "TAGS",
+        "SECURITY");
+
+    private static final List<String> VALUE_TYPES_LOWER = VALUE_TYPES.stream().map(s -> s.toLowerCase()).collect(Collectors.toList());
 
     // The Adapter
     private final IDatabaseAdapter adapter;
@@ -171,30 +185,16 @@ public class MigrateV0021AbstractTypeRemoval implements IDatabaseStatement {
      */
     private void removeBaseArtifacts(IDatabaseTranslator translator, Connection c) {
         List<String> tables = Arrays.asList("DOMAINRESOURCE_", "RESOURCE_");
-        List<String> valueTypes = Arrays.asList(
-                                        "DATE_VALUES",
-                                        "LATLNG_VALUES",
-                                        "NUMBER_VALUES",
-                                        "QUANTITY_VALUES",
-                                        "RESOURCE_TOKEN_REFS",
-                                        "STR_VALUES",
-                                        "PROFILES",
-                                        "TAGS",
-                                        "SECURITY");
+
 
         // Run across both tables
         for (String tablePrefix : tables) {
-            // Drop the Values Tables
-            for (String valueType : valueTypes) {
-                adapter.dropTable(schemaName, tablePrefix + valueType);
-            }
-
-            // Drop the supporting tables
-            adapter.dropTable(schemaName, tablePrefix + "logical_resources");
-            adapter.dropTable(schemaName, tablePrefix + "resources");
-
             // Drop the View for the Table
-            adapter.dropView(schemaName, tablePrefix + "_token_values_V");
+            if (translator.getType() == DbType.POSTGRESQL) {
+                runDropTableResourceGroup(translator, c, schemaName.toLowerCase(), tablePrefix.toLowerCase(), VALUE_TYPES_LOWER);
+            } else {
+                runDropTableResourceGroup(translator, c, schemaName, tablePrefix, VALUE_TYPES);
+            }
         }
 
         // Pattern for multitenant is to prefix tables with DRP_
@@ -206,8 +206,34 @@ public class MigrateV0021AbstractTypeRemoval implements IDatabaseStatement {
         // Drop the tables, when the tables don't exists the errors are swallowed
         // and logs print warnings saying the tables don't exist. That's OK.
         for (String deprecatedTable : UnusedTableRemovalNeedsV0021Migration.DEPRECATED_TABLES) {
-            adapter.dropTable(schemaName, prefix + deprecatedTable);
+            String table = prefix + deprecatedTable;
+            if (translator.getType() == DbType.POSTGRESQL) {
+                adapter.dropTable(schemaName.toLowerCase(), table.toLowerCase());
+            } else {
+                adapter.dropTable(schemaName, table);
+            }
         }
+    }
+
+    /**
+     * run drop table resource group
+     * @param translator
+     * @param c
+     * @param schemaName
+     * @param tablePrefix
+     * @param valueTypes
+     */
+    public void runDropTableResourceGroup(IDatabaseTranslator translator, Connection c, String schemaName, String tablePrefix, List<String> valueTypes) {
+        adapter.dropView(schemaName, tablePrefix + "token_values_v");
+
+        // Drop the Values Tables
+        for (String valueType : valueTypes) {
+            adapter.dropTable(schemaName, tablePrefix + valueType);
+        }
+
+        // Drop the supporting tables
+        adapter.dropTable(schemaName, tablePrefix + "logical_resources");
+        adapter.dropTable(schemaName, tablePrefix + "resources");
     }
 
     /**
