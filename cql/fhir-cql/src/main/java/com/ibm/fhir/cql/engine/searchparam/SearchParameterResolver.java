@@ -20,13 +20,13 @@ import com.ibm.fhir.search.util.SearchUtil;
 
 public class SearchParameterResolver {
 
-    public SearchParameter getSearchParameterDefinition(String dataType, String path) throws Exception {
-        return getSearchParameterDefinition(dataType, path, null);
+    public SearchParameter getSearchParameterDefinition(String resourceType, String path) throws Exception {
+        return getSearchParameterDefinition(resourceType, path, null);
     }
 
-    public SearchParameter getSearchParameterDefinition(String dataType, String path, SearchParamType paramType)
-        throws Exception {
-        if (dataType == null || path == null) {
+    public SearchParameter getSearchParameterDefinition(String resourceType, String path, SearchParamType paramType)
+            throws Exception {
+        if (resourceType == null || path == null) {
             return null;
         }
 
@@ -36,7 +36,8 @@ public class SearchParameterResolver {
             path = "";
         }
 
-        List<SearchParameter> params = SearchUtil.getApplicableSearchParameters(dataType);
+        // XXX should this use the registry (all parameters) or the filtered set of search parameters for a given tenant?
+        List<SearchParameter> params = SearchUtil.getSearchParameters(resourceType);
 
         for (SearchParameter param : params) {
             if (name != null && param.getName().getValue().equals(name)) {
@@ -44,7 +45,7 @@ public class SearchParameterResolver {
             }
 
             if (paramType == null || param.getType().equals(paramType)) {
-                Set<String> normalizedPath = normalizePath(dataType, param.getExpression().getValue());
+                Set<String> normalizedPath = normalizePath(resourceType, param.getExpression().getValue());
                 if (normalizedPath.contains(path)) {
                     return param;
                 }
@@ -54,12 +55,12 @@ public class SearchParameterResolver {
         return null;
     }
 
-    public Pair<String, IQueryParameter> createSearchParameter(String context, String dataType, String path, String value)
-        throws Exception {
+    public Pair<String, IQueryParameter> createSearchParameter(String context, String resourceType, String path, String value)
+            throws Exception {
 
         Pair<String, IQueryParameter> result = null;
 
-        SearchParameter searchParam = this.getSearchParameterDefinition(dataType, path);
+        SearchParameter searchParam = this.getSearchParameterDefinition(resourceType, path);
         if (searchParam != null) {
 
             String name = searchParam.getName().getValue();
@@ -148,8 +149,8 @@ public class SearchParameterResolver {
 //        }
         return normalizedParts;
     }
-    
-    private String removeParens(String path) { 
+
+    private String removeParens(String path) {
         if (path.startsWith("(")) {
             path = path.substring(1, path.length() - 1);
         }

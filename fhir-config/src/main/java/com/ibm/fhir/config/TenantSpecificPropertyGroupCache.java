@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,8 +16,6 @@ import com.ibm.fhir.core.TenantSpecificFileBasedCache;
  * This class implements a tenant-specific cache that holds PropertyGroup objects (i.e. FHIR Server configuration
  * information). Each cache entry holds the in-memory representation of the fhir-server-config.json file found for a
  * particular tenant.
- * 
- * @author padams
  */
 public class TenantSpecificPropertyGroupCache extends TenantSpecificFileBasedCache<PropertyGroup> {
 
@@ -25,20 +23,12 @@ public class TenantSpecificPropertyGroupCache extends TenantSpecificFileBasedCac
         super("PropertyGroup");
     }
 
-    /*
-     * (non-Javadoc)
-     * @see com.ibm.fhir.core.TenantSpecificFileBasedCache#getCacheEntryFilename(java.lang.String)
-     */
     @Override
     public String getCacheEntryFilename(String tenantId) {
         return FHIRConfiguration.getConfigHome() + FHIRConfiguration.CONFIG_LOCATION + File.separator + tenantId + File.separator
                 + FHIRConfiguration.CONFIG_FILE_BASENAME;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see com.ibm.fhir.core.TenantSpecificFileBasedCache#createCachedObject(java.lang.String)
-     */
     @Override
     public PropertyGroup createCachedObject(File f) throws Exception {
         try (InputStream is = new FileInputStream(f)) {

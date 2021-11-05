@@ -99,26 +99,36 @@ public final class ParametersUtil {
         FHIRConfiguration config = FHIRConfiguration.getInstance();
 
         String originalTenantId = FHIRRequestContext.get().getTenantId();
-        for (String tenant : config.getConfiguredTenants()) {
+        List<String> configuredTenants = config.getConfiguredTenants();
+        if (configuredTenants.isEmpty()) {
             try {
-                // Ensure we get the extension search parameters for the proper tenant
-                FHIRRequestContext.get().setTenantId(tenant);
-                if (log.isLoggable(Level.FINE)) {
-                    log.fine(("Computing search parameters for tenant " + tenant));
-                }
-
-                PropertyGroup root = config.loadConfigurationForTenant(tenant);
-                PropertyGroup rsrcsGroup = root == null ? null : root.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES);
-                result.put(tenant, computeTenantSPs(rsrcsGroup));
+                result.put(originalTenantId, computeTenantSPs(null));
             } catch (Exception e) {
-                log.log(Level.SEVERE, "Error while computing search parameters for tenant " + tenant, e);
+                log.log(Level.SEVERE, "Error while computing search parameters for missing config "
+                        + "and default tenant " + originalTenantId, e);
             }
-        }
-        try {
-            // Restore the original tenant id
-            FHIRRequestContext.get().setTenantId(originalTenantId);
-        } catch (FHIRException e) {
-            log.log(Level.SEVERE, "Unexpected error while restoring the FHIRRequestContext tenant id to " + originalTenantId, e);
+        } else {
+            for (String tenant : config.getConfiguredTenants()) {
+                try {
+                    // Ensure we get the extension search parameters for the proper tenant
+                    FHIRRequestContext.get().setTenantId(tenant);
+                    if (log.isLoggable(Level.FINE)) {
+                        log.fine(("Computing search parameters for tenant " + tenant));
+                    }
+
+                    PropertyGroup root = config.loadConfigurationForTenant(tenant);
+                    PropertyGroup rsrcsGroup = root == null ? null : root.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES);
+                    result.put(tenant, computeTenantSPs(rsrcsGroup));
+                } catch (Exception e) {
+                    log.log(Level.SEVERE, "Error while computing search parameters for tenant " + tenant, e);
+                }
+            }
+            try {
+                // Restore the original tenant id
+                FHIRRequestContext.get().setTenantId(originalTenantId);
+            } catch (FHIRException e) {
+                log.log(Level.SEVERE, "Unexpected error while restoring the FHIRRequestContext tenant id to " + originalTenantId, e);
+            }
         }
 
         return Collections.unmodifiableMap(result);
@@ -222,7 +232,7 @@ public final class ParametersUtil {
             }
         }
 
-        return paramMapsByType;
+        return Collections.unmodifiableMap(paramMapsByType);
     }
 
     public static Map<String, ParametersMap> getTenantSPs(String tenant) {

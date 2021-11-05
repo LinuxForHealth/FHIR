@@ -72,7 +72,7 @@ public abstract class SearchParameterFHIRRetrieveProvider extends TerminologyAwa
         return this.maxCodesPerQuery;
     }
 
-    protected abstract Iterable<Object> executeQueries(String dataType, List<SearchParameterMap> queries) throws Exception;
+    protected abstract Iterable<Object> executeQueries(String resourceType, List<SearchParameterMap> queries) throws Exception;
 
     @Override
     public Iterable<Object> retrieve(String context, String contextPath, Object contextValue, String dataType,
@@ -134,30 +134,30 @@ public abstract class SearchParameterFHIRRetrieveProvider extends TerminologyAwa
         return result;
     }
 
-    protected Pair<String, IQueryParameter> getTemplateParam(String dataType, String templateId) {
+    protected Pair<String, IQueryParameter> getTemplateParam(String resourceType, String templateId) {
         // purposefully empty
         return null;
     }
 
-    protected Pair<String, IQueryParameter> getContextParam(String dataType, String context, String contextPath,
-        Object contextValue) throws Exception {
+    protected Pair<String, IQueryParameter> getContextParam(String resourceType, String context, String contextPath,
+            Object contextValue) throws Exception {
         Pair<String, IQueryParameter> result = null;
 
         if (context != null && "Patient".equals(context) && contextValue != null && contextPath != null) {
-            result = searchParameterResolver.createSearchParameter(context, dataType, contextPath, (String) contextValue);
+            result = searchParameterResolver.createSearchParameter(context, resourceType, contextPath, (String) contextValue);
             if (result == null) {
-                throw new IllegalArgumentException(String.format("Could not resolve search parameter for dataType '%s' and contextPath '%s'", dataType, contextPath));
+                throw new IllegalArgumentException(String.format("Could not resolve search parameter for dataType '%s' and contextPath '%s'", resourceType, contextPath));
             }
         }
 
         return result;
     }
 
-    protected Pair<String, DateRangeParameter> getDateRangeParam(String dataType, String datePath, String dateLowPath,
-        String dateHighPath, Interval dateRange) throws Exception {
+    protected Pair<String, DateRangeParameter> getDateRangeParam(String resourceType, String datePath, String dateLowPath,
+            String dateHighPath, Interval dateRange) throws Exception {
         Pair<String, DateRangeParameter> result = null;
         if (datePath != null) {
-            SearchParameter dateParam = this.searchParameterResolver.getSearchParameterDefinition(dataType, datePath, SearchParamType.DATE);
+            SearchParameter dateParam = this.searchParameterResolver.getSearchParameterDefinition(resourceType, datePath, SearchParamType.DATE);
             if (dateParam != null) {
                 String name = dateParam.getName().getValue();
 
@@ -182,24 +182,24 @@ public abstract class SearchParameterFHIRRetrieveProvider extends TerminologyAwa
 
                 result = Pair.of(name, rangeParam);
             } else {
-                throw new UnsupportedOperationException(String.format("Could not resolve a search parameter with date type for %s.%s ", dataType, datePath));
+                throw new UnsupportedOperationException(String.format("Could not resolve a search parameter with date type for %s.%s ", resourceType, datePath));
             }
         }
         return result;
     }
 
-    protected Pair<String, List<IQueryParameterOr<?>>> getCodeParams(String dataType, String codePath, Iterable<Code> codes,
-        String valueSet) throws Exception {
+    protected Pair<String, List<IQueryParameterOr<?>>> getCodeParams(String resourceType, String codePath, Iterable<Code> codes,
+            String valueSet) throws Exception {
 
         Pair<String, List<IQueryParameterOr<?>>> result = null;
 
         if (codePath != null) {
-            SearchParameter searchParam = searchParameterResolver.getSearchParameterDefinition(dataType, codePath, SearchParamType.TOKEN);
+            SearchParameter searchParam = searchParameterResolver.getSearchParameterDefinition(resourceType, codePath, SearchParamType.TOKEN);
             if (searchParam != null) {
                 String name = searchParam.getName().getValue();
                 result = Pair.of(name, getCodeParams(name, codes, valueSet));
             } else {
-                throw new IllegalArgumentException(String.format("Could not resolve search parameter for dataType '%s' and codePath '%s'", dataType, codePath));
+                throw new IllegalArgumentException(String.format("Could not resolve search parameter for dataType '%s' and codePath '%s'", resourceType, codePath));
             }
         }
 
@@ -260,7 +260,7 @@ public abstract class SearchParameterFHIRRetrieveProvider extends TerminologyAwa
     }
 
     protected SearchParameterMap getBaseMap(Pair<String, IQueryParameter> templateParam,
-        Pair<String, IQueryParameter> contextParam, Pair<String, DateRangeParameter> dateRangeParam) throws Exception {
+            Pair<String, IQueryParameter> contextParam, Pair<String, DateRangeParameter> dateRangeParam) throws Exception {
 
         SearchParameterMap searchParameters = new SearchParameterMap();
         // baseMap.setLastUpdated(new DateRangeParam());
@@ -283,11 +283,11 @@ public abstract class SearchParameterFHIRRetrieveProvider extends TerminologyAwa
 
         return searchParameters;
     }
-    
+
     /**
      * Given a query parameter name and contents, transmute the name
      * into something that includes all the appropriate modifiers.
-     * 
+     *
      * @param name query parameter name
      * @param param query parameter contents
      * @return query parameter name with appropriate modifiers appended

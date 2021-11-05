@@ -257,10 +257,13 @@ public class FHIRConfiguration {
         File configDir = new File(getConfigHome() + CONFIG_LOCATION);
         log.fine("Listing tenant id's rooted at directory: " + configDir.getName());
 
-        // List the directories within 'configDir' that contain a fhir-server-config.json file.
-        for (File f : configDir.listFiles()) {
-            if (f.isDirectory()) {
-                result.add(f.getName());
+        File[] files = configDir.listFiles();
+        if (files != null) {
+            // List the directories within 'configDir' that contain a fhir-server-config.json file.
+            for (File f : files) {
+                if (f.isDirectory()) {
+                    result.add(f.getName());
+                }
             }
         }
 
