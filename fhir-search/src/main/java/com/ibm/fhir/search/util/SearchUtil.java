@@ -8,7 +8,6 @@ package com.ibm.fhir.search.util;
 
 import static com.ibm.fhir.model.util.ModelSupport.FHIR_STRING;
 
-import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
@@ -20,7 +19,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -79,7 +77,6 @@ import com.ibm.fhir.search.parameters.ParametersMap;
 import com.ibm.fhir.search.parameters.ParametersUtil;
 import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.parameters.QueryParameterValue;
-import com.ibm.fhir.search.parameters.cache.TenantSpecificSearchParameterCache;
 import com.ibm.fhir.search.reference.value.CompartmentReference;
 import com.ibm.fhir.search.sort.Sort;
 import com.ibm.fhir.search.uri.UriBuilder;
@@ -98,8 +95,6 @@ public class SearchUtil {
 
     // Logging Strings
     private static final String EXTRACT_PARAMETERS_LOGGING = "extractParameterValues: [%s] [%s]";
-    private static final String NO_TENANT_SP_MAP_LOGGING =
-            "No tenant-specific search parameters found for tenant '%s'; trying %s ";
     private static final String UNSUPPORTED_EXCEPTION =
             "Search Parameter includes an unsupported operation or bad expression : [%s] [%s] [%s]";
 
@@ -143,21 +138,7 @@ public class SearchUtil {
     // The functionality is split into a new class.
     private static final Sort sort = new Sort();
 
-    /*
-     * This is our in-memory cache of SearchParameter objects. The cache is organized at the top level by tenant-id,
-     * with the built-in (FHIR spec-defined) SearchParameters stored under the "built-in" pseudo-tenant-id.
-     * SearchParameters contained in the default tenant's extension-search-parameters.json file are stored under the
-     * "default" tenant-id, and other tenants' SearchParameters (defined in their tenant-specific
-     * extension-search-parameters.json files) will be stored under their respective tenant-ids as well. The objects
-     * stored in our cache are of type CachedObjectHolder, with each one containing a Map<String, Map<String,
-     * SearchParameter>>. This map is keyed by resource type (simple name, e.g. "Patient"). Each object stored in this
-     * map contains the SearchParameters for that resource type, keyed by SearchParameter name (e.g. "_lastUpdated").
-     * When getSearchParameter(resourceType, name) is called, we'll need to first search in the current tenant's map,
-     * then if not found, look in the "built-in" tenant's map. Also, when getSearchParameters(resourceType) is called,
-     * we'll need to return a List that contains SearchParameters from the current tenant's map (if present) plus those
-     * contained in the "built-in" tenant's map as well.
-     */
-    private static TenantSpecificSearchParameterCache searchParameterCache = new TenantSpecificSearchParameterCache();
+
 
     private SearchUtil() {
         // No Operation
@@ -177,263 +158,7 @@ public class SearchUtil {
         // Loads the Compartments
         CompartmentUtil.init();
 
-        // Loads the Parameters into a map
         ParametersUtil.init();
-    }
-
-    /**
-     * Retrieves user-defined SearchParameters associated with the specified
-     * resource type and current tenant id.
-     *
-     * @param resourceType
-     *     the resource type for which user-defined SearchParameters will be returned
-     * @return a list of user-defined SearchParameters associated with the specified resource type
-     * @throws Exception
-     */
-    protected static List<SearchParameter> getUserDefinedSearchParameters(String resourceType) throws Exception {
-        List<SearchParameter> result = new ArrayList<>();
-        String tenantId = FHIRRequestContext.get().getTenantId();
-        Map<String, ParametersMap> spMapTenant = getTenantOrDefaultSPMap(tenantId);
-
-        if (spMapTenant != null) {
-            ParametersMap spMapResourceType = spMapTenant.get(resourceType);
-            if (spMapResourceType != null && !spMapResourceType.isEmpty()) {
-                result.addAll(spMapResourceType.values());
-            }
-
-            // Add the Mapping to All Resource Types
-            spMapResourceType = spMapTenant.get(SearchConstants.RESOURCE_RESOURCE);
-            if (spMapResourceType != null && !spMapResourceType.isEmpty()) {
-                result.addAll(spMapResourceType.values());
-            }
-        }
-        return result;
-    }
-
-    /**
-     * Returns a filtered list of built-in SearchParameters associated with the
-     * specified resource type and those associated with the "Resource" resource type.
-     *
-     * @param resourceType
-     *     the resource type
-     * @return a filtered list of SearchParameters
-     * @throws Exception
-     */
-    protected static List<SearchParameter> getFilteredBuiltinSearchParameters(String resourceType) throws Exception {
-        List<SearchParameter> result = new ArrayList<>();
-
-        Map<String, ParametersMap> spBuiltin = ParametersUtil.getBuiltInSearchParametersMap();
-
-        // Retrieve the current tenant's search parameter filtering rules.
-        Map<String, Map<String, String>> filterRules = getFilterRules();
-
-        // Retrieve the SPs associated with the specified resource type and filter per the filter rules.
-        ParametersMap spMap = spBuiltin.get(resourceType);
-        if (spMap != null && !spMap.isEmpty()) {
-            result.addAll(filterSearchParameters(filterRules, resourceType, spMap));
-        }
-
-        if (!SearchConstants.RESOURCE_RESOURCE.equals(resourceType)) {
-            // Retrieve the SPs associated with the "Resource" resource type and filter per the filter rules.
-            spMap = spBuiltin.get(SearchConstants.RESOURCE_RESOURCE);
-            if (spMap != null && !spMap.isEmpty()) {
-                Collection<SearchParameter> superParams =
-                        filterSearchParameters(filterRules, SearchConstants.RESOURCE_RESOURCE, spMap);
-                Map<String, SearchParameter> resultCodes = result.stream()
-                        .collect(Collectors.toMap(sp -> sp.getCode().getValue(), sp -> sp));
-
-                for (SearchParameter sp : superParams) {
-                    String spCode = sp.getCode().getValue();
-                    if (resultCodes.containsKey(spCode)) {
-                        SearchParameter existingSP = resultCodes.get(spCode);
-                        if (sp.getExpression() != null && !sp.getExpression().equals(existingSP.getExpression())) {
-                            log.warning("Code '" + sp.getCode().getValue() + "' is defined for " +
-                                    SearchConstants.RESOURCE_RESOURCE + " and " + resourceType +
-                                    " with differing expressions; using " + resourceType);
-                        }
-                    } else {
-                        result.add(sp);
-                    }
-                }
-            }
-        }
-
-        return result;
-    }
-
-    /**
-     * Filters the specified input list of SearchParameters according to the filter rules and input resource type.
-     * The filter rules are contained in a Map<String, List<String>> that is keyed by resource type.
-     * The value of each Map entry is a list of search parameter names that should be included in our filtered result.
-     *
-     * @param allFilterRules
-     *     a Map containing filter rules for all resource types
-     * @param resourceType
-     *     the resource type associated with each of the unfiltered SearchParameters
-     * @param unfilteredSearchParameters
-     *     the ParametersMap of unfiltered SearchParameter objects for this resource type
-     * @return a filtered Collection of SearchParameters
-     * @implSpec This method guarantees that each search parameter returned in the Collection will have a unique code.
-     */
-    private static Collection<SearchParameter> filterSearchParameters(Map<String, Map<String, String>> allFilterRules,
-            String resourceType, ParametersMap unfilteredSearchParameters) {
-        Map<String, SearchParameter> results = new HashMap<>();
-
-        // First, retrieve the filter rule (list of SP urls to be included) for the specified resource type.
-        // We know that the SearchParameters in the unfiltered list are all associated with this resource type,
-        // so we can use this same "url list" for each Search Parameter in the unfiltered list.
-        Map<String, String> filterRules = allFilterRules.get(resourceType);
-
-        if (filterRules == null) {
-            // If the specified resource type wasn't found in the Map then retrieve the wildcard entry if present.
-            filterRules = allFilterRules.get(SearchConstants.WILDCARD_FILTER);
-        }
-
-        // If we found a non-empty list of search parameters to filter on, then do the filtering.
-        if (filterRules != null && !filterRules.isEmpty()) {
-            boolean includeAll = false;
-
-            for (Entry<String, String> filterRule : filterRules.entrySet()) {
-                if (SearchConstants.WILDCARD_FILTER.equals(filterRule.getValue())) {
-                    includeAll = true;
-                } else {
-                    SearchParameter sp = unfilteredSearchParameters.lookupByCanonical(filterRule.getValue());
-                    if (sp != null) {
-                        results.put(filterRule.getKey(), sp);
-                    }
-                }
-            }
-
-            if (includeAll) {
-                // Add all search parameters that don't conflict with the configured list
-                for (Entry<String, Set<SearchParameter>> spByCode : unfilteredSearchParameters.codeEntries()) {
-                    String code = spByCode.getKey();
-                    Set<SearchParameter> spSet = spByCode.getValue();
-
-                    if (results.containsKey(code)) {
-                        log.fine("Skipping search parameters for code '" + code + "' on resource type '" + resourceType
-                                + "' because the configured set contains " + results.get(code));
-                    } else {
-                        if (spSet.size() > 1) {
-                            StringBuilder canonicalUrlSetStringBuilder = new StringBuilder("[");
-                            String delim = "";
-                            for (SearchParameter sp : spSet) {
-                                canonicalUrlSetStringBuilder.append(delim);
-                                canonicalUrlSetStringBuilder.append(sp.getUrl().getValue());
-                                if (sp.getVersion() != null) {
-                                    canonicalUrlSetStringBuilder.append("|").append(sp.getVersion().getValue());
-                                }
-                                delim = ", ";
-                            }
-                            String canonicalUrls = canonicalUrlSetStringBuilder.append("]").toString();
-
-                            log.warning("Found multiple search parameters for code '" + code
-                                   + "' on resource type '" + resourceType + "': " + canonicalUrls
-                                   + "; use search parameter filtering to disambiguate.");
-                        }
-                        results.put(code, spSet.iterator().next());
-                    }
-                }
-            }
-        }
-
-        return results.values();
-    }
-
-    /**
-     * Retrieves the search parameter filtering rules for the current tenant.
-     *
-     * @return a map of resource types to allowed search parameters;
-     *          the first map is keyed by resource type ('*' for all resource types)
-     *          and the second map is keyed by search parameter code ('*':'*' for all applicable built-in parameters).
-     * @throws Exception an exception
-     */
-    private static Map<String, Map<String, String>> getFilterRules() throws Exception {
-        Map<String, Map<String, String>> result = new HashMap<>();
-        boolean supportOmittedRsrcTypes = true;
-
-        // Retrieve the "resources" config property group.
-        PropertyGroup rsrcsGroup = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES);
-        if (rsrcsGroup != null) {
-            List<PropertyEntry> rsrcsEntries = rsrcsGroup.getProperties();
-            if (rsrcsEntries != null && !rsrcsEntries.isEmpty()) {
-                for (PropertyEntry rsrcsEntry : rsrcsEntries) {
-
-                    // Check special property for including omitted resource types
-                    if (FHIRConfiguration.PROPERTY_FIELD_RESOURCES_OPEN.equals(rsrcsEntry.getName())) {
-                        if (rsrcsEntry.getValue() instanceof Boolean) {
-                            supportOmittedRsrcTypes = (Boolean) rsrcsEntry.getValue();
-                        } else {
-                            throw SearchExceptionUtil.buildNewIllegalStateException();
-                        }
-                    }
-                    else {
-                        String resourceType = rsrcsEntry.getName();
-                        PropertyGroup resourceTypeGroup = (PropertyGroup) rsrcsEntry.getValue();
-                        if (resourceTypeGroup != null) {
-                            Map<String, String> searchParameterUrls = new HashMap<>();
-
-                            // Get search parameters
-                            PropertyGroup spGroup = resourceTypeGroup.getPropertyGroup(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_SEARCH_PARAMETERS);
-                            if (spGroup != null) {
-                                List<PropertyEntry> spEntries = spGroup.getProperties();
-                                if (spEntries != null && !spEntries.isEmpty()) {
-                                    for (PropertyEntry spEntry : spEntries) {
-                                        searchParameterUrls.put(spEntry.getName(), (String) spEntry.getValue());
-                                    }
-                                }
-                            } else {
-                                searchParameterUrls.put(SearchConstants.WILDCARD, SearchConstants.WILDCARD);
-                            }
-                            result.put(resourceType, searchParameterUrls);
-                        }
-                    }
-                }
-            }
-        }
-
-        if (supportOmittedRsrcTypes) {
-            // All other resource types include all search parameters
-            result.put(SearchConstants.WILDCARD, Collections.singletonMap(SearchConstants.WILDCARD, SearchConstants.WILDCARD));
-        }
-
-        return result;
-    }
-
-    /**
-     * Returns the extended search parameters for the specified tenant-id, the default tenant,
-     * or null if there are no extended search parameters.
-     *
-     * @param tenantId
-     *     the tenant-id whose SearchParameters should be returned.
-     * @return a map of ParametersMap objects keyed by resource type
-     * @throws FileNotFoundException
-     */
-    private static Map<String, ParametersMap> getTenantOrDefaultSPMap(String tenantId) throws Exception {
-        if (log.isLoggable(Level.FINEST)) {
-            log.entering(CLASSNAME, "getTenantSPMap", new Object[] { tenantId });
-        }
-        try {
-            Map<String, ParametersMap> cachedObjectForTenant =
-                    searchParameterCache.getCachedObjectForTenant(tenantId);
-
-            if (cachedObjectForTenant == null) {
-
-                // Output logging detail.
-                if (log.isLoggable(Level.FINER)) {
-                    log.finer(String.format(NO_TENANT_SP_MAP_LOGGING, tenantId, FHIRConfiguration.DEFAULT_TENANT_ID));
-                }
-
-                cachedObjectForTenant =
-                        searchParameterCache.getCachedObjectForTenant(FHIRConfiguration.DEFAULT_TENANT_ID);
-            }
-
-            return cachedObjectForTenant;
-        } finally {
-            if (log.isLoggable(Level.FINEST)) {
-                log.exiting(CLASSNAME, "getTenantSPMap");
-            }
-        }
     }
 
     /**
@@ -453,117 +178,33 @@ public class SearchUtil {
      * @throws Exception
      */
     public static SearchParameter getSearchParameter(String resourceType, String code) throws Exception {
-        SearchParameter result = null;
-
-        Map<String, Map<String, String>> filterRules = getFilterRules();
-        Map<String, String> targetResourceFilterRules = filterRules.get(resourceType);
-        Map<String, String> parentResourceFilterRules = filterRules.get(SearchConstants.WILDCARD);
+        Set<SearchParameter> result = new LinkedHashSet<>();
 
         String tenantId = FHIRRequestContext.get().getTenantId();
-        Map<String, ParametersMap> tenantSpMap = getTenantOrDefaultSPMap(tenantId);
 
-        if (targetResourceFilterRules != null && targetResourceFilterRules.containsKey(code)) {
-            Canonical uri = Canonical.of(targetResourceFilterRules.get(code));
-            result = getSearchParameterByUrlFromTenantOrBuiltIn(resourceType, code, tenantSpMap, uri);
-        } else if (parentResourceFilterRules != null && parentResourceFilterRules.containsKey(code)) {
-            Canonical uri = Canonical.of(parentResourceFilterRules.get(code));
-            result = getSearchParameterByUrlFromTenantOrBuiltIn(resourceType, code, tenantSpMap, uri);
-        } else if (targetResourceFilterRules == null || targetResourceFilterRules.containsKey(SearchConstants.WILDCARD)) {
-            Set<SearchParameter> params = getSearchParametersByCodeFromTenantOrBuiltIn(resourceType, code, tenantSpMap);
+        Map<String, ParametersMap> paramsByResourceType = ParametersUtil.getTenantSPs(tenantId);
+        if (paramsByResourceType == null) {
+            return null;
+        }
 
-            if (params != null && !params.isEmpty()) {
-                Iterator<SearchParameter> iterator = params.iterator();
-                result = iterator.next();
-                String configuredUrl = result.getUrl().getValue();
-                while (iterator.hasNext()) {
-                    SearchParameter conflict = iterator.next();
-                    log.warning("Found multiple resource-specific search parameters, '" + configuredUrl + "' and '" + conflict.getUrl().getValue()
-                        + "', for code '" + code + "' on resource type '" + resourceType + "';"
-                        + " use search parameter filtering to disambiguate. Using '" + configuredUrl + "'.");
-                }
-            }
-        } else if (parentResourceFilterRules == null || parentResourceFilterRules.containsKey(SearchConstants.WILDCARD)) {
-            Set<SearchParameter> params = getSearchParametersByCodeFromTenantOrBuiltIn(SearchConstants.RESOURCE_RESOURCE, code, tenantSpMap);
-
-            if (params != null && !params.isEmpty()) {
-                Iterator<SearchParameter> iterator = params.iterator();
-                result = iterator.next();
-                String configuredUrl = result.getUrl().getValue();
-                while (iterator.hasNext()) {
-                    SearchParameter conflict = iterator.next();
-                    log.warning("Found multiple cross-resource search parameters, '" + configuredUrl + "' and '" + conflict.getUrl().getValue()
-                        + "', for code '" + code + "'; use search parameter filtering to disambiguate. Using '" + configuredUrl + "'.");
+        for (String type : new String[]{resourceType, SearchConstants.RESOURCE_RESOURCE}) {
+            ParametersMap parametersMap = paramsByResourceType.get(type);
+            if (parametersMap != null) {
+                Set<SearchParameter> searchParams = parametersMap.lookupByCode(code);
+                if (searchParams != null) {
+                    result.addAll(searchParams);
                 }
             }
         }
 
-        if (result == null && log.isLoggable(Level.FINE)) {
-            log.fine("SearchParameter with code '" + code + "' on resource type " + resourceType + " was not found.");
+        if (result.isEmpty()) {
+            return null;
+        }
+        if (result.size() > 1) {
+            log.info("Found multiple search parameters for code " + code);
         }
 
-        return result;
-    }
-
-    /**
-     * This private method does <em>not</em> apply filtering because it is expected to be used directly from processing the filter.
-     */
-    private static SearchParameter getSearchParameterByUrlFromTenantOrBuiltIn(String resourceType, String code, Map<String, ParametersMap> tenantSpMap,
-            Canonical uri) {
-        // First try to find the search parameter within the specified tenant's map.
-        SearchParameter result = getSearchParameterByUrlIfPresent(tenantSpMap, resourceType, uri);
-
-        // If we didn't find it within the tenant's map, then look within the built-in map.
-        if (result == null) {
-            result = getSearchParameterByUrlIfPresent(ParametersUtil.getBuiltInSearchParametersMap(), resourceType, uri);
-        }
-
-        if (result == null) {
-            log.warning("Configured search parameter with url '" + uri.getValue() + "' for code '" + code +
-                "' on resource type '" + resourceType + "' could not be found." );
-        }
-        return result;
-    }
-
-    /**
-     * This private method does <em>not</em> apply filtering because it is expected to be used directly from processing the filter.
-     */
-    private static Set<SearchParameter> getSearchParametersByCodeFromTenantOrBuiltIn(String resourceType, String code, Map<String, ParametersMap> tenantSpMap) {
-        // First try to find the search parameters within the specified tenant's map.
-        Set<SearchParameter> params = getSearchParametersByCodeIfPresent(tenantSpMap, resourceType, code);
-
-        // If we didn't find any within the tenant's map, then look within the built-in map.
-        if (params == null || params.isEmpty()) {
-            params = getSearchParametersByCodeIfPresent(ParametersUtil.getBuiltInSearchParametersMap(), resourceType, code);
-        }
-        return params;
-    }
-
-    /**
-     * This private method does <em>not</em> apply filtering because it is expected to be used directly from processing the filter.
-     *
-     * @param spMaps
-     * @param resourceType
-     * @param code
-     * @return the SearchParameter for type {@code resourceType} with code {@code code} or null if it doesn't exist
-     */
-    private static Set<SearchParameter> getSearchParametersByCodeIfPresent(Map<String, ParametersMap> spMaps, String resourceType, String code) {
-        Set<SearchParameter> result = null;
-
-        if (spMaps != null && !spMaps.isEmpty()) {
-            ParametersMap parametersMap = spMaps.get(resourceType);
-            if (parametersMap != null && !parametersMap.isEmpty()) {
-                result = parametersMap.lookupByCode(code);
-            }
-
-            if (result == null) {
-                parametersMap = spMaps.get(SearchConstants.RESOURCE_RESOURCE);
-                if (parametersMap != null && !parametersMap.isEmpty()) {
-                    result = parametersMap.lookupByCode(code);
-                }
-            }
-        }
-
-        return result;
+        return result.iterator().next();
     }
 
     /**
@@ -583,59 +224,11 @@ public class SearchUtil {
      * @throws Exception
      */
     public static SearchParameter getSearchParameter(String resourceType, Canonical uri) throws Exception {
-        String tenantId = FHIRRequestContext.get().getTenantId();
-
-        // First try to find the search parameter within the specified tenant's map.
-        SearchParameter result = getSearchParameterByUrlIfPresent(getTenantOrDefaultSPMap(tenantId), resourceType, uri);
-
-        // If we didn't find it within the tenant's map, then look within the built-in map.
-        if (result == null) {
-            result = getSearchParameterByUrlIfPresent(ParametersUtil.getBuiltInSearchParametersMap(), resourceType, uri);
-
-            // If we found it within the built-in search parameters, apply our filtering rules.
-            if (result != null) {
-
-                // Check if this search parameter applies to the base Resource type
-                ResourceType rt = result.getBase().get(0);
-                if (SearchConstants.RESOURCE_RESOURCE.equals(rt.getValue())) {
-                    resourceType = rt.getValue();
-                }
-
-                Map<String, Map<String, String>> allFilterRules = getFilterRules();
-                Map<String, String> filterRules = getFilterRules().get(resourceType);
-                if (filterRules == null) {
-                    // If the specified resource type wasn't found in the Map then retrieve the wildcard entry if present.
-                    filterRules = allFilterRules.get(SearchConstants.WILDCARD_FILTER);
-                }
-
-                // If we found a non-empty list of search parameters to filter on, then do the filtering.
-                if (filterRules != null && !filterRules.isEmpty()) {
-                    boolean includeAll = false;
-
-                    for (Entry<String, String> filterRule : filterRules.entrySet()) {
-                        if (SearchConstants.WILDCARD_FILTER.equals(filterRule.getValue())) {
-                            includeAll = true;
-                        } else if (result.getCode().getValue().equals(filterRule.getKey())) {
-                            String url = result.getUrl().getValue();
-
-                            if (filterRule.getValue().equals(uri.getValue()) || filterRule.getValue().equals(url)) {
-                                return result;
-                            } else {
-                                // Configuration has mapped this code to a different search parameter
-                                return null;
-                            }
-                        }
-                    }
-
-                    // If we got here, then we havn't found an explicit rule for this search parameter
-                    // so filter out the result if there's no applicable wildcard rule
-                    if (!includeAll) {
-                        result = null;
-                    }
-                }
-            }
+        if (uri == null || uri.getValue() == null) {
+            return null;
         }
-        return result;
+        String tenantId = FHIRRequestContext.get().getTenantId();
+        return getSearchParameterByUrlIfPresent(ParametersUtil.getTenantSPs(tenantId), resourceType, uri);
     }
 
     /**
@@ -692,7 +285,7 @@ public class SearchUtil {
         String searchParameterTargetType, String inclusionKeyword, Modifier modifier) throws Exception {
         Map<String, SearchParameter> inclusionSearchParameters = new HashMap<>();
 
-        for (SearchParameter searchParameter : getApplicableSearchParameters(joinResourceType)) {
+        for (SearchParameter searchParameter : getSearchParameters(joinResourceType)) {
             if (SearchParamType.REFERENCE.equals(searchParameter.getType()) &&
                     ((SearchConstants.INCLUDE.equals(inclusionKeyword)
                             && (searchParameterTargetType == null || isValidTargetType(searchParameterTargetType, searchParameter))) ||
@@ -745,7 +338,7 @@ public class SearchUtil {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
         EvaluationContext evaluationContext = new EvaluationContext(resource);
 
-        List<SearchParameter> parameters = getApplicableSearchParameters(resourceType.getSimpleName());
+        List<SearchParameter> parameters = getSearchParameters(resourceType.getSimpleName());
 
         for (SearchParameter parameter : parameters) {
 
@@ -1564,12 +1157,24 @@ public class SearchUtil {
 
     /**
      * Returns a list of SearchParameters that consist of those associated with the
-     * "Resource" base resource type, as
-     * well as those associated with the specified resource type.
+     * "Resource" base resource type, as well as those associated with the specified resource type.
      */
-    public static List<SearchParameter> getApplicableSearchParameters(String resourceType) throws Exception {
-        List<SearchParameter> result = getFilteredBuiltinSearchParameters(resourceType);
-        result.addAll(getUserDefinedSearchParameters(resourceType));
+    public static List<SearchParameter> getSearchParameters(String resourceType) throws Exception {
+        List<SearchParameter> result = new ArrayList<>();
+
+        String tenantId = FHIRRequestContext.get().getTenantId();
+        Map<String, ParametersMap> paramsByResourceType = ParametersUtil.getTenantSPs(tenantId);
+        if (paramsByResourceType == null) {
+            return result; // empty
+        }
+
+        for (String type : new String[]{resourceType, SearchConstants.RESOURCE_RESOURCE}) {
+            ParametersMap parametersMap = paramsByResourceType.get(type);
+            if (parametersMap != null) {
+                result.addAll(parametersMap.values());
+            }
+        }
+
         return result;
     }
 
@@ -2691,7 +2296,8 @@ public class SearchUtil {
                                 // target resource types in the compartment definition.
                                 if (!paramEntry.getValue().contains(compartmentName)) {
                                     if (log.isLoggable(Level.FINE)) {
-                                        log.fine("Skipping reference with value " + reference.getReference() + ";"
+                                        String refVal = (reference.getReference() == null) ? null : reference.getReference().getValue();
+                                        log.fine("Skipping reference with value " + refVal + ";"
                                                 + " target resource type does not match any of the allowed compartment types: " + paramEntry);
                                     }
                                     continue;

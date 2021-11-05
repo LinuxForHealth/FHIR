@@ -32,7 +32,7 @@ public class Main extends BaseSearchTest {
      * @throws Exception
      */
     public static void main(String[] args) throws Exception {
-        for (SearchParameter parameter : SearchUtil.getApplicableSearchParameters(Resource.class.getSimpleName())) {
+        for (SearchParameter parameter : SearchUtil.getSearchParameters(Resource.class.getSimpleName())) {
             String code = parameter.getCode().getValue();
             String type = parameter.getType().getValue();
             String description = parameter.getDescription().getValue();
@@ -43,7 +43,7 @@ public class Main extends BaseSearchTest {
             System.out.println("name: " + code + ", type: " + type + ", description: " + description + ", xpath: " + xpath);
         }
 
-        for (SearchParameter parameter : SearchUtil.getApplicableSearchParameters(Patient.class.getSimpleName())) {
+        for (SearchParameter parameter : SearchUtil.getSearchParameters(Patient.class.getSimpleName())) {
             String code = parameter.getCode().getValue();
             String type = parameter.getType().getValue();
             String description = parameter.getDescription().getValue();

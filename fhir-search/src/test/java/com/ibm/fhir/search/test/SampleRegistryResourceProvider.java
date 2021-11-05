@@ -60,7 +60,7 @@ public class SampleRegistryResourceProvider extends FHIRRegistryResourceProvider
             .build();
 
     private List<FHIRRegistryResource> registryResources = Arrays.asList(
-        // Add them in descending version order so that getRegistryResource with no version returns the highest version
+        // Add them in descending version order so that we don't need to sort them later to have the highest version first
         FHIRRegistryResource.from(sp_a2),
         FHIRRegistryResource.from(sp_a1),
 
@@ -74,7 +74,7 @@ public class SampleRegistryResourceProvider extends FHIRRegistryResourceProvider
         return registryResources.stream()
                 .filter(rr -> rr.getResourceType() == resourceType)
                 .filter(rr -> rr.getUrl().equals(url))
-                .filter(rr -> rr.getVersion() == null || rr.getVersion().equals(version))
+                .filter(rr -> rr.getVersion() == null || version == null || rr.getVersion().toString().equals(version))
                 .findFirst()
                 .orElse(null);
     }

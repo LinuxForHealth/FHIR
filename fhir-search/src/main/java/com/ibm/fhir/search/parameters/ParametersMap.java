@@ -43,12 +43,13 @@ public class ParametersMap {
         Objects.requireNonNull(parameter, "cannot insert a null parameter");
 
         String url = parameter.getUrl().getValue();
-        String version = parameter.getVersion() == null ? null : parameter.getVersion().getValue();
+        String version = (parameter.getVersion() == null) ? null : parameter.getVersion().getValue();
 
         Set<SearchParameter> previousParams = codeMap.get(code);
         if (previousParams != null && previousParams.size() > 0) {
             if (log.isLoggable(Level.FINE)) {
-                log.fine("SearchParameter with code '" + code + "' already exists; adding additional parameter '" + url + "'");
+                String canonical = (version == null) ? url : url + "|" + version;
+                log.fine("SearchParameter with code '" + code + "' already exists; adding additional parameter '" + canonical + "'");
             }
         }
         codeMap.computeIfAbsent(code, k -> new HashSet<>()).add(parameter);
@@ -63,9 +64,10 @@ public class ParametersMap {
                             + "adding additional code '" + code + "'");
                 }
             } else {
+                String thatVersion = (previous.getVersion() == null) ? null : previous.getVersion().getValue();
                 log.info("SearchParameter '" + url + "' already exists with a different expression;\n"
-                        + "replacing [id=" + previous.getId() + ", version=" + previous.getVersion().getValue() + ", expression=" + previous.getExpression().getValue()
-                        + "] with [id=" + parameter.getId() + ", version=" + parameter.getVersion().getValue() + ", expression=" + parameter.getExpression().getValue() + "]");
+                        + "replacing [id=" + previous.getId() + ", version=" + thatVersion + ", expression=" + previous.getExpression().getValue()
+                        + "] with [id=" + parameter.getId() + ", version=" + version + ", expression=" + parameter.getExpression().getValue() + "]");
             }
         }
         canonicalMap.put(url, parameter);

@@ -707,7 +707,7 @@ public class FHIROpenApiGenerator {
 
     private static void generateSearchParameters(JsonObjectBuilder parameters, Filter filter) throws Exception {
         if (filter.acceptOperation("search")) {
-            for (SearchParameter searchParameter : SearchUtil.getApplicableSearchParameters(Resource.class.getSimpleName())) {
+            for (SearchParameter searchParameter : SearchUtil.getSearchParameters(Resource.class.getSimpleName())) {
                 JsonObjectBuilder parameter = factory.createObjectBuilder();
                 String name = searchParameter.getName().getValue();
                 parameter.add("name", name);
@@ -1066,7 +1066,7 @@ public class FHIROpenApiGenerator {
 
     private static void generateSearchParameters(Class<?> modelClass, JsonArrayBuilder parameters) throws Exception {
         List<SearchParameter> searchParameters = new ArrayList<SearchParameter>(
-                SearchUtil.getApplicableSearchParameters(modelClass.getSimpleName()));
+                SearchUtil.getSearchParameters(modelClass.getSimpleName()));
         for (SearchParameter searchParameter : searchParameters) {
             JsonObjectBuilder parameter = factory.createObjectBuilder();
             String name = searchParameter.getName().getValue();

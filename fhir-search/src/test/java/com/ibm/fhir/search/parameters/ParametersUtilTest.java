@@ -22,6 +22,7 @@ import java.io.PrintStream;
 import java.io.Reader;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Set;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -43,22 +44,22 @@ import com.ibm.fhir.search.test.BaseSearchTest;
  * Tests ParametersUtil
  */
 public class ParametersUtilTest extends BaseSearchTest {
-    public static final boolean DEBUG = false;
+    public static final boolean DEBUG = true;
 
     @Test
-    public void testGetBuiltInSearchParameterMap() throws IOException {
+    public void testGetAllSearchParameters() throws IOException {
         // Tests JSON
-        Map<String, ParametersMap> params = ParametersUtil.getBuiltInSearchParametersMap();
+        Set<SearchParameter> params = ParametersUtil.getAllSearchParameters();
         assertNotNull(params);
         // Intentionally the data is captured in the bytearray output stream.
         try (ByteArrayOutputStream outBA = new ByteArrayOutputStream(); PrintStream out = new PrintStream(outBA, true);) {
             ParametersUtil.print(out);
             Assert.assertNotNull(outBA);
         }
-        assertEquals(params.size(), 134);
+        assertEquals(params.size(), 1385);
     }
 
-    @Test(expectedExceptions = {})
+    @Test
     public void testPopulateSearchParameterMapFromFile() throws IOException, FHIRParserException {
         File customSearchParams = new File("src/test/resources/config/tenant1/extension-search-parameters.json");
         if (DEBUG) {
@@ -94,10 +95,10 @@ public class ParametersUtilTest extends BaseSearchTest {
 
     }
 
-    @Test(expectedExceptions = {})
-    public void testGetBuiltInSearchParameterMapByResourceType() {
+    @Test
+    public void testGetTenantSPs() {
         // getBuiltInSearchParameterMapByResourceType
-        Map<String, ParametersMap> result = ParametersUtil.getBuiltInSearchParametersMap();
+        Map<String, ParametersMap> result = ParametersUtil.getTenantSPs("default");
         assertNotNull(result);
         assertNull(result.get("Junk"));
         assertFalse(result.get("Observation").isEmpty());

@@ -9,6 +9,7 @@ package com.ibm.fhir.search.test;
 import static org.testng.Assert.assertNotNull;
 
 import java.io.File;
+import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
@@ -16,6 +17,7 @@ import java.nio.file.attribute.FileTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.LogManager;
 
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
@@ -27,7 +29,7 @@ import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.type.code.ResourceType;
 
 /**
- *
+ * A base search test with utilities for other search tests
  */
 public abstract class BaseSearchTest {
     // The base uri used for all search tests. This is used to derive the incoming system url
@@ -35,6 +37,12 @@ public abstract class BaseSearchTest {
     public static final String BASE = "https://example.com/";
 
     public static final boolean DEBUG = false;
+
+    @BeforeClass
+    public void configureLogging() throws Exception {
+        final InputStream inputStream = BaseSearchTest.class.getResourceAsStream("/logging.unitTest.properties");
+        LogManager.getLogManager().readConfiguration(inputStream);
+    }
 
     @BeforeMethod
     public void startMethod(Method method) {
@@ -89,14 +97,13 @@ public abstract class BaseSearchTest {
      * @param spList
      */
     protected void printSearchParameters(String label, List<SearchParameter> spList) {
-        if (DEBUG) {
+        if (DEBUG && spList != null) {
             System.out.println("\nTest: " + label + "\nSearch Parameters:");
             for (SearchParameter sp : spList) {
                 List<ResourceType> resources = sp.getBase();
                 for (ResourceType resource : resources) {
                     System.out.println("\t" + resource.getValue() + ":" + sp.getCode().getValue());
                 }
-
             }
         }
     }

@@ -347,7 +347,7 @@ public class Capabilities extends FHIRResource {
 
             // Build the set of ConformanceSearchParams for this resource type.
             List<Rest.Resource.SearchParam> conformanceSearchParams = new ArrayList<>();
-            List<SearchParameter> searchParameters = SearchUtil.getApplicableSearchParameters(resourceTypeName);
+            List<SearchParameter> searchParameters = SearchUtil.getSearchParameters(resourceTypeName);
             if (searchParameters != null) {
                 for (SearchParameter searchParameter : searchParameters) {
                     Rest.Resource.SearchParam.Builder conformanceSearchParamBuilder =

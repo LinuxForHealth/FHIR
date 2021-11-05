@@ -7,21 +7,30 @@
 package com.ibm.fhir.search.parameters;
 
 import java.io.PrintStream;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
+import com.ibm.fhir.config.FHIRConfiguration;
+import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.config.PropertyGroup;
+import com.ibm.fhir.config.PropertyGroup.PropertyEntry;
+import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.type.code.SearchParamType;
+import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.search.SearchConstants;
+import com.ibm.fhir.search.exception.SearchExceptionUtil;
 
 /**
  * Refactored the PopulateSearchParameterMap code, and marked class as final so there are no 'children' and inheritance
@@ -39,6 +48,10 @@ public final class ParametersUtil {
 
     public static final String FHIR_DEFAULT_SEARCH_PARAMETERS_FILE = "search-parameters.json";
     public static final String FROM_STEAM = "from_stream";
+
+    private static final Set<String> ALL_RESOURCE_TYPES = ModelSupport.getResourceTypes(true).stream()
+            .map(t -> ModelSupport.getTypeName(t))
+            .collect(Collectors.toSet());
 
     // Exceptions:
     public static final String ERROR_EXCEPTION = "Error condition reading the FHIR Bundle of Search Parameters -> %s ";
@@ -58,7 +71,7 @@ public final class ParametersUtil {
     private static final String COMMA = ",";
     private static final String EQUALS = "=";
 
-    private static final Map<String, ParametersMap> builtInSearchParameters = loadBuiltIns();
+    private static final Map<String, Map<String, ParametersMap>> searchParameters = buildSearchParametersMap();
 
     private static final String MISSING_EXPRESSION = "/NONE/";
 
@@ -75,65 +88,151 @@ public final class ParametersUtil {
     }
 
     /**
-     * Loads the built-in search parameters and constructs .
+     * Loads search parameters from the registry and applies filtering to construct
+     * a per-tenant mapping from resource type to ParametersMap.
      *
-     * @return a map of ParametersMaps, keyed by resourceType
+     * @return a tenant-aware map of maps from resourceType to ParametersMaps
      */
-    private static Map<String, ParametersMap> loadBuiltIns() {
-        try {
-            return buildSearchParametersMap();
-        } catch (Exception e) {
-            log.log(Level.SEVERE, "Unexpected error while loading built-in search parameters", e);
-        }
-        return Collections.emptyMap();
-    }
+    private static Map<String, Map<String, ParametersMap>> buildSearchParametersMap() {
+        HashMap<String, Map<String, ParametersMap>> result = new HashMap<>();
 
-    private static Map<String, ParametersMap> buildSearchParametersMap() {
-        Map<String, ParametersMap> typeToParamMap = new HashMap<>();
+        FHIRConfiguration config = FHIRConfiguration.getInstance();
 
-        for (SearchParameter parameter : getSearchParameters()) {
-            // Conditional Logging intentionally avoids forming of the String.
-            if (log.isLoggable(Level.FINE)) {
-                log.fine(String.format(LOG_PARAMETERS, parameter.getCode().getValue()));
-            }
-
-            if (parameter.getExpression() == null || !parameter.getExpression().hasValue()) {
+        String originalTenantId = FHIRRequestContext.get().getTenantId();
+        for (String tenant : config.getConfiguredTenants()) {
+            try {
+                // Ensure we get the extension search parameters for the proper tenant
+                FHIRRequestContext.get().setTenantId(tenant);
                 if (log.isLoggable(Level.FINE)) {
-                    log.fine(String.format(MISSING_EXPRESSION_WARNING, parameter.getCode().getValue()));
+                    log.fine(("Computing search parameters for tenant " + tenant));
                 }
-            } else {
-                /*
-                 * In R4, SearchParameter changes from a single Base resource to an array.
-                 * As Base is an array, there are going to be potential collisions in the map.
-                 */
-                List<ResourceType> types = parameter.getBase();
-                for (ResourceType type : types) {
-                    String base = type.getValue();
 
-                    ParametersMap map = typeToParamMap.get(base);
-                    if (map == null) {
-                        map = new ParametersMap();
-                        typeToParamMap.put(base, map);
+                PropertyGroup root = config.loadConfigurationForTenant(tenant);
+                PropertyGroup rsrcsGroup = root == null ? null : root.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES);
+                result.put(tenant, computeTenantSPs(rsrcsGroup));
+            } catch (Exception e) {
+                log.log(Level.SEVERE, "Error while computing search parameters for tenant " + tenant, e);
+            }
+        }
+        try {
+            // Restore the original tenant id
+            FHIRRequestContext.get().setTenantId(originalTenantId);
+        } catch (FHIRException e) {
+            log.log(Level.SEVERE, "Unexpected error while restoring the FHIRRequestContext tenant id to " + originalTenantId, e);
+        }
+
+        return Collections.unmodifiableMap(result);
+    }
+
+    private static Map<String, ParametersMap> computeTenantSPs(PropertyGroup rsrcsGroup) throws Exception {
+        Map<String, ParametersMap> paramMapsByType = new HashMap<>();
+        Set<String> resourceTypesWithWildcardParams = new HashSet<>();
+        Map<String, Set<String>> configuredCodes = new HashMap<>();
+        boolean supportOmittedRsrcTypes = true;
+
+        if (rsrcsGroup != null) {
+            List<PropertyEntry> rsrcsEntries = rsrcsGroup.getProperties();
+            if (rsrcsEntries != null && !rsrcsEntries.isEmpty()) {
+                for (PropertyEntry rsrcsEntry : rsrcsEntries) {
+                    ParametersMap paramMap = new ParametersMap();
+
+                    // Check special property for including omitted resource types
+                    if (FHIRConfiguration.PROPERTY_FIELD_RESOURCES_OPEN.equals(rsrcsEntry.getName())) {
+                        if (rsrcsEntry.getValue() instanceof Boolean) {
+                            supportOmittedRsrcTypes = (Boolean) rsrcsEntry.getValue();
+                        } else {
+                            throw SearchExceptionUtil.buildNewIllegalStateException();
+                        }
+                    } else {
+                        String resourceType = rsrcsEntry.getName();
+                        PropertyGroup resourceTypeGroup = (PropertyGroup) rsrcsEntry.getValue();
+                        if (resourceTypeGroup != null) {
+                            // Get search parameters
+                            PropertyGroup spGroup = resourceTypeGroup.getPropertyGroup(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_SEARCH_PARAMETERS);
+                            if (spGroup != null) {
+                                List<PropertyEntry> spEntries = spGroup.getProperties();
+                                if (spEntries != null && !spEntries.isEmpty()) {
+                                    for (PropertyEntry spEntry : spEntries) {
+                                        String code = spEntry.getName();
+                                        if (SearchConstants.WILDCARD.equals(code)) {
+                                            resourceTypesWithWildcardParams.add(resourceType);
+                                        } else if (spEntry.getValue() instanceof String) {
+                                            SearchParameter sp = FHIRRegistry.getInstance()
+                                                    .getResource((String)spEntry.getValue(), SearchParameter.class);
+                                            if (sp != null) {
+                                                if (sp.getExpression() == null || !sp.getExpression().hasValue()) {
+                                                    if (log.isLoggable(Level.FINE)) {
+                                                        log.fine(String.format(MISSING_EXPRESSION_WARNING, sp.getCode().getValue()));
+                                                    }
+                                                } else {
+                                                    paramMap.insert(code, sp);
+                                                    configuredCodes.computeIfAbsent(resourceType, k -> new HashSet<>())
+                                                            .add(code);
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            } else {
+                                resourceTypesWithWildcardParams.add(resourceType);
+                            }
+                        }
+                        paramMapsByType.put(resourceType, paramMap);
                     }
-
-                    // check and warn if the parameter name and code do not agree.
-                    String code = parameter.getCode().getValue();
-                    String name = parameter.getName().getValue();
-                    checkAndWarnForIssueWithCodeAndName(code, name);
-
-                    // add the map entry with keys for both the code and the url
-                    map.insert(code, parameter);
                 }
             }
         }
 
-        // Return an unmodifiable copy, lest there be side effects.
-        return Collections.unmodifiableMap(typeToParamMap);
+        if (supportOmittedRsrcTypes) {
+            // All other resource types include all search parameters
+            for (String resourceType : ALL_RESOURCE_TYPES) {
+                if (!paramMapsByType.containsKey(resourceType)) {
+                    resourceTypesWithWildcardParams.add(resourceType);
+                }
+            }
+        }
+
+        for (SearchParameter sp : getAllSearchParameters()) {
+            for (ResourceType resourceType : sp.getBase()) {
+                if (resourceTypesWithWildcardParams.contains(resourceType.getValue()) && sp.getCode().hasValue()) {
+                    if (sp.getExpression() == null || !sp.getExpression().hasValue()) {
+                        if (log.isLoggable(Level.FINE)) {
+                            log.fine(String.format(MISSING_EXPRESSION_WARNING, sp.getCode().getValue()));
+                        }
+                    } else {
+                        ParametersMap paramMap = paramMapsByType.get(resourceType.getValue());
+                        if (paramMap == null) {
+                            paramMap = new ParametersMap();
+                            paramMapsByType.put(resourceType.getValue(), paramMap);
+                        }
+                        Set<String> configuredCodesForType = configuredCodes.get(resourceType.getValue());
+                        if (configuredCodesForType != null && configuredCodesForType.contains(sp.getCode().getValue())) {
+                            if (log.isLoggable(Level.FINE)) {
+                                String url = sp.getUrl().getValue();
+                                String version = (sp.getVersion() == null) ? null : sp.getVersion().getValue();
+                                String canonical = (version == null) ? url : url + "|" + version;
+                                log.fine("Skipping search parameter '" + canonical + "' because code '" +
+                                        sp.getCode() + "' is already configured.");
+                            }
+                        } else {
+                            paramMap.insert(sp.getCode().getValue(), sp);
+                        }
+                    }
+                }
+            }
+        }
+
+        return paramMapsByType;
     }
 
-    private static List<SearchParameter> getSearchParameters() {
-        List<SearchParameter> searchParameters = new ArrayList<>(2048);
+    public static Map<String, ParametersMap> getTenantSPs(String tenant) {
+        return searchParameters.get(tenant);
+    }
+
+    public static Set<SearchParameter> getAllSearchParameters() {
+        Set<SearchParameter> searchParameters = new LinkedHashSet<>(2048);
         for (SearchParamType.Value searchParamType : SearchParamType.Value.values()) {
+
             searchParameters.addAll(FHIRRegistry.getInstance().getSearchParameters(searchParamType.value()));
         }
         return searchParameters;
@@ -212,24 +311,19 @@ public final class ParametersUtil {
     }
 
     /**
-     * @return a map of maps
-     *         The outer map is keyed by resource type.
-     *         The inner map is keyed by both SearchParameter.code and SearchParameter.url
-     */
-    public static Map<String, ParametersMap> getBuiltInSearchParametersMap() {
-        return builtInSearchParameters;
-    }
-
-    /**
      * convenience method to print the output of the Search Parameters.
      *
      * @param out
      */
     public static void print(PrintStream out) {
-        print(out, builtInSearchParameters);
+        for (String tenant : searchParameters.keySet()) {
+            out.println(SearchConstants.LOG_BOUNDARY);
+            out.println("- TENANT " + tenant);
+            print(out, searchParameters.get(tenant));
+        }
     }
 
-    /*
+    /**
      * used when locally debugging.
      * @param out
      * @param searchParamsMap
