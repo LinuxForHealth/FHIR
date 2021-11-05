@@ -71,27 +71,29 @@ public abstract class FHIRRestInteractionVisitorBase implements FHIRRestInteract
      * @param entryIndex
      * @param e
      * @param requestDescription
-     * @param initialTime
+     * @param accumulatedTime
      */
-    protected void setEntryComplete(int entryIndex, Entry e, String requestDescription, long initialTime) {
+    protected void setEntryComplete(int entryIndex, Entry e, String requestDescription, long accumulatedTime) {
         responseBundleEntries[entryIndex] = e;
-        logBundledRequestCompletedMsg(requestDescription, initialTime, e.getResponse().getStatus().getValue());
+        logBundledRequestCompletedMsg(requestDescription, accumulatedTime, e.getResponse().getStatus().getValue());
     }
 
     protected Entry getResponseEntry(int entryIndex) {
         return responseBundleEntries[entryIndex];
     }
 
-    private void logBundledRequestCompletedMsg(String requestDescription, long initialTime, String httpStatus) {
-        StringBuffer msg = new StringBuffer();
-        double elapsedSecs = (System.currentTimeMillis() - initialTime) / 1000.0;
+    private void logBundledRequestCompletedMsg(String requestDescription, long accumulatedTime, String httpStatus) {
+        double elapsedSecs = accumulatedTime / 1000000000.0;
 
-        msg.append("Completed bundle request took:[");
-        msg.append(elapsedSecs);
-        msg.append(" secs]: ");
-        msg.append(requestDescription);
-        msg.append(" status:[" + httpStatus + "]");
-        log.info(msg.toString());
+        final String msg = String.format("Completed bundle request took:[%7.3f secs]: %s status:[%s]", 
+            elapsedSecs, requestDescription, httpStatus);
+        log.info(msg);
+//        StringBuffer msg = new StringBuffer();
+//        msg.append("Completed bundle request took:[");
+//        msg.append(elapsedSecs);
+//        msg.append(" secs]: ");
+//        msg.append(requestDescription);
+//        msg.append(" status:[" + httpStatus + "]");
     }
 
     /**
@@ -99,12 +101,12 @@ public abstract class FHIRRestInteractionVisitorBase implements FHIRRestInteract
      * @param operationResponse
      * @param validationOutcome
      * @param requestDescription
-     * @param initialTime
+     * @param accumulatedTime
      * @return
      * @throws FHIROperationException
      */
     protected Entry buildResponseBundleEntry(FHIRRestOperationResponse operationResponse,
-            OperationOutcome validationOutcome, String requestDescription, long initialTime)
+            OperationOutcome validationOutcome, String requestDescription, long accumulatedTime)
             throws FHIROperationException {
 
         Resource resource = operationResponse.getResource();

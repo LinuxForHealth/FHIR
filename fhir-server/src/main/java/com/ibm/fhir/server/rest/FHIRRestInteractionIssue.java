@@ -24,18 +24,17 @@ public class FHIRRestInteractionIssue extends FHIRRestInteractionBase {
      * Public constructor
      *
      * @param entryIndex
-     * @param initialTime
      * @param status
      * @param responseEntry
      */
-    public FHIRRestInteractionIssue(int entryIndex, long initialTime, Status status, Entry responseEntry) {
-        super(entryIndex, null, null, initialTime);
+    public FHIRRestInteractionIssue(int entryIndex, Status status, Entry responseEntry) {
+        super(entryIndex, null, null);
         this.status = status;
         this.responseEntry = responseEntry;
     }
 
     @Override
-    public void accept(FHIRRestInteractionVisitor visitor) throws Exception {
-        visitor.issue(getEntryIndex(), getRequestDescription(), getInitialTime(), status, responseEntry);
+    public void process(FHIRRestInteractionVisitor visitor) throws Exception {
+        visitor.issue(getEntryIndex(), getRequestDescription(), getAccumulatedTime(), status, responseEntry);
     }
 }

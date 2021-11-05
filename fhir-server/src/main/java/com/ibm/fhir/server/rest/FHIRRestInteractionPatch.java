@@ -32,7 +32,6 @@ public class FHIRRestInteractionPatch extends FHIRRestInteractionResource {
      * @param event
      * @param requestDescription
      * @param requestURL
-     * @param initialTime
      * @param type
      * @param id
      * @param patch
@@ -42,9 +41,9 @@ public class FHIRRestInteractionPatch extends FHIRRestInteractionResource {
      * @param localIdentifier
      */
     public FHIRRestInteractionPatch(int entryIndex, FHIRPersistenceEvent event, String requestDescription,
-            FHIRUrlParser requestURL, long initialTime, String type, String id, FHIRPatch patch, String ifMatchValue,
+            FHIRUrlParser requestURL, String type, String id, FHIRPatch patch, String ifMatchValue,
             String searchQueryString, boolean skippableUpdate, String localIdentifier) {
-        super(entryIndex, event, null, null, requestDescription, requestURL, initialTime);
+        super(entryIndex, event, null, null, requestDescription, requestURL);
         this.type = type;
         this.id = id;
         this.patch = patch;
@@ -55,9 +54,9 @@ public class FHIRRestInteractionPatch extends FHIRRestInteractionResource {
     }
 
     @Override
-    public void accept(FHIRRestInteractionVisitor visitor) throws Exception {
+    public void process(FHIRRestInteractionVisitor visitor) throws Exception {
         FHIRRestOperationResponse result = visitor.doPatch(getEntryIndex(), getEvent(), getValidationResponseEntry(),
-                getRequestDescription(), getRequestURL(), getInitialTime(), type, id, getNewResource(),
+                getRequestDescription(), getRequestURL(), getAccumulatedTime(), type, id, getNewResource(),
                 getPrevResource(), patch, ifMatchValue, searchQueryString, skippableUpdate, getWarnings(), localIdentifier);
 
         // If the response includes a resource, update our copy so that we can pass to the

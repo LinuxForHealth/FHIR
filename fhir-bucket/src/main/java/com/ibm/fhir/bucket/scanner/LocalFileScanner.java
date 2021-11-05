@@ -5,22 +5,32 @@
  */
 package com.ibm.fhir.bucket.scanner;
 
+import java.io.IOException;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.FileTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.bucket.api.BucketLoaderJob;
 import com.ibm.fhir.bucket.api.CosItem;
 import com.ibm.fhir.bucket.api.FileType;
 import com.ibm.fhir.bucket.cos.COSClient;
 import com.ibm.fhir.database.utils.thread.ThreadHandler;
 
 /**
- * Active object to periodically scan COS buckets looking for new
+ * Active object to periodically scan a local directory looking for new
  * objects to load
  */
-public class CosScanner implements IResourceScanner {
+public class LocalFileScanner implements IResourceScanner {
     private static final Logger logger = Logger.getLogger(CosScanner.class.getName());
 
     // number of nanos per ms
@@ -32,11 +42,8 @@ public class CosScanner implements IResourceScanner {
     // regular heartbeats every 5 seconds so we can see if a node has failed
     public static final long HEARTBEAT_INTERVAL_MS = 5000;
 
-    // COS connection
-    private final COSClient client;
-
-    // the list of buckets to scan
-    private final List<String> buckets;
+    // the list of dirs to scan
+    private final List<String> dirs;
 
     // main thread control flag
     private volatile boolean running = true;
@@ -62,17 +69,16 @@ public class CosScanner implements IResourceScanner {
 
     /**
      * Public constructor
-     * @param client
-     * @param buckets the COS buckets to scan
+     * 
+     * @param dirs the directories to scan
      * @param dataAccess the data access layer for persisting items discovered during the scan
      * @param fileTypes set of FileType values accepted for processing
      * @param prefix only scan items with this prefix if set
      * @param scanIntervalMs the number of milliseconds between scans. -1 for automatic
      */
-    public CosScanner(COSClient client, Collection<String> buckets, DataAccess dataAccess, Set<FileType> fileTypes, String pathPrefix,
+    public LocalFileScanner(Collection<String> dirs, DataAccess dataAccess, Set<FileType> fileTypes, String pathPrefix,
         int scanIntervalMs) {
-        this.client = client;
-        this.buckets = new ArrayList<>(buckets);
+        this.dirs = new ArrayList<>(dirs);
         this.dataAccess = dataAccess;
         this.fileTypes = fileTypes;
         this.pathPrefix = pathPrefix;
@@ -96,11 +102,10 @@ public class CosScanner implements IResourceScanner {
     @Override
     public void signalStop() {
         if (this.running) {
-            logger.info("Stopping CosScanner");
+            logger.info("Stopping LocalFileScanner");
             this.running = false;
         }
 
-        this.client.signalStop();
         this.running = false;
         if (mainLoopThread != null) {
             this.mainLoopThread.interrupt();
@@ -162,11 +167,52 @@ public class CosScanner implements IResourceScanner {
     }
 
     /**
-     * Perform a scan for each of the configured buckets
+     * Perform a scan for each of the configured directories
      */
     protected void scan() {
-        for (String bucket: this.buckets) {
-            client.scan(bucket, this.pathPrefix, CosScanner::fileTyper, ci -> handle(ci));
+        for (String dir: this.dirs) {
+            scan(dir);
+        }
+    }
+
+    /**
+     * Scan the given directory
+     * @param dir
+     */
+    protected void scan(String dir) {
+        try {
+            Files.walkFileTree(Paths.get(dir), new SimpleFileVisitor<Path>() {
+                @Override
+                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
+                  throws IOException {
+                    if (!Files.isDirectory(file)) {
+                        addFile(file, attrs.size(), attrs.lastModifiedTime());
+                    }
+                    return FileVisitResult.CONTINUE;
+                }
+            });
+        } catch (IOException x) {
+            throw new IllegalStateException("Failed to scan '" + dir + "'", x);
+        }
+    }
+    
+    /**
+     * Add the file to the list of scanned objects we've found
+     * @param file
+     * @param size
+     * @param lastModifiedTime
+     */
+    private void addFile(Path file, long size, FileTime lastModifiedTime) {
+        final CosItem ci;
+        final Date lastModifiedDate = Date.from(lastModifiedTime.toInstant());
+        
+        FileType fileType = fileTyper(file.toString());
+        if (fileType != FileType.UNKNOWN) {
+            ci = new CosItem(":local", file.toString(), size, fileType, "", lastModifiedDate);
+            logger.info(() -> "Adding file: " + ci.toString());
+            handle(ci);
+        } else {
+            logger.info("Ignoring unsupported file type: " + file.toString());
         }
     }
 
