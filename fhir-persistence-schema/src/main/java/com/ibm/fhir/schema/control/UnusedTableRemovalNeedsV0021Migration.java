@@ -108,7 +108,7 @@ public class UnusedTableRemovalNeedsV0021Migration implements IDatabaseSupplier<
                 + "  JOIN sys.sysschemas AS schemas "
                 + "    ON (tables.schemaid = schemas.schemaid) "
                 + " WHERE schemas.schemaname = ?"
-                + "     AND schemas.tablename in (" + addParameterMarkers(TABLE_COUNT) + ")";
+                + "     AND tables.tablename in (" + addParameterMarkers(TABLE_COUNT) + ")";
         return hasTables(translator, c, sql);
     }
 

@@ -479,7 +479,7 @@ public class Main {
                 // V0014 IS_DELETED and LAST_UPDATED added to whole-system LOGICAL_RESOURCES
                 applyDataMigrationForV0014();
 
-                // V0021 removes Abstract Type tables which are unused.s
+                // V0021 removes Abstract Type tables which are unused.
                 applyTableRemovalForV0021();
 
                 // Apply privileges if asked

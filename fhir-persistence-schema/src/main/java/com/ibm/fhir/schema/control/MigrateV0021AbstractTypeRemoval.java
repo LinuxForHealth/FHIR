@@ -69,7 +69,7 @@ public class MigrateV0021AbstractTypeRemoval implements IDatabaseStatement {
      * @param adapter
      * @param adminSchemaName
      * @param schemaName
-     * @param force - indicating if their is data in these tables, it'll still remove the table.
+     * @param force - indicating if there is data in these tables, it'll still remove the table.
      */
     public MigrateV0021AbstractTypeRemoval(IDatabaseAdapter adapter, String adminSchemaName, String schemaName, boolean force) {
         this.adapter = adapter;
@@ -102,7 +102,7 @@ public class MigrateV0021AbstractTypeRemoval implements IDatabaseStatement {
      */
     private void checkShouldThrowException() {
         if (count != 0 && !force) {
-            throw new IllegalArgumentException("The Data Tables for Resources or DomainResource contains data. use --force-unused-table-removal to force removal");
+            throw new IllegalArgumentException("The Data Tables for Resources or DomainResource contains data. Use --force-unused-table-removal to force removal");
         }
     }
 
