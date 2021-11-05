@@ -46,6 +46,7 @@ import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.database.utils.api.TableSpaceRemovalException;
 import com.ibm.fhir.database.utils.api.TenantStatus;
 import com.ibm.fhir.database.utils.api.UndefinedNameException;
+import com.ibm.fhir.database.utils.api.UniqueConstraintViolationException;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.database.utils.common.JdbcConnectionProvider;
 import com.ibm.fhir.database.utils.common.JdbcPropertyAdapter;
@@ -384,6 +385,9 @@ public class Main {
         IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
         try (ITransaction tx = transactionProvider.getTransaction()) {
             CreateControl.createTableIfNeeded(schema.getAdminSchemaName(), adapter);
+        } catch (UniqueConstraintViolationException x) {
+            // Race condition - two or more instances trying to create the CONTROL table
+            throw new ConcurrentUpdateException("Concurrent update - create control table");
         }
 
         if (updateFhirSchema) {
@@ -2531,6 +2535,9 @@ public class Main {
         case EXIT_RUNTIME_ERROR:
             logger.severe("SCHEMA CHANGE: RUNTIME ERROR");
             break;
+        case EXIT_CONCURRENT_UPDATE:
+            logger.warning("SCHEMA CHANGE: CONCURRENT UPDATE");
+            break;
         case EXIT_VALIDATION_FAILED:
             logger.warning("SCHEMA CHANGE: FAILED");
             break;
@@ -2582,7 +2589,8 @@ public class Main {
             logger.warning("Tablespace removal is not complete, as an async dependency has not finished dettaching. Please re-try.");
             exitStatus = EXIT_TABLESPACE_REMOVAL_NOT_COMPLETE;
         } catch (ConcurrentUpdateException x) {
-            logger.log(Level.WARNING, "Update is already running. Please re-try later.", x);
+            // We handle this, so no need to log the exception
+            logger.log(Level.WARNING, "Please try again later: update is already running - " + x.getMessage());
             exitStatus = EXIT_CONCURRENT_UPDATE;
         } catch (DatabaseNotReadyException x) {
             logger.log(Level.SEVERE, "The database is not yet available. Please re-try.", x);

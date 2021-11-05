@@ -49,9 +49,42 @@ public class InputOutputByteStreamTest {
         assertEquals(compare(source, 0, source.length-1, readBack2, 0, len2-1), 0);
     }
 
+    @Test
+    public void testBasicOperationWithMarkAndReset() throws IOException {
+        InputOutputByteStream iobs = new InputOutputByteStream(10);
+        byte[] source = {0x01, 0x02, 0x03, 0x04};
+        OutputStream os = iobs.outputStream();
+        os.write(source);
+
+        // read back and check
+        InputStream is = iobs.inputStream();
+        byte[] readBack = new byte[8];
+        int len = is.read(readBack);
+        assertEquals(len, source.length);
+        assertEquals(compare(source, 0, source.length-1, readBack, 0, len-1), 0);
+
+        // If it's not supported then it'll throw an exception.
+        is.reset();
+
+        // Read 3 of 4 bytes, and then iterate.
+        byte[] readReset = new byte[3];
+        int lenReset = is.read(readReset);
+        assertEquals(lenReset, 3);
+
+        // Fixing the mark to the current posn
+        is.mark(100);
+        lenReset = is.read(readReset);
+        assertEquals(lenReset, 1);
+
+        // Reset to marked point
+        is.reset();
+        lenReset = is.read(readReset);
+        assertEquals(lenReset, 1);
+    }
+
     /**
      * Check that the two arrays are equal. Can't use {@link Arrays#compare(byte[], int, int, byte[], int, int)}
-     * because that's since J9 and we still supprt J8.
+     * because that's since Java9 and we still support Java8.
      * @param left
      * @param leftFrom
      * @param leftTo
