@@ -124,8 +124,8 @@ public class FhirSchemaGenerator {
     // Build the multitenant variant of the schema
     private final boolean multitenant;
 
-    // TODO pass 'false' to getResourceTypes to avoid building tables for abstract resource types
-    private static final Set<String> ALL_RESOURCE_TYPES = ModelSupport.getResourceTypes(true).stream()
+    // No abstract types
+    private static final Set<String> ALL_RESOURCE_TYPES = ModelSupport.getResourceTypes(false).stream()
             .map(t -> ModelSupport.getTypeName(t).toUpperCase())
             .collect(Collectors.toSet());
 
@@ -450,7 +450,7 @@ public class FhirSchemaGenerator {
             procedurePrivileges);
         pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
         final ProcedureDef deleteResourceParameters = pd;
-        
+
         pd = model.addProcedure(this.schemaName,
                 ADD_ANY_RESOURCE,
                 FhirSchemaVersion.V0001.vid(),
@@ -607,7 +607,7 @@ public class FhirSchemaGenerator {
                     if (priorVersion < FhirSchemaVersion.V0019.vid()) {
                         statements.add(new PostgresVacuumSettingDAO(schemaName, tableName, 2000, null, 1000));
                     }
-                    
+
                     if (priorVersion < FhirSchemaVersion.V0020.vid()) {
                         statements.add(new PostgresFillfactorSettingDAO(schemaName, tableName, FhirSchemaConstants.PG_FILLFACTOR_VALUE));
                     }
@@ -807,7 +807,7 @@ public class FhirSchemaGenerator {
      */
     public void addResourceChangeLog(PhysicalDataModel pdm) {
         final String tableName = RESOURCE_CHANGE_LOG;
-        
+
         // custom list of Withs because this table does not require fillfactor tuned in V0020
         List<With> customWiths = Arrays.asList(
             With.with("autovacuum_vacuum_scale_factor", "0.01"), // V0019
