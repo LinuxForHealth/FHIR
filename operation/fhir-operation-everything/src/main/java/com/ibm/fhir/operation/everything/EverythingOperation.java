@@ -55,7 +55,6 @@ import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
  * This class implements the <a href="https://www.hl7.org/fhir/operation-patient-everything.html">$everything</a> operation
  * which is used to return all the information related to one or more patients described in the resource or context on
  * which this operation is invoked.
- *
  */
 public class EverythingOperation extends AbstractOperation {
 
@@ -160,22 +159,26 @@ public class EverythingOperation extends AbstractOperation {
          * @see Issue #2402 for more details.
          */
         if (logicalId == null) {
-            throw buildExceptionWithIssue("Search for Patients the Patient is related to is not supported", IssueType.NOT_SUPPORTED);
+            throw buildExceptionWithIssue("This implementation requires the Patient's logical id to be passed; "
+                    + "the patient / set of patients cannot be inferred from the request context.", IssueType.NOT_SUPPORTED);
         }
 
         Patient patient = null;
         try {
             patient = (Patient) resourceHelper.doRead(PATIENT, logicalId, false, false, null).getResource();
         } catch (FHIRPersistenceResourceDeletedException fde) {
-            FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Patient with ID '" + logicalId + "' does not exist.", IssueType.NOT_FOUND);
+            FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Patient with ID '" + logicalId + "' "
+                    + "does not exist.", IssueType.NOT_FOUND);
             throw exceptionWithIssue;
         } catch (Exception e) {
-            FHIROperationException exceptionWithIssue = buildExceptionWithIssue("An unexpected error occurred while reading patient '" + logicalId + "'", IssueType.EXCEPTION);
+            FHIROperationException exceptionWithIssue = buildExceptionWithIssue("An unexpected error occurred while "
+                    + "reading patient '" + logicalId + "'", IssueType.EXCEPTION, e);
             LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
             throw exceptionWithIssue;
         }
         if (patient == null) {
-            FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Patient with ID '" + logicalId + "' does not exist.", IssueType.NOT_FOUND);
+            FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Patient with ID '" + logicalId + "' "
+                    + "does not exist.", IssueType.NOT_FOUND);
             throw exceptionWithIssue;
         }
 
@@ -209,13 +212,16 @@ public class EverythingOperation extends AbstractOperation {
                 totalResourceCount += currentResourceCount;
                 LOG.finest("Got " + compartmentType + " resources " + currentResourceCount + " for a total of " + totalResourceCount);
             } catch (Exception e) {
-                FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Error retrieving $everything resources of type '" + compartmentType + "' for patient " + logicalId, IssueType.EXCEPTION);
+                FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Error retrieving $everything "
+                        + "resources of type '" + compartmentType + "' for patient " + logicalId, IssueType.EXCEPTION, e);
                 LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
                 throw exceptionWithIssue;
             }
             // If retrieving all these resources exceeds the maximum number of resources allowed for this operation the operation is failed
             if (totalResourceCount > MAX_OVERALL_RESOURCES) {
-                FHIROperationException exceptionWithIssue = buildExceptionWithIssue("The maximum number of resources allowed for the $everything operation (" + MAX_OVERALL_RESOURCES + ") has been exceeded for patient '" + logicalId + "'. Try using the bulkexport feature.", IssueType.TOO_COSTLY);
+                FHIROperationException exceptionWithIssue = buildExceptionWithIssue("The maximum number of resources "
+                        + "allowed for the $everything operation (" + MAX_OVERALL_RESOURCES + ") has been exceeded "
+                        + "for patient '" + logicalId + "'. Try using the bulkexport feature.", IssueType.TOO_COSTLY);
                 LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
                 throw exceptionWithIssue;
             }
@@ -231,7 +237,9 @@ public class EverythingOperation extends AbstractOperation {
                         searchParameters.putSingle(SearchConstants.PAGE, page++ + "");
                         results = resourceHelper.doSearch(compartmentType, PATIENT, logicalId, searchParameters, null, null);
                     } catch (Exception e) {
-                        FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Error retrieving $everything resources page '" + page + "' of type '" + compartmentType + "' for patient " + logicalId, IssueType.EXCEPTION);
+                        FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Error retrieving "
+                                + "$everything resources page '" + page + "' of type '" + compartmentType + "' "
+                                + "for patient " + logicalId, IssueType.EXCEPTION, e);
                         LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
                         throw exceptionWithIssue;
                     }
@@ -250,7 +258,8 @@ public class EverythingOperation extends AbstractOperation {
         try {
             outputParameters = FHIROperationUtil.getOutputParameters(bundleBuilder.build());
         } catch (Exception e) {
-            FHIROperationException exceptionWithIssue = buildExceptionWithIssue("An unexpected error occurred while creating the operation output parameters for the resulting Bundle.", IssueType.EXCEPTION);
+            FHIROperationException exceptionWithIssue = buildExceptionWithIssue("An unexpected error occurred while "
+                    + "creating the operation output parameters for the resulting Bundle.", IssueType.EXCEPTION, e);
             LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
             throw exceptionWithIssue;
         }
