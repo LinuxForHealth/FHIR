@@ -158,25 +158,30 @@ public class MigrateV0021AbstractTypeRemoval implements IDatabaseStatement {
      */
     private void checkDataTables(IDatabaseTranslator translator, Connection c) {
         for (String deprecatedTable : UnusedTableRemovalNeedsV0021Migration.DEPRECATED_TABLES) {
-            final String table = schemaName + "." + deprecatedTable;
-
-            // When checking for data... SYSCAT.TABLES->CARD was considered to be checked.
-            // However if the db hasn't collected statistics -1 is returned, and unreliable
-            // Instead we're going to check if it has at least one row...
-            final String sql = "SELECT * FROM " + table + " " + translator.limit("1");
-            try (PreparedStatement ps = c.prepareStatement(sql)) {
-                if (ps.execute()) {
-                    ResultSet rs = ps.getResultSet();
-                    if (rs.next()) {
-                        LOG.warning("Data Table contains data '" + table + "'");
-                        count++;
-                    }
+            if (adapter.doesTableExist(schemaName, deprecatedTable)) {
+                String table = schemaName + "." + deprecatedTable;
+                if (translator.getType() == DbType.POSTGRESQL) {
+                    table = schemaName.toLowerCase() + "." + deprecatedTable;
                 }
-            } catch (SQLException x) {
-                if (!translator.isUndefinedName(x)){
-                    throw translator.translate(x);
-                } else {
-                    LOG.finest("Table already deleted: " + table);
+
+                // When checking for data... SYSCAT.TABLES->CARD was considered to be checked.
+                // However if the db hasn't collected statistics -1 is returned, and unreliable
+                // Instead we're going to check if it has at least one row...
+                final String sql = "SELECT * FROM " + table + " " + translator.limit("1");
+                try (PreparedStatement ps = c.prepareStatement(sql)) {
+                    if (ps.execute()) {
+                        ResultSet rs = ps.getResultSet();
+                        if (rs.next()) {
+                            LOG.warning("Data Table contains data '" + table + "'");
+                            count++;
+                        }
+                    }
+                } catch (SQLException x) {
+                    if (!translator.isUndefinedName(x)){
+                        throw translator.translate(x);
+                    } else {
+                        LOG.finest("Table already deleted: " + table);
+                    }
                 }
             }
         }
