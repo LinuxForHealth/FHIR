@@ -2458,6 +2458,11 @@ public class Main {
         String resourceTypesString = properties.getProperty("resourceTypes");
         if (resourceTypesString != null && resourceTypesString.length() > 0) {
             resourceTypeSubset = new HashSet<>(Arrays.asList(resourceTypesString.split(",")));
+
+            // Double check for Abstract Types
+            if (resourceTypeSubset.contains("DomainResource") || resourceTypeSubset.contains("Resource")) {
+                throw new IllegalArgumentException("--prop resourceTypes=<resourceTypes> should not include Abstract types");
+            }
         }
 
         if (addKeyForTenant != null) {

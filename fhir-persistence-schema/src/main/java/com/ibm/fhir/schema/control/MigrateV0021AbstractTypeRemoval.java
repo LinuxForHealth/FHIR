@@ -173,7 +173,11 @@ public class MigrateV0021AbstractTypeRemoval implements IDatabaseStatement {
                     }
                 }
             } catch (SQLException x) {
-                throw translator.translate(x);
+                if (!translator.isUndefinedName(x)){
+                    throw translator.translate(x);
+                } else {
+                    LOG.finest("Table already deleted: " + table);
+                }
             }
         }
     }
@@ -185,7 +189,6 @@ public class MigrateV0021AbstractTypeRemoval implements IDatabaseStatement {
      */
     private void removeBaseArtifacts(IDatabaseTranslator translator, Connection c) {
         List<String> tables = Arrays.asList("DOMAINRESOURCE_", "RESOURCE_");
-
 
         // Run across both tables
         for (String tablePrefix : tables) {
