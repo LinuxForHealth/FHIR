@@ -64,10 +64,10 @@ public class USCorePractitionerAndPractitionerRoleTest extends ProfilesTestBaseV
             Meta meta = Meta.builder().versionId(Id.of("" + System.currentTimeMillis())).build();
             entry.getResource().toBuilder().meta(meta).build();
 
-            Bundle.Entry tmpEntry = entry.toBuilder().request(request).build();
+            Bundle.Entry tmpEntry = entry.toBuilder().request(request).search(null).build();
             output.add(tmpEntry);
         }
-        bundle = bundle.toBuilder().type(BundleType.BATCH).entry(output).build();
+        bundle = bundle.toBuilder().type(BundleType.BATCH).entry(output).total(null).build();
 
         Entity<Bundle> entity = Entity.entity(bundle, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().header(PREFER_HEADER_NAME, PREFER_HEADER_RETURN_REPRESENTATION).post(entity, Response.class);
