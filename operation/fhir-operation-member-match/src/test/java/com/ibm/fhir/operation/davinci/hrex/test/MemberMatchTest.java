@@ -209,7 +209,7 @@ public class MemberMatchTest {
     }
 
     @Test
-    public void testMemberMatchFactory() {
+    public void testMemberMatchFactory() throws FHIROperationException {
         MemberMatchFactory factory = MemberMatchFactory.factory();
         assertNotNull(factory);
         MemberMatchStrategy strategy = factory.getStrategy(new ConfigurationAdapter() {
@@ -233,11 +233,11 @@ public class MemberMatchTest {
 
     }
 
-    @Test
-    public void testMemberMatchFactory_BadKey() {
+    @Test(expectedExceptions= {FHIROperationException.class})
+    public void testMemberMatchFactory_BadKey() throws FHIROperationException {
         MemberMatchFactory factory = MemberMatchFactory.factory();
         assertNotNull(factory);
-        MemberMatchStrategy strategy = factory.getStrategy(new ConfigurationAdapter() {
+        factory.getStrategy(new ConfigurationAdapter() {
 
             @Override
             public boolean enabled() {
@@ -254,8 +254,6 @@ public class MemberMatchTest {
                 return null;
             }
         });
-        assertNotNull(strategy);
-        assertEquals("default", strategy.getMemberMatchIdentifier());
     }
 
     @Test
