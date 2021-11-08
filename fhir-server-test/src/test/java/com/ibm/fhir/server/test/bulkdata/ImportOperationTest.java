@@ -53,46 +53,6 @@ import jakarta.json.JsonReaderFactory;
 
 /**
  * These tests exercise the $import operation a bulkdata proposal
- *
- * <pre>
- * curl -k -v -X POST -u "fhiruser:change-password" -H 'Content-Type: application/fhir+json' 'https://localhost:9443/fhir-server/api/v4/$import' -d '{
-    "resourceType": "Parameters",
-    "id": "30321130-5032-49fb-be54-9b8b82b2445a",
-    "parameter": [
-        {
-            "name": "inputFormat",
-            "valueString": "application/fhir+ndjson"
-        },
-        {
-            "name": "inputSource",
-            "valueUri": "https://localhost:9443/source-fhir-server"
-        },
-        {
-            "name": "input",
-            "part": [
-                {
-                    "name": "type",
-                    "valueString": "Patient"
-                },
-                {
-                    "name": "url",
-                    "valueUrl": "test-import.ndjson"
-                }
-            ]
-        },
-        {
-            "name": "storageDetail",
-            "valueString": "ibm-cos"
-        }
-    ]
-}'
-
-grab content-location
-
-curl 'https://localhost:9443/fhir-server/api/v4/$bulkdata-status?job=FvHrLGPv0oKZNyLzBnY5iA%3D%3D' -k -u "fhiruser:change-password" -v
-
-curl -X DELETE 'https://localhost:9443/fhir-server/api/v4/$bulkdata-status?job=k%2Fd8cTAU%2BUeVEwqURPZ3oA%3D%3D' -k -u "fhiruser:change-password" -v
- * </pre>
  */
 public class ImportOperationTest extends FHIRServerTestBase {
     private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
@@ -315,6 +275,49 @@ public class ImportOperationTest extends FHIRServerTestBase {
             checkValidResponse(response);
             checkOnFourResources();
         }
+    }
+
+    @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = {"testImportFromFileDefaultSkippable"})
+    public void testImportFromFileDefaultSkippableRemove() throws Exception {
+        if (!ON) {
+            return;
+        }
+        // Delete so we can re-import
+        Response response = getWebTarget()
+                .path("Patient/1772b6bb75a-fd1b2296-6666-4ac1-8b06-f3651eebcc0a")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", "default")
+                .header("X-FHIR-DSID", "default")
+                .delete();
+        assertEquals(Response.Status.Family.familyOf(response.getStatus()), Response.Status.Family.SUCCESSFUL);
+    }
+
+    @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = {"testImportFromFileDefaultSkippableRemove"})
+    public void testImportFromFileDefaultSkippableImportAndReadSuccessfully() throws Exception {
+        if (!ON) {
+            return;
+        }
+        String path = BASE_VALID_URL;
+        String inputFormat = FORMAT;
+        String inputSource = "https://localhost:9443/source-fhir-server";
+        String resourceType = "Patient";
+        String url = "test-import-skip.ndjson";
+
+        Response response = doPost(path, inputFormat, inputSource, resourceType, url);
+        assertEquals(response.getStatus(), Response.Status.ACCEPTED.getStatusCode());
+
+        // check the content-location that's returned.
+        String contentLocation = response.getHeaderString("Content-Location");
+        if (DEBUG) {
+            System.out.println("Content Location: " + contentLocation);
+        }
+        assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
+
+        // Check eventual value
+        response = polling(contentLocation);
+        assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
+        checkValidResponse(response);
+        checkOnFourResources();
     }
 
     @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = {"testCreateDeletedPatient"})

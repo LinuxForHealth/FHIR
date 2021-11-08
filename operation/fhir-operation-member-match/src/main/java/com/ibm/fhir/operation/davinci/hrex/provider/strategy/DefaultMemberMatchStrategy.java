@@ -186,6 +186,17 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
 
             Patient patient = patientBundle.getEntry().get(0).getResource().as(Patient.class);
             patient.accept(getPatientIdentifier);
+
+            /*
+             * QA: Since there is filtering ton the codesystem and value, the MB has to exist.
+             * if it doesn't there is no MATCH.
+             */
+            if (getPatientIdentifier.getSystem() == null || getPatientIdentifier.getValue() == null) {
+                returnNoMatchException();
+                return MemberMatchResult.builder()
+                        .responseType(ResponseType.NO_MATCH)
+                        .build();
+            }
         } catch (Exception e) {
             LOG.throwing(getClass().getSimpleName(), "executeMemberMatch", e);
             throw FHIROperationUtil.buildExceptionWithIssue("Error executing the MemberMatch", IssueType.EXCEPTION);
