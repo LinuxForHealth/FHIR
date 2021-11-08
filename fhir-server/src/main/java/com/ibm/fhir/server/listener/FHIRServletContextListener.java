@@ -6,8 +6,8 @@
 
 package com.ibm.fhir.server.listener;
 
-import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_CHECK_REFERENCE_TYPES;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_CHECK_CONTROL_CHARS;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_CHECK_REFERENCE_TYPES;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_DATASOURCES;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_EXTENDED_CODEABLE_CONCEPT_VALIDATION;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_CONNECTIONPROPS;
@@ -52,6 +52,7 @@ import com.ibm.fhir.database.utils.derby.DerbyServerPropertiesMgr;
 import com.ibm.fhir.model.config.FHIRModelConfig;
 import com.ibm.fhir.model.lang.util.LanguageRegistryUtil;
 import com.ibm.fhir.model.util.FHIRUtil;
+import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.path.function.registry.FHIRPathFunctionRegistry;
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
 import com.ibm.fhir.registry.FHIRRegistry;
@@ -89,7 +90,7 @@ public class FHIRServletContextListener implements ServletContextListener {
 
     private List<GraphTermServiceProvider> graphTermServiceProviders = new ArrayList<>();
     private List<RemoteTermServiceProvider> remoteTermServiceProviders = new ArrayList<>();
-    
+
     // Unique value known only to this class so that only we can initiate lifecycle events
     private static final Object serviceManagerId = new Object();
 
@@ -101,7 +102,7 @@ public class FHIRServletContextListener implements ServletContextListener {
         try {
             // Initialize our "initComplete" flag to false.
             event.getServletContext().setAttribute(FHIR_SERVER_INIT_COMPLETE, Boolean.FALSE);
-            
+
             EventManager.registerServiceManagerId(serviceManagerId);
 
             FHIRConfiguration.setConfigHome(System.getenv("FHIR_CONFIG_HOME"));
@@ -113,9 +114,13 @@ public class FHIRServletContextListener implements ServletContextListener {
             log.fine("Current working directory: " + Encode.forHtml(System.getProperty("user.dir")));
 
             /*
-             * The following inits are intended to load the FHIRUtil and SearchUtil into the classloader.
+             * The following inits are intended to load the Support / Util classes into the classloader.
              * Subsequently, the code activates the static values (and maps).
              */
+
+            log.fine("Initializing ModelSupport...");
+            ModelSupport.init();
+
             log.fine("Initializing FHIRUtil...");
             FHIRUtil.init();
 
@@ -130,7 +135,7 @@ public class FHIRServletContextListener implements ServletContextListener {
 
             log.fine("Initializing LanguageRegistryUtil...");
             LanguageRegistryUtil.init();
-            
+
             setDerbyProperties(fhirConfig);
 
             // For any singleton resources that need to be shared among our resource class instances,
@@ -242,7 +247,7 @@ public class FHIRServletContextListener implements ServletContextListener {
             }
         }
     }
-    
+
     /**
      * If the default datasource is configured to use Derby then set some internal
      * Derby properties to make things run a little more smoothly.
@@ -267,7 +272,7 @@ public class FHIRServletContextListener implements ServletContextListener {
         try {
             // Set our "initComplete" flag back to false.
             event.getServletContext().setAttribute(FHIR_SERVER_INIT_COMPLETE, Boolean.FALSE);
-            
+
             // Tell anyone who's interested that the server is being shut down. Should not block
             EventManager.startShutdown(serviceManagerId);
 
