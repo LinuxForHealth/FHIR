@@ -119,13 +119,17 @@ public class RestAuditLogger {
 
         AuditLogService auditLogSvc = AuditLogServiceFactory.getService();
         if (auditLogSvc.isEnabled()) {
-            AuditLogEntry entry = initLogEntry(AuditLogEventType.FHIR_UPDATE);
-            populateAuditLogEntry(entry, request, updatedResource, startTime, endTime, responseStatus);
-
-            entry.getContext().setAction("U");
-            entry.setDescription("FHIR Update request");
-
-            auditLogSvc.logEntry(entry);
+            if (oldResource == null) {
+                // #2471 -  Audit record for PUTs should not always use "Update"
+                // If the oldResource is null, it doesn't exist and is actually treated as a CREATE.
+                RestAuditLogger.logCreate(request, updatedResource, startTime, endTime, responseStatus);
+            } else {
+                AuditLogEntry entry = initLogEntry(AuditLogEventType.FHIR_UPDATE);
+                populateAuditLogEntry(entry, request, updatedResource, startTime, endTime, responseStatus);
+                entry.getContext().setAction("U");
+                entry.setDescription("FHIR Update request");
+                auditLogSvc.logEntry(entry);
+            }
         }
         log.exiting(CLASSNAME, METHODNAME);
     }
