@@ -1598,7 +1598,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
                     // Verify that the fullUrl field is not a version specific reference
                     // (Bundle constraint bdl-8) and that the fullUrl field + resource.meta.versionId
-                    // is unique for 'batch' or 'transaction' type bundles (Bundle constraint bdl-7)                    Resource resource = requestEntry.getResource();
+                    // is unique for 'batch' or 'transaction' type bundles (Bundle constraint bdl-7)
                     Resource resource = requestEntry.getResource();
                     if (fullUrl != null) {
                         if (fullUrl.contains("/_history/")) {

@@ -11,11 +11,9 @@ import static org.testng.Assert.fail;
 
 import java.util.List;
 
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.core.HTTPReturnPreference;
 import com.ibm.fhir.exception.FHIRException;
@@ -41,7 +39,6 @@ import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.NarrativeStatus;
 import com.ibm.fhir.model.type.code.SearchEntryMode;
 import com.ibm.fhir.persistence.FHIRPersistence;
-import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.server.util.FHIRRestHelper;
 
 public class BundleValidationTest {
@@ -51,17 +48,8 @@ public class BundleValidationTest {
 
     @BeforeClass
     void setup() throws FHIRException {
-        FHIRConfiguration.setConfigHome("src/test/resources");
-        FHIRRequestContext.get().setTenantId("default");
-        FHIRRegistry.getInstance().addProvider(new MockRegistryResourceProvider());
         persistence = new MockPersistenceImpl();
         helper = new FHIRRestHelper(persistence);
-    }
-
-    @AfterClass
-    void tearDown() throws FHIRException {
-        FHIRConfiguration.setConfigHome("");
-        FHIRRequestContext.get().setTenantId("default");
     }
 
     /**
@@ -618,7 +606,6 @@ public class BundleValidationTest {
             helper.doBundle(requestBundle, false);
             fail();
         } catch (FHIROperationException e) {
-            // Validate results
             // Validate results
             List<Issue> issues = e.getIssues();
             assertEquals(issues.size(), 3);

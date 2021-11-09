@@ -62,6 +62,7 @@ public class USCoreMedicationRequestTest extends ProfilesTestBaseV2 {
         String resource = "Bundle-uscore-mo3.json";
         WebTarget target = getWebTarget();
 
+        // re-purposing search result bundle - update fields to create valid request bundle
         Bundle bundle = USCoreExamplesUtil.readLocalJSONResource("400", resource);
         List<Bundle.Entry> entries = bundle.getEntry();
         List<Bundle.Entry> output = new ArrayList<>();
