@@ -57,8 +57,8 @@ public class Update extends FHIRResource {
     @PUT
     @Path("{type}/{id}")
     public Response update(@PathParam("type") String type, @PathParam("id") String id, Resource resource,
-            @HeaderParam(HttpHeaders.IF_MATCH) String ifMatch, 
-            @HeaderParam(FHIRConstants.UPDATE_IF_MODIFIED_HEADER) boolean onlyIfModified, 
+            @HeaderParam(HttpHeaders.IF_MATCH) String ifMatch,
+            @HeaderParam(FHIRConstants.UPDATE_IF_MODIFIED_HEADER) boolean onlyIfModified,
             @HeaderParam(HttpHeaders.IF_NONE_MATCH) String ifNoneMatchHdr) {
         log.entering(this.getClass().getName(), "update(String,String,Resource)");
         Date startTime = new Date();
@@ -73,8 +73,8 @@ public class Update extends FHIRResource {
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
             ior = helper.doUpdate(type, id, resource, ifMatch, null, onlyIfModified, ifNoneMatch);
 
-            ResponseBuilder response =
-                    Response.ok().location(toUri(getAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
+            ResponseBuilder response = Response.ok()
+                    .location(toUri(getAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
             status = ior.getStatus();
             response.status(status);
 
@@ -181,13 +181,13 @@ public class Update extends FHIRResource {
         if (value == null || value.isEmpty()) {
             return null;
         }
-        
+
         if ("*".equals(value)) {
             // FHIR resource version numbers start at 1, so we use 0 to represent
             // all values "*"
             return IF_NONE_MATCH_ZERO;
         }
-        
+
         // Values of the form W/"1" where 1 is the version number would result
         // in less-than-intuitive behavior and so are not supported at this time
         if (value.length() > 4 && value.startsWith("W/\"") && value.endsWith("\"")) {

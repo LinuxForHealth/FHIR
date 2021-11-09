@@ -580,7 +580,7 @@ public abstract class FHIRServerTestBase {
         assertNotNull(response);
         assertEquals(expectedStatusCode, response.getStatus());
     }
-    
+
     /**
      * Verify that the status code in the Response is of the expected status
      * family.
@@ -594,7 +594,7 @@ public abstract class FHIRServerTestBase {
         if( ! response.getStatusInfo().getFamily().equals(family) ) {
             message = response.readEntity(String.class);
         }
-        assertEquals(message, response.getStatusInfo().getFamily(), family);
+        assertEquals(message, family, response.getStatusInfo().getFamily());
     }
 
     /**
@@ -668,9 +668,23 @@ public abstract class FHIRServerTestBase {
     //
 
     /**
+     * Assert that the locationURI is formatted appropriately with the expected baseURL, resourceType, resourceId, and
+     * and versionId.
+     *
+     * @throws Exception
+     * @implNote Uses {@link #getRestBaseURL()} to construct the base URL for the expected location URI
+     */
+    public void validateLocationURI(String locationURI, String resourceType,
+            String expectedResourceId, String expectedVersionId) throws Exception {
+        String expectedLocation = getRestBaseURL() + "/" + resourceType + "/"
+                + expectedResourceId + "/_history/" + expectedVersionId;
+        assertEquals(expectedLocation, locationURI.toString());
+    }
+
+    /**
      * For the specified response, this function will extract the logical id value
      * from the response's Location header. The format of a location header value
-     * should be: <code>[base]/<resource-type>/<id>/_history/<version></code>
+     * should be: <code>[base]/[resource-type]/[id]/_history/[version]</code>
      *
      * @param response the response object for a REST API invocation
      * @return the logical id value
@@ -734,20 +748,6 @@ public abstract class FHIRServerTestBase {
         return null;
     }
 
-    protected String[] getLocationURITokens(String locationURI) {
-        String[] temp = locationURI.split("/");
-        String[] tokens;
-        if (temp.length > 4) {
-            tokens = new String[4];
-            for (int i = 0; i < 4; i++) {
-                tokens[i] = temp[temp.length - 4 + i];
-            }
-        } else {
-            tokens = temp;
-        }
-        return tokens;
-    }
-
     protected Patient setUniqueFamilyName(Patient patient, String uniqueName) {
         List <HumanName> nameList = new ArrayList<HumanName>();
         for(HumanName humanName: patient.getName()) {
@@ -787,10 +787,10 @@ public abstract class FHIRServerTestBase {
             }
 
             System.out.println("count = [" + issues.size() + "]");
-            assertEquals(nonWarning,0);
+            assertEquals(0, nonWarning);
 
             if(failOnWarning) {
-                assertEquals(allOtherIssues,0);
+                assertEquals(0, allOtherIssues);
             }
         }
         else {
@@ -799,9 +799,9 @@ public abstract class FHIRServerTestBase {
     }
 
     /**
-     * Parses a location URI into the resourceType, resourceId, and (optionally) the version id.
+     * Parses a location URI into the resourceType, resource id, and version id.
      * @param location
-     * @return
+     * @return A string array with three parts:  resourceType, resourceId, and versionId (in that order)
      */
     public static String[] parseLocationURI(String location) {
         String[] result = null;
@@ -810,25 +810,15 @@ public abstract class FHIRServerTestBase {
         }
 
         String[] tokens = location.split("/");
+        // 1      2  3              4           5   6  7       8  9        10
+        // https: // localhost:9443 fhir-server api v4 Patient id _history version
+        assertEquals(10, tokens.length);
+
         // Check if we should expect 4 tokens or only 2.
-        if (location.contains("_history")) {
-            if (tokens.length >= 4) {
-                result = new String[3];
-                result[0] = tokens[tokens.length - 4];
-                result[1] = tokens[tokens.length - 3];
-                result[2] = tokens[tokens.length - 1];
-            } else {
-                throw new IllegalArgumentException("Incorrect location value specified: " + location);
-            }
-        } else {
-            if (tokens.length >= 2) {
-                result = new String[2];
-                result[0] = tokens[tokens.length - 2];
-                result[1] = tokens[tokens.length - 1];
-            } else {
-                throw new IllegalArgumentException("Incorrect location value specified: " + location);
-            }
-        }
+        result = new String[3];
+        result[0] = tokens[tokens.length - 4];
+        result[1] = tokens[tokens.length - 3];
+        result[2] = tokens[tokens.length - 1];
         return result;
     }
 
