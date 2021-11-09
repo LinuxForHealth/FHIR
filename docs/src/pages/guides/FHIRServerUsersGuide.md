@@ -3,7 +3,7 @@ layout: post
 title:  IBM FHIR Server User's Guide
 description: IBM FHIR Server User's Guide
 Copyright: years 2017, 2021
-lastupdated: "2021-10-29"
+lastupdated: "2021-11-08"
 permalink: /FHIRServerUsersGuide/
 ---
 
@@ -809,7 +809,7 @@ The following configuration parameters can be used to specify rules relating to 
 * `fhirServer/resources/<resourceType>/profiles/defaultVersions` - this configuration parameter is used to specify which version of a profile will be used during resource validation if the profile specified in a resource's `meta.profile` element does not contain a version. If a default profile version is not configured using this configuration parameter for an asserted profile, the FHIR server will determine the default version to use for validation.
 
 Before calling the FHIR validator to validate a resource against the set of profiles specified in its `meta.profile` element that it is claiming conformance to, the following pre-validation will be performed for that set of profiles based on the configuration parameters listed above:
-1. If any specified profile does not contain a version, and that profile is in the set of profiles configured to have a default version via the `fhirServer/resources/<resourceType>/profiles/defaultVersions` configuration parameter, the default version for that profile will be appended to the profile name, and it is this new profile name containing the version which will be evaluated against in the following steps. 
+1. If any specified profile does not contain a version, and that profile is in the set of profiles configured to have a default version via the `fhirServer/resources/<resourceType>/profiles/defaultVersions` configuration parameter, the default version for that profile will be appended to the profile name, and it is this new profile name containing the version which will be evaluated against in the following steps.
 2. If the `fhirServer/resources/<resourceType>/profiles/notAllowed` configuration parameter is set to a non-empty list, an error will be returned for any specified profile that is in the list, and validation will fail.
 3. If the `fhirServer/resources/<resourceType>/profiles/allowUnknown` configuration parameter is set to `false`,  an error will be returned for any specified profile that is not loaded in the FHIR server, and validation will fail.
 4. If the `fhirServer/resources/<resourceType>/profiles/atLeastOne` configuration parameter is set to a non-empty list, an error will be returned if none of the specified profiles is in the list, and validation will fail.
@@ -876,7 +876,7 @@ In order for a `Patient` resource to be persisted to the FHIR server:
 * The resource's `meta.profile` element may specify a profile which is not loaded in the FHIR server. Based on the absence of the `allowUnknown` property in the `fhirServer/resources/Patient/profiles` section, as well as the absence of that property in the `fhirServer/resources/Resource/profiles` section (where the property would be inherited from if specified), the default value of `true` is used. This means unknown profiles (not loaded in the FHIR server) will be allowed and will simply be ignored.
 * The resource must successfully validate against all specified profiles. Note that since the `defaultVersions` property is not specified in the `fhirServer/resources/Patient/profiles` section, this property will be inherited from the `fhirServer/resources/Resource/profiles/defaultVersions` property. So if a profile is specified in the resource's `meta.profile` element that is in the set of `defaultVersions` profiles, what will actually be evaluated against and eventually passed to the FHIR validator is the original profile name with its specified default version appended to it.
 
-If a profile in either the list specified by the `fhirServer/resources/<resourceType>/profiles/atLeastOne` configuration parameter or the list specified by the `fhirServer/resources/<resourceType>/profiles/notAllowed` configuration parameter contains a version, for example `http://ibm.com/fhir/profile/partner|1.0`, then a profile of the same name specified in the resource's `meta.profile` element will only be considered a match if it contains exactly the same version. However, if a profile in the lists specified by the configuration parameters does not contain a version, for example `http://ibm.com/fhir/profile/partner`, then a profile of the same name specified in the resource's `meta.profile` element will be considered a match whether it contains a version or not. 
+If a profile in either the list specified by the `fhirServer/resources/<resourceType>/profiles/atLeastOne` configuration parameter or the list specified by the `fhirServer/resources/<resourceType>/profiles/notAllowed` configuration parameter contains a version, for example `http://ibm.com/fhir/profile/partner|1.0`, then a profile of the same name specified in the resource's `meta.profile` element will only be considered a match if it contains exactly the same version. However, if a profile in the lists specified by the configuration parameters does not contain a version, for example `http://ibm.com/fhir/profile/partner`, then a profile of the same name specified in the resource's `meta.profile` element will be considered a match whether it contains a version or not.
 
 Keep in mind that a profile name specified in the resource's `meta.profile` element could be modified due to the resource's `fhirServer/resources/<resourceType>/profiles/defaultVersions` configuration. It is this modified profile name that is used in the matching process and in the resource's validation, but only for those purposes. The `meta.profile` element of the original resource itself is not updated with the modified profile name.
 
@@ -895,7 +895,7 @@ search parameters from the registry.
 
 For performance reasons, the registry search parameters are retrieved once and only once during startup.
 
-The set of search parameters can filtered / refined via `fhirServer/resources/[resourceType]/searchParameters` as described in the [Search configuration guide](https://ibm.github.io/FHIR/guides/FHIRSearchConfiguration#12-filtering).
+The set of search parameters can filtered / refined via `fhirServer/resources/[resourceType]/searchParameters` as described in the [Search configuration guide](https://ibm.github.io/FHIR/guides/FHIRSearchConfiguration#13-filtering).
 
 ## 4.7 FHIR client API
 
@@ -2010,7 +2010,7 @@ In this case, since the `fhirServer/resources/open` property is set to `false`, 
 
 Whole-system search and whole-system history are special cases. Since no resource type is specified on a whole-system request, validation will be done against the `Resource` resource type. In the above configuration example, a whole-system search request such as `GET [base]?_lastUpdated=gt2020-01-01` will fail because the `Resource` resource type is not specified. If the configuration were to have the `fhirServer/resources/open` property set to `true`, or if the `Resource` resource type were specified in the `fhirServer/resources` property group, then the whole-system search request would be allowed, assuming the `search` interaction was valid for the `Resource` resource type.
 
-In addition to interaction configuration, the `fhirServer/resources` property group also provides the ability to configure search parameter filtering and profile validation. See [Search configuration](https://ibm.github.io/FHIR/guides/FHIRSearchConfiguration#12-filtering) and [Resource validation](#44-resource-validation) respectively for details.
+In addition to interaction configuration, the `fhirServer/resources` property group also provides the ability to configure search parameter filtering and profile validation. See [Search configuration](https://ibm.github.io/FHIR/guides/FHIRSearchConfiguration#13-filtering) and [Resource validation](#44-resource-validation) respectively for details.
 
 ## 4.12.1 Using the IBM FHIR Server behind a proxy
 It is possible to run the IBM FHIR Server behind a reverse proxy such as Kubernetes Ingress or an API Gateway.
@@ -2413,8 +2413,8 @@ must restart the server for that change to take effect.
 |`fhirServer/resources/Resource/profiles/defaultVersions`|Y|Y|
 |`fhirServer/resources/Resource/profiles/defaultVersions/<profile>`|Y|Y|
 |`fhirServer/resources/<resourceType>/interactions`|Y|Y|
-|`fhirServer/resources/<resourceType>/searchParameters`|Y|Y|
-|`fhirServer/resources/<resourceType>/searchParameters/<code>`|Y|Y|
+|`fhirServer/resources/<resourceType>/searchParameters`|Y|N|
+|`fhirServer/resources/<resourceType>/searchParameters/<code>`|Y|N|
 |`fhirServer/resources/<resourceType>/searchIncludes`|Y|Y|
 |`fhirServer/resources/<resourceType>/searchRevIncludes`|Y|Y|
 |`fhirServer/resources/<resourceType>/searchParameterCombinations`|Y|Y|

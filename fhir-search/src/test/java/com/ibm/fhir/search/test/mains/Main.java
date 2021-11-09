@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,6 +8,7 @@ package com.ibm.fhir.search.test.mains;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
@@ -27,13 +28,13 @@ import com.ibm.fhir.search.util.SearchUtil;
 public class Main extends BaseSearchTest {
 
     /**
-     *
      * @param args
      * @throws Exception
      */
     public static void main(String[] args) throws Exception {
-        for (SearchParameter parameter : SearchUtil.getApplicableSearchParameters(Resource.class.getSimpleName())) {
-            String code = parameter.getCode().getValue();
+        for (Entry<String, SearchParameter> entry : SearchUtil.getSearchParameters(Resource.class.getSimpleName()).entrySet()) {
+            String code = entry.getKey();
+            SearchParameter parameter = entry.getValue();
             String type = parameter.getType().getValue();
             String description = parameter.getDescription().getValue();
             String xpath = null;
@@ -43,8 +44,9 @@ public class Main extends BaseSearchTest {
             System.out.println("name: " + code + ", type: " + type + ", description: " + description + ", xpath: " + xpath);
         }
 
-        for (SearchParameter parameter : SearchUtil.getApplicableSearchParameters(Patient.class.getSimpleName())) {
-            String code = parameter.getCode().getValue();
+        for (Entry<String, SearchParameter> entry : SearchUtil.getSearchParameters(Patient.class.getSimpleName()).entrySet()) {
+            String code = entry.getKey();
+            SearchParameter parameter = entry.getValue();
             String type = parameter.getType().getValue();
             String description = parameter.getDescription().getValue();
             String xpath = null;

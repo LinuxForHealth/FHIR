@@ -21,18 +21,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
-
-import jakarta.json.Json;
-import jakarta.json.JsonArray;
-import jakarta.json.JsonArrayBuilder;
-import jakarta.json.JsonBuilderFactory;
-import jakarta.json.JsonObject;
-import jakarta.json.JsonObjectBuilder;
-import jakarta.json.JsonStructure;
-import jakarta.json.JsonWriter;
-import jakarta.json.JsonWriterFactory;
-import jakarta.json.stream.JsonGenerator;
 
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.annotation.Required;
@@ -58,6 +48,17 @@ import com.ibm.fhir.openapi.generator.FHIROpenApiGenerator;
 import com.ibm.fhir.search.compartment.CompartmentUtil;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.util.SearchUtil;
+
+import jakarta.json.Json;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonArrayBuilder;
+import jakarta.json.JsonBuilderFactory;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
+import jakarta.json.JsonStructure;
+import jakarta.json.JsonWriter;
+import jakarta.json.JsonWriterFactory;
+import jakarta.json.stream.JsonGenerator;
 
 /**
  * Generate Swagger 2.0 from the HL7 FHIR R4 artifacts and the IBM FHIR object model.
@@ -434,9 +435,11 @@ public class FHIRSwaggerGenerator {
             parameters.add("vidParam", vid);
         }
         if (filter.acceptOperation("search")) {
-            for (SearchParameter searchParameter : SearchUtil.getApplicableSearchParameters(Resource.class.getSimpleName())) {
+            for (Entry<String, SearchParameter> entry : SearchUtil.getSearchParameters(Resource.class.getSimpleName()).entrySet()) {
+                SearchParameter searchParameter = entry.getValue();
+
                 JsonObjectBuilder parameter = factory.createObjectBuilder();
-                String name = searchParameter.getName().getValue();
+                String name = entry.getKey();
                 parameter.add("name", name);
                 parameter.add("description", searchParameter.getDescription().getValue());
                 parameter.add("in", "query");
@@ -456,10 +459,12 @@ public class FHIRSwaggerGenerator {
             id.add("required", true);
             id.add("type", "string");
             parameters.add("idParam", id);
-            for (SearchParameter searchParameter : SearchUtil.getApplicableSearchParameters(Resource.class.getSimpleName())) {
+            for (Entry<String, SearchParameter> entry : SearchUtil.getSearchParameters(Resource.class.getSimpleName()).entrySet()) {
+                SearchParameter searchParameter = entry.getValue();
+
                 JsonObjectBuilder parameter = factory.createObjectBuilder();
                 String name = searchParameter.getName().getValue();
-                parameter.add("name", name);
+                parameter.add("name", entry.getKey());
                 parameter.add("description", searchParameter.getDescription().getValue());
                 parameter.add("in", "query");
                 parameter.add("required", false);
@@ -796,11 +801,11 @@ public class FHIRSwaggerGenerator {
     }
 
     private static void generateSearchParameters(Class<?> modelClass, JsonArrayBuilder parameters) throws Exception {
-        List<SearchParameter> searchParameters = new ArrayList<SearchParameter>(
-                SearchUtil.getApplicableSearchParameters(modelClass.getSimpleName()));
-        for (SearchParameter searchParameter : searchParameters) {
+        for (Entry<String, SearchParameter> entry : SearchUtil.getSearchParameters(modelClass.getSimpleName()).entrySet()) {
+            SearchParameter searchParameter = entry.getValue();
+
             JsonObjectBuilder parameter = factory.createObjectBuilder();
-            String name = searchParameter.getName().getValue();
+            String name = entry.getKey();
             if (name.startsWith("_")) {
                 parameter.add("$ref", "#/parameters/" + name + "Param");
             } else {
@@ -864,11 +869,11 @@ public class FHIRSwaggerGenerator {
     }
 
     private static void generateSearchFormParameters(Class<?> modelClass, JsonArrayBuilder parameters) throws Exception {
-        List<SearchParameter> searchParameters = new ArrayList<SearchParameter>(
-                SearchUtil.getApplicableSearchParameters(modelClass.getSimpleName()));
-        for (SearchParameter searchParameter : searchParameters) {
+        for (Entry<String, SearchParameter> entry : SearchUtil.getSearchParameters(modelClass.getSimpleName()).entrySet()) {
+            SearchParameter searchParameter = entry.getValue();
+
             JsonObjectBuilder parameter = factory.createObjectBuilder();
-            String name = searchParameter.getName().getValue();
+            String name = entry.getKey();
             parameter.add("name", name);
             parameter.add("description", searchParameter.getDescription().getValue());
             parameter.add("in", "formData");

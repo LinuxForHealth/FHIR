@@ -130,7 +130,7 @@ public final class FHIRRegistry {
      * Get the resource for the given canonical url and resource type
      *
      * @param url
-     *     the canonical url
+     *     the canonical url (with optional version postfix)
      * @param resourceType
      *     the resource type
      * @return

@@ -235,7 +235,7 @@ public class FHIRParameters {
      *            the name of the search parameter
      * @param values
      *            one or more values to be associated with the search parameter
-     * @returna handle to the FHIRParameters object
+     * @return handle to the FHIRParameters object
      */
     public FHIRParameters searchParam(String name, String... values) {
         for (int i = 0; i < values.length; i++) {

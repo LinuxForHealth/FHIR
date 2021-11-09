@@ -32,12 +32,12 @@ public class LastUpdatedParmBehaviorUtilTest {
     //---------------------------------------------------------------------------------------------------------
     // Supporting Methods:
     @BeforeClass
-    public static void before() throws FHIRException {
+    public void before() throws FHIRException {
         FHIRRequestContext.get().setTenantId("date");
     }
 
     @AfterClass
-    public static void after() throws FHIRException {
+    public void after() throws FHIRException {
         FHIRRequestContext.get().setTenantId("default");
     }
 

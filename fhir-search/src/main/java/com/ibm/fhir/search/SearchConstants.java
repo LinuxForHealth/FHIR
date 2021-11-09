@@ -41,24 +41,12 @@ public class SearchConstants {
 
     public static final String LOG_BOUNDARY = "---------------------------------------------------------";
 
-    // XML Processing.
-    public static final String DTM_MANAGER = "com.sun.org.apache.xml.internal.dtm.DTMManager";
-
-    public static final String DTM_MANAGER_DEFAULT = "com.sun.org.apache.xml.internal.dtm.ref.DTMManagerDefault";
-
     // Line Separator
     public static final String NL = System.getProperty("line.separator");
 
     // Used to find delimiters escaped by '\' so we don't split on them
     // @see https://www.hl7.org/fhir/r4/search.html#escaping
     public static final String BACKSLASH_NEGATIVE_LOOKBEHIND = "(?<!\\\\)";
-
-    public static final String COMPARTMENTS_JSON = "compartments.json";
-
-    // Value Types Regex.
-    public static final String PARAMETER_DELIMITER_REGEX = "\\|";
-    public static final String COMPONENT_PATH_REGEX = "\\.";
-    public static final char START_WHERE = '(';
 
     // This constant represents the maximum number of iterations to perform
     // for iterative _include and _revinclude parameters.
@@ -103,16 +91,16 @@ public class SearchConstants {
 
     // _security
     public static final String SECURITY = "_security";
-    
+
     // _source
     public static final String SOURCE = "_source";
-    
+
     // url
     public static final String URL = "url";
-    
+
     // version
     public static final String VERSION = "version";
-    
+
     public static final String IMPLICIT_SYSTEM_EXT_URL = FHIRConstants.EXT_BASE + "implicit-system";
 
     // Extracted search parameter suffix for :identifier modifier
@@ -125,7 +113,7 @@ public class SearchConstants {
 
     // Extracted search parameter suffix for :text modifier
     public static final String TEXT_MODIFIER_SUFFIX = ":text";
-    
+
     // Extracted search parameter suffixes for canonical values
     public static final String CANONICAL_SUFFIX = "_canonical";
     public static final String CANONICAL_COMPONENT_URI = "uri";
@@ -150,7 +138,7 @@ public class SearchConstants {
     // Set of whole-system search parameters indexed in global parameter tables
     public static final Set<String> SYSTEM_LEVEL_GLOBAL_PARAMETER_NAMES =
             Collections.unmodifiableSet(new HashSet<>(Arrays.asList(ID, LAST_UPDATED, PROFILE, SECURITY, SOURCE, TAG)));
-    
+
     // Empty Query String
     public static final String EMPTY_QUERY_STRING = "";
 

@@ -45,6 +45,13 @@ public abstract class AbstractRegistryResourceProvider implements FHIRRegistryRe
         return null;
     }
 
+    /**
+     * Return a sorted list of FHIRRegistryResource with the passed canonical url
+     *
+     * @param resourceType
+     * @param url the canonical url for this resource (without version suffix)
+     * @return a list of FHIRRegistryResources with this url, sorted from low to high by version
+     */
     protected abstract List<FHIRRegistryResource> getRegistryResources(Class<? extends Resource> resourceType, String url);
 
     @Override
