@@ -220,7 +220,7 @@ public class ChunkWriter extends AbstractItemWriter {
 
                                 FHIRPersistenceEvent event = new FHIRPersistenceEvent(fhirResource, props);
 
-                                // Set up the persistence context to include NOT include the deleted resources when we read
+                                // Set up the persistence context to include the deleted resources when we read
                                 FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(event, true);
                                 long startTime = System.currentTimeMillis();
                                 operationOutcome = conditionalFingerprintUpdate(chunkData, skip, localCache, fhirPersistence, persistenceContext, id, fhirResource);
