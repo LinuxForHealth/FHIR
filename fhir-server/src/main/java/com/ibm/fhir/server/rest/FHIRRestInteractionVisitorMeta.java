@@ -9,6 +9,7 @@ package com.ibm.fhir.server.rest;
 import static com.ibm.fhir.model.type.String.string;
 
 import java.time.ZoneOffset;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -16,9 +17,12 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response.Status;
+
+import org.owasp.encoder.Encode;
 
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.patch.FHIRPatch;
@@ -104,7 +108,9 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
     }
 
     @Override
-    public FHIRRestOperationResponse doCreate(int entryIndex, FHIRPersistenceEvent event, List<Issue> warnings, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, Resource resource, String ifNoneExist, String localIdentifier) throws Exception {
+    public FHIRRestOperationResponse doCreate(int entryIndex, FHIRPersistenceEvent event, List<Issue> warnings,
+            Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime,
+            String type, Resource resource, String ifNoneExist, String localIdentifier) throws Exception {
         logStart(entryIndex, requestDescription, requestURL);
 
         // Skip CREATE if validation failed
@@ -152,9 +158,10 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
     }
 
     @Override
-    public FHIRRestOperationResponse doUpdate(int entryIndex, FHIRPersistenceEvent event, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime,
-        String type, String id, Resource resource, Resource prevResource, String ifMatchValue, String searchQueryString,
-        boolean skippableUpdate, String localIdentifier, List<Issue> warnings, boolean isDeleted, Integer ifNoneMatch) throws Exception {
+    public FHIRRestOperationResponse doUpdate(int entryIndex, FHIRPersistenceEvent event, Entry validationResponseEntry,
+            String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String id,
+            Resource resource, Resource prevResource, String ifMatchValue, String searchQueryString, boolean skippableUpdate,
+            String localIdentifier, List<Issue> warnings, boolean isDeleted, Integer ifNoneMatch) throws Exception {
         logStart(entryIndex, requestDescription, requestURL);
 
         // Skip UPDATE if validation failed
@@ -329,11 +336,13 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
             int total = bundle.getTotal().getValue();
 
             if (total == 0) {
-                throw buildRestException("Error resolving conditional reference: search returned no results", IssueType.NOT_FOUND);
+                throw buildRestException("Error resolving conditional reference: search '"
+                        + Encode.forHtml(conditionalReference) + "' returned no results", IssueType.NOT_FOUND);
             }
 
             if (total > 1) {
-                throw buildRestException("Error resolving conditional reference: search returned multiple results", IssueType.MULTIPLE_MATCHES);
+                throw buildRestException("Error resolving conditional reference: search '"
+                        + Encode.forHtml(conditionalReference) + "' returned multiple results", IssueType.MULTIPLE_MATCHES);
             }
 
             localRefMap.put(conditionalReference, type + "/" + bundle.getEntry().get(0).getResource().getId());
@@ -384,8 +393,7 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
             return v.call();
         } catch (FHIRPersistenceResourceNotFoundException e) {
             if (failFast) {
-                String msg = "Error while processing request bundle.";
-                throw new FHIRRestBundledRequestException(msg, e).withIssue(e.getIssues());
+                updateIssuesWithEntryIndexAndThrow(entryIndex, e);
             }
 
             // Record the error as an entry in the result bundle
@@ -398,8 +406,7 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
             setEntryComplete(entryIndex, entry, requestDescription, initialTime);
         } catch (FHIRPersistenceResourceDeletedException e) {
             if (failFast) {
-                String msg = "Error while processing request bundle.";
-                throw new FHIRRestBundledRequestException(msg, e).withIssue(e.getIssues());
+                updateIssuesWithEntryIndexAndThrow(entryIndex, e);
             }
 
             Entry entry = Entry.builder()
@@ -411,8 +418,7 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
             setEntryComplete(entryIndex, entry, requestDescription, initialTime);
         } catch (FHIROperationException e) {
             if (failFast) {
-                String msg = "Error while processing request bundle.";
-                throw new FHIRRestBundledRequestException(msg, e).withIssue(e.getIssues());
+                updateIssuesWithEntryIndexAndThrow(entryIndex, e);
             }
 
             Status status;
@@ -432,5 +438,15 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
         }
 
         return null;
+    }
+
+    private void updateIssuesWithEntryIndexAndThrow(Integer entryIndex, FHIROperationException cause) throws FHIROperationException {
+        String msg = "Error while processing request bundle on entry " + entryIndex;
+        List<Issue> updatedIssues = cause.getIssues().stream()
+                .map(i -> i.toBuilder().expression(string("Bundle.entry[" + entryIndex + "]")).build())
+                .collect(Collectors.toList());
+        // no need to keep the issues in the cause any more since we've "promoted" them to the wrapped exception
+        cause.withIssue(Collections.emptyList());
+        throw new FHIRRestBundledRequestException(msg, cause).withIssue(updatedIssues);
     }
 }

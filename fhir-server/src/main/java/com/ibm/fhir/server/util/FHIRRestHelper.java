@@ -1804,7 +1804,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      *            resource on the server, then skip the update; if false, then always attempt the updates specified in the bundle
      * @return a response bundle
      */
-    private Bundle processBundleEntries(Bundle requestBundle, Map<Integer, Entry> validationResponseEntries, boolean skippableUpdates) throws Exception {
+    private Bundle processBundleEntries(Bundle requestBundle, Map<Integer, Entry> validationResponseEntries,
+            boolean skippableUpdates) throws Exception {
         log.entering(this.getClass().getName(), "processBundleEntries");
 
         // Generate a request correlation id for this request bundle.
@@ -1826,7 +1827,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             // then process in order
             final boolean isTransactionBundle = bundleType == BundleType.Value.TRANSACTION;
             FHIRRestBundleHelper bundleHelper = new FHIRRestBundleHelper(this);
-            List<FHIRRestInteraction> bundleInteractions = bundleHelper.translateBundleEntries(requestBundle, validationResponseEntries, isTransactionBundle, bundleRequestCorrelationId, skippableUpdates);
+            List<FHIRRestInteraction> bundleInteractions = bundleHelper.translateBundleEntries(requestBundle,
+                    validationResponseEntries, isTransactionBundle, bundleRequestCorrelationId, skippableUpdates);
             List<Entry> responseEntries = processBundleInteractions(bundleInteractions, validationResponseEntries, isTransactionBundle);
 
             // Build the response bundle.
@@ -1861,7 +1863,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      * @return
      * @throws Exception
      */
-    private List<Entry> processBundleInteractions(List<FHIRRestInteraction> bundleInteractions, Map<Integer, Entry> validationResponseEntries, boolean transaction) throws Exception {
+    private List<Entry> processBundleInteractions(List<FHIRRestInteraction> bundleInteractions,
+            Map<Integer, Entry> validationResponseEntries, boolean transaction) throws Exception {
         assert(bundleInteractions.size() > 0);
         Entry[] responseEntries = new Entry[bundleInteractions.size()];
         Map<String, String> localRefMap = new HashMap<>();
@@ -2621,7 +2624,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     atLeastOneProfiles.addAll(defaultAtLeastOneProfiles);
                 }
             }
-            
+
             // Build the list of 'atLeastOne' profiles that didn't specify a version
             for (String profile : atLeastOneProfiles) {
                 if (!profile.contains("|")) {
@@ -2654,11 +2657,11 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     notAllowedProfilesWithoutVersion.add(profile);
                 }
             }
-            
+
             if (log.isLoggable(Level.FINER)) {
                 log.finer("Not allowed profile list: " + notAllowedProfiles);
             }
-            
+
             // Get the 'allowUnknown' property
             Boolean resourceSpecificAllowUnknown =
                     FHIRConfigHelper.getBooleanProperty(resourceSpecificProfileConfigPath.toString() +
@@ -2668,12 +2671,12 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             } else {
                 allowUnknown = FHIRConfigHelper.getBooleanProperty(defaultProfileConfigPath.toString() +
                     FHIRConfiguration.PROPERTY_FIELD_RESOURCES_PROFILES_ALLOW_UNKNOWN, Boolean.TRUE);
-            }            
-            
+            }
+
             if (log.isLoggable(Level.FINER)) {
                 log.finer("Allow unknown: " + allowUnknown);
             }
-            
+
             // Get the 'defaultVersions' entries
             PropertyGroup resourceSpecificDefaultVersionsGroup =
                     FHIRConfigHelper.getPropertyGroup(resourceSpecificProfileConfigPath.toString() +
@@ -2694,7 +2697,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     }
                 }
             }
-            
+
             if (log.isLoggable(Level.FINER)) {
                 log.finer("Default profile versions: [");
                 for (String profile : defaultVersions.keySet()) {
@@ -2778,7 +2781,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     }
                 }
             }
-            
+
             // Check if a profile is required but no valid profile asserted
             if (!atLeastOneProfiles.isEmpty() && !validProfileFound) {
                 issues.add(buildOperationOutcomeIssue(IssueSeverity.ERROR, IssueType.BUSINESS_RULE,
@@ -2797,13 +2800,13 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 resourceToValidate = resource.toBuilder().meta(metaCopy).build();
             }
         }
-        
+
         try {
             issues = validator.validate(resourceToValidate);
         } catch (FHIRValidationException e) {
             throw new FHIROperationException("Error validating resource.", e);
         }
-        
+
         return issues;
     }
 
