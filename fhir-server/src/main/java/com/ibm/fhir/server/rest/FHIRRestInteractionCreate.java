@@ -45,7 +45,9 @@ public class FHIRRestInteractionCreate extends FHIRRestInteractionResource {
 
     @Override
     public void accept(FHIRRestInteractionVisitor visitor) throws Exception {
-        FHIRRestOperationResponse result = visitor.doCreate(getEntryIndex(), getEvent(), getWarnings(), getValidationResponseEntry(), getRequestDescription(), getRequestURL(), getInitialTime(), type, getNewResource(), ifNoneExist, localIdentifier);
+        FHIRRestOperationResponse result = visitor.doCreate(getEntryIndex(), getEvent(), getWarnings(),
+                getValidationResponseEntry(), getRequestDescription(), getRequestURL(), getInitialTime(), type,
+                getNewResource(), ifNoneExist, localIdentifier);
 
         // update the resource so we can use it when called in the next processing phase
         if (result != null && result.getResource() != null) {

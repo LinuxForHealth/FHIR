@@ -107,6 +107,7 @@ public class ConditionalReferenceTest extends FHIRServerTestBase {
         assertEquals(outcome.getIssue().get(0).getCode(), IssueType.INVALID);
         assertTrue(outcome.getIssue().get(0).getDetails().getText().getValue().startsWith("Invalid conditional reference:") &&
                 outcome.getIssue().get(0).getDetails().getText().getValue().endsWith("no query parameters found"));
+        assertEquals(outcome.getIssue().get(0).getExpression().get(0).getValue(), "Bundle.entry[0]");
     }
 
     @Test(dependsOnMethods = { "testCreatePatients" })
@@ -136,6 +137,7 @@ public class ConditionalReferenceTest extends FHIRServerTestBase {
         assertEquals(outcome.getIssue().get(0).getCode(), IssueType.INVALID);
         assertTrue(outcome.getIssue().get(0).getDetails().getText().getValue().startsWith("Invalid conditional reference:") &&
                 outcome.getIssue().get(0).getDetails().getText().getValue().endsWith("only filtering parameters are allowed"));
+        assertEquals(outcome.getIssue().get(0).getExpression().get(0).getValue(), "Bundle.entry[0]");
     }
 
     @Test(dependsOnMethods = { "testCreatePatients" })
@@ -163,9 +165,9 @@ public class ConditionalReferenceTest extends FHIRServerTestBase {
 
         OperationOutcome outcome = response.readEntity(OperationOutcome.class);
         assertEquals(outcome.getIssue().get(0).getCode(), IssueType.NOT_FOUND);
-
         assertTrue(outcome.getIssue().get(0).getDetails().getText().getValue().startsWith("Error resolving conditional reference:") &&
                 outcome.getIssue().get(0).getDetails().getText().getValue().endsWith("returned no results"));
+        assertEquals(outcome.getIssue().get(0).getExpression().get(0).getValue(), "Bundle.entry[0]");
     }
 
     @Test(dependsOnMethods = { "testCreatePatients" })
@@ -176,7 +178,7 @@ public class ConditionalReferenceTest extends FHIRServerTestBase {
         entry = entry.toBuilder()
                 .resource(entry.getResource().as(Observation.class).toBuilder()
                     .subject(Reference.builder()
-                        .reference(string("Patient?family=Doe&given=John"))
+                        .reference(string("Patient?family:exact=Doe&given:exact=John"))
                         .build())
                     .build())
                 .build();
@@ -195,6 +197,7 @@ public class ConditionalReferenceTest extends FHIRServerTestBase {
         assertEquals(outcome.getIssue().get(0).getCode(), IssueType.MULTIPLE_MATCHES);
         assertTrue(outcome.getIssue().get(0).getDetails().getText().getValue().startsWith("Error resolving conditional reference:") &&
                 outcome.getIssue().get(0).getDetails().getText().getValue().endsWith("returned multiple results"));
+        assertEquals(outcome.getIssue().get(0).getExpression().get(0).getValue(), "Bundle.entry[0]");
     }
 
     private Patient buildPatient() {
