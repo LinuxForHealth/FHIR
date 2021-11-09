@@ -255,8 +255,9 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
                 // If there is  more than one Coding it has to be MB.
                 for (Coding coding : identifier.getType().getCoding()) {
                     if (coding.getSystem() != null
-                            &&  "http://terminology.hl7.org/CodeSystem/v2-0203"
+                            && "http://terminology.hl7.org/CodeSystem/v2-0203"
                                     .equals(coding.getSystem().getValue())
+                            && coding.getCode() != null
                             && "MB".equals(coding.getCode().getValue())) {
                         // We only want to extract the code system v2-0203 with MB
                         Uri sys = identifier.getSystem();

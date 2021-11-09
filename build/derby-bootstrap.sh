@@ -26,13 +26,13 @@ java -jar ${WORKSPACE}/fhir-persistence-schema/target/fhir-persistence-schema-*-
   --update-schema
 java -jar ${WORKSPACE}/fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar \
   --db-type derby --prop db.database=${DB_LOC}/profile --prop db.create=Y \
-  --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Person,RelatedPerson,Organization,Location,Observation,MedicationAdministration,StructureDefinition,ElementDefinition,CodeSystem,ValueSet,Resource \
+  --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Person,RelatedPerson,Organization,Location,Observation,MedicationAdministration,StructureDefinition,ElementDefinition,CodeSystem,ValueSet \
   --update-schema
 java -jar ${WORKSPACE}/fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar \
   --db-type derby --prop db.database=${DB_LOC}/reference --prop db.create=Y \
-  --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Device,Organization,Location,Medication,Observation,MedicationAdministration,StructureDefinition,ElementDefinition,CodeSystem,ValueSet,Resource \
+  --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Device,Organization,Location,Medication,Observation,MedicationAdministration,StructureDefinition,ElementDefinition,CodeSystem,ValueSet \
   --update-schema
 java -jar ${WORKSPACE}/fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar \
   --db-type derby --prop db.database=${DB_LOC}/study1 --prop db.create=Y \
-  --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Device,Organization,Location,Encounter,AllergyIntolerance,Observation,Condition,CarePlan,Provenance,Medication,MedicationAdministration,StructureDefinition,ElementDefinition,CodeSystem,ValueSet,Resource \
+  --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Device,Organization,Location,Encounter,AllergyIntolerance,Observation,Condition,CarePlan,Provenance,Medication,MedicationAdministration,StructureDefinition,ElementDefinition,CodeSystem,ValueSet \
   --update-schema
