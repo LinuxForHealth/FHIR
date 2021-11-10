@@ -445,7 +445,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             }
 
             // Persist the resource
-            FHIRRestOperationResponse ior = doPatchOrUpdatePersist(event, type, id, patch != null, metaResponse.getResource(), metaResponse.getPrevResource(), warnings, metaResponse.isDeleted(),
+            FHIRRestOperationResponse ior = doPatchOrUpdatePersist(event, type, id, patch != null,
+                    metaResponse.getResource(), metaResponse.getPrevResource(), warnings, metaResponse.isDeleted(),
                     ifNoneMatch);
 
             txn.commit();
@@ -1606,7 +1607,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                             throw buildRestException(msg, IssueType.VALUE);
                         }
                         String fullUrlPlusVersion = fullUrl;
-                        if (resource != null && resource.getMeta() != null 
+                        if (resource != null && resource.getMeta() != null
                                 && resource.getMeta().getVersionId() != null && resource.getMeta().getVersionId().hasValue()) {
                             fullUrlPlusVersion = fullUrl + resource.getMeta().getVersionId().getValue();
                         } else {

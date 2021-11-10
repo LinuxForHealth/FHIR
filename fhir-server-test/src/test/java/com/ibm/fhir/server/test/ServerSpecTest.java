@@ -661,7 +661,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
         String obsId = UUID.randomUUID().toString();
         Observation obs = TestUtil.readLocalResource("Observation1.json");
         obs = obs.toBuilder()
-                .subject(Reference.builder().reference(string(fakePatientRef)).build())
+                .subject(Reference.builder().reference(fakePatientRef).build())
                 .build();
 
         // First conditional update should find no matches, so we should get back a 201
@@ -673,11 +673,11 @@ public class ServerSpecTest extends FHIRServerTestBase {
         String locationURI = response.getLocation();
         assertNotNull(locationURI);
 
-        String[] tokens = parseLocationURI(locationURI);
-        String resourceId = tokens[1];
+        // get the server-assigned resource id from the location header
+        String resourceId = getLocationLogicalId(response.getResponse());
 
-        // Second conditional update should find 1 match, but because there is a un-matching
-        // resourceId in the input resource, so we should get back a 400 error.
+        // Second conditional update should find 1 match, but because there is an un-matching
+        // resourceId in the input resource, we should get back a 400 error.
         query = new FHIRParameters().searchParam("_id", resourceId);
         obs = obs.toBuilder().id(obsId).build();
         response = client.conditionalUpdate(obs, query);
