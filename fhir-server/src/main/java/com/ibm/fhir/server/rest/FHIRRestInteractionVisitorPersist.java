@@ -166,7 +166,8 @@ public class FHIRRestInteractionVisitorPersist extends FHIRRestInteractionVisito
 
         doInteraction(entryIndex, requestDescription, initialTime, () -> {
 
-            FHIRRestOperationResponse ior = helpers.doPatchOrUpdatePersist(event, type, id, false, newResource, prevResource, warnings, isDeleted, ifNoneMatch);
+            FHIRRestOperationResponse ior = helpers.doPatchOrUpdatePersist(event, type, id, false, newResource,
+                    prevResource, warnings, isDeleted, ifNoneMatch);
             OperationOutcome validationOutcome = null;
             if (validationResponseEntry != null && validationResponseEntry.getResponse() != null) {
                 validationOutcome = validationResponseEntry.getResponse().getOutcome().as(OperationOutcome.class);

@@ -436,7 +436,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             // Do the first phase, which includes updating the meta in the resource
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(newResource, buildPersistenceEventProperties(type, id, null, null));
             List<Issue> warnings = new ArrayList<>();
-            FHIRRestOperationResponse metaResponse = doUpdateMeta(event, type, id, patch, newResource, ifMatchValue, searchQueryString, skippableUpdate, doValidation, warnings);
+            FHIRRestOperationResponse metaResponse = doUpdateMeta(event, type, id, patch, newResource, ifMatchValue,
+                    searchQueryString, skippableUpdate, doValidation, warnings);
             if (metaResponse.isCompleted()) {
                 // skip the update, so we can short-circuit here
                 txn.commit();
@@ -445,7 +446,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             }
 
             // Persist the resource
-            FHIRRestOperationResponse ior = doPatchOrUpdatePersist(event, type, id, patch != null, metaResponse.getResource(), metaResponse.getPrevResource(), warnings, metaResponse.isDeleted(),
+            FHIRRestOperationResponse ior = doPatchOrUpdatePersist(event, type, id, patch != null,
+                    metaResponse.getResource(), metaResponse.getPrevResource(), warnings, metaResponse.isDeleted(),
                     ifNoneMatch);
 
             txn.commit();
@@ -468,8 +470,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
     @Override
     public FHIRRestOperationResponse doUpdateMeta(FHIRPersistenceEvent event, String type, String id, FHIRPatch patch, Resource newResource,
-        String ifMatchValue, String searchQueryString, boolean skippableUpdate, boolean doValidation,
-        List<Issue> warnings) throws Exception {
+            String ifMatchValue, String searchQueryString, boolean skippableUpdate, boolean doValidation,
+            List<Issue> warnings) throws Exception {
         log.entering(this.getClass().getName(), "doUpdateMeta");
 
         // Do everything we need to get the resource ready for storage. This includes handling
@@ -739,7 +741,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             FHIRPersistenceContext persistenceContext =
                     FHIRPersistenceContextFactory.createPersistenceContext(event, ifNoneMatch);
-            boolean updateCreate = (prevResource == null);
+            boolean updateCreate = (prevResource == null || isDeleted);
             final SingleResourceResult<Resource> result;
             if (updateCreate) {
                 // resource shouldn't exist, so we assume it's a create
@@ -764,12 +766,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             // Invoke the 'afterUpdate' interceptor methods.
             if (updateCreate) {
                 if (result.getStatus() == InteractionStatus.IF_NONE_MATCH_EXISTED) {
-                    // Use the location assigned to the previous resource because we're
-                    // not updating anything. Also, we don't fire any 'after' event
-                    // for the same reason.
-                    ior.setResource(prevResource); // resource wasn't changed
-                    ior.setLocationURI(FHIRUtil.buildLocationURI(type, prevResource));
-                    ior.setStatus(Response.Status.NOT_MODIFIED);
+                    // Someone must have snuck in and created the resource after our read but before our create/update.
+                    handleIfNoneMatchConflict(type, id, ior);
                 } else {
                     ior.setStatus(Response.Status.CREATED);
                     getInterceptorMgr().fireAfterCreateEvent(event);
@@ -815,6 +813,26 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             log.exiting(this.getClass().getName(), "doPatchOrUpdatePersist");
         }
+    }
+
+    private void handleIfNoneMatchConflict(String type, String id, FHIRRestOperationResponse ior) throws FHIRPersistenceException {
+        // Attempt to read the newly-written resource so that we can set the locationURI appropriately
+        FHIRPersistenceEvent eventForRead =
+                new FHIRPersistenceEvent(null, buildPersistenceEventProperties(type, id, null, null));
+        FHIRPersistenceContext persistenceContextForRead =
+                FHIRPersistenceContextFactory.createPersistenceContext(eventForRead, false);
+        SingleResourceResult<? extends Resource> readResult =
+                persistence.read(persistenceContextForRead, ModelSupport.getResourceType(type), id);
+
+        if (readResult.isSuccess()) {
+            Resource prevResource = readResult.getResource();
+            ior.setResource(prevResource);
+            ior.setLocationURI(FHIRUtil.buildLocationURI(type, prevResource));
+        } else if (log.isLoggable(Level.FINE)){
+            log.fine("Unable to read IfNoneMatch conflict version: " + readResult.getOutcome());
+        }
+        ior.setStatus(Response.Status.NOT_MODIFIED);
+        // We don't fire any 'after' event because nothing was actually updated by this interaction.
     }
 
     /**
@@ -1606,7 +1624,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                             throw buildRestException(msg, IssueType.VALUE);
                         }
                         String fullUrlPlusVersion = fullUrl;
-                        if (resource != null && resource.getMeta() != null 
+                        if (resource != null && resource.getMeta() != null
                                 && resource.getMeta().getVersionId() != null && resource.getMeta().getVersionId().hasValue()) {
                             fullUrlPlusVersion = fullUrl + resource.getMeta().getVersionId().getValue();
                         } else {
