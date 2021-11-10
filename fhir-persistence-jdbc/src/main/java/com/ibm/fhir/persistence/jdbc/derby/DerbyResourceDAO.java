@@ -16,6 +16,7 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -113,6 +114,10 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
 
             final String sourceKey = UUID.randomUUID().toString();
 
+            // to mimic out parameters from the stored procedure
+            AtomicInteger outInteractionStatus = new AtomicInteger();
+            AtomicInteger outIfNoneMatchVersion  = new AtomicInteger();
+
             long resourceId = this.storeResource(resource.getResourceType(),
                 parameters,
                 resource.getLogicalId(),
@@ -124,14 +129,21 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
                 parameterHashB64,
                 connection,
                 parameterDao,
-                ifNoneMatch
+                ifNoneMatch,
+                outInteractionStatus,
+                outIfNoneMatchVersion
                 );
 
 
             dbCallDuration = (System.nanoTime() - dbCallStartTime)/1e6;
 
-            resource.setId(resourceId);
-            resource.setInteractionStatus(InteractionStatus.MODIFIED);
+            if (outInteractionStatus.get() == 1) {
+                resource.setInteractionStatus(InteractionStatus.IF_NONE_MATCH_EXISTED);
+                resource.setIfNoneMatchVersion(outIfNoneMatchVersion.get());
+            } else {
+                resource.setInteractionStatus(InteractionStatus.MODIFIED);
+                resource.setId(resourceId);
+            }
 
             if (logger.isLoggable(Level.FINE)) {
                 logger.fine("Successfully inserted Resource. id=" + resource.getId() + " executionTime=" + dbCallDuration + "ms");
@@ -145,8 +157,6 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
             if (FHIRDAOConstants.SQLSTATE_WRONG_VERSION.equals(e.getSQLState())) {
                 // this is just a concurrency update, so there's no need to log the SQLException here
                 throw new FHIRPersistenceVersionIdMismatchException("Encountered version id mismatch while inserting Resource");
-            } else if (FHIRDAOConstants.SQLSTATE_MATCHES.equals(e.getSQLState())) {
-                resource.setInteractionStatus(InteractionStatus.IF_NONE_MATCH_EXISTED);
             } else {
                 FHIRPersistenceException fx = new FHIRPersistenceException("SQLException encountered while inserting Resource.");
                 throw severe(logger, fx, e);
@@ -202,7 +212,8 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
     public long storeResource(String tablePrefix, List<ExtractedParameterValue> parameters, 
             String p_logical_id, InputStream p_payload, Timestamp p_last_updated, boolean p_is_deleted,
             String p_source_key, Integer p_version, String p_parameterHashB64, Connection conn, 
-            ParameterDAO parameterDao, Integer ifNoneMatch) throws Exception {
+            ParameterDAO parameterDao, Integer ifNoneMatch,
+            AtomicInteger outInteractionStatus, AtomicInteger outIfNoneMatchVersion) throws Exception {
 
         final Calendar UTC = CalendarHelper.getCalendarForUTC();
         final String METHODNAME = "storeResource() for " + tablePrefix + " resource";
@@ -410,7 +421,9 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
             if (!v_currently_deleted && checkIfNoneMatch(ifNoneMatch, v_current_version)) {
                 // Conditional create-on-update If-None-Match matches the current resource, so skip the update
                 logger.fine(() -> "Resource " + v_resource_type + "/" + p_logical_id + " [" + p_version + "] matches [If-None-Match: " + ifNoneMatch + "]");
-                throw new SQLException("If-None-Match - record exists", FHIRDAOConstants.SQLSTATE_MATCHES);
+                outInteractionStatus.set(1);
+                outIfNoneMatchVersion.set(v_current_version);
+                return -1L;
             } else if (p_version != v_current_version + 1) {
                 // Concurrency check:
                 //   the version parameter we've been given (which is also embedded in the JSON payload) must be

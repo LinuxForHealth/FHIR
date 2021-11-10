@@ -739,9 +739,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             FHIRPersistenceContext persistenceContext =
                     FHIRPersistenceContextFactory.createPersistenceContext(event, ifNoneMatch);
-            boolean updateCreate = (prevResource == null);
+            boolean createOnUpdate = (prevResource == null);
             final SingleResourceResult<Resource> result;
-            if (updateCreate) {
+            if (createOnUpdate) {
                 // resource shouldn't exist, so we assume it's a create
                 result = persistence.createWithMeta(persistenceContext, newResource);
             } else {
@@ -757,32 +757,35 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             ior.setResource(newResource);
             ior.setOperationOutcome(FHIRUtil.buildOperationOutcome(warnings));
 
-            // Build our location URI and add it to the interceptor event structure since it is now known.
-            ior.setLocationURI(FHIRUtil.buildLocationURI(type, newResource));
-            event.getProperties().put(FHIRPersistenceEvent.PROPNAME_RESOURCE_LOCATION_URI, ior.getLocationURI().toString());
-
             // Invoke the 'afterUpdate' interceptor methods.
-            if (updateCreate) {
+            if (createOnUpdate) {
+                // No previous resource found in initial read, so we attempted to
+                // create a new one
                 if (result.getStatus() == InteractionStatus.IF_NONE_MATCH_EXISTED) {
-                    // Use the location assigned to the previous resource because we're
-                    // not updating anything. Also, we don't fire any 'after' event
-                    // for the same reason.
-                    ior.setResource(prevResource); // resource wasn't changed
-                    ior.setLocationURI(FHIRUtil.buildLocationURI(type, prevResource));
+                    // Another thread snuck in and created the resource. Because the client requested
+                    // If-None-Match, we skip any update and return 304 Not Modified.
+                    ior.setResource(null); // null, because we're in createOnUpdate
+                    ior.setLocationURI(FHIRUtil.buildLocationURI(type, id, result.getIfNoneMatchVersion()));
                     ior.setStatus(Response.Status.NOT_MODIFIED);
                 } else {
                     ior.setStatus(Response.Status.CREATED);
+                    ior.setLocationURI(FHIRUtil.buildLocationURI(type, newResource));
+                    event.getProperties().put(FHIRPersistenceEvent.PROPNAME_RESOURCE_LOCATION_URI, ior.getLocationURI().toString());
                     getInterceptorMgr().fireAfterCreateEvent(event);
                 }
             } else {
+                // prevResource exists
                 if (result.getStatus() == InteractionStatus.IF_NONE_MATCH_EXISTED) {
                     // Use the location assigned to the previous resource because we're
                     // not updating anything. Also, we don't fire any 'after' event
                     // for the same reason.
-                    ior.setResource(prevResource); // resource wasn't changed
-                    ior.setLocationURI(FHIRUtil.buildLocationURI(type, prevResource));
+                    ior.setResource(prevResource); // 304 Not Modified never needs to return content
+                    ior.setLocationURI(FHIRUtil.buildLocationURI(type, id, result.getIfNoneMatchVersion()));
                     ior.setStatus(Response.Status.NOT_MODIFIED);
                 } else {
+                    // update, so make sure the location is configured correctly for the event
+                    ior.setLocationURI(FHIRUtil.buildLocationURI(type, newResource));
+                    event.getProperties().put(FHIRPersistenceEvent.PROPNAME_RESOURCE_LOCATION_URI, ior.getLocationURI().toString());
                     ior.setStatus(Response.Status.OK);
                     if (isPatch) {
                         getInterceptorMgr().fireAfterPatchEvent(event);

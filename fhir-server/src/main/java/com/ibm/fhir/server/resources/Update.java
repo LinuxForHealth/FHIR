@@ -85,7 +85,14 @@ public class Update extends FHIRResource {
             } else if (ior.getOperationOutcome() != null && HTTPReturnPreference.OPERATION_OUTCOME == returnPreference) {
                 response.entity(ior.getOperationOutcome());
             }
-            response = addHeaders(response, updatedResource);
+
+            if (updatedResource != null) {
+                response = addHeaders(response, updatedResource);
+            } else {
+                // For IfNoneMatch returning a 304 Not Modified, we may not have the current resource,
+                // but we can set the response headers we need using the location URI
+                response = addHeaders(response, ior.getLocationURI());
+            }
             return response.build();
         } catch (FHIRPersistenceResourceNotFoundException e) {
             // By default, NOT_FOUND is mapped to HTTP 404, so explicitly set it to HTTP 405

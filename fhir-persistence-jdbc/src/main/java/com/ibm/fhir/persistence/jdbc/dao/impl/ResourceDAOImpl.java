@@ -91,10 +91,10 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
 
     // @formatter:off
     //                                                                                 0                 1
-    //                                                                                 1 2 3 4 5 6 7 8 9 0 1 2
+    //                                                                                 1 2 3 4 5 6 7 8 9 0 1 2 3
     // @formatter:on
     // Don't forget that we must account for IN and OUT parameters.
-    private static final String SQL_INSERT_WITH_PARAMETERS = "CALL %s.add_any_resource(?,?,?,?,?,?,?,?,?,?,?,?)";
+    private static final String SQL_INSERT_WITH_PARAMETERS = "CALL %s.add_any_resource(?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
     // Read version history of the resource identified by its logical-id
     private static final String SQL_HISTORY =
@@ -544,6 +544,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             stmt.registerOutParameter(10, Types.BIGINT);  // resource_id
             stmt.registerOutParameter(11, Types.VARCHAR); // current_hash
             stmt.registerOutParameter(12, Types.INTEGER); // o_interaction_status
+            stmt.registerOutParameter(13, Types.INTEGER); // o_if_none_match_version
 
             stmt.execute();
             long latestTime = System.nanoTime();
@@ -556,6 +557,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             if (interactionStatus == 1) {
                 // No update, so no need to make any more changes
                 resource.setInteractionStatus(InteractionStatus.IF_NONE_MATCH_EXISTED);
+                resource.setIfNoneMatchVersion(stmt.getInt(13));
             } else {
                 resource.setInteractionStatus(InteractionStatus.MODIFIED);
 
