@@ -12,7 +12,6 @@ import java.util.function.Function;
 
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.erase.EraseDTO;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
@@ -28,7 +27,7 @@ public interface FHIRPersistence {
 
     /**
      * Stores a new FHIR Resource in the datastore. Id assignment handled by the implementation.
-     * This method has been deprecated. Instead, generate the logical id first and use the 
+     * This method has been deprecated. Instead, generate the logical id first and use the
      * createWithMeta(context, resource) call instead.
      * @param context the FHIRPersistenceContext instance associated with the current request
      * @param resource the FHIR Resource instance to be created in the datastore
@@ -38,7 +37,7 @@ public interface FHIRPersistence {
      */
     @Deprecated
     <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException;
-    
+
     /**
      * Stores a new FHIR Resource in the datastore. The resource is not modified before it is stored. It
      * must therefore already include correct Meta fields. Should be used instead of
@@ -142,7 +141,7 @@ public interface FHIRPersistence {
      * @throws FHIRPersistenceException
      */
     MultiResourceResult<Resource> search(FHIRPersistenceContext context, Class<? extends Resource> resourceType) throws FHIRPersistenceException;
-    
+
     /**
      * Returns true iff the persistence layer implementation supports transactions.
      */
@@ -167,7 +166,7 @@ public interface FHIRPersistence {
     default boolean isDeleteSupported() {
         return false;
     }
-    
+
     /**
      * Returns true iff the persistence layer implementation supports update/create and it has been
      * configured in the persistence config.
