@@ -80,7 +80,7 @@ public final class FHIRRegistry {
             url = url.substring(0, index);
         }
 
-        FHIRRegistryResource resource = findRegistryResource(resourceType, url, null);
+        FHIRRegistryResource resource = findRegistryResource(resourceType, url, null, null);
         return (resource != null) ? resource.getVersion().toString() : null;
     }
 
@@ -133,6 +133,8 @@ public final class FHIRRegistry {
      *     the canonical url (with optional version postfix)
      * @param resourceType
      *     the resource type
+     * @param providerName
+     *     the canonical class name of the provider that is calling get resources
      * @return
      *     the resource for the given canonical url and resource type if exists, null otherwise
      * @throws ClassCastException
@@ -141,6 +143,26 @@ public final class FHIRRegistry {
      *     if the resource type is not a definitional resource type
      */
     public <T extends Resource> T getResource(String url, Class<T> resourceType) {
+        return getResource(url, resourceType, null);
+    }
+
+    /**
+     * Get the resource for the given canonical url and resource type
+     *
+     * @param url
+     *     the canonical url (with optional version postfix)
+     * @param resourceType
+     *     the resource type
+     * @param providerName
+     *     the canonical class name of the provider that is calling get resources
+     * @return
+     *     the resource for the given canonical url and resource type if exists, null otherwise
+     * @throws ClassCastException
+     *     if the resource exists in the registry but its type does not match given resource type
+     * @throws IllegalArgumentException
+     *     if the resource type is not a definitional resource type
+     */
+    public <T extends Resource> T getResource(String url, Class<T> resourceType, String providerName) {
         Objects.requireNonNull(url);
         Objects.requireNonNull(resourceType);
         requireDefinitionalResourceType(resourceType);
@@ -159,7 +181,7 @@ public final class FHIRRegistry {
             url = url.substring(0, index);
         }
 
-        return resourceType.cast(getResource(findRegistryResource(resourceType, url, version), url, id));
+        return resourceType.cast(getResource(findRegistryResource(resourceType, url, version, providerName), url, id));
     }
 
     /**
@@ -259,11 +281,11 @@ public final class FHIRRegistry {
             url = url.substring(0, index);
         }
 
-        FHIRRegistryResource registryResource = findRegistryResource(resourceType, url, version);
+        FHIRRegistryResource registryResource = findRegistryResource(resourceType, url, version, null);
         return (id != null) ? (getResource(registryResource, url, id) != null) : (registryResource != null);
     }
 
-    private FHIRRegistryResource findRegistryResource(Class<? extends Resource> resourceType, String url, String version) {
+    private FHIRRegistryResource findRegistryResource(Class<? extends Resource> resourceType, String url, String version, String selfProvider) {
         if (version != null) {
             // find the first registry resource with the specified resourceType, url, and version (across all providers)
             for (FHIRRegistryResourceProvider provider : providers) {
@@ -276,6 +298,11 @@ public final class FHIRRegistry {
             // find the default (or latest) version of the registry resource with the specified resourceType and url (across all providers)
             Set<FHIRRegistryResource> distinct = new HashSet<>();
             for (FHIRRegistryResourceProvider provider : providers) {
+                System.out.println(selfProvider + " " + provider.getClass().getCanonicalName());
+                if (selfProvider != null && selfProvider.equals(provider.getClass().getCanonicalName())) {
+                    // Needs to skip as the provider is calling the findRegistryResource and trying to find it in itself.
+                    continue;
+                }
                 FHIRRegistryResource registryResource = provider.getRegistryResource(resourceType, url, version);
                 if (registryResource != null) {
                     distinct.add(registryResource);
