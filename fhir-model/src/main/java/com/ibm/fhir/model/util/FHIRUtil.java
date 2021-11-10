@@ -259,17 +259,13 @@ public class FHIRUtil {
 
     /**
      * Builds a relative "Location" header value for the specified resource. This will be a string of the form
-     * <code>"<resource-type>/<id>/_history/<version>"</code>. Note that the server will turn this into an absolute URL prior to
+     * <code>"[resource-type]/[id]/_history/[version]"</code>. Note that the server will turn this into an absolute URL prior to
      * returning it to the client.
      *
      * @param resource
      *            the resource for which the location header value should be returned
      */
     public static URI buildLocationURI(String type, Resource resource) {
-        String resourceTypeName = resource.getClass().getSimpleName();
-        if (!resourceTypeName.equals(type)) {
-            resourceTypeName = type;
-        }
         StringBuilder sb = new StringBuilder();
         sb.append(type);
         sb.append("/");

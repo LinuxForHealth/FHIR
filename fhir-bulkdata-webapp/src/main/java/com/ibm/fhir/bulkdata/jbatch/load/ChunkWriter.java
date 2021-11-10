@@ -54,6 +54,7 @@ import com.ibm.fhir.operation.bulkdata.model.type.BulkDataContext;
 import com.ibm.fhir.operation.bulkdata.model.type.OperationFields;
 import com.ibm.fhir.operation.bulkdata.model.type.StorageType;
 import com.ibm.fhir.persistence.FHIRPersistence;
+import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
@@ -219,7 +220,7 @@ public class ChunkWriter extends AbstractItemWriter {
 
                                 FHIRPersistenceEvent event = new FHIRPersistenceEvent(fhirResource, props);
 
-                                // Set up the persistence context to include deleted resources when we read
+                                // Set up the persistence context to include the deleted resources when we read
                                 FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(event, true);
                                 long startTime = System.currentTimeMillis();
                                 operationOutcome = conditionalFingerprintUpdate(chunkData, skip, localCache, fhirPersistence, persistenceContext, id, fhirResource);
@@ -306,15 +307,18 @@ public class ChunkWriter extends AbstractItemWriter {
         // latest version id. The persistence layer no longer makes any changes to the
         // resource so the resource needs to be fully prepared before the persistence
         // create/update call is made
-        final Resource oldResource = persistence.read(context, resource.getClass(), logicalId).getResource();
+        SingleResourceResult<? extends Resource> oldResourceResult = persistence.read(context, resource.getClass(), logicalId);
+        Resource oldResource = oldResourceResult.getResource();
 
         final com.ibm.fhir.model.type.Instant lastUpdated = PayloadPersistenceHelper.getCurrentInstant();
         final int newVersionNumber = oldResource != null && oldResource.getMeta() != null && oldResource.getMeta().getVersionId() != null
                 ? Integer.parseInt(oldResource.getMeta().getVersionId().getValue()) + 1 : 1;
         resource = FHIRPersistenceUtil.copyAndSetResourceMetaFields(resource, logicalId, newVersionNumber, lastUpdated);
 
+        // If the resource was previously deleted, we need to treat this as a not to skip, otherwise we end up with really inconsistent data
+        // when there is a DELETED resource.
         OperationOutcome oo;
-        if (skip) {
+        if (skip && !oldResourceResult.isDeleted()) {
             // Key is scoped to the ResourceType.
             String key = resourceType + "/" + logicalId;
             SaltHash oldBaseLine = localCache.get(key);

@@ -181,7 +181,7 @@
             <dependency>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-rt-frontend-jaxrs</artifactId>
-                <version>3.4.4</version>
+                <version>3.4.5</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.cxf</groupId>
@@ -454,7 +454,7 @@
             <dependency>
                 <groupId>com.google.protobuf</groupId>
                 <artifactId>protobuf-java</artifactId>
-                <version>3.12.4</version>
+                <version>3.19.1</version>
             </dependency>
             <dependency>
                 <groupId>com.google.protobuf</groupId>
@@ -583,7 +583,7 @@
                 <!-- [CVE-2021-37137] SnappyFrameDecoder doesn't restrict chunk length any may buffer skippable chunks in an unnecessary way; patched in 4.1.68.Final -->
                 <groupId>io.netty</groupId>
                 <artifactId>netty-codec-http</artifactId>
-                <version>4.1.69.Final</version>
+                <version>4.1.70.Final</version>
             </dependency>
             <dependency>
                 <!--  [CVE-2020-8908] A temp directory creation vulnerability exists in all versions of Guava, addressed in latest versions -->

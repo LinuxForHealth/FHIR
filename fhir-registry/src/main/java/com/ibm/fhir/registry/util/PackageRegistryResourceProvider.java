@@ -52,7 +52,8 @@ public abstract class PackageRegistryResourceProvider extends AbstractRegistryRe
 
     @Override
     protected List<FHIRRegistryResource> getRegistryResources(Class<? extends Resource> resourceType, String url) {
-        return registryResourceMap.getOrDefault(resourceType, Collections.emptyMap()).getOrDefault(url, Collections.emptyList());
+        return registryResourceMap.getOrDefault(resourceType, Collections.emptyMap())
+                .getOrDefault(url, Collections.emptyList());
     }
 
     @Override
@@ -93,6 +94,9 @@ public abstract class PackageRegistryResourceProvider extends AbstractRegistryRe
                 .collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
     }
 
+    /**
+     * @implNote the list of FHIRRegistryResource is sorted from low to high on version
+     */
     private Map<Class<? extends Resource>, Map<String, List<FHIRRegistryResource>>> buildRegistryResourceMap() {
         Map<Class<? extends Resource>, Map<String, List<FHIRRegistryResource>>> registryResourceMap = new HashMap<>();
         for (FHIRRegistryResource registryResource : registryResources) {

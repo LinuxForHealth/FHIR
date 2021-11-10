@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -38,7 +38,7 @@ public interface FHIRRegistryResourceProvider {
      * @param resourceType
      *     the resource type of the registry resource
      * @return
-     *     the registry resources from this provider for the given resource type
+     *     the registry resources from this provider for the given resource type; never null
      */
     Collection<FHIRRegistryResource> getRegistryResources(Class<? extends Resource> resourceType);
 
@@ -46,7 +46,7 @@ public interface FHIRRegistryResourceProvider {
      * Get all the registry resources from this provider
      *
      * @return
-     *     all of the registry resources from this provider
+     *     all of the registry resources from this provider; never null
      */
     Collection<FHIRRegistryResource> getRegistryResources();
 
@@ -56,7 +56,7 @@ public interface FHIRRegistryResourceProvider {
      * @param type
      *     the constrained resource type
      * @return
-     *     the profile resources from this provider that constrain the given resource type
+     *     the profile resources from this provider that constrain the given resource type; never null
      */
     Collection<FHIRRegistryResource> getProfileResources(String type);
 
@@ -67,7 +67,7 @@ public interface FHIRRegistryResourceProvider {
      * @param type
      *     the search parameter type
      * @return
-     *     the search parameter resources from this provider with the given search parameter type
+     *     the search parameter resources from this provider with the given search parameter type; never null
      */
     Collection<FHIRRegistryResource> getSearchParameterResources(String type);
 

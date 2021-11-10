@@ -1,8 +1,13 @@
 {
     "__comment": "FHIR Server configuration extension for the compartment test tenant",
     "fhirServer": {
-        "search": {
-            "useStoredCompartmentParam": true
+        "resources": {
+            "Basic": {
+                "searchParameters": {
+                    "code": "http://ibm.com/fhir/SearchParameter/Basic-code",
+                    "*": "*"
+                }
+            }
         }
     }
 }

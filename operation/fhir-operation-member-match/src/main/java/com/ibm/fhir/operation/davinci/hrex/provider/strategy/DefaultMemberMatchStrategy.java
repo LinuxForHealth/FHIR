@@ -148,7 +148,7 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
             // defined by the customer, it's all in the Compiler.
             String type = "Patient";
             String requestUri = FHIRRequestContext.get().getOriginalRequestUri();
-            LOG.info("SPs for Patient " + patientCompiler.getSearchParameters());
+            LOG.fine("SPs for Patient " + patientCompiler.getSearchParameters());
             Bundle patientBundle = resourceHelper()
                     .doSearch(type, null, null, patientCompiler.getSearchParameters(), requestUri, null);
             int size = patientBundle.getEntry().size();
@@ -186,6 +186,17 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
 
             Patient patient = patientBundle.getEntry().get(0).getResource().as(Patient.class);
             patient.accept(getPatientIdentifier);
+
+            /*
+             * QA: Since there is filtering on the codesystem and value, the MB has to exist.
+             * if it doesn't there is no MATCH.
+             */
+            if (getPatientIdentifier.getSystem() == null || getPatientIdentifier.getValue() == null) {
+                returnNoMatchException();
+                return MemberMatchResult.builder()
+                        .responseType(ResponseType.NO_MATCH)
+                        .build();
+            }
         } catch (Exception e) {
             LOG.throwing(getClass().getSimpleName(), "executeMemberMatch", e);
             throw FHIROperationUtil.buildExceptionWithIssue("Error executing the MemberMatch", IssueType.EXCEPTION);
@@ -250,13 +261,26 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
          * @param identifier
          */
         private void addIdValue(Identifier identifier) {
-            Uri sys = identifier.getSystem();
-            com.ibm.fhir.model.type.String val = identifier.getValue();
-            if (sys != null && sys.getValue() != null) {
-                this.system = sys.getValue();
-            }
-            if (val != null && val.getValue() != null) {
-                this.value = val.getValue();
+            if (identifier.getType() != null
+                    && identifier.getType().getCoding() != null) {
+                // If there is  more than one Coding it has to be MB.
+                for (Coding coding : identifier.getType().getCoding()) {
+                    if (coding.getSystem() != null
+                            && "http://terminology.hl7.org/CodeSystem/v2-0203"
+                                    .equals(coding.getSystem().getValue())
+                            && coding.getCode() != null
+                            && "MB".equals(coding.getCode().getValue())) {
+                        // We only want to extract the code system v2-0203 with MB
+                        Uri sys = identifier.getSystem();
+                        com.ibm.fhir.model.type.String val = identifier.getValue();
+                        if (sys != null && sys.getValue() != null) {
+                            this.system = sys.getValue();
+                        }
+                        if (val != null && val.getValue() != null) {
+                            this.value = val.getValue();
+                        }
+                    }
+                }
             }
         }
 
@@ -308,7 +332,8 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
          * @return
          */
         public MultivaluedMap<String,String> getSearchParameters() {
-            MultivaluedMap<String,String> temp = new MultivaluedHashMap<String,String>(searchParams);
+
+            MultivaluedMap<String,String> temp = new MultivaluedHashMap<String, String>(searchParams);
             if (!telecom.isEmpty()) {
                 String val = telecom.stream().collect(Collectors.joining(","));
                 temp.add("telecom", val);
@@ -391,15 +416,16 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
         public boolean visit(String elementName, int elementIndex, HumanName humanName) {
             // SearchParameter: name
             if ("name".equals(elementName)) {
-                if (humanName.getFamily() != null) {
+                if (humanName.getFamily() != null && humanName.getFamily().getValue() != null) {
                     family.add(humanName.getFamily().getValue());
                 }
-                given.addAll(
-                        humanName.getGiven()
-                            .stream()
-                            .map(e -> e.getValue())
-                            .filter(Objects::isNull)
-                            .collect(Collectors.toList()));
+                if (humanName.getGiven() != null && !humanName.getGiven().isEmpty()) {
+                    for (com.ibm.fhir.model.type.String hn : humanName.getGiven()) {
+                        if (hn != null && hn.getValue() != null) {
+                            given.add(hn.getValue());
+                        }
+                    }
+                }
             }
             return false;
         }

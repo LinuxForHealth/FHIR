@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
- 
+
 package com.ibm.fhir.schema.derby;
 
 import static org.testng.Assert.assertEquals;
@@ -27,7 +27,7 @@ import com.ibm.fhir.schema.control.FhirSchemaVersion;
 public class DerbySchemaVersionsTest {
     private static final String TARGET_DIR = "target/derby/";
     private static final String SCHEMA_NAME = "APP";
-    
+
     @Test
     public void test() throws Exception {
         String dbPath = TARGET_DIR + "fhirdb";
@@ -41,18 +41,18 @@ public class DerbySchemaVersionsTest {
             PoolConnectionProvider connectionPool = new PoolConnectionProvider(cp, 10);
             ITransactionProvider transactionProvider = new SimpleTransactionProvider(connectionPool);
             SchemaVersionsManager svm = new SchemaVersionsManager(db.getTranslator(), connectionPool, transactionProvider, SCHEMA_NAME);
-            
+
             svm.updateSchemaVersionId(FhirSchemaVersion.V0001);
             assertEquals(svm.getVersionForSchema(), FhirSchemaVersion.V0001.vid());
             svm.updateSchemaVersionId(FhirSchemaVersion.V0002);
             assertEquals(svm.getVersionForSchema(), FhirSchemaVersion.V0002.vid());
             svm.updateSchemaVersionId(FhirSchemaVersion.V0003);
             assertEquals(svm.getVersionForSchema(), FhirSchemaVersion.V0003.vid());
-            
+
             // Make sure we can correctly determine the latest schema version value
             svm.updateSchemaVersion();
-            assertEquals(svm.getVersionForSchema(), FhirSchemaVersion.V0020.vid());
-            
+            assertEquals(svm.getVersionForSchema(), FhirSchemaVersion.V0021.vid());
+
             assertTrue(svm.isLatestSchema());
        }
     }

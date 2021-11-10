@@ -235,6 +235,9 @@ public class FHIRRegistryResource implements Comparable<FHIRRegistryResource> {
             }
         }
 
+        /**
+         * @implNote returns the exact string in the version element of the corresponding resource
+         */
         @Override
         public String toString() {
             return version;

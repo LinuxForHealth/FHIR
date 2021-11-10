@@ -429,6 +429,9 @@ public class FHIRResource {
      * https://myhost:9443/fhir-server/api/v4/Patient to create a Patient resource, this method would return
      * "https://myhost:9443/fhir-server/api/v4".
      *
+     * @param type
+     *      The resource type associated with the request URI (e.g. "Patient" in the case of
+     *      https://myhost:9443/fhir-server/api/v4/Patient), or null if there is no such resource type
      * @return The base endpoint URI associated with the current request.
      * @throws Exception if an error occurs while reading the config
      * @implNote This method uses {@link #getRequestUri()} to get the original request URI and then strips it to the
@@ -449,12 +452,17 @@ public class FHIRResource {
 
         // Strip off any path elements after the base
         if (type != null && !type.isEmpty()) {
-            int resourceNamePathLocation = baseUri.lastIndexOf("/" + type);
+            int resourceNamePathLocation = baseUri.indexOf("/" + type + "/");
             if (resourceNamePathLocation != -1) {
                 baseUri = requestUri.substring(0, resourceNamePathLocation);
             } else {
-                // Assume the request was a batch/transaction and just use the requestUri as the base
-                baseUri = requestUri;
+                resourceNamePathLocation = baseUri.lastIndexOf("/" + type);
+                if (resourceNamePathLocation != -1) {
+                    baseUri = requestUri.substring(0, resourceNamePathLocation);
+                } else {
+                    // Assume the request was a batch/transaction and just use the requestUri as the base
+                    baseUri = requestUri;
+                }
             }
         } else {
             if (baseUri.endsWith("/_history")) {

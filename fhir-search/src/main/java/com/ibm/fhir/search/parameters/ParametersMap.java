@@ -7,7 +7,6 @@ package com.ibm.fhir.search.parameters;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -26,7 +25,9 @@ import com.ibm.fhir.model.resource.SearchParameter;
 public class ParametersMap {
     private static final Logger log = Logger.getLogger(ParametersMap.class.getName());
 
-    private final Map<String, Set<SearchParameter>> codeMap;
+    public static final String MISSING_EXPRESSION_WARNING = "Skipping parameter '%s' with missing expression";
+
+    private final Map<String, SearchParameter> codeMap;
     private final Map<String, SearchParameter> canonicalMap;
 
     /**
@@ -38,66 +39,77 @@ public class ParametersMap {
         canonicalMap = new LinkedHashMap<>();
     }
 
+    /**
+     * @param code
+     * @param parameter
+     * @implSpec Any existing parameters will be replaced and a warning will be logged; last insert wins
+     */
     public void insert(String code, SearchParameter parameter) {
         Objects.requireNonNull(code, "cannot insert a null code");
         Objects.requireNonNull(parameter, "cannot insert a null parameter");
 
         String url = parameter.getUrl().getValue();
-        String version = parameter.getVersion() == null ? null : parameter.getVersion().getValue();
+        String version = (parameter.getVersion() == null) ? null : parameter.getVersion().getValue();
+        String canonical = (version == null) ? url : url + "|" + version;
 
-        Set<SearchParameter> previousParams = codeMap.get(code);
-        if (previousParams != null && previousParams.size() > 0) {
+        if (parameter.getExpression() == null || !parameter.getExpression().hasValue()) {
             if (log.isLoggable(Level.FINE)) {
-                log.fine("SearchParameter with code '" + code + "' already exists; adding additional parameter '" + url + "'");
+                log.fine(String.format(MISSING_EXPRESSION_WARNING, canonical));
             }
+            return;
         }
-        codeMap.computeIfAbsent(code, k -> new HashSet<>()).add(parameter);
+
+        if (codeMap.containsKey(code)) {
+            SearchParameter previous = codeMap.get(code);
+            logParamConflict("with code '" + code + "'", parameter, canonical, previous);
+        }
+        codeMap.put(code, parameter);
 
         // for versioned search params, we store them in the canonicalMap twice:
         // once with their version and once without it
         if (canonicalMap.containsKey(url)) {
             SearchParameter previous = canonicalMap.get(url);
-            if (previous.getExpression() == null || previous.getExpression().equals(parameter.getExpression())) {
-                if (!code.equals(previous.getCode().getValue())) {
-                    log.info("SearchParameter '" + url + "' already exists with the same expression; "
-                            + "adding additional code '" + code + "'");
-                }
-            } else {
-                log.info("SearchParameter '" + url + "' already exists with a different expression;\n"
-                        + "replacing [id=" + previous.getId() + ", version=" + previous.getVersion().getValue() + ", expression=" + previous.getExpression().getValue()
-                        + "] with [id=" + parameter.getId() + ", version=" + parameter.getVersion().getValue() + ", expression=" + parameter.getExpression().getValue() + "]");
-            }
+            logParamConflict("with url '" + url + "'", parameter, canonical, previous);
         }
         canonicalMap.put(url, parameter);
 
         if (version != null) {
-            String canonical = url + "|" + version;
             if (canonicalMap.containsKey(canonical)) {
                 SearchParameter previous = canonicalMap.get(canonical);
-                if (previous.getExpression() == null || previous.getExpression().equals(parameter.getExpression())) {
-                    if (!code.equals(previous.getCode().getValue())) {
-                        log.info("SearchParameter '" + canonical + "' already exists with the same expression; "
-                                + "adding additional code '" + code + "'");
-                    }
-                } else {
-                    log.warning("SearchParameter '" + canonical + "' already exists with a different expression;\n"
-                            + "replacing [id=" + previous.getId() + ", expression=" + previous.getExpression().getValue()
-                            + "] with [id=" + parameter.getId() + ", expression=" + parameter.getExpression().getValue() + "]");
-                }
+                logParamConflict("'" + canonical + "'", parameter, canonical, previous);
             }
             canonicalMap.put(canonical, parameter);
         }
     }
 
-    public void insertAll(ParametersMap map) {
-        for (Entry<String, Set<SearchParameter>> entry : map.codeEntries()) {
-            for (SearchParameter sp : entry.getValue()) {
-                insert(entry.getKey(), sp);
+    private void logParamConflict(String distinguisher, SearchParameter parameter, String canonical, SearchParameter previous) {
+        if (previous.getExpression().equals(parameter.getExpression())) {
+            if (log.isLoggable(Level.FINE)) {
+                String thatCanonical = ParametersUtil.getCanonicalUrl(previous);
+                log.fine("SearchParameter " + distinguisher + " exists with the same expression"
+                        + "; use search parameter filtering to disambiguate.");
+                log.fine("Replacing " + thatCanonical + " with " + canonical);
             }
+        } else {
+            String thatCanonical = ParametersUtil.getCanonicalUrl(previous);
+            log.warning("SearchParameter " + distinguisher + " exists with a different expression" +
+                    "; use search parameter filtering to disambiguate.");
+            log.warning("Replacing " + thatCanonical + " [" + previous.getExpression().getValue() + "] with "
+                    + canonical + " [" + parameter.getExpression().getValue() + "]");
         }
     }
 
-    public Set<SearchParameter> lookupByCode(String searchParameterCode) {
+    public void insertAll(ParametersMap map) {
+        for (Entry<String, SearchParameter> entry : map.codeEntries()) {
+            insert(entry.getKey(), entry.getValue());
+        }
+    }
+
+    public Set<String> getCodes() {
+        return codeMap.keySet();
+    }
+
+    public SearchParameter lookupByCode(String searchParameterCode) {
         return codeMap.get(searchParameterCode);
     }
 
@@ -121,7 +133,7 @@ public class ParametersMap {
         return codeMap.size();
     }
 
-    public Set<Entry<String, Set<SearchParameter>>> codeEntries() {
+    public Set<Entry<String, SearchParameter>> codeEntries() {
         return Collections.unmodifiableSet(codeMap.entrySet());
     }
 
