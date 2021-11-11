@@ -60,6 +60,7 @@ jobs:
             # Record the currect directory
             pushd $(pwd)
             cd fhir/docs/
+            npm install yarn -g
             yarn install -g gatsby-cli
             gatsby telemetry --disable
 
