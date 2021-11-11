@@ -133,8 +133,6 @@ public final class FHIRRegistry {
      *     the canonical url (with optional version postfix)
      * @param resourceType
      *     the resource type
-     * @param providerName
-     *     the canonical class name of the provider that is calling get resources
      * @return
      *     the resource for the given canonical url and resource type if exists, null otherwise
      * @throws ClassCastException
@@ -153,8 +151,8 @@ public final class FHIRRegistry {
      *     the canonical url (with optional version postfix)
      * @param resourceType
      *     the resource type
-     * @param providerName
-     *     the canonical class name of the provider that is calling get resources
+     * @param providerNameToExclude
+     *     the canonical class name of the provider that is to be excluded
      * @return
      *     the resource for the given canonical url and resource type if exists, null otherwise
      * @throws ClassCastException
@@ -298,7 +296,6 @@ public final class FHIRRegistry {
             // find the default (or latest) version of the registry resource with the specified resourceType and url (across all providers)
             Set<FHIRRegistryResource> distinct = new HashSet<>();
             for (FHIRRegistryResourceProvider provider : providers) {
-                System.out.println(selfProvider + " " + provider.getClass().getCanonicalName());
                 if (selfProvider != null && selfProvider.equals(provider.getClass().getCanonicalName())) {
                     // Needs to skip as the provider is calling the findRegistryResource and trying to find it in itself.
                     continue;
