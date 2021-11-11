@@ -7,29 +7,3 @@ description: >-
   a focus on performance and configurability.
 baseurl: ""
 url: "https://ibm.github.io/fhir" 
-
-# Build settings
-plugins:
-  - jekyll-github-metadata
-  - jekyll-sitemap
-
-source: ./_site/ 
-destination: ./_site/
-show_drafts: false
-future: false
-
-markdown: kramdown
-
-# Remote Theme - https://github.blog/2017-11-29-use-any-theme-with-github-pages/
-theme: jekyll-theme-slate
-
-relative_links:
-  enabled:     true
-  collections: false
-
-include:
-  - public/
-  - _site/
-  - index.html
-
-repository: IBM/FHIR
