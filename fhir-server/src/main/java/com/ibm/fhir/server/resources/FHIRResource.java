@@ -231,8 +231,38 @@ public class FHIRResource {
                 .lastModified(Date.from(resource.getMeta().getLastUpdated().getValue().toInstant()));
     }
 
+    /**
+     * Add the etag header using the version obtained from the locationURI
+     * @param rb
+     * @param locationURI
+     * @return
+     */
+    protected ResponseBuilder addHeaders(ResponseBuilder rb, URI locationURI) {
+        String etag = getEtagValueFromLocation(locationURI);
+        if (etag != null) {
+            return rb.header(HttpHeaders.ETAG, etag);
+        } else {
+            return rb;
+        }
+    }
+
     private String getEtagValue(Resource resource) {
         return "W/\"" + resource.getMeta().getVersionId().getValue() + "\"";
+    }
+
+    /**
+     * Get the ETag value by extracting the version from the locationURI
+     * @param locationURI
+     * @return
+     */
+    private String getEtagValueFromLocation(URI locationURI) {
+        String locn = locationURI.toString();
+        int idx = locn.lastIndexOf('/');
+        if (idx >= 0) {
+            return "W/\"" + locn.substring(idx+1) + "\"";
+        } else {
+            return null;
+        }
     }
 
     protected Response exceptionResponse(FHIRRestBundledRequestException e) {

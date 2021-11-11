@@ -25,18 +25,27 @@ public class SingleResourceResult<T extends Resource> {
     final boolean deleted;
     final InteractionStatus interactionStatus;
     
+    // The current version of the resource returned by the database if we hit IfNoneMatch
+    final Integer ifNoneMatchVersion;
+    
     private SingleResourceResult(Builder<T> builder) {
         success = ValidationSupport.requireNonNull(builder.success, "success");
         resource = builder.resource;
         outcome = builder.outcome;
         deleted = builder.deleted;
         interactionStatus = builder.interactionStatus;
+        ifNoneMatchVersion = builder.ifNoneMatchVersion;
+        
         if (!success && (outcome == null || outcome.getIssue().isEmpty())) {
             throw new IllegalStateException("Failed interaction results must include an OperationOutcome with one or more issue.");
         }
         
         if (interactionStatus == null) {
             throw new IllegalStateException("All interaction results must include a valid InteractionStatus");
+        }
+        
+        if (interactionStatus == InteractionStatus.IF_NONE_MATCH_EXISTED && ifNoneMatchVersion == null) {
+            throw new IllegalStateException("Must specify ifNoneMatchVersion when IF_NON_MATCH_EXISTED is true");
         }
     }
 
@@ -75,6 +84,14 @@ public class SingleResourceResult<T extends Resource> {
     public InteractionStatus getStatus() {
         return this.interactionStatus;
     }
+
+    /**
+     * Getter for the ifNoneMatchVersion value
+     * @return
+     */
+    public Integer getIfNoneMatchVersion() {
+        return this.ifNoneMatchVersion;
+    }
     
     /**
      * An OperationOutcome that represents the outcome of the interaction
@@ -93,6 +110,7 @@ public class SingleResourceResult<T extends Resource> {
         private OperationOutcome outcome;
         private boolean deleted;
         private InteractionStatus interactionStatus;
+        private Integer ifNoneMatchVersion;
 
         /**
          * Whether or not the interaction was successful
@@ -118,6 +136,17 @@ public class SingleResourceResult<T extends Resource> {
          */
         public Builder<T> interactionStatus(InteractionStatus interactionStatus) {
             this.interactionStatus = interactionStatus;
+            return this;
+        }
+
+        /**
+         * Sets the version we found hitting IfNoneMatch. Null in other cases.
+         * 
+         * @param versionId
+         * @return
+         */
+        public Builder<T> ifNoneMatchVersion(Integer versionId) {
+            this.ifNoneMatchVersion = versionId;
             return this;
         }
 
