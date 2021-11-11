@@ -867,8 +867,6 @@
                         <maxmemory>2g</maxmemory>
                         <!-- doclint is none, otherwise build breaks -->
                         <doclint>none</doclint>
-                        <additionalparam>-Xdoclint:none
-                            -Djava.awt.headless=true</additionalparam>
                         <detectLinks>true</detectLinks>
                         <!-- control display -->
                         <author>false</author>
@@ -1118,8 +1116,6 @@
                             <source>8</source>
                             <verbose>true</verbose>
                             <doclint>none</doclint>
-                            <additionalparam>-Xdoclint:none
-                                -Djava.awt.headless=true</additionalparam>
                             <minmemory>2g</minmemory>
                             <maxmemory>2g</maxmemory>
                             <nohelp>true</nohelp>
@@ -1169,8 +1165,6 @@
                             <maxmemory>2g</maxmemory>
                             <!-- doclint is none, otherwise build breaks -->
                             <doclint>none</doclint>
-                            <additionalparam>-Xdoclint:none
-                                -Djava.awt.headless=true</additionalparam>
                             <detectLinks>true</detectLinks>
                             <!-- control display -->
                             <author>false</author>
