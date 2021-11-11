@@ -39,7 +39,7 @@ public class TestRegistryResourceProvider extends AbstractRegistryResourceProvid
      * loads from the classloader and the order is not fixed.
      * Once these are created, then we can use the resource lookup to support retrieval.
      */
-    private void defferedLoad() {
+    private void deferredLoad() {
         if (registryResources == null) {
             synchronized (TestRegistryResourceProvider.class) {
                 if (registryResources == null) {
@@ -52,7 +52,7 @@ public class TestRegistryResourceProvider extends AbstractRegistryResourceProvid
     }
 
     /**
-     * generates the structured definition used in the defferedLoad
+     * generates the structured definition used in the deferredLoad
      * @return
      */
     private StructureDefinition generateStructureDefinition() {
@@ -78,7 +78,7 @@ public class TestRegistryResourceProvider extends AbstractRegistryResourceProvid
 
     @Override
     protected List<FHIRRegistryResource> getRegistryResources(Class<? extends Resource> resourceType, String url) {
-        defferedLoad();
+        deferredLoad();
         return registryResources.stream()
                 .filter(rr -> rr.getResourceType() == resourceType && rr.getUrl().equals(url))
                 .collect(Collectors.toList());
@@ -86,7 +86,7 @@ public class TestRegistryResourceProvider extends AbstractRegistryResourceProvid
 
     @Override
     public Collection<FHIRRegistryResource> getRegistryResources(Class<? extends Resource> resourceType) {
-        defferedLoad();
+        deferredLoad();
         return registryResources.stream()
                 .filter(rr -> rr.getResourceType().equals(resourceType))
                 .collect(Collectors.toSet());
@@ -94,7 +94,7 @@ public class TestRegistryResourceProvider extends AbstractRegistryResourceProvid
 
     @Override
     public Collection<FHIRRegistryResource> getRegistryResources() {
-        defferedLoad();
+        deferredLoad();
         return registryResources;
     }
 
@@ -105,7 +105,7 @@ public class TestRegistryResourceProvider extends AbstractRegistryResourceProvid
 
     @Override
     public Collection<FHIRRegistryResource> getSearchParameterResources(String type) {
-        defferedLoad();
+        deferredLoad();
         return registryResources.stream()
                 .filter(rr -> rr.getResourceType() == SearchParameter.class)
                 .filter(rr -> ((SearchParameter) rr.getResource()).getType().getValue().equals(type))

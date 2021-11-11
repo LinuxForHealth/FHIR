@@ -160,7 +160,7 @@ public final class FHIRRegistry {
      * @throws IllegalArgumentException
      *     if the resource type is not a definitional resource type
      */
-    public <T extends Resource> T getResource(String url, Class<T> resourceType, String providerName) {
+    public <T extends Resource> T getResource(String url, Class<T> resourceType, String providerNameToExclude) {
         Objects.requireNonNull(url);
         Objects.requireNonNull(resourceType);
         requireDefinitionalResourceType(resourceType);
@@ -179,7 +179,7 @@ public final class FHIRRegistry {
             url = url.substring(0, index);
         }
 
-        return resourceType.cast(getResource(findRegistryResource(resourceType, url, version, providerName), url, id));
+        return resourceType.cast(getResource(findRegistryResource(resourceType, url, version, providerNameToExclude), url, id));
     }
 
     /**
@@ -283,7 +283,7 @@ public final class FHIRRegistry {
         return (id != null) ? (getResource(registryResource, url, id) != null) : (registryResource != null);
     }
 
-    private FHIRRegistryResource findRegistryResource(Class<? extends Resource> resourceType, String url, String version, String selfProvider) {
+    private FHIRRegistryResource findRegistryResource(Class<? extends Resource> resourceType, String url, String version, String providerNameToExclude) {
         if (version != null) {
             // find the first registry resource with the specified resourceType, url, and version (across all providers)
             for (FHIRRegistryResourceProvider provider : providers) {
@@ -296,7 +296,7 @@ public final class FHIRRegistry {
             // find the default (or latest) version of the registry resource with the specified resourceType and url (across all providers)
             Set<FHIRRegistryResource> distinct = new HashSet<>();
             for (FHIRRegistryResourceProvider provider : providers) {
-                if (selfProvider != null && selfProvider.equals(provider.getClass().getCanonicalName())) {
+                if (providerNameToExclude != null && providerNameToExclude.equals(provider.getClass().getCanonicalName())) {
                     // Needs to skip as the provider is calling the findRegistryResource and trying to find it in itself.
                     continue;
                 }

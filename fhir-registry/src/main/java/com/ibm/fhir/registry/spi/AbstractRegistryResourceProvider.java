@@ -48,7 +48,7 @@ public abstract class AbstractRegistryResourceProvider implements FHIRRegistryRe
 
     /**
      * facilitates the retrieval of a resource from the registry allowing the provider to
-     * be skipped from the resource retrieval.
+     * be excluded from the resource retrieval.
      *
      * designed to be used at startup.
      *
