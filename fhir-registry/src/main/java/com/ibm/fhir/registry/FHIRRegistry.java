@@ -58,6 +58,7 @@ public final class FHIRRegistry {
     public void addProvider(FHIRRegistryResourceProvider provider) {
         Objects.requireNonNull(provider);
         providers.add(provider);
+        provider.init();
     }
 
     /**
