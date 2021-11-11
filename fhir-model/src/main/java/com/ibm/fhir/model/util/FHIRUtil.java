@@ -262,6 +262,8 @@ public class FHIRUtil {
      * <code>"[resource-type]/[id]/_history/[version]"</code>. Note that the server will turn this into an absolute URL prior to
      * returning it to the client.
      *
+     * @param type
+     *            the resource type name
      * @param resource
      *            the resource for which the location header value should be returned
      */
@@ -277,7 +279,7 @@ public class FHIRUtil {
 
     /**
      * Builds a relative "Location" header value for the specified resource type/id/version. This will be a string of the form
-     * <code>"<resource-type>/<id>/_history/<version>"</code>. Note that the server will turn this into an absolute URL prior to
+     * <code>"[resource-type]/[id]/_history/[version]"</code>. Note that the server will turn this into an absolute URL prior to
      * returning it to the client.
      * 
      * @param type the resource type name
