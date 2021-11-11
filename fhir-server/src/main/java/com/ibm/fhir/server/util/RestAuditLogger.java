@@ -119,7 +119,7 @@ public class RestAuditLogger {
 
         AuditLogService auditLogSvc = AuditLogServiceFactory.getService();
         if (auditLogSvc.isEnabled()) {
-            if (oldResource == null) {
+            if (Response.Status.CREATED.equals(responseStatus)) {
                 // #2471 -  Audit record for PUTs should not always use "Update"
                 // If the oldResource is null, it doesn't exist and is actually treated as a CREATE.
                 RestAuditLogger.logCreate(request, updatedResource, startTime, endTime, responseStatus);
