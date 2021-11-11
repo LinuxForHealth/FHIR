@@ -351,6 +351,15 @@ public final class FHIRRegistry {
     }
 
     /**
+     * initializes the Resource Providers.
+     */
+    public static void init() {
+        for (FHIRRegistryResourceProvider provider : getInstance().providers) {
+            provider.init();
+        }
+    }
+
+    /**
      * Get the singleton instance of this class
      *
      * <p>This first time that this method is called, all registry resource providers made available through the

@@ -867,8 +867,6 @@
                         <maxmemory>2g</maxmemory>
                         <!-- doclint is none, otherwise build breaks -->
                         <doclint>none</doclint>
-                        <additionalparam>-Xdoclint:none
-                            -Djava.awt.headless=true</additionalparam>
                         <detectLinks>true</detectLinks>
                         <!-- control display -->
                         <author>false</author>

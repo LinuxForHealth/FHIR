@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.profile.test.provider;
 
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.annotation.Constraint;
@@ -13,11 +14,18 @@ import com.ibm.fhir.model.resource.StructureDefinition;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.profile.ProfileSupport;
+import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.registry.resource.FHIRRegistryResource;
 
 public class ProviderTest {
+    @BeforeClass
+    public void before() {
+        FHIRRegistry.getInstance();
+        FHIRRegistry.init();
+    }
+
     @Test
-    public static void testProviderWithLocalLookup() throws Exception {
+    public void testProviderWithLocalLookup() throws Exception {
         TestRegistryResourceProvider provider = new TestRegistryResourceProvider();
         for (FHIRRegistryResource registryResource : provider.getRegistryResources()) {
             if (StructureDefinition.class.equals(registryResource.getResourceType())) {

@@ -116,6 +116,8 @@ public class FHIRServletContextListener implements ServletContextListener {
             /*
              * The following inits are intended to load the Support / Util classes into the classloader.
              * Subsequently, the code activates the static values (and maps).
+             *
+             * @see JobControlContextListener to see register these settings for Bulk Data.
              */
 
             log.fine("Initializing ModelSupport...");
@@ -123,6 +125,10 @@ public class FHIRServletContextListener implements ServletContextListener {
 
             log.fine("Initializing FHIRUtil...");
             FHIRUtil.init();
+
+            log.fine("Initializing FHIRRegistry...");
+            FHIRRegistry.getInstance();
+            FHIRRegistry.init();
 
             log.fine("Initializing SearchUtil...");
             SearchUtil.init();
@@ -214,9 +220,6 @@ public class FHIRServletContextListener implements ServletContextListener {
 
             Boolean checkUnicodeChars = fhirConfig.getBooleanProperty(PROPERTY_CHECK_CONTROL_CHARS, Boolean.TRUE);
             FHIRModelConfig.setCheckForControlChars(checkUnicodeChars);
-
-            log.fine("Initializing FHIRRegistry...");
-            FHIRRegistry.getInstance();
 
             Boolean serverRegistryResourceProviderEnabled = fhirConfig.getBooleanProperty(PROPERTY_SERVER_REGISTRY_RESOURCE_PROVIDER_ENABLED, Boolean.FALSE);
             if (serverRegistryResourceProviderEnabled) {
