@@ -259,18 +259,42 @@ public class FHIRUtil {
 
     /**
      * Builds a relative "Location" header value for the specified resource. This will be a string of the form
-     * <code>"<resource-type>/<id>/_history/<version>"</code>. Note that the server will turn this into an absolute URL prior to
+     * <code>"[resource-type]/[id]/_history/[version]"</code>. Note that the server will turn this into an absolute URL prior to
      * returning it to the client.
      *
+     * @param type
+     *            the resource type name
      * @param resource
      *            the resource for which the location header value should be returned
      */
     public static URI buildLocationURI(String type, Resource resource) {
-        String resourceTypeName = resource.getClass().getSimpleName();
-        if (!resourceTypeName.equals(type)) {
-            resourceTypeName = type;
-        }
-        return URI.create(resourceTypeName + "/" + resource.getId() + "/_history/" + resource.getMeta().getVersionId().getValue());
+        StringBuilder sb = new StringBuilder();
+        sb.append(type);
+        sb.append("/");
+        sb.append(resource.getId());
+        sb.append("/_history/");
+        sb.append(resource.getMeta().getVersionId().getValue());
+        return URI.create(sb.toString());
+    }
+
+    /**
+     * Builds a relative "Location" header value for the specified resource type/id/version. This will be a string of the form
+     * <code>"[resource-type]/[id]/_history/[version]"</code>. Note that the server will turn this into an absolute URL prior to
+     * returning it to the client.
+     * 
+     * @param type the resource type name
+     * @param id the resource logical id value
+     * @param version the resource version
+     * @return
+     */
+    public static URI buildLocationURI(String type, String id, int version) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(type);
+        sb.append("/");
+        sb.append(id);
+        sb.append("/_history/");
+        sb.append(version);
+        return URI.create(sb.toString());
     }
 
     /**
