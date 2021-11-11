@@ -6,6 +6,8 @@
 
 package com.ibm.fhir.profile.test.provider;
 
+import static org.testng.Assert.assertNotNull;
+
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -25,8 +27,16 @@ public class ProviderTest {
     }
 
     @Test
+    public void testProviderRegistryLookup() {
+        String url = "http://ibm.com/example/fhir/StructureDefinition/orgRef";
+        StructureDefinition sd = FHIRRegistry.getInstance().getResource(url, StructureDefinition.class);
+        assertNotNull(sd);
+    }
+
+    @Test
     public void testProviderWithLocalLookup() throws Exception {
         TestRegistryResourceProvider provider = new TestRegistryResourceProvider();
+        provider.init();
         for (FHIRRegistryResource registryResource : provider.getRegistryResources()) {
             if (StructureDefinition.class.equals(registryResource.getResourceType())) {
                 String url = registryResource.getUrl();
