@@ -12,13 +12,21 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.profile.ProfileSupport;
+import com.ibm.fhir.registry.FHIRRegistry;
 
 public class ProfileConstraintProviderTest {
+    @BeforeClass
+    public void before() {
+        FHIRRegistry.getInstance();
+        FHIRRegistry.init();
+    }
+
     @Test
     public void testProfileConstraintProvider() {
         List<Constraint> constraints = ProfileSupport.getConstraints("http://hl7.org/fhir/StructureDefinition/bp", Observation.class);
