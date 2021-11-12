@@ -459,37 +459,38 @@ public class Main {
                 buildFhirDataSchemaModel(pdm);
                 boolean isNewDb = updateSchema(pdm);
 
-                // If the db is multi-tenant, we populate the resource types and parameter names in allocate-tenant.
-                // Otherwise, if its a new schema, populate the resource types and parameters names (codes) now
-                if (!MULTITENANT_FEATURE_ENABLED.contains(dbType) && isNewDb) {
-                    populateResourceTypeAndParameterNameTableEntries(null);
+                if (this.exitStatus == EXIT_OK) {
+                    // If the db is multi-tenant, we populate the resource types and parameter names in allocate-tenant.
+                    // Otherwise, if its a new schema, populate the resource types and parameters names (codes) now
+                    if (!MULTITENANT_FEATURE_ENABLED.contains(dbType) && isNewDb) {
+                        populateResourceTypeAndParameterNameTableEntries(null);
+                    }
+    
+                    if (MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
+                        logger.info("Refreshing tenant partitions");
+                        refreshTenants();
+                    }
+    
+                    // backfill the resource_change_log table if needed
+                    backfillResourceChangeLog();
+    
+                    // perform any updates we need related to the V0010 schema change (IS_DELETED flag)
+                    applyDataMigrationForV0010();
+    
+                    // V0014 IS_DELETED and LAST_UPDATED added to whole-system LOGICAL_RESOURCES
+                    applyDataMigrationForV0014();
+    
+                    // V0021 removes Abstract Type tables which are unused.
+                    applyTableRemovalForV0021();
+    
+                    // Apply privileges if asked
+                    if (grantTo != null) {
+                        grantPrivilegesForFhirData();
+                    }
+    
+                    // Finally, update the whole schema version
+                    svm.updateSchemaVersion();
                 }
-
-                if (MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
-                    logger.info("Refreshing tenant partitions");
-                    refreshTenants();
-                }
-
-                // backfill the resource_change_log table if needed
-                backfillResourceChangeLog();
-
-                // perform any updates we need related to the V0010 schema change (IS_DELETED flag)
-                applyDataMigrationForV0010();
-
-                // V0014 IS_DELETED and LAST_UPDATED added to whole-system LOGICAL_RESOURCES
-                applyDataMigrationForV0014();
-
-                // V0021 removes Abstract Type tables which are unused.
-                applyTableRemovalForV0021();
-
-                // Apply privileges if asked
-                if (grantTo != null) {
-                    grantPrivilegesForFhirData();
-                }
-
-                // Finally, update the whole schema version
-                svm.updateSchemaVersion();
-
             }
         } finally {
             leaseManager.cancelLease();
@@ -523,13 +524,15 @@ public class Main {
                 buildOAuthSchemaModel(pdm);
                 updateSchema(pdm);
 
-                // Apply privileges if asked
-                if (grantTo != null) {
-                    grantPrivilegesForOAuth();
+                if (this.exitStatus == EXIT_OK) {
+                    // Apply privileges if asked
+                    if (grantTo != null) {
+                        grantPrivilegesForOAuth();
+                    }
+    
+                    // Mark the schema as up-to-date
+                    svm.updateSchemaVersion();
                 }
-
-                // Mark the schema as up-to-date
-                svm.updateSchemaVersion();
             }
         } finally {
             leaseManager.cancelLease();
@@ -562,14 +565,16 @@ public class Main {
                 PhysicalDataModel pdm = new PhysicalDataModel();
                 buildJavaBatchSchemaModel(pdm);
                 updateSchema(pdm);
-
-                // Apply privileges if asked
-                if (grantTo != null) {
-                    grantPrivilegesForBatch();
+                
+                if (this.exitStatus == EXIT_OK) {
+                    // Apply privileges if asked
+                    if (grantTo != null) {
+                        grantPrivilegesForBatch();
+                    }
+    
+                    // Mark the schema as up-to-date
+                    svm.updateSchemaVersion();
                 }
-
-                // Mark the schema as up-to-date
-                svm.updateSchemaVersion();
             }
         } finally {
             leaseManager.cancelLease();
