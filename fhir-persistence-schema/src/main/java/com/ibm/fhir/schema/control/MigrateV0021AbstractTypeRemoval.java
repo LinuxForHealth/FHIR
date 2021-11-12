@@ -118,9 +118,10 @@ public class MigrateV0021AbstractTypeRemoval implements IDatabaseStatement {
         // Clean up the Tables and Views and Index for the DomainResource and Resource Table Group.
         final String sql =
                 "DELETE FROM FHIR_ADMIN.VERSION_HISTORY"
-                + " WHERE (OBJECT_NAME LIKE 'DOMAINRESOURCE_%'"
-                + "   OR OBJECT_NAME LIKE 'RESOURCE_%')"
-                + "   AND SCHEMA_NAME = ?";
+                + "    WHERE (OBJECT_NAME LIKE 'DOMAINRESOURCE_%'"
+                + "       OR OBJECT_NAME LIKE 'RESOURCE_%')"
+                + "      AND SCHEMA_NAME = ? "
+                + "      AND OBJECT_NAME NOT IN ('RESOURCE_TYPES', 'RESOURCE_CHANGE_LOG', 'RESOURCE_TOKEN_REFS')";
         try (PreparedStatement ps = c.prepareStatement(sql)) {
             ps.setString(1, schemaName);
             int vhsChanged = ps.executeUpdate();
