@@ -278,7 +278,7 @@ public class BulkAuditLogger {
      *            the principals that initiated the request
      */
     public void logUpdateOnImportSkipped(Resource resource, Date startTime, Date endTime, Response.Status responseStatus, String location,
-        String users) throws Exception {
+            String users) throws Exception {
         final String METHODNAME = "logUpdateOnImport";
         log.entering(CLASSNAME, METHODNAME);
         if (shouldLog()) {
