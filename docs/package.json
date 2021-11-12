@@ -1,12 +1,12 @@
 {
   "name": "ibm-fhir-server-site",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "Apache-2.0",
   "scripts": {
     "build": "gatsby build --prefix-paths",
     "dev": "gatsby develop",
     "dev:clean": "gatsby clean && gatsby develop",
-    "serve": "gatsby serve"
+    "serve": "gatsby serve --prefix-paths"
   },
   "dependencies": {
     "@babel/plugin-transform-spread": "7.12.1",
@@ -17,24 +17,41 @@
     "carbon-components-react": "^7.12.0",
     "carbon-icons": "^7.0.7",
     "classnames": "^2.2.6",
-    "gatsby": "2.25.0",
-    "gatsby-cli": "2.12.44",
+    "core-js": "3",
+    "gatsby": "^2.25.0",
     "gatsby-admin": "0.1.65",
+    "gatsby-cli": "2.12.44",
     "gatsby-plugin-manifest": "^2.4.10",
     "gatsby-plugin-sharp": "^2.6.10",
     "gatsby-plugin-sitemap": "^2.4.4",
     "gatsby-plugin-slug": "^1.0.1",
-    "gatsby-theme-carbon": "1.24.3",
-    "gatsby-theme-carbon-starter": "0.0.7",
     "gatsby-source-filesystem": "^2.3.8",
+    "gatsby-theme-carbon": "1.24.3",
     "gatsby-transformer-remark": "2.8.13",
     "markdown-it": "^11.0.0",
     "react": "^16.13.1",
     "react-copy-to-clipboard": "^5.0.2",
     "react-dom": "^16.13.1",
-    "react-ga": "^2.7.0"
+    "react-ga": "^2.7.0",
+    "sass-loader": "12.3.0"
   },
   "resolutions": {
-    "@babel/plugin-transform-spread": "7.12.1"
+    "axios": "0.21.2",
+    "ansi-html": "https://registry.yarnpkg.com/ansi-html-community/-/ansi-html-community-0.0.8.tgz#69fbc4d6ccbe383f9736934ae34c3f8290f1bf41",
+    "ansi-regex": "5.0.1",
+    "glob-parent": "5.1.2",
+    "highlight.js": "10.4.1",
+    "nth-check": "2.0.1",
+    "sanitize-html": "2.3.2",
+    "semver-regex": "3.1.3",
+    "set-value": "4.0.1",
+    "tar": "6.1.11",
+    "trim": "0.0.3",
+    "trim-newlines": "3.0.1",
+    "ws": "7.4.6",
+    "xmlhttprequest-ssl": "1.6.2"
+  },
+  "devDependencies": {
+    "babel-plugin-transform-class-properties": "^6.24.1"
   }
 }
