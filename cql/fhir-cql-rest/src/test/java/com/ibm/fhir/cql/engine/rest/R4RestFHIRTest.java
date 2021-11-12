@@ -24,7 +24,6 @@ import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.MappingBuilder;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
-
 import com.ibm.fhir.client.FHIRClient;
 import com.ibm.fhir.client.FHIRClientFactory;
 import com.ibm.fhir.model.format.Format;
@@ -56,36 +55,36 @@ import com.ibm.fhir.model.type.code.PublicationStatus;
  * to configure that web container to respond to specific URL patterns
  * with specific responses. The simplest request mapping is for a client
  * to provide a URL and a resource and the container will return that
- * resource in response to a request for that URL. More complex 
+ * resource in response to a request for that URL. More complex
  * URL-building is possible using the Wiremock MappingBuilder class.
- * See Wiremocks documentation for full details. 
+ * See Wiremocks documentation for full details.
  */
 public abstract class R4RestFHIRTest {
-    
+
     public static final String HOSTNAME = "localhost";
-    public static final int PORT = 7070;
+    public static final int PORT = 57070;
 
     protected static WireMockServer wireMockServer;
     protected static WireMock wireMock;
-    
+
     @BeforeClass
     public static void setupServer() {
-        
+
         WireMockConfiguration wireMockConfig = WireMockConfiguration.wireMockConfig();
         wireMockConfig.port(PORT);
-        
+
         wireMockServer = new WireMockServer(wireMockConfig);
         wireMockServer.start();
-        
+
         WireMock.configureFor(HOSTNAME, PORT);
         wireMock = new WireMock(HOSTNAME, PORT);
     }
-    
+
     @AfterClass
     public static void serverShutdown() {
         wireMockServer.stop();
     }
-    
+
     public static String getHttpHost() {
         return wireMockServer.baseUrl();
     }
@@ -93,7 +92,7 @@ public abstract class R4RestFHIRTest {
     public static String getBaseUrl() {
         return wireMockServer.baseUrl();
     }
-    
+
     @BeforeMethod
     public void init() throws InterruptedException {
         WireMock.resetToDefault();
