@@ -98,6 +98,7 @@ import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.context.FHIRSystemHistoryContext;
 import com.ibm.fhir.persistence.erase.EraseDTO;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceIfNoneMatchException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
@@ -763,11 +764,19 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 // No previous resource found in initial read, so we attempted to
                 // create a new one
                 if (result.getStatus() == InteractionStatus.IF_NONE_MATCH_EXISTED) {
+
                     // Another thread snuck in and created the resource. Because the client requested
                     // If-None-Match, we skip any update and return 304 Not Modified.
                     ior.setResource(null); // null, because we're in createOnUpdate
                     ior.setLocationURI(FHIRUtil.buildLocationURI(type, id, result.getIfNoneMatchVersion()));
-                    ior.setStatus(Response.Status.NOT_MODIFIED);
+                    Boolean ifNoneMatchNotModified = FHIRConfigHelper.getBooleanProperty(
+                        FHIRConfiguration.PROPERTY_IF_NONE_MATCH_RETURNS_NOT_MODIFIED, Boolean.FALSE);
+                    if (ifNoneMatchNotModified != null && ifNoneMatchNotModified) {
+                        // Don't treat as an error
+                        ior.setStatus(Response.Status.NOT_MODIFIED);
+                    } else {
+                        throw new FHIRPersistenceIfNoneMatchException("IfNoneMatch precondition failed.");
+                    }
                 } else {
                     ior.setStatus(Response.Status.CREATED);
                     ior.setLocationURI(FHIRUtil.buildLocationURI(type, newResource));
@@ -782,7 +791,14 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     // for the same reason.
                     ior.setResource(prevResource); // 304 Not Modified never needs to return content
                     ior.setLocationURI(FHIRUtil.buildLocationURI(type, id, result.getIfNoneMatchVersion()));
-                    ior.setStatus(Response.Status.NOT_MODIFIED);
+                    Boolean ifNoneMatchNotModified = FHIRConfigHelper.getBooleanProperty(
+                        FHIRConfiguration.PROPERTY_IF_NONE_MATCH_RETURNS_NOT_MODIFIED, Boolean.FALSE);
+                    if (ifNoneMatchNotModified != null && ifNoneMatchNotModified) {
+                        // Don't treat as an error
+                        ior.setStatus(Response.Status.NOT_MODIFIED);
+                    } else {
+                        throw new FHIRPersistenceIfNoneMatchException("IfNoneMatch precondition failed.");
+                    }
                 } else {
                     // update, so make sure the location is configured correctly for the event
                     ior.setLocationURI(FHIRUtil.buildLocationURI(type, newResource));

@@ -58,7 +58,8 @@ The IBM FHIR Server supports a custom header, `X-FHIR-UPDATE-IF-MODIFIED`, for c
 The IBM FHIR Server also supports conditional create-on-update using the `If-None-Match` header. This IBM FHIR Server-specific feature allows clients to use a `PUT` (update) interaction which behaves as follows:
 
     1. `If-None-Match: "*"`: If the resource does not yet exist, create the resource and return `201 Created`;
-    2. `If-None-Match: "*"`: If the resource does exist, do nothing and return `304 Not Modified`.
+    2. `If-None-Match: "*"`: If the resource does exist, do nothing and return `412 Precondition Failed` (default behavior);
+    3. `If-None-Match: "*"`: If the resource does exist and the fhir-server-config element `fhirServer/core/ifNoneMatchReturnsNotModified` is set to `true`, do nothing and return `304 Not Modified`.
 
 The only supported value for If-None-Match conditional create-on-update is `"*"`. This feature can also be used for `PUT` requests in transaction or batch bundles by specifying the `ifNoneMatch` field similarly in the request element:
 ```
@@ -88,7 +89,9 @@ The only supported value for If-None-Match conditional create-on-update is `"*"`
 
 ```
 
-If a match is found, the response bundle entry contains the location of the current resource and a status of `304` (Not Modified):
+If a match is found and the fhir-server-config element `fhirServer/core/ifNoneMatchReturnsNotModified` is not configured or is set to `false`, the condition is treated as an error which will cause transaction bundles to fail, returning a status of `400` (Bad Request). For batch bundles, the entry response status will be `412` (Precondition Failed).
+
+If a match is found and the fhir-server-config element `fhirServer/core/ifNoneMatchReturnsNotModified` is set to `true`, the response bundle entry contains the location of the current resource and a response status of `304` (Not Modified):
 ```
 {
   "resourceType": "Bundle",

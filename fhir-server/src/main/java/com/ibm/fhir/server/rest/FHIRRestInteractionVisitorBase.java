@@ -12,6 +12,7 @@ import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import static javax.servlet.http.HttpServletResponse.SC_GONE;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
+import static javax.servlet.http.HttpServletResponse.SC_PRECONDITION_FAILED;
 
 import java.net.URI;
 import java.util.Map;
@@ -42,6 +43,7 @@ public abstract class FHIRRestInteractionVisitorBase implements FHIRRestInteract
     protected static final com.ibm.fhir.model.type.String SC_NOT_FOUND_STRING = string(Integer.toString(SC_NOT_FOUND));
     protected static final com.ibm.fhir.model.type.String SC_ACCEPTED_STRING = string(Integer.toString(SC_ACCEPTED));
     protected static final com.ibm.fhir.model.type.String SC_OK_STRING = string(Integer.toString(SC_OK));
+    protected static final com.ibm.fhir.model.type.String SC_PRECONDITION_FAILED_STRING = string(Integer.toString(SC_PRECONDITION_FAILED));
 
     // the helper we use to do most of the heavy lifting
     protected final FHIRResourceHelpers helpers;
