@@ -12,6 +12,8 @@ import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -62,13 +64,26 @@ import com.ibm.fhir.model.type.code.PublicationStatus;
 public abstract class R4RestFHIRTest {
 
     public static final String HOSTNAME = "localhost";
-    public static final int PORT = 57070;
+    public static final int PORT = getPort();
 
     protected static WireMockServer wireMockServer;
     protected static WireMock wireMock;
 
+    private static int getPort() {
+        // Finds an available port.
+        int port = 53900;
+        while (port < 54000) {
+            try (ServerSocket ignored = new ServerSocket(port)) {
+                return port;
+            } catch (IOException ex) {
+                port++;
+            }
+        }
+        throw new AssertionError("Unexpected that port range is unavailable");
+    }
+
     @BeforeClass
-    public static void setupServer() {
+    public void setupServer() {
 
         WireMockConfiguration wireMockConfig = WireMockConfiguration.wireMockConfig();
         wireMockConfig.port(PORT);
@@ -81,7 +96,7 @@ public abstract class R4RestFHIRTest {
     }
 
     @AfterClass
-    public static void serverShutdown() {
+    public void serverShutdown() {
         wireMockServer.stop();
     }
 
@@ -118,9 +133,9 @@ public abstract class R4RestFHIRTest {
     public FHIRClient newClient() throws Exception {
         Properties properties = new Properties();
         properties.setProperty(FHIRClient.PROPNAME_BASE_URL, getBaseUrl());
-        properties.setProperty(FHIRClient.PROPNAME_LOGGING_ENABLED, "true");
+        // Logging should be off in CICD
+        properties.setProperty(FHIRClient.PROPNAME_LOGGING_ENABLED, "false");
         FHIRClient client = FHIRClientFactory.getClient(properties);
-
         return client;
     }
 
