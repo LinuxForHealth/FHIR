@@ -250,9 +250,39 @@ public class BulkAuditLogger {
         final String METHODNAME = "logUpdateOnImport";
         log.entering(CLASSNAME, METHODNAME);
         if (shouldLog()) {
-            // Right now, we don't log or treat the oldResource. The signature is left for the commonality with the REST
-            // Audit Logger.
-            log(AuditLogEventType.FHIR_UPDATE, "U", "FHIR BulkData Update request", null, updatedResource, startTime, endTime, responseStatus, null, null, location, users);
+            if (Response.Status.CREATED.equals(responseStatus)) {
+                logCreateOnImport(updatedResource, startTime, endTime, responseStatus, location, users);
+            } else {
+                // Right now, we don't log or treat the oldResource. The signature is left for the commonality with the REST
+                // Audit Logger.
+                log(AuditLogEventType.FHIR_UPDATE, "U", "FHIR BulkData Update request", null, updatedResource, startTime, endTime, responseStatus, null, null, location, users);
+            }
+        }
+        log.exiting(CLASSNAME, METHODNAME);
+    }
+
+    /**
+     * Builds an audit log entry for an 'update' skipped in a bulkdata service invocation.
+     *
+     * @param resource
+     *            The updated version of the Resource.
+     * @param startTime
+     *            The start time of the update request execution.
+     * @param endTime
+     *            The end time of the update request execution.
+     * @param responseStatus
+     *            The response status.
+     * @param location
+     *            the destination or source for the export or import
+     * @param users
+     *            the principals that initiated the request
+     */
+    public void logUpdateOnImportSkipped(Resource resource, Date startTime, Date endTime, Response.Status responseStatus, String location,
+            String users) throws Exception {
+        final String METHODNAME = "logUpdateOnImport";
+        log.entering(CLASSNAME, METHODNAME);
+        if (shouldLog()) {
+            log(AuditLogEventType.FHIR_UPDATE, "U", "FHIR BulkData Update Resource Skipped request", null, resource, startTime, endTime, responseStatus, null, null, location, users);
         }
         log.exiting(CLASSNAME, METHODNAME);
     }
