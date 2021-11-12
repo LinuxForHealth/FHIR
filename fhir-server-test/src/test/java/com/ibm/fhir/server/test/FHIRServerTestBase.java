@@ -172,6 +172,12 @@ public abstract class FHIRServerTestBase {
         return Boolean.FALSE;
     }
 
+    @BeforeClass
+    public void before() {
+        FHIRRegistry.getInstance();
+        FHIRRegistry.init();
+    }
+
     @AfterClass
     public void cleanup() {
         cleanupResourcesUsingResourceRegistry(shouldSkipCleanup());
