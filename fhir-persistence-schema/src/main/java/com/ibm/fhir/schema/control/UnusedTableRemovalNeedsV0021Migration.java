@@ -26,6 +26,7 @@ public class UnusedTableRemovalNeedsV0021Migration implements IDatabaseSupplier<
     public static final List<String> DEPRECATED_TABLES =
             Arrays.asList(
                 // DOMAINRESOURCE
+                "DOMAINRESOURCE_COMPOSITES",
                 "DOMAINRESOURCE_DATE_VALUES",
                 "DOMAINRESOURCE_LATLNG_VALUES",
                 "DOMAINRESOURCE_LOGICAL_RESOURCES",
@@ -37,7 +38,9 @@ public class UnusedTableRemovalNeedsV0021Migration implements IDatabaseSupplier<
                 "DOMAINRESOURCE_SECURITY",
                 "DOMAINRESOURCE_STR_VALUES",
                 "DOMAINRESOURCE_TAGS",
+                "DOMAINRESOURCE_TOKEN_VALUES",
                 // RESOURCE
+                "RESOURCE_COMPOSITES",
                 "RESOURCE_DATE_VALUES",
                 "RESOURCE_LATLNG_VALUES",
                 "RESOURCE_LOGICAL_RESOURCES",
@@ -48,7 +51,9 @@ public class UnusedTableRemovalNeedsV0021Migration implements IDatabaseSupplier<
                 "RESOURCE_RESOURCES",
                 "RESOURCE_SECURITY",
                 "RESOURCE_STR_VALUES",
-                "RESOURCE_TAGS");
+                "RESOURCE_TAGS",
+                "RESOURCE_TOKEN_VALUES"
+                );
 
     // Table Count
     public static final int TABLE_COUNT = DEPRECATED_TABLES.size();

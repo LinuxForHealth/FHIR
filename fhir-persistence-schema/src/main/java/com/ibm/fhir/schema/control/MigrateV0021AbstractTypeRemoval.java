@@ -36,6 +36,8 @@ public class MigrateV0021AbstractTypeRemoval implements IDatabaseStatement {
     private static final Logger LOG = Logger.getLogger(MigrateV0021AbstractTypeRemoval.class.getName());
 
     private static final List<String> VALUE_TYPES = Arrays.asList(
+        "COMPOSITES",
+        "TOKEN_VALUES",
         "RESOURCE_TOKEN_REFS",
         "DATE_VALUES",
         "LATLNG_VALUES",
@@ -116,16 +118,25 @@ public class MigrateV0021AbstractTypeRemoval implements IDatabaseStatement {
      */
     private void cleanupHistory(IDatabaseTranslator translator, Connection c) {
         // Clean up the Tables and Views and Index for the DomainResource and Resource Table Group.
+        StringBuilder objectNameInList = new StringBuilder();
+        
+        // It's OK to use literals here because the DEPRECATED_TABLES list is fixed in code
+        for (String objectName: UnusedTableRemovalNeedsV0021Migration.DEPRECATED_TABLES) {
+            if (objectNameInList.length() > 0) {
+                objectNameInList.append(", ");
+            }
+            objectNameInList.append("'");
+            objectNameInList.append(objectName);
+            objectNameInList.append("'");
+        }
         final String sql =
                 "DELETE FROM FHIR_ADMIN.VERSION_HISTORY"
-                + "    WHERE (OBJECT_NAME LIKE 'DOMAINRESOURCE_%'"
-                + "       OR OBJECT_NAME LIKE 'RESOURCE_%')"
-                + "      AND SCHEMA_NAME = ? "
-                + "      AND OBJECT_NAME NOT IN ('RESOURCE_TYPES', 'RESOURCE_CHANGE_LOG', 'RESOURCE_TOKEN_REFS')";
+                + "    WHERE SCHEMA_NAME = ? "
+                + "      AND OBJECT_NAME IN (" + objectNameInList.toString() + ")";
         try (PreparedStatement ps = c.prepareStatement(sql)) {
             ps.setString(1, schemaName);
             int vhsChanged = ps.executeUpdate();
-            LOG.info("VersionHistoryServce: removed =[" + vhsChanged + "]");
+            LOG.info("VersionHistoryService: removed =[" + vhsChanged + "]");
         } catch (SQLException x) {
             throw translator.translate(x);
         }
