@@ -12,20 +12,26 @@ import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import static javax.servlet.http.HttpServletResponse.SC_GONE;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
+import static javax.servlet.http.HttpServletResponse.SC_PRECONDITION_FAILED;
 
 import java.net.URI;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.core.HTTPReturnPreference;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.Bundle.Entry;
+import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.util.ModelSupport;
+import com.ibm.fhir.server.exception.FHIRRestBundledRequestException;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 import com.ibm.fhir.server.spi.operation.FHIRRestOperationResponse;
 
@@ -42,6 +48,7 @@ public abstract class FHIRRestInteractionVisitorBase implements FHIRRestInteract
     protected static final com.ibm.fhir.model.type.String SC_NOT_FOUND_STRING = string(Integer.toString(SC_NOT_FOUND));
     protected static final com.ibm.fhir.model.type.String SC_ACCEPTED_STRING = string(Integer.toString(SC_ACCEPTED));
     protected static final com.ibm.fhir.model.type.String SC_OK_STRING = string(Integer.toString(SC_OK));
+    protected static final com.ibm.fhir.model.type.String SC_PRECONDITION_FAILED_STRING = string(Integer.toString(SC_PRECONDITION_FAILED));
 
     // the helper we use to do most of the heavy lifting
     protected final FHIRResourceHelpers helpers;
@@ -157,5 +164,23 @@ public abstract class FHIRRestInteractionVisitorBase implements FHIRRestInteract
                 log.finer("Added local/ext identifier mapping: " + localIdentifier + " --> " + externalIdentifier);
             }
         }
+    }
+    
+    /**
+     * Wrap the cause with a FHIRRestbundledRequestException and update each issue with
+     * the entryIndex before throwing.
+     * 
+     * @param entryIndex
+     * @param cause
+     * @throws FHIROperationException
+     */
+    protected void updateIssuesWithEntryIndexAndThrow(Integer entryIndex, FHIROperationException cause) throws FHIROperationException {
+        String msg = "Error while processing request bundle on entry " + entryIndex;
+        List<Issue> updatedIssues = cause.getIssues().stream()
+                .map(i -> i.toBuilder().expression(string("Bundle.entry[" + entryIndex + "]")).build())
+                .collect(Collectors.toList());
+        // no need to keep the issues in the cause any more since we've "promoted" them to the wrapped exception
+        cause.withIssue(Collections.emptyList());
+        throw new FHIRRestBundledRequestException(msg, cause).withIssue(updatedIssues);
     }
 }

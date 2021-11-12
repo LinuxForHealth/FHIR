@@ -33,6 +33,7 @@ import com.ibm.fhir.core.HTTPReturnPreference;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.code.IssueType;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceIfNoneMatchException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.fhir.server.spi.operation.FHIRRestOperationResponse;
 import com.ibm.fhir.server.util.FHIRRestHelper;
@@ -97,6 +98,10 @@ public class Update extends FHIRResource {
         } catch (FHIRPersistenceResourceNotFoundException e) {
             // By default, NOT_FOUND is mapped to HTTP 404, so explicitly set it to HTTP 405
             status = Status.METHOD_NOT_ALLOWED;
+            return exceptionResponse(e, status);
+        } catch (FHIRPersistenceIfNoneMatchException e) {
+            // IfNoneMatch being treated as an error (default behavior)
+            status = Status.PRECONDITION_FAILED;
             return exceptionResponse(e, status);
         } catch (FHIROperationException e) {
             status = issueListToStatus(e.getIssues());

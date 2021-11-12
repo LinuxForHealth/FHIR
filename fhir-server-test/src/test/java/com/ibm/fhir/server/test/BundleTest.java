@@ -2514,7 +2514,7 @@ public class BundleTest extends FHIRServerTestBase {
      * Requests:
      * <pre>
      *   1. Transaction Bundle with PUT Patient/randomId (create-on-update - 201 Created)
-     *   2. Transaction Bundle with PUT Patient/randomId (skip update - 304 Not Modified)
+     *   2. Transaction Bundle with PUT Patient/randomId (skip update - 400 error)
      *   3. DELETE Patient/randomId (deleted - 200 OK)
      *   4. Transaction Bundle with PUT Patient/randomId (create-on-update - 201 Created)
      * </pre>
@@ -2561,7 +2561,8 @@ public class BundleTest extends FHIRServerTestBase {
         assertEquals(entry1.getResponse().getLocation().getValue(), "Patient/"+randomId+"/_history/1");
 
         
-        // Interaction 2. PUT the same patient again. Should be skipped because IfNoneMatch
+        // Interaction 2. PUT the same patient again. Should be skipped because IfNoneMatch - because the
+        // processing error for the entry is 412, this should fail the bundle with a 400
         Bundle.Entry bundleEntry2 = Bundle.Entry.builder()
                 .fullUrl(Uri.of("urn:2"))
                 .resource(patient)
@@ -2576,17 +2577,11 @@ public class BundleTest extends FHIRServerTestBase {
         // Process bundle
         FHIRResponse response2 = client.transaction(requestBundle, returnPref);
         assertNotNull(response2);
-        assertResponse(response2.getResponse(), Response.Status.OK.getStatusCode());
-        Bundle responseBundle2 = response2.getResource(Bundle.class);
-        printBundle("PUT", "response", responseBundle2);
+        assertResponse(response2.getResponse(), Response.Status.BAD_REQUEST.getStatusCode());
+        OperationOutcome operationOutcome2 = response2.getResource(OperationOutcome.class);
 
         // Validate results
-        assertNotNull(responseBundle2);
-        assertEquals(responseBundle2.getEntry().size(), 1);
-        Bundle.Entry entry2 = responseBundle2.getEntry().get(0);
-        assertEquals(entry2.getResponse().getStatus().getValue(), "304");
-        assertEquals(entry2.getResponse().getLocation().getValue(), "Patient/"+randomId+"/_history/1");
-        // 304 does not include a response body, so can't check the response resource
+        assertNotNull(operationOutcome2);
 
         // Interaction 3. DELETE the patient
         FHIRResponse response3 = client.delete(Patient.class.getSimpleName(), randomId);
@@ -2629,10 +2624,10 @@ public class BundleTest extends FHIRServerTestBase {
      * multiple requests because:
      *   "A resource can only appear in a transaction once (by identity)."
      * Requests:
-     *   1. Transaction Bundle with PUT Patient/randomId (create-on-update - 201 Created)
-     *   2. Transaction Bundle with PUT Patient/randomId (skip update - 304 Not Modified)
+     *   1. Batch Bundle with PUT Patient/randomId (create-on-update - 201 Created)
+     *   2. Batch Bundle with PUT Patient/randomId (skip update - 412 Precondition Failed)
      *   3. DELETE Patient/randomId (deleted - 200 OK)
-     *   4. Transaction Bundle with PUT Patient/randomId (create-on-update - 201 Created)
+     *   4. Batch Bundle with PUT Patient/randomId (create-on-update - 201 Created)
      */
     @Test
     public void testBatchBundleWithIfNoneMatch() throws Exception {
@@ -2660,7 +2655,7 @@ public class BundleTest extends FHIRServerTestBase {
 
         // Process bundle
         FHIRRequestHeader returnPref = FHIRRequestHeader.header(PREFER_HEADER_NAME, PREFER_HEADER_RETURN_REPRESENTATION);
-        FHIRResponse response = client.transaction(requestBundle, returnPref);
+        FHIRResponse response = client.batch(requestBundle, returnPref);
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.getResource(Bundle.class);
@@ -2689,7 +2684,7 @@ public class BundleTest extends FHIRServerTestBase {
                 .build();
 
         // Process bundle
-        FHIRResponse response2 = client.transaction(requestBundle, returnPref);
+        FHIRResponse response2 = client.batch(requestBundle, returnPref);
         assertNotNull(response2);
         assertResponse(response2.getResponse(), Response.Status.OK.getStatusCode());
         Bundle responseBundle2 = response2.getResource(Bundle.class);
@@ -2699,9 +2694,7 @@ public class BundleTest extends FHIRServerTestBase {
         assertNotNull(responseBundle2);
         assertEquals(responseBundle2.getEntry().size(), 1);
         Bundle.Entry entry2 = responseBundle2.getEntry().get(0);
-        assertEquals(entry2.getResponse().getStatus().getValue(), "304");
-        assertEquals(entry2.getResponse().getLocation().getValue(), "Patient/"+randomId+"/_history/1");
-        // 304 does not include a response body, so can't check the response resource
+        assertEquals(entry2.getResponse().getStatus().getValue(), "412");
 
         // Interaction 3. DELETE the patient
         FHIRResponse response3 = client.delete(Patient.class.getSimpleName(), randomId);
@@ -2721,7 +2714,7 @@ public class BundleTest extends FHIRServerTestBase {
                 .build();
 
         // Process bundle
-        FHIRResponse response4 = client.transaction(requestBundle, returnPref);
+        FHIRResponse response4 = client.batch(requestBundle, returnPref);
         assertNotNull(response4);
         assertResponse(response4.getResponse(), Response.Status.OK.getStatusCode());
         Bundle responseBundle4 = response4.getResource(Bundle.class);

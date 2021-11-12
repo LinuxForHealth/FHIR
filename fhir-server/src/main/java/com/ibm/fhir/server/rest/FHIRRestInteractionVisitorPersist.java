@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.concurrent.Callable;
 
 import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import com.ibm.fhir.exception.FHIROperationException;
@@ -25,6 +26,7 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceIfNoneMatchException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.fhir.search.exception.FHIRSearchException;
@@ -275,8 +277,7 @@ public class FHIRRestInteractionVisitorPersist extends FHIRRestInteractionVisito
             }
         } catch (FHIRPersistenceResourceNotFoundException e) {
             if (failFast) {
-                String msg = "Error while processing request bundle.";
-                throw new FHIRRestBundledRequestException(msg, e).withIssue(e.getIssues());
+                updateIssuesWithEntryIndexAndThrow(entryIndex, e);
             }
 
             // Record the error as an entry in the result bundle
@@ -289,8 +290,7 @@ public class FHIRRestInteractionVisitorPersist extends FHIRRestInteractionVisito
             setEntryComplete(entryIndex, entry, requestDescription, initialTime);
         } catch (FHIRPersistenceResourceDeletedException e) {
             if (failFast) {
-                String msg = "Error while processing request bundle.";
-                throw new FHIRRestBundledRequestException(msg, e).withIssue(e.getIssues());
+                updateIssuesWithEntryIndexAndThrow(entryIndex, e);
             }
 
             Entry entry = Entry.builder()
@@ -300,10 +300,23 @@ public class FHIRRestInteractionVisitorPersist extends FHIRRestInteractionVisito
                         .build())
                     .build();
             setEntryComplete(entryIndex, entry, requestDescription, initialTime);
+        } catch (FHIRPersistenceIfNoneMatchException e) {
+            if (failFast) {
+                updateIssuesWithEntryIndexAndThrow(entryIndex, e);
+            }
+
+            // Because this exception was thrown, we know that this is to be treated as an error
+            // for this particular entry
+            Entry entry = Entry.builder()
+                    .resource(FHIRUtil.buildOperationOutcome(e, false))
+                    .response(Entry.Response.builder()
+                        .status(SC_PRECONDITION_FAILED_STRING)
+                        .build())
+                    .build();
+            setEntryComplete(entryIndex, entry, requestDescription, initialTime);
         } catch (FHIROperationException e) {
             if (failFast) {
-                String msg = "Error while processing request bundle.";
-                throw new FHIRRestBundledRequestException(msg, e).withIssue(e.getIssues());
+                updateIssuesWithEntryIndexAndThrow(entryIndex, e);
             }
 
             Status status;
