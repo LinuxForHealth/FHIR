@@ -42,6 +42,7 @@ import com.ibm.fhir.model.type.code.SlicingRules;
 import com.ibm.fhir.profile.ConstraintGenerator;
 import com.ibm.fhir.profile.ProfileBuilder;
 import com.ibm.fhir.profile.ProfileSupport;
+import com.ibm.fhir.registry.FHIRRegistry;
 
 public class ConstraintGeneratorTest {
     // maintain a strong reference to the logger configured for these unit tests
@@ -50,6 +51,12 @@ public class ConstraintGeneratorTest {
     @BeforeClass
     public void beforeClass() {
         configureLogging();
+    }
+
+    @BeforeClass
+    public void before() {
+        FHIRRegistry.getInstance();
+        FHIRRegistry.init();
     }
 
     @Test
