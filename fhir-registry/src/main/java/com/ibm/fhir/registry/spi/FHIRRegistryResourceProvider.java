@@ -13,9 +13,18 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.registry.resource.FHIRRegistryResource;
 
 /**
- * An SPI for {@link FHIRRegistryResource} instances
+ * An SPI for {@link FHIRRegistryResource} instances.
+ *
+ * When implementing this SPI, the constructor and instance variables should not make calls to the FHIRRegistry. Use the init method to call back to the Registry.
  */
 public interface FHIRRegistryResourceProvider {
+    /**
+     * Facilitates callbacks after the ServiceLoader has discovered the providers and conditionally loaded the Providers.
+     */
+    default void init() {
+        // NOP
+    }
+
     /**
      * Get the registry resource from this provider for the given resource type, url and version
      *
