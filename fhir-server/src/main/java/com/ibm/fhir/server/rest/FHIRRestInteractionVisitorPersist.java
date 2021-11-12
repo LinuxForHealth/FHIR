@@ -277,8 +277,7 @@ public class FHIRRestInteractionVisitorPersist extends FHIRRestInteractionVisito
             }
         } catch (FHIRPersistenceResourceNotFoundException e) {
             if (failFast) {
-                String msg = "Error while processing request bundle.";
-                throw new FHIRRestBundledRequestException(msg, e).withIssue(e.getIssues());
+                updateIssuesWithEntryIndexAndThrow(entryIndex, e);
             }
 
             // Record the error as an entry in the result bundle
@@ -291,8 +290,7 @@ public class FHIRRestInteractionVisitorPersist extends FHIRRestInteractionVisito
             setEntryComplete(entryIndex, entry, requestDescription, initialTime);
         } catch (FHIRPersistenceResourceDeletedException e) {
             if (failFast) {
-                String msg = "Error while processing request bundle.";
-                throw new FHIRRestBundledRequestException(msg, e).withIssue(e.getIssues());
+                updateIssuesWithEntryIndexAndThrow(entryIndex, e);
             }
 
             Entry entry = Entry.builder()
@@ -304,8 +302,7 @@ public class FHIRRestInteractionVisitorPersist extends FHIRRestInteractionVisito
             setEntryComplete(entryIndex, entry, requestDescription, initialTime);
         } catch (FHIRPersistenceIfNoneMatchException e) {
             if (failFast) {
-                String msg = "Error while processing request bundle.";
-                throw new FHIRRestBundledRequestException(msg, e).withIssue(e.getIssues());
+                updateIssuesWithEntryIndexAndThrow(entryIndex, e);
             }
 
             // Because this exception was thrown, we know that this is to be treated as an error
@@ -319,8 +316,7 @@ public class FHIRRestInteractionVisitorPersist extends FHIRRestInteractionVisito
             setEntryComplete(entryIndex, entry, requestDescription, initialTime);
         } catch (FHIROperationException e) {
             if (failFast) {
-                String msg = "Error while processing request bundle.";
-                throw new FHIRRestBundledRequestException(msg, e).withIssue(e.getIssues());
+                updateIssuesWithEntryIndexAndThrow(entryIndex, e);
             }
 
             Status status;
