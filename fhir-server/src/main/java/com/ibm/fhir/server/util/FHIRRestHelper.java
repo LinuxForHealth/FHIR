@@ -2223,6 +2223,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     if (ref.getReference() != null && ref.getReference().getValue() != null
                             && ref.getReference().getValue().contains("/_history/")) {
                         needsEval = true;
+                        break;
                     }
                 }
 
