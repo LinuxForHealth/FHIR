@@ -29,6 +29,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -262,10 +263,10 @@ public class CodeGenerator {
         generateDefaultVisitorClass(basePath);
         generateJsonParser(basePath);
         generateXMLParser(basePath);
-        generateModelClassesFile(basePath);
+        // this valueset is missing in FHIR R4B https://jira.hl7.org/browse/FHIR-34183
         generateCodeSubtypeClass("ConceptSubsumptionOutcome", "http://hl7.org/fhir/ValueSet/concept-subsumption-outcome", basePath);
         generateCodeSubtypeClass("DataAbsentReason", "http://hl7.org/fhir/ValueSet/data-absent-reason", basePath);
-        generateCodeSubtypeClass("StandardsStatus", "http://hl7.org/fhir/ValueSet/standards-status", basePath);
+        generateCodeSubtypeClass("StandardsStatus", "http://terminology.hl7.org/ValueSet/standards-status", basePath);
     }
 
     private void generateModelClassesFile(String basePath) {
@@ -521,6 +522,16 @@ public class CodeGenerator {
                 _super = titleCase(baseDefinition.getString("name")) + ".Builder";
             } else {
                 _super = "AbstractBuilder<" + structureDefinition.getString("name") + ">";
+
+               if ("resource".equalsIgnoreCase(structureDefinition.getString("kind"))) {
+                   if (!"Resource".equalsIgnoreCase(structureDefinition.getString("name"))) {
+                       _super = "Resource.Builder";
+                   }
+               } else if (!"logical".equalsIgnoreCase(structureDefinition.getString("kind"))) {
+                   if (!"Element".equalsIgnoreCase(structureDefinition.getString("name"))) {
+                       _super = "Element.Builder";
+                   }
+               }
             }
         }
 
@@ -972,7 +983,7 @@ public class CodeGenerator {
                         if ("required".equals(binding.getString("strength"))) {
                             // required binding, check if it should be validated
                             String system = getSystem(valueSet);
-                            List<JsonObject> concepts = getConcepts(valueSet);
+                            Set<JsonObject> concepts = getConcepts(valueSet);
                             if ((!concepts.isEmpty() && !"Code".equals(fieldType)) || isSyntaxValidatedValueSet(valueSet)) {
                                 if (concepts.isEmpty()) {
                                     cb.invoke("ValidationSupport", "checkValueSetBinding", args(paramName + "." + fieldName, quote(elementName), quote(valueSet), quote(system)));
@@ -985,7 +996,7 @@ public class CodeGenerator {
                             // not a required binding, check maxValueSet binding
                             valueSet = getMaxValueSet(binding).split("\\|")[0];
                             String system = getSystem(valueSet);
-                            List<JsonObject> concepts = getConcepts(valueSet);
+                            Set<JsonObject> concepts = getConcepts(valueSet);
                             if (!concepts.isEmpty() || isSyntaxValidatedValueSet(valueSet)) {
                                 if (concepts.isEmpty()) {
                                     cb.invoke("ValidationSupport", "checkValueSetBinding", args(paramName + "." + fieldName, quote(elementName), quote(valueSet), quote(system)));
@@ -1216,6 +1227,16 @@ public class CodeGenerator {
                     _super = titleCase(baseDefinition.getString("name"));
                 } else {
                     _super = "AbstractVisitable";
+
+                   if ("resource".equalsIgnoreCase(structureDefinition.getString("kind"))) {
+                       if (!"Resource".equalsIgnoreCase(structureDefinition.getString("name"))) {
+                           _super = "Resource";
+                       }
+                   } else if (!"logical".equalsIgnoreCase(structureDefinition.getString("kind"))) {
+                       if (!"Element".equalsIgnoreCase(structureDefinition.getString("name"))) {
+                           _super = "Element";
+                       }
+                   }
                 }
             }
 
@@ -1535,7 +1556,7 @@ public class CodeGenerator {
         if (binding != null) {
             String bindingName = getBindingName(binding);
             String strength = binding.getString("strength", null);
-            String description = binding.getString("description", null);
+            String description = getBindingDescription(binding);
             String valueSet = binding.getString("valueSet", null);
             String inheritedExtensibleValueSet = getInheritedExtensibleValueSet(binding);
             String minValueSet = getMinValueSet(binding);
@@ -1577,6 +1598,20 @@ public class CodeGenerator {
                 cb.annotation(prefix + "Binding", valueMap);
             }
         }
+    }
+
+    /**
+     * @param binding
+     * @return
+     */
+    private String getBindingDescription(JsonObject binding) {
+        for (JsonValue ext : binding.getJsonArray("extension")) {
+            String url = ext.asJsonObject().getString("url");
+            if ("http://hl7.org/fhir/build/StructureDefinition/definition".equals(url)) {
+                return ext.asJsonObject().getString("valueString");
+            }
+        }
+        return binding.getString("description", null);
     }
 
     @SuppressWarnings("unused")
@@ -3621,7 +3656,7 @@ public class CodeGenerator {
         cb.annotation("Generated", quote("com.ibm.fhir.tools.CodeGenerator"));
         cb._class(mods("public"), bindingName, "Code");
 
-        List<JsonObject> concepts = getConcepts(valueSet);
+        Set<JsonObject> concepts = getConcepts(valueSet);
         for (JsonObject concept : concepts) {
             String value = concept.getString("code");
             String enumConstantName = getEnumConstantName(bindingName, value);
@@ -3814,7 +3849,7 @@ public class CodeGenerator {
         codeSubtypeClassNames.add(bindingName);
     }
 
-    private void generateCodeSubtypeEnum(String bindingName, String valueSet, CodeBuilder cb, List<JsonObject> concepts) {
+    private void generateCodeSubtypeEnum(String bindingName, String valueSet, CodeBuilder cb, Set<JsonObject> concepts) {
         String enumName = "Value";
         String definition = getValueSetDefinition(valueSet);
         if (definition != null) {
@@ -3822,11 +3857,12 @@ public class CodeGenerator {
         }
         cb._enum(mods("public"), enumName);
 
+        int i = 0;
         for (JsonObject concept : concepts) {
             String value = concept.getString("code");
             String enumConstantName = getEnumConstantName(bindingName, value);
             generateConceptJavadoc(concept, cb);
-            cb.enumConstant(enumConstantName, args(quote(value)), isLast(concepts, concept)).newLine();
+            cb.enumConstant(enumConstantName, args(quote(value)), ++i == concepts.size()).newLine();
         }
 
         cb.field(mods("private", "final"), "java.lang.String", "value").newLine();
@@ -4089,10 +4125,13 @@ public class CodeGenerator {
         return null;
     }
 
-    private List<JsonObject> getConcepts(String url) {
-        List<JsonObject> concepts = new ArrayList<>();
+    // Set instead of List to workaround https://jira.hl7.org/browse/FHIR-34303
+    private Set<JsonObject> getConcepts(String url) {
+        // LinkedHashSet to preserve insertion order
+        Set<JsonObject> concepts = new LinkedHashSet<>();
         JsonObject valueSet = valueSetMap.get(url);
         if (valueSet != null) {
+            // We need to get the concepts from the codesystem so that we can include the definition in the javadoc
             JsonObject compose = valueSet.getJsonObject("compose");
             for (JsonValue include : compose.getJsonArray("include")) {
                 if (include.asJsonObject().containsKey("concept")) {
@@ -4514,6 +4553,7 @@ public class CodeGenerator {
                 "string".equals(type) ||
                 "integer".equals(type) ||
                 "code".equals(type) ||
+                "DataType".equals(type) ||
                 "uri".equals(type);
     }
 
@@ -4901,16 +4941,36 @@ public class CodeGenerator {
     }
 
     public static void main(String[] args) throws Exception {
-        Map<String, JsonObject> structureDefinitionMap = buildResourceMap("./definitions/profiles-resources.json", "StructureDefinition");
-        structureDefinitionMap.putAll(buildResourceMap("./definitions/profiles-types.json", "StructureDefinition"));
+        Map<String, JsonObject> structureDefinitionMap = buildResourceMap("./definitions/R4B/profiles-resources.json", "StructureDefinition");
+        structureDefinitionMap.putAll(buildResourceMap("./definitions/R4B/profiles-types.json", "StructureDefinition"));
 
-        Map<String, JsonObject> codeSystemMap = buildResourceMap("./definitions/valuesets.json", "CodeSystem");
-        codeSystemMap.putAll(buildResourceMap("./definitions/v3-codesystems.json", "CodeSystem"));
+        Map<String, JsonObject> codeSystemMap = buildResourceMap("./definitions/R4B/valuesets.json", "CodeSystem");
 
-        Map<String, JsonObject> valueSetMap = buildResourceMap("./definitions/valuesets.json", "ValueSet");
-        valueSetMap.putAll(buildResourceMap("./definitions/v3-codesystems.json", "ValueSet"));
+        Map<String, JsonObject> valueSetMap = buildResourceMap("./definitions/R4B/valuesets.json", "ValueSet");
+        valueSetMap.putAll(buildResourceMap("./definitions/R4B/fhir-expansions.json", "ValueSet"));
+
+        addResource(codeSystemMap, valueSetMap, "definitions/R4B/terminology/CodeSystem-standards-status.json");
+        addResource(codeSystemMap, valueSetMap, "definitions/R4B/terminology/ValueSet-standards-status.json");
+        addResource(codeSystemMap, valueSetMap, "definitions/R4B/terminology/CodeSystem-concept-subsumption-outcome.json");
+        addResource(codeSystemMap, valueSetMap, "definitions/R4B/terminology/ValueSet-concept-subsumption-outcome.json");
 
         CodeGenerator generator = new CodeGenerator(structureDefinitionMap, codeSystemMap, valueSetMap);
         generator.generate("./src/main/java");
+    }
+
+    private static void addResource(Map<String, JsonObject> codeSystemMap, Map<String, JsonObject> valueSetMap, String path) {
+        try (JsonReader reader = Json.createReader(new FileReader(new File(path)))) {
+            JsonObject root = reader.readObject();
+            String resourceType = root.getString("resourceType");
+            String url = root.getString("url");
+
+            if ("CodeSystem".equals(resourceType)) {
+                codeSystemMap.put(url, root);
+            } else if ("ValueSet".equals(resourceType)) {
+                valueSetMap.put(url, root);
+            }
+        } catch (Exception e) {
+            throw new Error(e);
+        }
     }
 }

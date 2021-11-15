@@ -9,19 +9,16 @@ package com.ibm.fhir.model.plugin.generator.impl;
 import java.io.File;
 import java.util.Map;
 
-import jakarta.json.JsonObject;
-
 import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.project.MavenProject;
 
 import com.ibm.fhir.model.plugin.generator.ModelGenerator;
 import com.ibm.fhir.tools.CodeGenerator;
 
+import jakarta.json.JsonObject;
+
 /**
- * Runs in the fhir-tools project 
- * 
- * @author pbastide@us.ibm.com
- *
+ * fhir-model generator for FHIR R4 (4.0.1)
  */
 public class R4ModelGeneratorImpl implements ModelGenerator {
 
@@ -55,9 +52,9 @@ public class R4ModelGeneratorImpl implements ModelGenerator {
         String targetDir = baseDirectory + "/src/main/java";
         String targetBaseDirectory = baseDirectory;
         baseDirectory = baseDirectory.replace("fhir-model", "fhir-tools");
-        
+
         String definitionsDir = baseDirectory + "/definitions";
-        
+
         if (mavenProject.getArtifactId().contains("fhir-model") || !limit) {
 
             // Check the base directory
@@ -70,14 +67,14 @@ public class R4ModelGeneratorImpl implements ModelGenerator {
                 System.setProperty("TargetBaseDir", targetBaseDirectory);
 
                 Map<String, JsonObject> structureDefinitionMap =
-                        CodeGenerator.buildResourceMap(definitionsDir + "/profiles-resources.json", "StructureDefinition");
-                structureDefinitionMap.putAll(CodeGenerator.buildResourceMap(definitionsDir + "/profiles-types.json", "StructureDefinition"));
+                        CodeGenerator.buildResourceMap(definitionsDir + "/R4/profiles-resources.json", "StructureDefinition");
+                structureDefinitionMap.putAll(CodeGenerator.buildResourceMap(definitionsDir + "/R4/profiles-types.json", "StructureDefinition"));
 
-                Map<String, JsonObject> codeSystemMap = CodeGenerator.buildResourceMap(definitionsDir + "/valuesets.json", "CodeSystem");
-                codeSystemMap.putAll(CodeGenerator.buildResourceMap(definitionsDir + "/v3-codesystems.json", "CodeSystem"));
+                Map<String, JsonObject> codeSystemMap = CodeGenerator.buildResourceMap(definitionsDir + "/R4/valuesets.json", "CodeSystem");
+                codeSystemMap.putAll(CodeGenerator.buildResourceMap(definitionsDir + "/R4/v3-codesystems.json", "CodeSystem"));
 
-                Map<String, JsonObject> valueSetMap = CodeGenerator.buildResourceMap(definitionsDir + "/valuesets.json", "ValueSet");
-                valueSetMap.putAll(CodeGenerator.buildResourceMap(definitionsDir + "/v3-codesystems.json", "ValueSet"));
+                Map<String, JsonObject> valueSetMap = CodeGenerator.buildResourceMap(definitionsDir + "/R4/valuesets.json", "ValueSet");
+                valueSetMap.putAll(CodeGenerator.buildResourceMap(definitionsDir + "/R4/v3-codesystems.json", "ValueSet"));
 
                 log.info("[Started] generating the code for fhir-model");
                 CodeGenerator generator = new CodeGenerator(structureDefinitionMap, codeSystemMap, valueSetMap);
