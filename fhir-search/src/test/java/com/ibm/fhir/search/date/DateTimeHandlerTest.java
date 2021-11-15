@@ -698,6 +698,17 @@ public class DateTimeHandlerTest {
     }
 
     @Test
+    public void testGenerateLowerUpperBoundWithNullPrefixYearMonthDayHoursMinutesSecondsZeroNanos()
+            throws FHIRSearchException {
+        String v = "2019-10-11T11:00:00.000000000";
+        TemporalAccessor value = DateTimeHandler.parse(v);
+        Instant lowerBound = DateTimeHandler.generateLowerBound(null, value, v);
+        Instant upperBound = DateTimeHandler.generateUpperBound(null, value, v);
+        assertEquals(lowerBound.toString(), "2019-10-11T11:00:00Z");
+        assertEquals(upperBound.toString(), "2019-10-11T11:00:00Z");
+    }
+
+    @Test
     public void testGenerateLowerUpperBoundWithNonNullPrefix() throws FHIRSearchException {
         String v = "2019";
         TemporalAccessor value = DateTimeHandler.parse(v);

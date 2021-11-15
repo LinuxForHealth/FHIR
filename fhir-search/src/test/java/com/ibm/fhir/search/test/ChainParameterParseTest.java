@@ -14,6 +14,7 @@ import static org.testng.Assert.assertTrue;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -308,6 +309,9 @@ public class ChainParameterParseTest extends BaseSearchTest {
         FHIRSearchContext searchContext;
         Class<ClinicalImpression> resourceType = ClinicalImpression.class;
         Instant now = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+        if (now.get(ChronoField.MILLI_OF_SECOND) == 0) {
+            now = now.plusMillis(1);
+        }
         String queryString = "&investigation:RiskAssessment.date=" + now.toString();
 
         queryParameters.put("investigation:RiskAssessment.date", Collections.singletonList(now.toString()));
