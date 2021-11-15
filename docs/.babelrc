@@ -3,17 +3,18 @@
         [
             "@babel/preset-env",
             {
+                "corejs": "3.19.1",
                 "useBuiltIns": "usage"
             }
         ]
     ],
     "plugins": [
+        "@babel/plugin-proposal-class-properties",
         [
             "@babel/plugin-transform-classes",
             {
                 "loose": true
             }
-        ],
-        "@babel/plugin-proposal-class-properties"
+        ]
     ]
 }
