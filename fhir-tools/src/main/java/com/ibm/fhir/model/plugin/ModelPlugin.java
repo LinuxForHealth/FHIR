@@ -53,7 +53,7 @@ public class ModelPlugin extends AbstractMojo {
 
     // used with overrides -Dgen.version=r4.1
     private static final String VERSION = "gen.version";
-    private static final String DEFAULT_VERSION = "r4";
+    private static final String DEFAULT_VERSION = "R4B";
 
     // used to limit to fhir-model. -Dlimit=false
     private static final String LIMIT = "limit";
