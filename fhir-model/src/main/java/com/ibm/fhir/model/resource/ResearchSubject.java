@@ -37,10 +37,10 @@ import com.ibm.fhir.model.visitor.Visitor;
 /**
  * A physical entity which is the primary unit of operational and/or administrative interest in a study.
  * 
- * <p>Maturity level: FMM1 (Trial Use)
+ * <p>Maturity level: FMM0 (Trial Use)
  */
 @Maturity(
-    level = 1,
+    level = 0,
     status = StandardsStatus.Value.TRIAL_USE
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

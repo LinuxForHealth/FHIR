@@ -16,73 +16,64 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/variable-type")
+@System("http://hl7.org/fhir/characteristic-combination")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
-public class EvidenceVariableType extends Code {
+public class CharacteristicCombination extends Code {
     /**
-     * Dichotomous
+     * intersection
      * 
-     * <p>The variable is dichotomous, such as present or absent.
+     * <p>Combine characteristics with AND.
      */
-    public static final EvidenceVariableType DICHOTOMOUS = EvidenceVariableType.builder().value(Value.DICHOTOMOUS).build();
+    public static final CharacteristicCombination INTERSECTION = CharacteristicCombination.builder().value(Value.INTERSECTION).build();
 
     /**
-     * Continuous
+     * union
      * 
-     * <p>The variable is a continuous result such as a quantity.
+     * <p>Combine characteristics with OR.
      */
-    public static final EvidenceVariableType CONTINUOUS = EvidenceVariableType.builder().value(Value.CONTINUOUS).build();
-
-    /**
-     * Descriptive
-     * 
-     * <p>The variable is described narratively rather than quantitatively.
-     */
-    public static final EvidenceVariableType DESCRIPTIVE = EvidenceVariableType.builder().value(Value.DESCRIPTIVE).build();
+    public static final CharacteristicCombination UNION = CharacteristicCombination.builder().value(Value.UNION).build();
 
     private volatile int hashCode;
 
-    private EvidenceVariableType(Builder builder) {
+    private CharacteristicCombination(Builder builder) {
         super(builder);
     }
 
     /**
-     * Get the value of this EvidenceVariableType as an enum constant.
+     * Get the value of this CharacteristicCombination as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
     }
 
     /**
-     * Factory method for creating EvidenceVariableType objects from a passed enum value.
+     * Factory method for creating CharacteristicCombination objects from a passed enum value.
      */
-    public static EvidenceVariableType of(Value value) {
+    public static CharacteristicCombination of(Value value) {
         switch (value) {
-        case DICHOTOMOUS:
-            return DICHOTOMOUS;
-        case CONTINUOUS:
-            return CONTINUOUS;
-        case DESCRIPTIVE:
-            return DESCRIPTIVE;
+        case INTERSECTION:
+            return INTERSECTION;
+        case UNION:
+            return UNION;
         default:
             throw new IllegalStateException(value.name());
         }
     }
 
     /**
-     * Factory method for creating EvidenceVariableType objects from a passed string value.
+     * Factory method for creating CharacteristicCombination objects from a passed string value.
      * 
      * @param value
      *     A string that matches one of the allowed code values
      * @throws IllegalArgumentException
      *     If the passed string cannot be parsed into an allowed code value
      */
-    public static EvidenceVariableType of(java.lang.String value) {
+    public static CharacteristicCombination of(java.lang.String value) {
         return of(Value.from(value));
     }
 
     /**
-     * Inherited factory method for creating EvidenceVariableType objects from a passed string value.
+     * Inherited factory method for creating CharacteristicCombination objects from a passed string value.
      * 
      * @param value
      *     A string that matches one of the allowed code values
@@ -94,7 +85,7 @@ public class EvidenceVariableType extends Code {
     }
 
     /**
-     * Inherited factory method for creating EvidenceVariableType objects from a passed string value.
+     * Inherited factory method for creating CharacteristicCombination objects from a passed string value.
      * 
      * @param value
      *     A string that matches one of the allowed code values
@@ -116,7 +107,7 @@ public class EvidenceVariableType extends Code {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        EvidenceVariableType other = (EvidenceVariableType) obj;
+        CharacteristicCombination other = (CharacteristicCombination) obj;
         return Objects.equals(id, other.id) && Objects.equals(extension, other.extension) && Objects.equals(value, other.value);
     }
 
@@ -167,7 +158,7 @@ public class EvidenceVariableType extends Code {
          * Primitive value for code
          * 
          * @param value
-         *     An enum constant for EvidenceVariableType
+         *     An enum constant for CharacteristicCombination
          * 
          * @return
          *     A reference to this Builder instance
@@ -177,45 +168,38 @@ public class EvidenceVariableType extends Code {
         }
 
         @Override
-        public EvidenceVariableType build() {
-            EvidenceVariableType evidenceVariableType = new EvidenceVariableType(this);
+        public CharacteristicCombination build() {
+            CharacteristicCombination characteristicCombination = new CharacteristicCombination(this);
             if (validating) {
-                validate(evidenceVariableType);
+                validate(characteristicCombination);
             }
-            return evidenceVariableType;
+            return characteristicCombination;
         }
 
-        protected void validate(EvidenceVariableType evidenceVariableType) {
-            super.validate(evidenceVariableType);
+        protected void validate(CharacteristicCombination characteristicCombination) {
+            super.validate(characteristicCombination);
         }
 
-        protected Builder from(EvidenceVariableType evidenceVariableType) {
-            super.from(evidenceVariableType);
+        protected Builder from(CharacteristicCombination characteristicCombination) {
+            super.from(characteristicCombination);
             return this;
         }
     }
 
     public enum Value {
         /**
-         * Dichotomous
+         * intersection
          * 
-         * <p>The variable is dichotomous, such as present or absent.
+         * <p>Combine characteristics with AND.
          */
-        DICHOTOMOUS("dichotomous"),
+        INTERSECTION("intersection"),
 
         /**
-         * Continuous
+         * union
          * 
-         * <p>The variable is a continuous result such as a quantity.
+         * <p>Combine characteristics with OR.
          */
-        CONTINUOUS("continuous"),
-
-        /**
-         * Descriptive
-         * 
-         * <p>The variable is described narratively rather than quantitatively.
-         */
-        DESCRIPTIVE("descriptive");
+        UNION("union");
 
         private final java.lang.String value;
 
@@ -232,12 +216,12 @@ public class EvidenceVariableType extends Code {
         }
 
         /**
-         * Factory method for creating EvidenceVariableType.Value values from a passed string value.
+         * Factory method for creating CharacteristicCombination.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
          * @return
-         *     The corresponding EvidenceVariableType.Value or null if a null value was passed
+         *     The corresponding CharacteristicCombination.Value or null if a null value was passed
          * @throws IllegalArgumentException
          *     If the passed string is not null and cannot be parsed into an allowed code value
          */
@@ -246,12 +230,10 @@ public class EvidenceVariableType extends Code {
                 return null;
             }
             switch (value) {
-            case "dichotomous":
-                return DICHOTOMOUS;
-            case "continuous":
-                return CONTINUOUS;
-            case "descriptive":
-                return DESCRIPTIVE;
+            case "intersection":
+                return INTERSECTION;
+            case "union":
+                return UNION;
             default:
                 throw new IllegalArgumentException(value);
             }

@@ -884,7 +884,7 @@ public class CoverageEligibilityResponse extends DomainResource {
          * <p>This element is required.
          * 
          * @param outcome
-         *     queued | complete | error | partial
+         *     complete | error | partial
          * 
          * @return
          *     A reference to this Builder instance
