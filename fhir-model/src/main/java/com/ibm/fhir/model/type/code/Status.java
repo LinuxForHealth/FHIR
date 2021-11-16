@@ -16,7 +16,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/CodeSystem/status")
+@System("http://hl7.org/fhir/verificationresult-status")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Status extends Code {
     /**

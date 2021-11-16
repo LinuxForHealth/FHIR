@@ -14,14 +14,20 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
+import com.ibm.fhir.model.type.Attachment;
 import com.ibm.fhir.model.type.BackboneElement;
+import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
+import com.ibm.fhir.model.type.Date;
 import com.ibm.fhir.model.type.Duration;
+import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Meta;
@@ -31,53 +37,72 @@ import com.ibm.fhir.model.type.Ratio;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.PublicationStatus;
 import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
- * A pharmaceutical product described in terms of its composition and dose form.
+ * A medicinal product in the final form which is suitable for administering to a patient (after any mixing of multiple 
+ * components, dissolution etc. has been performed).
  * 
- * <p>Maturity level: FMM0 (Trial Use)
+ * <p>Maturity level: FMM1 (Trial Use)
  */
 @Maturity(
-    level = 0,
+    level = 1,
     status = StandardsStatus.Value.TRIAL_USE
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
-public class MedicinalProductPharmaceutical extends DomainResource {
+public class AdministrableProductDefinition extends DomainResource {
     @Summary
     private final List<Identifier> identifier;
     @Summary
+    @Binding(
+        bindingName = "PublicationStatus",
+        strength = BindingStrength.Value.REQUIRED,
+        description = "The lifecycle status of an artifact.",
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1|4.0.1"
+    )
     @Required
+    private final PublicationStatus status;
+    @Summary
+    @ReferenceTarget({ "MedicinalProductDefinition" })
+    private final List<Reference> formOf;
+    @Summary
     private final CodeableConcept administrableDoseForm;
     @Summary
     private final CodeableConcept unitOfPresentation;
     @Summary
-    @ReferenceTarget({ "MedicinalProductIngredient" })
-    private final List<Reference> ingredient;
+    @ReferenceTarget({ "ManufacturedItemDefinition" })
+    private final List<Reference> producedFrom;
+    @Summary
+    private final List<CodeableConcept> ingredient;
     @Summary
     @ReferenceTarget({ "DeviceDefinition" })
-    private final List<Reference> device;
+    private final Reference device;
     @Summary
-    private final List<Characteristics> characteristics;
+    private final List<Property> property;
     @Summary
     @Required
     private final List<RouteOfAdministration> routeOfAdministration;
 
-    private MedicinalProductPharmaceutical(Builder builder) {
+    private AdministrableProductDefinition(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
+        formOf = Collections.unmodifiableList(builder.formOf);
         administrableDoseForm = builder.administrableDoseForm;
         unitOfPresentation = builder.unitOfPresentation;
+        producedFrom = Collections.unmodifiableList(builder.producedFrom);
         ingredient = Collections.unmodifiableList(builder.ingredient);
-        device = Collections.unmodifiableList(builder.device);
-        characteristics = Collections.unmodifiableList(builder.characteristics);
+        device = builder.device;
+        property = Collections.unmodifiableList(builder.property);
         routeOfAdministration = Collections.unmodifiableList(builder.routeOfAdministration);
     }
 
     /**
-     * An identifier for the pharmaceutical medicinal product.
+     * An identifier for the administrable product.
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
@@ -87,17 +112,46 @@ public class MedicinalProductPharmaceutical extends DomainResource {
     }
 
     /**
-     * The administrable dose form, after necessary reconstitution.
+     * The status of this administrable product. Enables tracking the life-cycle of the content.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept} that is non-null.
+     *     An immutable object of type {@link PublicationStatus} that is non-null.
+     */
+    public PublicationStatus getStatus() {
+        return status;
+    }
+
+    /**
+     * The medicinal product that this is a prepared administrable form of. This element is not a reference to the item(s) 
+     * that make up this administrable form (for which see AdministrableProductDefinition.producedFrom). It is medicinal 
+     * product as a whole, which may have several components (as well as packaging, devices etc.), that are given to the 
+     * patient in this final administrable form. A single medicinal product may have several different administrable products 
+     * (e.g. a tablet and a cream), and these could have different administrable forms (e.g. tablet as oral solid, or tablet 
+     * crushed).
+     * 
+     * @return
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
+     */
+    public List<Reference> getFormOf() {
+        return formOf;
+    }
+
+    /**
+     * The dose form of the final product after necessary reconstitution or processing. Contrasts to the manufactured dose 
+     * form (see ManufacturedItemDefinition). If the manufactured form was 'powder for solution for injection', the 
+     * administrable dose form could be 'solution for injection' (once mixed with another item having manufactured form 
+     * 'solvent for solution for injection').
+     * 
+     * @return
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getAdministrableDoseForm() {
         return administrableDoseForm;
     }
 
     /**
-     * Todo.
+     * The presentation type in which this item is given to a patient. e.g. for a spray - 'puff' (as in 'contains 100 mcg per 
+     * puff'), or for a liquid - 'vial' (as in 'contains 5 ml per vial').
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept} that may be null.
@@ -107,22 +161,41 @@ public class MedicinalProductPharmaceutical extends DomainResource {
     }
 
     /**
-     * Ingredient.
+     * The constituent manufactured item(s) that this administrable product is produced from. Either a single item, or 
+     * several that are mixed before administration (e.g. a power item and a solvent item, to make a consumable solution). 
+     * Note the items this is produced from are not raw ingredients (see AdministrableProductDefinition.ingredient), but 
+     * manufactured medication items (ManufacturedItemDefinitions), which may be combined or prepared and transformed for 
+     * patient use. The constituent items that this administrable form is produced from are all part of the product (for 
+     * which see AdministrableProductDefinition.formOf).
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
-    public List<Reference> getIngredient() {
+    public List<Reference> getProducedFrom() {
+        return producedFrom;
+    }
+
+    /**
+     * The ingredients of this administrable medicinal product. This is only needed if the ingredients are not specified 
+     * either using ManufacturedItemDefiniton (via AdministrableProductDefinition.producedFrom) to state which component 
+     * items are used to make this, or using by incoming references from the Ingredient resource, to state in detail which 
+     * substances exist within this. This element allows a basic coded ingredient to be used.
+     * 
+     * @return
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
+     */
+    public List<CodeableConcept> getIngredient() {
         return ingredient;
     }
 
     /**
-     * Accompanying device.
+     * A device that is integral to the medicinal product, in effect being considered as an "ingredient" of the medicinal 
+     * product. This is not intended for devices that are just co-packaged.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
+     *     An immutable object of type {@link Reference} that may be null.
      */
-    public List<Reference> getDevice() {
+    public Reference getDevice() {
         return device;
     }
 
@@ -130,14 +203,15 @@ public class MedicinalProductPharmaceutical extends DomainResource {
      * Characteristics e.g. a products onset of action.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Characteristics} that may be empty.
+     *     An unmodifiable list containing immutable objects of type {@link Property} that may be empty.
      */
-    public List<Characteristics> getCharacteristics() {
-        return characteristics;
+    public List<Property> getProperty() {
+        return property;
     }
 
     /**
-     * The path by which the pharmaceutical product is taken into or makes contact with the body.
+     * The path by which the product is taken into or makes contact with the body. In some regions this is referred to as the 
+     * licenced or approved route.
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link RouteOfAdministration} that is non-empty.
@@ -150,11 +224,14 @@ public class MedicinalProductPharmaceutical extends DomainResource {
     public boolean hasChildren() {
         return super.hasChildren() || 
             !identifier.isEmpty() || 
+            (status != null) || 
+            !formOf.isEmpty() || 
             (administrableDoseForm != null) || 
             (unitOfPresentation != null) || 
+            !producedFrom.isEmpty() || 
             !ingredient.isEmpty() || 
-            !device.isEmpty() || 
-            !characteristics.isEmpty() || 
+            (device != null) || 
+            !property.isEmpty() || 
             !routeOfAdministration.isEmpty();
     }
 
@@ -173,11 +250,14 @@ public class MedicinalProductPharmaceutical extends DomainResource {
                 accept(extension, "extension", visitor, Extension.class);
                 accept(modifierExtension, "modifierExtension", visitor, Extension.class);
                 accept(identifier, "identifier", visitor, Identifier.class);
+                accept(status, "status", visitor);
+                accept(formOf, "formOf", visitor, Reference.class);
                 accept(administrableDoseForm, "administrableDoseForm", visitor);
                 accept(unitOfPresentation, "unitOfPresentation", visitor);
-                accept(ingredient, "ingredient", visitor, Reference.class);
-                accept(device, "device", visitor, Reference.class);
-                accept(characteristics, "characteristics", visitor, Characteristics.class);
+                accept(producedFrom, "producedFrom", visitor, Reference.class);
+                accept(ingredient, "ingredient", visitor, CodeableConcept.class);
+                accept(device, "device", visitor);
+                accept(property, "property", visitor, Property.class);
                 accept(routeOfAdministration, "routeOfAdministration", visitor, RouteOfAdministration.class);
             }
             visitor.visitEnd(elementName, elementIndex, this);
@@ -196,7 +276,7 @@ public class MedicinalProductPharmaceutical extends DomainResource {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        MedicinalProductPharmaceutical other = (MedicinalProductPharmaceutical) obj;
+        AdministrableProductDefinition other = (AdministrableProductDefinition) obj;
         return Objects.equals(id, other.id) && 
             Objects.equals(meta, other.meta) && 
             Objects.equals(implicitRules, other.implicitRules) && 
@@ -206,11 +286,14 @@ public class MedicinalProductPharmaceutical extends DomainResource {
             Objects.equals(extension, other.extension) && 
             Objects.equals(modifierExtension, other.modifierExtension) && 
             Objects.equals(identifier, other.identifier) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(formOf, other.formOf) && 
             Objects.equals(administrableDoseForm, other.administrableDoseForm) && 
             Objects.equals(unitOfPresentation, other.unitOfPresentation) && 
+            Objects.equals(producedFrom, other.producedFrom) && 
             Objects.equals(ingredient, other.ingredient) && 
             Objects.equals(device, other.device) && 
-            Objects.equals(characteristics, other.characteristics) && 
+            Objects.equals(property, other.property) && 
             Objects.equals(routeOfAdministration, other.routeOfAdministration);
     }
 
@@ -227,11 +310,14 @@ public class MedicinalProductPharmaceutical extends DomainResource {
                 extension, 
                 modifierExtension, 
                 identifier, 
+                status, 
+                formOf, 
                 administrableDoseForm, 
                 unitOfPresentation, 
+                producedFrom, 
                 ingredient, 
                 device, 
-                characteristics, 
+                property, 
                 routeOfAdministration);
             hashCode = result;
         }
@@ -249,11 +335,14 @@ public class MedicinalProductPharmaceutical extends DomainResource {
 
     public static class Builder extends DomainResource.Builder {
         private List<Identifier> identifier = new ArrayList<>();
+        private PublicationStatus status;
+        private List<Reference> formOf = new ArrayList<>();
         private CodeableConcept administrableDoseForm;
         private CodeableConcept unitOfPresentation;
-        private List<Reference> ingredient = new ArrayList<>();
-        private List<Reference> device = new ArrayList<>();
-        private List<Characteristics> characteristics = new ArrayList<>();
+        private List<Reference> producedFrom = new ArrayList<>();
+        private List<CodeableConcept> ingredient = new ArrayList<>();
+        private Reference device;
+        private List<Property> property = new ArrayList<>();
         private List<RouteOfAdministration> routeOfAdministration = new ArrayList<>();
 
         private Builder() {
@@ -472,13 +561,13 @@ public class MedicinalProductPharmaceutical extends DomainResource {
         }
 
         /**
-         * An identifier for the pharmaceutical medicinal product.
+         * An identifier for the administrable product.
          * 
          * <p>Adds new element(s) to the existing list.
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
-         *     An identifier for the pharmaceutical medicinal product
+         *     An identifier for the administrable product
          * 
          * @return
          *     A reference to this Builder instance
@@ -491,13 +580,13 @@ public class MedicinalProductPharmaceutical extends DomainResource {
         }
 
         /**
-         * An identifier for the pharmaceutical medicinal product.
+         * An identifier for the administrable product.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection.
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
-         *     An identifier for the pharmaceutical medicinal product
+         *     An identifier for the administrable product
          * 
          * @return
          *     A reference to this Builder instance
@@ -511,12 +600,101 @@ public class MedicinalProductPharmaceutical extends DomainResource {
         }
 
         /**
-         * The administrable dose form, after necessary reconstitution.
+         * The status of this administrable product. Enables tracking the life-cycle of the content.
          * 
          * <p>This element is required.
          * 
+         * @param status
+         *     draft | active | retired | unknown
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(PublicationStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * The medicinal product that this is a prepared administrable form of. This element is not a reference to the item(s) 
+         * that make up this administrable form (for which see AdministrableProductDefinition.producedFrom). It is medicinal 
+         * product as a whole, which may have several components (as well as packaging, devices etc.), that are given to the 
+         * patient in this final administrable form. A single medicinal product may have several different administrable products 
+         * (e.g. a tablet and a cream), and these could have different administrable forms (e.g. tablet as oral solid, or tablet 
+         * crushed).
+         * 
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link MedicinalProductDefinition}</li>
+         * </ul>
+         * 
+         * @param formOf
+         *     The medicinal product that this is a prepared administrable form of. This element is not a reference to the item(s) 
+         *     that make up this administrable form (for which see AdministrableProductDefinition.producedFrom). It is medicinal 
+         *     product as a whole, which may have several components (as well as packaging, devices etc.), that are given to the 
+         *     patient in this final administrable form. A single medicinal product may have several different administrable products 
+         *     (e.g. a tablet and a cream), and these could have different administrable forms (e.g. tablet as oral solid, or tablet 
+         *     crushed)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder formOf(Reference... formOf) {
+            for (Reference value : formOf) {
+                this.formOf.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * The medicinal product that this is a prepared administrable form of. This element is not a reference to the item(s) 
+         * that make up this administrable form (for which see AdministrableProductDefinition.producedFrom). It is medicinal 
+         * product as a whole, which may have several components (as well as packaging, devices etc.), that are given to the 
+         * patient in this final administrable form. A single medicinal product may have several different administrable products 
+         * (e.g. a tablet and a cream), and these could have different administrable forms (e.g. tablet as oral solid, or tablet 
+         * crushed).
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link MedicinalProductDefinition}</li>
+         * </ul>
+         * 
+         * @param formOf
+         *     The medicinal product that this is a prepared administrable form of. This element is not a reference to the item(s) 
+         *     that make up this administrable form (for which see AdministrableProductDefinition.producedFrom). It is medicinal 
+         *     product as a whole, which may have several components (as well as packaging, devices etc.), that are given to the 
+         *     patient in this final administrable form. A single medicinal product may have several different administrable products 
+         *     (e.g. a tablet and a cream), and these could have different administrable forms (e.g. tablet as oral solid, or tablet 
+         *     crushed)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
+         */
+        public Builder formOf(Collection<Reference> formOf) {
+            this.formOf = new ArrayList<>(formOf);
+            return this;
+        }
+
+        /**
+         * The dose form of the final product after necessary reconstitution or processing. Contrasts to the manufactured dose 
+         * form (see ManufacturedItemDefinition). If the manufactured form was 'powder for solution for injection', the 
+         * administrable dose form could be 'solution for injection' (once mixed with another item having manufactured form 
+         * 'solvent for solution for injection').
+         * 
          * @param administrableDoseForm
-         *     The administrable dose form, after necessary reconstitution
+         *     The dose form of the final product after necessary reconstitution or processing. Contrasts to the manufactured dose 
+         *     form (see ManufacturedItemDefinition). If the manufactured form was 'powder for solution for injection', the 
+         *     administrable dose form could be 'solution for injection' (once mixed with another item having manufactured form 
+         *     'solvent for solution for injection')
          * 
          * @return
          *     A reference to this Builder instance
@@ -527,10 +705,12 @@ public class MedicinalProductPharmaceutical extends DomainResource {
         }
 
         /**
-         * Todo.
+         * The presentation type in which this item is given to a patient. e.g. for a spray - 'puff' (as in 'contains 100 mcg per 
+         * puff'), or for a liquid - 'vial' (as in 'contains 5 ml per vial').
          * 
          * @param unitOfPresentation
-         *     Todo
+         *     The presentation type in which this item is given to a patient. e.g. for a spray - 'puff' (as in 'contains 100 mcg per 
+         *     puff'), or for a liquid - 'vial' (as in 'contains 5 ml per vial')
          * 
          * @return
          *     A reference to this Builder instance
@@ -541,42 +721,113 @@ public class MedicinalProductPharmaceutical extends DomainResource {
         }
 
         /**
-         * Ingredient.
+         * The constituent manufactured item(s) that this administrable product is produced from. Either a single item, or 
+         * several that are mixed before administration (e.g. a power item and a solvent item, to make a consumable solution). 
+         * Note the items this is produced from are not raw ingredients (see AdministrableProductDefinition.ingredient), but 
+         * manufactured medication items (ManufacturedItemDefinitions), which may be combined or prepared and transformed for 
+         * patient use. The constituent items that this administrable form is produced from are all part of the product (for 
+         * which see AdministrableProductDefinition.formOf).
          * 
          * <p>Adds new element(s) to the existing list.
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
-         * <li>{@link MedicinalProductIngredient}</li>
+         * <li>{@link ManufacturedItemDefinition}</li>
          * </ul>
          * 
-         * @param ingredient
-         *     Ingredient
+         * @param producedFrom
+         *     The constituent manufactured item(s) that this administrable product is produced from. Either a single item, or 
+         *     several that are mixed before administration (e.g. a power item and a solvent item, to make a consumable solution). 
+         *     Note the items this is produced from are not raw ingredients (see AdministrableProductDefinition.ingredient), but 
+         *     manufactured medication items (ManufacturedItemDefinitions), which may be combined or prepared and transformed for 
+         *     patient use. The constituent items that this administrable form is produced from are all part of the product (for 
+         *     which see AdministrableProductDefinition.formOf)
          * 
          * @return
          *     A reference to this Builder instance
          */
-        public Builder ingredient(Reference... ingredient) {
-            for (Reference value : ingredient) {
+        public Builder producedFrom(Reference... producedFrom) {
+            for (Reference value : producedFrom) {
+                this.producedFrom.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * The constituent manufactured item(s) that this administrable product is produced from. Either a single item, or 
+         * several that are mixed before administration (e.g. a power item and a solvent item, to make a consumable solution). 
+         * Note the items this is produced from are not raw ingredients (see AdministrableProductDefinition.ingredient), but 
+         * manufactured medication items (ManufacturedItemDefinitions), which may be combined or prepared and transformed for 
+         * patient use. The constituent items that this administrable form is produced from are all part of the product (for 
+         * which see AdministrableProductDefinition.formOf).
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link ManufacturedItemDefinition}</li>
+         * </ul>
+         * 
+         * @param producedFrom
+         *     The constituent manufactured item(s) that this administrable product is produced from. Either a single item, or 
+         *     several that are mixed before administration (e.g. a power item and a solvent item, to make a consumable solution). 
+         *     Note the items this is produced from are not raw ingredients (see AdministrableProductDefinition.ingredient), but 
+         *     manufactured medication items (ManufacturedItemDefinitions), which may be combined or prepared and transformed for 
+         *     patient use. The constituent items that this administrable form is produced from are all part of the product (for 
+         *     which see AdministrableProductDefinition.formOf)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
+         */
+        public Builder producedFrom(Collection<Reference> producedFrom) {
+            this.producedFrom = new ArrayList<>(producedFrom);
+            return this;
+        }
+
+        /**
+         * The ingredients of this administrable medicinal product. This is only needed if the ingredients are not specified 
+         * either using ManufacturedItemDefiniton (via AdministrableProductDefinition.producedFrom) to state which component 
+         * items are used to make this, or using by incoming references from the Ingredient resource, to state in detail which 
+         * substances exist within this. This element allows a basic coded ingredient to be used.
+         * 
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
+         * 
+         * @param ingredient
+         *     The ingredients of this administrable medicinal product. This is only needed if the ingredients are not specified 
+         *     either using ManufacturedItemDefiniton (via AdministrableProductDefinition.producedFrom) to state which component 
+         *     items are used to make this, or using by incoming references from the Ingredient resource, to state in detail which 
+         *     substances exist within this. This element allows a basic coded ingredient to be used
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder ingredient(CodeableConcept... ingredient) {
+            for (CodeableConcept value : ingredient) {
                 this.ingredient.add(value);
             }
             return this;
         }
 
         /**
-         * Ingredient.
+         * The ingredients of this administrable medicinal product. This is only needed if the ingredients are not specified 
+         * either using ManufacturedItemDefiniton (via AdministrableProductDefinition.producedFrom) to state which component 
+         * items are used to make this, or using by incoming references from the Ingredient resource, to state in detail which 
+         * substances exist within this. This element allows a basic coded ingredient to be used.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection.
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
-         * <p>Allowed resource types for the references:
-         * <ul>
-         * <li>{@link MedicinalProductIngredient}</li>
-         * </ul>
-         * 
          * @param ingredient
-         *     Ingredient
+         *     The ingredients of this administrable medicinal product. This is only needed if the ingredients are not specified 
+         *     either using ManufacturedItemDefiniton (via AdministrableProductDefinition.producedFrom) to state which component 
+         *     items are used to make this, or using by incoming references from the Ingredient resource, to state in detail which 
+         *     substances exist within this. This element allows a basic coded ingredient to be used
          * 
          * @return
          *     A reference to this Builder instance
@@ -584,57 +835,29 @@ public class MedicinalProductPharmaceutical extends DomainResource {
          * @throws NullPointerException
          *     If the passed collection is null
          */
-        public Builder ingredient(Collection<Reference> ingredient) {
+        public Builder ingredient(Collection<CodeableConcept> ingredient) {
             this.ingredient = new ArrayList<>(ingredient);
             return this;
         }
 
         /**
-         * Accompanying device.
+         * A device that is integral to the medicinal product, in effect being considered as an "ingredient" of the medicinal 
+         * product. This is not intended for devices that are just co-packaged.
          * 
-         * <p>Adds new element(s) to the existing list.
-         * If any of the elements are null, calling {@link #build()} will fail.
-         * 
-         * <p>Allowed resource types for the references:
+         * <p>Allowed resource types for this reference:
          * <ul>
          * <li>{@link DeviceDefinition}</li>
          * </ul>
          * 
          * @param device
-         *     Accompanying device
+         *     A device that is integral to the medicinal product, in effect being considered as an "ingredient" of the medicinal 
+         *     product. This is not intended for devices that are just co-packaged
          * 
          * @return
          *     A reference to this Builder instance
          */
-        public Builder device(Reference... device) {
-            for (Reference value : device) {
-                this.device.add(value);
-            }
-            return this;
-        }
-
-        /**
-         * Accompanying device.
-         * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection.
-         * If any of the elements are null, calling {@link #build()} will fail.
-         * 
-         * <p>Allowed resource types for the references:
-         * <ul>
-         * <li>{@link DeviceDefinition}</li>
-         * </ul>
-         * 
-         * @param device
-         *     Accompanying device
-         * 
-         * @return
-         *     A reference to this Builder instance
-         * 
-         * @throws NullPointerException
-         *     If the passed collection is null
-         */
-        public Builder device(Collection<Reference> device) {
-            this.device = new ArrayList<>(device);
+        public Builder device(Reference device) {
+            this.device = device;
             return this;
         }
 
@@ -644,15 +867,15 @@ public class MedicinalProductPharmaceutical extends DomainResource {
          * <p>Adds new element(s) to the existing list.
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
-         * @param characteristics
+         * @param property
          *     Characteristics e.g. a products onset of action
          * 
          * @return
          *     A reference to this Builder instance
          */
-        public Builder characteristics(Characteristics... characteristics) {
-            for (Characteristics value : characteristics) {
-                this.characteristics.add(value);
+        public Builder property(Property... property) {
+            for (Property value : property) {
+                this.property.add(value);
             }
             return this;
         }
@@ -663,7 +886,7 @@ public class MedicinalProductPharmaceutical extends DomainResource {
          * <p>Replaces the existing list with a new one containing elements from the Collection.
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
-         * @param characteristics
+         * @param property
          *     Characteristics e.g. a products onset of action
          * 
          * @return
@@ -672,13 +895,14 @@ public class MedicinalProductPharmaceutical extends DomainResource {
          * @throws NullPointerException
          *     If the passed collection is null
          */
-        public Builder characteristics(Collection<Characteristics> characteristics) {
-            this.characteristics = new ArrayList<>(characteristics);
+        public Builder property(Collection<Property> property) {
+            this.property = new ArrayList<>(property);
             return this;
         }
 
         /**
-         * The path by which the pharmaceutical product is taken into or makes contact with the body.
+         * The path by which the product is taken into or makes contact with the body. In some regions this is referred to as the 
+         * licenced or approved route.
          * 
          * <p>Adds new element(s) to the existing list.
          * If any of the elements are null, calling {@link #build()} will fail.
@@ -686,7 +910,8 @@ public class MedicinalProductPharmaceutical extends DomainResource {
          * <p>This element is required.
          * 
          * @param routeOfAdministration
-         *     The path by which the pharmaceutical product is taken into or makes contact with the body
+         *     The path by which the product is taken into or makes contact with the body. In some regions this is referred to as the 
+         *     licenced or approved route
          * 
          * @return
          *     A reference to this Builder instance
@@ -699,7 +924,8 @@ public class MedicinalProductPharmaceutical extends DomainResource {
         }
 
         /**
-         * The path by which the pharmaceutical product is taken into or makes contact with the body.
+         * The path by which the product is taken into or makes contact with the body. In some regions this is referred to as the 
+         * licenced or approved route.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection.
          * If any of the elements are null, calling {@link #build()} will fail.
@@ -707,7 +933,8 @@ public class MedicinalProductPharmaceutical extends DomainResource {
          * <p>This element is required.
          * 
          * @param routeOfAdministration
-         *     The path by which the pharmaceutical product is taken into or makes contact with the body
+         *     The path by which the product is taken into or makes contact with the body. In some regions this is referred to as the 
+         *     licenced or approved route
          * 
          * @return
          *     A reference to this Builder instance
@@ -721,49 +948,54 @@ public class MedicinalProductPharmaceutical extends DomainResource {
         }
 
         /**
-         * Build the {@link MedicinalProductPharmaceutical}
+         * Build the {@link AdministrableProductDefinition}
          * 
          * <p>Required elements:
          * <ul>
-         * <li>administrableDoseForm</li>
+         * <li>status</li>
          * <li>routeOfAdministration</li>
          * </ul>
          * 
          * @return
-         *     An immutable object of type {@link MedicinalProductPharmaceutical}
+         *     An immutable object of type {@link AdministrableProductDefinition}
          * @throws IllegalStateException
-         *     if the current state cannot be built into a valid MedicinalProductPharmaceutical per the base specification
+         *     if the current state cannot be built into a valid AdministrableProductDefinition per the base specification
          */
         @Override
-        public MedicinalProductPharmaceutical build() {
-            MedicinalProductPharmaceutical medicinalProductPharmaceutical = new MedicinalProductPharmaceutical(this);
+        public AdministrableProductDefinition build() {
+            AdministrableProductDefinition administrableProductDefinition = new AdministrableProductDefinition(this);
             if (validating) {
-                validate(medicinalProductPharmaceutical);
+                validate(administrableProductDefinition);
             }
-            return medicinalProductPharmaceutical;
+            return administrableProductDefinition;
         }
 
-        protected void validate(MedicinalProductPharmaceutical medicinalProductPharmaceutical) {
-            super.validate(medicinalProductPharmaceutical);
-            ValidationSupport.checkList(medicinalProductPharmaceutical.identifier, "identifier", Identifier.class);
-            ValidationSupport.requireNonNull(medicinalProductPharmaceutical.administrableDoseForm, "administrableDoseForm");
-            ValidationSupport.checkList(medicinalProductPharmaceutical.ingredient, "ingredient", Reference.class);
-            ValidationSupport.checkList(medicinalProductPharmaceutical.device, "device", Reference.class);
-            ValidationSupport.checkList(medicinalProductPharmaceutical.characteristics, "characteristics", Characteristics.class);
-            ValidationSupport.checkNonEmptyList(medicinalProductPharmaceutical.routeOfAdministration, "routeOfAdministration", RouteOfAdministration.class);
-            ValidationSupport.checkReferenceType(medicinalProductPharmaceutical.ingredient, "ingredient", "MedicinalProductIngredient");
-            ValidationSupport.checkReferenceType(medicinalProductPharmaceutical.device, "device", "DeviceDefinition");
+        protected void validate(AdministrableProductDefinition administrableProductDefinition) {
+            super.validate(administrableProductDefinition);
+            ValidationSupport.checkList(administrableProductDefinition.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(administrableProductDefinition.status, "status");
+            ValidationSupport.checkList(administrableProductDefinition.formOf, "formOf", Reference.class);
+            ValidationSupport.checkList(administrableProductDefinition.producedFrom, "producedFrom", Reference.class);
+            ValidationSupport.checkList(administrableProductDefinition.ingredient, "ingredient", CodeableConcept.class);
+            ValidationSupport.checkList(administrableProductDefinition.property, "property", Property.class);
+            ValidationSupport.checkNonEmptyList(administrableProductDefinition.routeOfAdministration, "routeOfAdministration", RouteOfAdministration.class);
+            ValidationSupport.checkReferenceType(administrableProductDefinition.formOf, "formOf", "MedicinalProductDefinition");
+            ValidationSupport.checkReferenceType(administrableProductDefinition.producedFrom, "producedFrom", "ManufacturedItemDefinition");
+            ValidationSupport.checkReferenceType(administrableProductDefinition.device, "device", "DeviceDefinition");
         }
 
-        protected Builder from(MedicinalProductPharmaceutical medicinalProductPharmaceutical) {
-            super.from(medicinalProductPharmaceutical);
-            identifier.addAll(medicinalProductPharmaceutical.identifier);
-            administrableDoseForm = medicinalProductPharmaceutical.administrableDoseForm;
-            unitOfPresentation = medicinalProductPharmaceutical.unitOfPresentation;
-            ingredient.addAll(medicinalProductPharmaceutical.ingredient);
-            device.addAll(medicinalProductPharmaceutical.device);
-            characteristics.addAll(medicinalProductPharmaceutical.characteristics);
-            routeOfAdministration.addAll(medicinalProductPharmaceutical.routeOfAdministration);
+        protected Builder from(AdministrableProductDefinition administrableProductDefinition) {
+            super.from(administrableProductDefinition);
+            identifier.addAll(administrableProductDefinition.identifier);
+            status = administrableProductDefinition.status;
+            formOf.addAll(administrableProductDefinition.formOf);
+            administrableDoseForm = administrableProductDefinition.administrableDoseForm;
+            unitOfPresentation = administrableProductDefinition.unitOfPresentation;
+            producedFrom.addAll(administrableProductDefinition.producedFrom);
+            ingredient.addAll(administrableProductDefinition.ingredient);
+            device = administrableProductDefinition.device;
+            property.addAll(administrableProductDefinition.property);
+            routeOfAdministration.addAll(administrableProductDefinition.routeOfAdministration);
             return this;
         }
     }
@@ -771,27 +1003,42 @@ public class MedicinalProductPharmaceutical extends DomainResource {
     /**
      * Characteristics e.g. a products onset of action.
      */
-    public static class Characteristics extends BackboneElement {
+    public static class Property extends BackboneElement {
         @Summary
         @Required
-        private final CodeableConcept code;
+        private final CodeableConcept type;
+        @Summary
+        @Choice({ CodeableConcept.class, Quantity.class, Date.class, Boolean.class, Attachment.class })
+        private final Element value;
         @Summary
         private final CodeableConcept status;
 
-        private Characteristics(Builder builder) {
+        private Property(Builder builder) {
             super(builder);
-            code = builder.code;
+            type = builder.type;
+            value = builder.value;
             status = builder.status;
         }
 
         /**
-         * A coded characteristic.
+         * A code expressing the type of characteristic.
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept} that is non-null.
          */
-        public CodeableConcept getCode() {
-            return code;
+        public CodeableConcept getType() {
+            return type;
+        }
+
+        /**
+         * A value for the characteristic.
+         * 
+         * @return
+         *     An immutable object of type {@link CodeableConcept}, {@link Quantity}, {@link Date}, {@link Boolean} or {@link 
+         *     Attachment} that may be null.
+         */
+        public Element getValue() {
+            return value;
         }
 
         /**
@@ -807,7 +1054,8 @@ public class MedicinalProductPharmaceutical extends DomainResource {
         @Override
         public boolean hasChildren() {
             return super.hasChildren() || 
-                (code != null) || 
+                (type != null) || 
+                (value != null) || 
                 (status != null);
         }
 
@@ -820,7 +1068,8 @@ public class MedicinalProductPharmaceutical extends DomainResource {
                     accept(id, "id", visitor);
                     accept(extension, "extension", visitor, Extension.class);
                     accept(modifierExtension, "modifierExtension", visitor, Extension.class);
-                    accept(code, "code", visitor);
+                    accept(type, "type", visitor);
+                    accept(value, "value", visitor);
                     accept(status, "status", visitor);
                 }
                 visitor.visitEnd(elementName, elementIndex, this);
@@ -839,11 +1088,12 @@ public class MedicinalProductPharmaceutical extends DomainResource {
             if (getClass() != obj.getClass()) {
                 return false;
             }
-            Characteristics other = (Characteristics) obj;
+            Property other = (Property) obj;
             return Objects.equals(id, other.id) && 
                 Objects.equals(extension, other.extension) && 
                 Objects.equals(modifierExtension, other.modifierExtension) && 
-                Objects.equals(code, other.code) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(value, other.value) && 
                 Objects.equals(status, other.status);
         }
 
@@ -854,7 +1104,8 @@ public class MedicinalProductPharmaceutical extends DomainResource {
                 result = Objects.hash(id, 
                     extension, 
                     modifierExtension, 
-                    code, 
+                    type, 
+                    value, 
                     status);
                 hashCode = result;
             }
@@ -871,7 +1122,8 @@ public class MedicinalProductPharmaceutical extends DomainResource {
         }
 
         public static class Builder extends BackboneElement.Builder {
-            private CodeableConcept code;
+            private CodeableConcept type;
+            private Element value;
             private CodeableConcept status;
 
             private Builder() {
@@ -990,18 +1242,73 @@ public class MedicinalProductPharmaceutical extends DomainResource {
             }
 
             /**
-             * A coded characteristic.
+             * A code expressing the type of characteristic.
              * 
              * <p>This element is required.
              * 
-             * @param code
-             *     A coded characteristic
+             * @param type
+             *     A code expressing the type of characteristic
              * 
              * @return
              *     A reference to this Builder instance
              */
-            public Builder code(CodeableConcept code) {
-                this.code = code;
+            public Builder type(CodeableConcept type) {
+                this.type = type;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type Date.
+             * 
+             * @param value
+             *     A value for the characteristic
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.time.LocalDate value) {
+                this.value = (value == null) ? null : Date.of(value);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type Boolean.
+             * 
+             * @param value
+             *     A value for the characteristic
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.lang.Boolean value) {
+                this.value = (value == null) ? null : Boolean.of(value);
+                return this;
+            }
+
+            /**
+             * A value for the characteristic.
+             * 
+             * <p>This is a choice element with the following allowed types:
+             * <ul>
+             * <li>{@link CodeableConcept}</li>
+             * <li>{@link Quantity}</li>
+             * <li>{@link Date}</li>
+             * <li>{@link Boolean}</li>
+             * <li>{@link Attachment}</li>
+             * </ul>
+             * 
+             * @param value
+             *     A value for the characteristic
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder value(Element value) {
+                this.value = value;
                 return this;
             }
 
@@ -1020,44 +1327,47 @@ public class MedicinalProductPharmaceutical extends DomainResource {
             }
 
             /**
-             * Build the {@link Characteristics}
+             * Build the {@link Property}
              * 
              * <p>Required elements:
              * <ul>
-             * <li>code</li>
+             * <li>type</li>
              * </ul>
              * 
              * @return
-             *     An immutable object of type {@link Characteristics}
+             *     An immutable object of type {@link Property}
              * @throws IllegalStateException
-             *     if the current state cannot be built into a valid Characteristics per the base specification
+             *     if the current state cannot be built into a valid Property per the base specification
              */
             @Override
-            public Characteristics build() {
-                Characteristics characteristics = new Characteristics(this);
+            public Property build() {
+                Property property = new Property(this);
                 if (validating) {
-                    validate(characteristics);
+                    validate(property);
                 }
-                return characteristics;
+                return property;
             }
 
-            protected void validate(Characteristics characteristics) {
-                super.validate(characteristics);
-                ValidationSupport.requireNonNull(characteristics.code, "code");
-                ValidationSupport.requireValueOrChildren(characteristics);
+            protected void validate(Property property) {
+                super.validate(property);
+                ValidationSupport.requireNonNull(property.type, "type");
+                ValidationSupport.choiceElement(property.value, "value", CodeableConcept.class, Quantity.class, Date.class, Boolean.class, Attachment.class);
+                ValidationSupport.requireValueOrChildren(property);
             }
 
-            protected Builder from(Characteristics characteristics) {
-                super.from(characteristics);
-                code = characteristics.code;
-                status = characteristics.status;
+            protected Builder from(Property property) {
+                super.from(property);
+                type = property.type;
+                value = property.value;
+                status = property.status;
                 return this;
             }
         }
     }
 
     /**
-     * The path by which the pharmaceutical product is taken into or makes contact with the body.
+     * The path by which the product is taken into or makes contact with the body. In some regions this is referred to as the 
+     * licenced or approved route.
      */
     public static class RouteOfAdministration extends BackboneElement {
         @Summary
@@ -1098,8 +1408,8 @@ public class MedicinalProductPharmaceutical extends DomainResource {
         }
 
         /**
-         * The first dose (dose quantity) administered in humans can be specified, for a product under investigation, using a 
-         * numerical value and its unit of measurement.
+         * The first dose (dose quantity) administered can be specified for the product, using a numerical value and its unit of 
+         * measurement.
          * 
          * @return
          *     An immutable object of type {@link Quantity} that may be null.
@@ -1109,8 +1419,7 @@ public class MedicinalProductPharmaceutical extends DomainResource {
         }
 
         /**
-         * The maximum single dose that can be administered as per the protocol of a clinical trial can be specified using a 
-         * numerical value and its unit of measurement.
+         * The maximum single dose that can be administered, can be specified using a numerical value and its unit of measurement.
          * 
          * @return
          *     An immutable object of type {@link Quantity} that may be null.
@@ -1120,8 +1429,7 @@ public class MedicinalProductPharmaceutical extends DomainResource {
         }
 
         /**
-         * The maximum dose per day (maximum dose quantity to be administered in any one 24-h period) that can be administered as 
-         * per the protocol referenced in the clinical trial authorisation.
+         * The maximum dose per day (maximum dose quantity to be administered in any one 24-h period) that can be administered.
          * 
          * @return
          *     An immutable object of type {@link Quantity} that may be null.
@@ -1131,8 +1439,7 @@ public class MedicinalProductPharmaceutical extends DomainResource {
         }
 
         /**
-         * The maximum dose per treatment period that can be administered as per the protocol referenced in the clinical trial 
-         * authorisation.
+         * The maximum dose per treatment period that can be administered.
          * 
          * @return
          *     An immutable object of type {@link Ratio} that may be null.
@@ -1142,8 +1449,7 @@ public class MedicinalProductPharmaceutical extends DomainResource {
         }
 
         /**
-         * The maximum treatment period during which an Investigational Medicinal Product can be administered as per the protocol 
-         * referenced in the clinical trial authorisation.
+         * The maximum treatment period during which an Investigational Medicinal Product can be administered.
          * 
          * @return
          *     An immutable object of type {@link Duration} that may be null.
@@ -1389,12 +1695,12 @@ public class MedicinalProductPharmaceutical extends DomainResource {
             }
 
             /**
-             * The first dose (dose quantity) administered in humans can be specified, for a product under investigation, using a 
-             * numerical value and its unit of measurement.
+             * The first dose (dose quantity) administered can be specified for the product, using a numerical value and its unit of 
+             * measurement.
              * 
              * @param firstDose
-             *     The first dose (dose quantity) administered in humans can be specified, for a product under investigation, using a 
-             *     numerical value and its unit of measurement
+             *     The first dose (dose quantity) administered can be specified for the product, using a numerical value and its unit of 
+             *     measurement
              * 
              * @return
              *     A reference to this Builder instance
@@ -1405,12 +1711,10 @@ public class MedicinalProductPharmaceutical extends DomainResource {
             }
 
             /**
-             * The maximum single dose that can be administered as per the protocol of a clinical trial can be specified using a 
-             * numerical value and its unit of measurement.
+             * The maximum single dose that can be administered, can be specified using a numerical value and its unit of measurement.
              * 
              * @param maxSingleDose
-             *     The maximum single dose that can be administered as per the protocol of a clinical trial can be specified using a 
-             *     numerical value and its unit of measurement
+             *     The maximum single dose that can be administered, can be specified using a numerical value and its unit of measurement
              * 
              * @return
              *     A reference to this Builder instance
@@ -1421,12 +1725,10 @@ public class MedicinalProductPharmaceutical extends DomainResource {
             }
 
             /**
-             * The maximum dose per day (maximum dose quantity to be administered in any one 24-h period) that can be administered as 
-             * per the protocol referenced in the clinical trial authorisation.
+             * The maximum dose per day (maximum dose quantity to be administered in any one 24-h period) that can be administered.
              * 
              * @param maxDosePerDay
-             *     The maximum dose per day (maximum dose quantity to be administered in any one 24-h period) that can be administered as 
-             *     per the protocol referenced in the clinical trial authorisation
+             *     The maximum dose per day (maximum dose quantity to be administered in any one 24-h period) that can be administered
              * 
              * @return
              *     A reference to this Builder instance
@@ -1437,12 +1739,10 @@ public class MedicinalProductPharmaceutical extends DomainResource {
             }
 
             /**
-             * The maximum dose per treatment period that can be administered as per the protocol referenced in the clinical trial 
-             * authorisation.
+             * The maximum dose per treatment period that can be administered.
              * 
              * @param maxDosePerTreatmentPeriod
-             *     The maximum dose per treatment period that can be administered as per the protocol referenced in the clinical trial 
-             *     authorisation
+             *     The maximum dose per treatment period that can be administered
              * 
              * @return
              *     A reference to this Builder instance
@@ -1453,12 +1753,10 @@ public class MedicinalProductPharmaceutical extends DomainResource {
             }
 
             /**
-             * The maximum treatment period during which an Investigational Medicinal Product can be administered as per the protocol 
-             * referenced in the clinical trial authorisation.
+             * The maximum treatment period during which an Investigational Medicinal Product can be administered.
              * 
              * @param maxTreatmentPeriod
-             *     The maximum treatment period during which an Investigational Medicinal Product can be administered as per the protocol 
-             *     referenced in the clinical trial authorisation
+             *     The maximum treatment period during which an Investigational Medicinal Product can be administered
              * 
              * @return
              *     A reference to this Builder instance
