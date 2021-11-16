@@ -36,6 +36,14 @@ public class ResourceType extends Code {
     public static final ResourceType ACTIVITY_DEFINITION = ResourceType.builder().value(Value.ACTIVITY_DEFINITION).build();
 
     /**
+     * AdministrableProductDefinition
+     * 
+     * <p>A medicinal product in the final form which is suitable for administering to a patient (after any mixing of 
+     * multiple components, dissolution etc. has been performed).
+     */
+    public static final ResourceType ADMINISTRABLE_PRODUCT_DEFINITION = ResourceType.builder().value(Value.ADMINISTRABLE_PRODUCT_DEFINITION).build();
+
+    /**
      * AdverseEvent
      * 
      * <p>Actual or potential/avoided event causing unintended physical injury resulting from or contributed to by medical 
@@ -166,6 +174,15 @@ public class ResourceType extends Code {
     public static final ResourceType CHARGE_ITEM_DEFINITION = ResourceType.builder().value(Value.CHARGE_ITEM_DEFINITION).build();
 
     /**
+     * Citation
+     * 
+     * <p>The Citation Resource enables reference to any knowledge artifact for purposes of identification and attribution. 
+     * The Citation Resource supports existing reference structures and developing publication practices such as versioning, 
+     * expressing complex contributorship roles, and referencing computable resources.
+     */
+    public static final ResourceType CITATION = ResourceType.builder().value(Value.CITATION).build();
+
+    /**
      * Claim
      * 
      * <p>A provider issued list of professional services and products which have been provided, or are to be provided, to a 
@@ -190,6 +207,22 @@ public class ResourceType extends Code {
      * such as Apgar score.
      */
     public static final ResourceType CLINICAL_IMPRESSION = ResourceType.builder().value(Value.CLINICAL_IMPRESSION).build();
+
+    /**
+     * ClinicalUseDefinition
+     * 
+     * <p>A single issue - either an indication, contraindication, interaction or an undesirable effect for a medicinal 
+     * product, medication, device or procedure.
+     */
+    public static final ResourceType CLINICAL_USE_DEFINITION = ResourceType.builder().value(Value.CLINICAL_USE_DEFINITION).build();
+
+    /**
+     * ClinicalUseIssue
+     * 
+     * <p>A single issue - either an indication, contraindication, interaction or an undesirable effect for a medicinal 
+     * product, medication, device or procedure.
+     */
+    public static final ResourceType CLINICAL_USE_ISSUE = ResourceType.builder().value(Value.CLINICAL_USE_ISSUE).build();
 
     /**
      * CodeSystem
@@ -369,14 +402,6 @@ public class ResourceType extends Code {
     public static final ResourceType DOMAIN_RESOURCE = ResourceType.builder().value(Value.DOMAIN_RESOURCE).build();
 
     /**
-     * EffectEvidenceSynthesis
-     * 
-     * <p>The EffectEvidenceSynthesis resource describes the difference in an outcome between exposures states in a 
-     * population where the effect estimate is derived from a combination of research studies.
-     */
-    public static final ResourceType EFFECT_EVIDENCE_SYNTHESIS = ResourceType.builder().value(Value.EFFECT_EVIDENCE_SYNTHESIS).build();
-
-    /**
      * Encounter
      * 
      * <p>An interaction between a patient and healthcare provider(s) for the purpose of providing healthcare service(s) or 
@@ -424,16 +449,24 @@ public class ResourceType extends Code {
     /**
      * Evidence
      * 
-     * <p>The Evidence resource describes the conditional state (population and any exposures being compared within the 
-     * population) and outcome (if specified) that the knowledge (evidence, assertion, recommendation) is about.
+     * <p>The Evidence Resource provides a machine-interpretable expression of an evidence concept including the evidence 
+     * variables (eg population, exposures/interventions, comparators, outcomes, measured variables, confounding variables), 
+     * the statistics, and the certainty of this evidence.
      */
     public static final ResourceType EVIDENCE = ResourceType.builder().value(Value.EVIDENCE).build();
 
     /**
+     * EvidenceReport
+     * 
+     * <p>The EvidenceReport Resource is a specialized container for a collection of resources and codable concepts, adapted 
+     * to support compositions of Evidence, EvidenceVariable, and Citation resources and related concepts.
+     */
+    public static final ResourceType EVIDENCE_REPORT = ResourceType.builder().value(Value.EVIDENCE_REPORT).build();
+
+    /**
      * EvidenceVariable
      * 
-     * <p>The EvidenceVariable resource describes a "PICO" element that knowledge (evidence, assertion, recommendation) is 
-     * about.
+     * <p>The EvidenceVariable resource describes an element that knowledge (Evidence) is about.
      */
     public static final ResourceType EVIDENCE_VARIABLE = ResourceType.builder().value(Value.EVIDENCE_VARIABLE).build();
 
@@ -550,6 +583,13 @@ public class ResourceType extends Code {
     public static final ResourceType IMPLEMENTATION_GUIDE = ResourceType.builder().value(Value.IMPLEMENTATION_GUIDE).build();
 
     /**
+     * Ingredient
+     * 
+     * <p>An ingredient of a manufactured item or pharmaceutical product.
+     */
+    public static final ResourceType INGREDIENT = ResourceType.builder().value(Value.INGREDIENT).build();
+
+    /**
      * InsurancePlan
      * 
      * <p>Details of a Health Insurance product/plan provided by an organization.
@@ -594,6 +634,14 @@ public class ResourceType extends Code {
      * may be stored, found, contained, or accommodated.
      */
     public static final ResourceType LOCATION = ResourceType.builder().value(Value.LOCATION).build();
+
+    /**
+     * ManufacturedItemDefinition
+     * 
+     * <p>The definition and characteristics of a medicinal manufactured item, such as a tablet or capsule, as contained in a 
+     * packaged medicinal product.
+     */
+    public static final ResourceType MANUFACTURED_ITEM_DEFINITION = ResourceType.builder().value(Value.MANUFACTURED_ITEM_DEFINITION).build();
 
     /**
      * Measure
@@ -683,75 +731,12 @@ public class ResourceType extends Code {
     public static final ResourceType MEDICATION_STATEMENT = ResourceType.builder().value(Value.MEDICATION_STATEMENT).build();
 
     /**
-     * MedicinalProduct
+     * MedicinalProductDefinition
      * 
-     * <p>Detailed definition of a medicinal product, typically for uses other than direct patient care (e.g. regulatory use).
+     * <p>Detailed definition of a medicinal product, typically for uses other than direct patient care (e.g. regulatory use, 
+     * drug catalogs).
      */
-    public static final ResourceType MEDICINAL_PRODUCT = ResourceType.builder().value(Value.MEDICINAL_PRODUCT).build();
-
-    /**
-     * MedicinalProductAuthorization
-     * 
-     * <p>The regulatory authorization of a medicinal product.
-     */
-    public static final ResourceType MEDICINAL_PRODUCT_AUTHORIZATION = ResourceType.builder().value(Value.MEDICINAL_PRODUCT_AUTHORIZATION).build();
-
-    /**
-     * MedicinalProductContraindication
-     * 
-     * <p>The clinical particulars - indications, contraindications etc. of a medicinal product, including for regulatory 
-     * purposes.
-     */
-    public static final ResourceType MEDICINAL_PRODUCT_CONTRAINDICATION = ResourceType.builder().value(Value.MEDICINAL_PRODUCT_CONTRAINDICATION).build();
-
-    /**
-     * MedicinalProductIndication
-     * 
-     * <p>Indication for the Medicinal Product.
-     */
-    public static final ResourceType MEDICINAL_PRODUCT_INDICATION = ResourceType.builder().value(Value.MEDICINAL_PRODUCT_INDICATION).build();
-
-    /**
-     * MedicinalProductIngredient
-     * 
-     * <p>An ingredient of a manufactured item or pharmaceutical product.
-     */
-    public static final ResourceType MEDICINAL_PRODUCT_INGREDIENT = ResourceType.builder().value(Value.MEDICINAL_PRODUCT_INGREDIENT).build();
-
-    /**
-     * MedicinalProductInteraction
-     * 
-     * <p>The interactions of the medicinal product with other medicinal products, or other forms of interactions.
-     */
-    public static final ResourceType MEDICINAL_PRODUCT_INTERACTION = ResourceType.builder().value(Value.MEDICINAL_PRODUCT_INTERACTION).build();
-
-    /**
-     * MedicinalProductManufactured
-     * 
-     * <p>The manufactured item as contained in the packaged medicinal product.
-     */
-    public static final ResourceType MEDICINAL_PRODUCT_MANUFACTURED = ResourceType.builder().value(Value.MEDICINAL_PRODUCT_MANUFACTURED).build();
-
-    /**
-     * MedicinalProductPackaged
-     * 
-     * <p>A medicinal product in a container or package.
-     */
-    public static final ResourceType MEDICINAL_PRODUCT_PACKAGED = ResourceType.builder().value(Value.MEDICINAL_PRODUCT_PACKAGED).build();
-
-    /**
-     * MedicinalProductPharmaceutical
-     * 
-     * <p>A pharmaceutical product described in terms of its composition and dose form.
-     */
-    public static final ResourceType MEDICINAL_PRODUCT_PHARMACEUTICAL = ResourceType.builder().value(Value.MEDICINAL_PRODUCT_PHARMACEUTICAL).build();
-
-    /**
-     * MedicinalProductUndesirableEffect
-     * 
-     * <p>Describe the undesirable effects of the medicinal product.
-     */
-    public static final ResourceType MEDICINAL_PRODUCT_UNDESIRABLE_EFFECT = ResourceType.builder().value(Value.MEDICINAL_PRODUCT_UNDESIRABLE_EFFECT).build();
+    public static final ResourceType MEDICINAL_PRODUCT_DEFINITION = ResourceType.builder().value(Value.MEDICINAL_PRODUCT_DEFINITION).build();
 
     /**
      * MessageDefinition
@@ -791,6 +776,13 @@ public class ResourceType extends Code {
      * <p>A request to supply a diet, formula feeding (enteral) or oral nutritional supplement to a patient/resident.
      */
     public static final ResourceType NUTRITION_ORDER = ResourceType.builder().value(Value.NUTRITION_ORDER).build();
+
+    /**
+     * NutritionProduct
+     * 
+     * <p>A food or fluid product that is consumed by patients.
+     */
+    public static final ResourceType NUTRITION_PRODUCT = ResourceType.builder().value(Value.NUTRITION_PRODUCT).build();
 
     /**
      * Observation
@@ -840,6 +832,13 @@ public class ResourceType extends Code {
     public static final ResourceType ORGANIZATION_AFFILIATION = ResourceType.builder().value(Value.ORGANIZATION_AFFILIATION).build();
 
     /**
+     * PackagedProductDefinition
+     * 
+     * <p>A medically related item or items, in a container or package.
+     */
+    public static final ResourceType PACKAGED_PRODUCT_DEFINITION = ResourceType.builder().value(Value.PACKAGED_PRODUCT_DEFINITION).build();
+
+    /**
      * Parameters
      * 
      * <p>This resource is a non-persisted resource used to pass information into and back from an [operation](operations.
@@ -881,8 +880,8 @@ public class ResourceType extends Code {
      * PlanDefinition
      * 
      * <p>This resource allows for the definition of various types of plans as a sharable, consumable, and executable 
-     * artifact. The resource is general enough to support the description of a broad range of clinical artifacts such as 
-     * clinical decision support rules, order sets and protocols.
+     * artifact. The resource is general enough to support the description of a broad range of clinical and non-clinical 
+     * artifacts such as clinical decision support rules, order sets, protocols, and drug quality specifications.
      */
     public static final ResourceType PLAN_DEFINITION = ResourceType.builder().value(Value.PLAN_DEFINITION).build();
 
@@ -937,6 +936,15 @@ public class ResourceType extends Code {
      * corresponding to the structure of the grouping of the questionnaire being responded to.
      */
     public static final ResourceType QUESTIONNAIRE_RESPONSE = ResourceType.builder().value(Value.QUESTIONNAIRE_RESPONSE).build();
+
+    /**
+     * RegulatedAuthorization
+     * 
+     * <p>Regulatory approval, clearance or licencing related to a regulated product, treatment, facility or activity that is 
+     * cited in a guidance, regulation, rule or legislative act. An example is Market Authorization relating to a Medicinal 
+     * Product.
+     */
+    public static final ResourceType REGULATED_AUTHORIZATION = ResourceType.builder().value(Value.REGULATED_AUTHORIZATION).build();
 
     /**
      * RelatedPerson
@@ -1000,14 +1008,6 @@ public class ResourceType extends Code {
      * <p>An assessment of the likely outcome(s) for a patient or other subject as well as the likelihood of each outcome.
      */
     public static final ResourceType RISK_ASSESSMENT = ResourceType.builder().value(Value.RISK_ASSESSMENT).build();
-
-    /**
-     * RiskEvidenceSynthesis
-     * 
-     * <p>The RiskEvidenceSynthesis resource describes the likelihood of an outcome in a population plus exposure state where 
-     * the risk estimate is derived from a combination of research studies.
-     */
-    public static final ResourceType RISK_EVIDENCE_SYNTHESIS = ResourceType.builder().value(Value.RISK_EVIDENCE_SYNTHESIS).build();
 
     /**
      * Schedule
@@ -1077,6 +1077,21 @@ public class ResourceType extends Code {
     public static final ResourceType SUBSCRIPTION = ResourceType.builder().value(Value.SUBSCRIPTION).build();
 
     /**
+     * SubscriptionStatus
+     * 
+     * <p>The SubscriptionStatus resource describes the state of a Subscription during notifications.
+     */
+    public static final ResourceType SUBSCRIPTION_STATUS = ResourceType.builder().value(Value.SUBSCRIPTION_STATUS).build();
+
+    /**
+     * SubscriptionTopic
+     * 
+     * <p>Describes a stream of resource state changes or events and annotated with labels useful to filter projections from 
+     * this topic.
+     */
+    public static final ResourceType SUBSCRIPTION_TOPIC = ResourceType.builder().value(Value.SUBSCRIPTION_TOPIC).build();
+
+    /**
      * Substance
      * 
      * <p>A homogeneous material with a definite composition.
@@ -1084,59 +1099,11 @@ public class ResourceType extends Code {
     public static final ResourceType SUBSTANCE = ResourceType.builder().value(Value.SUBSTANCE).build();
 
     /**
-     * SubstanceNucleicAcid
-     * 
-     * <p>Nucleic acids are defined by three distinct elements: the base, sugar and linkage. Individual substance/moiety IDs 
-     * will be created for each of these elements. The nucleotide sequence will be always entered in the 5’-3’ direction.
-     */
-    public static final ResourceType SUBSTANCE_NUCLEIC_ACID = ResourceType.builder().value(Value.SUBSTANCE_NUCLEIC_ACID).build();
-
-    /**
-     * SubstancePolymer
-     * 
-     * <p>Todo.
-     */
-    public static final ResourceType SUBSTANCE_POLYMER = ResourceType.builder().value(Value.SUBSTANCE_POLYMER).build();
-
-    /**
-     * SubstanceProtein
-     * 
-     * <p>A SubstanceProtein is defined as a single unit of a linear amino acid sequence, or a combination of subunits that 
-     * are either covalently linked or have a defined invariant stoichiometric relationship. This includes all synthetic, 
-     * recombinant and purified SubstanceProteins of defined sequence, whether the use is therapeutic or prophylactic. This 
-     * set of elements will be used to describe albumins, coagulation factors, cytokines, growth factors, 
-     * peptide/SubstanceProtein hormones, enzymes, toxins, toxoids, recombinant vaccines, and immunomodulators.
-     */
-    public static final ResourceType SUBSTANCE_PROTEIN = ResourceType.builder().value(Value.SUBSTANCE_PROTEIN).build();
-
-    /**
-     * SubstanceReferenceInformation
-     * 
-     * <p>Todo.
-     */
-    public static final ResourceType SUBSTANCE_REFERENCE_INFORMATION = ResourceType.builder().value(Value.SUBSTANCE_REFERENCE_INFORMATION).build();
-
-    /**
-     * SubstanceSourceMaterial
-     * 
-     * <p>Source material shall capture information on the taxonomic and anatomical origins as well as the fraction of a 
-     * material that can result in or can be modified to form a substance. This set of data elements shall be used to define 
-     * polymer substances isolated from biological matrices. Taxonomic and anatomical origins shall be described using a 
-     * controlled vocabulary as required. This information is captured for naturally derived polymers ( . starch) and 
-     * structurally diverse substances. For Organisms belonging to the Kingdom Plantae the Substance level defines the fresh 
-     * material of a single species or infraspecies, the Herbal Drug and the Herbal preparation. For Herbal preparations, the 
-     * fraction information will be captured at the Substance information level and additional information for herbal 
-     * extracts will be captured at the Specified Substance Group 1 information level. See for further explanation the 
-     * Substance Class: Structurally Diverse and the herbal annex.
-     */
-    public static final ResourceType SUBSTANCE_SOURCE_MATERIAL = ResourceType.builder().value(Value.SUBSTANCE_SOURCE_MATERIAL).build();
-
-    /**
-     * SubstanceSpecification
+     * SubstanceDefinition
      * 
      * <p>The detailed description of a substance, typically at a level beyond what is used for prescribing.
      */
-    public static final ResourceType SUBSTANCE_SPECIFICATION = ResourceType.builder().value(Value.SUBSTANCE_SPECIFICATION).build();
+    public static final ResourceType SUBSTANCE_DEFINITION = ResourceType.builder().value(Value.SUBSTANCE_DEFINITION).build();
 
     /**
      * SupplyDelivery
@@ -1186,7 +1153,7 @@ public class ResourceType extends Code {
      * ValueSet
      * 
      * <p>A ValueSet resource instance specifies a set of codes drawn from one or more code systems, intended for use in a 
-     * particular context. Value sets link between [[[CodeSystem]]] definitions and their use in [coded elements]
+     * particular context. Value sets link between [CodeSystem](codesystem.html) definitions and their use in [coded elements]
      * (terminologies.html).
      */
     public static final ResourceType VALUE_SET = ResourceType.builder().value(Value.VALUE_SET).build();
@@ -1227,6 +1194,8 @@ public class ResourceType extends Code {
             return ACCOUNT;
         case ACTIVITY_DEFINITION:
             return ACTIVITY_DEFINITION;
+        case ADMINISTRABLE_PRODUCT_DEFINITION:
+            return ADMINISTRABLE_PRODUCT_DEFINITION;
         case ADVERSE_EVENT:
             return ADVERSE_EVENT;
         case ALLERGY_INTOLERANCE:
@@ -1259,12 +1228,18 @@ public class ResourceType extends Code {
             return CHARGE_ITEM;
         case CHARGE_ITEM_DEFINITION:
             return CHARGE_ITEM_DEFINITION;
+        case CITATION:
+            return CITATION;
         case CLAIM:
             return CLAIM;
         case CLAIM_RESPONSE:
             return CLAIM_RESPONSE;
         case CLINICAL_IMPRESSION:
             return CLINICAL_IMPRESSION;
+        case CLINICAL_USE_DEFINITION:
+            return CLINICAL_USE_DEFINITION;
+        case CLINICAL_USE_ISSUE:
+            return CLINICAL_USE_ISSUE;
         case CODE_SYSTEM:
             return CODE_SYSTEM;
         case COMMUNICATION:
@@ -1309,8 +1284,6 @@ public class ResourceType extends Code {
             return DOCUMENT_REFERENCE;
         case DOMAIN_RESOURCE:
             return DOMAIN_RESOURCE;
-        case EFFECT_EVIDENCE_SYNTHESIS:
-            return EFFECT_EVIDENCE_SYNTHESIS;
         case ENCOUNTER:
             return ENCOUNTER;
         case ENDPOINT:
@@ -1325,6 +1298,8 @@ public class ResourceType extends Code {
             return EVENT_DEFINITION;
         case EVIDENCE:
             return EVIDENCE;
+        case EVIDENCE_REPORT:
+            return EVIDENCE_REPORT;
         case EVIDENCE_VARIABLE:
             return EVIDENCE_VARIABLE;
         case EXAMPLE_SCENARIO:
@@ -1355,6 +1330,8 @@ public class ResourceType extends Code {
             return IMMUNIZATION_RECOMMENDATION;
         case IMPLEMENTATION_GUIDE:
             return IMPLEMENTATION_GUIDE;
+        case INGREDIENT:
+            return INGREDIENT;
         case INSURANCE_PLAN:
             return INSURANCE_PLAN;
         case INVOICE:
@@ -1367,6 +1344,8 @@ public class ResourceType extends Code {
             return LIST;
         case LOCATION:
             return LOCATION;
+        case MANUFACTURED_ITEM_DEFINITION:
+            return MANUFACTURED_ITEM_DEFINITION;
         case MEASURE:
             return MEASURE;
         case MEASURE_REPORT:
@@ -1385,26 +1364,8 @@ public class ResourceType extends Code {
             return MEDICATION_REQUEST;
         case MEDICATION_STATEMENT:
             return MEDICATION_STATEMENT;
-        case MEDICINAL_PRODUCT:
-            return MEDICINAL_PRODUCT;
-        case MEDICINAL_PRODUCT_AUTHORIZATION:
-            return MEDICINAL_PRODUCT_AUTHORIZATION;
-        case MEDICINAL_PRODUCT_CONTRAINDICATION:
-            return MEDICINAL_PRODUCT_CONTRAINDICATION;
-        case MEDICINAL_PRODUCT_INDICATION:
-            return MEDICINAL_PRODUCT_INDICATION;
-        case MEDICINAL_PRODUCT_INGREDIENT:
-            return MEDICINAL_PRODUCT_INGREDIENT;
-        case MEDICINAL_PRODUCT_INTERACTION:
-            return MEDICINAL_PRODUCT_INTERACTION;
-        case MEDICINAL_PRODUCT_MANUFACTURED:
-            return MEDICINAL_PRODUCT_MANUFACTURED;
-        case MEDICINAL_PRODUCT_PACKAGED:
-            return MEDICINAL_PRODUCT_PACKAGED;
-        case MEDICINAL_PRODUCT_PHARMACEUTICAL:
-            return MEDICINAL_PRODUCT_PHARMACEUTICAL;
-        case MEDICINAL_PRODUCT_UNDESIRABLE_EFFECT:
-            return MEDICINAL_PRODUCT_UNDESIRABLE_EFFECT;
+        case MEDICINAL_PRODUCT_DEFINITION:
+            return MEDICINAL_PRODUCT_DEFINITION;
         case MESSAGE_DEFINITION:
             return MESSAGE_DEFINITION;
         case MESSAGE_HEADER:
@@ -1415,6 +1376,8 @@ public class ResourceType extends Code {
             return NAMING_SYSTEM;
         case NUTRITION_ORDER:
             return NUTRITION_ORDER;
+        case NUTRITION_PRODUCT:
+            return NUTRITION_PRODUCT;
         case OBSERVATION:
             return OBSERVATION;
         case OBSERVATION_DEFINITION:
@@ -1427,6 +1390,8 @@ public class ResourceType extends Code {
             return ORGANIZATION;
         case ORGANIZATION_AFFILIATION:
             return ORGANIZATION_AFFILIATION;
+        case PACKAGED_PRODUCT_DEFINITION:
+            return PACKAGED_PRODUCT_DEFINITION;
         case PARAMETERS:
             return PARAMETERS;
         case PATIENT:
@@ -1451,6 +1416,8 @@ public class ResourceType extends Code {
             return QUESTIONNAIRE;
         case QUESTIONNAIRE_RESPONSE:
             return QUESTIONNAIRE_RESPONSE;
+        case REGULATED_AUTHORIZATION:
+            return REGULATED_AUTHORIZATION;
         case RELATED_PERSON:
             return RELATED_PERSON;
         case REQUEST_GROUP:
@@ -1467,8 +1434,6 @@ public class ResourceType extends Code {
             return RESOURCE;
         case RISK_ASSESSMENT:
             return RISK_ASSESSMENT;
-        case RISK_EVIDENCE_SYNTHESIS:
-            return RISK_EVIDENCE_SYNTHESIS;
         case SCHEDULE:
             return SCHEDULE;
         case SEARCH_PARAMETER:
@@ -1487,20 +1452,14 @@ public class ResourceType extends Code {
             return STRUCTURE_MAP;
         case SUBSCRIPTION:
             return SUBSCRIPTION;
+        case SUBSCRIPTION_STATUS:
+            return SUBSCRIPTION_STATUS;
+        case SUBSCRIPTION_TOPIC:
+            return SUBSCRIPTION_TOPIC;
         case SUBSTANCE:
             return SUBSTANCE;
-        case SUBSTANCE_NUCLEIC_ACID:
-            return SUBSTANCE_NUCLEIC_ACID;
-        case SUBSTANCE_POLYMER:
-            return SUBSTANCE_POLYMER;
-        case SUBSTANCE_PROTEIN:
-            return SUBSTANCE_PROTEIN;
-        case SUBSTANCE_REFERENCE_INFORMATION:
-            return SUBSTANCE_REFERENCE_INFORMATION;
-        case SUBSTANCE_SOURCE_MATERIAL:
-            return SUBSTANCE_SOURCE_MATERIAL;
-        case SUBSTANCE_SPECIFICATION:
-            return SUBSTANCE_SPECIFICATION;
+        case SUBSTANCE_DEFINITION:
+            return SUBSTANCE_DEFINITION;
         case SUPPLY_DELIVERY:
             return SUPPLY_DELIVERY;
         case SUPPLY_REQUEST:
@@ -1668,6 +1627,14 @@ public class ResourceType extends Code {
         ACTIVITY_DEFINITION("ActivityDefinition"),
 
         /**
+         * AdministrableProductDefinition
+         * 
+         * <p>A medicinal product in the final form which is suitable for administering to a patient (after any mixing of 
+         * multiple components, dissolution etc. has been performed).
+         */
+        ADMINISTRABLE_PRODUCT_DEFINITION("AdministrableProductDefinition"),
+
+        /**
          * AdverseEvent
          * 
          * <p>Actual or potential/avoided event causing unintended physical injury resulting from or contributed to by medical 
@@ -1798,6 +1765,15 @@ public class ResourceType extends Code {
         CHARGE_ITEM_DEFINITION("ChargeItemDefinition"),
 
         /**
+         * Citation
+         * 
+         * <p>The Citation Resource enables reference to any knowledge artifact for purposes of identification and attribution. 
+         * The Citation Resource supports existing reference structures and developing publication practices such as versioning, 
+         * expressing complex contributorship roles, and referencing computable resources.
+         */
+        CITATION("Citation"),
+
+        /**
          * Claim
          * 
          * <p>A provider issued list of professional services and products which have been provided, or are to be provided, to a 
@@ -1822,6 +1798,22 @@ public class ResourceType extends Code {
          * such as Apgar score.
          */
         CLINICAL_IMPRESSION("ClinicalImpression"),
+
+        /**
+         * ClinicalUseDefinition
+         * 
+         * <p>A single issue - either an indication, contraindication, interaction or an undesirable effect for a medicinal 
+         * product, medication, device or procedure.
+         */
+        CLINICAL_USE_DEFINITION("ClinicalUseDefinition"),
+
+        /**
+         * ClinicalUseIssue
+         * 
+         * <p>A single issue - either an indication, contraindication, interaction or an undesirable effect for a medicinal 
+         * product, medication, device or procedure.
+         */
+        CLINICAL_USE_ISSUE("ClinicalUseIssue"),
 
         /**
          * CodeSystem
@@ -2001,14 +1993,6 @@ public class ResourceType extends Code {
         DOMAIN_RESOURCE("DomainResource"),
 
         /**
-         * EffectEvidenceSynthesis
-         * 
-         * <p>The EffectEvidenceSynthesis resource describes the difference in an outcome between exposures states in a 
-         * population where the effect estimate is derived from a combination of research studies.
-         */
-        EFFECT_EVIDENCE_SYNTHESIS("EffectEvidenceSynthesis"),
-
-        /**
          * Encounter
          * 
          * <p>An interaction between a patient and healthcare provider(s) for the purpose of providing healthcare service(s) or 
@@ -2056,16 +2040,24 @@ public class ResourceType extends Code {
         /**
          * Evidence
          * 
-         * <p>The Evidence resource describes the conditional state (population and any exposures being compared within the 
-         * population) and outcome (if specified) that the knowledge (evidence, assertion, recommendation) is about.
+         * <p>The Evidence Resource provides a machine-interpretable expression of an evidence concept including the evidence 
+         * variables (eg population, exposures/interventions, comparators, outcomes, measured variables, confounding variables), 
+         * the statistics, and the certainty of this evidence.
          */
         EVIDENCE("Evidence"),
 
         /**
+         * EvidenceReport
+         * 
+         * <p>The EvidenceReport Resource is a specialized container for a collection of resources and codable concepts, adapted 
+         * to support compositions of Evidence, EvidenceVariable, and Citation resources and related concepts.
+         */
+        EVIDENCE_REPORT("EvidenceReport"),
+
+        /**
          * EvidenceVariable
          * 
-         * <p>The EvidenceVariable resource describes a "PICO" element that knowledge (evidence, assertion, recommendation) is 
-         * about.
+         * <p>The EvidenceVariable resource describes an element that knowledge (Evidence) is about.
          */
         EVIDENCE_VARIABLE("EvidenceVariable"),
 
@@ -2182,6 +2174,13 @@ public class ResourceType extends Code {
         IMPLEMENTATION_GUIDE("ImplementationGuide"),
 
         /**
+         * Ingredient
+         * 
+         * <p>An ingredient of a manufactured item or pharmaceutical product.
+         */
+        INGREDIENT("Ingredient"),
+
+        /**
          * InsurancePlan
          * 
          * <p>Details of a Health Insurance product/plan provided by an organization.
@@ -2226,6 +2225,14 @@ public class ResourceType extends Code {
          * may be stored, found, contained, or accommodated.
          */
         LOCATION("Location"),
+
+        /**
+         * ManufacturedItemDefinition
+         * 
+         * <p>The definition and characteristics of a medicinal manufactured item, such as a tablet or capsule, as contained in a 
+         * packaged medicinal product.
+         */
+        MANUFACTURED_ITEM_DEFINITION("ManufacturedItemDefinition"),
 
         /**
          * Measure
@@ -2315,75 +2322,12 @@ public class ResourceType extends Code {
         MEDICATION_STATEMENT("MedicationStatement"),
 
         /**
-         * MedicinalProduct
+         * MedicinalProductDefinition
          * 
-         * <p>Detailed definition of a medicinal product, typically for uses other than direct patient care (e.g. regulatory use).
+         * <p>Detailed definition of a medicinal product, typically for uses other than direct patient care (e.g. regulatory use, 
+         * drug catalogs).
          */
-        MEDICINAL_PRODUCT("MedicinalProduct"),
-
-        /**
-         * MedicinalProductAuthorization
-         * 
-         * <p>The regulatory authorization of a medicinal product.
-         */
-        MEDICINAL_PRODUCT_AUTHORIZATION("MedicinalProductAuthorization"),
-
-        /**
-         * MedicinalProductContraindication
-         * 
-         * <p>The clinical particulars - indications, contraindications etc. of a medicinal product, including for regulatory 
-         * purposes.
-         */
-        MEDICINAL_PRODUCT_CONTRAINDICATION("MedicinalProductContraindication"),
-
-        /**
-         * MedicinalProductIndication
-         * 
-         * <p>Indication for the Medicinal Product.
-         */
-        MEDICINAL_PRODUCT_INDICATION("MedicinalProductIndication"),
-
-        /**
-         * MedicinalProductIngredient
-         * 
-         * <p>An ingredient of a manufactured item or pharmaceutical product.
-         */
-        MEDICINAL_PRODUCT_INGREDIENT("MedicinalProductIngredient"),
-
-        /**
-         * MedicinalProductInteraction
-         * 
-         * <p>The interactions of the medicinal product with other medicinal products, or other forms of interactions.
-         */
-        MEDICINAL_PRODUCT_INTERACTION("MedicinalProductInteraction"),
-
-        /**
-         * MedicinalProductManufactured
-         * 
-         * <p>The manufactured item as contained in the packaged medicinal product.
-         */
-        MEDICINAL_PRODUCT_MANUFACTURED("MedicinalProductManufactured"),
-
-        /**
-         * MedicinalProductPackaged
-         * 
-         * <p>A medicinal product in a container or package.
-         */
-        MEDICINAL_PRODUCT_PACKAGED("MedicinalProductPackaged"),
-
-        /**
-         * MedicinalProductPharmaceutical
-         * 
-         * <p>A pharmaceutical product described in terms of its composition and dose form.
-         */
-        MEDICINAL_PRODUCT_PHARMACEUTICAL("MedicinalProductPharmaceutical"),
-
-        /**
-         * MedicinalProductUndesirableEffect
-         * 
-         * <p>Describe the undesirable effects of the medicinal product.
-         */
-        MEDICINAL_PRODUCT_UNDESIRABLE_EFFECT("MedicinalProductUndesirableEffect"),
+        MEDICINAL_PRODUCT_DEFINITION("MedicinalProductDefinition"),
 
         /**
          * MessageDefinition
@@ -2423,6 +2367,13 @@ public class ResourceType extends Code {
          * <p>A request to supply a diet, formula feeding (enteral) or oral nutritional supplement to a patient/resident.
          */
         NUTRITION_ORDER("NutritionOrder"),
+
+        /**
+         * NutritionProduct
+         * 
+         * <p>A food or fluid product that is consumed by patients.
+         */
+        NUTRITION_PRODUCT("NutritionProduct"),
 
         /**
          * Observation
@@ -2472,6 +2423,13 @@ public class ResourceType extends Code {
         ORGANIZATION_AFFILIATION("OrganizationAffiliation"),
 
         /**
+         * PackagedProductDefinition
+         * 
+         * <p>A medically related item or items, in a container or package.
+         */
+        PACKAGED_PRODUCT_DEFINITION("PackagedProductDefinition"),
+
+        /**
          * Parameters
          * 
          * <p>This resource is a non-persisted resource used to pass information into and back from an [operation](operations.
@@ -2513,8 +2471,8 @@ public class ResourceType extends Code {
          * PlanDefinition
          * 
          * <p>This resource allows for the definition of various types of plans as a sharable, consumable, and executable 
-         * artifact. The resource is general enough to support the description of a broad range of clinical artifacts such as 
-         * clinical decision support rules, order sets and protocols.
+         * artifact. The resource is general enough to support the description of a broad range of clinical and non-clinical 
+         * artifacts such as clinical decision support rules, order sets, protocols, and drug quality specifications.
          */
         PLAN_DEFINITION("PlanDefinition"),
 
@@ -2569,6 +2527,15 @@ public class ResourceType extends Code {
          * corresponding to the structure of the grouping of the questionnaire being responded to.
          */
         QUESTIONNAIRE_RESPONSE("QuestionnaireResponse"),
+
+        /**
+         * RegulatedAuthorization
+         * 
+         * <p>Regulatory approval, clearance or licencing related to a regulated product, treatment, facility or activity that is 
+         * cited in a guidance, regulation, rule or legislative act. An example is Market Authorization relating to a Medicinal 
+         * Product.
+         */
+        REGULATED_AUTHORIZATION("RegulatedAuthorization"),
 
         /**
          * RelatedPerson
@@ -2632,14 +2599,6 @@ public class ResourceType extends Code {
          * <p>An assessment of the likely outcome(s) for a patient or other subject as well as the likelihood of each outcome.
          */
         RISK_ASSESSMENT("RiskAssessment"),
-
-        /**
-         * RiskEvidenceSynthesis
-         * 
-         * <p>The RiskEvidenceSynthesis resource describes the likelihood of an outcome in a population plus exposure state where 
-         * the risk estimate is derived from a combination of research studies.
-         */
-        RISK_EVIDENCE_SYNTHESIS("RiskEvidenceSynthesis"),
 
         /**
          * Schedule
@@ -2709,6 +2668,21 @@ public class ResourceType extends Code {
         SUBSCRIPTION("Subscription"),
 
         /**
+         * SubscriptionStatus
+         * 
+         * <p>The SubscriptionStatus resource describes the state of a Subscription during notifications.
+         */
+        SUBSCRIPTION_STATUS("SubscriptionStatus"),
+
+        /**
+         * SubscriptionTopic
+         * 
+         * <p>Describes a stream of resource state changes or events and annotated with labels useful to filter projections from 
+         * this topic.
+         */
+        SUBSCRIPTION_TOPIC("SubscriptionTopic"),
+
+        /**
          * Substance
          * 
          * <p>A homogeneous material with a definite composition.
@@ -2716,59 +2690,11 @@ public class ResourceType extends Code {
         SUBSTANCE("Substance"),
 
         /**
-         * SubstanceNucleicAcid
-         * 
-         * <p>Nucleic acids are defined by three distinct elements: the base, sugar and linkage. Individual substance/moiety IDs 
-         * will be created for each of these elements. The nucleotide sequence will be always entered in the 5’-3’ direction.
-         */
-        SUBSTANCE_NUCLEIC_ACID("SubstanceNucleicAcid"),
-
-        /**
-         * SubstancePolymer
-         * 
-         * <p>Todo.
-         */
-        SUBSTANCE_POLYMER("SubstancePolymer"),
-
-        /**
-         * SubstanceProtein
-         * 
-         * <p>A SubstanceProtein is defined as a single unit of a linear amino acid sequence, or a combination of subunits that 
-         * are either covalently linked or have a defined invariant stoichiometric relationship. This includes all synthetic, 
-         * recombinant and purified SubstanceProteins of defined sequence, whether the use is therapeutic or prophylactic. This 
-         * set of elements will be used to describe albumins, coagulation factors, cytokines, growth factors, 
-         * peptide/SubstanceProtein hormones, enzymes, toxins, toxoids, recombinant vaccines, and immunomodulators.
-         */
-        SUBSTANCE_PROTEIN("SubstanceProtein"),
-
-        /**
-         * SubstanceReferenceInformation
-         * 
-         * <p>Todo.
-         */
-        SUBSTANCE_REFERENCE_INFORMATION("SubstanceReferenceInformation"),
-
-        /**
-         * SubstanceSourceMaterial
-         * 
-         * <p>Source material shall capture information on the taxonomic and anatomical origins as well as the fraction of a 
-         * material that can result in or can be modified to form a substance. This set of data elements shall be used to define 
-         * polymer substances isolated from biological matrices. Taxonomic and anatomical origins shall be described using a 
-         * controlled vocabulary as required. This information is captured for naturally derived polymers ( . starch) and 
-         * structurally diverse substances. For Organisms belonging to the Kingdom Plantae the Substance level defines the fresh 
-         * material of a single species or infraspecies, the Herbal Drug and the Herbal preparation. For Herbal preparations, the 
-         * fraction information will be captured at the Substance information level and additional information for herbal 
-         * extracts will be captured at the Specified Substance Group 1 information level. See for further explanation the 
-         * Substance Class: Structurally Diverse and the herbal annex.
-         */
-        SUBSTANCE_SOURCE_MATERIAL("SubstanceSourceMaterial"),
-
-        /**
-         * SubstanceSpecification
+         * SubstanceDefinition
          * 
          * <p>The detailed description of a substance, typically at a level beyond what is used for prescribing.
          */
-        SUBSTANCE_SPECIFICATION("SubstanceSpecification"),
+        SUBSTANCE_DEFINITION("SubstanceDefinition"),
 
         /**
          * SupplyDelivery
@@ -2818,7 +2744,7 @@ public class ResourceType extends Code {
          * ValueSet
          * 
          * <p>A ValueSet resource instance specifies a set of codes drawn from one or more code systems, intended for use in a 
-         * particular context. Value sets link between [[[CodeSystem]]] definitions and their use in [coded elements]
+         * particular context. Value sets link between [CodeSystem](codesystem.html) definitions and their use in [coded elements]
          * (terminologies.html).
          */
         VALUE_SET("ValueSet"),
@@ -2870,6 +2796,8 @@ public class ResourceType extends Code {
                 return ACCOUNT;
             case "ActivityDefinition":
                 return ACTIVITY_DEFINITION;
+            case "AdministrableProductDefinition":
+                return ADMINISTRABLE_PRODUCT_DEFINITION;
             case "AdverseEvent":
                 return ADVERSE_EVENT;
             case "AllergyIntolerance":
@@ -2902,12 +2830,18 @@ public class ResourceType extends Code {
                 return CHARGE_ITEM;
             case "ChargeItemDefinition":
                 return CHARGE_ITEM_DEFINITION;
+            case "Citation":
+                return CITATION;
             case "Claim":
                 return CLAIM;
             case "ClaimResponse":
                 return CLAIM_RESPONSE;
             case "ClinicalImpression":
                 return CLINICAL_IMPRESSION;
+            case "ClinicalUseDefinition":
+                return CLINICAL_USE_DEFINITION;
+            case "ClinicalUseIssue":
+                return CLINICAL_USE_ISSUE;
             case "CodeSystem":
                 return CODE_SYSTEM;
             case "Communication":
@@ -2952,8 +2886,6 @@ public class ResourceType extends Code {
                 return DOCUMENT_REFERENCE;
             case "DomainResource":
                 return DOMAIN_RESOURCE;
-            case "EffectEvidenceSynthesis":
-                return EFFECT_EVIDENCE_SYNTHESIS;
             case "Encounter":
                 return ENCOUNTER;
             case "Endpoint":
@@ -2968,6 +2900,8 @@ public class ResourceType extends Code {
                 return EVENT_DEFINITION;
             case "Evidence":
                 return EVIDENCE;
+            case "EvidenceReport":
+                return EVIDENCE_REPORT;
             case "EvidenceVariable":
                 return EVIDENCE_VARIABLE;
             case "ExampleScenario":
@@ -2998,6 +2932,8 @@ public class ResourceType extends Code {
                 return IMMUNIZATION_RECOMMENDATION;
             case "ImplementationGuide":
                 return IMPLEMENTATION_GUIDE;
+            case "Ingredient":
+                return INGREDIENT;
             case "InsurancePlan":
                 return INSURANCE_PLAN;
             case "Invoice":
@@ -3010,6 +2946,8 @@ public class ResourceType extends Code {
                 return LIST;
             case "Location":
                 return LOCATION;
+            case "ManufacturedItemDefinition":
+                return MANUFACTURED_ITEM_DEFINITION;
             case "Measure":
                 return MEASURE;
             case "MeasureReport":
@@ -3028,26 +2966,8 @@ public class ResourceType extends Code {
                 return MEDICATION_REQUEST;
             case "MedicationStatement":
                 return MEDICATION_STATEMENT;
-            case "MedicinalProduct":
-                return MEDICINAL_PRODUCT;
-            case "MedicinalProductAuthorization":
-                return MEDICINAL_PRODUCT_AUTHORIZATION;
-            case "MedicinalProductContraindication":
-                return MEDICINAL_PRODUCT_CONTRAINDICATION;
-            case "MedicinalProductIndication":
-                return MEDICINAL_PRODUCT_INDICATION;
-            case "MedicinalProductIngredient":
-                return MEDICINAL_PRODUCT_INGREDIENT;
-            case "MedicinalProductInteraction":
-                return MEDICINAL_PRODUCT_INTERACTION;
-            case "MedicinalProductManufactured":
-                return MEDICINAL_PRODUCT_MANUFACTURED;
-            case "MedicinalProductPackaged":
-                return MEDICINAL_PRODUCT_PACKAGED;
-            case "MedicinalProductPharmaceutical":
-                return MEDICINAL_PRODUCT_PHARMACEUTICAL;
-            case "MedicinalProductUndesirableEffect":
-                return MEDICINAL_PRODUCT_UNDESIRABLE_EFFECT;
+            case "MedicinalProductDefinition":
+                return MEDICINAL_PRODUCT_DEFINITION;
             case "MessageDefinition":
                 return MESSAGE_DEFINITION;
             case "MessageHeader":
@@ -3058,6 +2978,8 @@ public class ResourceType extends Code {
                 return NAMING_SYSTEM;
             case "NutritionOrder":
                 return NUTRITION_ORDER;
+            case "NutritionProduct":
+                return NUTRITION_PRODUCT;
             case "Observation":
                 return OBSERVATION;
             case "ObservationDefinition":
@@ -3070,6 +2992,8 @@ public class ResourceType extends Code {
                 return ORGANIZATION;
             case "OrganizationAffiliation":
                 return ORGANIZATION_AFFILIATION;
+            case "PackagedProductDefinition":
+                return PACKAGED_PRODUCT_DEFINITION;
             case "Parameters":
                 return PARAMETERS;
             case "Patient":
@@ -3094,6 +3018,8 @@ public class ResourceType extends Code {
                 return QUESTIONNAIRE;
             case "QuestionnaireResponse":
                 return QUESTIONNAIRE_RESPONSE;
+            case "RegulatedAuthorization":
+                return REGULATED_AUTHORIZATION;
             case "RelatedPerson":
                 return RELATED_PERSON;
             case "RequestGroup":
@@ -3110,8 +3036,6 @@ public class ResourceType extends Code {
                 return RESOURCE;
             case "RiskAssessment":
                 return RISK_ASSESSMENT;
-            case "RiskEvidenceSynthesis":
-                return RISK_EVIDENCE_SYNTHESIS;
             case "Schedule":
                 return SCHEDULE;
             case "SearchParameter":
@@ -3130,20 +3054,14 @@ public class ResourceType extends Code {
                 return STRUCTURE_MAP;
             case "Subscription":
                 return SUBSCRIPTION;
+            case "SubscriptionStatus":
+                return SUBSCRIPTION_STATUS;
+            case "SubscriptionTopic":
+                return SUBSCRIPTION_TOPIC;
             case "Substance":
                 return SUBSTANCE;
-            case "SubstanceNucleicAcid":
-                return SUBSTANCE_NUCLEIC_ACID;
-            case "SubstancePolymer":
-                return SUBSTANCE_POLYMER;
-            case "SubstanceProtein":
-                return SUBSTANCE_PROTEIN;
-            case "SubstanceReferenceInformation":
-                return SUBSTANCE_REFERENCE_INFORMATION;
-            case "SubstanceSourceMaterial":
-                return SUBSTANCE_SOURCE_MATERIAL;
-            case "SubstanceSpecification":
-                return SUBSTANCE_SPECIFICATION;
+            case "SubstanceDefinition":
+                return SUBSTANCE_DEFINITION;
             case "SupplyDelivery":
                 return SUPPLY_DELIVERY;
             case "SupplyRequest":

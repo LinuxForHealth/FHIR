@@ -16,73 +16,66 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/remittance-outcome")
+@System("http://hl7.org/fhir/subscriptiontopic-cr-behavior")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
-public class RemittanceOutcome extends Code {
+public class CriteriaNotExistsBehavior extends Code {
     /**
-     * Complete
+     * test passes
      * 
-     * <p>The processing completed without errors.
+     * <p>The requested conditional statement will pass if a matching state does not exist (e.g., previous state during 
+     * create).
      */
-    public static final RemittanceOutcome COMPLETE = RemittanceOutcome.builder().value(Value.COMPLETE).build();
+    public static final CriteriaNotExistsBehavior TEST_PASSES = CriteriaNotExistsBehavior.builder().value(Value.TEST_PASSES).build();
 
     /**
-     * Error
+     * test fails
      * 
-     * <p>The processing identified errors.
+     * <p>The requested conditional statement will fail if a matching state does not exist (e.g., previous state during 
+     * create).
      */
-    public static final RemittanceOutcome ERROR = RemittanceOutcome.builder().value(Value.ERROR).build();
-
-    /**
-     * Partial
-     * 
-     * <p>No errors have been detected and some of the adjudication has been performed.
-     */
-    public static final RemittanceOutcome PARTIAL = RemittanceOutcome.builder().value(Value.PARTIAL).build();
+    public static final CriteriaNotExistsBehavior TEST_FAILS = CriteriaNotExistsBehavior.builder().value(Value.TEST_FAILS).build();
 
     private volatile int hashCode;
 
-    private RemittanceOutcome(Builder builder) {
+    private CriteriaNotExistsBehavior(Builder builder) {
         super(builder);
     }
 
     /**
-     * Get the value of this RemittanceOutcome as an enum constant.
+     * Get the value of this CriteriaNotExistsBehavior as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
     }
 
     /**
-     * Factory method for creating RemittanceOutcome objects from a passed enum value.
+     * Factory method for creating CriteriaNotExistsBehavior objects from a passed enum value.
      */
-    public static RemittanceOutcome of(Value value) {
+    public static CriteriaNotExistsBehavior of(Value value) {
         switch (value) {
-        case COMPLETE:
-            return COMPLETE;
-        case ERROR:
-            return ERROR;
-        case PARTIAL:
-            return PARTIAL;
+        case TEST_PASSES:
+            return TEST_PASSES;
+        case TEST_FAILS:
+            return TEST_FAILS;
         default:
             throw new IllegalStateException(value.name());
         }
     }
 
     /**
-     * Factory method for creating RemittanceOutcome objects from a passed string value.
+     * Factory method for creating CriteriaNotExistsBehavior objects from a passed string value.
      * 
      * @param value
      *     A string that matches one of the allowed code values
      * @throws IllegalArgumentException
      *     If the passed string cannot be parsed into an allowed code value
      */
-    public static RemittanceOutcome of(java.lang.String value) {
+    public static CriteriaNotExistsBehavior of(java.lang.String value) {
         return of(Value.from(value));
     }
 
     /**
-     * Inherited factory method for creating RemittanceOutcome objects from a passed string value.
+     * Inherited factory method for creating CriteriaNotExistsBehavior objects from a passed string value.
      * 
      * @param value
      *     A string that matches one of the allowed code values
@@ -94,7 +87,7 @@ public class RemittanceOutcome extends Code {
     }
 
     /**
-     * Inherited factory method for creating RemittanceOutcome objects from a passed string value.
+     * Inherited factory method for creating CriteriaNotExistsBehavior objects from a passed string value.
      * 
      * @param value
      *     A string that matches one of the allowed code values
@@ -116,7 +109,7 @@ public class RemittanceOutcome extends Code {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        RemittanceOutcome other = (RemittanceOutcome) obj;
+        CriteriaNotExistsBehavior other = (CriteriaNotExistsBehavior) obj;
         return Objects.equals(id, other.id) && Objects.equals(extension, other.extension) && Objects.equals(value, other.value);
     }
 
@@ -167,7 +160,7 @@ public class RemittanceOutcome extends Code {
          * Primitive value for code
          * 
          * @param value
-         *     An enum constant for RemittanceOutcome
+         *     An enum constant for CriteriaNotExistsBehavior
          * 
          * @return
          *     A reference to this Builder instance
@@ -177,45 +170,40 @@ public class RemittanceOutcome extends Code {
         }
 
         @Override
-        public RemittanceOutcome build() {
-            RemittanceOutcome remittanceOutcome = new RemittanceOutcome(this);
+        public CriteriaNotExistsBehavior build() {
+            CriteriaNotExistsBehavior criteriaNotExistsBehavior = new CriteriaNotExistsBehavior(this);
             if (validating) {
-                validate(remittanceOutcome);
+                validate(criteriaNotExistsBehavior);
             }
-            return remittanceOutcome;
+            return criteriaNotExistsBehavior;
         }
 
-        protected void validate(RemittanceOutcome remittanceOutcome) {
-            super.validate(remittanceOutcome);
+        protected void validate(CriteriaNotExistsBehavior criteriaNotExistsBehavior) {
+            super.validate(criteriaNotExistsBehavior);
         }
 
-        protected Builder from(RemittanceOutcome remittanceOutcome) {
-            super.from(remittanceOutcome);
+        protected Builder from(CriteriaNotExistsBehavior criteriaNotExistsBehavior) {
+            super.from(criteriaNotExistsBehavior);
             return this;
         }
     }
 
     public enum Value {
         /**
-         * Complete
+         * test passes
          * 
-         * <p>The processing completed without errors.
+         * <p>The requested conditional statement will pass if a matching state does not exist (e.g., previous state during 
+         * create).
          */
-        COMPLETE("complete"),
+        TEST_PASSES("test-passes"),
 
         /**
-         * Error
+         * test fails
          * 
-         * <p>The processing identified errors.
+         * <p>The requested conditional statement will fail if a matching state does not exist (e.g., previous state during 
+         * create).
          */
-        ERROR("error"),
-
-        /**
-         * Partial
-         * 
-         * <p>No errors have been detected and some of the adjudication has been performed.
-         */
-        PARTIAL("partial");
+        TEST_FAILS("test-fails");
 
         private final java.lang.String value;
 
@@ -232,12 +220,12 @@ public class RemittanceOutcome extends Code {
         }
 
         /**
-         * Factory method for creating RemittanceOutcome.Value values from a passed string value.
+         * Factory method for creating CriteriaNotExistsBehavior.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
          * @return
-         *     The corresponding RemittanceOutcome.Value or null if a null value was passed
+         *     The corresponding CriteriaNotExistsBehavior.Value or null if a null value was passed
          * @throws IllegalArgumentException
          *     If the passed string is not null and cannot be parsed into an allowed code value
          */
@@ -246,12 +234,10 @@ public class RemittanceOutcome extends Code {
                 return null;
             }
             switch (value) {
-            case "complete":
-                return COMPLETE;
-            case "error":
-                return ERROR;
-            case "partial":
-                return PARTIAL;
+            case "test-passes":
+                return TEST_PASSES;
+            case "test-fails":
+                return TEST_FAILS;
             default:
                 throw new IllegalArgumentException(value);
             }

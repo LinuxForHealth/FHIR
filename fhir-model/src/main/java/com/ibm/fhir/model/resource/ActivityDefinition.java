@@ -62,14 +62,14 @@ import com.ibm.fhir.model.visitor.Visitor;
  * This resource allows for the definition of some activity to be performed, independent of a particular patient, 
  * practitioner, or other performance context.
  * 
- * <p>Maturity level: FMM2 (Trial Use)
+ * <p>Maturity level: FMM3 (Trial Use)
  */
 @Maturity(
-    level = 2,
+    level = 3,
     status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
-    id = "adf-0",
+    id = "cnl-0",
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
@@ -119,7 +119,7 @@ public class ActivityDefinition extends DomainResource {
     @Summary
     private final Boolean experimental;
     @ReferenceTarget({ "Group" })
-    @Choice({ CodeableConcept.class, Reference.class })
+    @Choice({ CodeableConcept.class, Reference.class, Canonical.class })
     @Binding(
         bindingName = "SubjectType",
         strength = BindingStrength.Value.EXTENSIBLE,
@@ -203,7 +203,7 @@ public class ActivityDefinition extends DomainResource {
     @ReferenceTarget({ "Location" })
     private final Reference location;
     private final List<Participant> participant;
-    @ReferenceTarget({ "Medication", "Substance" })
+    @ReferenceTarget({ "Medication", "Substance", "Ingredient" })
     @Choice({ Reference.class, CodeableConcept.class })
     @Binding(
         bindingName = "ActivityProduct",
@@ -374,10 +374,13 @@ public class ActivityDefinition extends DomainResource {
     }
 
     /**
-     * A code or group definition that describes the intended subject of the activity being defined.
+     * A code, group definition, or canonical reference that describes or identifies the intended subject of the activity 
+     * being defined. Canonical references are allowed to support the definition of protocols for drug and substance quality 
+     * specifications, and is allowed to reference a MedicinalProductDefinition, SubstanceDefinition, 
+     * AdministrableProductDefinition, ManufacturedItemDefinition, or PackagedProductDefinition resource.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept} or {@link Reference} that may be null.
+     *     An immutable object of type {@link CodeableConcept}, {@link Reference} or {@link Canonical} that may be null.
      */
     public Element getSubject() {
         return subject;
@@ -1523,12 +1526,16 @@ public class ActivityDefinition extends DomainResource {
         }
 
         /**
-         * A code or group definition that describes the intended subject of the activity being defined.
+         * A code, group definition, or canonical reference that describes or identifies the intended subject of the activity 
+         * being defined. Canonical references are allowed to support the definition of protocols for drug and substance quality 
+         * specifications, and is allowed to reference a MedicinalProductDefinition, SubstanceDefinition, 
+         * AdministrableProductDefinition, ManufacturedItemDefinition, or PackagedProductDefinition resource.
          * 
          * <p>This is a choice element with the following allowed types:
          * <ul>
          * <li>{@link CodeableConcept}</li>
          * <li>{@link Reference}</li>
+         * <li>{@link Canonical}</li>
          * </ul>
          * 
          * When of type {@link Reference}, the allowed resource types for this reference are:
@@ -2337,6 +2344,7 @@ public class ActivityDefinition extends DomainResource {
          * <ul>
          * <li>{@link Medication}</li>
          * <li>{@link Substance}</li>
+         * <li>{@link Ingredient}</li>
          * </ul>
          * 
          * @param product
@@ -2673,7 +2681,7 @@ public class ActivityDefinition extends DomainResource {
             super.validate(activityDefinition);
             ValidationSupport.checkList(activityDefinition.identifier, "identifier", Identifier.class);
             ValidationSupport.requireNonNull(activityDefinition.status, "status");
-            ValidationSupport.choiceElement(activityDefinition.subject, "subject", CodeableConcept.class, Reference.class);
+            ValidationSupport.choiceElement(activityDefinition.subject, "subject", CodeableConcept.class, Reference.class, Canonical.class);
             ValidationSupport.checkList(activityDefinition.contact, "contact", ContactDetail.class);
             ValidationSupport.checkList(activityDefinition.useContext, "useContext", UsageContext.class);
             ValidationSupport.checkList(activityDefinition.jurisdiction, "jurisdiction", CodeableConcept.class);
@@ -2695,7 +2703,7 @@ public class ActivityDefinition extends DomainResource {
             ValidationSupport.checkList(activityDefinition.dynamicValue, "dynamicValue", DynamicValue.class);
             ValidationSupport.checkReferenceType(activityDefinition.subject, "subject", "Group");
             ValidationSupport.checkReferenceType(activityDefinition.location, "location", "Location");
-            ValidationSupport.checkReferenceType(activityDefinition.product, "product", "Medication", "Substance");
+            ValidationSupport.checkReferenceType(activityDefinition.product, "product", "Medication", "Substance", "Ingredient");
             ValidationSupport.checkReferenceType(activityDefinition.specimenRequirement, "specimenRequirement", "SpecimenDefinition");
             ValidationSupport.checkReferenceType(activityDefinition.observationRequirement, "observationRequirement", "ObservationDefinition");
             ValidationSupport.checkReferenceType(activityDefinition.observationResultRequirement, "observationResultRequirement", "ObservationDefinition");
@@ -2769,7 +2777,7 @@ public class ActivityDefinition extends DomainResource {
             bindingName = "ActivityParticipantRole",
             strength = BindingStrength.Value.EXAMPLE,
             description = "Defines roles played by participants for the action.",
-            valueSet = "http://hl7.org/fhir/ValueSet/action-participant-role"
+            valueSet = "http://terminology.hl7.org/ValueSet/action-participant-role"
         )
         private final CodeableConcept role;
 
