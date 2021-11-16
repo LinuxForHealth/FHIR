@@ -586,7 +586,7 @@ The following JSON is an example of a serialized notification event:
 }
 ```
 
-If the resource is over the limit specified in `fhirServer/notifications/common/maxNotificationSizeBytes`, the default value is to subset `id`, `meta` and `resourceType` and add the subset to the FHIRNotificationEvent. In alternative configurations, user may set `fhirServer/notifications/common/maxNotificationSizeBehavior` to `omit` and subsequently retrieve the resource using the location.
+If the resource is over the limit specified in `fhirServer/notifications/common/maxNotificationSizeBytes`, the default value is to subset `id`, `meta`, `resourceType`, and all Resource required fields and add the subset to the FHIRNotificationEvent. In alternative configurations, user may set `fhirServer/notifications/common/maxNotificationSizeBehavior` to `omit` and subsequently retrieve the resource using the location.
 
 ### 4.2.2 WebSocket
 The WebSocket implementation of the notification service will publish notification event messages to a WebSocket. To enable WebSocket notifications, set the `fhirServer/notifications/websocket/enabled` property to `true`, as in the following example:
