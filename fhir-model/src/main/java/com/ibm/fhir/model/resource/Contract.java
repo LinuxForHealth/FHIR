@@ -7533,14 +7533,14 @@ public class Contract extends DomainResource {
                 bindingName = "ContractActionPerformerType",
                 strength = BindingStrength.Value.EXAMPLE,
                 description = "Codes for the types of action perfomer.",
-                valueSet = "http://hl7.org/fhir/ValueSet/provenance-agent-type"
+                valueSet = "http://hl7.org/fhir/ValueSet/provenance-participant-type"
             )
             private final List<CodeableConcept> performerType;
             @Binding(
                 bindingName = "ContractActionPerformerRole",
                 strength = BindingStrength.Value.EXAMPLE,
                 description = "Codes for the role of the action performer.",
-                valueSet = "http://hl7.org/fhir/ValueSet/provenance-agent-role"
+                valueSet = "http://hl7.org/fhir/ValueSet/provenance-participant-role"
             )
             private final CodeableConcept performerRole;
             @ReferenceTarget({ "RelatedPerson", "Patient", "Practitioner", "PractitionerRole", "CareTeam", "Device", "Substance", "Organization", "Location" })

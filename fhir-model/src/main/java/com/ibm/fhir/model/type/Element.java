@@ -25,8 +25,8 @@ import com.ibm.fhir.model.visitor.AbstractVisitable;
     id = "ele-1",
     level = "Rule",
     location = "(base)",
-    description = "All FHIR elements must have a @value or children",
-    expression = "hasValue() or (children().count() > id.count())",
+    description = "All FHIR elements must have a @value or children unless an empty Parameters resource",
+    expression = "hasValue() or (children().count() > id.count()) or $this is Parameters",
     source = "http://hl7.org/fhir/StructureDefinition/Element",
     modelChecked = true
 )

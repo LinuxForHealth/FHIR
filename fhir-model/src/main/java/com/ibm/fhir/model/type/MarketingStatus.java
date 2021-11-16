@@ -23,7 +23,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MarketingStatus extends BackboneElement {
     @Summary
-    @Required
     private final CodeableConcept country;
     @Summary
     private final CodeableConcept jurisdiction;
@@ -31,7 +30,6 @@ public class MarketingStatus extends BackboneElement {
     @Required
     private final CodeableConcept status;
     @Summary
-    @Required
     private final Period dateRange;
     @Summary
     private final DateTime restoreDate;
@@ -50,7 +48,7 @@ public class MarketingStatus extends BackboneElement {
      * ISO 3166 ‑ 1 alpha-2 code elements.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept} that is non-null.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getCountry() {
         return country;
@@ -86,7 +84,7 @@ public class MarketingStatus extends BackboneElement {
      * to the release of the Medicinal Product into the distribution chain.
      * 
      * @return
-     *     An immutable object of type {@link Period} that is non-null.
+     *     An immutable object of type {@link Period} that may be null.
      */
     public Period getDateRange() {
         return dateRange;
@@ -309,8 +307,6 @@ public class MarketingStatus extends BackboneElement {
          * The country in which the marketing authorisation has been granted shall be specified It should be specified using the 
          * ISO 3166 ‑ 1 alpha-2 code elements.
          * 
-         * <p>This element is required.
-         * 
          * @param country
          *     The country in which the marketing authorisation has been granted shall be specified It should be specified using the 
          *     ISO 3166 ‑ 1 alpha-2 code elements
@@ -365,8 +361,6 @@ public class MarketingStatus extends BackboneElement {
          * consisting of day, month and year shall be specified using the ISO 8601 date format NOTE “Placed on the market” refers 
          * to the release of the Medicinal Product into the distribution chain.
          * 
-         * <p>This element is required.
-         * 
          * @param dateRange
          *     The date when the Medicinal Product is placed on the market by the Marketing Authorisation Holder (or where 
          *     applicable, the manufacturer/distributor) in a country and/or jurisdiction shall be provided A complete date 
@@ -406,9 +400,7 @@ public class MarketingStatus extends BackboneElement {
          * 
          * <p>Required elements:
          * <ul>
-         * <li>country</li>
          * <li>status</li>
-         * <li>dateRange</li>
          * </ul>
          * 
          * @return
@@ -427,9 +419,7 @@ public class MarketingStatus extends BackboneElement {
 
         protected void validate(MarketingStatus marketingStatus) {
             super.validate(marketingStatus);
-            ValidationSupport.requireNonNull(marketingStatus.country, "country");
             ValidationSupport.requireNonNull(marketingStatus.status, "status");
-            ValidationSupport.requireNonNull(marketingStatus.dateRange, "dateRange");
             ValidationSupport.requireValueOrChildren(marketingStatus);
         }
 

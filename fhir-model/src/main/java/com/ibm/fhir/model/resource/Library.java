@@ -53,14 +53,14 @@ import com.ibm.fhir.model.visitor.Visitor;
  * expose existing knowledge assets such as logic libraries and information model descriptions, as well as to describe a 
  * collection of knowledge assets.
  * 
- * <p>Maturity level: FMM2 (Trial Use)
+ * <p>Maturity level: FMM3 (Trial Use)
  */
 @Maturity(
-    level = 2,
+    level = 3,
     status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
-    id = "lib-0",
+    id = "cnl-0",
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",

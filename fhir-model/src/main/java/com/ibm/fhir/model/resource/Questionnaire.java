@@ -126,7 +126,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "Questionnaire.item.enableWhen",
     description = "If the operator is 'exists', the value must be a boolean",
-    expression = "operator = 'exists' implies (answer is Boolean)",
+    expression = "operator = 'exists' implies (answer is boolean)",
     source = "http://hl7.org/fhir/StructureDefinition/Questionnaire"
 )
 @Constraint(
@@ -166,7 +166,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "Questionnaire.item",
     description = "If there are more than one enableWhen, enableBehavior must be specified",
-    expression = "enableWhen.count() > 2 implies enableBehavior.exists()",
+    expression = "enableWhen.count() > 1 implies enableBehavior.exists()",
     source = "http://hl7.org/fhir/StructureDefinition/Questionnaire"
 )
 @Constraint(

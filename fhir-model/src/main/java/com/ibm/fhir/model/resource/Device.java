@@ -273,7 +273,7 @@ public class Device extends DomainResource {
     }
 
     /**
-     * The model number for the device.
+     * The manufacturer's model number for the device.
      * 
      * @return
      *     An immutable object of type {@link String} that may be null.
@@ -283,7 +283,7 @@ public class Device extends DomainResource {
     }
 
     /**
-     * The part number of the device.
+     * The part number or catalog number of the device.
      * 
      * @return
      *     An immutable object of type {@link String} that may be null.
@@ -404,7 +404,7 @@ public class Device extends DomainResource {
     }
 
     /**
-     * The parent device.
+     * The device that this device is attached to or is part of.
      * 
      * @return
      *     An immutable object of type {@link Reference} that may be null.
@@ -1183,7 +1183,7 @@ public class Device extends DomainResource {
          * Convenience method for setting {@code modelNumber}.
          * 
          * @param modelNumber
-         *     The model number for the device
+         *     The manufacturer's model number for the device
          * 
          * @return
          *     A reference to this Builder instance
@@ -1196,10 +1196,10 @@ public class Device extends DomainResource {
         }
 
         /**
-         * The model number for the device.
+         * The manufacturer's model number for the device.
          * 
          * @param modelNumber
-         *     The model number for the device
+         *     The manufacturer's model number for the device
          * 
          * @return
          *     A reference to this Builder instance
@@ -1213,7 +1213,7 @@ public class Device extends DomainResource {
          * Convenience method for setting {@code partNumber}.
          * 
          * @param partNumber
-         *     The part number of the device
+         *     The part number or catalog number of the device
          * 
          * @return
          *     A reference to this Builder instance
@@ -1226,10 +1226,10 @@ public class Device extends DomainResource {
         }
 
         /**
-         * The part number of the device.
+         * The part number or catalog number of the device.
          * 
          * @param partNumber
-         *     The part number of the device
+         *     The part number or catalog number of the device
          * 
          * @return
          *     A reference to this Builder instance
@@ -1563,7 +1563,7 @@ public class Device extends DomainResource {
         }
 
         /**
-         * The parent device.
+         * The device that this device is attached to or is part of.
          * 
          * <p>Allowed resource types for this reference:
          * <ul>
@@ -1571,7 +1571,7 @@ public class Device extends DomainResource {
          * </ul>
          * 
          * @param parent
-         *     The parent device
+         *     The device that this device is attached to or is part of
          * 
          * @return
          *     A reference to this Builder instance
@@ -2149,7 +2149,7 @@ public class Device extends DomainResource {
         }
 
         /**
-         * The name of the device.
+         * The name that identifies the device.
          * 
          * @return
          *     An immutable object of type {@link String} that is non-null.
@@ -2360,7 +2360,7 @@ public class Device extends DomainResource {
              * <p>This element is required.
              * 
              * @param name
-             *     The name of the device
+             *     The name that identifies the device
              * 
              * @return
              *     A reference to this Builder instance
@@ -2373,12 +2373,12 @@ public class Device extends DomainResource {
             }
 
             /**
-             * The name of the device.
+             * The name that identifies the device.
              * 
              * <p>This element is required.
              * 
              * @param name
-             *     The name of the device
+             *     The name that identifies the device
              * 
              * @return
              *     A reference to this Builder instance
@@ -2764,7 +2764,7 @@ public class Device extends DomainResource {
         }
 
         /**
-         * The type of the device version.
+         * The type of the device version, e.g. manufacturer, approved, internal.
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept} that may be null.
@@ -2984,10 +2984,10 @@ public class Device extends DomainResource {
             }
 
             /**
-             * The type of the device version.
+             * The type of the device version, e.g. manufacturer, approved, internal.
              * 
              * @param type
-             *     The type of the device version
+             *     The type of the device version, e.g. manufacturer, approved, internal
              * 
              * @return
              *     A reference to this Builder instance

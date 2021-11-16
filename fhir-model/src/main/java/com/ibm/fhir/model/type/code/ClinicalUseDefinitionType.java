@@ -16,73 +16,91 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/remittance-outcome")
+@System("http://hl7.org/fhir/clinical-use-issue-type")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
-public class RemittanceOutcome extends Code {
+public class ClinicalUseDefinitionType extends Code {
     /**
-     * Complete
+     * Indication
      * 
-     * <p>The processing completed without errors.
+     * <p>A reason for giving the medicaton.
      */
-    public static final RemittanceOutcome COMPLETE = RemittanceOutcome.builder().value(Value.COMPLETE).build();
+    public static final ClinicalUseDefinitionType INDICATION = ClinicalUseDefinitionType.builder().value(Value.INDICATION).build();
 
     /**
-     * Error
+     * Contraindication
      * 
-     * <p>The processing identified errors.
+     * <p>A reason for not giving the medicaition.
      */
-    public static final RemittanceOutcome ERROR = RemittanceOutcome.builder().value(Value.ERROR).build();
+    public static final ClinicalUseDefinitionType CONTRAINDICATION = ClinicalUseDefinitionType.builder().value(Value.CONTRAINDICATION).build();
 
     /**
-     * Partial
+     * Interaction
      * 
-     * <p>No errors have been detected and some of the adjudication has been performed.
+     * <p>Interactions between the medication and other substances.
      */
-    public static final RemittanceOutcome PARTIAL = RemittanceOutcome.builder().value(Value.PARTIAL).build();
+    public static final ClinicalUseDefinitionType INTERACTION = ClinicalUseDefinitionType.builder().value(Value.INTERACTION).build();
+
+    /**
+     * Undesirable Effect
+     * 
+     * <p>Side effects or adverse effects associated with the medication.
+     */
+    public static final ClinicalUseDefinitionType UNDESIRABLE_EFFECT = ClinicalUseDefinitionType.builder().value(Value.UNDESIRABLE_EFFECT).build();
+
+    /**
+     * Warning
+     * 
+     * <p>A general warning or issue that is not specifically one of the other types.
+     */
+    public static final ClinicalUseDefinitionType WARNING = ClinicalUseDefinitionType.builder().value(Value.WARNING).build();
 
     private volatile int hashCode;
 
-    private RemittanceOutcome(Builder builder) {
+    private ClinicalUseDefinitionType(Builder builder) {
         super(builder);
     }
 
     /**
-     * Get the value of this RemittanceOutcome as an enum constant.
+     * Get the value of this ClinicalUseDefinitionType as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
     }
 
     /**
-     * Factory method for creating RemittanceOutcome objects from a passed enum value.
+     * Factory method for creating ClinicalUseDefinitionType objects from a passed enum value.
      */
-    public static RemittanceOutcome of(Value value) {
+    public static ClinicalUseDefinitionType of(Value value) {
         switch (value) {
-        case COMPLETE:
-            return COMPLETE;
-        case ERROR:
-            return ERROR;
-        case PARTIAL:
-            return PARTIAL;
+        case INDICATION:
+            return INDICATION;
+        case CONTRAINDICATION:
+            return CONTRAINDICATION;
+        case INTERACTION:
+            return INTERACTION;
+        case UNDESIRABLE_EFFECT:
+            return UNDESIRABLE_EFFECT;
+        case WARNING:
+            return WARNING;
         default:
             throw new IllegalStateException(value.name());
         }
     }
 
     /**
-     * Factory method for creating RemittanceOutcome objects from a passed string value.
+     * Factory method for creating ClinicalUseDefinitionType objects from a passed string value.
      * 
      * @param value
      *     A string that matches one of the allowed code values
      * @throws IllegalArgumentException
      *     If the passed string cannot be parsed into an allowed code value
      */
-    public static RemittanceOutcome of(java.lang.String value) {
+    public static ClinicalUseDefinitionType of(java.lang.String value) {
         return of(Value.from(value));
     }
 
     /**
-     * Inherited factory method for creating RemittanceOutcome objects from a passed string value.
+     * Inherited factory method for creating ClinicalUseDefinitionType objects from a passed string value.
      * 
      * @param value
      *     A string that matches one of the allowed code values
@@ -94,7 +112,7 @@ public class RemittanceOutcome extends Code {
     }
 
     /**
-     * Inherited factory method for creating RemittanceOutcome objects from a passed string value.
+     * Inherited factory method for creating ClinicalUseDefinitionType objects from a passed string value.
      * 
      * @param value
      *     A string that matches one of the allowed code values
@@ -116,7 +134,7 @@ public class RemittanceOutcome extends Code {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        RemittanceOutcome other = (RemittanceOutcome) obj;
+        ClinicalUseDefinitionType other = (ClinicalUseDefinitionType) obj;
         return Objects.equals(id, other.id) && Objects.equals(extension, other.extension) && Objects.equals(value, other.value);
     }
 
@@ -167,7 +185,7 @@ public class RemittanceOutcome extends Code {
          * Primitive value for code
          * 
          * @param value
-         *     An enum constant for RemittanceOutcome
+         *     An enum constant for ClinicalUseDefinitionType
          * 
          * @return
          *     A reference to this Builder instance
@@ -177,45 +195,59 @@ public class RemittanceOutcome extends Code {
         }
 
         @Override
-        public RemittanceOutcome build() {
-            RemittanceOutcome remittanceOutcome = new RemittanceOutcome(this);
+        public ClinicalUseDefinitionType build() {
+            ClinicalUseDefinitionType clinicalUseDefinitionType = new ClinicalUseDefinitionType(this);
             if (validating) {
-                validate(remittanceOutcome);
+                validate(clinicalUseDefinitionType);
             }
-            return remittanceOutcome;
+            return clinicalUseDefinitionType;
         }
 
-        protected void validate(RemittanceOutcome remittanceOutcome) {
-            super.validate(remittanceOutcome);
+        protected void validate(ClinicalUseDefinitionType clinicalUseDefinitionType) {
+            super.validate(clinicalUseDefinitionType);
         }
 
-        protected Builder from(RemittanceOutcome remittanceOutcome) {
-            super.from(remittanceOutcome);
+        protected Builder from(ClinicalUseDefinitionType clinicalUseDefinitionType) {
+            super.from(clinicalUseDefinitionType);
             return this;
         }
     }
 
     public enum Value {
         /**
-         * Complete
+         * Indication
          * 
-         * <p>The processing completed without errors.
+         * <p>A reason for giving the medicaton.
          */
-        COMPLETE("complete"),
+        INDICATION("indication"),
 
         /**
-         * Error
+         * Contraindication
          * 
-         * <p>The processing identified errors.
+         * <p>A reason for not giving the medicaition.
          */
-        ERROR("error"),
+        CONTRAINDICATION("contraindication"),
 
         /**
-         * Partial
+         * Interaction
          * 
-         * <p>No errors have been detected and some of the adjudication has been performed.
+         * <p>Interactions between the medication and other substances.
          */
-        PARTIAL("partial");
+        INTERACTION("interaction"),
+
+        /**
+         * Undesirable Effect
+         * 
+         * <p>Side effects or adverse effects associated with the medication.
+         */
+        UNDESIRABLE_EFFECT("undesirable-effect"),
+
+        /**
+         * Warning
+         * 
+         * <p>A general warning or issue that is not specifically one of the other types.
+         */
+        WARNING("warning");
 
         private final java.lang.String value;
 
@@ -232,12 +264,12 @@ public class RemittanceOutcome extends Code {
         }
 
         /**
-         * Factory method for creating RemittanceOutcome.Value values from a passed string value.
+         * Factory method for creating ClinicalUseDefinitionType.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
          * @return
-         *     The corresponding RemittanceOutcome.Value or null if a null value was passed
+         *     The corresponding ClinicalUseDefinitionType.Value or null if a null value was passed
          * @throws IllegalArgumentException
          *     If the passed string is not null and cannot be parsed into an allowed code value
          */
@@ -246,12 +278,16 @@ public class RemittanceOutcome extends Code {
                 return null;
             }
             switch (value) {
-            case "complete":
-                return COMPLETE;
-            case "error":
-                return ERROR;
-            case "partial":
-                return PARTIAL;
+            case "indication":
+                return INDICATION;
+            case "contraindication":
+                return CONTRAINDICATION;
+            case "interaction":
+                return INTERACTION;
+            case "undesirable-effect":
+                return UNDESIRABLE_EFFECT;
+            case "warning":
+                return WARNING;
             default:
                 throw new IllegalArgumentException(value);
             }
