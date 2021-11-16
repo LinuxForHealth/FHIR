@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.operation.bulkdata.config.preflight.impl;
 
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -34,6 +36,7 @@ import com.ibm.fhir.operation.bulkdata.util.BulkDataExportUtil;
  * Checks the S3 Configuration.
  */
 public class S3Preflight extends NopPreflight {
+    private static final Logger LOG = Logger.getLogger(S3Preflight.class.getName());
 
     private static final BulkDataExportUtil export = new BulkDataExportUtil();
 
@@ -49,7 +52,7 @@ public class S3Preflight extends NopPreflight {
         boolean outcomes = adapter.shouldStorageProviderCollectOperationOutcomes(getSource());
 
         // Check that we can access it.
-        Set<Callable<Boolean>> callables = new HashSet<>(2);
+        Set<Callable<BucketResult>> callables = new HashSet<>(2);
         BucketHostCallable sourceCallable = new BucketHostCallable(getSource());
         callables.add(sourceCallable);
 
@@ -65,10 +68,10 @@ public class S3Preflight extends NopPreflight {
 
         ExecutorService executor = Executors.newFixedThreadPool(2);
         try {
-            List<Future<Boolean>> futures = executor.invokeAll(callables, 60, TimeUnit.SECONDS);
-            for (Future<Boolean> future : futures) {
-                if (!future.get()) {
-                    throw export.buildOperationException("Unable to access s3 source or outcome during timeout", IssueType.EXCEPTION);
+            List<Future<BucketResult>> futures = executor.invokeAll(callables, 60, TimeUnit.SECONDS);
+            for (Future<BucketResult> future : futures) {
+                if (!future.get().result) {
+                    throw export.buildOperationException("Unable to access s3 source or outcome during timeout", IssueType.EXCEPTION, future.get().ex);
                 }
             }
         } catch (ExecutionException ee) {
@@ -115,7 +118,7 @@ public class S3Preflight extends NopPreflight {
     /*
      * @implNote Checks the Access to the url/input.
      */
-    private class BucketHostCallable implements Callable<Boolean> {
+    private class BucketHostCallable implements Callable<BucketResult> {
 
         private String source = null;
         private String url = null;
@@ -130,24 +133,51 @@ public class S3Preflight extends NopPreflight {
         }
 
         @Override
-        public Boolean call() throws Exception {
-            boolean result = false;
+        public BucketResult call() throws Exception {
+            BucketResult result = new BucketResult();
             // Check can connect to host (HEAD)
-            HttpsURLConnection httpsConnection = null;
-            try {
-                httpsConnection = (HttpsURLConnection) new URL(url).openConnection();
-                httpsConnection.setRequestMethod("HEAD");
-                httpsConnection.getContentLengthLong();
-                result = true;
-            } catch (Exception e) {
-                throw new FHIRException("Unable to connect to s3 endpoint '" + source + '"', e);
-            } finally {
-                if (httpsConnection != null) {
-                    httpsConnection.disconnect();
+            if (url.startsWith("https://")) {
+                HttpsURLConnection httpsConnection = null;
+                try {
+                    httpsConnection = (HttpsURLConnection) new URL(url).openConnection();
+                    httpsConnection.setRequestMethod("HEAD");
+                    httpsConnection.getContentLengthLong();
+                    result.result = true;
+                } catch (Exception e) {
+                    LOG.throwing("S3Preflight", "call", e);
+                    result.ex = new FHIRException("Unable to connect to s3 endpoint '" + source + '"', e);
+                } finally {
+                    if (httpsConnection != null) {
+                        httpsConnection.disconnect();
+                    }
+                }
+            } else {
+                HttpURLConnection httpConnection = null;
+                try {
+                    LOG.warning("BulkData Request is using a provider that connects to an insecure url: " + url);
+                    httpConnection = (HttpURLConnection) new URL(url).openConnection();
+                    httpConnection.setRequestMethod("HEAD");
+                    httpConnection.getContentLengthLong();
+                    result.result = true;
+                } catch (Exception e) {
+                    LOG.throwing("S3Preflight", "call", e);
+                    result.ex = new FHIRException("Unable to connect to s3 endpoint '" + source + '"', e);
+                } finally {
+                    if (httpConnection != null) {
+                        httpConnection.disconnect();
+                    }
                 }
             }
             return result;
         }
+    }
+
+    /**
+     * Wraps the results of the Callable
+     */
+    private static class BucketResult {
+        private Boolean result = false;
+        private FHIRException ex;
     }
 
     @Override

@@ -1330,7 +1330,7 @@ These base urls are not checked when using cloud object store and bulk-import. I
 
 For Bulk Data import, the `fhirServer/bulkdata/core/maxInputs` is used to configure a maximum number of inputs supported by the instance. The default number is 5. There is a hard character limit on the total input type and url must be under 4096 characters, as such the configuration may be tuned for each url scheme.
 
-Note: When `$import` is executed, if a resource to import includes a `Resource.id` then this id is honored (via create-on-update). If `Resource.id` is not valued, the server will perform a create and assign a new `Resource.id` for this resource.
+When configured with the Bulk Data storageProvider is configured with `validateResources` as `true`, the `$import` operation checks the conformance and validates the Resource. For instance, if the `Resource.id` is a blank string, the Resource is marked as invalid and skipped during processing. Once the Resource is validated, the `$import` operation, verifies the `Resource.id`.  If not present, the server executes the `create` path, which ignores existing `lastUpdated` and `versionId` fields and the server assign the `Resource.id` and `Resource.Meta.lastUpdated` and `Resource.Meta.versionId` fields. If present, the server executes the update path. If the resource has no prior history for the `Resource.id`, the server executes the `create-on-update` pattern. If the resource is a match to the latest `Resource` stored on the server, a conditional skip is executed.
 
 Following is the beautified response of sample polling location request after the export is finished:
 

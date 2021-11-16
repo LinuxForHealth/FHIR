@@ -6,11 +6,14 @@
 
 package com.ibm.fhir.bulkdata.provider.impl;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.RandomAccessFile;
 import java.io.StringReader;
+import java.nio.channels.Channels;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -40,6 +43,7 @@ import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
 public class FileProvider implements Provider {
 
     private static final Logger logger = Logger.getLogger(FileProvider.class.getName());
+    private static final long READ_BLOCK_OPT = 524288L;
 
     private String source = null;
     private long parseFailures = 0l;
@@ -53,9 +57,9 @@ public class FileProvider implements Provider {
     private ExportTransientUserData chunkData = null;
 
     private OutputStream out = null;
-    private BufferedReader br = null;
 
     private ConfigurationAdapter configuration = ConfigurationFactory.getInstance();
+    private int maxRead = configuration.getImportNumberOfFhirResourcesPerRead(null);
 
     public FileProvider(String source) throws Exception {
         this.source = source;
@@ -78,41 +82,101 @@ public class FileProvider implements Provider {
     @Override
     public void readResources(long numOfLinesToSkip, String workItem) throws FHIRException {
         resources = new ArrayList<>();
-        try {
-            long line = 0;
-            try {
-                if (br == null) {
-                    br = Files.newBufferedReader(Paths.get(getFilePath(workItem)));
-                }
-                // Imports must only skip lines if the size is higher, not equal to
-                // otherwise we start skipping the last line to skip.
-                for (int i = 0; i < numOfLinesToSkip; i++) {
-                    line++;
-                    br.readLine(); // We know the file has at least this number.
-                }
 
-                String resourceStr = br.readLine();
+        try (RandomAccessFile raf = new RandomAccessFile(Paths.get(getFilePath(workItem)).toFile(), "r")) {
+            raf.seek(this.transientUserData.getCurrentBytes());
+
+            try (InputStream in = Channels.newInputStream(raf.getChannel());
+                    CountInputStreamReader reader = new CountInputStreamReader(in)) {
+
                 int chunkRead = 0;
-                int maxRead = configuration.getImportNumberOfFhirResourcesPerRead(null);
-                while (resourceStr != null && chunkRead <= maxRead) {
-                    line++;
+
+                String resourceStr = reader.readLine();
+                boolean continueRead = true;
+                while (continueRead && resourceStr != null) {
                     chunkRead++;
-                    try {
-                        resources.add(FHIRParser.parser(Format.JSON).parse(new StringReader(resourceStr)));
+                    try (StringReader stringReader = new StringReader(resourceStr)){
+                        resources.add(
+                                    FHIRParser.parser(Format.JSON)
+                                                .parse(stringReader));
                     } catch (FHIRParserException e) {
                         // Log and skip the invalid FHIR resource.
                         parseFailures++;
-                        logger.log(Level.INFO, "readResources: " + "Failed to parse line " + line + " of [" + source + "].", e);
+                        logger.log(Level.INFO, "readResources: Failed to parse line " + (numOfLinesToSkip + chunkRead) + " of [" + source + "].", e);
                     }
-                    resourceStr = br.readLine();
+
+                    // With small resources the 50 at a time gets really expensive.
+                    // so we have a READ_BLOCK_OPT to get at least a decent segment to
+                    // insert into the db.
+                    if (chunkRead < maxRead || reader.getLength() < READ_BLOCK_OPT) {
+                        resourceStr = reader.readLine();
+                    } else {
+                        resourceStr = null;
+                        continueRead = false;
+                    }
                 }
-            } finally {
-                if (br != null) {
-                    br.close();
-                }
+                // The Channel enables us to skip the future seek.
+                this.transientUserData.setCurrentBytes(this.transientUserData.getCurrentBytes() + reader.getLength());
             }
         } catch (Exception e) {
             throw new FHIRException("Unable to read from Local File", e);
+        }
+    }
+
+    /**
+     * This specialized class enables a BufferedReader.readLine like implementation
+     * without the buffering as there is a local file with direct read and seek.
+     */
+    private static class CountInputStreamReader extends InputStreamReader {
+        // Implies CR
+        private static final int LF = '\n';
+        private static final long MAX_LENGTH_PER_LINE = 2147483648l;
+
+        private long length = 0;
+
+        public CountInputStreamReader(InputStream in) {
+            super(in);
+        }
+
+        /**
+         * Read the line
+         * @return
+         * @throws IOException
+         */
+        public String readLine() throws IOException {
+            int r = this.read();
+            if (r == -1) {
+                // End-of-stream
+                return null;
+            }
+            boolean read = true;
+            StringBuilder builder = new StringBuilder();
+            int lineLength = 0;
+
+            // Protect against attacks with a max line length (and max size we support in the db).
+            while (read && lineLength < MAX_LENGTH_PER_LINE) {
+                if (r == -1) {
+                    read = false;
+                } else if (r == LF) {
+                    // \n  case
+                    length++;
+                    read = false;
+                } else {
+                    builder.append((char) r);
+                    length++;
+                    // We only need to account for line length here.
+                    lineLength++;
+                    r = this.read();
+                }
+            }
+            return builder.toString();
+        }
+
+        /**
+         * @return the length of the resources returned in the reader
+         */
+        public long getLength() {
+            return length;
         }
     }
 
@@ -137,7 +201,8 @@ public class FileProvider implements Provider {
     }
 
     @Override
-    public void registerTransient(long executionId, ExportTransientUserData transientUserData, String exportPathPrefix, String fhirResourceType) throws Exception {
+    public void registerTransient(long executionId, ExportTransientUserData transientUserData, String exportPathPrefix, String fhirResourceType)
+        throws Exception {
         if (transientUserData == null) {
             String msg = "registerTransient: chunkData is null, this should never happen!";
             logger.warning(msg);
@@ -162,7 +227,7 @@ public class FileProvider implements Provider {
             throw new UnsupportedOperationException("FileProvider does not support writing files of type " + mediaType);
         }
         if (chunkData.getBufferStream().size() == 0) {
-            // Early exit condition:  nothing to write so just set the latWrittenPageNum and return
+            // Early exit condition: nothing to write so just set the latWrittenPageNum and return
             chunkData.setLastWrittenPageNum(chunkData.getPageNum());
             return;
         }
@@ -175,7 +240,7 @@ public class FileProvider implements Provider {
             Path folderPath = Paths.get(folder);
             try {
                 Files.createDirectories(folderPath);
-            } catch(IOException ioe) {
+            } catch (IOException ioe) {
                 if (!Files.exists(folderPath)) {
                     throw ioe;
                 }

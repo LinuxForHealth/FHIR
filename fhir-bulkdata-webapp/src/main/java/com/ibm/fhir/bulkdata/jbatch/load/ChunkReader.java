@@ -109,8 +109,8 @@ public class ChunkReader extends AbstractItemReader {
                     .uniqueIDForImportFailureOperationOutcomes(ctx.getImportPartitionWorkitem() + "_oo_errors.ndjson")
                     .build();
 
-            Provider wrapper = ProviderFactory.getSourceWrapper(ctx.getSource(), ctx.getDataSourceStorageType());
-            long importFileSize = wrapper.getSize(workItem);
+            Provider provider = ProviderFactory.getSourceWrapper(ctx.getSource(), ctx.getDataSourceStorageType());
+            long importFileSize = provider.getSize(workItem);
             chunkData.setImportFileSize(importFileSize);
             chunkData.setInFlyRateBeginMilliSeconds(System.currentTimeMillis());
             stepCtx.setTransientUserData(chunkData);
@@ -143,16 +143,16 @@ public class ChunkReader extends AbstractItemReader {
         numOfLinesToSkip = chunkData.getNumOfProcessedResources();
         logger.fine(() -> "Number of lines to skip are: '" + numOfLinesToSkip + "'");
 
-        Provider wrapper = ProviderFactory.getSourceWrapper(ctx.getSource(), ctx.getDataSourceStorageType());
-        wrapper.registerTransient(chunkData);
+        Provider provider = ProviderFactory.getSourceWrapper(ctx.getSource(), ctx.getDataSourceStorageType());
+        provider.registerTransient(chunkData);
 
         long readStartTimeInMilliSeconds = System.currentTimeMillis();
-        wrapper.readResources(numOfLinesToSkip, ctx.getImportPartitionWorkitem());
+        provider.readResources(numOfLinesToSkip, ctx.getImportPartitionWorkitem());
 
-        long numOfParseFailures = wrapper.getNumberOfParseFailures();
-        long numOfLoaded = wrapper.getNumberOfLoaded();
+        long numOfParseFailures = provider.getNumberOfParseFailures();
+        long numOfLoaded = provider.getNumberOfLoaded();
 
-        List<Resource> resources = wrapper.getResources();
+        List<Resource> resources = provider.getResources();
 
         chunkData.addToTotalReadMilliSeconds(System.currentTimeMillis() - readStartTimeInMilliSeconds);
         chunkData.setNumOfParseFailures(numOfParseFailures);

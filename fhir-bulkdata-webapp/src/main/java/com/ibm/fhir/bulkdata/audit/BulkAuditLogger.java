@@ -60,15 +60,15 @@ public class BulkAuditLogger {
         return svc.isEnabled();
     }
 
-    private void log(AuditLogEventType eventType, String action, String description, Resource oldResource, Resource newResource, Date startTime, Date endTime,
+    private void log(AuditLogEventType eventType, String action, String description, Resource newResource, Date startTime, Date endTime,
             Response.Status responseStatus, String queryString, Long totalSearch, String location, String users) throws Exception {
-        log(eventType, action, description, oldResource, newResource, startTime, endTime, responseStatus, queryString, totalSearch, location, users, null);
+        log(eventType, action, description, newResource, startTime, endTime, responseStatus, queryString, totalSearch, location, users, null);
     }
 
     /*
      * This method is common code in the audit logging.
      */
-    private void log(AuditLogEventType eventType, String action, String description, Resource oldResource, Resource newResource, Date startTime, Date endTime,
+    private void log(AuditLogEventType eventType, String action, String description, Resource newResource, Date startTime, Date endTime,
         Response.Status responseStatus, String queryString, Long totalSearch, String location, String users, String resource) throws Exception {
 
         AuditLogEntry entry = createAuditLogEntry(eventType, newResource, startTime, endTime, responseStatus, location, users);
@@ -95,7 +95,7 @@ public class BulkAuditLogger {
         svc.logEntry(entry);
     }
 
-    /*
+    /**
      * Creates an audit log entry with attributes common to all the bulkdata jobs.
      *
      * @param eventType the type of event
@@ -194,7 +194,7 @@ public class BulkAuditLogger {
         final String METHODNAME = "logCreateOnImport";
         log.entering(CLASSNAME, METHODNAME);
         if (shouldLog()) {
-            log(AuditLogEventType.FHIR_CREATE, "C", "FHIR BulkData Create request", null, newResource, startTime, endTime, responseStatus, null, null, location, users);
+            log(AuditLogEventType.FHIR_CREATE, "C", "FHIR BulkData Create request", newResource, startTime, endTime, responseStatus, null, null, location, users);
         }
         log.exiting(CLASSNAME, METHODNAME);
     }
@@ -221,7 +221,7 @@ public class BulkAuditLogger {
         final String METHODNAME = "logValidateOnImport";
         log.entering(CLASSNAME, METHODNAME);
         if (shouldLog()) {
-            log(AuditLogEventType.FHIR_OPERATION, "R", "FHIR BulkData Validate on Import request", null, newResource, startTime, endTime, responseStatus, null, null, location, users);
+            log(AuditLogEventType.FHIR_OPERATION, "R", "FHIR BulkData Validate on Import request", newResource, startTime, endTime, responseStatus, null, null, location, users);
         }
         log.exiting(CLASSNAME, METHODNAME);
     }
@@ -229,8 +229,6 @@ public class BulkAuditLogger {
     /**
      * Builds an audit log entry for an 'update' in a bulkdata service invocation.
      *
-     * @param oldResource
-     *            The previous version of the Resource, before it was updated.
      * @param updatedResource
      *            The updated version of the Resource.
      * @param startTime
@@ -245,7 +243,7 @@ public class BulkAuditLogger {
      *            the principals that initiated the request
      * @throws Exception
      */
-    public void logUpdateOnImport(Resource oldResource, Resource updatedResource, Date startTime, Date endTime, Response.Status responseStatus, String location,
+    public void logUpdateOnImport(Resource updatedResource, Date startTime, Date endTime, Response.Status responseStatus, String location,
             String users) throws Exception {
         final String METHODNAME = "logUpdateOnImport";
         log.entering(CLASSNAME, METHODNAME);
@@ -255,7 +253,7 @@ public class BulkAuditLogger {
             } else {
                 // Right now, we don't log or treat the oldResource. The signature is left for the commonality with the REST
                 // Audit Logger.
-                log(AuditLogEventType.FHIR_UPDATE, "U", "FHIR BulkData Update request", null, updatedResource, startTime, endTime, responseStatus, null, null, location, users);
+                log(AuditLogEventType.FHIR_UPDATE, "U", "FHIR BulkData Update request", updatedResource, startTime, endTime, responseStatus, null, null, location, users);
             }
         }
         log.exiting(CLASSNAME, METHODNAME);
@@ -282,7 +280,7 @@ public class BulkAuditLogger {
         final String METHODNAME = "logUpdateOnImport";
         log.entering(CLASSNAME, METHODNAME);
         if (shouldLog()) {
-            log(AuditLogEventType.FHIR_UPDATE, "U", "FHIR BulkData Update Resource Skipped request", null, resource, startTime, endTime, responseStatus, null, null, location, users);
+            log(AuditLogEventType.FHIR_UPDATE, "U", "FHIR BulkData Update Resource Skipped request", resource, startTime, endTime, responseStatus, null, null, location, users);
         }
         log.exiting(CLASSNAME, METHODNAME);
     }
@@ -311,7 +309,7 @@ public class BulkAuditLogger {
         if (shouldLog()) {
             // Right now, we don't log or treat the oldResource. The signature is left for the commonality with the REST
             // Audit Logger.
-            log(AuditLogEventType.FHIR_READ, "R", "FHIR BulkData Read request", null, resource, startTime, endTime, responseStatus, null, null, location, users);
+            log(AuditLogEventType.FHIR_READ, "R", "FHIR BulkData Read request", resource, startTime, endTime, responseStatus, null, null, location, users);
         }
         log.exiting(CLASSNAME, METHODNAME);
     }
@@ -348,7 +346,7 @@ public class BulkAuditLogger {
 
             // Right now, we don't log or treat the oldResource or newResource. The signature is left for the
             // commonality with the REST Audit Logger.
-            log(AuditLogEventType.FHIR_SEARCH, "R", "FHIR BulkData Search request", null, null, startTime, endTime, responseStatus, queryString, (long) totalSearch, location, users, resource);
+            log(AuditLogEventType.FHIR_SEARCH, "R", "FHIR BulkData Search request", null, startTime, endTime, responseStatus, queryString, (long) totalSearch, location, users, resource);
         }
         log.exiting(CLASSNAME, METHODNAME);
     }
@@ -380,7 +378,7 @@ public class BulkAuditLogger {
         if (shouldLog()) {
             // Right now, we don't log or treat the oldResource or newResource. The signature is left for the
             // commonality with the REST Audit Logger.
-            log(AuditLogEventType.FHIR_SEARCH, "R", "FHIR BulkData Fast request", null, null, startTime, endTime, responseStatus, queryParm, (long) totalSearch, location, users, resource);
+            log(AuditLogEventType.FHIR_SEARCH, "R", "FHIR BulkData Fast request", null, startTime, endTime, responseStatus, queryParm, (long) totalSearch, location, users, resource);
         }
         log.exiting(CLASSNAME, METHODNAME);
     }

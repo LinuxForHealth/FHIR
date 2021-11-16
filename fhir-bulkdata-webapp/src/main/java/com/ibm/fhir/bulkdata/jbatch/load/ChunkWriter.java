@@ -204,12 +204,22 @@ public class ChunkWriter extends AbstractItemWriter {
                                 // Because there's no id provided, this has to be a create
                                 long startTime = System.currentTimeMillis();
                                 FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null);
-                                operationOutcome =
-                                        fhirPersistence.create(persistenceContext, fhirResource).getOutcome();
+
+                                // QA: We need to update the Resources with the Resource.meta (ignoring the current values)
+                                String logicalId = fhirPersistence.generateResourceId();
+                                final com.ibm.fhir.model.type.Instant lastUpdated = PayloadPersistenceHelper.getCurrentInstant();
+                                final int newVersionNumber = 1;
+                                fhirResource = FHIRPersistenceUtil.copyAndSetResourceMetaFields(fhirResource, logicalId, newVersionNumber, lastUpdated);
+
+                                SingleResourceResult<Resource> result = fhirPersistence.createWithMeta(persistenceContext, fhirResource);
+                                operationOutcome = result.getOutcome();
                                 if (auditLogger.shouldLog()) {
                                     long endTime = System.currentTimeMillis();
                                     String location = "@source:" + ctx.getSource() + "/" + ctx.getImportPartitionWorkitem();
-                                    auditLogger.logCreateOnImport(fhirResource, new Date(startTime), new Date(endTime), Response.Status.CREATED, location, "BulkDataOperator");
+
+                                    // QA: We were sending the original Resource, not the result of the Interaction resource,
+                                    // which does not have the Resource.id or the Resource.version
+                                    auditLogger.logCreateOnImport(result.getResource(), new Date(startTime), new Date(endTime), Response.Status.CREATED, location, "BulkDataOperator");
                                 }
                             } else {
                                 Map<String, Object> props = new HashMap<>();
@@ -364,9 +374,10 @@ public class ChunkWriter extends AbstractItemWriter {
             long endTime = System.currentTimeMillis();
             String location = "@source:" + ctx.getSource() + "/" + ctx.getImportPartitionWorkitem();
             if (!skipped) {
-                auditLogger.logUpdateOnImport(oldResource, resource, new Date(startTime), new Date(endTime), status, location, "BulkDataOperator");
+                auditLogger.logUpdateOnImport(resource, new Date(startTime), new Date(endTime), status, location, "BulkDataOperator");
             } else {
-                auditLogger.logUpdateOnImportSkipped(resource, new Date(startTime), new Date(endTime), status, location, "BulkDataOperator");
+                // QA: Send the oldResource instead of the new, as there is no change to the Data underlying.
+                auditLogger.logUpdateOnImportSkipped(oldResource, new Date(startTime), new Date(endTime), status, location, "BulkDataOperator");
             }
         }
         return oo;
