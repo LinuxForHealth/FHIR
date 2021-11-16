@@ -174,7 +174,7 @@ public class Observation extends DomainResource {
     @Required
     private final CodeableConcept code;
     @Summary
-    @ReferenceTarget({ "Patient", "Group", "Device", "Location" })
+    @ReferenceTarget({ "Patient", "Group", "Device", "Location", "Organization", "Procedure", "Practitioner", "Medication", "Substance" })
     private final Reference subject;
     @Summary
     private final List<Reference> focus;
@@ -1176,6 +1176,11 @@ public class Observation extends DomainResource {
          * <li>{@link Group}</li>
          * <li>{@link Device}</li>
          * <li>{@link Location}</li>
+         * <li>{@link Organization}</li>
+         * <li>{@link Procedure}</li>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link Medication}</li>
+         * <li>{@link Substance}</li>
          * </ul>
          * 
          * @param subject
@@ -1884,7 +1889,7 @@ public class Observation extends DomainResource {
             ValidationSupport.checkList(observation.component, "component", Component.class);
             ValidationSupport.checkReferenceType(observation.basedOn, "basedOn", "CarePlan", "DeviceRequest", "ImmunizationRecommendation", "MedicationRequest", "NutritionOrder", "ServiceRequest");
             ValidationSupport.checkReferenceType(observation.partOf, "partOf", "MedicationAdministration", "MedicationDispense", "MedicationStatement", "Procedure", "Immunization", "ImagingStudy");
-            ValidationSupport.checkReferenceType(observation.subject, "subject", "Patient", "Group", "Device", "Location");
+            ValidationSupport.checkReferenceType(observation.subject, "subject", "Patient", "Group", "Device", "Location", "Organization", "Procedure", "Practitioner", "Medication", "Substance");
             ValidationSupport.checkReferenceType(observation.encounter, "encounter", "Encounter");
             ValidationSupport.checkReferenceType(observation.performer, "performer", "Practitioner", "PractitionerRole", "Organization", "CareTeam", "Patient", "RelatedPerson");
             ValidationSupport.checkReferenceType(observation.specimen, "specimen", "Specimen");

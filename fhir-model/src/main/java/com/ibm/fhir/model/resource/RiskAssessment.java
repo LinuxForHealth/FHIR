@@ -65,7 +65,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "RiskAssessment.prediction",
     description = "Must be <= 100",
-    expression = "probability is decimal implies (probability as decimal) <= 100",
+    expression = "probability.exists($this is decimal) implies (probability as decimal) <= 100",
     source = "http://hl7.org/fhir/StructureDefinition/RiskAssessment"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

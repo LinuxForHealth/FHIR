@@ -17,17 +17,19 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
-import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
+import com.ibm.fhir.model.type.CodeableReference;
+import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
+import com.ibm.fhir.model.type.Identifier;
+import com.ibm.fhir.model.type.Markdown;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
-import com.ibm.fhir.model.type.Population;
-import com.ibm.fhir.model.type.Quantity;
+import com.ibm.fhir.model.type.Period;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.StandardsStatus;
@@ -35,52 +37,80 @@ import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
- * Indication for the Medicinal Product.
+ * Regulatory approval, clearance or licencing related to a regulated product, treatment, facility or activity that is 
+ * cited in a guidance, regulation, rule or legislative act. An example is Market Authorization relating to a Medicinal 
+ * Product.
  * 
- * <p>Maturity level: FMM0 (Trial Use)
+ * <p>Maturity level: FMM1 (Trial Use)
  */
 @Maturity(
-    level = 0,
+    level = 1,
     status = StandardsStatus.Value.TRIAL_USE
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
-public class MedicinalProductIndication extends DomainResource {
+public class RegulatedAuthorization extends DomainResource {
     @Summary
-    @ReferenceTarget({ "MedicinalProduct", "Medication" })
+    private final List<Identifier> identifier;
+    @Summary
+    @ReferenceTarget({ "MedicinalProductDefinition", "BiologicallyDerivedProduct", "NutritionProduct", "PackagedProductDefinition", "SubstanceDefinition", "DeviceDefinition", "ResearchStudy", "ActivityDefinition", "PlanDefinition", "ObservationDefinition", "Practitioner", "Organization", "Location" })
     private final List<Reference> subject;
     @Summary
-    private final CodeableConcept diseaseSymptomProcedure;
+    private final CodeableConcept type;
     @Summary
-    private final CodeableConcept diseaseStatus;
+    private final Markdown description;
     @Summary
-    private final List<CodeableConcept> comorbidity;
+    private final List<CodeableConcept> region;
     @Summary
-    private final CodeableConcept intendedEffect;
+    private final CodeableConcept status;
     @Summary
-    private final Quantity duration;
+    private final DateTime statusDate;
     @Summary
-    private final List<OtherTherapy> otherTherapy;
+    private final Period validityPeriod;
     @Summary
-    @ReferenceTarget({ "MedicinalProductUndesirableEffect" })
-    private final List<Reference> undesirableEffect;
+    private final CodeableReference indication;
     @Summary
-    private final List<Population> population;
+    private final CodeableConcept intendedUse;
+    @Summary
+    private final List<CodeableConcept> basis;
+    @Summary
+    @ReferenceTarget({ "Organization" })
+    private final Reference holder;
+    @Summary
+    @ReferenceTarget({ "Organization" })
+    private final Reference regulator;
+    @Summary
+    private final Case _case;
 
-    private MedicinalProductIndication(Builder builder) {
+    private RegulatedAuthorization(Builder builder) {
         super(builder);
+        identifier = Collections.unmodifiableList(builder.identifier);
         subject = Collections.unmodifiableList(builder.subject);
-        diseaseSymptomProcedure = builder.diseaseSymptomProcedure;
-        diseaseStatus = builder.diseaseStatus;
-        comorbidity = Collections.unmodifiableList(builder.comorbidity);
-        intendedEffect = builder.intendedEffect;
-        duration = builder.duration;
-        otherTherapy = Collections.unmodifiableList(builder.otherTherapy);
-        undesirableEffect = Collections.unmodifiableList(builder.undesirableEffect);
-        population = Collections.unmodifiableList(builder.population);
+        type = builder.type;
+        description = builder.description;
+        region = Collections.unmodifiableList(builder.region);
+        status = builder.status;
+        statusDate = builder.statusDate;
+        validityPeriod = builder.validityPeriod;
+        indication = builder.indication;
+        intendedUse = builder.intendedUse;
+        basis = Collections.unmodifiableList(builder.basis);
+        holder = builder.holder;
+        regulator = builder.regulator;
+        _case = builder._case;
     }
 
     /**
-     * The medication for which this is an indication.
+     * Business identifier for the authorization, typically assigned by the authorizing body.
+     * 
+     * @return
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
+     */
+    public List<Identifier> getIdentifier() {
+        return identifier;
+    }
+
+    /**
+     * The product type, treatment, facility or activity that is being authorized.
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
@@ -90,97 +120,145 @@ public class MedicinalProductIndication extends DomainResource {
     }
 
     /**
-     * The disease, symptom or procedure that is the indication for treatment.
+     * Overall type of this authorization, for example drug marketing approval, orphan drug designation.
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept} that may be null.
      */
-    public CodeableConcept getDiseaseSymptomProcedure() {
-        return diseaseSymptomProcedure;
+    public CodeableConcept getType() {
+        return type;
     }
 
     /**
-     * The status of the disease or symptom for which the indication applies.
+     * General textual supporting information.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept} that may be null.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
-    public CodeableConcept getDiseaseStatus() {
-        return diseaseStatus;
+    public Markdown getDescription() {
+        return description;
     }
 
     /**
-     * Comorbidity (concurrent condition) or co-infection as part of the indication.
+     * The territory (e.g., country, jurisdiction etc.) in which the authorization has been granted.
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
-    public List<CodeableConcept> getComorbidity() {
-        return comorbidity;
+    public List<CodeableConcept> getRegion() {
+        return region;
     }
 
     /**
-     * The intended effect, aim or strategy to be achieved by the indication.
+     * The status that is authorised e.g. approved. Intermediate states can be tracked with cases and applications.
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept} that may be null.
      */
-    public CodeableConcept getIntendedEffect() {
-        return intendedEffect;
+    public CodeableConcept getStatus() {
+        return status;
     }
 
     /**
-     * Timing or duration information as part of the indication.
+     * The date at which the current status was assigned.
      * 
      * @return
-     *     An immutable object of type {@link Quantity} that may be null.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
-    public Quantity getDuration() {
-        return duration;
+    public DateTime getStatusDate() {
+        return statusDate;
     }
 
     /**
-     * Information about the use of the medicinal product in relation to other therapies described as part of the indication.
+     * The time period in which the regulatory approval, clearance or licencing is in effect. As an example, a Marketing 
+     * Authorization includes the date of authorization and/or an expiration date.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link OtherTherapy} that may be empty.
+     *     An immutable object of type {@link Period} that may be null.
      */
-    public List<OtherTherapy> getOtherTherapy() {
-        return otherTherapy;
+    public Period getValidityPeriod() {
+        return validityPeriod;
     }
 
     /**
-     * Describe the undesirable effects of the medicinal product.
+     * Condition for which the use of the regulated product applies.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
+     *     An immutable object of type {@link CodeableReference} that may be null.
      */
-    public List<Reference> getUndesirableEffect() {
-        return undesirableEffect;
+    public CodeableReference getIndication() {
+        return indication;
     }
 
     /**
-     * The population group to which this applies.
+     * The intended use of the product, e.g. prevention, treatment.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Population} that may be empty.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
-    public List<Population> getPopulation() {
-        return population;
+    public CodeableConcept getIntendedUse() {
+        return intendedUse;
+    }
+
+    /**
+     * The legal or regulatory framework against which this authorization is granted, or other reasons for it.
+     * 
+     * @return
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
+     */
+    public List<CodeableConcept> getBasis() {
+        return basis;
+    }
+
+    /**
+     * The organization that holds the granted authorization.
+     * 
+     * @return
+     *     An immutable object of type {@link Reference} that may be null.
+     */
+    public Reference getHolder() {
+        return holder;
+    }
+
+    /**
+     * The regulatory authority or authorizing body granting the authorization. For example, European Medicines Agency (EMA), 
+     * Food and Drug Administration (FDA), Health Canada (HC), etc.
+     * 
+     * @return
+     *     An immutable object of type {@link Reference} that may be null.
+     */
+    public Reference getRegulator() {
+        return regulator;
+    }
+
+    /**
+     * The case or regulatory procedure for granting or amending a marketing authorization. Note: This area is subject to 
+     * ongoing review and the workgroup is seeking implementer feedback on its use (see link at bottom of page).
+     * 
+     * @return
+     *     An immutable object of type {@link Case} that may be null.
+     */
+    public Case getCase() {
+        return _case;
     }
 
     @Override
     public boolean hasChildren() {
         return super.hasChildren() || 
+            !identifier.isEmpty() || 
             !subject.isEmpty() || 
-            (diseaseSymptomProcedure != null) || 
-            (diseaseStatus != null) || 
-            !comorbidity.isEmpty() || 
-            (intendedEffect != null) || 
-            (duration != null) || 
-            !otherTherapy.isEmpty() || 
-            !undesirableEffect.isEmpty() || 
-            !population.isEmpty();
+            (type != null) || 
+            (description != null) || 
+            !region.isEmpty() || 
+            (status != null) || 
+            (statusDate != null) || 
+            (validityPeriod != null) || 
+            (indication != null) || 
+            (intendedUse != null) || 
+            !basis.isEmpty() || 
+            (holder != null) || 
+            (regulator != null) || 
+            (_case != null);
     }
 
     @Override
@@ -197,15 +275,20 @@ public class MedicinalProductIndication extends DomainResource {
                 accept(contained, "contained", visitor, Resource.class);
                 accept(extension, "extension", visitor, Extension.class);
                 accept(modifierExtension, "modifierExtension", visitor, Extension.class);
+                accept(identifier, "identifier", visitor, Identifier.class);
                 accept(subject, "subject", visitor, Reference.class);
-                accept(diseaseSymptomProcedure, "diseaseSymptomProcedure", visitor);
-                accept(diseaseStatus, "diseaseStatus", visitor);
-                accept(comorbidity, "comorbidity", visitor, CodeableConcept.class);
-                accept(intendedEffect, "intendedEffect", visitor);
-                accept(duration, "duration", visitor);
-                accept(otherTherapy, "otherTherapy", visitor, OtherTherapy.class);
-                accept(undesirableEffect, "undesirableEffect", visitor, Reference.class);
-                accept(population, "population", visitor, Population.class);
+                accept(type, "type", visitor);
+                accept(description, "description", visitor);
+                accept(region, "region", visitor, CodeableConcept.class);
+                accept(status, "status", visitor);
+                accept(statusDate, "statusDate", visitor);
+                accept(validityPeriod, "validityPeriod", visitor);
+                accept(indication, "indication", visitor);
+                accept(intendedUse, "intendedUse", visitor);
+                accept(basis, "basis", visitor, CodeableConcept.class);
+                accept(holder, "holder", visitor);
+                accept(regulator, "regulator", visitor);
+                accept(_case, "case", visitor);
             }
             visitor.visitEnd(elementName, elementIndex, this);
             visitor.postVisit(this);
@@ -223,7 +306,7 @@ public class MedicinalProductIndication extends DomainResource {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        MedicinalProductIndication other = (MedicinalProductIndication) obj;
+        RegulatedAuthorization other = (RegulatedAuthorization) obj;
         return Objects.equals(id, other.id) && 
             Objects.equals(meta, other.meta) && 
             Objects.equals(implicitRules, other.implicitRules) && 
@@ -232,15 +315,20 @@ public class MedicinalProductIndication extends DomainResource {
             Objects.equals(contained, other.contained) && 
             Objects.equals(extension, other.extension) && 
             Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
             Objects.equals(subject, other.subject) && 
-            Objects.equals(diseaseSymptomProcedure, other.diseaseSymptomProcedure) && 
-            Objects.equals(diseaseStatus, other.diseaseStatus) && 
-            Objects.equals(comorbidity, other.comorbidity) && 
-            Objects.equals(intendedEffect, other.intendedEffect) && 
-            Objects.equals(duration, other.duration) && 
-            Objects.equals(otherTherapy, other.otherTherapy) && 
-            Objects.equals(undesirableEffect, other.undesirableEffect) && 
-            Objects.equals(population, other.population);
+            Objects.equals(type, other.type) && 
+            Objects.equals(description, other.description) && 
+            Objects.equals(region, other.region) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(statusDate, other.statusDate) && 
+            Objects.equals(validityPeriod, other.validityPeriod) && 
+            Objects.equals(indication, other.indication) && 
+            Objects.equals(intendedUse, other.intendedUse) && 
+            Objects.equals(basis, other.basis) && 
+            Objects.equals(holder, other.holder) && 
+            Objects.equals(regulator, other.regulator) && 
+            Objects.equals(_case, other._case);
     }
 
     @Override
@@ -255,15 +343,20 @@ public class MedicinalProductIndication extends DomainResource {
                 contained, 
                 extension, 
                 modifierExtension, 
+                identifier, 
                 subject, 
-                diseaseSymptomProcedure, 
-                diseaseStatus, 
-                comorbidity, 
-                intendedEffect, 
-                duration, 
-                otherTherapy, 
-                undesirableEffect, 
-                population);
+                type, 
+                description, 
+                region, 
+                status, 
+                statusDate, 
+                validityPeriod, 
+                indication, 
+                intendedUse, 
+                basis, 
+                holder, 
+                regulator, 
+                _case);
             hashCode = result;
         }
         return result;
@@ -279,15 +372,20 @@ public class MedicinalProductIndication extends DomainResource {
     }
 
     public static class Builder extends DomainResource.Builder {
+        private List<Identifier> identifier = new ArrayList<>();
         private List<Reference> subject = new ArrayList<>();
-        private CodeableConcept diseaseSymptomProcedure;
-        private CodeableConcept diseaseStatus;
-        private List<CodeableConcept> comorbidity = new ArrayList<>();
-        private CodeableConcept intendedEffect;
-        private Quantity duration;
-        private List<OtherTherapy> otherTherapy = new ArrayList<>();
-        private List<Reference> undesirableEffect = new ArrayList<>();
-        private List<Population> population = new ArrayList<>();
+        private CodeableConcept type;
+        private Markdown description;
+        private List<CodeableConcept> region = new ArrayList<>();
+        private CodeableConcept status;
+        private DateTime statusDate;
+        private Period validityPeriod;
+        private CodeableReference indication;
+        private CodeableConcept intendedUse;
+        private List<CodeableConcept> basis = new ArrayList<>();
+        private Reference holder;
+        private Reference regulator;
+        private Case _case;
 
         private Builder() {
             super();
@@ -505,19 +603,69 @@ public class MedicinalProductIndication extends DomainResource {
         }
 
         /**
-         * The medication for which this is an indication.
+         * Business identifier for the authorization, typically assigned by the authorizing body.
+         * 
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
+         * 
+         * @param identifier
+         *     Business identifier for the authorization, typically assigned by the authorizing body
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder identifier(Identifier... identifier) {
+            for (Identifier value : identifier) {
+                this.identifier.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * Business identifier for the authorization, typically assigned by the authorizing body.
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
+         * 
+         * @param identifier
+         *     Business identifier for the authorization, typically assigned by the authorizing body
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
+         */
+        public Builder identifier(Collection<Identifier> identifier) {
+            this.identifier = new ArrayList<>(identifier);
+            return this;
+        }
+
+        /**
+         * The product type, treatment, facility or activity that is being authorized.
          * 
          * <p>Adds new element(s) to the existing list.
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
-         * <li>{@link MedicinalProduct}</li>
-         * <li>{@link Medication}</li>
+         * <li>{@link MedicinalProductDefinition}</li>
+         * <li>{@link BiologicallyDerivedProduct}</li>
+         * <li>{@link NutritionProduct}</li>
+         * <li>{@link PackagedProductDefinition}</li>
+         * <li>{@link SubstanceDefinition}</li>
+         * <li>{@link DeviceDefinition}</li>
+         * <li>{@link ResearchStudy}</li>
+         * <li>{@link ActivityDefinition}</li>
+         * <li>{@link PlanDefinition}</li>
+         * <li>{@link ObservationDefinition}</li>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link Organization}</li>
+         * <li>{@link Location}</li>
          * </ul>
          * 
          * @param subject
-         *     The medication for which this is an indication
+         *     The product type, treatment, facility or activity that is being authorized
          * 
          * @return
          *     A reference to this Builder instance
@@ -530,19 +678,30 @@ public class MedicinalProductIndication extends DomainResource {
         }
 
         /**
-         * The medication for which this is an indication.
+         * The product type, treatment, facility or activity that is being authorized.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection.
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
-         * <li>{@link MedicinalProduct}</li>
-         * <li>{@link Medication}</li>
+         * <li>{@link MedicinalProductDefinition}</li>
+         * <li>{@link BiologicallyDerivedProduct}</li>
+         * <li>{@link NutritionProduct}</li>
+         * <li>{@link PackagedProductDefinition}</li>
+         * <li>{@link SubstanceDefinition}</li>
+         * <li>{@link DeviceDefinition}</li>
+         * <li>{@link ResearchStudy}</li>
+         * <li>{@link ActivityDefinition}</li>
+         * <li>{@link PlanDefinition}</li>
+         * <li>{@link ObservationDefinition}</li>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link Organization}</li>
+         * <li>{@link Location}</li>
          * </ul>
          * 
          * @param subject
-         *     The medication for which this is an indication
+         *     The product type, treatment, facility or activity that is being authorized
          * 
          * @return
          *     A reference to this Builder instance
@@ -556,60 +715,60 @@ public class MedicinalProductIndication extends DomainResource {
         }
 
         /**
-         * The disease, symptom or procedure that is the indication for treatment.
+         * Overall type of this authorization, for example drug marketing approval, orphan drug designation.
          * 
-         * @param diseaseSymptomProcedure
-         *     The disease, symptom or procedure that is the indication for treatment
-         * 
-         * @return
-         *     A reference to this Builder instance
-         */
-        public Builder diseaseSymptomProcedure(CodeableConcept diseaseSymptomProcedure) {
-            this.diseaseSymptomProcedure = diseaseSymptomProcedure;
-            return this;
-        }
-
-        /**
-         * The status of the disease or symptom for which the indication applies.
-         * 
-         * @param diseaseStatus
-         *     The status of the disease or symptom for which the indication applies
+         * @param type
+         *     Overall type of this authorization, for example drug marketing approval, orphan drug designation
          * 
          * @return
          *     A reference to this Builder instance
          */
-        public Builder diseaseStatus(CodeableConcept diseaseStatus) {
-            this.diseaseStatus = diseaseStatus;
+        public Builder type(CodeableConcept type) {
+            this.type = type;
             return this;
         }
 
         /**
-         * Comorbidity (concurrent condition) or co-infection as part of the indication.
+         * General textual supporting information.
+         * 
+         * @param description
+         *     General textual supporting information
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder description(Markdown description) {
+            this.description = description;
+            return this;
+        }
+
+        /**
+         * The territory (e.g., country, jurisdiction etc.) in which the authorization has been granted.
          * 
          * <p>Adds new element(s) to the existing list.
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
-         * @param comorbidity
-         *     Comorbidity (concurrent condition) or co-infection as part of the indication
+         * @param region
+         *     The territory (e.g., country, jurisdiction etc.) in which the authorization has been granted
          * 
          * @return
          *     A reference to this Builder instance
          */
-        public Builder comorbidity(CodeableConcept... comorbidity) {
-            for (CodeableConcept value : comorbidity) {
-                this.comorbidity.add(value);
+        public Builder region(CodeableConcept... region) {
+            for (CodeableConcept value : region) {
+                this.region.add(value);
             }
             return this;
         }
 
         /**
-         * Comorbidity (concurrent condition) or co-infection as part of the indication.
+         * The territory (e.g., country, jurisdiction etc.) in which the authorization has been granted.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection.
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
-         * @param comorbidity
-         *     Comorbidity (concurrent condition) or co-infection as part of the indication
+         * @param region
+         *     The territory (e.g., country, jurisdiction etc.) in which the authorization has been granted
          * 
          * @return
          *     A reference to this Builder instance
@@ -617,66 +776,110 @@ public class MedicinalProductIndication extends DomainResource {
          * @throws NullPointerException
          *     If the passed collection is null
          */
-        public Builder comorbidity(Collection<CodeableConcept> comorbidity) {
-            this.comorbidity = new ArrayList<>(comorbidity);
+        public Builder region(Collection<CodeableConcept> region) {
+            this.region = new ArrayList<>(region);
             return this;
         }
 
         /**
-         * The intended effect, aim or strategy to be achieved by the indication.
+         * The status that is authorised e.g. approved. Intermediate states can be tracked with cases and applications.
          * 
-         * @param intendedEffect
-         *     The intended effect, aim or strategy to be achieved by the indication
+         * @param status
+         *     The status that is authorised e.g. approved. Intermediate states can be tracked with cases and applications
          * 
          * @return
          *     A reference to this Builder instance
          */
-        public Builder intendedEffect(CodeableConcept intendedEffect) {
-            this.intendedEffect = intendedEffect;
+        public Builder status(CodeableConcept status) {
+            this.status = status;
             return this;
         }
 
         /**
-         * Timing or duration information as part of the indication.
+         * The date at which the current status was assigned.
          * 
-         * @param duration
-         *     Timing or duration information as part of the indication
+         * @param statusDate
+         *     The date at which the current status was assigned
          * 
          * @return
          *     A reference to this Builder instance
          */
-        public Builder duration(Quantity duration) {
-            this.duration = duration;
+        public Builder statusDate(DateTime statusDate) {
+            this.statusDate = statusDate;
             return this;
         }
 
         /**
-         * Information about the use of the medicinal product in relation to other therapies described as part of the indication.
+         * The time period in which the regulatory approval, clearance or licencing is in effect. As an example, a Marketing 
+         * Authorization includes the date of authorization and/or an expiration date.
+         * 
+         * @param validityPeriod
+         *     The time period in which the regulatory approval, clearance or licencing is in effect. As an example, a Marketing 
+         *     Authorization includes the date of authorization and/or an expiration date
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder validityPeriod(Period validityPeriod) {
+            this.validityPeriod = validityPeriod;
+            return this;
+        }
+
+        /**
+         * Condition for which the use of the regulated product applies.
+         * 
+         * @param indication
+         *     Condition for which the use of the regulated product applies
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder indication(CodeableReference indication) {
+            this.indication = indication;
+            return this;
+        }
+
+        /**
+         * The intended use of the product, e.g. prevention, treatment.
+         * 
+         * @param intendedUse
+         *     The intended use of the product, e.g. prevention, treatment
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder intendedUse(CodeableConcept intendedUse) {
+            this.intendedUse = intendedUse;
+            return this;
+        }
+
+        /**
+         * The legal or regulatory framework against which this authorization is granted, or other reasons for it.
          * 
          * <p>Adds new element(s) to the existing list.
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
-         * @param otherTherapy
-         *     Information about the use of the medicinal product in relation to other therapies described as part of the indication
+         * @param basis
+         *     The legal or regulatory framework against which this authorization is granted, or other reasons for it
          * 
          * @return
          *     A reference to this Builder instance
          */
-        public Builder otherTherapy(OtherTherapy... otherTherapy) {
-            for (OtherTherapy value : otherTherapy) {
-                this.otherTherapy.add(value);
+        public Builder basis(CodeableConcept... basis) {
+            for (CodeableConcept value : basis) {
+                this.basis.add(value);
             }
             return this;
         }
 
         /**
-         * Information about the use of the medicinal product in relation to other therapies described as part of the indication.
+         * The legal or regulatory framework against which this authorization is granted, or other reasons for it.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection.
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
-         * @param otherTherapy
-         *     Information about the use of the medicinal product in relation to other therapies described as part of the indication
+         * @param basis
+         *     The legal or regulatory framework against which this authorization is granted, or other reasons for it
          * 
          * @return
          *     A reference to this Builder instance
@@ -684,187 +887,198 @@ public class MedicinalProductIndication extends DomainResource {
          * @throws NullPointerException
          *     If the passed collection is null
          */
-        public Builder otherTherapy(Collection<OtherTherapy> otherTherapy) {
-            this.otherTherapy = new ArrayList<>(otherTherapy);
+        public Builder basis(Collection<CodeableConcept> basis) {
+            this.basis = new ArrayList<>(basis);
             return this;
         }
 
         /**
-         * Describe the undesirable effects of the medicinal product.
+         * The organization that holds the granted authorization.
          * 
-         * <p>Adds new element(s) to the existing list.
-         * If any of the elements are null, calling {@link #build()} will fail.
-         * 
-         * <p>Allowed resource types for the references:
+         * <p>Allowed resource types for this reference:
          * <ul>
-         * <li>{@link MedicinalProductUndesirableEffect}</li>
+         * <li>{@link Organization}</li>
          * </ul>
          * 
-         * @param undesirableEffect
-         *     Describe the undesirable effects of the medicinal product
+         * @param holder
+         *     The organization that holds the granted authorization
          * 
          * @return
          *     A reference to this Builder instance
          */
-        public Builder undesirableEffect(Reference... undesirableEffect) {
-            for (Reference value : undesirableEffect) {
-                this.undesirableEffect.add(value);
-            }
+        public Builder holder(Reference holder) {
+            this.holder = holder;
             return this;
         }
 
         /**
-         * Describe the undesirable effects of the medicinal product.
+         * The regulatory authority or authorizing body granting the authorization. For example, European Medicines Agency (EMA), 
+         * Food and Drug Administration (FDA), Health Canada (HC), etc.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection.
-         * If any of the elements are null, calling {@link #build()} will fail.
-         * 
-         * <p>Allowed resource types for the references:
+         * <p>Allowed resource types for this reference:
          * <ul>
-         * <li>{@link MedicinalProductUndesirableEffect}</li>
+         * <li>{@link Organization}</li>
          * </ul>
          * 
-         * @param undesirableEffect
-         *     Describe the undesirable effects of the medicinal product
-         * 
-         * @return
-         *     A reference to this Builder instance
-         * 
-         * @throws NullPointerException
-         *     If the passed collection is null
-         */
-        public Builder undesirableEffect(Collection<Reference> undesirableEffect) {
-            this.undesirableEffect = new ArrayList<>(undesirableEffect);
-            return this;
-        }
-
-        /**
-         * The population group to which this applies.
-         * 
-         * <p>Adds new element(s) to the existing list.
-         * If any of the elements are null, calling {@link #build()} will fail.
-         * 
-         * @param population
-         *     The population group to which this applies
+         * @param regulator
+         *     The regulatory authority or authorizing body granting the authorization
          * 
          * @return
          *     A reference to this Builder instance
          */
-        public Builder population(Population... population) {
-            for (Population value : population) {
-                this.population.add(value);
-            }
+        public Builder regulator(Reference regulator) {
+            this.regulator = regulator;
             return this;
         }
 
         /**
-         * The population group to which this applies.
+         * The case or regulatory procedure for granting or amending a marketing authorization. Note: This area is subject to 
+         * ongoing review and the workgroup is seeking implementer feedback on its use (see link at bottom of page).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection.
-         * If any of the elements are null, calling {@link #build()} will fail.
-         * 
-         * @param population
-         *     The population group to which this applies
+         * @param _case
+         *     The case or regulatory procedure for granting or amending a marketing authorization. Note: This area is subject to 
+         *     ongoing review and the workgroup is seeking implementer feedback on its use (see link at bottom of page)
          * 
          * @return
          *     A reference to this Builder instance
-         * 
-         * @throws NullPointerException
-         *     If the passed collection is null
          */
-        public Builder population(Collection<Population> population) {
-            this.population = new ArrayList<>(population);
+        public Builder _case(Case _case) {
+            this._case = _case;
             return this;
         }
 
         /**
-         * Build the {@link MedicinalProductIndication}
+         * Build the {@link RegulatedAuthorization}
          * 
          * @return
-         *     An immutable object of type {@link MedicinalProductIndication}
+         *     An immutable object of type {@link RegulatedAuthorization}
          * @throws IllegalStateException
-         *     if the current state cannot be built into a valid MedicinalProductIndication per the base specification
+         *     if the current state cannot be built into a valid RegulatedAuthorization per the base specification
          */
         @Override
-        public MedicinalProductIndication build() {
-            MedicinalProductIndication medicinalProductIndication = new MedicinalProductIndication(this);
+        public RegulatedAuthorization build() {
+            RegulatedAuthorization regulatedAuthorization = new RegulatedAuthorization(this);
             if (validating) {
-                validate(medicinalProductIndication);
+                validate(regulatedAuthorization);
             }
-            return medicinalProductIndication;
+            return regulatedAuthorization;
         }
 
-        protected void validate(MedicinalProductIndication medicinalProductIndication) {
-            super.validate(medicinalProductIndication);
-            ValidationSupport.checkList(medicinalProductIndication.subject, "subject", Reference.class);
-            ValidationSupport.checkList(medicinalProductIndication.comorbidity, "comorbidity", CodeableConcept.class);
-            ValidationSupport.checkList(medicinalProductIndication.otherTherapy, "otherTherapy", OtherTherapy.class);
-            ValidationSupport.checkList(medicinalProductIndication.undesirableEffect, "undesirableEffect", Reference.class);
-            ValidationSupport.checkList(medicinalProductIndication.population, "population", Population.class);
-            ValidationSupport.checkReferenceType(medicinalProductIndication.subject, "subject", "MedicinalProduct", "Medication");
-            ValidationSupport.checkReferenceType(medicinalProductIndication.undesirableEffect, "undesirableEffect", "MedicinalProductUndesirableEffect");
+        protected void validate(RegulatedAuthorization regulatedAuthorization) {
+            super.validate(regulatedAuthorization);
+            ValidationSupport.checkList(regulatedAuthorization.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(regulatedAuthorization.subject, "subject", Reference.class);
+            ValidationSupport.checkList(regulatedAuthorization.region, "region", CodeableConcept.class);
+            ValidationSupport.checkList(regulatedAuthorization.basis, "basis", CodeableConcept.class);
+            ValidationSupport.checkReferenceType(regulatedAuthorization.subject, "subject", "MedicinalProductDefinition", "BiologicallyDerivedProduct", "NutritionProduct", "PackagedProductDefinition", "SubstanceDefinition", "DeviceDefinition", "ResearchStudy", "ActivityDefinition", "PlanDefinition", "ObservationDefinition", "Practitioner", "Organization", "Location");
+            ValidationSupport.checkReferenceType(regulatedAuthorization.holder, "holder", "Organization");
+            ValidationSupport.checkReferenceType(regulatedAuthorization.regulator, "regulator", "Organization");
         }
 
-        protected Builder from(MedicinalProductIndication medicinalProductIndication) {
-            super.from(medicinalProductIndication);
-            subject.addAll(medicinalProductIndication.subject);
-            diseaseSymptomProcedure = medicinalProductIndication.diseaseSymptomProcedure;
-            diseaseStatus = medicinalProductIndication.diseaseStatus;
-            comorbidity.addAll(medicinalProductIndication.comorbidity);
-            intendedEffect = medicinalProductIndication.intendedEffect;
-            duration = medicinalProductIndication.duration;
-            otherTherapy.addAll(medicinalProductIndication.otherTherapy);
-            undesirableEffect.addAll(medicinalProductIndication.undesirableEffect);
-            population.addAll(medicinalProductIndication.population);
+        protected Builder from(RegulatedAuthorization regulatedAuthorization) {
+            super.from(regulatedAuthorization);
+            identifier.addAll(regulatedAuthorization.identifier);
+            subject.addAll(regulatedAuthorization.subject);
+            type = regulatedAuthorization.type;
+            description = regulatedAuthorization.description;
+            region.addAll(regulatedAuthorization.region);
+            status = regulatedAuthorization.status;
+            statusDate = regulatedAuthorization.statusDate;
+            validityPeriod = regulatedAuthorization.validityPeriod;
+            indication = regulatedAuthorization.indication;
+            intendedUse = regulatedAuthorization.intendedUse;
+            basis.addAll(regulatedAuthorization.basis);
+            holder = regulatedAuthorization.holder;
+            regulator = regulatedAuthorization.regulator;
+            _case = regulatedAuthorization._case;
             return this;
         }
     }
 
     /**
-     * Information about the use of the medicinal product in relation to other therapies described as part of the indication.
+     * The case or regulatory procedure for granting or amending a marketing authorization. Note: This area is subject to 
+     * ongoing review and the workgroup is seeking implementer feedback on its use (see link at bottom of page).
      */
-    public static class OtherTherapy extends BackboneElement {
+    public static class Case extends BackboneElement {
         @Summary
-        @Required
-        private final CodeableConcept therapyRelationshipType;
+        private final Identifier identifier;
         @Summary
-        @ReferenceTarget({ "MedicinalProduct", "Medication", "Substance", "SubstanceSpecification" })
-        @Choice({ CodeableConcept.class, Reference.class })
-        @Required
-        private final Element medication;
+        private final CodeableConcept type;
+        @Summary
+        private final CodeableConcept status;
+        @Summary
+        @Choice({ Period.class, DateTime.class })
+        private final Element date;
+        @Summary
+        private final List<RegulatedAuthorization.Case> application;
 
-        private OtherTherapy(Builder builder) {
+        private Case(Builder builder) {
             super(builder);
-            therapyRelationshipType = builder.therapyRelationshipType;
-            medication = builder.medication;
+            identifier = builder.identifier;
+            type = builder.type;
+            status = builder.status;
+            date = builder.date;
+            application = Collections.unmodifiableList(builder.application);
         }
 
         /**
-         * The type of relationship between the medicinal product indication or contraindication and another therapy.
+         * Identifier by which this case can be referenced.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept} that is non-null.
+         *     An immutable object of type {@link Identifier} that may be null.
          */
-        public CodeableConcept getTherapyRelationshipType() {
-            return therapyRelationshipType;
+        public Identifier getIdentifier() {
+            return identifier;
         }
 
         /**
-         * Reference to a specific medication (active substance, medicinal product or class of products) as part of an indication 
-         * or contraindication.
+         * The defining type of case.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept} or {@link Reference} that is non-null.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
-        public Element getMedication() {
-            return medication;
+        public CodeableConcept getType() {
+            return type;
+        }
+
+        /**
+         * The status associated with the case.
+         * 
+         * @return
+         *     An immutable object of type {@link CodeableConcept} that may be null.
+         */
+        public CodeableConcept getStatus() {
+            return status;
+        }
+
+        /**
+         * Relevant date for this of case.
+         * 
+         * @return
+         *     An immutable object of type {@link Period} or {@link DateTime} that may be null.
+         */
+        public Element getDate() {
+            return date;
+        }
+
+        /**
+         * Applications submitted to obtain a marketing authorization. Steps within the longer running case or procedure.
+         * 
+         * @return
+         *     An unmodifiable list containing immutable objects of type {@link Case} that may be empty.
+         */
+        public List<RegulatedAuthorization.Case> getApplication() {
+            return application;
         }
 
         @Override
         public boolean hasChildren() {
             return super.hasChildren() || 
-                (therapyRelationshipType != null) || 
-                (medication != null);
+                (identifier != null) || 
+                (type != null) || 
+                (status != null) || 
+                (date != null) || 
+                !application.isEmpty();
         }
 
         @Override
@@ -876,8 +1090,11 @@ public class MedicinalProductIndication extends DomainResource {
                     accept(id, "id", visitor);
                     accept(extension, "extension", visitor, Extension.class);
                     accept(modifierExtension, "modifierExtension", visitor, Extension.class);
-                    accept(therapyRelationshipType, "therapyRelationshipType", visitor);
-                    accept(medication, "medication", visitor);
+                    accept(identifier, "identifier", visitor);
+                    accept(type, "type", visitor);
+                    accept(status, "status", visitor);
+                    accept(date, "date", visitor);
+                    accept(application, "application", visitor, RegulatedAuthorization.Case.class);
                 }
                 visitor.visitEnd(elementName, elementIndex, this);
                 visitor.postVisit(this);
@@ -895,12 +1112,15 @@ public class MedicinalProductIndication extends DomainResource {
             if (getClass() != obj.getClass()) {
                 return false;
             }
-            OtherTherapy other = (OtherTherapy) obj;
+            Case other = (Case) obj;
             return Objects.equals(id, other.id) && 
                 Objects.equals(extension, other.extension) && 
                 Objects.equals(modifierExtension, other.modifierExtension) && 
-                Objects.equals(therapyRelationshipType, other.therapyRelationshipType) && 
-                Objects.equals(medication, other.medication);
+                Objects.equals(identifier, other.identifier) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(status, other.status) && 
+                Objects.equals(date, other.date) && 
+                Objects.equals(application, other.application);
         }
 
         @Override
@@ -910,8 +1130,11 @@ public class MedicinalProductIndication extends DomainResource {
                 result = Objects.hash(id, 
                     extension, 
                     modifierExtension, 
-                    therapyRelationshipType, 
-                    medication);
+                    identifier, 
+                    type, 
+                    status, 
+                    date, 
+                    application);
                 hashCode = result;
             }
             return result;
@@ -927,8 +1150,11 @@ public class MedicinalProductIndication extends DomainResource {
         }
 
         public static class Builder extends BackboneElement.Builder {
-            private CodeableConcept therapyRelationshipType;
-            private Element medication;
+            private Identifier identifier;
+            private CodeableConcept type;
+            private CodeableConcept status;
+            private Element date;
+            private List<RegulatedAuthorization.Case> application = new ArrayList<>();
 
             private Builder() {
                 super();
@@ -1046,88 +1272,137 @@ public class MedicinalProductIndication extends DomainResource {
             }
 
             /**
-             * The type of relationship between the medicinal product indication or contraindication and another therapy.
+             * Identifier by which this case can be referenced.
              * 
-             * <p>This element is required.
-             * 
-             * @param therapyRelationshipType
-             *     The type of relationship between the medicinal product indication or contraindication and another therapy
+             * @param identifier
+             *     Identifier by which this case can be referenced
              * 
              * @return
              *     A reference to this Builder instance
              */
-            public Builder therapyRelationshipType(CodeableConcept therapyRelationshipType) {
-                this.therapyRelationshipType = therapyRelationshipType;
+            public Builder identifier(Identifier identifier) {
+                this.identifier = identifier;
                 return this;
             }
 
             /**
-             * Reference to a specific medication (active substance, medicinal product or class of products) as part of an indication 
-             * or contraindication.
+             * The defining type of case.
              * 
-             * <p>This element is required.
+             * @param type
+             *     The defining type of case
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder type(CodeableConcept type) {
+                this.type = type;
+                return this;
+            }
+
+            /**
+             * The status associated with the case.
+             * 
+             * @param status
+             *     The status associated with the case
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder status(CodeableConcept status) {
+                this.status = status;
+                return this;
+            }
+
+            /**
+             * Relevant date for this of case.
              * 
              * <p>This is a choice element with the following allowed types:
              * <ul>
-             * <li>{@link CodeableConcept}</li>
-             * <li>{@link Reference}</li>
+             * <li>{@link Period}</li>
+             * <li>{@link DateTime}</li>
              * </ul>
              * 
-             * When of type {@link Reference}, the allowed resource types for this reference are:
-             * <ul>
-             * <li>{@link MedicinalProduct}</li>
-             * <li>{@link Medication}</li>
-             * <li>{@link Substance}</li>
-             * <li>{@link SubstanceSpecification}</li>
-             * </ul>
-             * 
-             * @param medication
-             *     Reference to a specific medication (active substance, medicinal product or class of products) as part of an indication 
-             *     or contraindication
+             * @param date
+             *     Relevant date for this of case
              * 
              * @return
              *     A reference to this Builder instance
              */
-            public Builder medication(Element medication) {
-                this.medication = medication;
+            public Builder date(Element date) {
+                this.date = date;
                 return this;
             }
 
             /**
-             * Build the {@link OtherTherapy}
+             * Applications submitted to obtain a marketing authorization. Steps within the longer running case or procedure.
              * 
-             * <p>Required elements:
-             * <ul>
-             * <li>therapyRelationshipType</li>
-             * <li>medication</li>
-             * </ul>
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
+             * 
+             * @param application
+             *     Applications submitted to obtain a marketing authorization. Steps within the longer running case or procedure
              * 
              * @return
-             *     An immutable object of type {@link OtherTherapy}
+             *     A reference to this Builder instance
+             */
+            public Builder application(RegulatedAuthorization.Case... application) {
+                for (RegulatedAuthorization.Case value : application) {
+                    this.application.add(value);
+                }
+                return this;
+            }
+
+            /**
+             * Applications submitted to obtain a marketing authorization. Steps within the longer running case or procedure.
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
+             * 
+             * @param application
+             *     Applications submitted to obtain a marketing authorization. Steps within the longer running case or procedure
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
+             */
+            public Builder application(Collection<RegulatedAuthorization.Case> application) {
+                this.application = new ArrayList<>(application);
+                return this;
+            }
+
+            /**
+             * Build the {@link Case}
+             * 
+             * @return
+             *     An immutable object of type {@link Case}
              * @throws IllegalStateException
-             *     if the current state cannot be built into a valid OtherTherapy per the base specification
+             *     if the current state cannot be built into a valid Case per the base specification
              */
             @Override
-            public OtherTherapy build() {
-                OtherTherapy otherTherapy = new OtherTherapy(this);
+            public Case build() {
+                Case _case = new Case(this);
                 if (validating) {
-                    validate(otherTherapy);
+                    validate(_case);
                 }
-                return otherTherapy;
+                return _case;
             }
 
-            protected void validate(OtherTherapy otherTherapy) {
-                super.validate(otherTherapy);
-                ValidationSupport.requireNonNull(otherTherapy.therapyRelationshipType, "therapyRelationshipType");
-                ValidationSupport.requireChoiceElement(otherTherapy.medication, "medication", CodeableConcept.class, Reference.class);
-                ValidationSupport.checkReferenceType(otherTherapy.medication, "medication", "MedicinalProduct", "Medication", "Substance", "SubstanceSpecification");
-                ValidationSupport.requireValueOrChildren(otherTherapy);
+            protected void validate(Case _case) {
+                super.validate(_case);
+                ValidationSupport.choiceElement(_case.date, "date", Period.class, DateTime.class);
+                ValidationSupport.checkList(_case.application, "application", RegulatedAuthorization.Case.class);
+                ValidationSupport.requireValueOrChildren(_case);
             }
 
-            protected Builder from(OtherTherapy otherTherapy) {
-                super.from(otherTherapy);
-                therapyRelationshipType = otherTherapy.therapyRelationshipType;
-                medication = otherTherapy.medication;
+            protected Builder from(Case _case) {
+                super.from(_case);
+                identifier = _case.identifier;
+                type = _case.type;
+                status = _case.status;
+                date = _case.date;
+                application.addAll(_case.application);
                 return this;
             }
         }

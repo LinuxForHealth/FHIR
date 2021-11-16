@@ -100,7 +100,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "Bundle.entry",
     description = "fullUrl cannot be a version specific reference",
-    expression = "fullUrl.contains('/_history/').not()",
+    expression = "fullUrl.exists() implies fullUrl.contains('/_history/').not()",
     source = "http://hl7.org/fhir/StructureDefinition/Bundle"
 )
 @Constraint(

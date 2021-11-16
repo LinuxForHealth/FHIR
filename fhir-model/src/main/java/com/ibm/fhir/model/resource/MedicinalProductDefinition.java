@@ -14,66 +14,140 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
+import com.ibm.fhir.model.type.Attachment;
 import com.ibm.fhir.model.type.BackboneElement;
+import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
+import com.ibm.fhir.model.type.CodeableReference;
 import com.ibm.fhir.model.type.Coding;
+import com.ibm.fhir.model.type.Date;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Identifier;
+import com.ibm.fhir.model.type.Markdown;
 import com.ibm.fhir.model.type.MarketingStatus;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
+import com.ibm.fhir.model.type.Period;
+import com.ibm.fhir.model.type.Quantity;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
- * Detailed definition of a medicinal product, typically for uses other than direct patient care (e.g. regulatory use).
+ * Detailed definition of a medicinal product, typically for uses other than direct patient care (e.g. regulatory use, 
+ * drug catalogs).
  * 
- * <p>Maturity level: FMM0 (Trial Use)
+ * <p>Maturity level: FMM1 (Trial Use)
  */
 @Maturity(
-    level = 0,
+    level = 1,
     status = StandardsStatus.Value.TRIAL_USE
 )
+@Constraint(
+    id = "medicinalProductDefinition-0",
+    level = "Warning",
+    location = "(base)",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/publication-status",
+    expression = "status.exists() implies (status.memberOf('http://hl7.org/fhir/ValueSet/publication-status', 'preferred'))",
+    source = "http://hl7.org/fhir/StructureDefinition/MedicinalProductDefinition",
+    generated = true
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
-public class MedicinalProduct extends DomainResource {
+public class MedicinalProductDefinition extends DomainResource {
     @Summary
     private final List<Identifier> identifier;
     @Summary
+    @Binding(
+        bindingName = "MedicinalProductType",
+        strength = BindingStrength.Value.EXAMPLE,
+        description = "Overall defining type of this medicinal product.",
+        valueSet = "http://hl7.org/fhir/ValueSet/medicinal-product-type"
+    )
     private final CodeableConcept type;
     @Summary
-    private final Coding domain;
+    @Binding(
+        bindingName = "MedicinalProductType",
+        strength = BindingStrength.Value.EXAMPLE,
+        description = "Applicable domain for this product (e.g. human, veterinary).",
+        valueSet = "http://hl7.org/fhir/ValueSet/medicinal-product-domain"
+    )
+    private final CodeableConcept domain;
     @Summary
+    private final String version;
+    @Summary
+    @Binding(
+        bindingName = "PublicationStatus",
+        strength = BindingStrength.Value.PREFERRED,
+        description = "Identifies the level of importance to be assigned to actioning the request.",
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status"
+    )
+    private final CodeableConcept status;
+    @Summary
+    private final DateTime statusDate;
+    @Summary
+    private final Markdown description;
+    @Summary
+    @Binding(
+        bindingName = "CombinedDoseForm",
+        strength = BindingStrength.Value.EXAMPLE,
+        description = "Dose forms for a product as a whole, considering all individual parts, but before any mixing",
+        valueSet = "http://hl7.org/fhir/ValueSet/combined-dose-form"
+    )
     private final CodeableConcept combinedPharmaceuticalDoseForm;
     @Summary
+    @Binding(
+        bindingName = "SNOMEDCTRouteCodes",
+        strength = BindingStrength.Value.EXAMPLE,
+        description = "A code specifying the route or physiological path of administration of a therapeutic agent into or onto a patient's body.",
+        valueSet = "http://hl7.org/fhir/ValueSet/route-codes"
+    )
+    private final List<CodeableConcept> route;
+    @Summary
+    private final Markdown indication;
+    @Summary
+    @Binding(
+        bindingName = "LegalStatusOfSupply",
+        strength = BindingStrength.Value.EXAMPLE,
+        description = "The prescription supply types appropriate to a medicinal product",
+        valueSet = "http://hl7.org/fhir/ValueSet/legal-status-of-supply"
+    )
     private final CodeableConcept legalStatusOfSupply;
     @Summary
     private final CodeableConcept additionalMonitoringIndicator;
     @Summary
-    private final List<String> specialMeasures;
+    private final List<CodeableConcept> specialMeasures;
     @Summary
-    private final CodeableConcept paediatricUseIndicator;
+    private final CodeableConcept pediatricUseIndicator;
     @Summary
-    private final List<CodeableConcept> productClassification;
+    private final List<CodeableConcept> classification;
     @Summary
     private final List<MarketingStatus> marketingStatus;
     @Summary
-    @ReferenceTarget({ "MedicinalProductPharmaceutical" })
-    private final List<Reference> pharmaceuticalProduct;
+    @Binding(
+        bindingName = "MedicinalProductPackageType",
+        strength = BindingStrength.Value.EXAMPLE,
+        description = "Types of medicinal product packs",
+        valueSet = "http://hl7.org/fhir/ValueSet/medicinal-product-package-type"
+    )
+    private final List<CodeableConcept> packagedMedicinalProduct;
     @Summary
-    @ReferenceTarget({ "MedicinalProductPackaged" })
-    private final List<Reference> packagedMedicinalProduct;
+    private final List<CodeableConcept> ingredient;
+    @Summary
+    private final List<CodeableReference> impurity;
     @Summary
     @ReferenceTarget({ "DocumentReference" })
     private final List<Reference> attachedDocument;
@@ -81,43 +155,58 @@ public class MedicinalProduct extends DomainResource {
     @ReferenceTarget({ "DocumentReference" })
     private final List<Reference> masterFile;
     @Summary
-    @ReferenceTarget({ "Organization", "PractitionerRole" })
-    private final List<Reference> contact;
+    private final List<Contact> contact;
     @Summary
     @ReferenceTarget({ "ResearchStudy" })
     private final List<Reference> clinicalTrial;
     @Summary
+    @Binding(
+        bindingName = "MedicationFormalRepresentation",
+        strength = BindingStrength.Value.EXAMPLE,
+        description = "A coded concept that defines the type of a medication.",
+        valueSet = "http://hl7.org/fhir/ValueSet/medication-codes"
+    )
+    private final List<Coding> code;
+    @Summary
     @Required
     private final List<Name> name;
     @Summary
-    private final List<Identifier> crossReference;
+    private final List<CrossReference> crossReference;
     @Summary
-    private final List<ManufacturingBusinessOperation> manufacturingBusinessOperation;
+    private final List<Operation> operation;
     @Summary
-    private final List<SpecialDesignation> specialDesignation;
+    private final List<Characteristic> characteristic;
 
-    private MedicinalProduct(Builder builder) {
+    private MedicinalProductDefinition(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(builder.identifier);
         type = builder.type;
         domain = builder.domain;
+        version = builder.version;
+        status = builder.status;
+        statusDate = builder.statusDate;
+        description = builder.description;
         combinedPharmaceuticalDoseForm = builder.combinedPharmaceuticalDoseForm;
+        route = Collections.unmodifiableList(builder.route);
+        indication = builder.indication;
         legalStatusOfSupply = builder.legalStatusOfSupply;
         additionalMonitoringIndicator = builder.additionalMonitoringIndicator;
         specialMeasures = Collections.unmodifiableList(builder.specialMeasures);
-        paediatricUseIndicator = builder.paediatricUseIndicator;
-        productClassification = Collections.unmodifiableList(builder.productClassification);
+        pediatricUseIndicator = builder.pediatricUseIndicator;
+        classification = Collections.unmodifiableList(builder.classification);
         marketingStatus = Collections.unmodifiableList(builder.marketingStatus);
-        pharmaceuticalProduct = Collections.unmodifiableList(builder.pharmaceuticalProduct);
         packagedMedicinalProduct = Collections.unmodifiableList(builder.packagedMedicinalProduct);
+        ingredient = Collections.unmodifiableList(builder.ingredient);
+        impurity = Collections.unmodifiableList(builder.impurity);
         attachedDocument = Collections.unmodifiableList(builder.attachedDocument);
         masterFile = Collections.unmodifiableList(builder.masterFile);
         contact = Collections.unmodifiableList(builder.contact);
         clinicalTrial = Collections.unmodifiableList(builder.clinicalTrial);
+        code = Collections.unmodifiableList(builder.code);
         name = Collections.unmodifiableList(builder.name);
         crossReference = Collections.unmodifiableList(builder.crossReference);
-        manufacturingBusinessOperation = Collections.unmodifiableList(builder.manufacturingBusinessOperation);
-        specialDesignation = Collections.unmodifiableList(builder.specialDesignation);
+        operation = Collections.unmodifiableList(builder.operation);
+        characteristic = Collections.unmodifiableList(builder.characteristic);
     }
 
     /**
@@ -144,10 +233,52 @@ public class MedicinalProduct extends DomainResource {
      * If this medicine applies to human or veterinary uses.
      * 
      * @return
-     *     An immutable object of type {@link Coding} that may be null.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
-    public Coding getDomain() {
+    public CodeableConcept getDomain() {
         return domain;
+    }
+
+    /**
+     * A business identifier relating to a specific version of the product, this is commonly used to support revisions to an 
+     * existing product.
+     * 
+     * @return
+     *     An immutable object of type {@link String} that may be null.
+     */
+    public String getVersion() {
+        return version;
+    }
+
+    /**
+     * The status within the lifecycle of this product record. A high-level status, this is not intended to duplicate details 
+     * carried elsewhere such as legal status, or authorization status.
+     * 
+     * @return
+     *     An immutable object of type {@link CodeableConcept} that may be null.
+     */
+    public CodeableConcept getStatus() {
+        return status;
+    }
+
+    /**
+     * The date at which the given status became applicable.
+     * 
+     * @return
+     *     An immutable object of type {@link DateTime} that may be null.
+     */
+    public DateTime getStatusDate() {
+        return statusDate;
+    }
+
+    /**
+     * General description of this product.
+     * 
+     * @return
+     *     An immutable object of type {@link Markdown} that may be null.
+     */
+    public Markdown getDescription() {
+        return description;
     }
 
     /**
@@ -158,6 +289,29 @@ public class MedicinalProduct extends DomainResource {
      */
     public CodeableConcept getCombinedPharmaceuticalDoseForm() {
         return combinedPharmaceuticalDoseForm;
+    }
+
+    /**
+     * The path by which the product is taken into or makes contact with the body. In some regions this is referred to as the 
+     * licenced or approved route. See also AdministrableProductDefinition resource.
+     * 
+     * @return
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
+     */
+    public List<CodeableConcept> getRoute() {
+        return route;
+    }
+
+    /**
+     * Description of indication(s) for this product, used when structured indications are not required. In cases where 
+     * structured indications are required, they are captured using the ClinicalUseDefinition resource. An indication is a 
+     * medical situation for which using the product is appropriate.
+     * 
+     * @return
+     *     An immutable object of type {@link Markdown} that may be null.
+     */
+    public Markdown getIndication() {
+        return indication;
     }
 
     /**
@@ -184,9 +338,9 @@ public class MedicinalProduct extends DomainResource {
      * Whether the Medicinal Product is subject to special measures for regulatory reasons.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link String} that may be empty.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
-    public List<String> getSpecialMeasures() {
+    public List<CodeableConcept> getSpecialMeasures() {
         return specialMeasures;
     }
 
@@ -196,8 +350,8 @@ public class MedicinalProduct extends DomainResource {
      * @return
      *     An immutable object of type {@link CodeableConcept} that may be null.
      */
-    public CodeableConcept getPaediatricUseIndicator() {
-        return paediatricUseIndicator;
+    public CodeableConcept getPediatricUseIndicator() {
+        return pediatricUseIndicator;
     }
 
     /**
@@ -206,12 +360,12 @@ public class MedicinalProduct extends DomainResource {
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
-    public List<CodeableConcept> getProductClassification() {
-        return productClassification;
+    public List<CodeableConcept> getClassification() {
+        return classification;
     }
 
     /**
-     * Marketing status of the medicinal product, in contrast to marketing authorizaton.
+     * Marketing status of the medicinal product, in contrast to marketing authorization.
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link MarketingStatus} that may be empty.
@@ -221,27 +375,42 @@ public class MedicinalProduct extends DomainResource {
     }
 
     /**
-     * Pharmaceutical aspects of product.
+     * Package representation for the product. See also the PackagedProductDefinition resource.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
-    public List<Reference> getPharmaceuticalProduct() {
-        return pharmaceuticalProduct;
-    }
-
-    /**
-     * Package representation for the product.
-     * 
-     * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
-     */
-    public List<Reference> getPackagedMedicinalProduct() {
+    public List<CodeableConcept> getPackagedMedicinalProduct() {
         return packagedMedicinalProduct;
     }
 
     /**
-     * Supporting documentation, typically for regulatory submission.
+     * The ingredients of this medicinal product - when not detailed in other resources. This is only needed if the 
+     * ingredients are not specified by incoming references from the Ingredient resource, or indirectly via incoming 
+     * AdministrableProductDefinition, PackagedProductDefinition or ManufacturedItemDefinition references. In cases where 
+     * those levels of detail are not used, the ingredients may be specified directly here as codes.
+     * 
+     * @return
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
+     */
+    public List<CodeableConcept> getIngredient() {
+        return ingredient;
+    }
+
+    /**
+     * Any component of the drug product which is not the chemical entity defined as the drug substance or an excipient in 
+     * the drug product. This includes process-related impurities and contaminants, product-related impurities including 
+     * degradation products.
+     * 
+     * @return
+     *     An unmodifiable list containing immutable objects of type {@link CodeableReference} that may be empty.
+     */
+    public List<CodeableReference> getImpurity() {
+        return impurity;
+    }
+
+    /**
+     * Additional information or supporting documentation about the medicinal product.
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
@@ -251,7 +420,9 @@ public class MedicinalProduct extends DomainResource {
     }
 
     /**
-     * A master file for to the medicinal product (e.g. Pharmacovigilance System Master File).
+     * A master file for the medicinal product (e.g. Pharmacovigilance System Master File). Drug master files (DMFs) are 
+     * documents submitted to regulatory agencies to provide confidential detailed information about facilities, processes or 
+     * articles used in the manufacturing, processing, packaging and storing of drug products.
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
@@ -264,9 +435,9 @@ public class MedicinalProduct extends DomainResource {
      * A product specific contact, person (in a role), or an organization.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
+     *     An unmodifiable list containing immutable objects of type {@link Contact} that may be empty.
      */
-    public List<Reference> getContact() {
+    public List<Contact> getContact() {
         return contact;
     }
 
@@ -278,6 +449,18 @@ public class MedicinalProduct extends DomainResource {
      */
     public List<Reference> getClinicalTrial() {
         return clinicalTrial;
+    }
+
+    /**
+     * A code that this product is known by, usually within some formal terminology. Products (types of medications) tend to 
+     * be known by identifiers during development and within regulatory process. However when they are prescribed they tend 
+     * to be identified by codes. The same product may be have multiple codes, applied to it by multiple organizations.
+     * 
+     * @return
+     *     An unmodifiable list containing immutable objects of type {@link Coding} that may be empty.
+     */
+    public List<Coding> getCode() {
+        return code;
     }
 
     /**
@@ -294,30 +477,30 @@ public class MedicinalProduct extends DomainResource {
      * Reference to another product, e.g. for linking authorised to investigational product.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
+     *     An unmodifiable list containing immutable objects of type {@link CrossReference} that may be empty.
      */
-    public List<Identifier> getCrossReference() {
+    public List<CrossReference> getCrossReference() {
         return crossReference;
     }
 
     /**
-     * An operation applied to the product, for manufacturing or adminsitrative purpose.
+     * A manufacturing or administrative process or step associated with (or performed on) the medicinal product.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ManufacturingBusinessOperation} that may be empty.
+     *     An unmodifiable list containing immutable objects of type {@link Operation} that may be empty.
      */
-    public List<ManufacturingBusinessOperation> getManufacturingBusinessOperation() {
-        return manufacturingBusinessOperation;
+    public List<Operation> getOperation() {
+        return operation;
     }
 
     /**
-     * Indicates if the medicinal product has an orphan designation for the treatment of a rare disease.
+     * Allows the key product features to be recorded, such as "sugar free", "modified release", "parallel import".
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link SpecialDesignation} that may be empty.
+     *     An unmodifiable list containing immutable objects of type {@link Characteristic} that may be empty.
      */
-    public List<SpecialDesignation> getSpecialDesignation() {
-        return specialDesignation;
+    public List<Characteristic> getCharacteristic() {
+        return characteristic;
     }
 
     @Override
@@ -326,23 +509,31 @@ public class MedicinalProduct extends DomainResource {
             !identifier.isEmpty() || 
             (type != null) || 
             (domain != null) || 
+            (version != null) || 
+            (status != null) || 
+            (statusDate != null) || 
+            (description != null) || 
             (combinedPharmaceuticalDoseForm != null) || 
+            !route.isEmpty() || 
+            (indication != null) || 
             (legalStatusOfSupply != null) || 
             (additionalMonitoringIndicator != null) || 
             !specialMeasures.isEmpty() || 
-            (paediatricUseIndicator != null) || 
-            !productClassification.isEmpty() || 
+            (pediatricUseIndicator != null) || 
+            !classification.isEmpty() || 
             !marketingStatus.isEmpty() || 
-            !pharmaceuticalProduct.isEmpty() || 
             !packagedMedicinalProduct.isEmpty() || 
+            !ingredient.isEmpty() || 
+            !impurity.isEmpty() || 
             !attachedDocument.isEmpty() || 
             !masterFile.isEmpty() || 
             !contact.isEmpty() || 
             !clinicalTrial.isEmpty() || 
+            !code.isEmpty() || 
             !name.isEmpty() || 
             !crossReference.isEmpty() || 
-            !manufacturingBusinessOperation.isEmpty() || 
-            !specialDesignation.isEmpty();
+            !operation.isEmpty() || 
+            !characteristic.isEmpty();
     }
 
     @Override
@@ -362,23 +553,31 @@ public class MedicinalProduct extends DomainResource {
                 accept(identifier, "identifier", visitor, Identifier.class);
                 accept(type, "type", visitor);
                 accept(domain, "domain", visitor);
+                accept(version, "version", visitor);
+                accept(status, "status", visitor);
+                accept(statusDate, "statusDate", visitor);
+                accept(description, "description", visitor);
                 accept(combinedPharmaceuticalDoseForm, "combinedPharmaceuticalDoseForm", visitor);
+                accept(route, "route", visitor, CodeableConcept.class);
+                accept(indication, "indication", visitor);
                 accept(legalStatusOfSupply, "legalStatusOfSupply", visitor);
                 accept(additionalMonitoringIndicator, "additionalMonitoringIndicator", visitor);
-                accept(specialMeasures, "specialMeasures", visitor, String.class);
-                accept(paediatricUseIndicator, "paediatricUseIndicator", visitor);
-                accept(productClassification, "productClassification", visitor, CodeableConcept.class);
+                accept(specialMeasures, "specialMeasures", visitor, CodeableConcept.class);
+                accept(pediatricUseIndicator, "pediatricUseIndicator", visitor);
+                accept(classification, "classification", visitor, CodeableConcept.class);
                 accept(marketingStatus, "marketingStatus", visitor, MarketingStatus.class);
-                accept(pharmaceuticalProduct, "pharmaceuticalProduct", visitor, Reference.class);
-                accept(packagedMedicinalProduct, "packagedMedicinalProduct", visitor, Reference.class);
+                accept(packagedMedicinalProduct, "packagedMedicinalProduct", visitor, CodeableConcept.class);
+                accept(ingredient, "ingredient", visitor, CodeableConcept.class);
+                accept(impurity, "impurity", visitor, CodeableReference.class);
                 accept(attachedDocument, "attachedDocument", visitor, Reference.class);
                 accept(masterFile, "masterFile", visitor, Reference.class);
-                accept(contact, "contact", visitor, Reference.class);
+                accept(contact, "contact", visitor, Contact.class);
                 accept(clinicalTrial, "clinicalTrial", visitor, Reference.class);
+                accept(code, "code", visitor, Coding.class);
                 accept(name, "name", visitor, Name.class);
-                accept(crossReference, "crossReference", visitor, Identifier.class);
-                accept(manufacturingBusinessOperation, "manufacturingBusinessOperation", visitor, ManufacturingBusinessOperation.class);
-                accept(specialDesignation, "specialDesignation", visitor, SpecialDesignation.class);
+                accept(crossReference, "crossReference", visitor, CrossReference.class);
+                accept(operation, "operation", visitor, Operation.class);
+                accept(characteristic, "characteristic", visitor, Characteristic.class);
             }
             visitor.visitEnd(elementName, elementIndex, this);
             visitor.postVisit(this);
@@ -396,7 +595,7 @@ public class MedicinalProduct extends DomainResource {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        MedicinalProduct other = (MedicinalProduct) obj;
+        MedicinalProductDefinition other = (MedicinalProductDefinition) obj;
         return Objects.equals(id, other.id) && 
             Objects.equals(meta, other.meta) && 
             Objects.equals(implicitRules, other.implicitRules) && 
@@ -408,23 +607,31 @@ public class MedicinalProduct extends DomainResource {
             Objects.equals(identifier, other.identifier) && 
             Objects.equals(type, other.type) && 
             Objects.equals(domain, other.domain) && 
+            Objects.equals(version, other.version) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(statusDate, other.statusDate) && 
+            Objects.equals(description, other.description) && 
             Objects.equals(combinedPharmaceuticalDoseForm, other.combinedPharmaceuticalDoseForm) && 
+            Objects.equals(route, other.route) && 
+            Objects.equals(indication, other.indication) && 
             Objects.equals(legalStatusOfSupply, other.legalStatusOfSupply) && 
             Objects.equals(additionalMonitoringIndicator, other.additionalMonitoringIndicator) && 
             Objects.equals(specialMeasures, other.specialMeasures) && 
-            Objects.equals(paediatricUseIndicator, other.paediatricUseIndicator) && 
-            Objects.equals(productClassification, other.productClassification) && 
+            Objects.equals(pediatricUseIndicator, other.pediatricUseIndicator) && 
+            Objects.equals(classification, other.classification) && 
             Objects.equals(marketingStatus, other.marketingStatus) && 
-            Objects.equals(pharmaceuticalProduct, other.pharmaceuticalProduct) && 
             Objects.equals(packagedMedicinalProduct, other.packagedMedicinalProduct) && 
+            Objects.equals(ingredient, other.ingredient) && 
+            Objects.equals(impurity, other.impurity) && 
             Objects.equals(attachedDocument, other.attachedDocument) && 
             Objects.equals(masterFile, other.masterFile) && 
             Objects.equals(contact, other.contact) && 
             Objects.equals(clinicalTrial, other.clinicalTrial) && 
+            Objects.equals(code, other.code) && 
             Objects.equals(name, other.name) && 
             Objects.equals(crossReference, other.crossReference) && 
-            Objects.equals(manufacturingBusinessOperation, other.manufacturingBusinessOperation) && 
-            Objects.equals(specialDesignation, other.specialDesignation);
+            Objects.equals(operation, other.operation) && 
+            Objects.equals(characteristic, other.characteristic);
     }
 
     @Override
@@ -442,23 +649,31 @@ public class MedicinalProduct extends DomainResource {
                 identifier, 
                 type, 
                 domain, 
+                version, 
+                status, 
+                statusDate, 
+                description, 
                 combinedPharmaceuticalDoseForm, 
+                route, 
+                indication, 
                 legalStatusOfSupply, 
                 additionalMonitoringIndicator, 
                 specialMeasures, 
-                paediatricUseIndicator, 
-                productClassification, 
+                pediatricUseIndicator, 
+                classification, 
                 marketingStatus, 
-                pharmaceuticalProduct, 
                 packagedMedicinalProduct, 
+                ingredient, 
+                impurity, 
                 attachedDocument, 
                 masterFile, 
                 contact, 
                 clinicalTrial, 
+                code, 
                 name, 
                 crossReference, 
-                manufacturingBusinessOperation, 
-                specialDesignation);
+                operation, 
+                characteristic);
             hashCode = result;
         }
         return result;
@@ -476,24 +691,32 @@ public class MedicinalProduct extends DomainResource {
     public static class Builder extends DomainResource.Builder {
         private List<Identifier> identifier = new ArrayList<>();
         private CodeableConcept type;
-        private Coding domain;
+        private CodeableConcept domain;
+        private String version;
+        private CodeableConcept status;
+        private DateTime statusDate;
+        private Markdown description;
         private CodeableConcept combinedPharmaceuticalDoseForm;
+        private List<CodeableConcept> route = new ArrayList<>();
+        private Markdown indication;
         private CodeableConcept legalStatusOfSupply;
         private CodeableConcept additionalMonitoringIndicator;
-        private List<String> specialMeasures = new ArrayList<>();
-        private CodeableConcept paediatricUseIndicator;
-        private List<CodeableConcept> productClassification = new ArrayList<>();
+        private List<CodeableConcept> specialMeasures = new ArrayList<>();
+        private CodeableConcept pediatricUseIndicator;
+        private List<CodeableConcept> classification = new ArrayList<>();
         private List<MarketingStatus> marketingStatus = new ArrayList<>();
-        private List<Reference> pharmaceuticalProduct = new ArrayList<>();
-        private List<Reference> packagedMedicinalProduct = new ArrayList<>();
+        private List<CodeableConcept> packagedMedicinalProduct = new ArrayList<>();
+        private List<CodeableConcept> ingredient = new ArrayList<>();
+        private List<CodeableReference> impurity = new ArrayList<>();
         private List<Reference> attachedDocument = new ArrayList<>();
         private List<Reference> masterFile = new ArrayList<>();
-        private List<Reference> contact = new ArrayList<>();
+        private List<Contact> contact = new ArrayList<>();
         private List<Reference> clinicalTrial = new ArrayList<>();
+        private List<Coding> code = new ArrayList<>();
         private List<Name> name = new ArrayList<>();
-        private List<Identifier> crossReference = new ArrayList<>();
-        private List<ManufacturingBusinessOperation> manufacturingBusinessOperation = new ArrayList<>();
-        private List<SpecialDesignation> specialDesignation = new ArrayList<>();
+        private List<CrossReference> crossReference = new ArrayList<>();
+        private List<Operation> operation = new ArrayList<>();
+        private List<Characteristic> characteristic = new ArrayList<>();
 
         private Builder() {
             super();
@@ -772,8 +995,85 @@ public class MedicinalProduct extends DomainResource {
          * @return
          *     A reference to this Builder instance
          */
-        public Builder domain(Coding domain) {
+        public Builder domain(CodeableConcept domain) {
             this.domain = domain;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code version}.
+         * 
+         * @param version
+         *     A business identifier relating to a specific version of the product, this is commonly used to support revisions to an 
+         *     existing product
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #version(com.ibm.fhir.model.type.String)
+         */
+        public Builder version(java.lang.String version) {
+            this.version = (version == null) ? null : String.of(version);
+            return this;
+        }
+
+        /**
+         * A business identifier relating to a specific version of the product, this is commonly used to support revisions to an 
+         * existing product.
+         * 
+         * @param version
+         *     A business identifier relating to a specific version of the product, this is commonly used to support revisions to an 
+         *     existing product
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder version(String version) {
+            this.version = version;
+            return this;
+        }
+
+        /**
+         * The status within the lifecycle of this product record. A high-level status, this is not intended to duplicate details 
+         * carried elsewhere such as legal status, or authorization status.
+         * 
+         * @param status
+         *     The status within the lifecycle of this product record. A high-level status, this is not intended to duplicate details 
+         *     carried elsewhere such as legal status, or authorization status
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(CodeableConcept status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * The date at which the given status became applicable.
+         * 
+         * @param statusDate
+         *     The date at which the given status became applicable
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder statusDate(DateTime statusDate) {
+            this.statusDate = statusDate;
+            return this;
+        }
+
+        /**
+         * General description of this product.
+         * 
+         * @param description
+         *     General description of this product
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder description(Markdown description) {
+            this.description = description;
             return this;
         }
 
@@ -788,6 +1088,67 @@ public class MedicinalProduct extends DomainResource {
          */
         public Builder combinedPharmaceuticalDoseForm(CodeableConcept combinedPharmaceuticalDoseForm) {
             this.combinedPharmaceuticalDoseForm = combinedPharmaceuticalDoseForm;
+            return this;
+        }
+
+        /**
+         * The path by which the product is taken into or makes contact with the body. In some regions this is referred to as the 
+         * licenced or approved route. See also AdministrableProductDefinition resource.
+         * 
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
+         * 
+         * @param route
+         *     The path by which the product is taken into or makes contact with the body. In some regions this is referred to as the 
+         *     licenced or approved route. See also AdministrableProductDefinition resource
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder route(CodeableConcept... route) {
+            for (CodeableConcept value : route) {
+                this.route.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * The path by which the product is taken into or makes contact with the body. In some regions this is referred to as the 
+         * licenced or approved route. See also AdministrableProductDefinition resource.
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
+         * 
+         * @param route
+         *     The path by which the product is taken into or makes contact with the body. In some regions this is referred to as the 
+         *     licenced or approved route. See also AdministrableProductDefinition resource
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
+         */
+        public Builder route(Collection<CodeableConcept> route) {
+            this.route = new ArrayList<>(route);
+            return this;
+        }
+
+        /**
+         * Description of indication(s) for this product, used when structured indications are not required. In cases where 
+         * structured indications are required, they are captured using the ClinicalUseDefinition resource. An indication is a 
+         * medical situation for which using the product is appropriate.
+         * 
+         * @param indication
+         *     Description of indication(s) for this product, used when structured indications are not required. In cases where 
+         *     structured indications are required, they are captured using the ClinicalUseDefinition resource. An indication is a 
+         *     medical situation for which using the product is appropriate
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder indication(Markdown indication) {
+            this.indication = indication;
             return this;
         }
 
@@ -820,27 +1181,6 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * Convenience method for setting {@code specialMeasures}.
-         * 
-         * <p>Adds new element(s) to the existing list.
-         * If any of the elements are null, calling {@link #build()} will fail.
-         * 
-         * @param specialMeasures
-         *     Whether the Medicinal Product is subject to special measures for regulatory reasons
-         * 
-         * @return
-         *     A reference to this Builder instance
-         * 
-         * @see #specialMeasures(com.ibm.fhir.model.type.String)
-         */
-        public Builder specialMeasures(java.lang.String... specialMeasures) {
-            for (java.lang.String value : specialMeasures) {
-                this.specialMeasures.add((value == null) ? null : String.of(value));
-            }
-            return this;
-        }
-
-        /**
          * Whether the Medicinal Product is subject to special measures for regulatory reasons.
          * 
          * <p>Adds new element(s) to the existing list.
@@ -852,8 +1192,8 @@ public class MedicinalProduct extends DomainResource {
          * @return
          *     A reference to this Builder instance
          */
-        public Builder specialMeasures(String... specialMeasures) {
-            for (String value : specialMeasures) {
+        public Builder specialMeasures(CodeableConcept... specialMeasures) {
+            for (CodeableConcept value : specialMeasures) {
                 this.specialMeasures.add(value);
             }
             return this;
@@ -874,7 +1214,7 @@ public class MedicinalProduct extends DomainResource {
          * @throws NullPointerException
          *     If the passed collection is null
          */
-        public Builder specialMeasures(Collection<String> specialMeasures) {
+        public Builder specialMeasures(Collection<CodeableConcept> specialMeasures) {
             this.specialMeasures = new ArrayList<>(specialMeasures);
             return this;
         }
@@ -882,14 +1222,14 @@ public class MedicinalProduct extends DomainResource {
         /**
          * If authorised for use in children.
          * 
-         * @param paediatricUseIndicator
+         * @param pediatricUseIndicator
          *     If authorised for use in children
          * 
          * @return
          *     A reference to this Builder instance
          */
-        public Builder paediatricUseIndicator(CodeableConcept paediatricUseIndicator) {
-            this.paediatricUseIndicator = paediatricUseIndicator;
+        public Builder pediatricUseIndicator(CodeableConcept pediatricUseIndicator) {
+            this.pediatricUseIndicator = pediatricUseIndicator;
             return this;
         }
 
@@ -899,15 +1239,15 @@ public class MedicinalProduct extends DomainResource {
          * <p>Adds new element(s) to the existing list.
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
-         * @param productClassification
+         * @param classification
          *     Allows the product to be classified by various systems
          * 
          * @return
          *     A reference to this Builder instance
          */
-        public Builder productClassification(CodeableConcept... productClassification) {
-            for (CodeableConcept value : productClassification) {
-                this.productClassification.add(value);
+        public Builder classification(CodeableConcept... classification) {
+            for (CodeableConcept value : classification) {
+                this.classification.add(value);
             }
             return this;
         }
@@ -918,7 +1258,7 @@ public class MedicinalProduct extends DomainResource {
          * <p>Replaces the existing list with a new one containing elements from the Collection.
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
-         * @param productClassification
+         * @param classification
          *     Allows the product to be classified by various systems
          * 
          * @return
@@ -927,19 +1267,19 @@ public class MedicinalProduct extends DomainResource {
          * @throws NullPointerException
          *     If the passed collection is null
          */
-        public Builder productClassification(Collection<CodeableConcept> productClassification) {
-            this.productClassification = new ArrayList<>(productClassification);
+        public Builder classification(Collection<CodeableConcept> classification) {
+            this.classification = new ArrayList<>(classification);
             return this;
         }
 
         /**
-         * Marketing status of the medicinal product, in contrast to marketing authorizaton.
+         * Marketing status of the medicinal product, in contrast to marketing authorization.
          * 
          * <p>Adds new element(s) to the existing list.
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param marketingStatus
-         *     Marketing status of the medicinal product, in contrast to marketing authorizaton
+         *     Marketing status of the medicinal product, in contrast to marketing authorization
          * 
          * @return
          *     A reference to this Builder instance
@@ -952,13 +1292,13 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * Marketing status of the medicinal product, in contrast to marketing authorizaton.
+         * Marketing status of the medicinal product, in contrast to marketing authorization.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection.
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param marketingStatus
-         *     Marketing status of the medicinal product, in contrast to marketing authorizaton
+         *     Marketing status of the medicinal product, in contrast to marketing authorization
          * 
          * @return
          *     A reference to this Builder instance
@@ -972,64 +1312,10 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * Pharmaceutical aspects of product.
+         * Package representation for the product. See also the PackagedProductDefinition resource.
          * 
          * <p>Adds new element(s) to the existing list.
          * If any of the elements are null, calling {@link #build()} will fail.
-         * 
-         * <p>Allowed resource types for the references:
-         * <ul>
-         * <li>{@link MedicinalProductPharmaceutical}</li>
-         * </ul>
-         * 
-         * @param pharmaceuticalProduct
-         *     Pharmaceutical aspects of product
-         * 
-         * @return
-         *     A reference to this Builder instance
-         */
-        public Builder pharmaceuticalProduct(Reference... pharmaceuticalProduct) {
-            for (Reference value : pharmaceuticalProduct) {
-                this.pharmaceuticalProduct.add(value);
-            }
-            return this;
-        }
-
-        /**
-         * Pharmaceutical aspects of product.
-         * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection.
-         * If any of the elements are null, calling {@link #build()} will fail.
-         * 
-         * <p>Allowed resource types for the references:
-         * <ul>
-         * <li>{@link MedicinalProductPharmaceutical}</li>
-         * </ul>
-         * 
-         * @param pharmaceuticalProduct
-         *     Pharmaceutical aspects of product
-         * 
-         * @return
-         *     A reference to this Builder instance
-         * 
-         * @throws NullPointerException
-         *     If the passed collection is null
-         */
-        public Builder pharmaceuticalProduct(Collection<Reference> pharmaceuticalProduct) {
-            this.pharmaceuticalProduct = new ArrayList<>(pharmaceuticalProduct);
-            return this;
-        }
-
-        /**
-         * Package representation for the product.
-         * 
-         * <p>Adds new element(s) to the existing list.
-         * If any of the elements are null, calling {@link #build()} will fail.
-         * 
-         * <p>Allowed resource types for the references:
-         * <ul>
-         * <li>{@link MedicinalProductPackaged}</li>
-         * </ul>
          * 
          * @param packagedMedicinalProduct
          *     Package representation for the product
@@ -1037,23 +1323,18 @@ public class MedicinalProduct extends DomainResource {
          * @return
          *     A reference to this Builder instance
          */
-        public Builder packagedMedicinalProduct(Reference... packagedMedicinalProduct) {
-            for (Reference value : packagedMedicinalProduct) {
+        public Builder packagedMedicinalProduct(CodeableConcept... packagedMedicinalProduct) {
+            for (CodeableConcept value : packagedMedicinalProduct) {
                 this.packagedMedicinalProduct.add(value);
             }
             return this;
         }
 
         /**
-         * Package representation for the product.
+         * Package representation for the product. See also the PackagedProductDefinition resource.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection.
          * If any of the elements are null, calling {@link #build()} will fail.
-         * 
-         * <p>Allowed resource types for the references:
-         * <ul>
-         * <li>{@link MedicinalProductPackaged}</li>
-         * </ul>
          * 
          * @param packagedMedicinalProduct
          *     Package representation for the product
@@ -1064,13 +1345,111 @@ public class MedicinalProduct extends DomainResource {
          * @throws NullPointerException
          *     If the passed collection is null
          */
-        public Builder packagedMedicinalProduct(Collection<Reference> packagedMedicinalProduct) {
+        public Builder packagedMedicinalProduct(Collection<CodeableConcept> packagedMedicinalProduct) {
             this.packagedMedicinalProduct = new ArrayList<>(packagedMedicinalProduct);
             return this;
         }
 
         /**
-         * Supporting documentation, typically for regulatory submission.
+         * The ingredients of this medicinal product - when not detailed in other resources. This is only needed if the 
+         * ingredients are not specified by incoming references from the Ingredient resource, or indirectly via incoming 
+         * AdministrableProductDefinition, PackagedProductDefinition or ManufacturedItemDefinition references. In cases where 
+         * those levels of detail are not used, the ingredients may be specified directly here as codes.
+         * 
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
+         * 
+         * @param ingredient
+         *     The ingredients of this medicinal product - when not detailed in other resources. This is only needed if the 
+         *     ingredients are not specified by incoming references from the Ingredient resource, or indirectly via incoming 
+         *     AdministrableProductDefinition, PackagedProductDefinition or ManufacturedItemDefinition references. In cases where 
+         *     those levels of detail are not used, the ingredients may be specified directly here as codes
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder ingredient(CodeableConcept... ingredient) {
+            for (CodeableConcept value : ingredient) {
+                this.ingredient.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * The ingredients of this medicinal product - when not detailed in other resources. This is only needed if the 
+         * ingredients are not specified by incoming references from the Ingredient resource, or indirectly via incoming 
+         * AdministrableProductDefinition, PackagedProductDefinition or ManufacturedItemDefinition references. In cases where 
+         * those levels of detail are not used, the ingredients may be specified directly here as codes.
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
+         * 
+         * @param ingredient
+         *     The ingredients of this medicinal product - when not detailed in other resources. This is only needed if the 
+         *     ingredients are not specified by incoming references from the Ingredient resource, or indirectly via incoming 
+         *     AdministrableProductDefinition, PackagedProductDefinition or ManufacturedItemDefinition references. In cases where 
+         *     those levels of detail are not used, the ingredients may be specified directly here as codes
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
+         */
+        public Builder ingredient(Collection<CodeableConcept> ingredient) {
+            this.ingredient = new ArrayList<>(ingredient);
+            return this;
+        }
+
+        /**
+         * Any component of the drug product which is not the chemical entity defined as the drug substance or an excipient in 
+         * the drug product. This includes process-related impurities and contaminants, product-related impurities including 
+         * degradation products.
+         * 
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
+         * 
+         * @param impurity
+         *     Any component of the drug product which is not the chemical entity defined as the drug substance or an excipient in 
+         *     the drug product. This includes process-related impurities and contaminants, product-related impurities including 
+         *     degradation products
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder impurity(CodeableReference... impurity) {
+            for (CodeableReference value : impurity) {
+                this.impurity.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * Any component of the drug product which is not the chemical entity defined as the drug substance or an excipient in 
+         * the drug product. This includes process-related impurities and contaminants, product-related impurities including 
+         * degradation products.
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
+         * 
+         * @param impurity
+         *     Any component of the drug product which is not the chemical entity defined as the drug substance or an excipient in 
+         *     the drug product. This includes process-related impurities and contaminants, product-related impurities including 
+         *     degradation products
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
+         */
+        public Builder impurity(Collection<CodeableReference> impurity) {
+            this.impurity = new ArrayList<>(impurity);
+            return this;
+        }
+
+        /**
+         * Additional information or supporting documentation about the medicinal product.
          * 
          * <p>Adds new element(s) to the existing list.
          * If any of the elements are null, calling {@link #build()} will fail.
@@ -1081,7 +1460,7 @@ public class MedicinalProduct extends DomainResource {
          * </ul>
          * 
          * @param attachedDocument
-         *     Supporting documentation, typically for regulatory submission
+         *     Additional information or supporting documentation about the medicinal product
          * 
          * @return
          *     A reference to this Builder instance
@@ -1094,7 +1473,7 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * Supporting documentation, typically for regulatory submission.
+         * Additional information or supporting documentation about the medicinal product.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection.
          * If any of the elements are null, calling {@link #build()} will fail.
@@ -1105,7 +1484,7 @@ public class MedicinalProduct extends DomainResource {
          * </ul>
          * 
          * @param attachedDocument
-         *     Supporting documentation, typically for regulatory submission
+         *     Additional information or supporting documentation about the medicinal product
          * 
          * @return
          *     A reference to this Builder instance
@@ -1119,7 +1498,9 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * A master file for to the medicinal product (e.g. Pharmacovigilance System Master File).
+         * A master file for the medicinal product (e.g. Pharmacovigilance System Master File). Drug master files (DMFs) are 
+         * documents submitted to regulatory agencies to provide confidential detailed information about facilities, processes or 
+         * articles used in the manufacturing, processing, packaging and storing of drug products.
          * 
          * <p>Adds new element(s) to the existing list.
          * If any of the elements are null, calling {@link #build()} will fail.
@@ -1130,7 +1511,7 @@ public class MedicinalProduct extends DomainResource {
          * </ul>
          * 
          * @param masterFile
-         *     A master file for to the medicinal product (e.g. Pharmacovigilance System Master File)
+         *     A master file for the medicinal product (e.g. Pharmacovigilance System Master File)
          * 
          * @return
          *     A reference to this Builder instance
@@ -1143,7 +1524,9 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * A master file for to the medicinal product (e.g. Pharmacovigilance System Master File).
+         * A master file for the medicinal product (e.g. Pharmacovigilance System Master File). Drug master files (DMFs) are 
+         * documents submitted to regulatory agencies to provide confidential detailed information about facilities, processes or 
+         * articles used in the manufacturing, processing, packaging and storing of drug products.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection.
          * If any of the elements are null, calling {@link #build()} will fail.
@@ -1154,7 +1537,7 @@ public class MedicinalProduct extends DomainResource {
          * </ul>
          * 
          * @param masterFile
-         *     A master file for to the medicinal product (e.g. Pharmacovigilance System Master File)
+         *     A master file for the medicinal product (e.g. Pharmacovigilance System Master File)
          * 
          * @return
          *     A reference to this Builder instance
@@ -1173,20 +1556,14 @@ public class MedicinalProduct extends DomainResource {
          * <p>Adds new element(s) to the existing list.
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
-         * <p>Allowed resource types for the references:
-         * <ul>
-         * <li>{@link Organization}</li>
-         * <li>{@link PractitionerRole}</li>
-         * </ul>
-         * 
          * @param contact
          *     A product specific contact, person (in a role), or an organization
          * 
          * @return
          *     A reference to this Builder instance
          */
-        public Builder contact(Reference... contact) {
-            for (Reference value : contact) {
+        public Builder contact(Contact... contact) {
+            for (Contact value : contact) {
                 this.contact.add(value);
             }
             return this;
@@ -1198,12 +1575,6 @@ public class MedicinalProduct extends DomainResource {
          * <p>Replaces the existing list with a new one containing elements from the Collection.
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
-         * <p>Allowed resource types for the references:
-         * <ul>
-         * <li>{@link Organization}</li>
-         * <li>{@link PractitionerRole}</li>
-         * </ul>
-         * 
          * @param contact
          *     A product specific contact, person (in a role), or an organization
          * 
@@ -1213,7 +1584,7 @@ public class MedicinalProduct extends DomainResource {
          * @throws NullPointerException
          *     If the passed collection is null
          */
-        public Builder contact(Collection<Reference> contact) {
+        public Builder contact(Collection<Contact> contact) {
             this.contact = new ArrayList<>(contact);
             return this;
         }
@@ -1264,6 +1635,49 @@ public class MedicinalProduct extends DomainResource {
          */
         public Builder clinicalTrial(Collection<Reference> clinicalTrial) {
             this.clinicalTrial = new ArrayList<>(clinicalTrial);
+            return this;
+        }
+
+        /**
+         * A code that this product is known by, usually within some formal terminology. Products (types of medications) tend to 
+         * be known by identifiers during development and within regulatory process. However when they are prescribed they tend 
+         * to be identified by codes. The same product may be have multiple codes, applied to it by multiple organizations.
+         * 
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
+         * 
+         * @param code
+         *     A code that this product is known by, within some formal terminology
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder code(Coding... code) {
+            for (Coding value : code) {
+                this.code.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * A code that this product is known by, usually within some formal terminology. Products (types of medications) tend to 
+         * be known by identifiers during development and within regulatory process. However when they are prescribed they tend 
+         * to be identified by codes. The same product may be have multiple codes, applied to it by multiple organizations.
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
+         * 
+         * @param code
+         *     A code that this product is known by, within some formal terminology
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
+         */
+        public Builder code(Collection<Coding> code) {
+            this.code = new ArrayList<>(code);
             return this;
         }
 
@@ -1322,8 +1736,8 @@ public class MedicinalProduct extends DomainResource {
          * @return
          *     A reference to this Builder instance
          */
-        public Builder crossReference(Identifier... crossReference) {
-            for (Identifier value : crossReference) {
+        public Builder crossReference(CrossReference... crossReference) {
+            for (CrossReference value : crossReference) {
                 this.crossReference.add(value);
             }
             return this;
@@ -1344,38 +1758,38 @@ public class MedicinalProduct extends DomainResource {
          * @throws NullPointerException
          *     If the passed collection is null
          */
-        public Builder crossReference(Collection<Identifier> crossReference) {
+        public Builder crossReference(Collection<CrossReference> crossReference) {
             this.crossReference = new ArrayList<>(crossReference);
             return this;
         }
 
         /**
-         * An operation applied to the product, for manufacturing or adminsitrative purpose.
+         * A manufacturing or administrative process or step associated with (or performed on) the medicinal product.
          * 
          * <p>Adds new element(s) to the existing list.
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
-         * @param manufacturingBusinessOperation
-         *     An operation applied to the product, for manufacturing or adminsitrative purpose
+         * @param operation
+         *     A manufacturing or administrative process or step associated with (or performed on) the medicinal product
          * 
          * @return
          *     A reference to this Builder instance
          */
-        public Builder manufacturingBusinessOperation(ManufacturingBusinessOperation... manufacturingBusinessOperation) {
-            for (ManufacturingBusinessOperation value : manufacturingBusinessOperation) {
-                this.manufacturingBusinessOperation.add(value);
+        public Builder operation(Operation... operation) {
+            for (Operation value : operation) {
+                this.operation.add(value);
             }
             return this;
         }
 
         /**
-         * An operation applied to the product, for manufacturing or adminsitrative purpose.
+         * A manufacturing or administrative process or step associated with (or performed on) the medicinal product.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection.
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
-         * @param manufacturingBusinessOperation
-         *     An operation applied to the product, for manufacturing or adminsitrative purpose
+         * @param operation
+         *     A manufacturing or administrative process or step associated with (or performed on) the medicinal product
          * 
          * @return
          *     A reference to this Builder instance
@@ -1383,38 +1797,38 @@ public class MedicinalProduct extends DomainResource {
          * @throws NullPointerException
          *     If the passed collection is null
          */
-        public Builder manufacturingBusinessOperation(Collection<ManufacturingBusinessOperation> manufacturingBusinessOperation) {
-            this.manufacturingBusinessOperation = new ArrayList<>(manufacturingBusinessOperation);
+        public Builder operation(Collection<Operation> operation) {
+            this.operation = new ArrayList<>(operation);
             return this;
         }
 
         /**
-         * Indicates if the medicinal product has an orphan designation for the treatment of a rare disease.
+         * Allows the key product features to be recorded, such as "sugar free", "modified release", "parallel import".
          * 
          * <p>Adds new element(s) to the existing list.
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
-         * @param specialDesignation
-         *     Indicates if the medicinal product has an orphan designation for the treatment of a rare disease
+         * @param characteristic
+         *     Allows the key product features to be recorded, such as "sugar free", "modified release", "parallel import"
          * 
          * @return
          *     A reference to this Builder instance
          */
-        public Builder specialDesignation(SpecialDesignation... specialDesignation) {
-            for (SpecialDesignation value : specialDesignation) {
-                this.specialDesignation.add(value);
+        public Builder characteristic(Characteristic... characteristic) {
+            for (Characteristic value : characteristic) {
+                this.characteristic.add(value);
             }
             return this;
         }
 
         /**
-         * Indicates if the medicinal product has an orphan designation for the treatment of a rare disease.
+         * Allows the key product features to be recorded, such as "sugar free", "modified release", "parallel import".
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection.
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
-         * @param specialDesignation
-         *     Indicates if the medicinal product has an orphan designation for the treatment of a rare disease
+         * @param characteristic
+         *     Allows the key product features to be recorded, such as "sugar free", "modified release", "parallel import"
          * 
          * @return
          *     A reference to this Builder instance
@@ -1422,13 +1836,13 @@ public class MedicinalProduct extends DomainResource {
          * @throws NullPointerException
          *     If the passed collection is null
          */
-        public Builder specialDesignation(Collection<SpecialDesignation> specialDesignation) {
-            this.specialDesignation = new ArrayList<>(specialDesignation);
+        public Builder characteristic(Collection<Characteristic> characteristic) {
+            this.characteristic = new ArrayList<>(characteristic);
             return this;
         }
 
         /**
-         * Build the {@link MedicinalProduct}
+         * Build the {@link MedicinalProductDefinition}
          * 
          * <p>Required elements:
          * <ul>
@@ -1436,66 +1850,370 @@ public class MedicinalProduct extends DomainResource {
          * </ul>
          * 
          * @return
-         *     An immutable object of type {@link MedicinalProduct}
+         *     An immutable object of type {@link MedicinalProductDefinition}
          * @throws IllegalStateException
-         *     if the current state cannot be built into a valid MedicinalProduct per the base specification
+         *     if the current state cannot be built into a valid MedicinalProductDefinition per the base specification
          */
         @Override
-        public MedicinalProduct build() {
-            MedicinalProduct medicinalProduct = new MedicinalProduct(this);
+        public MedicinalProductDefinition build() {
+            MedicinalProductDefinition medicinalProductDefinition = new MedicinalProductDefinition(this);
             if (validating) {
-                validate(medicinalProduct);
+                validate(medicinalProductDefinition);
             }
-            return medicinalProduct;
+            return medicinalProductDefinition;
         }
 
-        protected void validate(MedicinalProduct medicinalProduct) {
-            super.validate(medicinalProduct);
-            ValidationSupport.checkList(medicinalProduct.identifier, "identifier", Identifier.class);
-            ValidationSupport.checkList(medicinalProduct.specialMeasures, "specialMeasures", String.class);
-            ValidationSupport.checkList(medicinalProduct.productClassification, "productClassification", CodeableConcept.class);
-            ValidationSupport.checkList(medicinalProduct.marketingStatus, "marketingStatus", MarketingStatus.class);
-            ValidationSupport.checkList(medicinalProduct.pharmaceuticalProduct, "pharmaceuticalProduct", Reference.class);
-            ValidationSupport.checkList(medicinalProduct.packagedMedicinalProduct, "packagedMedicinalProduct", Reference.class);
-            ValidationSupport.checkList(medicinalProduct.attachedDocument, "attachedDocument", Reference.class);
-            ValidationSupport.checkList(medicinalProduct.masterFile, "masterFile", Reference.class);
-            ValidationSupport.checkList(medicinalProduct.contact, "contact", Reference.class);
-            ValidationSupport.checkList(medicinalProduct.clinicalTrial, "clinicalTrial", Reference.class);
-            ValidationSupport.checkNonEmptyList(medicinalProduct.name, "name", Name.class);
-            ValidationSupport.checkList(medicinalProduct.crossReference, "crossReference", Identifier.class);
-            ValidationSupport.checkList(medicinalProduct.manufacturingBusinessOperation, "manufacturingBusinessOperation", ManufacturingBusinessOperation.class);
-            ValidationSupport.checkList(medicinalProduct.specialDesignation, "specialDesignation", SpecialDesignation.class);
-            ValidationSupport.checkReferenceType(medicinalProduct.pharmaceuticalProduct, "pharmaceuticalProduct", "MedicinalProductPharmaceutical");
-            ValidationSupport.checkReferenceType(medicinalProduct.packagedMedicinalProduct, "packagedMedicinalProduct", "MedicinalProductPackaged");
-            ValidationSupport.checkReferenceType(medicinalProduct.attachedDocument, "attachedDocument", "DocumentReference");
-            ValidationSupport.checkReferenceType(medicinalProduct.masterFile, "masterFile", "DocumentReference");
-            ValidationSupport.checkReferenceType(medicinalProduct.contact, "contact", "Organization", "PractitionerRole");
-            ValidationSupport.checkReferenceType(medicinalProduct.clinicalTrial, "clinicalTrial", "ResearchStudy");
+        protected void validate(MedicinalProductDefinition medicinalProductDefinition) {
+            super.validate(medicinalProductDefinition);
+            ValidationSupport.checkList(medicinalProductDefinition.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(medicinalProductDefinition.route, "route", CodeableConcept.class);
+            ValidationSupport.checkList(medicinalProductDefinition.specialMeasures, "specialMeasures", CodeableConcept.class);
+            ValidationSupport.checkList(medicinalProductDefinition.classification, "classification", CodeableConcept.class);
+            ValidationSupport.checkList(medicinalProductDefinition.marketingStatus, "marketingStatus", MarketingStatus.class);
+            ValidationSupport.checkList(medicinalProductDefinition.packagedMedicinalProduct, "packagedMedicinalProduct", CodeableConcept.class);
+            ValidationSupport.checkList(medicinalProductDefinition.ingredient, "ingredient", CodeableConcept.class);
+            ValidationSupport.checkList(medicinalProductDefinition.impurity, "impurity", CodeableReference.class);
+            ValidationSupport.checkList(medicinalProductDefinition.attachedDocument, "attachedDocument", Reference.class);
+            ValidationSupport.checkList(medicinalProductDefinition.masterFile, "masterFile", Reference.class);
+            ValidationSupport.checkList(medicinalProductDefinition.contact, "contact", Contact.class);
+            ValidationSupport.checkList(medicinalProductDefinition.clinicalTrial, "clinicalTrial", Reference.class);
+            ValidationSupport.checkList(medicinalProductDefinition.code, "code", Coding.class);
+            ValidationSupport.checkNonEmptyList(medicinalProductDefinition.name, "name", Name.class);
+            ValidationSupport.checkList(medicinalProductDefinition.crossReference, "crossReference", CrossReference.class);
+            ValidationSupport.checkList(medicinalProductDefinition.operation, "operation", Operation.class);
+            ValidationSupport.checkList(medicinalProductDefinition.characteristic, "characteristic", Characteristic.class);
+            ValidationSupport.checkReferenceType(medicinalProductDefinition.attachedDocument, "attachedDocument", "DocumentReference");
+            ValidationSupport.checkReferenceType(medicinalProductDefinition.masterFile, "masterFile", "DocumentReference");
+            ValidationSupport.checkReferenceType(medicinalProductDefinition.clinicalTrial, "clinicalTrial", "ResearchStudy");
         }
 
-        protected Builder from(MedicinalProduct medicinalProduct) {
-            super.from(medicinalProduct);
-            identifier.addAll(medicinalProduct.identifier);
-            type = medicinalProduct.type;
-            domain = medicinalProduct.domain;
-            combinedPharmaceuticalDoseForm = medicinalProduct.combinedPharmaceuticalDoseForm;
-            legalStatusOfSupply = medicinalProduct.legalStatusOfSupply;
-            additionalMonitoringIndicator = medicinalProduct.additionalMonitoringIndicator;
-            specialMeasures.addAll(medicinalProduct.specialMeasures);
-            paediatricUseIndicator = medicinalProduct.paediatricUseIndicator;
-            productClassification.addAll(medicinalProduct.productClassification);
-            marketingStatus.addAll(medicinalProduct.marketingStatus);
-            pharmaceuticalProduct.addAll(medicinalProduct.pharmaceuticalProduct);
-            packagedMedicinalProduct.addAll(medicinalProduct.packagedMedicinalProduct);
-            attachedDocument.addAll(medicinalProduct.attachedDocument);
-            masterFile.addAll(medicinalProduct.masterFile);
-            contact.addAll(medicinalProduct.contact);
-            clinicalTrial.addAll(medicinalProduct.clinicalTrial);
-            name.addAll(medicinalProduct.name);
-            crossReference.addAll(medicinalProduct.crossReference);
-            manufacturingBusinessOperation.addAll(medicinalProduct.manufacturingBusinessOperation);
-            specialDesignation.addAll(medicinalProduct.specialDesignation);
+        protected Builder from(MedicinalProductDefinition medicinalProductDefinition) {
+            super.from(medicinalProductDefinition);
+            identifier.addAll(medicinalProductDefinition.identifier);
+            type = medicinalProductDefinition.type;
+            domain = medicinalProductDefinition.domain;
+            version = medicinalProductDefinition.version;
+            status = medicinalProductDefinition.status;
+            statusDate = medicinalProductDefinition.statusDate;
+            description = medicinalProductDefinition.description;
+            combinedPharmaceuticalDoseForm = medicinalProductDefinition.combinedPharmaceuticalDoseForm;
+            route.addAll(medicinalProductDefinition.route);
+            indication = medicinalProductDefinition.indication;
+            legalStatusOfSupply = medicinalProductDefinition.legalStatusOfSupply;
+            additionalMonitoringIndicator = medicinalProductDefinition.additionalMonitoringIndicator;
+            specialMeasures.addAll(medicinalProductDefinition.specialMeasures);
+            pediatricUseIndicator = medicinalProductDefinition.pediatricUseIndicator;
+            classification.addAll(medicinalProductDefinition.classification);
+            marketingStatus.addAll(medicinalProductDefinition.marketingStatus);
+            packagedMedicinalProduct.addAll(medicinalProductDefinition.packagedMedicinalProduct);
+            ingredient.addAll(medicinalProductDefinition.ingredient);
+            impurity.addAll(medicinalProductDefinition.impurity);
+            attachedDocument.addAll(medicinalProductDefinition.attachedDocument);
+            masterFile.addAll(medicinalProductDefinition.masterFile);
+            contact.addAll(medicinalProductDefinition.contact);
+            clinicalTrial.addAll(medicinalProductDefinition.clinicalTrial);
+            code.addAll(medicinalProductDefinition.code);
+            name.addAll(medicinalProductDefinition.name);
+            crossReference.addAll(medicinalProductDefinition.crossReference);
+            operation.addAll(medicinalProductDefinition.operation);
+            characteristic.addAll(medicinalProductDefinition.characteristic);
             return this;
+        }
+    }
+
+    /**
+     * A product specific contact, person (in a role), or an organization.
+     */
+    public static class Contact extends BackboneElement {
+        @Summary
+        private final CodeableConcept type;
+        @Summary
+        @ReferenceTarget({ "Organization", "PractitionerRole" })
+        @Required
+        private final Reference contact;
+
+        private Contact(Builder builder) {
+            super(builder);
+            type = builder.type;
+            contact = builder.contact;
+        }
+
+        /**
+         * Allows the contact to be classified, for example QPPV, Pharmacovigilance Enquiry Information.
+         * 
+         * @return
+         *     An immutable object of type {@link CodeableConcept} that may be null.
+         */
+        public CodeableConcept getType() {
+            return type;
+        }
+
+        /**
+         * A product specific contact, person (in a role), or an organization.
+         * 
+         * @return
+         *     An immutable object of type {@link Reference} that is non-null.
+         */
+        public Reference getContact() {
+            return contact;
+        }
+
+        @Override
+        public boolean hasChildren() {
+            return super.hasChildren() || 
+                (type != null) || 
+                (contact != null);
+        }
+
+        @Override
+        public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
+            if (visitor.preVisit(this)) {
+                visitor.visitStart(elementName, elementIndex, this);
+                if (visitor.visit(elementName, elementIndex, this)) {
+                    // visit children
+                    accept(id, "id", visitor);
+                    accept(extension, "extension", visitor, Extension.class);
+                    accept(modifierExtension, "modifierExtension", visitor, Extension.class);
+                    accept(type, "type", visitor);
+                    accept(contact, "contact", visitor);
+                }
+                visitor.visitEnd(elementName, elementIndex, this);
+                visitor.postVisit(this);
+            }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Contact other = (Contact) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(contact, other.contact);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    type, 
+                    contact);
+                hashCode = result;
+            }
+            return result;
+        }
+
+        @Override
+        public Builder toBuilder() {
+            return new Builder().from(this);
+        }
+
+        public static Builder builder() {
+            return new Builder();
+        }
+
+        public static class Builder extends BackboneElement.Builder {
+            private CodeableConcept type;
+            private Reference contact;
+
+            private Builder() {
+                super();
+            }
+
+            /**
+             * Unique id for the element within a resource (for internal references). This may be any string value that does not 
+             * contain spaces.
+             * 
+             * @param id
+             *     Unique id for inter-element referencing
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            @Override
+            public Builder id(java.lang.String id) {
+                return (Builder) super.id(id);
+            }
+
+            /**
+             * May be used to represent additional information that is not part of the basic definition of the element. To make the 
+             * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
+             * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
+             * of the definition of the extension.
+             * 
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
+             * 
+             * @param extension
+             *     Additional content defined by implementations
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            @Override
+            public Builder extension(Extension... extension) {
+                return (Builder) super.extension(extension);
+            }
+
+            /**
+             * May be used to represent additional information that is not part of the basic definition of the element. To make the 
+             * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
+             * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
+             * of the definition of the extension.
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
+             * 
+             * @param extension
+             *     Additional content defined by implementations
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
+             */
+            @Override
+            public Builder extension(Collection<Extension> extension) {
+                return (Builder) super.extension(extension);
+            }
+
+            /**
+             * May be used to represent additional information that is not part of the basic definition of the element and that 
+             * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
+             * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
+             * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
+             * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
+             * extension. Applications processing a resource are required to check for modifier extensions.
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * change the meaning of modifierExtension itself).
+             * 
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
+             * 
+             * @param modifierExtension
+             *     Extensions that cannot be ignored even if unrecognized
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            @Override
+            public Builder modifierExtension(Extension... modifierExtension) {
+                return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * May be used to represent additional information that is not part of the basic definition of the element and that 
+             * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
+             * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
+             * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
+             * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
+             * extension. Applications processing a resource are required to check for modifier extensions.
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * change the meaning of modifierExtension itself).
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
+             * 
+             * @param modifierExtension
+             *     Extensions that cannot be ignored even if unrecognized
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
+             */
+            @Override
+            public Builder modifierExtension(Collection<Extension> modifierExtension) {
+                return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Allows the contact to be classified, for example QPPV, Pharmacovigilance Enquiry Information.
+             * 
+             * @param type
+             *     Allows the contact to be classified, for example QPPV, Pharmacovigilance Enquiry Information
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder type(CodeableConcept type) {
+                this.type = type;
+                return this;
+            }
+
+            /**
+             * A product specific contact, person (in a role), or an organization.
+             * 
+             * <p>This element is required.
+             * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Organization}</li>
+             * <li>{@link PractitionerRole}</li>
+             * </ul>
+             * 
+             * @param contact
+             *     A product specific contact, person (in a role), or an organization
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder contact(Reference contact) {
+                this.contact = contact;
+                return this;
+            }
+
+            /**
+             * Build the {@link Contact}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>contact</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Contact}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Contact per the base specification
+             */
+            @Override
+            public Contact build() {
+                Contact contact = new Contact(this);
+                if (validating) {
+                    validate(contact);
+                }
+                return contact;
+            }
+
+            protected void validate(Contact contact) {
+                super.validate(contact);
+                ValidationSupport.requireNonNull(contact.contact, "contact");
+                ValidationSupport.checkReferenceType(contact.contact, "contact", "Organization", "PractitionerRole");
+                ValidationSupport.requireValueOrChildren(contact);
+            }
+
+            protected Builder from(Contact contact) {
+                super.from(contact);
+                type = contact.type;
+                this.contact = contact.contact;
+                return this;
+            }
         }
     }
 
@@ -1507,6 +2225,8 @@ public class MedicinalProduct extends DomainResource {
         @Required
         private final String productName;
         @Summary
+        private final CodeableConcept type;
+        @Summary
         private final List<NamePart> namePart;
         @Summary
         private final List<CountryLanguage> countryLanguage;
@@ -1514,6 +2234,7 @@ public class MedicinalProduct extends DomainResource {
         private Name(Builder builder) {
             super(builder);
             productName = builder.productName;
+            type = builder.type;
             namePart = Collections.unmodifiableList(builder.namePart);
             countryLanguage = Collections.unmodifiableList(builder.countryLanguage);
         }
@@ -1526,6 +2247,16 @@ public class MedicinalProduct extends DomainResource {
          */
         public String getProductName() {
             return productName;
+        }
+
+        /**
+         * Type of product name, such as rINN, BAN, Proprietary, Non-Proprietary.
+         * 
+         * @return
+         *     An immutable object of type {@link CodeableConcept} that may be null.
+         */
+        public CodeableConcept getType() {
+            return type;
         }
 
         /**
@@ -1552,6 +2283,7 @@ public class MedicinalProduct extends DomainResource {
         public boolean hasChildren() {
             return super.hasChildren() || 
                 (productName != null) || 
+                (type != null) || 
                 !namePart.isEmpty() || 
                 !countryLanguage.isEmpty();
         }
@@ -1566,6 +2298,7 @@ public class MedicinalProduct extends DomainResource {
                     accept(extension, "extension", visitor, Extension.class);
                     accept(modifierExtension, "modifierExtension", visitor, Extension.class);
                     accept(productName, "productName", visitor);
+                    accept(type, "type", visitor);
                     accept(namePart, "namePart", visitor, NamePart.class);
                     accept(countryLanguage, "countryLanguage", visitor, CountryLanguage.class);
                 }
@@ -1590,6 +2323,7 @@ public class MedicinalProduct extends DomainResource {
                 Objects.equals(extension, other.extension) && 
                 Objects.equals(modifierExtension, other.modifierExtension) && 
                 Objects.equals(productName, other.productName) && 
+                Objects.equals(type, other.type) && 
                 Objects.equals(namePart, other.namePart) && 
                 Objects.equals(countryLanguage, other.countryLanguage);
         }
@@ -1602,6 +2336,7 @@ public class MedicinalProduct extends DomainResource {
                     extension, 
                     modifierExtension, 
                     productName, 
+                    type, 
                     namePart, 
                     countryLanguage);
                 hashCode = result;
@@ -1620,6 +2355,7 @@ public class MedicinalProduct extends DomainResource {
 
         public static class Builder extends BackboneElement.Builder {
             private String productName;
+            private CodeableConcept type;
             private List<NamePart> namePart = new ArrayList<>();
             private List<CountryLanguage> countryLanguage = new ArrayList<>();
 
@@ -1773,6 +2509,20 @@ public class MedicinalProduct extends DomainResource {
             }
 
             /**
+             * Type of product name, such as rINN, BAN, Proprietary, Non-Proprietary.
+             * 
+             * @param type
+             *     Type of product name, such as rINN, BAN, Proprietary, Non-Proprietary
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder type(CodeableConcept type) {
+                this.type = type;
+                return this;
+            }
+
+            /**
              * Coding words or phrases of the name.
              * 
              * <p>Adds new element(s) to the existing list.
@@ -1883,6 +2633,7 @@ public class MedicinalProduct extends DomainResource {
             protected Builder from(Name name) {
                 super.from(name);
                 productName = name.productName;
+                type = name.type;
                 namePart.addAll(name.namePart);
                 countryLanguage.addAll(name.countryLanguage);
                 return this;
@@ -1898,7 +2649,7 @@ public class MedicinalProduct extends DomainResource {
             private final String part;
             @Summary
             @Required
-            private final Coding type;
+            private final CodeableConcept type;
 
             private NamePart(Builder builder) {
                 super(builder);
@@ -1917,12 +2668,12 @@ public class MedicinalProduct extends DomainResource {
             }
 
             /**
-             * Idenifying type for this part of the name (e.g. strength part).
+             * Identifying type for this part of the name (e.g. strength part).
              * 
              * @return
-             *     An immutable object of type {@link Coding} that is non-null.
+             *     An immutable object of type {@link CodeableConcept} that is non-null.
              */
-            public Coding getType() {
+            public CodeableConcept getType() {
                 return type;
             }
 
@@ -1994,7 +2745,7 @@ public class MedicinalProduct extends DomainResource {
 
             public static class Builder extends BackboneElement.Builder {
                 private String part;
-                private Coding type;
+                private CodeableConcept type;
 
                 private Builder() {
                     super();
@@ -2146,17 +2897,17 @@ public class MedicinalProduct extends DomainResource {
                 }
 
                 /**
-                 * Idenifying type for this part of the name (e.g. strength part).
+                 * Identifying type for this part of the name (e.g. strength part).
                  * 
                  * <p>This element is required.
                  * 
                  * @param type
-                 *     Idenifying type for this part of the name (e.g. strength part)
+                 *     Identifying type for this part of the name (e.g. strength part)
                  * 
                  * @return
                  *     A reference to this Builder instance
                  */
-                public Builder type(Coding type) {
+                public Builder type(CodeableConcept type) {
                     this.type = type;
                     return this;
                 }
@@ -2528,505 +3279,34 @@ public class MedicinalProduct extends DomainResource {
     }
 
     /**
-     * An operation applied to the product, for manufacturing or adminsitrative purpose.
+     * Reference to another product, e.g. for linking authorised to investigational product.
      */
-    public static class ManufacturingBusinessOperation extends BackboneElement {
+    public static class CrossReference extends BackboneElement {
         @Summary
-        private final CodeableConcept operationType;
-        @Summary
-        private final Identifier authorisationReferenceNumber;
-        @Summary
-        private final DateTime effectiveDate;
-        @Summary
-        private final CodeableConcept confidentialityIndicator;
-        @Summary
-        @ReferenceTarget({ "Organization" })
-        private final List<Reference> manufacturer;
-        @Summary
-        @ReferenceTarget({ "Organization" })
-        private final Reference regulator;
-
-        private ManufacturingBusinessOperation(Builder builder) {
-            super(builder);
-            operationType = builder.operationType;
-            authorisationReferenceNumber = builder.authorisationReferenceNumber;
-            effectiveDate = builder.effectiveDate;
-            confidentialityIndicator = builder.confidentialityIndicator;
-            manufacturer = Collections.unmodifiableList(builder.manufacturer);
-            regulator = builder.regulator;
-        }
-
-        /**
-         * The type of manufacturing operation.
-         * 
-         * @return
-         *     An immutable object of type {@link CodeableConcept} that may be null.
-         */
-        public CodeableConcept getOperationType() {
-            return operationType;
-        }
-
-        /**
-         * Regulatory authorization reference number.
-         * 
-         * @return
-         *     An immutable object of type {@link Identifier} that may be null.
-         */
-        public Identifier getAuthorisationReferenceNumber() {
-            return authorisationReferenceNumber;
-        }
-
-        /**
-         * Regulatory authorization date.
-         * 
-         * @return
-         *     An immutable object of type {@link DateTime} that may be null.
-         */
-        public DateTime getEffectiveDate() {
-            return effectiveDate;
-        }
-
-        /**
-         * To indicate if this proces is commercially confidential.
-         * 
-         * @return
-         *     An immutable object of type {@link CodeableConcept} that may be null.
-         */
-        public CodeableConcept getConfidentialityIndicator() {
-            return confidentialityIndicator;
-        }
-
-        /**
-         * The manufacturer or establishment associated with the process.
-         * 
-         * @return
-         *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
-         */
-        public List<Reference> getManufacturer() {
-            return manufacturer;
-        }
-
-        /**
-         * A regulator which oversees the operation.
-         * 
-         * @return
-         *     An immutable object of type {@link Reference} that may be null.
-         */
-        public Reference getRegulator() {
-            return regulator;
-        }
-
-        @Override
-        public boolean hasChildren() {
-            return super.hasChildren() || 
-                (operationType != null) || 
-                (authorisationReferenceNumber != null) || 
-                (effectiveDate != null) || 
-                (confidentialityIndicator != null) || 
-                !manufacturer.isEmpty() || 
-                (regulator != null);
-        }
-
-        @Override
-        public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
-            if (visitor.preVisit(this)) {
-                visitor.visitStart(elementName, elementIndex, this);
-                if (visitor.visit(elementName, elementIndex, this)) {
-                    // visit children
-                    accept(id, "id", visitor);
-                    accept(extension, "extension", visitor, Extension.class);
-                    accept(modifierExtension, "modifierExtension", visitor, Extension.class);
-                    accept(operationType, "operationType", visitor);
-                    accept(authorisationReferenceNumber, "authorisationReferenceNumber", visitor);
-                    accept(effectiveDate, "effectiveDate", visitor);
-                    accept(confidentialityIndicator, "confidentialityIndicator", visitor);
-                    accept(manufacturer, "manufacturer", visitor, Reference.class);
-                    accept(regulator, "regulator", visitor);
-                }
-                visitor.visitEnd(elementName, elementIndex, this);
-                visitor.postVisit(this);
-            }
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (this == obj) {
-                return true;
-            }
-            if (obj == null) {
-                return false;
-            }
-            if (getClass() != obj.getClass()) {
-                return false;
-            }
-            ManufacturingBusinessOperation other = (ManufacturingBusinessOperation) obj;
-            return Objects.equals(id, other.id) && 
-                Objects.equals(extension, other.extension) && 
-                Objects.equals(modifierExtension, other.modifierExtension) && 
-                Objects.equals(operationType, other.operationType) && 
-                Objects.equals(authorisationReferenceNumber, other.authorisationReferenceNumber) && 
-                Objects.equals(effectiveDate, other.effectiveDate) && 
-                Objects.equals(confidentialityIndicator, other.confidentialityIndicator) && 
-                Objects.equals(manufacturer, other.manufacturer) && 
-                Objects.equals(regulator, other.regulator);
-        }
-
-        @Override
-        public int hashCode() {
-            int result = hashCode;
-            if (result == 0) {
-                result = Objects.hash(id, 
-                    extension, 
-                    modifierExtension, 
-                    operationType, 
-                    authorisationReferenceNumber, 
-                    effectiveDate, 
-                    confidentialityIndicator, 
-                    manufacturer, 
-                    regulator);
-                hashCode = result;
-            }
-            return result;
-        }
-
-        @Override
-        public Builder toBuilder() {
-            return new Builder().from(this);
-        }
-
-        public static Builder builder() {
-            return new Builder();
-        }
-
-        public static class Builder extends BackboneElement.Builder {
-            private CodeableConcept operationType;
-            private Identifier authorisationReferenceNumber;
-            private DateTime effectiveDate;
-            private CodeableConcept confidentialityIndicator;
-            private List<Reference> manufacturer = new ArrayList<>();
-            private Reference regulator;
-
-            private Builder() {
-                super();
-            }
-
-            /**
-             * Unique id for the element within a resource (for internal references). This may be any string value that does not 
-             * contain spaces.
-             * 
-             * @param id
-             *     Unique id for inter-element referencing
-             * 
-             * @return
-             *     A reference to this Builder instance
-             */
-            @Override
-            public Builder id(java.lang.String id) {
-                return (Builder) super.id(id);
-            }
-
-            /**
-             * May be used to represent additional information that is not part of the basic definition of the element. To make the 
-             * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
-             * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
-             * of the definition of the extension.
-             * 
-             * <p>Adds new element(s) to the existing list.
-             * If any of the elements are null, calling {@link #build()} will fail.
-             * 
-             * @param extension
-             *     Additional content defined by implementations
-             * 
-             * @return
-             *     A reference to this Builder instance
-             */
-            @Override
-            public Builder extension(Extension... extension) {
-                return (Builder) super.extension(extension);
-            }
-
-            /**
-             * May be used to represent additional information that is not part of the basic definition of the element. To make the 
-             * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
-             * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
-             * of the definition of the extension.
-             * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection.
-             * If any of the elements are null, calling {@link #build()} will fail.
-             * 
-             * @param extension
-             *     Additional content defined by implementations
-             * 
-             * @return
-             *     A reference to this Builder instance
-             * 
-             * @throws NullPointerException
-             *     If the passed collection is null
-             */
-            @Override
-            public Builder extension(Collection<Extension> extension) {
-                return (Builder) super.extension(extension);
-            }
-
-            /**
-             * May be used to represent additional information that is not part of the basic definition of the element and that 
-             * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
-             * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
-             * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
-             * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
-             * extension. Applications processing a resource are required to check for modifier extensions.
-             * 
-             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
-             * change the meaning of modifierExtension itself).
-             * 
-             * <p>Adds new element(s) to the existing list.
-             * If any of the elements are null, calling {@link #build()} will fail.
-             * 
-             * @param modifierExtension
-             *     Extensions that cannot be ignored even if unrecognized
-             * 
-             * @return
-             *     A reference to this Builder instance
-             */
-            @Override
-            public Builder modifierExtension(Extension... modifierExtension) {
-                return (Builder) super.modifierExtension(modifierExtension);
-            }
-
-            /**
-             * May be used to represent additional information that is not part of the basic definition of the element and that 
-             * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
-             * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
-             * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
-             * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
-             * extension. Applications processing a resource are required to check for modifier extensions.
-             * 
-             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
-             * change the meaning of modifierExtension itself).
-             * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection.
-             * If any of the elements are null, calling {@link #build()} will fail.
-             * 
-             * @param modifierExtension
-             *     Extensions that cannot be ignored even if unrecognized
-             * 
-             * @return
-             *     A reference to this Builder instance
-             * 
-             * @throws NullPointerException
-             *     If the passed collection is null
-             */
-            @Override
-            public Builder modifierExtension(Collection<Extension> modifierExtension) {
-                return (Builder) super.modifierExtension(modifierExtension);
-            }
-
-            /**
-             * The type of manufacturing operation.
-             * 
-             * @param operationType
-             *     The type of manufacturing operation
-             * 
-             * @return
-             *     A reference to this Builder instance
-             */
-            public Builder operationType(CodeableConcept operationType) {
-                this.operationType = operationType;
-                return this;
-            }
-
-            /**
-             * Regulatory authorization reference number.
-             * 
-             * @param authorisationReferenceNumber
-             *     Regulatory authorization reference number
-             * 
-             * @return
-             *     A reference to this Builder instance
-             */
-            public Builder authorisationReferenceNumber(Identifier authorisationReferenceNumber) {
-                this.authorisationReferenceNumber = authorisationReferenceNumber;
-                return this;
-            }
-
-            /**
-             * Regulatory authorization date.
-             * 
-             * @param effectiveDate
-             *     Regulatory authorization date
-             * 
-             * @return
-             *     A reference to this Builder instance
-             */
-            public Builder effectiveDate(DateTime effectiveDate) {
-                this.effectiveDate = effectiveDate;
-                return this;
-            }
-
-            /**
-             * To indicate if this proces is commercially confidential.
-             * 
-             * @param confidentialityIndicator
-             *     To indicate if this proces is commercially confidential
-             * 
-             * @return
-             *     A reference to this Builder instance
-             */
-            public Builder confidentialityIndicator(CodeableConcept confidentialityIndicator) {
-                this.confidentialityIndicator = confidentialityIndicator;
-                return this;
-            }
-
-            /**
-             * The manufacturer or establishment associated with the process.
-             * 
-             * <p>Adds new element(s) to the existing list.
-             * If any of the elements are null, calling {@link #build()} will fail.
-             * 
-             * <p>Allowed resource types for the references:
-             * <ul>
-             * <li>{@link Organization}</li>
-             * </ul>
-             * 
-             * @param manufacturer
-             *     The manufacturer or establishment associated with the process
-             * 
-             * @return
-             *     A reference to this Builder instance
-             */
-            public Builder manufacturer(Reference... manufacturer) {
-                for (Reference value : manufacturer) {
-                    this.manufacturer.add(value);
-                }
-                return this;
-            }
-
-            /**
-             * The manufacturer or establishment associated with the process.
-             * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection.
-             * If any of the elements are null, calling {@link #build()} will fail.
-             * 
-             * <p>Allowed resource types for the references:
-             * <ul>
-             * <li>{@link Organization}</li>
-             * </ul>
-             * 
-             * @param manufacturer
-             *     The manufacturer or establishment associated with the process
-             * 
-             * @return
-             *     A reference to this Builder instance
-             * 
-             * @throws NullPointerException
-             *     If the passed collection is null
-             */
-            public Builder manufacturer(Collection<Reference> manufacturer) {
-                this.manufacturer = new ArrayList<>(manufacturer);
-                return this;
-            }
-
-            /**
-             * A regulator which oversees the operation.
-             * 
-             * <p>Allowed resource types for this reference:
-             * <ul>
-             * <li>{@link Organization}</li>
-             * </ul>
-             * 
-             * @param regulator
-             *     A regulator which oversees the operation
-             * 
-             * @return
-             *     A reference to this Builder instance
-             */
-            public Builder regulator(Reference regulator) {
-                this.regulator = regulator;
-                return this;
-            }
-
-            /**
-             * Build the {@link ManufacturingBusinessOperation}
-             * 
-             * @return
-             *     An immutable object of type {@link ManufacturingBusinessOperation}
-             * @throws IllegalStateException
-             *     if the current state cannot be built into a valid ManufacturingBusinessOperation per the base specification
-             */
-            @Override
-            public ManufacturingBusinessOperation build() {
-                ManufacturingBusinessOperation manufacturingBusinessOperation = new ManufacturingBusinessOperation(this);
-                if (validating) {
-                    validate(manufacturingBusinessOperation);
-                }
-                return manufacturingBusinessOperation;
-            }
-
-            protected void validate(ManufacturingBusinessOperation manufacturingBusinessOperation) {
-                super.validate(manufacturingBusinessOperation);
-                ValidationSupport.checkList(manufacturingBusinessOperation.manufacturer, "manufacturer", Reference.class);
-                ValidationSupport.checkReferenceType(manufacturingBusinessOperation.manufacturer, "manufacturer", "Organization");
-                ValidationSupport.checkReferenceType(manufacturingBusinessOperation.regulator, "regulator", "Organization");
-                ValidationSupport.requireValueOrChildren(manufacturingBusinessOperation);
-            }
-
-            protected Builder from(ManufacturingBusinessOperation manufacturingBusinessOperation) {
-                super.from(manufacturingBusinessOperation);
-                operationType = manufacturingBusinessOperation.operationType;
-                authorisationReferenceNumber = manufacturingBusinessOperation.authorisationReferenceNumber;
-                effectiveDate = manufacturingBusinessOperation.effectiveDate;
-                confidentialityIndicator = manufacturingBusinessOperation.confidentialityIndicator;
-                manufacturer.addAll(manufacturingBusinessOperation.manufacturer);
-                regulator = manufacturingBusinessOperation.regulator;
-                return this;
-            }
-        }
-    }
-
-    /**
-     * Indicates if the medicinal product has an orphan designation for the treatment of a rare disease.
-     */
-    public static class SpecialDesignation extends BackboneElement {
-        @Summary
-        private final List<Identifier> identifier;
+        @Required
+        private final CodeableReference product;
         @Summary
         private final CodeableConcept type;
-        @Summary
-        private final CodeableConcept intendedUse;
-        @Summary
-        @ReferenceTarget({ "MedicinalProductIndication" })
-        @Choice({ CodeableConcept.class, Reference.class })
-        private final Element indication;
-        @Summary
-        private final CodeableConcept status;
-        @Summary
-        private final DateTime date;
-        @Summary
-        private final CodeableConcept species;
 
-        private SpecialDesignation(Builder builder) {
+        private CrossReference(Builder builder) {
             super(builder);
-            identifier = Collections.unmodifiableList(builder.identifier);
+            product = builder.product;
             type = builder.type;
-            intendedUse = builder.intendedUse;
-            indication = builder.indication;
-            status = builder.status;
-            date = builder.date;
-            species = builder.species;
         }
 
         /**
-         * Identifier for the designation, or procedure number.
+         * Reference to another product, e.g. for linking authorised to investigational product.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
+         *     An immutable object of type {@link CodeableReference} that is non-null.
          */
-        public List<Identifier> getIdentifier() {
-            return identifier;
+        public CodeableReference getProduct() {
+            return product;
         }
 
         /**
-         * The type of special designation, e.g. orphan drug, minor use.
+         * The type of relationship, for instance branded to generic, product to development product (investigational), parallel 
+         * import version.
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept} that may be null.
@@ -3035,66 +3315,11 @@ public class MedicinalProduct extends DomainResource {
             return type;
         }
 
-        /**
-         * The intended use of the product, e.g. prevention, treatment.
-         * 
-         * @return
-         *     An immutable object of type {@link CodeableConcept} that may be null.
-         */
-        public CodeableConcept getIntendedUse() {
-            return intendedUse;
-        }
-
-        /**
-         * Condition for which the medicinal use applies.
-         * 
-         * @return
-         *     An immutable object of type {@link CodeableConcept} or {@link Reference} that may be null.
-         */
-        public Element getIndication() {
-            return indication;
-        }
-
-        /**
-         * For example granted, pending, expired or withdrawn.
-         * 
-         * @return
-         *     An immutable object of type {@link CodeableConcept} that may be null.
-         */
-        public CodeableConcept getStatus() {
-            return status;
-        }
-
-        /**
-         * Date when the designation was granted.
-         * 
-         * @return
-         *     An immutable object of type {@link DateTime} that may be null.
-         */
-        public DateTime getDate() {
-            return date;
-        }
-
-        /**
-         * Animal species for which this applies.
-         * 
-         * @return
-         *     An immutable object of type {@link CodeableConcept} that may be null.
-         */
-        public CodeableConcept getSpecies() {
-            return species;
-        }
-
         @Override
         public boolean hasChildren() {
             return super.hasChildren() || 
-                !identifier.isEmpty() || 
-                (type != null) || 
-                (intendedUse != null) || 
-                (indication != null) || 
-                (status != null) || 
-                (date != null) || 
-                (species != null);
+                (product != null) || 
+                (type != null);
         }
 
         @Override
@@ -3106,13 +3331,8 @@ public class MedicinalProduct extends DomainResource {
                     accept(id, "id", visitor);
                     accept(extension, "extension", visitor, Extension.class);
                     accept(modifierExtension, "modifierExtension", visitor, Extension.class);
-                    accept(identifier, "identifier", visitor, Identifier.class);
+                    accept(product, "product", visitor);
                     accept(type, "type", visitor);
-                    accept(intendedUse, "intendedUse", visitor);
-                    accept(indication, "indication", visitor);
-                    accept(status, "status", visitor);
-                    accept(date, "date", visitor);
-                    accept(species, "species", visitor);
                 }
                 visitor.visitEnd(elementName, elementIndex, this);
                 visitor.postVisit(this);
@@ -3130,17 +3350,12 @@ public class MedicinalProduct extends DomainResource {
             if (getClass() != obj.getClass()) {
                 return false;
             }
-            SpecialDesignation other = (SpecialDesignation) obj;
+            CrossReference other = (CrossReference) obj;
             return Objects.equals(id, other.id) && 
                 Objects.equals(extension, other.extension) && 
                 Objects.equals(modifierExtension, other.modifierExtension) && 
-                Objects.equals(identifier, other.identifier) && 
-                Objects.equals(type, other.type) && 
-                Objects.equals(intendedUse, other.intendedUse) && 
-                Objects.equals(indication, other.indication) && 
-                Objects.equals(status, other.status) && 
-                Objects.equals(date, other.date) && 
-                Objects.equals(species, other.species);
+                Objects.equals(product, other.product) && 
+                Objects.equals(type, other.type);
         }
 
         @Override
@@ -3150,13 +3365,8 @@ public class MedicinalProduct extends DomainResource {
                 result = Objects.hash(id, 
                     extension, 
                     modifierExtension, 
-                    identifier, 
-                    type, 
-                    intendedUse, 
-                    indication, 
-                    status, 
-                    date, 
-                    species);
+                    product, 
+                    type);
                 hashCode = result;
             }
             return result;
@@ -3172,13 +3382,8 @@ public class MedicinalProduct extends DomainResource {
         }
 
         public static class Builder extends BackboneElement.Builder {
-            private List<Identifier> identifier = new ArrayList<>();
+            private CodeableReference product;
             private CodeableConcept type;
-            private CodeableConcept intendedUse;
-            private Element indication;
-            private CodeableConcept status;
-            private DateTime date;
-            private CodeableConcept species;
 
             private Builder() {
                 super();
@@ -3296,49 +3501,28 @@ public class MedicinalProduct extends DomainResource {
             }
 
             /**
-             * Identifier for the designation, or procedure number.
+             * Reference to another product, e.g. for linking authorised to investigational product.
              * 
-             * <p>Adds new element(s) to the existing list.
-             * If any of the elements are null, calling {@link #build()} will fail.
+             * <p>This element is required.
              * 
-             * @param identifier
-             *     Identifier for the designation, or procedure number
+             * @param product
+             *     Reference to another product, e.g. for linking authorised to investigational product
              * 
              * @return
              *     A reference to this Builder instance
              */
-            public Builder identifier(Identifier... identifier) {
-                for (Identifier value : identifier) {
-                    this.identifier.add(value);
-                }
+            public Builder product(CodeableReference product) {
+                this.product = product;
                 return this;
             }
 
             /**
-             * Identifier for the designation, or procedure number.
-             * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection.
-             * If any of the elements are null, calling {@link #build()} will fail.
-             * 
-             * @param identifier
-             *     Identifier for the designation, or procedure number
-             * 
-             * @return
-             *     A reference to this Builder instance
-             * 
-             * @throws NullPointerException
-             *     If the passed collection is null
-             */
-            public Builder identifier(Collection<Identifier> identifier) {
-                this.identifier = new ArrayList<>(identifier);
-                return this;
-            }
-
-            /**
-             * The type of special designation, e.g. orphan drug, minor use.
+             * The type of relationship, for instance branded to generic, product to development product (investigational), parallel 
+             * import version.
              * 
              * @param type
-             *     The type of special designation, e.g. orphan drug, minor use
+             *     The type of relationship, for instance branded to generic, product to development product (investigational), parallel 
+             *     import version
              * 
              * @return
              *     A reference to this Builder instance
@@ -3349,120 +3533,760 @@ public class MedicinalProduct extends DomainResource {
             }
 
             /**
-             * The intended use of the product, e.g. prevention, treatment.
+             * Build the {@link CrossReference}
              * 
-             * @param intendedUse
-             *     The intended use of the product, e.g. prevention, treatment
+             * <p>Required elements:
+             * <ul>
+             * <li>product</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link CrossReference}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid CrossReference per the base specification
+             */
+            @Override
+            public CrossReference build() {
+                CrossReference crossReference = new CrossReference(this);
+                if (validating) {
+                    validate(crossReference);
+                }
+                return crossReference;
+            }
+
+            protected void validate(CrossReference crossReference) {
+                super.validate(crossReference);
+                ValidationSupport.requireNonNull(crossReference.product, "product");
+                ValidationSupport.requireValueOrChildren(crossReference);
+            }
+
+            protected Builder from(CrossReference crossReference) {
+                super.from(crossReference);
+                product = crossReference.product;
+                type = crossReference.type;
+                return this;
+            }
+        }
+    }
+
+    /**
+     * A manufacturing or administrative process or step associated with (or performed on) the medicinal product.
+     */
+    public static class Operation extends BackboneElement {
+        @Summary
+        private final CodeableReference type;
+        @Summary
+        private final Period effectiveDate;
+        @Summary
+        @ReferenceTarget({ "Organization" })
+        private final List<Reference> organization;
+        @Summary
+        private final CodeableConcept confidentialityIndicator;
+
+        private Operation(Builder builder) {
+            super(builder);
+            type = builder.type;
+            effectiveDate = builder.effectiveDate;
+            organization = Collections.unmodifiableList(builder.organization);
+            confidentialityIndicator = builder.confidentialityIndicator;
+        }
+
+        /**
+         * The type of manufacturing operation e.g. manufacturing itself, re-packaging. For the authorization of this, a 
+         * RegulatedAuthorization would point to the same plan or activity referenced here.
+         * 
+         * @return
+         *     An immutable object of type {@link CodeableReference} that may be null.
+         */
+        public CodeableReference getType() {
+            return type;
+        }
+
+        /**
+         * Date range of applicability.
+         * 
+         * @return
+         *     An immutable object of type {@link Period} that may be null.
+         */
+        public Period getEffectiveDate() {
+            return effectiveDate;
+        }
+
+        /**
+         * The organization or establishment responsible for (or associated with) the particular process or step, examples 
+         * include the manufacturer, importer, agent.
+         * 
+         * @return
+         *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
+         */
+        public List<Reference> getOrganization() {
+            return organization;
+        }
+
+        /**
+         * Specifies whether this particular business or manufacturing process is considered proprietary or confidential.
+         * 
+         * @return
+         *     An immutable object of type {@link CodeableConcept} that may be null.
+         */
+        public CodeableConcept getConfidentialityIndicator() {
+            return confidentialityIndicator;
+        }
+
+        @Override
+        public boolean hasChildren() {
+            return super.hasChildren() || 
+                (type != null) || 
+                (effectiveDate != null) || 
+                !organization.isEmpty() || 
+                (confidentialityIndicator != null);
+        }
+
+        @Override
+        public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
+            if (visitor.preVisit(this)) {
+                visitor.visitStart(elementName, elementIndex, this);
+                if (visitor.visit(elementName, elementIndex, this)) {
+                    // visit children
+                    accept(id, "id", visitor);
+                    accept(extension, "extension", visitor, Extension.class);
+                    accept(modifierExtension, "modifierExtension", visitor, Extension.class);
+                    accept(type, "type", visitor);
+                    accept(effectiveDate, "effectiveDate", visitor);
+                    accept(organization, "organization", visitor, Reference.class);
+                    accept(confidentialityIndicator, "confidentialityIndicator", visitor);
+                }
+                visitor.visitEnd(elementName, elementIndex, this);
+                visitor.postVisit(this);
+            }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Operation other = (Operation) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(effectiveDate, other.effectiveDate) && 
+                Objects.equals(organization, other.organization) && 
+                Objects.equals(confidentialityIndicator, other.confidentialityIndicator);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    type, 
+                    effectiveDate, 
+                    organization, 
+                    confidentialityIndicator);
+                hashCode = result;
+            }
+            return result;
+        }
+
+        @Override
+        public Builder toBuilder() {
+            return new Builder().from(this);
+        }
+
+        public static Builder builder() {
+            return new Builder();
+        }
+
+        public static class Builder extends BackboneElement.Builder {
+            private CodeableReference type;
+            private Period effectiveDate;
+            private List<Reference> organization = new ArrayList<>();
+            private CodeableConcept confidentialityIndicator;
+
+            private Builder() {
+                super();
+            }
+
+            /**
+             * Unique id for the element within a resource (for internal references). This may be any string value that does not 
+             * contain spaces.
+             * 
+             * @param id
+             *     Unique id for inter-element referencing
              * 
              * @return
              *     A reference to this Builder instance
              */
-            public Builder intendedUse(CodeableConcept intendedUse) {
-                this.intendedUse = intendedUse;
+            @Override
+            public Builder id(java.lang.String id) {
+                return (Builder) super.id(id);
+            }
+
+            /**
+             * May be used to represent additional information that is not part of the basic definition of the element. To make the 
+             * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
+             * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
+             * of the definition of the extension.
+             * 
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
+             * 
+             * @param extension
+             *     Additional content defined by implementations
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            @Override
+            public Builder extension(Extension... extension) {
+                return (Builder) super.extension(extension);
+            }
+
+            /**
+             * May be used to represent additional information that is not part of the basic definition of the element. To make the 
+             * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
+             * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
+             * of the definition of the extension.
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
+             * 
+             * @param extension
+             *     Additional content defined by implementations
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
+             */
+            @Override
+            public Builder extension(Collection<Extension> extension) {
+                return (Builder) super.extension(extension);
+            }
+
+            /**
+             * May be used to represent additional information that is not part of the basic definition of the element and that 
+             * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
+             * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
+             * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
+             * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
+             * extension. Applications processing a resource are required to check for modifier extensions.
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * change the meaning of modifierExtension itself).
+             * 
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
+             * 
+             * @param modifierExtension
+             *     Extensions that cannot be ignored even if unrecognized
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            @Override
+            public Builder modifierExtension(Extension... modifierExtension) {
+                return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * May be used to represent additional information that is not part of the basic definition of the element and that 
+             * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
+             * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
+             * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
+             * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
+             * extension. Applications processing a resource are required to check for modifier extensions.
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * change the meaning of modifierExtension itself).
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
+             * 
+             * @param modifierExtension
+             *     Extensions that cannot be ignored even if unrecognized
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
+             */
+            @Override
+            public Builder modifierExtension(Collection<Extension> modifierExtension) {
+                return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * The type of manufacturing operation e.g. manufacturing itself, re-packaging. For the authorization of this, a 
+             * RegulatedAuthorization would point to the same plan or activity referenced here.
+             * 
+             * @param type
+             *     The type of manufacturing operation e.g. manufacturing itself, re-packaging. For the authorization of this, a 
+             *     RegulatedAuthorization would point to the same plan or activity referenced here
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder type(CodeableReference type) {
+                this.type = type;
                 return this;
             }
 
             /**
-             * Condition for which the medicinal use applies.
+             * Date range of applicability.
+             * 
+             * @param effectiveDate
+             *     Date range of applicability
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder effectiveDate(Period effectiveDate) {
+                this.effectiveDate = effectiveDate;
+                return this;
+            }
+
+            /**
+             * The organization or establishment responsible for (or associated with) the particular process or step, examples 
+             * include the manufacturer, importer, agent.
+             * 
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
+             * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link Organization}</li>
+             * </ul>
+             * 
+             * @param organization
+             *     The organization or establishment responsible for (or associated with) the particular process or step, examples 
+             *     include the manufacturer, importer, agent
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder organization(Reference... organization) {
+                for (Reference value : organization) {
+                    this.organization.add(value);
+                }
+                return this;
+            }
+
+            /**
+             * The organization or establishment responsible for (or associated with) the particular process or step, examples 
+             * include the manufacturer, importer, agent.
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
+             * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link Organization}</li>
+             * </ul>
+             * 
+             * @param organization
+             *     The organization or establishment responsible for (or associated with) the particular process or step, examples 
+             *     include the manufacturer, importer, agent
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
+             */
+            public Builder organization(Collection<Reference> organization) {
+                this.organization = new ArrayList<>(organization);
+                return this;
+            }
+
+            /**
+             * Specifies whether this particular business or manufacturing process is considered proprietary or confidential.
+             * 
+             * @param confidentialityIndicator
+             *     Specifies whether this particular business or manufacturing process is considered proprietary or confidential
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder confidentialityIndicator(CodeableConcept confidentialityIndicator) {
+                this.confidentialityIndicator = confidentialityIndicator;
+                return this;
+            }
+
+            /**
+             * Build the {@link Operation}
+             * 
+             * @return
+             *     An immutable object of type {@link Operation}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Operation per the base specification
+             */
+            @Override
+            public Operation build() {
+                Operation operation = new Operation(this);
+                if (validating) {
+                    validate(operation);
+                }
+                return operation;
+            }
+
+            protected void validate(Operation operation) {
+                super.validate(operation);
+                ValidationSupport.checkList(operation.organization, "organization", Reference.class);
+                ValidationSupport.checkReferenceType(operation.organization, "organization", "Organization");
+                ValidationSupport.requireValueOrChildren(operation);
+            }
+
+            protected Builder from(Operation operation) {
+                super.from(operation);
+                type = operation.type;
+                effectiveDate = operation.effectiveDate;
+                organization.addAll(operation.organization);
+                confidentialityIndicator = operation.confidentialityIndicator;
+                return this;
+            }
+        }
+    }
+
+    /**
+     * Allows the key product features to be recorded, such as "sugar free", "modified release", "parallel import".
+     */
+    public static class Characteristic extends BackboneElement {
+        @Summary
+        @Required
+        private final CodeableConcept type;
+        @Summary
+        @Choice({ CodeableConcept.class, Quantity.class, Date.class, Boolean.class, Attachment.class })
+        private final Element value;
+
+        private Characteristic(Builder builder) {
+            super(builder);
+            type = builder.type;
+            value = builder.value;
+        }
+
+        /**
+         * A code expressing the type of characteristic.
+         * 
+         * @return
+         *     An immutable object of type {@link CodeableConcept} that is non-null.
+         */
+        public CodeableConcept getType() {
+            return type;
+        }
+
+        /**
+         * A value for the characteristic.
+         * 
+         * @return
+         *     An immutable object of type {@link CodeableConcept}, {@link Quantity}, {@link Date}, {@link Boolean} or {@link 
+         *     Attachment} that may be null.
+         */
+        public Element getValue() {
+            return value;
+        }
+
+        @Override
+        public boolean hasChildren() {
+            return super.hasChildren() || 
+                (type != null) || 
+                (value != null);
+        }
+
+        @Override
+        public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
+            if (visitor.preVisit(this)) {
+                visitor.visitStart(elementName, elementIndex, this);
+                if (visitor.visit(elementName, elementIndex, this)) {
+                    // visit children
+                    accept(id, "id", visitor);
+                    accept(extension, "extension", visitor, Extension.class);
+                    accept(modifierExtension, "modifierExtension", visitor, Extension.class);
+                    accept(type, "type", visitor);
+                    accept(value, "value", visitor);
+                }
+                visitor.visitEnd(elementName, elementIndex, this);
+                visitor.postVisit(this);
+            }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Characteristic other = (Characteristic) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(value, other.value);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    type, 
+                    value);
+                hashCode = result;
+            }
+            return result;
+        }
+
+        @Override
+        public Builder toBuilder() {
+            return new Builder().from(this);
+        }
+
+        public static Builder builder() {
+            return new Builder();
+        }
+
+        public static class Builder extends BackboneElement.Builder {
+            private CodeableConcept type;
+            private Element value;
+
+            private Builder() {
+                super();
+            }
+
+            /**
+             * Unique id for the element within a resource (for internal references). This may be any string value that does not 
+             * contain spaces.
+             * 
+             * @param id
+             *     Unique id for inter-element referencing
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            @Override
+            public Builder id(java.lang.String id) {
+                return (Builder) super.id(id);
+            }
+
+            /**
+             * May be used to represent additional information that is not part of the basic definition of the element. To make the 
+             * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
+             * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
+             * of the definition of the extension.
+             * 
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
+             * 
+             * @param extension
+             *     Additional content defined by implementations
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            @Override
+            public Builder extension(Extension... extension) {
+                return (Builder) super.extension(extension);
+            }
+
+            /**
+             * May be used to represent additional information that is not part of the basic definition of the element. To make the 
+             * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
+             * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
+             * of the definition of the extension.
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
+             * 
+             * @param extension
+             *     Additional content defined by implementations
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
+             */
+            @Override
+            public Builder extension(Collection<Extension> extension) {
+                return (Builder) super.extension(extension);
+            }
+
+            /**
+             * May be used to represent additional information that is not part of the basic definition of the element and that 
+             * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
+             * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
+             * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
+             * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
+             * extension. Applications processing a resource are required to check for modifier extensions.
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * change the meaning of modifierExtension itself).
+             * 
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
+             * 
+             * @param modifierExtension
+             *     Extensions that cannot be ignored even if unrecognized
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            @Override
+            public Builder modifierExtension(Extension... modifierExtension) {
+                return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * May be used to represent additional information that is not part of the basic definition of the element and that 
+             * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
+             * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
+             * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
+             * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
+             * extension. Applications processing a resource are required to check for modifier extensions.
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * change the meaning of modifierExtension itself).
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
+             * 
+             * @param modifierExtension
+             *     Extensions that cannot be ignored even if unrecognized
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
+             */
+            @Override
+            public Builder modifierExtension(Collection<Extension> modifierExtension) {
+                return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * A code expressing the type of characteristic.
+             * 
+             * <p>This element is required.
+             * 
+             * @param type
+             *     A code expressing the type of characteristic
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder type(CodeableConcept type) {
+                this.type = type;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type Date.
+             * 
+             * @param value
+             *     A value for the characteristic
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.time.LocalDate value) {
+                this.value = (value == null) ? null : Date.of(value);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type Boolean.
+             * 
+             * @param value
+             *     A value for the characteristic
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.lang.Boolean value) {
+                this.value = (value == null) ? null : Boolean.of(value);
+                return this;
+            }
+
+            /**
+             * A value for the characteristic.
              * 
              * <p>This is a choice element with the following allowed types:
              * <ul>
              * <li>{@link CodeableConcept}</li>
-             * <li>{@link Reference}</li>
+             * <li>{@link Quantity}</li>
+             * <li>{@link Date}</li>
+             * <li>{@link Boolean}</li>
+             * <li>{@link Attachment}</li>
              * </ul>
              * 
-             * When of type {@link Reference}, the allowed resource types for this reference are:
+             * @param value
+             *     A value for the characteristic
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder value(Element value) {
+                this.value = value;
+                return this;
+            }
+
+            /**
+             * Build the {@link Characteristic}
+             * 
+             * <p>Required elements:
              * <ul>
-             * <li>{@link MedicinalProductIndication}</li>
+             * <li>type</li>
              * </ul>
              * 
-             * @param indication
-             *     Condition for which the medicinal use applies
-             * 
              * @return
-             *     A reference to this Builder instance
-             */
-            public Builder indication(Element indication) {
-                this.indication = indication;
-                return this;
-            }
-
-            /**
-             * For example granted, pending, expired or withdrawn.
-             * 
-             * @param status
-             *     For example granted, pending, expired or withdrawn
-             * 
-             * @return
-             *     A reference to this Builder instance
-             */
-            public Builder status(CodeableConcept status) {
-                this.status = status;
-                return this;
-            }
-
-            /**
-             * Date when the designation was granted.
-             * 
-             * @param date
-             *     Date when the designation was granted
-             * 
-             * @return
-             *     A reference to this Builder instance
-             */
-            public Builder date(DateTime date) {
-                this.date = date;
-                return this;
-            }
-
-            /**
-             * Animal species for which this applies.
-             * 
-             * @param species
-             *     Animal species for which this applies
-             * 
-             * @return
-             *     A reference to this Builder instance
-             */
-            public Builder species(CodeableConcept species) {
-                this.species = species;
-                return this;
-            }
-
-            /**
-             * Build the {@link SpecialDesignation}
-             * 
-             * @return
-             *     An immutable object of type {@link SpecialDesignation}
+             *     An immutable object of type {@link Characteristic}
              * @throws IllegalStateException
-             *     if the current state cannot be built into a valid SpecialDesignation per the base specification
+             *     if the current state cannot be built into a valid Characteristic per the base specification
              */
             @Override
-            public SpecialDesignation build() {
-                SpecialDesignation specialDesignation = new SpecialDesignation(this);
+            public Characteristic build() {
+                Characteristic characteristic = new Characteristic(this);
                 if (validating) {
-                    validate(specialDesignation);
+                    validate(characteristic);
                 }
-                return specialDesignation;
+                return characteristic;
             }
 
-            protected void validate(SpecialDesignation specialDesignation) {
-                super.validate(specialDesignation);
-                ValidationSupport.checkList(specialDesignation.identifier, "identifier", Identifier.class);
-                ValidationSupport.choiceElement(specialDesignation.indication, "indication", CodeableConcept.class, Reference.class);
-                ValidationSupport.checkReferenceType(specialDesignation.indication, "indication", "MedicinalProductIndication");
-                ValidationSupport.requireValueOrChildren(specialDesignation);
+            protected void validate(Characteristic characteristic) {
+                super.validate(characteristic);
+                ValidationSupport.requireNonNull(characteristic.type, "type");
+                ValidationSupport.choiceElement(characteristic.value, "value", CodeableConcept.class, Quantity.class, Date.class, Boolean.class, Attachment.class);
+                ValidationSupport.requireValueOrChildren(characteristic);
             }
 
-            protected Builder from(SpecialDesignation specialDesignation) {
-                super.from(specialDesignation);
-                identifier.addAll(specialDesignation.identifier);
-                type = specialDesignation.type;
-                intendedUse = specialDesignation.intendedUse;
-                indication = specialDesignation.indication;
-                status = specialDesignation.status;
-                date = specialDesignation.date;
-                species = specialDesignation.species;
+            protected Builder from(Characteristic characteristic) {
+                super.from(characteristic);
+                type = characteristic.type;
+                value = characteristic.value;
                 return this;
             }
         }

@@ -16,73 +16,58 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/remittance-outcome")
+@System("http://hl7.org/fhir/restful-interaction")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
-public class RemittanceOutcome extends Code {
-    /**
-     * Complete
-     * 
-     * <p>The processing completed without errors.
-     */
-    public static final RemittanceOutcome COMPLETE = RemittanceOutcome.builder().value(Value.COMPLETE).build();
+public class MethodCode extends Code {
+    public static final MethodCode CREATE = MethodCode.builder().value(Value.CREATE).build();
 
-    /**
-     * Error
-     * 
-     * <p>The processing identified errors.
-     */
-    public static final RemittanceOutcome ERROR = RemittanceOutcome.builder().value(Value.ERROR).build();
+    public static final MethodCode UPDATE = MethodCode.builder().value(Value.UPDATE).build();
 
-    /**
-     * Partial
-     * 
-     * <p>No errors have been detected and some of the adjudication has been performed.
-     */
-    public static final RemittanceOutcome PARTIAL = RemittanceOutcome.builder().value(Value.PARTIAL).build();
+    public static final MethodCode DELETE = MethodCode.builder().value(Value.DELETE).build();
 
     private volatile int hashCode;
 
-    private RemittanceOutcome(Builder builder) {
+    private MethodCode(Builder builder) {
         super(builder);
     }
 
     /**
-     * Get the value of this RemittanceOutcome as an enum constant.
+     * Get the value of this MethodCode as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
     }
 
     /**
-     * Factory method for creating RemittanceOutcome objects from a passed enum value.
+     * Factory method for creating MethodCode objects from a passed enum value.
      */
-    public static RemittanceOutcome of(Value value) {
+    public static MethodCode of(Value value) {
         switch (value) {
-        case COMPLETE:
-            return COMPLETE;
-        case ERROR:
-            return ERROR;
-        case PARTIAL:
-            return PARTIAL;
+        case CREATE:
+            return CREATE;
+        case UPDATE:
+            return UPDATE;
+        case DELETE:
+            return DELETE;
         default:
             throw new IllegalStateException(value.name());
         }
     }
 
     /**
-     * Factory method for creating RemittanceOutcome objects from a passed string value.
+     * Factory method for creating MethodCode objects from a passed string value.
      * 
      * @param value
      *     A string that matches one of the allowed code values
      * @throws IllegalArgumentException
      *     If the passed string cannot be parsed into an allowed code value
      */
-    public static RemittanceOutcome of(java.lang.String value) {
+    public static MethodCode of(java.lang.String value) {
         return of(Value.from(value));
     }
 
     /**
-     * Inherited factory method for creating RemittanceOutcome objects from a passed string value.
+     * Inherited factory method for creating MethodCode objects from a passed string value.
      * 
      * @param value
      *     A string that matches one of the allowed code values
@@ -94,7 +79,7 @@ public class RemittanceOutcome extends Code {
     }
 
     /**
-     * Inherited factory method for creating RemittanceOutcome objects from a passed string value.
+     * Inherited factory method for creating MethodCode objects from a passed string value.
      * 
      * @param value
      *     A string that matches one of the allowed code values
@@ -116,7 +101,7 @@ public class RemittanceOutcome extends Code {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        RemittanceOutcome other = (RemittanceOutcome) obj;
+        MethodCode other = (MethodCode) obj;
         return Objects.equals(id, other.id) && Objects.equals(extension, other.extension) && Objects.equals(value, other.value);
     }
 
@@ -167,7 +152,7 @@ public class RemittanceOutcome extends Code {
          * Primitive value for code
          * 
          * @param value
-         *     An enum constant for RemittanceOutcome
+         *     An enum constant for MethodCode
          * 
          * @return
          *     A reference to this Builder instance
@@ -177,45 +162,30 @@ public class RemittanceOutcome extends Code {
         }
 
         @Override
-        public RemittanceOutcome build() {
-            RemittanceOutcome remittanceOutcome = new RemittanceOutcome(this);
+        public MethodCode build() {
+            MethodCode methodCode = new MethodCode(this);
             if (validating) {
-                validate(remittanceOutcome);
+                validate(methodCode);
             }
-            return remittanceOutcome;
+            return methodCode;
         }
 
-        protected void validate(RemittanceOutcome remittanceOutcome) {
-            super.validate(remittanceOutcome);
+        protected void validate(MethodCode methodCode) {
+            super.validate(methodCode);
         }
 
-        protected Builder from(RemittanceOutcome remittanceOutcome) {
-            super.from(remittanceOutcome);
+        protected Builder from(MethodCode methodCode) {
+            super.from(methodCode);
             return this;
         }
     }
 
     public enum Value {
-        /**
-         * Complete
-         * 
-         * <p>The processing completed without errors.
-         */
-        COMPLETE("complete"),
+        CREATE("create"),
 
-        /**
-         * Error
-         * 
-         * <p>The processing identified errors.
-         */
-        ERROR("error"),
+        UPDATE("update"),
 
-        /**
-         * Partial
-         * 
-         * <p>No errors have been detected and some of the adjudication has been performed.
-         */
-        PARTIAL("partial");
+        DELETE("delete");
 
         private final java.lang.String value;
 
@@ -232,12 +202,12 @@ public class RemittanceOutcome extends Code {
         }
 
         /**
-         * Factory method for creating RemittanceOutcome.Value values from a passed string value.
+         * Factory method for creating MethodCode.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
          * @return
-         *     The corresponding RemittanceOutcome.Value or null if a null value was passed
+         *     The corresponding MethodCode.Value or null if a null value was passed
          * @throws IllegalArgumentException
          *     If the passed string is not null and cannot be parsed into an allowed code value
          */
@@ -246,12 +216,12 @@ public class RemittanceOutcome extends Code {
                 return null;
             }
             switch (value) {
-            case "complete":
-                return COMPLETE;
-            case "error":
-                return ERROR;
-            case "partial":
-                return PARTIAL;
+            case "create":
+                return CREATE;
+            case "update":
+                return UPDATE;
+            case "delete":
+                return DELETE;
             default:
                 throw new IllegalArgumentException(value);
             }

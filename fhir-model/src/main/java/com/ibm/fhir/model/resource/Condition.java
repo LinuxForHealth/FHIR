@@ -72,8 +72,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     id = "con-3",
     level = "Warning",
     location = "(base)",
-    description = "Condition.clinicalStatus SHALL be present if verificationStatus is not entered-in-error and category is problem-list-item",
-    expression = "clinicalStatus.exists() or verificationStatus.coding.where(system='http://terminology.hl7.org/CodeSystem/condition-ver-status' and code = 'entered-in-error').exists() or category.select($this='problem-list-item').empty()",
+    description = "Condition.clinicalStatus SHOULD be present if verificationStatus is not entered-in-error and category is problem-list-item",
+    expression = "verificationStatus.empty().not() and verificationStatus.coding.where(system='http://terminology.hl7.org/CodeSystem/condition-ver-status' and code='entered-in-error').exists().not() and category.coding.where(system='http://terminology.hl7.org/CodeSystem/condition-category' and code='problem-list-item').exists() implies clinicalStatus.empty().not()",
     source = "http://hl7.org/fhir/StructureDefinition/Condition"
 )
 @Constraint(
