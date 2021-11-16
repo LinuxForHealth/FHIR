@@ -781,7 +781,7 @@ public class PaymentReconciliation extends DomainResource {
          * The outcome of a request for a reconciliation.
          * 
          * @param outcome
-         *     queued | complete | error | partial
+         *     complete | error | partial
          * 
          * @return
          *     A reference to this Builder instance

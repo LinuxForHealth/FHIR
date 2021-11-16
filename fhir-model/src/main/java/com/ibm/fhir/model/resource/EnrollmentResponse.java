@@ -568,7 +568,7 @@ public class EnrollmentResponse extends DomainResource {
          * Processing status: error, complete.
          * 
          * @param outcome
-         *     queued | complete | error | partial
+         *     complete | error | partial
          * 
          * @return
          *     A reference to this Builder instance

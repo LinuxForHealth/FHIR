@@ -45,10 +45,10 @@ import com.ibm.fhir.model.visitor.Visitor;
  * A curated namespace that issues unique symbols within that namespace for the identification of concepts, people, 
  * devices, etc. Represents a "System" used within the Identifier and Coding data types.
  * 
- * <p>Maturity level: FMM1 (Trial Use)
+ * <p>Maturity level: FMM2 (Trial Use)
  */
 @Maturity(
-    level = 1,
+    level = 2,
     status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(

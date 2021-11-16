@@ -14,29 +14,39 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
+import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
+import com.ibm.fhir.model.type.Annotation;
+import com.ibm.fhir.model.type.Attachment;
 import com.ibm.fhir.model.type.BackboneElement;
+import com.ibm.fhir.model.type.Base64Binary;
+import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
+import com.ibm.fhir.model.type.CodeableReference;
+import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
-import com.ibm.fhir.model.type.Quantity;
-import com.ibm.fhir.model.type.Range;
+import com.ibm.fhir.model.type.Ratio;
 import com.ibm.fhir.model.type.Reference;
+import com.ibm.fhir.model.type.SimpleQuantity;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.NutritionProductStatus;
 import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
- * Todo.
+ * A food or fluid product that is consumed by patients.
  * 
  * <p>Maturity level: FMM0 (Trial Use)
  */
@@ -45,85 +55,178 @@ import com.ibm.fhir.model.visitor.Visitor;
     status = StandardsStatus.Value.TRIAL_USE
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
-public class SubstanceReferenceInformation extends DomainResource {
+public class NutritionProduct extends DomainResource {
     @Summary
-    private final String comment;
+    @Binding(
+        bindingName = "NutritionProductStatus",
+        strength = BindingStrength.Value.REQUIRED,
+        description = "Codes identifying the lifecycle stage of a product.",
+        valueSet = "http://hl7.org/fhir/ValueSet/nutritionproduct-status|4.0.1"
+    )
+    @Required
+    private final NutritionProductStatus status;
     @Summary
-    private final List<Gene> gene;
+    @Binding(
+        bindingName = "NutritionProductCategory",
+        strength = BindingStrength.Value.EXAMPLE,
+        description = "Codes identifying classes of nutrition products.",
+        valueSet = "http://hl7.org/fhir/ValueSet/nutrition-product-category"
+    )
+    private final List<CodeableConcept> category;
     @Summary
-    private final List<GeneElement> geneElement;
+    @Binding(
+        bindingName = "NutritionProductCode",
+        strength = BindingStrength.Value.EXAMPLE,
+        description = "Codes identifying specific types of nutrition products.",
+        valueSet = "http://hl7.org/fhir/ValueSet/edible-substance-type"
+    )
+    private final CodeableConcept code;
     @Summary
-    private final List<Classification> classification;
+    @ReferenceTarget({ "Organization" })
+    private final List<Reference> manufacturer;
     @Summary
-    private final List<Target> target;
+    private final List<Nutrient> nutrient;
+    private final List<Ingredient> ingredient;
+    @Binding(
+        bindingName = "AllergenClass",
+        strength = BindingStrength.Value.EXAMPLE,
+        description = "Codes that identify substances that can be an allergen.",
+        valueSet = "http://hl7.org/fhir/ValueSet/allergen-class"
+    )
+    private final List<CodeableReference> knownAllergen;
+    private final List<ProductCharacteristic> productCharacteristic;
+    private final Instance instance;
+    private final List<Annotation> note;
 
-    private SubstanceReferenceInformation(Builder builder) {
+    private NutritionProduct(Builder builder) {
         super(builder);
-        comment = builder.comment;
-        gene = Collections.unmodifiableList(builder.gene);
-        geneElement = Collections.unmodifiableList(builder.geneElement);
-        classification = Collections.unmodifiableList(builder.classification);
-        target = Collections.unmodifiableList(builder.target);
+        status = builder.status;
+        category = Collections.unmodifiableList(builder.category);
+        code = builder.code;
+        manufacturer = Collections.unmodifiableList(builder.manufacturer);
+        nutrient = Collections.unmodifiableList(builder.nutrient);
+        ingredient = Collections.unmodifiableList(builder.ingredient);
+        knownAllergen = Collections.unmodifiableList(builder.knownAllergen);
+        productCharacteristic = Collections.unmodifiableList(builder.productCharacteristic);
+        instance = builder.instance;
+        note = Collections.unmodifiableList(builder.note);
     }
 
     /**
-     * Todo.
+     * The current state of the product.
      * 
      * @return
-     *     An immutable object of type {@link String} that may be null.
+     *     An immutable object of type {@link NutritionProductStatus} that is non-null.
      */
-    public String getComment() {
-        return comment;
+    public NutritionProductStatus getStatus() {
+        return status;
     }
 
     /**
-     * Todo.
+     * Nutrition products can have different classifications - according to its nutritional properties, preparation methods, 
+     * etc.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Gene} that may be empty.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
-    public List<Gene> getGene() {
-        return gene;
+    public List<CodeableConcept> getCategory() {
+        return category;
     }
 
     /**
-     * Todo.
+     * The code assigned to the product, for example a manufacturer number or other terminology.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link GeneElement} that may be empty.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
-    public List<GeneElement> getGeneElement() {
-        return geneElement;
+    public CodeableConcept getCode() {
+        return code;
     }
 
     /**
-     * Todo.
+     * The organisation (manufacturer, representative or legal authorisation holder) that is responsible for the device.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Classification} that may be empty.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
-    public List<Classification> getClassification() {
-        return classification;
+    public List<Reference> getManufacturer() {
+        return manufacturer;
     }
 
     /**
-     * Todo.
+     * The product's nutritional information expressed by the nutrients.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Target} that may be empty.
+     *     An unmodifiable list containing immutable objects of type {@link Nutrient} that may be empty.
      */
-    public List<Target> getTarget() {
-        return target;
+    public List<Nutrient> getNutrient() {
+        return nutrient;
+    }
+
+    /**
+     * Ingredients contained in this product.
+     * 
+     * @return
+     *     An unmodifiable list containing immutable objects of type {@link Ingredient} that may be empty.
+     */
+    public List<Ingredient> getIngredient() {
+        return ingredient;
+    }
+
+    /**
+     * Allergens that are known or suspected to be a part of this nutrition product.
+     * 
+     * @return
+     *     An unmodifiable list containing immutable objects of type {@link CodeableReference} that may be empty.
+     */
+    public List<CodeableReference> getKnownAllergen() {
+        return knownAllergen;
+    }
+
+    /**
+     * Specifies descriptive properties of the nutrition product.
+     * 
+     * @return
+     *     An unmodifiable list containing immutable objects of type {@link ProductCharacteristic} that may be empty.
+     */
+    public List<ProductCharacteristic> getProductCharacteristic() {
+        return productCharacteristic;
+    }
+
+    /**
+     * Conveys instance-level information about this product item. One or several physical, countable instances or 
+     * occurrences of the product.
+     * 
+     * @return
+     *     An immutable object of type {@link Instance} that may be null.
+     */
+    public Instance getInstance() {
+        return instance;
+    }
+
+    /**
+     * Comments made about the product.
+     * 
+     * @return
+     *     An unmodifiable list containing immutable objects of type {@link Annotation} that may be empty.
+     */
+    public List<Annotation> getNote() {
+        return note;
     }
 
     @Override
     public boolean hasChildren() {
         return super.hasChildren() || 
-            (comment != null) || 
-            !gene.isEmpty() || 
-            !geneElement.isEmpty() || 
-            !classification.isEmpty() || 
-            !target.isEmpty();
+            (status != null) || 
+            !category.isEmpty() || 
+            (code != null) || 
+            !manufacturer.isEmpty() || 
+            !nutrient.isEmpty() || 
+            !ingredient.isEmpty() || 
+            !knownAllergen.isEmpty() || 
+            !productCharacteristic.isEmpty() || 
+            (instance != null) || 
+            !note.isEmpty();
     }
 
     @Override
@@ -140,11 +243,16 @@ public class SubstanceReferenceInformation extends DomainResource {
                 accept(contained, "contained", visitor, Resource.class);
                 accept(extension, "extension", visitor, Extension.class);
                 accept(modifierExtension, "modifierExtension", visitor, Extension.class);
-                accept(comment, "comment", visitor);
-                accept(gene, "gene", visitor, Gene.class);
-                accept(geneElement, "geneElement", visitor, GeneElement.class);
-                accept(classification, "classification", visitor, Classification.class);
-                accept(target, "target", visitor, Target.class);
+                accept(status, "status", visitor);
+                accept(category, "category", visitor, CodeableConcept.class);
+                accept(code, "code", visitor);
+                accept(manufacturer, "manufacturer", visitor, Reference.class);
+                accept(nutrient, "nutrient", visitor, Nutrient.class);
+                accept(ingredient, "ingredient", visitor, Ingredient.class);
+                accept(knownAllergen, "knownAllergen", visitor, CodeableReference.class);
+                accept(productCharacteristic, "productCharacteristic", visitor, ProductCharacteristic.class);
+                accept(instance, "instance", visitor);
+                accept(note, "note", visitor, Annotation.class);
             }
             visitor.visitEnd(elementName, elementIndex, this);
             visitor.postVisit(this);
@@ -162,7 +270,7 @@ public class SubstanceReferenceInformation extends DomainResource {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        SubstanceReferenceInformation other = (SubstanceReferenceInformation) obj;
+        NutritionProduct other = (NutritionProduct) obj;
         return Objects.equals(id, other.id) && 
             Objects.equals(meta, other.meta) && 
             Objects.equals(implicitRules, other.implicitRules) && 
@@ -171,11 +279,16 @@ public class SubstanceReferenceInformation extends DomainResource {
             Objects.equals(contained, other.contained) && 
             Objects.equals(extension, other.extension) && 
             Objects.equals(modifierExtension, other.modifierExtension) && 
-            Objects.equals(comment, other.comment) && 
-            Objects.equals(gene, other.gene) && 
-            Objects.equals(geneElement, other.geneElement) && 
-            Objects.equals(classification, other.classification) && 
-            Objects.equals(target, other.target);
+            Objects.equals(status, other.status) && 
+            Objects.equals(category, other.category) && 
+            Objects.equals(code, other.code) && 
+            Objects.equals(manufacturer, other.manufacturer) && 
+            Objects.equals(nutrient, other.nutrient) && 
+            Objects.equals(ingredient, other.ingredient) && 
+            Objects.equals(knownAllergen, other.knownAllergen) && 
+            Objects.equals(productCharacteristic, other.productCharacteristic) && 
+            Objects.equals(instance, other.instance) && 
+            Objects.equals(note, other.note);
     }
 
     @Override
@@ -190,11 +303,16 @@ public class SubstanceReferenceInformation extends DomainResource {
                 contained, 
                 extension, 
                 modifierExtension, 
-                comment, 
-                gene, 
-                geneElement, 
-                classification, 
-                target);
+                status, 
+                category, 
+                code, 
+                manufacturer, 
+                nutrient, 
+                ingredient, 
+                knownAllergen, 
+                productCharacteristic, 
+                instance, 
+                note);
             hashCode = result;
         }
         return result;
@@ -210,11 +328,16 @@ public class SubstanceReferenceInformation extends DomainResource {
     }
 
     public static class Builder extends DomainResource.Builder {
-        private String comment;
-        private List<Gene> gene = new ArrayList<>();
-        private List<GeneElement> geneElement = new ArrayList<>();
-        private List<Classification> classification = new ArrayList<>();
-        private List<Target> target = new ArrayList<>();
+        private NutritionProductStatus status;
+        private List<CodeableConcept> category = new ArrayList<>();
+        private CodeableConcept code;
+        private List<Reference> manufacturer = new ArrayList<>();
+        private List<Nutrient> nutrient = new ArrayList<>();
+        private List<Ingredient> ingredient = new ArrayList<>();
+        private List<CodeableReference> knownAllergen = new ArrayList<>();
+        private List<ProductCharacteristic> productCharacteristic = new ArrayList<>();
+        private Instance instance;
+        private List<Annotation> note = new ArrayList<>();
 
         private Builder() {
             super();
@@ -432,62 +555,50 @@ public class SubstanceReferenceInformation extends DomainResource {
         }
 
         /**
-         * Convenience method for setting {@code comment}.
+         * The current state of the product.
          * 
-         * @param comment
-         *     Todo
+         * <p>This element is required.
          * 
-         * @return
-         *     A reference to this Builder instance
-         * 
-         * @see #comment(com.ibm.fhir.model.type.String)
-         */
-        public Builder comment(java.lang.String comment) {
-            this.comment = (comment == null) ? null : String.of(comment);
-            return this;
-        }
-
-        /**
-         * Todo.
-         * 
-         * @param comment
-         *     Todo
+         * @param status
+         *     active | inactive | entered-in-error
          * 
          * @return
          *     A reference to this Builder instance
          */
-        public Builder comment(String comment) {
-            this.comment = comment;
+        public Builder status(NutritionProductStatus status) {
+            this.status = status;
             return this;
         }
 
         /**
-         * Todo.
+         * Nutrition products can have different classifications - according to its nutritional properties, preparation methods, 
+         * etc.
          * 
          * <p>Adds new element(s) to the existing list.
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
-         * @param gene
-         *     Todo
+         * @param category
+         *     A category or class of the nutrition product (halal, kosher, gluten free, vegan, etc)
          * 
          * @return
          *     A reference to this Builder instance
          */
-        public Builder gene(Gene... gene) {
-            for (Gene value : gene) {
-                this.gene.add(value);
+        public Builder category(CodeableConcept... category) {
+            for (CodeableConcept value : category) {
+                this.category.add(value);
             }
             return this;
         }
 
         /**
-         * Todo.
+         * Nutrition products can have different classifications - according to its nutritional properties, preparation methods, 
+         * etc.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection.
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
-         * @param gene
-         *     Todo
+         * @param category
+         *     A category or class of the nutrition product (halal, kosher, gluten free, vegan, etc)
          * 
          * @return
          *     A reference to this Builder instance
@@ -495,38 +606,62 @@ public class SubstanceReferenceInformation extends DomainResource {
          * @throws NullPointerException
          *     If the passed collection is null
          */
-        public Builder gene(Collection<Gene> gene) {
-            this.gene = new ArrayList<>(gene);
+        public Builder category(Collection<CodeableConcept> category) {
+            this.category = new ArrayList<>(category);
             return this;
         }
 
         /**
-         * Todo.
+         * The code assigned to the product, for example a manufacturer number or other terminology.
          * 
-         * <p>Adds new element(s) to the existing list.
-         * If any of the elements are null, calling {@link #build()} will fail.
-         * 
-         * @param geneElement
-         *     Todo
+         * @param code
+         *     A code designating a specific type of nutritional product
          * 
          * @return
          *     A reference to this Builder instance
          */
-        public Builder geneElement(GeneElement... geneElement) {
-            for (GeneElement value : geneElement) {
-                this.geneElement.add(value);
+        public Builder code(CodeableConcept code) {
+            this.code = code;
+            return this;
+        }
+
+        /**
+         * The organisation (manufacturer, representative or legal authorisation holder) that is responsible for the device.
+         * 
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
+         * 
+         * @param manufacturer
+         *     Manufacturer, representative or officially responsible for the product
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder manufacturer(Reference... manufacturer) {
+            for (Reference value : manufacturer) {
+                this.manufacturer.add(value);
             }
             return this;
         }
 
         /**
-         * Todo.
+         * The organisation (manufacturer, representative or legal authorisation holder) that is responsible for the device.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection.
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
-         * @param geneElement
-         *     Todo
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
+         * 
+         * @param manufacturer
+         *     Manufacturer, representative or officially responsible for the product
          * 
          * @return
          *     A reference to this Builder instance
@@ -534,38 +669,38 @@ public class SubstanceReferenceInformation extends DomainResource {
          * @throws NullPointerException
          *     If the passed collection is null
          */
-        public Builder geneElement(Collection<GeneElement> geneElement) {
-            this.geneElement = new ArrayList<>(geneElement);
+        public Builder manufacturer(Collection<Reference> manufacturer) {
+            this.manufacturer = new ArrayList<>(manufacturer);
             return this;
         }
 
         /**
-         * Todo.
+         * The product's nutritional information expressed by the nutrients.
          * 
          * <p>Adds new element(s) to the existing list.
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
-         * @param classification
-         *     Todo
+         * @param nutrient
+         *     The product's nutritional information expressed by the nutrients
          * 
          * @return
          *     A reference to this Builder instance
          */
-        public Builder classification(Classification... classification) {
-            for (Classification value : classification) {
-                this.classification.add(value);
+        public Builder nutrient(Nutrient... nutrient) {
+            for (Nutrient value : nutrient) {
+                this.nutrient.add(value);
             }
             return this;
         }
 
         /**
-         * Todo.
+         * The product's nutritional information expressed by the nutrients.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection.
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
-         * @param classification
-         *     Todo
+         * @param nutrient
+         *     The product's nutritional information expressed by the nutrients
          * 
          * @return
          *     A reference to this Builder instance
@@ -573,38 +708,38 @@ public class SubstanceReferenceInformation extends DomainResource {
          * @throws NullPointerException
          *     If the passed collection is null
          */
-        public Builder classification(Collection<Classification> classification) {
-            this.classification = new ArrayList<>(classification);
+        public Builder nutrient(Collection<Nutrient> nutrient) {
+            this.nutrient = new ArrayList<>(nutrient);
             return this;
         }
 
         /**
-         * Todo.
+         * Ingredients contained in this product.
          * 
          * <p>Adds new element(s) to the existing list.
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
-         * @param target
-         *     Todo
+         * @param ingredient
+         *     Ingredients contained in this product
          * 
          * @return
          *     A reference to this Builder instance
          */
-        public Builder target(Target... target) {
-            for (Target value : target) {
-                this.target.add(value);
+        public Builder ingredient(Ingredient... ingredient) {
+            for (Ingredient value : ingredient) {
+                this.ingredient.add(value);
             }
             return this;
         }
 
         /**
-         * Todo.
+         * Ingredients contained in this product.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection.
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
-         * @param target
-         *     Todo
+         * @param ingredient
+         *     Ingredients contained in this product
          * 
          * @return
          *     A reference to this Builder instance
@@ -612,1282 +747,238 @@ public class SubstanceReferenceInformation extends DomainResource {
          * @throws NullPointerException
          *     If the passed collection is null
          */
-        public Builder target(Collection<Target> target) {
-            this.target = new ArrayList<>(target);
+        public Builder ingredient(Collection<Ingredient> ingredient) {
+            this.ingredient = new ArrayList<>(ingredient);
             return this;
         }
 
         /**
-         * Build the {@link SubstanceReferenceInformation}
+         * Allergens that are known or suspected to be a part of this nutrition product.
+         * 
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
+         * 
+         * @param knownAllergen
+         *     Known or suspected allergens that are a part of this product
          * 
          * @return
-         *     An immutable object of type {@link SubstanceReferenceInformation}
+         *     A reference to this Builder instance
+         */
+        public Builder knownAllergen(CodeableReference... knownAllergen) {
+            for (CodeableReference value : knownAllergen) {
+                this.knownAllergen.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * Allergens that are known or suspected to be a part of this nutrition product.
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
+         * 
+         * @param knownAllergen
+         *     Known or suspected allergens that are a part of this product
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
+         */
+        public Builder knownAllergen(Collection<CodeableReference> knownAllergen) {
+            this.knownAllergen = new ArrayList<>(knownAllergen);
+            return this;
+        }
+
+        /**
+         * Specifies descriptive properties of the nutrition product.
+         * 
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
+         * 
+         * @param productCharacteristic
+         *     Specifies descriptive properties of the nutrition product
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder productCharacteristic(ProductCharacteristic... productCharacteristic) {
+            for (ProductCharacteristic value : productCharacteristic) {
+                this.productCharacteristic.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * Specifies descriptive properties of the nutrition product.
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
+         * 
+         * @param productCharacteristic
+         *     Specifies descriptive properties of the nutrition product
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
+         */
+        public Builder productCharacteristic(Collection<ProductCharacteristic> productCharacteristic) {
+            this.productCharacteristic = new ArrayList<>(productCharacteristic);
+            return this;
+        }
+
+        /**
+         * Conveys instance-level information about this product item. One or several physical, countable instances or 
+         * occurrences of the product.
+         * 
+         * @param instance
+         *     One or several physical instances or occurrences of the nutrition product
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder instance(Instance instance) {
+            this.instance = instance;
+            return this;
+        }
+
+        /**
+         * Comments made about the product.
+         * 
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
+         * 
+         * @param note
+         *     Comments made about the product
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder note(Annotation... note) {
+            for (Annotation value : note) {
+                this.note.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * Comments made about the product.
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
+         * 
+         * @param note
+         *     Comments made about the product
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
+         */
+        public Builder note(Collection<Annotation> note) {
+            this.note = new ArrayList<>(note);
+            return this;
+        }
+
+        /**
+         * Build the {@link NutritionProduct}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>status</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link NutritionProduct}
          * @throws IllegalStateException
-         *     if the current state cannot be built into a valid SubstanceReferenceInformation per the base specification
+         *     if the current state cannot be built into a valid NutritionProduct per the base specification
          */
         @Override
-        public SubstanceReferenceInformation build() {
-            SubstanceReferenceInformation substanceReferenceInformation = new SubstanceReferenceInformation(this);
+        public NutritionProduct build() {
+            NutritionProduct nutritionProduct = new NutritionProduct(this);
             if (validating) {
-                validate(substanceReferenceInformation);
+                validate(nutritionProduct);
             }
-            return substanceReferenceInformation;
+            return nutritionProduct;
         }
 
-        protected void validate(SubstanceReferenceInformation substanceReferenceInformation) {
-            super.validate(substanceReferenceInformation);
-            ValidationSupport.checkList(substanceReferenceInformation.gene, "gene", Gene.class);
-            ValidationSupport.checkList(substanceReferenceInformation.geneElement, "geneElement", GeneElement.class);
-            ValidationSupport.checkList(substanceReferenceInformation.classification, "classification", Classification.class);
-            ValidationSupport.checkList(substanceReferenceInformation.target, "target", Target.class);
+        protected void validate(NutritionProduct nutritionProduct) {
+            super.validate(nutritionProduct);
+            ValidationSupport.requireNonNull(nutritionProduct.status, "status");
+            ValidationSupport.checkList(nutritionProduct.category, "category", CodeableConcept.class);
+            ValidationSupport.checkList(nutritionProduct.manufacturer, "manufacturer", Reference.class);
+            ValidationSupport.checkList(nutritionProduct.nutrient, "nutrient", Nutrient.class);
+            ValidationSupport.checkList(nutritionProduct.ingredient, "ingredient", Ingredient.class);
+            ValidationSupport.checkList(nutritionProduct.knownAllergen, "knownAllergen", CodeableReference.class);
+            ValidationSupport.checkList(nutritionProduct.productCharacteristic, "productCharacteristic", ProductCharacteristic.class);
+            ValidationSupport.checkList(nutritionProduct.note, "note", Annotation.class);
+            ValidationSupport.checkReferenceType(nutritionProduct.manufacturer, "manufacturer", "Organization");
         }
 
-        protected Builder from(SubstanceReferenceInformation substanceReferenceInformation) {
-            super.from(substanceReferenceInformation);
-            comment = substanceReferenceInformation.comment;
-            gene.addAll(substanceReferenceInformation.gene);
-            geneElement.addAll(substanceReferenceInformation.geneElement);
-            classification.addAll(substanceReferenceInformation.classification);
-            target.addAll(substanceReferenceInformation.target);
+        protected Builder from(NutritionProduct nutritionProduct) {
+            super.from(nutritionProduct);
+            status = nutritionProduct.status;
+            category.addAll(nutritionProduct.category);
+            code = nutritionProduct.code;
+            manufacturer.addAll(nutritionProduct.manufacturer);
+            nutrient.addAll(nutritionProduct.nutrient);
+            ingredient.addAll(nutritionProduct.ingredient);
+            knownAllergen.addAll(nutritionProduct.knownAllergen);
+            productCharacteristic.addAll(nutritionProduct.productCharacteristic);
+            instance = nutritionProduct.instance;
+            note.addAll(nutritionProduct.note);
             return this;
         }
     }
 
     /**
-     * Todo.
+     * The product's nutritional information expressed by the nutrients.
      */
-    public static class Gene extends BackboneElement {
-        @Summary
-        private final CodeableConcept geneSequenceOrigin;
-        @Summary
-        private final CodeableConcept gene;
-        @Summary
-        @ReferenceTarget({ "DocumentReference" })
-        private final List<Reference> source;
+    public static class Nutrient extends BackboneElement {
+        @Binding(
+            bindingName = "NutritionProductNutrient",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "Codes that identify nutrients that could be parts of nutrition products.",
+            valueSet = "http://hl7.org/fhir/ValueSet/nutrition-product-nutrient"
+        )
+        private final CodeableReference item;
+        private final List<Ratio> amount;
 
-        private Gene(Builder builder) {
+        private Nutrient(Builder builder) {
             super(builder);
-            geneSequenceOrigin = builder.geneSequenceOrigin;
-            gene = builder.gene;
-            source = Collections.unmodifiableList(builder.source);
+            item = builder.item;
+            amount = Collections.unmodifiableList(builder.amount);
         }
 
         /**
-         * Todo.
+         * The (relevant) nutrients in the product.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept} that may be null.
+         *     An immutable object of type {@link CodeableReference} that may be null.
          */
-        public CodeableConcept getGeneSequenceOrigin() {
-            return geneSequenceOrigin;
+        public CodeableReference getItem() {
+            return item;
         }
 
         /**
-         * Todo.
+         * The amount of nutrient expressed in one or more units: X per pack / per serving / per dose.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept} that may be null.
+         *     An unmodifiable list containing immutable objects of type {@link Ratio} that may be empty.
          */
-        public CodeableConcept getGene() {
-            return gene;
-        }
-
-        /**
-         * Todo.
-         * 
-         * @return
-         *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
-         */
-        public List<Reference> getSource() {
-            return source;
-        }
-
-        @Override
-        public boolean hasChildren() {
-            return super.hasChildren() || 
-                (geneSequenceOrigin != null) || 
-                (gene != null) || 
-                !source.isEmpty();
-        }
-
-        @Override
-        public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
-            if (visitor.preVisit(this)) {
-                visitor.visitStart(elementName, elementIndex, this);
-                if (visitor.visit(elementName, elementIndex, this)) {
-                    // visit children
-                    accept(id, "id", visitor);
-                    accept(extension, "extension", visitor, Extension.class);
-                    accept(modifierExtension, "modifierExtension", visitor, Extension.class);
-                    accept(geneSequenceOrigin, "geneSequenceOrigin", visitor);
-                    accept(gene, "gene", visitor);
-                    accept(source, "source", visitor, Reference.class);
-                }
-                visitor.visitEnd(elementName, elementIndex, this);
-                visitor.postVisit(this);
-            }
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (this == obj) {
-                return true;
-            }
-            if (obj == null) {
-                return false;
-            }
-            if (getClass() != obj.getClass()) {
-                return false;
-            }
-            Gene other = (Gene) obj;
-            return Objects.equals(id, other.id) && 
-                Objects.equals(extension, other.extension) && 
-                Objects.equals(modifierExtension, other.modifierExtension) && 
-                Objects.equals(geneSequenceOrigin, other.geneSequenceOrigin) && 
-                Objects.equals(gene, other.gene) && 
-                Objects.equals(source, other.source);
-        }
-
-        @Override
-        public int hashCode() {
-            int result = hashCode;
-            if (result == 0) {
-                result = Objects.hash(id, 
-                    extension, 
-                    modifierExtension, 
-                    geneSequenceOrigin, 
-                    gene, 
-                    source);
-                hashCode = result;
-            }
-            return result;
-        }
-
-        @Override
-        public Builder toBuilder() {
-            return new Builder().from(this);
-        }
-
-        public static Builder builder() {
-            return new Builder();
-        }
-
-        public static class Builder extends BackboneElement.Builder {
-            private CodeableConcept geneSequenceOrigin;
-            private CodeableConcept gene;
-            private List<Reference> source = new ArrayList<>();
-
-            private Builder() {
-                super();
-            }
-
-            /**
-             * Unique id for the element within a resource (for internal references). This may be any string value that does not 
-             * contain spaces.
-             * 
-             * @param id
-             *     Unique id for inter-element referencing
-             * 
-             * @return
-             *     A reference to this Builder instance
-             */
-            @Override
-            public Builder id(java.lang.String id) {
-                return (Builder) super.id(id);
-            }
-
-            /**
-             * May be used to represent additional information that is not part of the basic definition of the element. To make the 
-             * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
-             * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
-             * of the definition of the extension.
-             * 
-             * <p>Adds new element(s) to the existing list.
-             * If any of the elements are null, calling {@link #build()} will fail.
-             * 
-             * @param extension
-             *     Additional content defined by implementations
-             * 
-             * @return
-             *     A reference to this Builder instance
-             */
-            @Override
-            public Builder extension(Extension... extension) {
-                return (Builder) super.extension(extension);
-            }
-
-            /**
-             * May be used to represent additional information that is not part of the basic definition of the element. To make the 
-             * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
-             * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
-             * of the definition of the extension.
-             * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection.
-             * If any of the elements are null, calling {@link #build()} will fail.
-             * 
-             * @param extension
-             *     Additional content defined by implementations
-             * 
-             * @return
-             *     A reference to this Builder instance
-             * 
-             * @throws NullPointerException
-             *     If the passed collection is null
-             */
-            @Override
-            public Builder extension(Collection<Extension> extension) {
-                return (Builder) super.extension(extension);
-            }
-
-            /**
-             * May be used to represent additional information that is not part of the basic definition of the element and that 
-             * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
-             * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
-             * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
-             * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
-             * extension. Applications processing a resource are required to check for modifier extensions.
-             * 
-             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
-             * change the meaning of modifierExtension itself).
-             * 
-             * <p>Adds new element(s) to the existing list.
-             * If any of the elements are null, calling {@link #build()} will fail.
-             * 
-             * @param modifierExtension
-             *     Extensions that cannot be ignored even if unrecognized
-             * 
-             * @return
-             *     A reference to this Builder instance
-             */
-            @Override
-            public Builder modifierExtension(Extension... modifierExtension) {
-                return (Builder) super.modifierExtension(modifierExtension);
-            }
-
-            /**
-             * May be used to represent additional information that is not part of the basic definition of the element and that 
-             * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
-             * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
-             * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
-             * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
-             * extension. Applications processing a resource are required to check for modifier extensions.
-             * 
-             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
-             * change the meaning of modifierExtension itself).
-             * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection.
-             * If any of the elements are null, calling {@link #build()} will fail.
-             * 
-             * @param modifierExtension
-             *     Extensions that cannot be ignored even if unrecognized
-             * 
-             * @return
-             *     A reference to this Builder instance
-             * 
-             * @throws NullPointerException
-             *     If the passed collection is null
-             */
-            @Override
-            public Builder modifierExtension(Collection<Extension> modifierExtension) {
-                return (Builder) super.modifierExtension(modifierExtension);
-            }
-
-            /**
-             * Todo.
-             * 
-             * @param geneSequenceOrigin
-             *     Todo
-             * 
-             * @return
-             *     A reference to this Builder instance
-             */
-            public Builder geneSequenceOrigin(CodeableConcept geneSequenceOrigin) {
-                this.geneSequenceOrigin = geneSequenceOrigin;
-                return this;
-            }
-
-            /**
-             * Todo.
-             * 
-             * @param gene
-             *     Todo
-             * 
-             * @return
-             *     A reference to this Builder instance
-             */
-            public Builder gene(CodeableConcept gene) {
-                this.gene = gene;
-                return this;
-            }
-
-            /**
-             * Todo.
-             * 
-             * <p>Adds new element(s) to the existing list.
-             * If any of the elements are null, calling {@link #build()} will fail.
-             * 
-             * <p>Allowed resource types for the references:
-             * <ul>
-             * <li>{@link DocumentReference}</li>
-             * </ul>
-             * 
-             * @param source
-             *     Todo
-             * 
-             * @return
-             *     A reference to this Builder instance
-             */
-            public Builder source(Reference... source) {
-                for (Reference value : source) {
-                    this.source.add(value);
-                }
-                return this;
-            }
-
-            /**
-             * Todo.
-             * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection.
-             * If any of the elements are null, calling {@link #build()} will fail.
-             * 
-             * <p>Allowed resource types for the references:
-             * <ul>
-             * <li>{@link DocumentReference}</li>
-             * </ul>
-             * 
-             * @param source
-             *     Todo
-             * 
-             * @return
-             *     A reference to this Builder instance
-             * 
-             * @throws NullPointerException
-             *     If the passed collection is null
-             */
-            public Builder source(Collection<Reference> source) {
-                this.source = new ArrayList<>(source);
-                return this;
-            }
-
-            /**
-             * Build the {@link Gene}
-             * 
-             * @return
-             *     An immutable object of type {@link Gene}
-             * @throws IllegalStateException
-             *     if the current state cannot be built into a valid Gene per the base specification
-             */
-            @Override
-            public Gene build() {
-                Gene gene = new Gene(this);
-                if (validating) {
-                    validate(gene);
-                }
-                return gene;
-            }
-
-            protected void validate(Gene gene) {
-                super.validate(gene);
-                ValidationSupport.checkList(gene.source, "source", Reference.class);
-                ValidationSupport.checkReferenceType(gene.source, "source", "DocumentReference");
-                ValidationSupport.requireValueOrChildren(gene);
-            }
-
-            protected Builder from(Gene gene) {
-                super.from(gene);
-                geneSequenceOrigin = gene.geneSequenceOrigin;
-                this.gene = gene.gene;
-                source.addAll(gene.source);
-                return this;
-            }
-        }
-    }
-
-    /**
-     * Todo.
-     */
-    public static class GeneElement extends BackboneElement {
-        @Summary
-        private final CodeableConcept type;
-        @Summary
-        private final Identifier element;
-        @Summary
-        @ReferenceTarget({ "DocumentReference" })
-        private final List<Reference> source;
-
-        private GeneElement(Builder builder) {
-            super(builder);
-            type = builder.type;
-            element = builder.element;
-            source = Collections.unmodifiableList(builder.source);
-        }
-
-        /**
-         * Todo.
-         * 
-         * @return
-         *     An immutable object of type {@link CodeableConcept} that may be null.
-         */
-        public CodeableConcept getType() {
-            return type;
-        }
-
-        /**
-         * Todo.
-         * 
-         * @return
-         *     An immutable object of type {@link Identifier} that may be null.
-         */
-        public Identifier getElement() {
-            return element;
-        }
-
-        /**
-         * Todo.
-         * 
-         * @return
-         *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
-         */
-        public List<Reference> getSource() {
-            return source;
-        }
-
-        @Override
-        public boolean hasChildren() {
-            return super.hasChildren() || 
-                (type != null) || 
-                (element != null) || 
-                !source.isEmpty();
-        }
-
-        @Override
-        public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
-            if (visitor.preVisit(this)) {
-                visitor.visitStart(elementName, elementIndex, this);
-                if (visitor.visit(elementName, elementIndex, this)) {
-                    // visit children
-                    accept(id, "id", visitor);
-                    accept(extension, "extension", visitor, Extension.class);
-                    accept(modifierExtension, "modifierExtension", visitor, Extension.class);
-                    accept(type, "type", visitor);
-                    accept(element, "element", visitor);
-                    accept(source, "source", visitor, Reference.class);
-                }
-                visitor.visitEnd(elementName, elementIndex, this);
-                visitor.postVisit(this);
-            }
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (this == obj) {
-                return true;
-            }
-            if (obj == null) {
-                return false;
-            }
-            if (getClass() != obj.getClass()) {
-                return false;
-            }
-            GeneElement other = (GeneElement) obj;
-            return Objects.equals(id, other.id) && 
-                Objects.equals(extension, other.extension) && 
-                Objects.equals(modifierExtension, other.modifierExtension) && 
-                Objects.equals(type, other.type) && 
-                Objects.equals(element, other.element) && 
-                Objects.equals(source, other.source);
-        }
-
-        @Override
-        public int hashCode() {
-            int result = hashCode;
-            if (result == 0) {
-                result = Objects.hash(id, 
-                    extension, 
-                    modifierExtension, 
-                    type, 
-                    element, 
-                    source);
-                hashCode = result;
-            }
-            return result;
-        }
-
-        @Override
-        public Builder toBuilder() {
-            return new Builder().from(this);
-        }
-
-        public static Builder builder() {
-            return new Builder();
-        }
-
-        public static class Builder extends BackboneElement.Builder {
-            private CodeableConcept type;
-            private Identifier element;
-            private List<Reference> source = new ArrayList<>();
-
-            private Builder() {
-                super();
-            }
-
-            /**
-             * Unique id for the element within a resource (for internal references). This may be any string value that does not 
-             * contain spaces.
-             * 
-             * @param id
-             *     Unique id for inter-element referencing
-             * 
-             * @return
-             *     A reference to this Builder instance
-             */
-            @Override
-            public Builder id(java.lang.String id) {
-                return (Builder) super.id(id);
-            }
-
-            /**
-             * May be used to represent additional information that is not part of the basic definition of the element. To make the 
-             * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
-             * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
-             * of the definition of the extension.
-             * 
-             * <p>Adds new element(s) to the existing list.
-             * If any of the elements are null, calling {@link #build()} will fail.
-             * 
-             * @param extension
-             *     Additional content defined by implementations
-             * 
-             * @return
-             *     A reference to this Builder instance
-             */
-            @Override
-            public Builder extension(Extension... extension) {
-                return (Builder) super.extension(extension);
-            }
-
-            /**
-             * May be used to represent additional information that is not part of the basic definition of the element. To make the 
-             * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
-             * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
-             * of the definition of the extension.
-             * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection.
-             * If any of the elements are null, calling {@link #build()} will fail.
-             * 
-             * @param extension
-             *     Additional content defined by implementations
-             * 
-             * @return
-             *     A reference to this Builder instance
-             * 
-             * @throws NullPointerException
-             *     If the passed collection is null
-             */
-            @Override
-            public Builder extension(Collection<Extension> extension) {
-                return (Builder) super.extension(extension);
-            }
-
-            /**
-             * May be used to represent additional information that is not part of the basic definition of the element and that 
-             * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
-             * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
-             * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
-             * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
-             * extension. Applications processing a resource are required to check for modifier extensions.
-             * 
-             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
-             * change the meaning of modifierExtension itself).
-             * 
-             * <p>Adds new element(s) to the existing list.
-             * If any of the elements are null, calling {@link #build()} will fail.
-             * 
-             * @param modifierExtension
-             *     Extensions that cannot be ignored even if unrecognized
-             * 
-             * @return
-             *     A reference to this Builder instance
-             */
-            @Override
-            public Builder modifierExtension(Extension... modifierExtension) {
-                return (Builder) super.modifierExtension(modifierExtension);
-            }
-
-            /**
-             * May be used to represent additional information that is not part of the basic definition of the element and that 
-             * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
-             * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
-             * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
-             * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
-             * extension. Applications processing a resource are required to check for modifier extensions.
-             * 
-             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
-             * change the meaning of modifierExtension itself).
-             * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection.
-             * If any of the elements are null, calling {@link #build()} will fail.
-             * 
-             * @param modifierExtension
-             *     Extensions that cannot be ignored even if unrecognized
-             * 
-             * @return
-             *     A reference to this Builder instance
-             * 
-             * @throws NullPointerException
-             *     If the passed collection is null
-             */
-            @Override
-            public Builder modifierExtension(Collection<Extension> modifierExtension) {
-                return (Builder) super.modifierExtension(modifierExtension);
-            }
-
-            /**
-             * Todo.
-             * 
-             * @param type
-             *     Todo
-             * 
-             * @return
-             *     A reference to this Builder instance
-             */
-            public Builder type(CodeableConcept type) {
-                this.type = type;
-                return this;
-            }
-
-            /**
-             * Todo.
-             * 
-             * @param element
-             *     Todo
-             * 
-             * @return
-             *     A reference to this Builder instance
-             */
-            public Builder element(Identifier element) {
-                this.element = element;
-                return this;
-            }
-
-            /**
-             * Todo.
-             * 
-             * <p>Adds new element(s) to the existing list.
-             * If any of the elements are null, calling {@link #build()} will fail.
-             * 
-             * <p>Allowed resource types for the references:
-             * <ul>
-             * <li>{@link DocumentReference}</li>
-             * </ul>
-             * 
-             * @param source
-             *     Todo
-             * 
-             * @return
-             *     A reference to this Builder instance
-             */
-            public Builder source(Reference... source) {
-                for (Reference value : source) {
-                    this.source.add(value);
-                }
-                return this;
-            }
-
-            /**
-             * Todo.
-             * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection.
-             * If any of the elements are null, calling {@link #build()} will fail.
-             * 
-             * <p>Allowed resource types for the references:
-             * <ul>
-             * <li>{@link DocumentReference}</li>
-             * </ul>
-             * 
-             * @param source
-             *     Todo
-             * 
-             * @return
-             *     A reference to this Builder instance
-             * 
-             * @throws NullPointerException
-             *     If the passed collection is null
-             */
-            public Builder source(Collection<Reference> source) {
-                this.source = new ArrayList<>(source);
-                return this;
-            }
-
-            /**
-             * Build the {@link GeneElement}
-             * 
-             * @return
-             *     An immutable object of type {@link GeneElement}
-             * @throws IllegalStateException
-             *     if the current state cannot be built into a valid GeneElement per the base specification
-             */
-            @Override
-            public GeneElement build() {
-                GeneElement geneElement = new GeneElement(this);
-                if (validating) {
-                    validate(geneElement);
-                }
-                return geneElement;
-            }
-
-            protected void validate(GeneElement geneElement) {
-                super.validate(geneElement);
-                ValidationSupport.checkList(geneElement.source, "source", Reference.class);
-                ValidationSupport.checkReferenceType(geneElement.source, "source", "DocumentReference");
-                ValidationSupport.requireValueOrChildren(geneElement);
-            }
-
-            protected Builder from(GeneElement geneElement) {
-                super.from(geneElement);
-                type = geneElement.type;
-                element = geneElement.element;
-                source.addAll(geneElement.source);
-                return this;
-            }
-        }
-    }
-
-    /**
-     * Todo.
-     */
-    public static class Classification extends BackboneElement {
-        @Summary
-        private final CodeableConcept domain;
-        @Summary
-        private final CodeableConcept classification;
-        @Summary
-        private final List<CodeableConcept> subtype;
-        @Summary
-        @ReferenceTarget({ "DocumentReference" })
-        private final List<Reference> source;
-
-        private Classification(Builder builder) {
-            super(builder);
-            domain = builder.domain;
-            classification = builder.classification;
-            subtype = Collections.unmodifiableList(builder.subtype);
-            source = Collections.unmodifiableList(builder.source);
-        }
-
-        /**
-         * Todo.
-         * 
-         * @return
-         *     An immutable object of type {@link CodeableConcept} that may be null.
-         */
-        public CodeableConcept getDomain() {
-            return domain;
-        }
-
-        /**
-         * Todo.
-         * 
-         * @return
-         *     An immutable object of type {@link CodeableConcept} that may be null.
-         */
-        public CodeableConcept getClassification() {
-            return classification;
-        }
-
-        /**
-         * Todo.
-         * 
-         * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
-         */
-        public List<CodeableConcept> getSubtype() {
-            return subtype;
-        }
-
-        /**
-         * Todo.
-         * 
-         * @return
-         *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
-         */
-        public List<Reference> getSource() {
-            return source;
-        }
-
-        @Override
-        public boolean hasChildren() {
-            return super.hasChildren() || 
-                (domain != null) || 
-                (classification != null) || 
-                !subtype.isEmpty() || 
-                !source.isEmpty();
-        }
-
-        @Override
-        public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
-            if (visitor.preVisit(this)) {
-                visitor.visitStart(elementName, elementIndex, this);
-                if (visitor.visit(elementName, elementIndex, this)) {
-                    // visit children
-                    accept(id, "id", visitor);
-                    accept(extension, "extension", visitor, Extension.class);
-                    accept(modifierExtension, "modifierExtension", visitor, Extension.class);
-                    accept(domain, "domain", visitor);
-                    accept(classification, "classification", visitor);
-                    accept(subtype, "subtype", visitor, CodeableConcept.class);
-                    accept(source, "source", visitor, Reference.class);
-                }
-                visitor.visitEnd(elementName, elementIndex, this);
-                visitor.postVisit(this);
-            }
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (this == obj) {
-                return true;
-            }
-            if (obj == null) {
-                return false;
-            }
-            if (getClass() != obj.getClass()) {
-                return false;
-            }
-            Classification other = (Classification) obj;
-            return Objects.equals(id, other.id) && 
-                Objects.equals(extension, other.extension) && 
-                Objects.equals(modifierExtension, other.modifierExtension) && 
-                Objects.equals(domain, other.domain) && 
-                Objects.equals(classification, other.classification) && 
-                Objects.equals(subtype, other.subtype) && 
-                Objects.equals(source, other.source);
-        }
-
-        @Override
-        public int hashCode() {
-            int result = hashCode;
-            if (result == 0) {
-                result = Objects.hash(id, 
-                    extension, 
-                    modifierExtension, 
-                    domain, 
-                    classification, 
-                    subtype, 
-                    source);
-                hashCode = result;
-            }
-            return result;
-        }
-
-        @Override
-        public Builder toBuilder() {
-            return new Builder().from(this);
-        }
-
-        public static Builder builder() {
-            return new Builder();
-        }
-
-        public static class Builder extends BackboneElement.Builder {
-            private CodeableConcept domain;
-            private CodeableConcept classification;
-            private List<CodeableConcept> subtype = new ArrayList<>();
-            private List<Reference> source = new ArrayList<>();
-
-            private Builder() {
-                super();
-            }
-
-            /**
-             * Unique id for the element within a resource (for internal references). This may be any string value that does not 
-             * contain spaces.
-             * 
-             * @param id
-             *     Unique id for inter-element referencing
-             * 
-             * @return
-             *     A reference to this Builder instance
-             */
-            @Override
-            public Builder id(java.lang.String id) {
-                return (Builder) super.id(id);
-            }
-
-            /**
-             * May be used to represent additional information that is not part of the basic definition of the element. To make the 
-             * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
-             * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
-             * of the definition of the extension.
-             * 
-             * <p>Adds new element(s) to the existing list.
-             * If any of the elements are null, calling {@link #build()} will fail.
-             * 
-             * @param extension
-             *     Additional content defined by implementations
-             * 
-             * @return
-             *     A reference to this Builder instance
-             */
-            @Override
-            public Builder extension(Extension... extension) {
-                return (Builder) super.extension(extension);
-            }
-
-            /**
-             * May be used to represent additional information that is not part of the basic definition of the element. To make the 
-             * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
-             * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
-             * of the definition of the extension.
-             * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection.
-             * If any of the elements are null, calling {@link #build()} will fail.
-             * 
-             * @param extension
-             *     Additional content defined by implementations
-             * 
-             * @return
-             *     A reference to this Builder instance
-             * 
-             * @throws NullPointerException
-             *     If the passed collection is null
-             */
-            @Override
-            public Builder extension(Collection<Extension> extension) {
-                return (Builder) super.extension(extension);
-            }
-
-            /**
-             * May be used to represent additional information that is not part of the basic definition of the element and that 
-             * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
-             * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
-             * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
-             * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
-             * extension. Applications processing a resource are required to check for modifier extensions.
-             * 
-             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
-             * change the meaning of modifierExtension itself).
-             * 
-             * <p>Adds new element(s) to the existing list.
-             * If any of the elements are null, calling {@link #build()} will fail.
-             * 
-             * @param modifierExtension
-             *     Extensions that cannot be ignored even if unrecognized
-             * 
-             * @return
-             *     A reference to this Builder instance
-             */
-            @Override
-            public Builder modifierExtension(Extension... modifierExtension) {
-                return (Builder) super.modifierExtension(modifierExtension);
-            }
-
-            /**
-             * May be used to represent additional information that is not part of the basic definition of the element and that 
-             * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
-             * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
-             * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
-             * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
-             * extension. Applications processing a resource are required to check for modifier extensions.
-             * 
-             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
-             * change the meaning of modifierExtension itself).
-             * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection.
-             * If any of the elements are null, calling {@link #build()} will fail.
-             * 
-             * @param modifierExtension
-             *     Extensions that cannot be ignored even if unrecognized
-             * 
-             * @return
-             *     A reference to this Builder instance
-             * 
-             * @throws NullPointerException
-             *     If the passed collection is null
-             */
-            @Override
-            public Builder modifierExtension(Collection<Extension> modifierExtension) {
-                return (Builder) super.modifierExtension(modifierExtension);
-            }
-
-            /**
-             * Todo.
-             * 
-             * @param domain
-             *     Todo
-             * 
-             * @return
-             *     A reference to this Builder instance
-             */
-            public Builder domain(CodeableConcept domain) {
-                this.domain = domain;
-                return this;
-            }
-
-            /**
-             * Todo.
-             * 
-             * @param classification
-             *     Todo
-             * 
-             * @return
-             *     A reference to this Builder instance
-             */
-            public Builder classification(CodeableConcept classification) {
-                this.classification = classification;
-                return this;
-            }
-
-            /**
-             * Todo.
-             * 
-             * <p>Adds new element(s) to the existing list.
-             * If any of the elements are null, calling {@link #build()} will fail.
-             * 
-             * @param subtype
-             *     Todo
-             * 
-             * @return
-             *     A reference to this Builder instance
-             */
-            public Builder subtype(CodeableConcept... subtype) {
-                for (CodeableConcept value : subtype) {
-                    this.subtype.add(value);
-                }
-                return this;
-            }
-
-            /**
-             * Todo.
-             * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection.
-             * If any of the elements are null, calling {@link #build()} will fail.
-             * 
-             * @param subtype
-             *     Todo
-             * 
-             * @return
-             *     A reference to this Builder instance
-             * 
-             * @throws NullPointerException
-             *     If the passed collection is null
-             */
-            public Builder subtype(Collection<CodeableConcept> subtype) {
-                this.subtype = new ArrayList<>(subtype);
-                return this;
-            }
-
-            /**
-             * Todo.
-             * 
-             * <p>Adds new element(s) to the existing list.
-             * If any of the elements are null, calling {@link #build()} will fail.
-             * 
-             * <p>Allowed resource types for the references:
-             * <ul>
-             * <li>{@link DocumentReference}</li>
-             * </ul>
-             * 
-             * @param source
-             *     Todo
-             * 
-             * @return
-             *     A reference to this Builder instance
-             */
-            public Builder source(Reference... source) {
-                for (Reference value : source) {
-                    this.source.add(value);
-                }
-                return this;
-            }
-
-            /**
-             * Todo.
-             * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection.
-             * If any of the elements are null, calling {@link #build()} will fail.
-             * 
-             * <p>Allowed resource types for the references:
-             * <ul>
-             * <li>{@link DocumentReference}</li>
-             * </ul>
-             * 
-             * @param source
-             *     Todo
-             * 
-             * @return
-             *     A reference to this Builder instance
-             * 
-             * @throws NullPointerException
-             *     If the passed collection is null
-             */
-            public Builder source(Collection<Reference> source) {
-                this.source = new ArrayList<>(source);
-                return this;
-            }
-
-            /**
-             * Build the {@link Classification}
-             * 
-             * @return
-             *     An immutable object of type {@link Classification}
-             * @throws IllegalStateException
-             *     if the current state cannot be built into a valid Classification per the base specification
-             */
-            @Override
-            public Classification build() {
-                Classification classification = new Classification(this);
-                if (validating) {
-                    validate(classification);
-                }
-                return classification;
-            }
-
-            protected void validate(Classification classification) {
-                super.validate(classification);
-                ValidationSupport.checkList(classification.subtype, "subtype", CodeableConcept.class);
-                ValidationSupport.checkList(classification.source, "source", Reference.class);
-                ValidationSupport.checkReferenceType(classification.source, "source", "DocumentReference");
-                ValidationSupport.requireValueOrChildren(classification);
-            }
-
-            protected Builder from(Classification classification) {
-                super.from(classification);
-                domain = classification.domain;
-                this.classification = classification.classification;
-                subtype.addAll(classification.subtype);
-                source.addAll(classification.source);
-                return this;
-            }
-        }
-    }
-
-    /**
-     * Todo.
-     */
-    public static class Target extends BackboneElement {
-        @Summary
-        private final Identifier target;
-        @Summary
-        private final CodeableConcept type;
-        @Summary
-        private final CodeableConcept interaction;
-        @Summary
-        private final CodeableConcept organism;
-        @Summary
-        private final CodeableConcept organismType;
-        @Summary
-        @Choice({ Quantity.class, Range.class, String.class })
-        private final Element amount;
-        @Summary
-        private final CodeableConcept amountType;
-        @Summary
-        @ReferenceTarget({ "DocumentReference" })
-        private final List<Reference> source;
-
-        private Target(Builder builder) {
-            super(builder);
-            target = builder.target;
-            type = builder.type;
-            interaction = builder.interaction;
-            organism = builder.organism;
-            organismType = builder.organismType;
-            amount = builder.amount;
-            amountType = builder.amountType;
-            source = Collections.unmodifiableList(builder.source);
-        }
-
-        /**
-         * Todo.
-         * 
-         * @return
-         *     An immutable object of type {@link Identifier} that may be null.
-         */
-        public Identifier getTarget() {
-            return target;
-        }
-
-        /**
-         * Todo.
-         * 
-         * @return
-         *     An immutable object of type {@link CodeableConcept} that may be null.
-         */
-        public CodeableConcept getType() {
-            return type;
-        }
-
-        /**
-         * Todo.
-         * 
-         * @return
-         *     An immutable object of type {@link CodeableConcept} that may be null.
-         */
-        public CodeableConcept getInteraction() {
-            return interaction;
-        }
-
-        /**
-         * Todo.
-         * 
-         * @return
-         *     An immutable object of type {@link CodeableConcept} that may be null.
-         */
-        public CodeableConcept getOrganism() {
-            return organism;
-        }
-
-        /**
-         * Todo.
-         * 
-         * @return
-         *     An immutable object of type {@link CodeableConcept} that may be null.
-         */
-        public CodeableConcept getOrganismType() {
-            return organismType;
-        }
-
-        /**
-         * Todo.
-         * 
-         * @return
-         *     An immutable object of type {@link Quantity}, {@link Range} or {@link String} that may be null.
-         */
-        public Element getAmount() {
+        public List<Ratio> getAmount() {
             return amount;
         }
 
-        /**
-         * Todo.
-         * 
-         * @return
-         *     An immutable object of type {@link CodeableConcept} that may be null.
-         */
-        public CodeableConcept getAmountType() {
-            return amountType;
-        }
-
-        /**
-         * Todo.
-         * 
-         * @return
-         *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
-         */
-        public List<Reference> getSource() {
-            return source;
-        }
-
         @Override
         public boolean hasChildren() {
             return super.hasChildren() || 
-                (target != null) || 
-                (type != null) || 
-                (interaction != null) || 
-                (organism != null) || 
-                (organismType != null) || 
-                (amount != null) || 
-                (amountType != null) || 
-                !source.isEmpty();
+                (item != null) || 
+                !amount.isEmpty();
         }
 
         @Override
@@ -1899,14 +990,8 @@ public class SubstanceReferenceInformation extends DomainResource {
                     accept(id, "id", visitor);
                     accept(extension, "extension", visitor, Extension.class);
                     accept(modifierExtension, "modifierExtension", visitor, Extension.class);
-                    accept(target, "target", visitor);
-                    accept(type, "type", visitor);
-                    accept(interaction, "interaction", visitor);
-                    accept(organism, "organism", visitor);
-                    accept(organismType, "organismType", visitor);
-                    accept(amount, "amount", visitor);
-                    accept(amountType, "amountType", visitor);
-                    accept(source, "source", visitor, Reference.class);
+                    accept(item, "item", visitor);
+                    accept(amount, "amount", visitor, Ratio.class);
                 }
                 visitor.visitEnd(elementName, elementIndex, this);
                 visitor.postVisit(this);
@@ -1924,18 +1009,12 @@ public class SubstanceReferenceInformation extends DomainResource {
             if (getClass() != obj.getClass()) {
                 return false;
             }
-            Target other = (Target) obj;
+            Nutrient other = (Nutrient) obj;
             return Objects.equals(id, other.id) && 
                 Objects.equals(extension, other.extension) && 
                 Objects.equals(modifierExtension, other.modifierExtension) && 
-                Objects.equals(target, other.target) && 
-                Objects.equals(type, other.type) && 
-                Objects.equals(interaction, other.interaction) && 
-                Objects.equals(organism, other.organism) && 
-                Objects.equals(organismType, other.organismType) && 
-                Objects.equals(amount, other.amount) && 
-                Objects.equals(amountType, other.amountType) && 
-                Objects.equals(source, other.source);
+                Objects.equals(item, other.item) && 
+                Objects.equals(amount, other.amount);
         }
 
         @Override
@@ -1945,14 +1024,8 @@ public class SubstanceReferenceInformation extends DomainResource {
                 result = Objects.hash(id, 
                     extension, 
                     modifierExtension, 
-                    target, 
-                    type, 
-                    interaction, 
-                    organism, 
-                    organismType, 
-                    amount, 
-                    amountType, 
-                    source);
+                    item, 
+                    amount);
                 hashCode = result;
             }
             return result;
@@ -1968,14 +1041,8 @@ public class SubstanceReferenceInformation extends DomainResource {
         }
 
         public static class Builder extends BackboneElement.Builder {
-            private Identifier target;
-            private CodeableConcept type;
-            private CodeableConcept interaction;
-            private CodeableConcept organism;
-            private CodeableConcept organismType;
-            private Element amount;
-            private CodeableConcept amountType;
-            private List<Reference> source = new ArrayList<>();
+            private CodeableReference item;
+            private List<Ratio> amount = new ArrayList<>();
 
             private Builder() {
                 super();
@@ -2093,24 +1160,639 @@ public class SubstanceReferenceInformation extends DomainResource {
             }
 
             /**
-             * Todo.
+             * The (relevant) nutrients in the product.
              * 
-             * @param target
-             *     Todo
+             * @param item
+             *     The (relevant) nutrients in the product
              * 
              * @return
              *     A reference to this Builder instance
              */
-            public Builder target(Identifier target) {
-                this.target = target;
+            public Builder item(CodeableReference item) {
+                this.item = item;
                 return this;
             }
 
             /**
-             * Todo.
+             * The amount of nutrient expressed in one or more units: X per pack / per serving / per dose.
+             * 
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
+             * 
+             * @param amount
+             *     The amount of nutrient expressed in one or more units: X per pack / per serving / per dose
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder amount(Ratio... amount) {
+                for (Ratio value : amount) {
+                    this.amount.add(value);
+                }
+                return this;
+            }
+
+            /**
+             * The amount of nutrient expressed in one or more units: X per pack / per serving / per dose.
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
+             * 
+             * @param amount
+             *     The amount of nutrient expressed in one or more units: X per pack / per serving / per dose
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
+             */
+            public Builder amount(Collection<Ratio> amount) {
+                this.amount = new ArrayList<>(amount);
+                return this;
+            }
+
+            /**
+             * Build the {@link Nutrient}
+             * 
+             * @return
+             *     An immutable object of type {@link Nutrient}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Nutrient per the base specification
+             */
+            @Override
+            public Nutrient build() {
+                Nutrient nutrient = new Nutrient(this);
+                if (validating) {
+                    validate(nutrient);
+                }
+                return nutrient;
+            }
+
+            protected void validate(Nutrient nutrient) {
+                super.validate(nutrient);
+                ValidationSupport.checkList(nutrient.amount, "amount", Ratio.class);
+                ValidationSupport.requireValueOrChildren(nutrient);
+            }
+
+            protected Builder from(Nutrient nutrient) {
+                super.from(nutrient);
+                item = nutrient.item;
+                amount.addAll(nutrient.amount);
+                return this;
+            }
+        }
+    }
+
+    /**
+     * Ingredients contained in this product.
+     */
+    public static class Ingredient extends BackboneElement {
+        @Summary
+        @Required
+        private final CodeableReference item;
+        @Summary
+        private final List<Ratio> amount;
+
+        private Ingredient(Builder builder) {
+            super(builder);
+            item = builder.item;
+            amount = Collections.unmodifiableList(builder.amount);
+        }
+
+        /**
+         * The ingredient contained in the product.
+         * 
+         * @return
+         *     An immutable object of type {@link CodeableReference} that is non-null.
+         */
+        public CodeableReference getItem() {
+            return item;
+        }
+
+        /**
+         * The amount of ingredient that is in the product.
+         * 
+         * @return
+         *     An unmodifiable list containing immutable objects of type {@link Ratio} that may be empty.
+         */
+        public List<Ratio> getAmount() {
+            return amount;
+        }
+
+        @Override
+        public boolean hasChildren() {
+            return super.hasChildren() || 
+                (item != null) || 
+                !amount.isEmpty();
+        }
+
+        @Override
+        public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
+            if (visitor.preVisit(this)) {
+                visitor.visitStart(elementName, elementIndex, this);
+                if (visitor.visit(elementName, elementIndex, this)) {
+                    // visit children
+                    accept(id, "id", visitor);
+                    accept(extension, "extension", visitor, Extension.class);
+                    accept(modifierExtension, "modifierExtension", visitor, Extension.class);
+                    accept(item, "item", visitor);
+                    accept(amount, "amount", visitor, Ratio.class);
+                }
+                visitor.visitEnd(elementName, elementIndex, this);
+                visitor.postVisit(this);
+            }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Ingredient other = (Ingredient) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(item, other.item) && 
+                Objects.equals(amount, other.amount);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    item, 
+                    amount);
+                hashCode = result;
+            }
+            return result;
+        }
+
+        @Override
+        public Builder toBuilder() {
+            return new Builder().from(this);
+        }
+
+        public static Builder builder() {
+            return new Builder();
+        }
+
+        public static class Builder extends BackboneElement.Builder {
+            private CodeableReference item;
+            private List<Ratio> amount = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
+
+            /**
+             * Unique id for the element within a resource (for internal references). This may be any string value that does not 
+             * contain spaces.
+             * 
+             * @param id
+             *     Unique id for inter-element referencing
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            @Override
+            public Builder id(java.lang.String id) {
+                return (Builder) super.id(id);
+            }
+
+            /**
+             * May be used to represent additional information that is not part of the basic definition of the element. To make the 
+             * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
+             * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
+             * of the definition of the extension.
+             * 
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
+             * 
+             * @param extension
+             *     Additional content defined by implementations
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            @Override
+            public Builder extension(Extension... extension) {
+                return (Builder) super.extension(extension);
+            }
+
+            /**
+             * May be used to represent additional information that is not part of the basic definition of the element. To make the 
+             * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
+             * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
+             * of the definition of the extension.
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
+             * 
+             * @param extension
+             *     Additional content defined by implementations
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
+             */
+            @Override
+            public Builder extension(Collection<Extension> extension) {
+                return (Builder) super.extension(extension);
+            }
+
+            /**
+             * May be used to represent additional information that is not part of the basic definition of the element and that 
+             * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
+             * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
+             * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
+             * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
+             * extension. Applications processing a resource are required to check for modifier extensions.
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * change the meaning of modifierExtension itself).
+             * 
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
+             * 
+             * @param modifierExtension
+             *     Extensions that cannot be ignored even if unrecognized
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            @Override
+            public Builder modifierExtension(Extension... modifierExtension) {
+                return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * May be used to represent additional information that is not part of the basic definition of the element and that 
+             * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
+             * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
+             * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
+             * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
+             * extension. Applications processing a resource are required to check for modifier extensions.
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * change the meaning of modifierExtension itself).
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
+             * 
+             * @param modifierExtension
+             *     Extensions that cannot be ignored even if unrecognized
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
+             */
+            @Override
+            public Builder modifierExtension(Collection<Extension> modifierExtension) {
+                return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * The ingredient contained in the product.
+             * 
+             * <p>This element is required.
+             * 
+             * @param item
+             *     The ingredient contained in the product
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder item(CodeableReference item) {
+                this.item = item;
+                return this;
+            }
+
+            /**
+             * The amount of ingredient that is in the product.
+             * 
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
+             * 
+             * @param amount
+             *     The amount of ingredient that is in the product
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder amount(Ratio... amount) {
+                for (Ratio value : amount) {
+                    this.amount.add(value);
+                }
+                return this;
+            }
+
+            /**
+             * The amount of ingredient that is in the product.
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
+             * 
+             * @param amount
+             *     The amount of ingredient that is in the product
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
+             */
+            public Builder amount(Collection<Ratio> amount) {
+                this.amount = new ArrayList<>(amount);
+                return this;
+            }
+
+            /**
+             * Build the {@link Ingredient}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>item</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Ingredient}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Ingredient per the base specification
+             */
+            @Override
+            public Ingredient build() {
+                Ingredient ingredient = new Ingredient(this);
+                if (validating) {
+                    validate(ingredient);
+                }
+                return ingredient;
+            }
+
+            protected void validate(Ingredient ingredient) {
+                super.validate(ingredient);
+                ValidationSupport.requireNonNull(ingredient.item, "item");
+                ValidationSupport.checkList(ingredient.amount, "amount", Ratio.class);
+                ValidationSupport.requireValueOrChildren(ingredient);
+            }
+
+            protected Builder from(Ingredient ingredient) {
+                super.from(ingredient);
+                item = ingredient.item;
+                amount.addAll(ingredient.amount);
+                return this;
+            }
+        }
+    }
+
+    /**
+     * Specifies descriptive properties of the nutrition product.
+     */
+    public static class ProductCharacteristic extends BackboneElement {
+        @Binding(
+            bindingName = "PropertyCharacteristic",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "Codes that identify properties that can be measured.",
+            valueSet = "http://hl7.org/fhir/ValueSet/measurement-property"
+        )
+        @Required
+        private final CodeableConcept type;
+        @Choice({ CodeableConcept.class, String.class, SimpleQuantity.class, Base64Binary.class, Attachment.class, Boolean.class })
+        @Required
+        private final Element value;
+
+        private ProductCharacteristic(Builder builder) {
+            super(builder);
+            type = builder.type;
+            value = builder.value;
+        }
+
+        /**
+         * A code specifying which characteristic of the product is being described (for example, colour, shape).
+         * 
+         * @return
+         *     An immutable object of type {@link CodeableConcept} that is non-null.
+         */
+        public CodeableConcept getType() {
+            return type;
+        }
+
+        /**
+         * The actual characteristic value corresponding to the type.
+         * 
+         * @return
+         *     An immutable object of type {@link CodeableConcept}, {@link String}, {@link SimpleQuantity}, {@link Base64Binary}, 
+         *     {@link Attachment} or {@link Boolean} that is non-null.
+         */
+        public Element getValue() {
+            return value;
+        }
+
+        @Override
+        public boolean hasChildren() {
+            return super.hasChildren() || 
+                (type != null) || 
+                (value != null);
+        }
+
+        @Override
+        public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
+            if (visitor.preVisit(this)) {
+                visitor.visitStart(elementName, elementIndex, this);
+                if (visitor.visit(elementName, elementIndex, this)) {
+                    // visit children
+                    accept(id, "id", visitor);
+                    accept(extension, "extension", visitor, Extension.class);
+                    accept(modifierExtension, "modifierExtension", visitor, Extension.class);
+                    accept(type, "type", visitor);
+                    accept(value, "value", visitor);
+                }
+                visitor.visitEnd(elementName, elementIndex, this);
+                visitor.postVisit(this);
+            }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            ProductCharacteristic other = (ProductCharacteristic) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(value, other.value);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    type, 
+                    value);
+                hashCode = result;
+            }
+            return result;
+        }
+
+        @Override
+        public Builder toBuilder() {
+            return new Builder().from(this);
+        }
+
+        public static Builder builder() {
+            return new Builder();
+        }
+
+        public static class Builder extends BackboneElement.Builder {
+            private CodeableConcept type;
+            private Element value;
+
+            private Builder() {
+                super();
+            }
+
+            /**
+             * Unique id for the element within a resource (for internal references). This may be any string value that does not 
+             * contain spaces.
+             * 
+             * @param id
+             *     Unique id for inter-element referencing
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            @Override
+            public Builder id(java.lang.String id) {
+                return (Builder) super.id(id);
+            }
+
+            /**
+             * May be used to represent additional information that is not part of the basic definition of the element. To make the 
+             * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
+             * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
+             * of the definition of the extension.
+             * 
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
+             * 
+             * @param extension
+             *     Additional content defined by implementations
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            @Override
+            public Builder extension(Extension... extension) {
+                return (Builder) super.extension(extension);
+            }
+
+            /**
+             * May be used to represent additional information that is not part of the basic definition of the element. To make the 
+             * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
+             * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
+             * of the definition of the extension.
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
+             * 
+             * @param extension
+             *     Additional content defined by implementations
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
+             */
+            @Override
+            public Builder extension(Collection<Extension> extension) {
+                return (Builder) super.extension(extension);
+            }
+
+            /**
+             * May be used to represent additional information that is not part of the basic definition of the element and that 
+             * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
+             * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
+             * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
+             * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
+             * extension. Applications processing a resource are required to check for modifier extensions.
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * change the meaning of modifierExtension itself).
+             * 
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
+             * 
+             * @param modifierExtension
+             *     Extensions that cannot be ignored even if unrecognized
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            @Override
+            public Builder modifierExtension(Extension... modifierExtension) {
+                return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * May be used to represent additional information that is not part of the basic definition of the element and that 
+             * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
+             * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
+             * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
+             * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
+             * extension. Applications processing a resource are required to check for modifier extensions.
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * change the meaning of modifierExtension itself).
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
+             * 
+             * @param modifierExtension
+             *     Extensions that cannot be ignored even if unrecognized
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
+             */
+            @Override
+            public Builder modifierExtension(Collection<Extension> modifierExtension) {
+                return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * A code specifying which characteristic of the product is being described (for example, colour, shape).
+             * 
+             * <p>This element is required.
              * 
              * @param type
-             *     Todo
+             *     Code specifying the type of characteristic
              * 
              * @return
              *     A reference to this Builder instance
@@ -2121,135 +1803,314 @@ public class SubstanceReferenceInformation extends DomainResource {
             }
 
             /**
-             * Todo.
+             * Convenience method for setting {@code value} with choice type String.
              * 
-             * @param interaction
-             *     Todo
+             * <p>This element is required.
              * 
-             * @return
-             *     A reference to this Builder instance
-             */
-            public Builder interaction(CodeableConcept interaction) {
-                this.interaction = interaction;
-                return this;
-            }
-
-            /**
-             * Todo.
-             * 
-             * @param organism
-             *     Todo
-             * 
-             * @return
-             *     A reference to this Builder instance
-             */
-            public Builder organism(CodeableConcept organism) {
-                this.organism = organism;
-                return this;
-            }
-
-            /**
-             * Todo.
-             * 
-             * @param organismType
-             *     Todo
-             * 
-             * @return
-             *     A reference to this Builder instance
-             */
-            public Builder organismType(CodeableConcept organismType) {
-                this.organismType = organismType;
-                return this;
-            }
-
-            /**
-             * Convenience method for setting {@code amount} with choice type String.
-             * 
-             * @param amount
-             *     Todo
+             * @param value
+             *     The value of the characteristic
              * 
              * @return
              *     A reference to this Builder instance
              * 
-             * @see #amount(Element)
+             * @see #value(Element)
              */
-            public Builder amount(java.lang.String amount) {
-                this.amount = (amount == null) ? null : String.of(amount);
+            public Builder value(java.lang.String value) {
+                this.value = (value == null) ? null : String.of(value);
                 return this;
             }
 
             /**
-             * Todo.
+             * Convenience method for setting {@code value} with choice type Boolean.
+             * 
+             * <p>This element is required.
+             * 
+             * @param value
+             *     The value of the characteristic
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.lang.Boolean value) {
+                this.value = (value == null) ? null : Boolean.of(value);
+                return this;
+            }
+
+            /**
+             * The actual characteristic value corresponding to the type.
+             * 
+             * <p>This element is required.
              * 
              * <p>This is a choice element with the following allowed types:
              * <ul>
-             * <li>{@link Quantity}</li>
-             * <li>{@link Range}</li>
+             * <li>{@link CodeableConcept}</li>
              * <li>{@link String}</li>
+             * <li>{@link SimpleQuantity}</li>
+             * <li>{@link Base64Binary}</li>
+             * <li>{@link Attachment}</li>
+             * <li>{@link Boolean}</li>
              * </ul>
              * 
-             * @param amount
-             *     Todo
+             * @param value
+             *     The value of the characteristic
              * 
              * @return
              *     A reference to this Builder instance
              */
-            public Builder amount(Element amount) {
-                this.amount = amount;
+            public Builder value(Element value) {
+                this.value = value;
                 return this;
             }
 
             /**
-             * Todo.
+             * Build the {@link ProductCharacteristic}
              * 
-             * @param amountType
-             *     Todo
+             * <p>Required elements:
+             * <ul>
+             * <li>type</li>
+             * <li>value</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link ProductCharacteristic}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid ProductCharacteristic per the base specification
+             */
+            @Override
+            public ProductCharacteristic build() {
+                ProductCharacteristic productCharacteristic = new ProductCharacteristic(this);
+                if (validating) {
+                    validate(productCharacteristic);
+                }
+                return productCharacteristic;
+            }
+
+            protected void validate(ProductCharacteristic productCharacteristic) {
+                super.validate(productCharacteristic);
+                ValidationSupport.requireNonNull(productCharacteristic.type, "type");
+                ValidationSupport.requireChoiceElement(productCharacteristic.value, "value", CodeableConcept.class, String.class, SimpleQuantity.class, Base64Binary.class, Attachment.class, Boolean.class);
+                ValidationSupport.requireValueOrChildren(productCharacteristic);
+            }
+
+            protected Builder from(ProductCharacteristic productCharacteristic) {
+                super.from(productCharacteristic);
+                type = productCharacteristic.type;
+                value = productCharacteristic.value;
+                return this;
+            }
+        }
+    }
+
+    /**
+     * Conveys instance-level information about this product item. One or several physical, countable instances or 
+     * occurrences of the product.
+     */
+    public static class Instance extends BackboneElement {
+        private final SimpleQuantity quantity;
+        private final List<Identifier> identifier;
+        private final String lotNumber;
+        private final DateTime expiry;
+        private final DateTime useBy;
+
+        private Instance(Builder builder) {
+            super(builder);
+            quantity = builder.quantity;
+            identifier = Collections.unmodifiableList(builder.identifier);
+            lotNumber = builder.lotNumber;
+            expiry = builder.expiry;
+            useBy = builder.useBy;
+        }
+
+        /**
+         * The amount of items or instances that the resource considers, for instance when referring to 2 identical units 
+         * together.
+         * 
+         * @return
+         *     An immutable object of type {@link SimpleQuantity} that may be null.
+         */
+        public SimpleQuantity getQuantity() {
+            return quantity;
+        }
+
+        /**
+         * The identifier for the physical instance, typically a serial number.
+         * 
+         * @return
+         *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
+         */
+        public List<Identifier> getIdentifier() {
+            return identifier;
+        }
+
+        /**
+         * The identification of the batch or lot of the product.
+         * 
+         * @return
+         *     An immutable object of type {@link String} that may be null.
+         */
+        public String getLotNumber() {
+            return lotNumber;
+        }
+
+        /**
+         * The time after which the product is no longer expected to be in proper condition, or its use is not advised or not 
+         * allowed.
+         * 
+         * @return
+         *     An immutable object of type {@link DateTime} that may be null.
+         */
+        public DateTime getExpiry() {
+            return expiry;
+        }
+
+        /**
+         * The time after which the product is no longer expected to be in proper condition, or its use is not advised or not 
+         * allowed.
+         * 
+         * @return
+         *     An immutable object of type {@link DateTime} that may be null.
+         */
+        public DateTime getUseBy() {
+            return useBy;
+        }
+
+        @Override
+        public boolean hasChildren() {
+            return super.hasChildren() || 
+                (quantity != null) || 
+                !identifier.isEmpty() || 
+                (lotNumber != null) || 
+                (expiry != null) || 
+                (useBy != null);
+        }
+
+        @Override
+        public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
+            if (visitor.preVisit(this)) {
+                visitor.visitStart(elementName, elementIndex, this);
+                if (visitor.visit(elementName, elementIndex, this)) {
+                    // visit children
+                    accept(id, "id", visitor);
+                    accept(extension, "extension", visitor, Extension.class);
+                    accept(modifierExtension, "modifierExtension", visitor, Extension.class);
+                    accept(quantity, "quantity", visitor);
+                    accept(identifier, "identifier", visitor, Identifier.class);
+                    accept(lotNumber, "lotNumber", visitor);
+                    accept(expiry, "expiry", visitor);
+                    accept(useBy, "useBy", visitor);
+                }
+                visitor.visitEnd(elementName, elementIndex, this);
+                visitor.postVisit(this);
+            }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Instance other = (Instance) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(quantity, other.quantity) && 
+                Objects.equals(identifier, other.identifier) && 
+                Objects.equals(lotNumber, other.lotNumber) && 
+                Objects.equals(expiry, other.expiry) && 
+                Objects.equals(useBy, other.useBy);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    quantity, 
+                    identifier, 
+                    lotNumber, 
+                    expiry, 
+                    useBy);
+                hashCode = result;
+            }
+            return result;
+        }
+
+        @Override
+        public Builder toBuilder() {
+            return new Builder().from(this);
+        }
+
+        public static Builder builder() {
+            return new Builder();
+        }
+
+        public static class Builder extends BackboneElement.Builder {
+            private SimpleQuantity quantity;
+            private List<Identifier> identifier = new ArrayList<>();
+            private String lotNumber;
+            private DateTime expiry;
+            private DateTime useBy;
+
+            private Builder() {
+                super();
+            }
+
+            /**
+             * Unique id for the element within a resource (for internal references). This may be any string value that does not 
+             * contain spaces.
+             * 
+             * @param id
+             *     Unique id for inter-element referencing
              * 
              * @return
              *     A reference to this Builder instance
              */
-            public Builder amountType(CodeableConcept amountType) {
-                this.amountType = amountType;
-                return this;
+            @Override
+            public Builder id(java.lang.String id) {
+                return (Builder) super.id(id);
             }
 
             /**
-             * Todo.
+             * May be used to represent additional information that is not part of the basic definition of the element. To make the 
+             * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
+             * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
+             * of the definition of the extension.
              * 
              * <p>Adds new element(s) to the existing list.
              * If any of the elements are null, calling {@link #build()} will fail.
              * 
-             * <p>Allowed resource types for the references:
-             * <ul>
-             * <li>{@link DocumentReference}</li>
-             * </ul>
-             * 
-             * @param source
-             *     Todo
+             * @param extension
+             *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
              */
-            public Builder source(Reference... source) {
-                for (Reference value : source) {
-                    this.source.add(value);
-                }
-                return this;
+            @Override
+            public Builder extension(Extension... extension) {
+                return (Builder) super.extension(extension);
             }
 
             /**
-             * Todo.
+             * May be used to represent additional information that is not part of the basic definition of the element. To make the 
+             * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
+             * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
+             * of the definition of the extension.
              * 
              * <p>Replaces the existing list with a new one containing elements from the Collection.
              * If any of the elements are null, calling {@link #build()} will fail.
              * 
-             * <p>Allowed resource types for the references:
-             * <ul>
-             * <li>{@link DocumentReference}</li>
-             * </ul>
-             * 
-             * @param source
-             *     Todo
+             * @param extension
+             *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
@@ -2257,46 +2118,208 @@ public class SubstanceReferenceInformation extends DomainResource {
              * @throws NullPointerException
              *     If the passed collection is null
              */
-            public Builder source(Collection<Reference> source) {
-                this.source = new ArrayList<>(source);
+            @Override
+            public Builder extension(Collection<Extension> extension) {
+                return (Builder) super.extension(extension);
+            }
+
+            /**
+             * May be used to represent additional information that is not part of the basic definition of the element and that 
+             * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
+             * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
+             * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
+             * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
+             * extension. Applications processing a resource are required to check for modifier extensions.
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * change the meaning of modifierExtension itself).
+             * 
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
+             * 
+             * @param modifierExtension
+             *     Extensions that cannot be ignored even if unrecognized
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            @Override
+            public Builder modifierExtension(Extension... modifierExtension) {
+                return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * May be used to represent additional information that is not part of the basic definition of the element and that 
+             * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
+             * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
+             * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
+             * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
+             * extension. Applications processing a resource are required to check for modifier extensions.
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * change the meaning of modifierExtension itself).
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
+             * 
+             * @param modifierExtension
+             *     Extensions that cannot be ignored even if unrecognized
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
+             */
+            @Override
+            public Builder modifierExtension(Collection<Extension> modifierExtension) {
+                return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * The amount of items or instances that the resource considers, for instance when referring to 2 identical units 
+             * together.
+             * 
+             * @param quantity
+             *     The amount of items or instances
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder quantity(SimpleQuantity quantity) {
+                this.quantity = quantity;
                 return this;
             }
 
             /**
-             * Build the {@link Target}
+             * The identifier for the physical instance, typically a serial number.
+             * 
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
+             * 
+             * @param identifier
+             *     The identifier for the physical instance, typically a serial number
              * 
              * @return
-             *     An immutable object of type {@link Target}
+             *     A reference to this Builder instance
+             */
+            public Builder identifier(Identifier... identifier) {
+                for (Identifier value : identifier) {
+                    this.identifier.add(value);
+                }
+                return this;
+            }
+
+            /**
+             * The identifier for the physical instance, typically a serial number.
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
+             * 
+             * @param identifier
+             *     The identifier for the physical instance, typically a serial number
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
+             */
+            public Builder identifier(Collection<Identifier> identifier) {
+                this.identifier = new ArrayList<>(identifier);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code lotNumber}.
+             * 
+             * @param lotNumber
+             *     The identification of the batch or lot of the product
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #lotNumber(com.ibm.fhir.model.type.String)
+             */
+            public Builder lotNumber(java.lang.String lotNumber) {
+                this.lotNumber = (lotNumber == null) ? null : String.of(lotNumber);
+                return this;
+            }
+
+            /**
+             * The identification of the batch or lot of the product.
+             * 
+             * @param lotNumber
+             *     The identification of the batch or lot of the product
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder lotNumber(String lotNumber) {
+                this.lotNumber = lotNumber;
+                return this;
+            }
+
+            /**
+             * The time after which the product is no longer expected to be in proper condition, or its use is not advised or not 
+             * allowed.
+             * 
+             * @param expiry
+             *     The expiry date or date and time for the product
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder expiry(DateTime expiry) {
+                this.expiry = expiry;
+                return this;
+            }
+
+            /**
+             * The time after which the product is no longer expected to be in proper condition, or its use is not advised or not 
+             * allowed.
+             * 
+             * @param useBy
+             *     The date until which the product is expected to be good for consumption
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder useBy(DateTime useBy) {
+                this.useBy = useBy;
+                return this;
+            }
+
+            /**
+             * Build the {@link Instance}
+             * 
+             * @return
+             *     An immutable object of type {@link Instance}
              * @throws IllegalStateException
-             *     if the current state cannot be built into a valid Target per the base specification
+             *     if the current state cannot be built into a valid Instance per the base specification
              */
             @Override
-            public Target build() {
-                Target target = new Target(this);
+            public Instance build() {
+                Instance instance = new Instance(this);
                 if (validating) {
-                    validate(target);
+                    validate(instance);
                 }
-                return target;
+                return instance;
             }
 
-            protected void validate(Target target) {
-                super.validate(target);
-                ValidationSupport.choiceElement(target.amount, "amount", Quantity.class, Range.class, String.class);
-                ValidationSupport.checkList(target.source, "source", Reference.class);
-                ValidationSupport.checkReferenceType(target.source, "source", "DocumentReference");
-                ValidationSupport.requireValueOrChildren(target);
+            protected void validate(Instance instance) {
+                super.validate(instance);
+                ValidationSupport.checkList(instance.identifier, "identifier", Identifier.class);
+                ValidationSupport.requireValueOrChildren(instance);
             }
 
-            protected Builder from(Target target) {
-                super.from(target);
-                this.target = target.target;
-                type = target.type;
-                interaction = target.interaction;
-                organism = target.organism;
-                organismType = target.organismType;
-                amount = target.amount;
-                amountType = target.amountType;
-                source.addAll(target.source);
+            protected Builder from(Instance instance) {
+                super.from(instance);
+                quantity = instance.quantity;
+                identifier.addAll(instance.identifier);
+                lotNumber = instance.lotNumber;
+                expiry = instance.expiry;
+                useBy = instance.useBy;
                 return this;
             }
         }

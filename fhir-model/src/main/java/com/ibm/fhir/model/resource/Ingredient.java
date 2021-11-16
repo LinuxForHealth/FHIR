@@ -14,6 +14,8 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
@@ -22,14 +24,20 @@ import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
+import com.ibm.fhir.model.type.CodeableReference;
+import com.ibm.fhir.model.type.Coding;
+import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.Ratio;
+import com.ibm.fhir.model.type.RatioRange;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.PublicationStatus;
 import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
@@ -37,36 +45,50 @@ import com.ibm.fhir.model.visitor.Visitor;
 /**
  * An ingredient of a manufactured item or pharmaceutical product.
  * 
- * <p>Maturity level: FMM0 (Trial Use)
+ * <p>Maturity level: FMM1 (Trial Use)
  */
 @Maturity(
-    level = 0,
+    level = 1,
     status = StandardsStatus.Value.TRIAL_USE
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
-public class MedicinalProductIngredient extends DomainResource {
+public class Ingredient extends DomainResource {
     @Summary
     private final Identifier identifier;
+    @Summary
+    @Binding(
+        bindingName = "PublicationStatus",
+        strength = BindingStrength.Value.REQUIRED,
+        description = "The lifecycle status of an artifact.",
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1|4.0.1"
+    )
+    @Required
+    private final PublicationStatus status;
+    @Summary
+    @ReferenceTarget({ "MedicinalProductDefinition", "AdministrableProductDefinition", "ManufacturedItemDefinition" })
+    private final List<Reference> _for;
     @Summary
     @Required
     private final CodeableConcept role;
     @Summary
+    private final List<CodeableConcept> function;
+    @Summary
     private final Boolean allergenicIndicator;
     @Summary
-    @ReferenceTarget({ "Organization" })
-    private final List<Reference> manufacturer;
+    private final List<Manufacturer> manufacturer;
     @Summary
-    private final List<SpecifiedSubstance> specifiedSubstance;
-    @Summary
+    @Required
     private final Substance substance;
 
-    private MedicinalProductIngredient(Builder builder) {
+    private Ingredient(Builder builder) {
         super(builder);
         identifier = builder.identifier;
+        status = builder.status;
+        _for = Collections.unmodifiableList(builder._for);
         role = builder.role;
+        function = Collections.unmodifiableList(builder.function);
         allergenicIndicator = builder.allergenicIndicator;
         manufacturer = Collections.unmodifiableList(builder.manufacturer);
-        specifiedSubstance = Collections.unmodifiableList(builder.specifiedSubstance);
         substance = builder.substance;
     }
 
@@ -82,13 +104,44 @@ public class MedicinalProductIngredient extends DomainResource {
     }
 
     /**
-     * Ingredient role e.g. Active ingredient, excipient.
+     * The status of this ingredient. Enables tracking the life-cycle of the content.
+     * 
+     * @return
+     *     An immutable object of type {@link PublicationStatus} that is non-null.
+     */
+    public PublicationStatus getStatus() {
+        return status;
+    }
+
+    /**
+     * The product which this ingredient is a constituent part of.
+     * 
+     * @return
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
+     */
+    public List<Reference> getFor() {
+        return _for;
+    }
+
+    /**
+     * A classification of the ingredient identifying its purpose within the product, e.g. active, inactive.
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept} that is non-null.
      */
     public CodeableConcept getRole() {
         return role;
+    }
+
+    /**
+     * A classification of the ingredient identifying its precise purpose(s) in the drug product. This extends the Ingredient.
+     * role to add more detail. Example: Antioxidant, Alkalizing Agent.
+     * 
+     * @return
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
+     */
+    public List<CodeableConcept> getFunction() {
+        return function;
     }
 
     /**
@@ -102,30 +155,20 @@ public class MedicinalProductIngredient extends DomainResource {
     }
 
     /**
-     * Manufacturer of this Ingredient.
+     * An organization that manufactures this ingredient.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
+     *     An unmodifiable list containing immutable objects of type {@link Manufacturer} that may be empty.
      */
-    public List<Reference> getManufacturer() {
+    public List<Manufacturer> getManufacturer() {
         return manufacturer;
     }
 
     /**
-     * A specified substance that comprises this ingredient.
+     * The substance that comprises this ingredient.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link SpecifiedSubstance} that may be empty.
-     */
-    public List<SpecifiedSubstance> getSpecifiedSubstance() {
-        return specifiedSubstance;
-    }
-
-    /**
-     * The ingredient substance.
-     * 
-     * @return
-     *     An immutable object of type {@link Substance} that may be null.
+     *     An immutable object of type {@link Substance} that is non-null.
      */
     public Substance getSubstance() {
         return substance;
@@ -135,10 +178,12 @@ public class MedicinalProductIngredient extends DomainResource {
     public boolean hasChildren() {
         return super.hasChildren() || 
             (identifier != null) || 
+            (status != null) || 
+            !_for.isEmpty() || 
             (role != null) || 
+            !function.isEmpty() || 
             (allergenicIndicator != null) || 
             !manufacturer.isEmpty() || 
-            !specifiedSubstance.isEmpty() || 
             (substance != null);
     }
 
@@ -157,10 +202,12 @@ public class MedicinalProductIngredient extends DomainResource {
                 accept(extension, "extension", visitor, Extension.class);
                 accept(modifierExtension, "modifierExtension", visitor, Extension.class);
                 accept(identifier, "identifier", visitor);
+                accept(status, "status", visitor);
+                accept(_for, "for", visitor, Reference.class);
                 accept(role, "role", visitor);
+                accept(function, "function", visitor, CodeableConcept.class);
                 accept(allergenicIndicator, "allergenicIndicator", visitor);
-                accept(manufacturer, "manufacturer", visitor, Reference.class);
-                accept(specifiedSubstance, "specifiedSubstance", visitor, SpecifiedSubstance.class);
+                accept(manufacturer, "manufacturer", visitor, Manufacturer.class);
                 accept(substance, "substance", visitor);
             }
             visitor.visitEnd(elementName, elementIndex, this);
@@ -179,7 +226,7 @@ public class MedicinalProductIngredient extends DomainResource {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        MedicinalProductIngredient other = (MedicinalProductIngredient) obj;
+        Ingredient other = (Ingredient) obj;
         return Objects.equals(id, other.id) && 
             Objects.equals(meta, other.meta) && 
             Objects.equals(implicitRules, other.implicitRules) && 
@@ -189,10 +236,12 @@ public class MedicinalProductIngredient extends DomainResource {
             Objects.equals(extension, other.extension) && 
             Objects.equals(modifierExtension, other.modifierExtension) && 
             Objects.equals(identifier, other.identifier) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(_for, other._for) && 
             Objects.equals(role, other.role) && 
+            Objects.equals(function, other.function) && 
             Objects.equals(allergenicIndicator, other.allergenicIndicator) && 
             Objects.equals(manufacturer, other.manufacturer) && 
-            Objects.equals(specifiedSubstance, other.specifiedSubstance) && 
             Objects.equals(substance, other.substance);
     }
 
@@ -209,10 +258,12 @@ public class MedicinalProductIngredient extends DomainResource {
                 extension, 
                 modifierExtension, 
                 identifier, 
+                status, 
+                _for, 
                 role, 
+                function, 
                 allergenicIndicator, 
                 manufacturer, 
-                specifiedSubstance, 
                 substance);
             hashCode = result;
         }
@@ -230,10 +281,12 @@ public class MedicinalProductIngredient extends DomainResource {
 
     public static class Builder extends DomainResource.Builder {
         private Identifier identifier;
+        private PublicationStatus status;
+        private List<Reference> _for = new ArrayList<>();
         private CodeableConcept role;
+        private List<CodeableConcept> function = new ArrayList<>();
         private Boolean allergenicIndicator;
-        private List<Reference> manufacturer = new ArrayList<>();
-        private List<SpecifiedSubstance> specifiedSubstance = new ArrayList<>();
+        private List<Manufacturer> manufacturer = new ArrayList<>();
         private Substance substance;
 
         private Builder() {
@@ -456,7 +509,7 @@ public class MedicinalProductIngredient extends DomainResource {
          * URL reference to the resource itself is not appropriate.
          * 
          * @param identifier
-         *     Identifier for the ingredient
+         *     An identifier or code by which the ingredient can be referenced
          * 
          * @return
          *     A reference to this Builder instance
@@ -467,18 +520,130 @@ public class MedicinalProductIngredient extends DomainResource {
         }
 
         /**
-         * Ingredient role e.g. Active ingredient, excipient.
+         * The status of this ingredient. Enables tracking the life-cycle of the content.
+         * 
+         * <p>This element is required.
+         * 
+         * @param status
+         *     draft | active | retired | unknown
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder status(PublicationStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        /**
+         * The product which this ingredient is a constituent part of.
+         * 
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link MedicinalProductDefinition}</li>
+         * <li>{@link AdministrableProductDefinition}</li>
+         * <li>{@link ManufacturedItemDefinition}</li>
+         * </ul>
+         * 
+         * @param _for
+         *     The product which this ingredient is a constituent part of
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder _for(Reference... _for) {
+            for (Reference value : _for) {
+                this._for.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * The product which this ingredient is a constituent part of.
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link MedicinalProductDefinition}</li>
+         * <li>{@link AdministrableProductDefinition}</li>
+         * <li>{@link ManufacturedItemDefinition}</li>
+         * </ul>
+         * 
+         * @param _for
+         *     The product which this ingredient is a constituent part of
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
+         */
+        public Builder _for(Collection<Reference> _for) {
+            this._for = new ArrayList<>(_for);
+            return this;
+        }
+
+        /**
+         * A classification of the ingredient identifying its purpose within the product, e.g. active, inactive.
          * 
          * <p>This element is required.
          * 
          * @param role
-         *     Ingredient role e.g. Active ingredient, excipient
+         *     A classification of the ingredient identifying its purpose within the product, e.g. active, inactive
          * 
          * @return
          *     A reference to this Builder instance
          */
         public Builder role(CodeableConcept role) {
             this.role = role;
+            return this;
+        }
+
+        /**
+         * A classification of the ingredient identifying its precise purpose(s) in the drug product. This extends the Ingredient.
+         * role to add more detail. Example: Antioxidant, Alkalizing Agent.
+         * 
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
+         * 
+         * @param function
+         *     A classification of the ingredient identifying its precise purpose(s) in the drug product. This extends the Ingredient.
+         *     role to add more detail. Example: Antioxidant, Alkalizing Agent
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder function(CodeableConcept... function) {
+            for (CodeableConcept value : function) {
+                this.function.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * A classification of the ingredient identifying its precise purpose(s) in the drug product. This extends the Ingredient.
+         * role to add more detail. Example: Antioxidant, Alkalizing Agent.
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
+         * 
+         * @param function
+         *     A classification of the ingredient identifying its precise purpose(s) in the drug product. This extends the Ingredient.
+         *     role to add more detail. Example: Antioxidant, Alkalizing Agent
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
+         */
+        public Builder function(Collection<CodeableConcept> function) {
+            this.function = new ArrayList<>(function);
             return this;
         }
 
@@ -513,42 +678,32 @@ public class MedicinalProductIngredient extends DomainResource {
         }
 
         /**
-         * Manufacturer of this Ingredient.
+         * An organization that manufactures this ingredient.
          * 
          * <p>Adds new element(s) to the existing list.
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
-         * <p>Allowed resource types for the references:
-         * <ul>
-         * <li>{@link Organization}</li>
-         * </ul>
-         * 
          * @param manufacturer
-         *     Manufacturer of this Ingredient
+         *     An organization that manufactures this ingredient
          * 
          * @return
          *     A reference to this Builder instance
          */
-        public Builder manufacturer(Reference... manufacturer) {
-            for (Reference value : manufacturer) {
+        public Builder manufacturer(Manufacturer... manufacturer) {
+            for (Manufacturer value : manufacturer) {
                 this.manufacturer.add(value);
             }
             return this;
         }
 
         /**
-         * Manufacturer of this Ingredient.
+         * An organization that manufactures this ingredient.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection.
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
-         * <p>Allowed resource types for the references:
-         * <ul>
-         * <li>{@link Organization}</li>
-         * </ul>
-         * 
          * @param manufacturer
-         *     Manufacturer of this Ingredient
+         *     An organization that manufactures this ingredient
          * 
          * @return
          *     A reference to this Builder instance
@@ -556,55 +711,18 @@ public class MedicinalProductIngredient extends DomainResource {
          * @throws NullPointerException
          *     If the passed collection is null
          */
-        public Builder manufacturer(Collection<Reference> manufacturer) {
+        public Builder manufacturer(Collection<Manufacturer> manufacturer) {
             this.manufacturer = new ArrayList<>(manufacturer);
             return this;
         }
 
         /**
-         * A specified substance that comprises this ingredient.
+         * The substance that comprises this ingredient.
          * 
-         * <p>Adds new element(s) to the existing list.
-         * If any of the elements are null, calling {@link #build()} will fail.
-         * 
-         * @param specifiedSubstance
-         *     A specified substance that comprises this ingredient
-         * 
-         * @return
-         *     A reference to this Builder instance
-         */
-        public Builder specifiedSubstance(SpecifiedSubstance... specifiedSubstance) {
-            for (SpecifiedSubstance value : specifiedSubstance) {
-                this.specifiedSubstance.add(value);
-            }
-            return this;
-        }
-
-        /**
-         * A specified substance that comprises this ingredient.
-         * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection.
-         * If any of the elements are null, calling {@link #build()} will fail.
-         * 
-         * @param specifiedSubstance
-         *     A specified substance that comprises this ingredient
-         * 
-         * @return
-         *     A reference to this Builder instance
-         * 
-         * @throws NullPointerException
-         *     If the passed collection is null
-         */
-        public Builder specifiedSubstance(Collection<SpecifiedSubstance> specifiedSubstance) {
-            this.specifiedSubstance = new ArrayList<>(specifiedSubstance);
-            return this;
-        }
-
-        /**
-         * The ingredient substance.
+         * <p>This element is required.
          * 
          * @param substance
-         *     The ingredient substance
+         *     The substance that comprises this ingredient
          * 
          * @return
          *     A reference to this Builder instance
@@ -615,102 +733,387 @@ public class MedicinalProductIngredient extends DomainResource {
         }
 
         /**
-         * Build the {@link MedicinalProductIngredient}
+         * Build the {@link Ingredient}
          * 
          * <p>Required elements:
          * <ul>
+         * <li>status</li>
          * <li>role</li>
+         * <li>substance</li>
          * </ul>
          * 
          * @return
-         *     An immutable object of type {@link MedicinalProductIngredient}
+         *     An immutable object of type {@link Ingredient}
          * @throws IllegalStateException
-         *     if the current state cannot be built into a valid MedicinalProductIngredient per the base specification
+         *     if the current state cannot be built into a valid Ingredient per the base specification
          */
         @Override
-        public MedicinalProductIngredient build() {
-            MedicinalProductIngredient medicinalProductIngredient = new MedicinalProductIngredient(this);
+        public Ingredient build() {
+            Ingredient ingredient = new Ingredient(this);
             if (validating) {
-                validate(medicinalProductIngredient);
+                validate(ingredient);
             }
-            return medicinalProductIngredient;
+            return ingredient;
         }
 
-        protected void validate(MedicinalProductIngredient medicinalProductIngredient) {
-            super.validate(medicinalProductIngredient);
-            ValidationSupport.requireNonNull(medicinalProductIngredient.role, "role");
-            ValidationSupport.checkList(medicinalProductIngredient.manufacturer, "manufacturer", Reference.class);
-            ValidationSupport.checkList(medicinalProductIngredient.specifiedSubstance, "specifiedSubstance", SpecifiedSubstance.class);
-            ValidationSupport.checkReferenceType(medicinalProductIngredient.manufacturer, "manufacturer", "Organization");
+        protected void validate(Ingredient ingredient) {
+            super.validate(ingredient);
+            ValidationSupport.requireNonNull(ingredient.status, "status");
+            ValidationSupport.checkList(ingredient._for, "for", Reference.class);
+            ValidationSupport.requireNonNull(ingredient.role, "role");
+            ValidationSupport.checkList(ingredient.function, "function", CodeableConcept.class);
+            ValidationSupport.checkList(ingredient.manufacturer, "manufacturer", Manufacturer.class);
+            ValidationSupport.requireNonNull(ingredient.substance, "substance");
+            ValidationSupport.checkReferenceType(ingredient._for, "for", "MedicinalProductDefinition", "AdministrableProductDefinition", "ManufacturedItemDefinition");
         }
 
-        protected Builder from(MedicinalProductIngredient medicinalProductIngredient) {
-            super.from(medicinalProductIngredient);
-            identifier = medicinalProductIngredient.identifier;
-            role = medicinalProductIngredient.role;
-            allergenicIndicator = medicinalProductIngredient.allergenicIndicator;
-            manufacturer.addAll(medicinalProductIngredient.manufacturer);
-            specifiedSubstance.addAll(medicinalProductIngredient.specifiedSubstance);
-            substance = medicinalProductIngredient.substance;
+        protected Builder from(Ingredient ingredient) {
+            super.from(ingredient);
+            identifier = ingredient.identifier;
+            status = ingredient.status;
+            _for.addAll(ingredient._for);
+            role = ingredient.role;
+            function.addAll(ingredient.function);
+            allergenicIndicator = ingredient.allergenicIndicator;
+            manufacturer.addAll(ingredient.manufacturer);
+            substance = ingredient.substance;
             return this;
         }
     }
 
     /**
-     * A specified substance that comprises this ingredient.
+     * An organization that manufactures this ingredient.
      */
-    public static class SpecifiedSubstance extends BackboneElement {
+    public static class Manufacturer extends BackboneElement {
+        @Summary
+        @Binding(
+            bindingName = "IngredientManufacturerRole",
+            strength = BindingStrength.Value.REQUIRED,
+            description = "The way in which this manufacturer is associated with the ingredient.",
+            valueSet = "http://hl7.org/fhir/ValueSet/ingredient-manufacturer-role|4.0.1"
+        )
+        private final Coding role;
+        @Summary
+        @ReferenceTarget({ "Organization" })
+        @Required
+        private final Reference manufacturer;
+
+        private Manufacturer(Builder builder) {
+            super(builder);
+            role = builder.role;
+            manufacturer = builder.manufacturer;
+        }
+
+        /**
+         * The way in which this manufacturer is associated with the ingredient. For example whether it is a possible one (others 
+         * allowed), or an exclusive authorized one for this ingredient. Note that this is not the manufacturing process role.
+         * 
+         * @return
+         *     An immutable object of type {@link Coding} that may be null.
+         */
+        public Coding getRole() {
+            return role;
+        }
+
+        /**
+         * An organization that manufactures this ingredient.
+         * 
+         * @return
+         *     An immutable object of type {@link Reference} that is non-null.
+         */
+        public Reference getManufacturer() {
+            return manufacturer;
+        }
+
+        @Override
+        public boolean hasChildren() {
+            return super.hasChildren() || 
+                (role != null) || 
+                (manufacturer != null);
+        }
+
+        @Override
+        public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
+            if (visitor.preVisit(this)) {
+                visitor.visitStart(elementName, elementIndex, this);
+                if (visitor.visit(elementName, elementIndex, this)) {
+                    // visit children
+                    accept(id, "id", visitor);
+                    accept(extension, "extension", visitor, Extension.class);
+                    accept(modifierExtension, "modifierExtension", visitor, Extension.class);
+                    accept(role, "role", visitor);
+                    accept(manufacturer, "manufacturer", visitor);
+                }
+                visitor.visitEnd(elementName, elementIndex, this);
+                visitor.postVisit(this);
+            }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Manufacturer other = (Manufacturer) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(role, other.role) && 
+                Objects.equals(manufacturer, other.manufacturer);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    role, 
+                    manufacturer);
+                hashCode = result;
+            }
+            return result;
+        }
+
+        @Override
+        public Builder toBuilder() {
+            return new Builder().from(this);
+        }
+
+        public static Builder builder() {
+            return new Builder();
+        }
+
+        public static class Builder extends BackboneElement.Builder {
+            private Coding role;
+            private Reference manufacturer;
+
+            private Builder() {
+                super();
+            }
+
+            /**
+             * Unique id for the element within a resource (for internal references). This may be any string value that does not 
+             * contain spaces.
+             * 
+             * @param id
+             *     Unique id for inter-element referencing
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            @Override
+            public Builder id(java.lang.String id) {
+                return (Builder) super.id(id);
+            }
+
+            /**
+             * May be used to represent additional information that is not part of the basic definition of the element. To make the 
+             * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
+             * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
+             * of the definition of the extension.
+             * 
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
+             * 
+             * @param extension
+             *     Additional content defined by implementations
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            @Override
+            public Builder extension(Extension... extension) {
+                return (Builder) super.extension(extension);
+            }
+
+            /**
+             * May be used to represent additional information that is not part of the basic definition of the element. To make the 
+             * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
+             * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
+             * of the definition of the extension.
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
+             * 
+             * @param extension
+             *     Additional content defined by implementations
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
+             */
+            @Override
+            public Builder extension(Collection<Extension> extension) {
+                return (Builder) super.extension(extension);
+            }
+
+            /**
+             * May be used to represent additional information that is not part of the basic definition of the element and that 
+             * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
+             * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
+             * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
+             * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
+             * extension. Applications processing a resource are required to check for modifier extensions.
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * change the meaning of modifierExtension itself).
+             * 
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
+             * 
+             * @param modifierExtension
+             *     Extensions that cannot be ignored even if unrecognized
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            @Override
+            public Builder modifierExtension(Extension... modifierExtension) {
+                return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * May be used to represent additional information that is not part of the basic definition of the element and that 
+             * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
+             * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
+             * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
+             * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
+             * extension. Applications processing a resource are required to check for modifier extensions.
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * change the meaning of modifierExtension itself).
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
+             * 
+             * @param modifierExtension
+             *     Extensions that cannot be ignored even if unrecognized
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
+             */
+            @Override
+            public Builder modifierExtension(Collection<Extension> modifierExtension) {
+                return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * The way in which this manufacturer is associated with the ingredient. For example whether it is a possible one (others 
+             * allowed), or an exclusive authorized one for this ingredient. Note that this is not the manufacturing process role.
+             * 
+             * @param role
+             *     The way in which this manufacturer is associated with the ingredient. For example whether it is a possible one (others 
+             *     allowed), or an exclusive authorized one for this ingredient. Note that this is not the manufacturing process role
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder role(Coding role) {
+                this.role = role;
+                return this;
+            }
+
+            /**
+             * An organization that manufactures this ingredient.
+             * 
+             * <p>This element is required.
+             * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Organization}</li>
+             * </ul>
+             * 
+             * @param manufacturer
+             *     An organization that manufactures this ingredient
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder manufacturer(Reference manufacturer) {
+                this.manufacturer = manufacturer;
+                return this;
+            }
+
+            /**
+             * Build the {@link Manufacturer}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>manufacturer</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Manufacturer}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Manufacturer per the base specification
+             */
+            @Override
+            public Manufacturer build() {
+                Manufacturer manufacturer = new Manufacturer(this);
+                if (validating) {
+                    validate(manufacturer);
+                }
+                return manufacturer;
+            }
+
+            protected void validate(Manufacturer manufacturer) {
+                super.validate(manufacturer);
+                ValidationSupport.requireNonNull(manufacturer.manufacturer, "manufacturer");
+                ValidationSupport.checkReferenceType(manufacturer.manufacturer, "manufacturer", "Organization");
+                ValidationSupport.requireValueOrChildren(manufacturer);
+            }
+
+            protected Builder from(Manufacturer manufacturer) {
+                super.from(manufacturer);
+                role = manufacturer.role;
+                this.manufacturer = manufacturer.manufacturer;
+                return this;
+            }
+        }
+    }
+
+    /**
+     * The substance that comprises this ingredient.
+     */
+    public static class Substance extends BackboneElement {
         @Summary
         @Required
-        private final CodeableConcept code;
-        @Summary
-        @Required
-        private final CodeableConcept group;
-        @Summary
-        private final CodeableConcept confidentiality;
+        private final CodeableReference code;
         @Summary
         private final List<Strength> strength;
 
-        private SpecifiedSubstance(Builder builder) {
+        private Substance(Builder builder) {
             super(builder);
             code = builder.code;
-            group = builder.group;
-            confidentiality = builder.confidentiality;
             strength = Collections.unmodifiableList(builder.strength);
         }
 
         /**
-         * The specified substance.
+         * A code or full resource that represents the ingredient substance.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept} that is non-null.
+         *     An immutable object of type {@link CodeableReference} that is non-null.
          */
-        public CodeableConcept getCode() {
+        public CodeableReference getCode() {
             return code;
         }
 
         /**
-         * The group of specified substance, e.g. group 1 to 4.
-         * 
-         * @return
-         *     An immutable object of type {@link CodeableConcept} that is non-null.
-         */
-        public CodeableConcept getGroup() {
-            return group;
-        }
-
-        /**
-         * Confidentiality level of the specified substance as the ingredient.
-         * 
-         * @return
-         *     An immutable object of type {@link CodeableConcept} that may be null.
-         */
-        public CodeableConcept getConfidentiality() {
-            return confidentiality;
-        }
-
-        /**
-         * Quantity of the substance or specified substance present in the manufactured item or pharmaceutical product.
+         * The quantity of substance in the unit of presentation, or in the volume (or mass) of the single pharmaceutical product 
+         * or manufactured item.
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Strength} that may be empty.
@@ -723,8 +1126,6 @@ public class MedicinalProductIngredient extends DomainResource {
         public boolean hasChildren() {
             return super.hasChildren() || 
                 (code != null) || 
-                (group != null) || 
-                (confidentiality != null) || 
                 !strength.isEmpty();
         }
 
@@ -738,8 +1139,6 @@ public class MedicinalProductIngredient extends DomainResource {
                     accept(extension, "extension", visitor, Extension.class);
                     accept(modifierExtension, "modifierExtension", visitor, Extension.class);
                     accept(code, "code", visitor);
-                    accept(group, "group", visitor);
-                    accept(confidentiality, "confidentiality", visitor);
                     accept(strength, "strength", visitor, Strength.class);
                 }
                 visitor.visitEnd(elementName, elementIndex, this);
@@ -758,13 +1157,11 @@ public class MedicinalProductIngredient extends DomainResource {
             if (getClass() != obj.getClass()) {
                 return false;
             }
-            SpecifiedSubstance other = (SpecifiedSubstance) obj;
+            Substance other = (Substance) obj;
             return Objects.equals(id, other.id) && 
                 Objects.equals(extension, other.extension) && 
                 Objects.equals(modifierExtension, other.modifierExtension) && 
                 Objects.equals(code, other.code) && 
-                Objects.equals(group, other.group) && 
-                Objects.equals(confidentiality, other.confidentiality) && 
                 Objects.equals(strength, other.strength);
         }
 
@@ -776,8 +1173,6 @@ public class MedicinalProductIngredient extends DomainResource {
                     extension, 
                     modifierExtension, 
                     code, 
-                    group, 
-                    confidentiality, 
                     strength);
                 hashCode = result;
             }
@@ -794,9 +1189,7 @@ public class MedicinalProductIngredient extends DomainResource {
         }
 
         public static class Builder extends BackboneElement.Builder {
-            private CodeableConcept code;
-            private CodeableConcept group;
-            private CodeableConcept confidentiality;
+            private CodeableReference code;
             private List<Strength> strength = new ArrayList<>();
 
             private Builder() {
@@ -915,59 +1308,31 @@ public class MedicinalProductIngredient extends DomainResource {
             }
 
             /**
-             * The specified substance.
+             * A code or full resource that represents the ingredient substance.
              * 
              * <p>This element is required.
              * 
              * @param code
-             *     The specified substance
+             *     A code or full resource that represents the ingredient substance
              * 
              * @return
              *     A reference to this Builder instance
              */
-            public Builder code(CodeableConcept code) {
+            public Builder code(CodeableReference code) {
                 this.code = code;
                 return this;
             }
 
             /**
-             * The group of specified substance, e.g. group 1 to 4.
-             * 
-             * <p>This element is required.
-             * 
-             * @param group
-             *     The group of specified substance, e.g. group 1 to 4
-             * 
-             * @return
-             *     A reference to this Builder instance
-             */
-            public Builder group(CodeableConcept group) {
-                this.group = group;
-                return this;
-            }
-
-            /**
-             * Confidentiality level of the specified substance as the ingredient.
-             * 
-             * @param confidentiality
-             *     Confidentiality level of the specified substance as the ingredient
-             * 
-             * @return
-             *     A reference to this Builder instance
-             */
-            public Builder confidentiality(CodeableConcept confidentiality) {
-                this.confidentiality = confidentiality;
-                return this;
-            }
-
-            /**
-             * Quantity of the substance or specified substance present in the manufactured item or pharmaceutical product.
+             * The quantity of substance in the unit of presentation, or in the volume (or mass) of the single pharmaceutical product 
+             * or manufactured item.
              * 
              * <p>Adds new element(s) to the existing list.
              * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param strength
-             *     Quantity of the substance or specified substance present in the manufactured item or pharmaceutical product
+             *     The quantity of substance in the unit of presentation, or in the volume (or mass) of the single pharmaceutical product 
+             *     or manufactured item
              * 
              * @return
              *     A reference to this Builder instance
@@ -980,13 +1345,15 @@ public class MedicinalProductIngredient extends DomainResource {
             }
 
             /**
-             * Quantity of the substance or specified substance present in the manufactured item or pharmaceutical product.
+             * The quantity of substance in the unit of presentation, or in the volume (or mass) of the single pharmaceutical product 
+             * or manufactured item.
              * 
              * <p>Replaces the existing list with a new one containing elements from the Collection.
              * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param strength
-             *     Quantity of the substance or specified substance present in the manufactured item or pharmaceutical product
+             *     The quantity of substance in the unit of presentation, or in the volume (or mass) of the single pharmaceutical product 
+             *     or manufactured item
              * 
              * @return
              *     A reference to this Builder instance
@@ -1000,59 +1367,57 @@ public class MedicinalProductIngredient extends DomainResource {
             }
 
             /**
-             * Build the {@link SpecifiedSubstance}
+             * Build the {@link Substance}
              * 
              * <p>Required elements:
              * <ul>
              * <li>code</li>
-             * <li>group</li>
              * </ul>
              * 
              * @return
-             *     An immutable object of type {@link SpecifiedSubstance}
+             *     An immutable object of type {@link Substance}
              * @throws IllegalStateException
-             *     if the current state cannot be built into a valid SpecifiedSubstance per the base specification
+             *     if the current state cannot be built into a valid Substance per the base specification
              */
             @Override
-            public SpecifiedSubstance build() {
-                SpecifiedSubstance specifiedSubstance = new SpecifiedSubstance(this);
+            public Substance build() {
+                Substance substance = new Substance(this);
                 if (validating) {
-                    validate(specifiedSubstance);
+                    validate(substance);
                 }
-                return specifiedSubstance;
+                return substance;
             }
 
-            protected void validate(SpecifiedSubstance specifiedSubstance) {
-                super.validate(specifiedSubstance);
-                ValidationSupport.requireNonNull(specifiedSubstance.code, "code");
-                ValidationSupport.requireNonNull(specifiedSubstance.group, "group");
-                ValidationSupport.checkList(specifiedSubstance.strength, "strength", Strength.class);
-                ValidationSupport.requireValueOrChildren(specifiedSubstance);
+            protected void validate(Substance substance) {
+                super.validate(substance);
+                ValidationSupport.requireNonNull(substance.code, "code");
+                ValidationSupport.checkList(substance.strength, "strength", Strength.class);
+                ValidationSupport.requireValueOrChildren(substance);
             }
 
-            protected Builder from(SpecifiedSubstance specifiedSubstance) {
-                super.from(specifiedSubstance);
-                code = specifiedSubstance.code;
-                group = specifiedSubstance.group;
-                confidentiality = specifiedSubstance.confidentiality;
-                strength.addAll(specifiedSubstance.strength);
+            protected Builder from(Substance substance) {
+                super.from(substance);
+                code = substance.code;
+                strength.addAll(substance.strength);
                 return this;
             }
         }
 
         /**
-         * Quantity of the substance or specified substance present in the manufactured item or pharmaceutical product.
+         * The quantity of substance in the unit of presentation, or in the volume (or mass) of the single pharmaceutical product 
+         * or manufactured item.
          */
         public static class Strength extends BackboneElement {
             @Summary
-            @Required
-            private final Ratio presentation;
+            @Choice({ Ratio.class, RatioRange.class })
+            private final Element presentation;
             @Summary
-            private final Ratio presentationLowLimit;
+            private final String presentationText;
             @Summary
-            private final Ratio concentration;
+            @Choice({ Ratio.class, RatioRange.class })
+            private final Element concentration;
             @Summary
-            private final Ratio concentrationLowLimit;
+            private final String concentrationText;
             @Summary
             private final String measurementPoint;
             @Summary
@@ -1063,9 +1428,9 @@ public class MedicinalProductIngredient extends DomainResource {
             private Strength(Builder builder) {
                 super(builder);
                 presentation = builder.presentation;
-                presentationLowLimit = builder.presentationLowLimit;
+                presentationText = builder.presentationText;
                 concentration = builder.concentration;
-                concentrationLowLimit = builder.concentrationLowLimit;
+                concentrationText = builder.concentrationText;
                 measurementPoint = builder.measurementPoint;
                 country = Collections.unmodifiableList(builder.country);
                 referenceStrength = Collections.unmodifiableList(builder.referenceStrength);
@@ -1076,42 +1441,42 @@ public class MedicinalProductIngredient extends DomainResource {
              * or manufactured item.
              * 
              * @return
-             *     An immutable object of type {@link Ratio} that is non-null.
+             *     An immutable object of type {@link Ratio} or {@link RatioRange} that may be null.
              */
-            public Ratio getPresentation() {
+            public Element getPresentation() {
                 return presentation;
             }
 
             /**
-             * A lower limit for the quantity of substance in the unit of presentation. For use when there is a range of strengths, 
-             * this is the lower limit, with the presentation attribute becoming the upper limit.
+             * A textual represention of either the whole of the presentation strength or a part of it - with the rest being in 
+             * Strength.presentation as a ratio.
              * 
              * @return
-             *     An immutable object of type {@link Ratio} that may be null.
+             *     An immutable object of type {@link String} that may be null.
              */
-            public Ratio getPresentationLowLimit() {
-                return presentationLowLimit;
+            public String getPresentationText() {
+                return presentationText;
             }
 
             /**
              * The strength per unitary volume (or mass).
              * 
              * @return
-             *     An immutable object of type {@link Ratio} that may be null.
+             *     An immutable object of type {@link Ratio} or {@link RatioRange} that may be null.
              */
-            public Ratio getConcentration() {
+            public Element getConcentration() {
                 return concentration;
             }
 
             /**
-             * A lower limit for the strength per unitary volume (or mass), for when there is a range. The concentration attribute 
-             * then becomes the upper limit.
+             * A textual represention of either the whole of the concentration strength or a part of it - with the rest being in 
+             * Strength.concentration as a ratio.
              * 
              * @return
-             *     An immutable object of type {@link Ratio} that may be null.
+             *     An immutable object of type {@link String} that may be null.
              */
-            public Ratio getConcentrationLowLimit() {
-                return concentrationLowLimit;
+            public String getConcentrationText() {
+                return concentrationText;
             }
 
             /**
@@ -1148,9 +1513,9 @@ public class MedicinalProductIngredient extends DomainResource {
             public boolean hasChildren() {
                 return super.hasChildren() || 
                     (presentation != null) || 
-                    (presentationLowLimit != null) || 
+                    (presentationText != null) || 
                     (concentration != null) || 
-                    (concentrationLowLimit != null) || 
+                    (concentrationText != null) || 
                     (measurementPoint != null) || 
                     !country.isEmpty() || 
                     !referenceStrength.isEmpty();
@@ -1166,9 +1531,9 @@ public class MedicinalProductIngredient extends DomainResource {
                         accept(extension, "extension", visitor, Extension.class);
                         accept(modifierExtension, "modifierExtension", visitor, Extension.class);
                         accept(presentation, "presentation", visitor);
-                        accept(presentationLowLimit, "presentationLowLimit", visitor);
+                        accept(presentationText, "presentationText", visitor);
                         accept(concentration, "concentration", visitor);
-                        accept(concentrationLowLimit, "concentrationLowLimit", visitor);
+                        accept(concentrationText, "concentrationText", visitor);
                         accept(measurementPoint, "measurementPoint", visitor);
                         accept(country, "country", visitor, CodeableConcept.class);
                         accept(referenceStrength, "referenceStrength", visitor, ReferenceStrength.class);
@@ -1194,9 +1559,9 @@ public class MedicinalProductIngredient extends DomainResource {
                     Objects.equals(extension, other.extension) && 
                     Objects.equals(modifierExtension, other.modifierExtension) && 
                     Objects.equals(presentation, other.presentation) && 
-                    Objects.equals(presentationLowLimit, other.presentationLowLimit) && 
+                    Objects.equals(presentationText, other.presentationText) && 
                     Objects.equals(concentration, other.concentration) && 
-                    Objects.equals(concentrationLowLimit, other.concentrationLowLimit) && 
+                    Objects.equals(concentrationText, other.concentrationText) && 
                     Objects.equals(measurementPoint, other.measurementPoint) && 
                     Objects.equals(country, other.country) && 
                     Objects.equals(referenceStrength, other.referenceStrength);
@@ -1210,9 +1575,9 @@ public class MedicinalProductIngredient extends DomainResource {
                         extension, 
                         modifierExtension, 
                         presentation, 
-                        presentationLowLimit, 
+                        presentationText, 
                         concentration, 
-                        concentrationLowLimit, 
+                        concentrationText, 
                         measurementPoint, 
                         country, 
                         referenceStrength);
@@ -1231,10 +1596,10 @@ public class MedicinalProductIngredient extends DomainResource {
             }
 
             public static class Builder extends BackboneElement.Builder {
-                private Ratio presentation;
-                private Ratio presentationLowLimit;
-                private Ratio concentration;
-                private Ratio concentrationLowLimit;
+                private Element presentation;
+                private String presentationText;
+                private Element concentration;
+                private String concentrationText;
                 private String measurementPoint;
                 private List<CodeableConcept> country = new ArrayList<>();
                 private List<ReferenceStrength> referenceStrength = new ArrayList<>();
@@ -1358,7 +1723,11 @@ public class MedicinalProductIngredient extends DomainResource {
                  * The quantity of substance in the unit of presentation, or in the volume (or mass) of the single pharmaceutical product 
                  * or manufactured item.
                  * 
-                 * <p>This element is required.
+                 * <p>This is a choice element with the following allowed types:
+                 * <ul>
+                 * <li>{@link Ratio}</li>
+                 * <li>{@link RatioRange}</li>
+                 * </ul>
                  * 
                  * @param presentation
                  *     The quantity of substance in the unit of presentation, or in the volume (or mass) of the single pharmaceutical product 
@@ -1367,29 +1736,52 @@ public class MedicinalProductIngredient extends DomainResource {
                  * @return
                  *     A reference to this Builder instance
                  */
-                public Builder presentation(Ratio presentation) {
+                public Builder presentation(Element presentation) {
                     this.presentation = presentation;
                     return this;
                 }
 
                 /**
-                 * A lower limit for the quantity of substance in the unit of presentation. For use when there is a range of strengths, 
-                 * this is the lower limit, with the presentation attribute becoming the upper limit.
+                 * Convenience method for setting {@code presentationText}.
                  * 
-                 * @param presentationLowLimit
-                 *     A lower limit for the quantity of substance in the unit of presentation. For use when there is a range of strengths, 
-                 *     this is the lower limit, with the presentation attribute becoming the upper limit
+                 * @param presentationText
+                 *     A textual represention of either the whole of the presentation strength or a part of it - with the rest being in 
+                 *     Strength.presentation as a ratio
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #presentationText(com.ibm.fhir.model.type.String)
+                 */
+                public Builder presentationText(java.lang.String presentationText) {
+                    this.presentationText = (presentationText == null) ? null : String.of(presentationText);
+                    return this;
+                }
+
+                /**
+                 * A textual represention of either the whole of the presentation strength or a part of it - with the rest being in 
+                 * Strength.presentation as a ratio.
+                 * 
+                 * @param presentationText
+                 *     A textual represention of either the whole of the presentation strength or a part of it - with the rest being in 
+                 *     Strength.presentation as a ratio
                  * 
                  * @return
                  *     A reference to this Builder instance
                  */
-                public Builder presentationLowLimit(Ratio presentationLowLimit) {
-                    this.presentationLowLimit = presentationLowLimit;
+                public Builder presentationText(String presentationText) {
+                    this.presentationText = presentationText;
                     return this;
                 }
 
                 /**
                  * The strength per unitary volume (or mass).
+                 * 
+                 * <p>This is a choice element with the following allowed types:
+                 * <ul>
+                 * <li>{@link Ratio}</li>
+                 * <li>{@link RatioRange}</li>
+                 * </ul>
                  * 
                  * @param concentration
                  *     The strength per unitary volume (or mass)
@@ -1397,24 +1789,41 @@ public class MedicinalProductIngredient extends DomainResource {
                  * @return
                  *     A reference to this Builder instance
                  */
-                public Builder concentration(Ratio concentration) {
+                public Builder concentration(Element concentration) {
                     this.concentration = concentration;
                     return this;
                 }
 
                 /**
-                 * A lower limit for the strength per unitary volume (or mass), for when there is a range. The concentration attribute 
-                 * then becomes the upper limit.
+                 * Convenience method for setting {@code concentrationText}.
                  * 
-                 * @param concentrationLowLimit
-                 *     A lower limit for the strength per unitary volume (or mass), for when there is a range. The concentration attribute 
-                 *     then becomes the upper limit
+                 * @param concentrationText
+                 *     A textual represention of either the whole of the concentration strength or a part of it - with the rest being in 
+                 *     Strength.concentration as a ratio
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #concentrationText(com.ibm.fhir.model.type.String)
+                 */
+                public Builder concentrationText(java.lang.String concentrationText) {
+                    this.concentrationText = (concentrationText == null) ? null : String.of(concentrationText);
+                    return this;
+                }
+
+                /**
+                 * A textual represention of either the whole of the concentration strength or a part of it - with the rest being in 
+                 * Strength.concentration as a ratio.
+                 * 
+                 * @param concentrationText
+                 *     A textual represention of either the whole of the concentration strength or a part of it - with the rest being in 
+                 *     Strength.concentration as a ratio
                  * 
                  * @return
                  *     A reference to this Builder instance
                  */
-                public Builder concentrationLowLimit(Ratio concentrationLowLimit) {
-                    this.concentrationLowLimit = concentrationLowLimit;
+                public Builder concentrationText(String concentrationText) {
+                    this.concentrationText = concentrationText;
                     return this;
                 }
 
@@ -1529,11 +1938,6 @@ public class MedicinalProductIngredient extends DomainResource {
                 /**
                  * Build the {@link Strength}
                  * 
-                 * <p>Required elements:
-                 * <ul>
-                 * <li>presentation</li>
-                 * </ul>
-                 * 
                  * @return
                  *     An immutable object of type {@link Strength}
                  * @throws IllegalStateException
@@ -1550,7 +1954,8 @@ public class MedicinalProductIngredient extends DomainResource {
 
                 protected void validate(Strength strength) {
                     super.validate(strength);
-                    ValidationSupport.requireNonNull(strength.presentation, "presentation");
+                    ValidationSupport.choiceElement(strength.presentation, "presentation", Ratio.class, RatioRange.class);
+                    ValidationSupport.choiceElement(strength.concentration, "concentration", Ratio.class, RatioRange.class);
                     ValidationSupport.checkList(strength.country, "country", CodeableConcept.class);
                     ValidationSupport.checkList(strength.referenceStrength, "referenceStrength", ReferenceStrength.class);
                     ValidationSupport.requireValueOrChildren(strength);
@@ -1559,9 +1964,9 @@ public class MedicinalProductIngredient extends DomainResource {
                 protected Builder from(Strength strength) {
                     super.from(strength);
                     presentation = strength.presentation;
-                    presentationLowLimit = strength.presentationLowLimit;
+                    presentationText = strength.presentationText;
                     concentration = strength.concentration;
-                    concentrationLowLimit = strength.concentrationLowLimit;
+                    concentrationText = strength.concentrationText;
                     measurementPoint = strength.measurementPoint;
                     country.addAll(strength.country);
                     referenceStrength.addAll(strength.referenceStrength);
@@ -1574,12 +1979,11 @@ public class MedicinalProductIngredient extends DomainResource {
              */
             public static class ReferenceStrength extends BackboneElement {
                 @Summary
-                private final CodeableConcept substance;
+                private final CodeableReference substance;
                 @Summary
+                @Choice({ Ratio.class, RatioRange.class })
                 @Required
-                private final Ratio strength;
-                @Summary
-                private final Ratio strengthLowLimit;
+                private final Element strength;
                 @Summary
                 private final String measurementPoint;
                 @Summary
@@ -1589,7 +1993,6 @@ public class MedicinalProductIngredient extends DomainResource {
                     super(builder);
                     substance = builder.substance;
                     strength = builder.strength;
-                    strengthLowLimit = builder.strengthLowLimit;
                     measurementPoint = builder.measurementPoint;
                     country = Collections.unmodifiableList(builder.country);
                 }
@@ -1598,9 +2001,9 @@ public class MedicinalProductIngredient extends DomainResource {
                  * Relevant reference substance.
                  * 
                  * @return
-                 *     An immutable object of type {@link CodeableConcept} that may be null.
+                 *     An immutable object of type {@link CodeableReference} that may be null.
                  */
-                public CodeableConcept getSubstance() {
+                public CodeableReference getSubstance() {
                     return substance;
                 }
 
@@ -1608,20 +2011,10 @@ public class MedicinalProductIngredient extends DomainResource {
                  * Strength expressed in terms of a reference substance.
                  * 
                  * @return
-                 *     An immutable object of type {@link Ratio} that is non-null.
+                 *     An immutable object of type {@link Ratio} or {@link RatioRange} that is non-null.
                  */
-                public Ratio getStrength() {
+                public Element getStrength() {
                     return strength;
-                }
-
-                /**
-                 * Strength expressed in terms of a reference substance.
-                 * 
-                 * @return
-                 *     An immutable object of type {@link Ratio} that may be null.
-                 */
-                public Ratio getStrengthLowLimit() {
-                    return strengthLowLimit;
                 }
 
                 /**
@@ -1649,7 +2042,6 @@ public class MedicinalProductIngredient extends DomainResource {
                     return super.hasChildren() || 
                         (substance != null) || 
                         (strength != null) || 
-                        (strengthLowLimit != null) || 
                         (measurementPoint != null) || 
                         !country.isEmpty();
                 }
@@ -1665,7 +2057,6 @@ public class MedicinalProductIngredient extends DomainResource {
                             accept(modifierExtension, "modifierExtension", visitor, Extension.class);
                             accept(substance, "substance", visitor);
                             accept(strength, "strength", visitor);
-                            accept(strengthLowLimit, "strengthLowLimit", visitor);
                             accept(measurementPoint, "measurementPoint", visitor);
                             accept(country, "country", visitor, CodeableConcept.class);
                         }
@@ -1691,7 +2082,6 @@ public class MedicinalProductIngredient extends DomainResource {
                         Objects.equals(modifierExtension, other.modifierExtension) && 
                         Objects.equals(substance, other.substance) && 
                         Objects.equals(strength, other.strength) && 
-                        Objects.equals(strengthLowLimit, other.strengthLowLimit) && 
                         Objects.equals(measurementPoint, other.measurementPoint) && 
                         Objects.equals(country, other.country);
                 }
@@ -1705,7 +2095,6 @@ public class MedicinalProductIngredient extends DomainResource {
                             modifierExtension, 
                             substance, 
                             strength, 
-                            strengthLowLimit, 
                             measurementPoint, 
                             country);
                         hashCode = result;
@@ -1723,9 +2112,8 @@ public class MedicinalProductIngredient extends DomainResource {
                 }
 
                 public static class Builder extends BackboneElement.Builder {
-                    private CodeableConcept substance;
-                    private Ratio strength;
-                    private Ratio strengthLowLimit;
+                    private CodeableReference substance;
+                    private Element strength;
                     private String measurementPoint;
                     private List<CodeableConcept> country = new ArrayList<>();
 
@@ -1853,7 +2241,7 @@ public class MedicinalProductIngredient extends DomainResource {
                      * @return
                      *     A reference to this Builder instance
                      */
-                    public Builder substance(CodeableConcept substance) {
+                    public Builder substance(CodeableReference substance) {
                         this.substance = substance;
                         return this;
                     }
@@ -1863,28 +2251,20 @@ public class MedicinalProductIngredient extends DomainResource {
                      * 
                      * <p>This element is required.
                      * 
+                     * <p>This is a choice element with the following allowed types:
+                     * <ul>
+                     * <li>{@link Ratio}</li>
+                     * <li>{@link RatioRange}</li>
+                     * </ul>
+                     * 
                      * @param strength
                      *     Strength expressed in terms of a reference substance
                      * 
                      * @return
                      *     A reference to this Builder instance
                      */
-                    public Builder strength(Ratio strength) {
+                    public Builder strength(Element strength) {
                         this.strength = strength;
-                        return this;
-                    }
-
-                    /**
-                     * Strength expressed in terms of a reference substance.
-                     * 
-                     * @param strengthLowLimit
-                     *     Strength expressed in terms of a reference substance
-                     * 
-                     * @return
-                     *     A reference to this Builder instance
-                     */
-                    public Builder strengthLowLimit(Ratio strengthLowLimit) {
-                        this.strengthLowLimit = strengthLowLimit;
                         return this;
                     }
 
@@ -1981,7 +2361,7 @@ public class MedicinalProductIngredient extends DomainResource {
 
                     protected void validate(ReferenceStrength referenceStrength) {
                         super.validate(referenceStrength);
-                        ValidationSupport.requireNonNull(referenceStrength.strength, "strength");
+                        ValidationSupport.requireChoiceElement(referenceStrength.strength, "strength", Ratio.class, RatioRange.class);
                         ValidationSupport.checkList(referenceStrength.country, "country", CodeableConcept.class);
                         ValidationSupport.requireValueOrChildren(referenceStrength);
                     }
@@ -1990,326 +2370,11 @@ public class MedicinalProductIngredient extends DomainResource {
                         super.from(referenceStrength);
                         substance = referenceStrength.substance;
                         strength = referenceStrength.strength;
-                        strengthLowLimit = referenceStrength.strengthLowLimit;
                         measurementPoint = referenceStrength.measurementPoint;
                         country.addAll(referenceStrength.country);
                         return this;
                     }
                 }
-            }
-        }
-    }
-
-    /**
-     * The ingredient substance.
-     */
-    public static class Substance extends BackboneElement {
-        @Summary
-        @Required
-        private final CodeableConcept code;
-        @Summary
-        private final List<MedicinalProductIngredient.SpecifiedSubstance.Strength> strength;
-
-        private Substance(Builder builder) {
-            super(builder);
-            code = builder.code;
-            strength = Collections.unmodifiableList(builder.strength);
-        }
-
-        /**
-         * The ingredient substance.
-         * 
-         * @return
-         *     An immutable object of type {@link CodeableConcept} that is non-null.
-         */
-        public CodeableConcept getCode() {
-            return code;
-        }
-
-        /**
-         * Quantity of the substance or specified substance present in the manufactured item or pharmaceutical product.
-         * 
-         * @return
-         *     An unmodifiable list containing immutable objects of type {@link Strength} that may be empty.
-         */
-        public List<MedicinalProductIngredient.SpecifiedSubstance.Strength> getStrength() {
-            return strength;
-        }
-
-        @Override
-        public boolean hasChildren() {
-            return super.hasChildren() || 
-                (code != null) || 
-                !strength.isEmpty();
-        }
-
-        @Override
-        public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
-            if (visitor.preVisit(this)) {
-                visitor.visitStart(elementName, elementIndex, this);
-                if (visitor.visit(elementName, elementIndex, this)) {
-                    // visit children
-                    accept(id, "id", visitor);
-                    accept(extension, "extension", visitor, Extension.class);
-                    accept(modifierExtension, "modifierExtension", visitor, Extension.class);
-                    accept(code, "code", visitor);
-                    accept(strength, "strength", visitor, MedicinalProductIngredient.SpecifiedSubstance.Strength.class);
-                }
-                visitor.visitEnd(elementName, elementIndex, this);
-                visitor.postVisit(this);
-            }
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (this == obj) {
-                return true;
-            }
-            if (obj == null) {
-                return false;
-            }
-            if (getClass() != obj.getClass()) {
-                return false;
-            }
-            Substance other = (Substance) obj;
-            return Objects.equals(id, other.id) && 
-                Objects.equals(extension, other.extension) && 
-                Objects.equals(modifierExtension, other.modifierExtension) && 
-                Objects.equals(code, other.code) && 
-                Objects.equals(strength, other.strength);
-        }
-
-        @Override
-        public int hashCode() {
-            int result = hashCode;
-            if (result == 0) {
-                result = Objects.hash(id, 
-                    extension, 
-                    modifierExtension, 
-                    code, 
-                    strength);
-                hashCode = result;
-            }
-            return result;
-        }
-
-        @Override
-        public Builder toBuilder() {
-            return new Builder().from(this);
-        }
-
-        public static Builder builder() {
-            return new Builder();
-        }
-
-        public static class Builder extends BackboneElement.Builder {
-            private CodeableConcept code;
-            private List<MedicinalProductIngredient.SpecifiedSubstance.Strength> strength = new ArrayList<>();
-
-            private Builder() {
-                super();
-            }
-
-            /**
-             * Unique id for the element within a resource (for internal references). This may be any string value that does not 
-             * contain spaces.
-             * 
-             * @param id
-             *     Unique id for inter-element referencing
-             * 
-             * @return
-             *     A reference to this Builder instance
-             */
-            @Override
-            public Builder id(java.lang.String id) {
-                return (Builder) super.id(id);
-            }
-
-            /**
-             * May be used to represent additional information that is not part of the basic definition of the element. To make the 
-             * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
-             * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
-             * of the definition of the extension.
-             * 
-             * <p>Adds new element(s) to the existing list.
-             * If any of the elements are null, calling {@link #build()} will fail.
-             * 
-             * @param extension
-             *     Additional content defined by implementations
-             * 
-             * @return
-             *     A reference to this Builder instance
-             */
-            @Override
-            public Builder extension(Extension... extension) {
-                return (Builder) super.extension(extension);
-            }
-
-            /**
-             * May be used to represent additional information that is not part of the basic definition of the element. To make the 
-             * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
-             * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
-             * of the definition of the extension.
-             * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection.
-             * If any of the elements are null, calling {@link #build()} will fail.
-             * 
-             * @param extension
-             *     Additional content defined by implementations
-             * 
-             * @return
-             *     A reference to this Builder instance
-             * 
-             * @throws NullPointerException
-             *     If the passed collection is null
-             */
-            @Override
-            public Builder extension(Collection<Extension> extension) {
-                return (Builder) super.extension(extension);
-            }
-
-            /**
-             * May be used to represent additional information that is not part of the basic definition of the element and that 
-             * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
-             * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
-             * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
-             * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
-             * extension. Applications processing a resource are required to check for modifier extensions.
-             * 
-             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
-             * change the meaning of modifierExtension itself).
-             * 
-             * <p>Adds new element(s) to the existing list.
-             * If any of the elements are null, calling {@link #build()} will fail.
-             * 
-             * @param modifierExtension
-             *     Extensions that cannot be ignored even if unrecognized
-             * 
-             * @return
-             *     A reference to this Builder instance
-             */
-            @Override
-            public Builder modifierExtension(Extension... modifierExtension) {
-                return (Builder) super.modifierExtension(modifierExtension);
-            }
-
-            /**
-             * May be used to represent additional information that is not part of the basic definition of the element and that 
-             * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
-             * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
-             * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
-             * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
-             * extension. Applications processing a resource are required to check for modifier extensions.
-             * 
-             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
-             * change the meaning of modifierExtension itself).
-             * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection.
-             * If any of the elements are null, calling {@link #build()} will fail.
-             * 
-             * @param modifierExtension
-             *     Extensions that cannot be ignored even if unrecognized
-             * 
-             * @return
-             *     A reference to this Builder instance
-             * 
-             * @throws NullPointerException
-             *     If the passed collection is null
-             */
-            @Override
-            public Builder modifierExtension(Collection<Extension> modifierExtension) {
-                return (Builder) super.modifierExtension(modifierExtension);
-            }
-
-            /**
-             * The ingredient substance.
-             * 
-             * <p>This element is required.
-             * 
-             * @param code
-             *     The ingredient substance
-             * 
-             * @return
-             *     A reference to this Builder instance
-             */
-            public Builder code(CodeableConcept code) {
-                this.code = code;
-                return this;
-            }
-
-            /**
-             * Quantity of the substance or specified substance present in the manufactured item or pharmaceutical product.
-             * 
-             * <p>Adds new element(s) to the existing list.
-             * If any of the elements are null, calling {@link #build()} will fail.
-             * 
-             * @param strength
-             *     Quantity of the substance or specified substance present in the manufactured item or pharmaceutical product
-             * 
-             * @return
-             *     A reference to this Builder instance
-             */
-            public Builder strength(MedicinalProductIngredient.SpecifiedSubstance.Strength... strength) {
-                for (MedicinalProductIngredient.SpecifiedSubstance.Strength value : strength) {
-                    this.strength.add(value);
-                }
-                return this;
-            }
-
-            /**
-             * Quantity of the substance or specified substance present in the manufactured item or pharmaceutical product.
-             * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection.
-             * If any of the elements are null, calling {@link #build()} will fail.
-             * 
-             * @param strength
-             *     Quantity of the substance or specified substance present in the manufactured item or pharmaceutical product
-             * 
-             * @return
-             *     A reference to this Builder instance
-             * 
-             * @throws NullPointerException
-             *     If the passed collection is null
-             */
-            public Builder strength(Collection<MedicinalProductIngredient.SpecifiedSubstance.Strength> strength) {
-                this.strength = new ArrayList<>(strength);
-                return this;
-            }
-
-            /**
-             * Build the {@link Substance}
-             * 
-             * <p>Required elements:
-             * <ul>
-             * <li>code</li>
-             * </ul>
-             * 
-             * @return
-             *     An immutable object of type {@link Substance}
-             * @throws IllegalStateException
-             *     if the current state cannot be built into a valid Substance per the base specification
-             */
-            @Override
-            public Substance build() {
-                Substance substance = new Substance(this);
-                if (validating) {
-                    validate(substance);
-                }
-                return substance;
-            }
-
-            protected void validate(Substance substance) {
-                super.validate(substance);
-                ValidationSupport.requireNonNull(substance.code, "code");
-                ValidationSupport.checkList(substance.strength, "strength", MedicinalProductIngredient.SpecifiedSubstance.Strength.class);
-                ValidationSupport.requireValueOrChildren(substance);
-            }
-
-            protected Builder from(Substance substance) {
-                super.from(substance);
-                code = substance.code;
-                strength.addAll(substance.strength);
-                return this;
             }
         }
     }

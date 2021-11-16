@@ -57,8 +57,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     id = "documentReference-0",
     level = "Warning",
     location = "(base)",
-    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/c80-doc-typecodes",
-    expression = "type.exists() implies (type.memberOf('http://hl7.org/fhir/ValueSet/c80-doc-typecodes', 'preferred'))",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/doc-typecodes",
+    expression = "type.exists() implies (type.memberOf('http://hl7.org/fhir/ValueSet/doc-typecodes', 'preferred'))",
     source = "http://hl7.org/fhir/StructureDefinition/DocumentReference",
     generated = true
 )
@@ -108,7 +108,7 @@ public class DocumentReference extends DomainResource {
         bindingName = "DocumentC80Type",
         strength = BindingStrength.Value.PREFERRED,
         description = "Precise type of clinical document.",
-        valueSet = "http://hl7.org/fhir/ValueSet/c80-doc-typecodes"
+        valueSet = "http://hl7.org/fhir/ValueSet/doc-typecodes"
     )
     private final CodeableConcept type;
     @Summary
@@ -116,7 +116,7 @@ public class DocumentReference extends DomainResource {
         bindingName = "DocumentC80Class",
         strength = BindingStrength.Value.EXAMPLE,
         description = "High-level kind of a clinical document at a macro level.",
-        valueSet = "http://hl7.org/fhir/ValueSet/document-classcodes"
+        valueSet = "http://hl7.org/fhir/ValueSet/doc-classcodes"
     )
     private final List<CodeableConcept> category;
     @Summary
