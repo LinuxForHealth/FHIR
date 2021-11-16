@@ -11,43 +11,82 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
-import com.ibm.fhir.model.type.code.BindingStrength;
-import com.ibm.fhir.model.type.code.QuantityComparator;
+import com.ibm.fhir.model.annotation.Summary;
+import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
- * A length of time.
+ * A range of ratios expressed as a low and high numerator and a denominator.
  */
 @Constraint(
-    id = "drt-1",
+    id = "inv-1",
     level = "Rule",
     location = "(base)",
-    description = "There SHALL be a code if there is a value and it SHALL be an expression of time.  If system is present, it SHALL be UCUM.",
-    expression = "value.exists() implies ((system = %ucum) and code.exists())",
-    source = "http://hl7.org/fhir/StructureDefinition/Duration"
+    description = "One of lowNumerator or highNumerator and denominator SHALL be present, or all are absent. If all are absent, there SHALL be some extension present",
+    expression = "((lowNumerator.empty() and highNumerator.empty()) xor denominator.exists()) and (lowNumerator.exists() or extension.exists())",
+    source = "http://hl7.org/fhir/StructureDefinition/RatioRange"
 )
 @Constraint(
-    id = "duration-2",
-    level = "Warning",
+    id = "inv-2",
+    level = "Rule",
     location = "(base)",
-    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/duration-units",
-    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/duration-units', 'extensible')",
-    source = "http://hl7.org/fhir/StructureDefinition/Duration",
-    generated = true
-)
-@Binding(
-    bindingName = "DurationUnits",
-    strength = BindingStrength.Value.EXTENSIBLE,
-    description = "Appropriate units for Duration.",
-    valueSet = "http://hl7.org/fhir/ValueSet/duration-units",
-    maxValueSet = "http://hl7.org/fhir/ValueSet/all-time-units"
+    description = "If present, lowNumerator SHALL have a lower value than highNumerator",
+    expression = "lowNumerator.empty() or highNumerator.empty() or (lowNumerator <= highNumerator)",
+    source = "http://hl7.org/fhir/StructureDefinition/RatioRange"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
-public class Duration extends Quantity {
-    private Duration(Builder builder) {
+public class RatioRange extends DataType {
+    @Summary
+    private final SimpleQuantity lowNumerator;
+    @Summary
+    private final SimpleQuantity highNumerator;
+    @Summary
+    private final SimpleQuantity denominator;
+
+    private RatioRange(Builder builder) {
         super(builder);
+        lowNumerator = builder.lowNumerator;
+        highNumerator = builder.highNumerator;
+        denominator = builder.denominator;
+    }
+
+    /**
+     * The value of the low limit numerator.
+     * 
+     * @return
+     *     An immutable object of type {@link SimpleQuantity} that may be null.
+     */
+    public SimpleQuantity getLowNumerator() {
+        return lowNumerator;
+    }
+
+    /**
+     * The value of the high limit numerator.
+     * 
+     * @return
+     *     An immutable object of type {@link SimpleQuantity} that may be null.
+     */
+    public SimpleQuantity getHighNumerator() {
+        return highNumerator;
+    }
+
+    /**
+     * The value of the denominator.
+     * 
+     * @return
+     *     An immutable object of type {@link SimpleQuantity} that may be null.
+     */
+    public SimpleQuantity getDenominator() {
+        return denominator;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (lowNumerator != null) || 
+            (highNumerator != null) || 
+            (denominator != null);
     }
 
     @Override
@@ -58,11 +97,9 @@ public class Duration extends Quantity {
                 // visit children
                 accept(id, "id", visitor);
                 accept(extension, "extension", visitor, Extension.class);
-                accept(value, "value", visitor);
-                accept(comparator, "comparator", visitor);
-                accept(unit, "unit", visitor);
-                accept(system, "system", visitor);
-                accept(code, "code", visitor);
+                accept(lowNumerator, "lowNumerator", visitor);
+                accept(highNumerator, "highNumerator", visitor);
+                accept(denominator, "denominator", visitor);
             }
             visitor.visitEnd(elementName, elementIndex, this);
             visitor.postVisit(this);
@@ -80,14 +117,12 @@ public class Duration extends Quantity {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        Duration other = (Duration) obj;
+        RatioRange other = (RatioRange) obj;
         return Objects.equals(id, other.id) && 
             Objects.equals(extension, other.extension) && 
-            Objects.equals(value, other.value) && 
-            Objects.equals(comparator, other.comparator) && 
-            Objects.equals(unit, other.unit) && 
-            Objects.equals(system, other.system) && 
-            Objects.equals(code, other.code);
+            Objects.equals(lowNumerator, other.lowNumerator) && 
+            Objects.equals(highNumerator, other.highNumerator) && 
+            Objects.equals(denominator, other.denominator);
     }
 
     @Override
@@ -96,11 +131,9 @@ public class Duration extends Quantity {
         if (result == 0) {
             result = Objects.hash(id, 
                 extension, 
-                value, 
-                comparator, 
-                unit, 
-                system, 
-                code);
+                lowNumerator, 
+                highNumerator, 
+                denominator);
             hashCode = result;
         }
         return result;
@@ -115,7 +148,11 @@ public class Duration extends Quantity {
         return new Builder();
     }
 
-    public static class Builder extends Quantity.Builder {
+    public static class Builder extends DataType.Builder {
+        private SimpleQuantity lowNumerator;
+        private SimpleQuantity highNumerator;
+        private SimpleQuantity denominator;
+
         private Builder() {
             super();
         }
@@ -179,115 +216,74 @@ public class Duration extends Quantity {
         }
 
         /**
-         * The value of the measured amount. The value includes an implicit precision in the presentation of the value.
+         * The value of the low limit numerator.
          * 
-         * @param value
-         *     Numerical value (with implicit precision)
-         * 
-         * @return
-         *     A reference to this Builder instance
-         */
-        @Override
-        public Builder value(Decimal value) {
-            return (Builder) super.value(value);
-        }
-
-        /**
-         * How the value should be understood and represented - whether the actual value is greater or less than the stated value 
-         * due to measurement issues; e.g. if the comparator is "&lt;" , then the real value is &lt; stated value.
-         * 
-         * @param comparator
-         *     &lt; | &lt;= | &gt;= | &gt; - how to understand the value
+         * @param lowNumerator
+         *     Low Numerator limit
          * 
          * @return
          *     A reference to this Builder instance
          */
-        @Override
-        public Builder comparator(QuantityComparator comparator) {
-            return (Builder) super.comparator(comparator);
+        public Builder lowNumerator(SimpleQuantity lowNumerator) {
+            this.lowNumerator = lowNumerator;
+            return this;
         }
 
         /**
-         * Convenience method for setting {@code unit}.
+         * The value of the high limit numerator.
          * 
-         * @param unit
-         *     Unit representation
-         * 
-         * @return
-         *     A reference to this Builder instance
-         * 
-         * @see #unit(com.ibm.fhir.model.type.String)
-         */
-        @Override
-        public Builder unit(java.lang.String unit) {
-            return (Builder) super.unit(unit);
-        }
-
-        /**
-         * A human-readable form of the unit.
-         * 
-         * @param unit
-         *     Unit representation
+         * @param highNumerator
+         *     High Numerator limit
          * 
          * @return
          *     A reference to this Builder instance
          */
-        @Override
-        public Builder unit(String unit) {
-            return (Builder) super.unit(unit);
+        public Builder highNumerator(SimpleQuantity highNumerator) {
+            this.highNumerator = highNumerator;
+            return this;
         }
 
         /**
-         * The identification of the system that provides the coded form of the unit.
+         * The value of the denominator.
          * 
-         * @param system
-         *     System that defines coded unit form
+         * @param denominator
+         *     Denominator value
          * 
          * @return
          *     A reference to this Builder instance
          */
-        @Override
-        public Builder system(Uri system) {
-            return (Builder) super.system(system);
+        public Builder denominator(SimpleQuantity denominator) {
+            this.denominator = denominator;
+            return this;
         }
 
         /**
-         * A computer processable form of the unit in some unit representation system.
-         * 
-         * @param code
-         *     Coded form of the unit
+         * Build the {@link RatioRange}
          * 
          * @return
-         *     A reference to this Builder instance
-         */
-        @Override
-        public Builder code(Code code) {
-            return (Builder) super.code(code);
-        }
-
-        /**
-         * Build the {@link Duration}
-         * 
-         * @return
-         *     An immutable object of type {@link Duration}
+         *     An immutable object of type {@link RatioRange}
          * @throws IllegalStateException
-         *     if the current state cannot be built into a valid Duration per the base specification
+         *     if the current state cannot be built into a valid RatioRange per the base specification
          */
         @Override
-        public Duration build() {
-            Duration duration = new Duration(this);
+        public RatioRange build() {
+            RatioRange ratioRange = new RatioRange(this);
             if (validating) {
-                validate(duration);
+                validate(ratioRange);
             }
-            return duration;
+            return ratioRange;
         }
 
-        protected void validate(Duration duration) {
-            super.validate(duration);
+        protected void validate(RatioRange ratioRange) {
+            super.validate(ratioRange);
+            ValidationSupport.requireValueOrChildren(ratioRange);
         }
 
-        protected Builder from(Duration duration) {
-            super.from(duration);
+        protected Builder from(RatioRange ratioRange) {
+            super.from(ratioRange);
+            lowNumerator = ratioRange.lowNumerator;
+            highNumerator = ratioRange.highNumerator;
+            denominator = ratioRange.denominator;
             return this;
         }
     }

@@ -355,7 +355,7 @@ public class ImplementationGuide extends DomainResource {
     /**
      * The version(s) of the FHIR specification that this ImplementationGuide targets - e.g. describes how to use. The value 
      * of this element is the formal version of the specification, without the revision number, e.g. [publication].[major].
-     * [minor], which is 4.0.1. for this version.
+     * [minor], which is 4.1.0. for this version.
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link FHIRVersion} that is non-empty.
@@ -1191,7 +1191,7 @@ public class ImplementationGuide extends DomainResource {
         /**
          * The version(s) of the FHIR specification that this ImplementationGuide targets - e.g. describes how to use. The value 
          * of this element is the formal version of the specification, without the revision number, e.g. [publication].[major].
-         * [minor], which is 4.0.1. for this version.
+         * [minor], which is 4.1.0. for this version.
          * 
          * <p>Adds new element(s) to the existing list.
          * If any of the elements are null, calling {@link #build()} will fail.
@@ -1214,7 +1214,7 @@ public class ImplementationGuide extends DomainResource {
         /**
          * The version(s) of the FHIR specification that this ImplementationGuide targets - e.g. describes how to use. The value 
          * of this element is the formal version of the specification, without the revision number, e.g. [publication].[major].
-         * [minor], which is 4.0.1. for this version.
+         * [minor], which is 4.1.0. for this version.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection.
          * If any of the elements are null, calling {@link #build()} will fail.

@@ -14,170 +14,184 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
+import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
-import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
+import com.ibm.fhir.model.type.Instant;
+import com.ibm.fhir.model.type.Integer;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.StandardsStatus;
+import com.ibm.fhir.model.type.code.SubscriptionNotificationType;
+import com.ibm.fhir.model.type.code.SubscriptionStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
-import com.ibm.fhir.model.visitor.Visitor;
 
 /**
- * The interactions of the medicinal product with other medicinal products, or other forms of interactions.
+ * The SubscriptionStatus resource describes the state of a Subscription during notifications.
  * 
- * <p>Maturity level: FMM0 (Trial Use)
+ * <p>Maturity level: FMM0 (draft)
  */
 @Maturity(
     level = 0,
-    status = StandardsStatus.Value.TRIAL_USE
+    status = StandardsStatus.Value.DRAFT
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
-public class MedicinalProductInteraction extends DomainResource {
+public class SubscriptionStatus extends DomainResource {
     @Summary
-    @ReferenceTarget({ "MedicinalProduct", "Medication", "Substance" })
-    private final List<Reference> subject;
+    @Binding(
+        bindingName = "SubscriptionStatus",
+        strength = BindingStrength.Value.REQUIRED,
+        description = "The status of a subscription at the time this notification was generated.",
+        valueSet = "http://hl7.org/fhir/ValueSet/subscription-status|4.0.1"
+    )
+    private final SubscriptionStatus status;
     @Summary
-    private final String description;
+    @Binding(
+        bindingName = "SubscriptionNotificationType",
+        strength = BindingStrength.Value.REQUIRED,
+        description = "The type of notification represented by the status message.",
+        valueSet = "http://hl7.org/fhir/ValueSet/subscription-notification-type|4.0.1"
+    )
+    @Required
+    private final SubscriptionNotificationType type;
     @Summary
-    private final List<Interactant> interactant;
+    private final String eventsSinceSubscriptionStart;
     @Summary
-    private final CodeableConcept type;
+    private final Integer eventsInNotification;
+    private final List<NotificationEvent> notificationEvent;
     @Summary
-    private final CodeableConcept effect;
+    @ReferenceTarget({ "Subscription" })
+    @Required
+    private final Reference subscription;
     @Summary
-    private final CodeableConcept incidence;
+    private final Canonical topic;
     @Summary
-    private final CodeableConcept management;
+    @Binding(
+        bindingName = "SubscriptionError",
+        strength = BindingStrength.Value.EXAMPLE,
+        description = "Codes to represent subscription error details.",
+        valueSet = "http://hl7.org/fhir/ValueSet/subscription-error"
+    )
+    private final List<CodeableConcept> error;
 
-    private MedicinalProductInteraction(Builder builder) {
+    private SubscriptionStatus(Builder builder) {
         super(builder);
-        subject = Collections.unmodifiableList(builder.subject);
-        description = builder.description;
-        interactant = Collections.unmodifiableList(builder.interactant);
+        status = builder.status;
         type = builder.type;
-        effect = builder.effect;
-        incidence = builder.incidence;
-        management = builder.management;
+        eventsSinceSubscriptionStart = builder.eventsSinceSubscriptionStart;
+        eventsInNotification = builder.eventsInNotification;
+        notificationEvent = Collections.unmodifiableList(builder.notificationEvent);
+        subscription = builder.subscription;
+        topic = builder.topic;
+        error = Collections.unmodifiableList(builder.error);
     }
 
     /**
-     * The medication for which this is a described interaction.
+     * The status of the subscription, which marks the server state for managing the subscription.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
+     *     An immutable object of type {@link SubscriptionStatus} that may be null.
      */
-    public List<Reference> getSubject() {
-        return subject;
+    public SubscriptionStatus getStatus() {
+        return status;
     }
 
     /**
-     * The interaction described.
+     * The type of event being conveyed with this notificaiton.
      * 
      * @return
-     *     An immutable object of type {@link String} that may be null.
+     *     An immutable object of type {@link SubscriptionNotificationType} that is non-null.
      */
-    public String getDescription() {
-        return description;
-    }
-
-    /**
-     * The specific medication, food or laboratory test that interacts.
-     * 
-     * @return
-     *     An unmodifiable list containing immutable objects of type {@link Interactant} that may be empty.
-     */
-    public List<Interactant> getInteractant() {
-        return interactant;
-    }
-
-    /**
-     * The type of the interaction e.g. drug-drug interaction, drug-food interaction, drug-lab test interaction.
-     * 
-     * @return
-     *     An immutable object of type {@link CodeableConcept} that may be null.
-     */
-    public CodeableConcept getType() {
+    public SubscriptionNotificationType getType() {
         return type;
     }
 
     /**
-     * The effect of the interaction, for example "reduced gastric absorption of primary medication".
+     * The total number of actual events which have been generated since the Subscription was created (inclusive of this 
+     * notification) - regardless of how many have been successfully communicated. This number is NOT incremented for 
+     * handshake and heartbeat notifications.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept} that may be null.
+     *     An immutable object of type {@link String} that may be null.
      */
-    public CodeableConcept getEffect() {
-        return effect;
+    public String getEventsSinceSubscriptionStart() {
+        return eventsSinceSubscriptionStart;
     }
 
     /**
-     * The incidence of the interaction, e.g. theoretical, observed.
+     * The total number of actual events represented within this notification. For handshake and heartbeat notifications, 
+     * this will be zero or not present. For event-notifications, this number may be one or more, depending on server 
+     * batching.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept} that may be null.
+     *     An immutable object of type {@link Integer} that may be null.
      */
-    public CodeableConcept getIncidence() {
-        return incidence;
+    public Integer getEventsInNotification() {
+        return eventsInNotification;
     }
 
     /**
-     * Actions for managing the interaction.
+     * Detailed information about events relevant to this subscription notification.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept} that may be null.
+     *     An unmodifiable list containing immutable objects of type {@link NotificationEvent} that may be empty.
      */
-    public CodeableConcept getManagement() {
-        return management;
+    public List<NotificationEvent> getNotificationEvent() {
+        return notificationEvent;
+    }
+
+    /**
+     * The reference to the Subscription which generated this notification.
+     * 
+     * @return
+     *     An immutable object of type {@link Reference} that is non-null.
+     */
+    public Reference getSubscription() {
+        return subscription;
+    }
+
+    /**
+     * The reference to the SubscriptionTopic for the Subscription which generated this notification.
+     * 
+     * @return
+     *     An immutable object of type {@link Canonical} that may be null.
+     */
+    public Canonical getTopic() {
+        return topic;
+    }
+
+    /**
+     * A record of errors that occurred when the server processed a notification.
+     * 
+     * @return
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
+     */
+    public List<CodeableConcept> getError() {
+        return error;
     }
 
     @Override
     public boolean hasChildren() {
         return super.hasChildren() || 
-            !subject.isEmpty() || 
-            (description != null) || 
-            !interactant.isEmpty() || 
+            (status != null) || 
             (type != null) || 
-            (effect != null) || 
-            (incidence != null) || 
-            (management != null);
-    }
-
-    @Override
-    public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
-        if (visitor.preVisit(this)) {
-            visitor.visitStart(elementName, elementIndex, this);
-            if (visitor.visit(elementName, elementIndex, this)) {
-                // visit children
-                accept(id, "id", visitor);
-                accept(meta, "meta", visitor);
-                accept(implicitRules, "implicitRules", visitor);
-                accept(language, "language", visitor);
-                accept(text, "text", visitor);
-                accept(contained, "contained", visitor, Resource.class);
-                accept(extension, "extension", visitor, Extension.class);
-                accept(modifierExtension, "modifierExtension", visitor, Extension.class);
-                accept(subject, "subject", visitor, Reference.class);
-                accept(description, "description", visitor);
-                accept(interactant, "interactant", visitor, Interactant.class);
-                accept(type, "type", visitor);
-                accept(effect, "effect", visitor);
-                accept(incidence, "incidence", visitor);
-                accept(management, "management", visitor);
-            }
-            visitor.visitEnd(elementName, elementIndex, this);
-            visitor.postVisit(this);
-        }
+            (eventsSinceSubscriptionStart != null) || 
+            (eventsInNotification != null) || 
+            !notificationEvent.isEmpty() || 
+            (subscription != null) || 
+            (topic != null) || 
+            !error.isEmpty();
     }
 
     @Override
@@ -191,7 +205,7 @@ public class MedicinalProductInteraction extends DomainResource {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        MedicinalProductInteraction other = (MedicinalProductInteraction) obj;
+        SubscriptionStatus other = (SubscriptionStatus) obj;
         return Objects.equals(id, other.id) && 
             Objects.equals(meta, other.meta) && 
             Objects.equals(implicitRules, other.implicitRules) && 
@@ -200,13 +214,14 @@ public class MedicinalProductInteraction extends DomainResource {
             Objects.equals(contained, other.contained) && 
             Objects.equals(extension, other.extension) && 
             Objects.equals(modifierExtension, other.modifierExtension) && 
-            Objects.equals(subject, other.subject) && 
-            Objects.equals(description, other.description) && 
-            Objects.equals(interactant, other.interactant) && 
+            Objects.equals(status, other.status) && 
             Objects.equals(type, other.type) && 
-            Objects.equals(effect, other.effect) && 
-            Objects.equals(incidence, other.incidence) && 
-            Objects.equals(management, other.management);
+            Objects.equals(eventsSinceSubscriptionStart, other.eventsSinceSubscriptionStart) && 
+            Objects.equals(eventsInNotification, other.eventsInNotification) && 
+            Objects.equals(notificationEvent, other.notificationEvent) && 
+            Objects.equals(subscription, other.subscription) && 
+            Objects.equals(topic, other.topic) && 
+            Objects.equals(error, other.error);
     }
 
     @Override
@@ -221,13 +236,14 @@ public class MedicinalProductInteraction extends DomainResource {
                 contained, 
                 extension, 
                 modifierExtension, 
-                subject, 
-                description, 
-                interactant, 
+                status, 
                 type, 
-                effect, 
-                incidence, 
-                management);
+                eventsSinceSubscriptionStart, 
+                eventsInNotification, 
+                notificationEvent, 
+                subscription, 
+                topic, 
+                error);
             hashCode = result;
         }
         return result;
@@ -243,13 +259,14 @@ public class MedicinalProductInteraction extends DomainResource {
     }
 
     public static class Builder extends DomainResource.Builder {
-        private List<Reference> subject = new ArrayList<>();
-        private String description;
-        private List<Interactant> interactant = new ArrayList<>();
-        private CodeableConcept type;
-        private CodeableConcept effect;
-        private CodeableConcept incidence;
-        private CodeableConcept management;
+        private SubscriptionStatus status;
+        private SubscriptionNotificationType type;
+        private String eventsSinceSubscriptionStart;
+        private Integer eventsInNotification;
+        private List<NotificationEvent> notificationEvent = new ArrayList<>();
+        private Reference subscription;
+        private Canonical topic;
+        private List<CodeableConcept> error = new ArrayList<>();
 
         private Builder() {
             super();
@@ -467,249 +484,326 @@ public class MedicinalProductInteraction extends DomainResource {
         }
 
         /**
-         * The medication for which this is a described interaction.
+         * The status of the subscription, which marks the server state for managing the subscription.
          * 
-         * <p>Adds new element(s) to the existing list.
-         * If any of the elements are null, calling {@link #build()} will fail.
-         * 
-         * <p>Allowed resource types for the references:
-         * <ul>
-         * <li>{@link MedicinalProduct}</li>
-         * <li>{@link Medication}</li>
-         * <li>{@link Substance}</li>
-         * </ul>
-         * 
-         * @param subject
-         *     The medication for which this is a described interaction
+         * @param status
+         *     requested | active | error | off | entered-in-error
          * 
          * @return
          *     A reference to this Builder instance
          */
-        public Builder subject(Reference... subject) {
-            for (Reference value : subject) {
-                this.subject.add(value);
-            }
+        public Builder status(SubscriptionStatus status) {
+            this.status = status;
             return this;
         }
 
         /**
-         * The medication for which this is a described interaction.
+         * The type of event being conveyed with this notificaiton.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection.
-         * If any of the elements are null, calling {@link #build()} will fail.
-         * 
-         * <p>Allowed resource types for the references:
-         * <ul>
-         * <li>{@link MedicinalProduct}</li>
-         * <li>{@link Medication}</li>
-         * <li>{@link Substance}</li>
-         * </ul>
-         * 
-         * @param subject
-         *     The medication for which this is a described interaction
-         * 
-         * @return
-         *     A reference to this Builder instance
-         * 
-         * @throws NullPointerException
-         *     If the passed collection is null
-         */
-        public Builder subject(Collection<Reference> subject) {
-            this.subject = new ArrayList<>(subject);
-            return this;
-        }
-
-        /**
-         * Convenience method for setting {@code description}.
-         * 
-         * @param description
-         *     The interaction described
-         * 
-         * @return
-         *     A reference to this Builder instance
-         * 
-         * @see #description(com.ibm.fhir.model.type.String)
-         */
-        public Builder description(java.lang.String description) {
-            this.description = (description == null) ? null : String.of(description);
-            return this;
-        }
-
-        /**
-         * The interaction described.
-         * 
-         * @param description
-         *     The interaction described
-         * 
-         * @return
-         *     A reference to this Builder instance
-         */
-        public Builder description(String description) {
-            this.description = description;
-            return this;
-        }
-
-        /**
-         * The specific medication, food or laboratory test that interacts.
-         * 
-         * <p>Adds new element(s) to the existing list.
-         * If any of the elements are null, calling {@link #build()} will fail.
-         * 
-         * @param interactant
-         *     The specific medication, food or laboratory test that interacts
-         * 
-         * @return
-         *     A reference to this Builder instance
-         */
-        public Builder interactant(Interactant... interactant) {
-            for (Interactant value : interactant) {
-                this.interactant.add(value);
-            }
-            return this;
-        }
-
-        /**
-         * The specific medication, food or laboratory test that interacts.
-         * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection.
-         * If any of the elements are null, calling {@link #build()} will fail.
-         * 
-         * @param interactant
-         *     The specific medication, food or laboratory test that interacts
-         * 
-         * @return
-         *     A reference to this Builder instance
-         * 
-         * @throws NullPointerException
-         *     If the passed collection is null
-         */
-        public Builder interactant(Collection<Interactant> interactant) {
-            this.interactant = new ArrayList<>(interactant);
-            return this;
-        }
-
-        /**
-         * The type of the interaction e.g. drug-drug interaction, drug-food interaction, drug-lab test interaction.
+         * <p>This element is required.
          * 
          * @param type
-         *     The type of the interaction e.g. drug-drug interaction, drug-food interaction, drug-lab test interaction
+         *     handshake | heartbeat | event-notification | query-status | query-event
          * 
          * @return
          *     A reference to this Builder instance
          */
-        public Builder type(CodeableConcept type) {
+        public Builder type(SubscriptionNotificationType type) {
             this.type = type;
             return this;
         }
 
         /**
-         * The effect of the interaction, for example "reduced gastric absorption of primary medication".
+         * Convenience method for setting {@code eventsSinceSubscriptionStart}.
          * 
-         * @param effect
-         *     The effect of the interaction, for example "reduced gastric absorption of primary medication"
+         * @param eventsSinceSubscriptionStart
+         *     Events since the Subscription was created
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #eventsSinceSubscriptionStart(com.ibm.fhir.model.type.String)
          */
-        public Builder effect(CodeableConcept effect) {
-            this.effect = effect;
+        public Builder eventsSinceSubscriptionStart(java.lang.String eventsSinceSubscriptionStart) {
+            this.eventsSinceSubscriptionStart = (eventsSinceSubscriptionStart == null) ? null : String.of(eventsSinceSubscriptionStart);
             return this;
         }
 
         /**
-         * The incidence of the interaction, e.g. theoretical, observed.
+         * The total number of actual events which have been generated since the Subscription was created (inclusive of this 
+         * notification) - regardless of how many have been successfully communicated. This number is NOT incremented for 
+         * handshake and heartbeat notifications.
          * 
-         * @param incidence
-         *     The incidence of the interaction, e.g. theoretical, observed
-         * 
-         * @return
-         *     A reference to this Builder instance
-         */
-        public Builder incidence(CodeableConcept incidence) {
-            this.incidence = incidence;
-            return this;
-        }
-
-        /**
-         * Actions for managing the interaction.
-         * 
-         * @param management
-         *     Actions for managing the interaction
+         * @param eventsSinceSubscriptionStart
+         *     Events since the Subscription was created
          * 
          * @return
          *     A reference to this Builder instance
          */
-        public Builder management(CodeableConcept management) {
-            this.management = management;
+        public Builder eventsSinceSubscriptionStart(String eventsSinceSubscriptionStart) {
+            this.eventsSinceSubscriptionStart = eventsSinceSubscriptionStart;
             return this;
         }
 
         /**
-         * Build the {@link MedicinalProductInteraction}
+         * Convenience method for setting {@code eventsInNotification}.
+         * 
+         * @param eventsInNotification
+         *     The number of actual notifications represented by this bundle
          * 
          * @return
-         *     An immutable object of type {@link MedicinalProductInteraction}
+         *     A reference to this Builder instance
+         * 
+         * @see #eventsInNotification(com.ibm.fhir.model.type.Integer)
+         */
+        public Builder eventsInNotification(java.lang.Integer eventsInNotification) {
+            this.eventsInNotification = (eventsInNotification == null) ? null : Integer.of(eventsInNotification);
+            return this;
+        }
+
+        /**
+         * The total number of actual events represented within this notification. For handshake and heartbeat notifications, 
+         * this will be zero or not present. For event-notifications, this number may be one or more, depending on server 
+         * batching.
+         * 
+         * @param eventsInNotification
+         *     The number of actual notifications represented by this bundle
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder eventsInNotification(Integer eventsInNotification) {
+            this.eventsInNotification = eventsInNotification;
+            return this;
+        }
+
+        /**
+         * Detailed information about events relevant to this subscription notification.
+         * 
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
+         * 
+         * @param notificationEvent
+         *     Detailed information about any events relevant to this notification
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder notificationEvent(NotificationEvent... notificationEvent) {
+            for (NotificationEvent value : notificationEvent) {
+                this.notificationEvent.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * Detailed information about events relevant to this subscription notification.
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
+         * 
+         * @param notificationEvent
+         *     Detailed information about any events relevant to this notification
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
+         */
+        public Builder notificationEvent(Collection<NotificationEvent> notificationEvent) {
+            this.notificationEvent = new ArrayList<>(notificationEvent);
+            return this;
+        }
+
+        /**
+         * The reference to the Subscription which generated this notification.
+         * 
+         * <p>This element is required.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Subscription}</li>
+         * </ul>
+         * 
+         * @param subscription
+         *     Reference to the Subscription responsible for this notification
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder subscription(Reference subscription) {
+            this.subscription = subscription;
+            return this;
+        }
+
+        /**
+         * The reference to the SubscriptionTopic for the Subscription which generated this notification.
+         * 
+         * @param topic
+         *     Reference to the SubscriptionTopic this notification relates to
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder topic(Canonical topic) {
+            this.topic = topic;
+            return this;
+        }
+
+        /**
+         * A record of errors that occurred when the server processed a notification.
+         * 
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
+         * 
+         * @param error
+         *     List of errors on the subscription
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder error(CodeableConcept... error) {
+            for (CodeableConcept value : error) {
+                this.error.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * A record of errors that occurred when the server processed a notification.
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
+         * 
+         * @param error
+         *     List of errors on the subscription
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
+         */
+        public Builder error(Collection<CodeableConcept> error) {
+            this.error = new ArrayList<>(error);
+            return this;
+        }
+
+        /**
+         * Build the {@link SubscriptionStatus}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>type</li>
+         * <li>subscription</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link SubscriptionStatus}
          * @throws IllegalStateException
-         *     if the current state cannot be built into a valid MedicinalProductInteraction per the base specification
+         *     if the current state cannot be built into a valid SubscriptionStatus per the base specification
          */
         @Override
-        public MedicinalProductInteraction build() {
-            MedicinalProductInteraction medicinalProductInteraction = new MedicinalProductInteraction(this);
+        public SubscriptionStatus build() {
+            SubscriptionStatus subscriptionStatus = new SubscriptionStatus(this);
             if (validating) {
-                validate(medicinalProductInteraction);
+                validate(subscriptionStatus);
             }
-            return medicinalProductInteraction;
+            return subscriptionStatus;
         }
 
-        protected void validate(MedicinalProductInteraction medicinalProductInteraction) {
-            super.validate(medicinalProductInteraction);
-            ValidationSupport.checkList(medicinalProductInteraction.subject, "subject", Reference.class);
-            ValidationSupport.checkList(medicinalProductInteraction.interactant, "interactant", Interactant.class);
-            ValidationSupport.checkReferenceType(medicinalProductInteraction.subject, "subject", "MedicinalProduct", "Medication", "Substance");
+        protected void validate(SubscriptionStatus subscriptionStatus) {
+            super.validate(subscriptionStatus);
+            ValidationSupport.requireNonNull(subscriptionStatus.type, "type");
+            ValidationSupport.checkList(subscriptionStatus.notificationEvent, "notificationEvent", NotificationEvent.class);
+            ValidationSupport.requireNonNull(subscriptionStatus.subscription, "subscription");
+            ValidationSupport.checkList(subscriptionStatus.error, "error", CodeableConcept.class);
+            ValidationSupport.checkReferenceType(subscriptionStatus.subscription, "subscription", "Subscription");
         }
 
-        protected Builder from(MedicinalProductInteraction medicinalProductInteraction) {
-            super.from(medicinalProductInteraction);
-            subject.addAll(medicinalProductInteraction.subject);
-            description = medicinalProductInteraction.description;
-            interactant.addAll(medicinalProductInteraction.interactant);
-            type = medicinalProductInteraction.type;
-            effect = medicinalProductInteraction.effect;
-            incidence = medicinalProductInteraction.incidence;
-            management = medicinalProductInteraction.management;
+        protected Builder from(SubscriptionStatus subscriptionStatus) {
+            super.from(subscriptionStatus);
+            status = subscriptionStatus.status;
+            type = subscriptionStatus.type;
+            eventsSinceSubscriptionStart = subscriptionStatus.eventsSinceSubscriptionStart;
+            eventsInNotification = subscriptionStatus.eventsInNotification;
+            notificationEvent.addAll(subscriptionStatus.notificationEvent);
+            subscription = subscriptionStatus.subscription;
+            topic = subscriptionStatus.topic;
+            error.addAll(subscriptionStatus.error);
             return this;
         }
     }
 
     /**
-     * The specific medication, food or laboratory test that interacts.
+     * Detailed information about events relevant to this subscription notification.
      */
-    public static class Interactant extends BackboneElement {
-        @Summary
-        @ReferenceTarget({ "MedicinalProduct", "Medication", "Substance", "ObservationDefinition" })
-        @Choice({ Reference.class, CodeableConcept.class })
+    public static class NotificationEvent extends BackboneElement {
         @Required
-        private final Element item;
+        private final String eventNumber;
+        private final Instant timestamp;
+        private final Reference focus;
+        private final List<Reference> additionalContext;
 
-        private Interactant(Builder builder) {
+        private NotificationEvent(Builder builder) {
             super(builder);
-            item = builder.item;
+            eventNumber = builder.eventNumber;
+            timestamp = builder.timestamp;
+            focus = builder.focus;
+            additionalContext = Collections.unmodifiableList(builder.additionalContext);
         }
 
         /**
-         * The specific medication, food or laboratory test that interacts.
+         * The sequential number of this event in this subscription context. Note that this value is a 64-bit integer value, 
+         * encoded as a string.
          * 
          * @return
-         *     An immutable object of type {@link Reference} or {@link CodeableConcept} that is non-null.
+         *     An immutable object of type {@link String} that is non-null.
          */
-        public Element getItem() {
-            return item;
+        public String getEventNumber() {
+            return eventNumber;
+        }
+
+        /**
+         * The actual time this event occured on the server.
+         * 
+         * @return
+         *     An immutable object of type {@link Instant} that may be null.
+         */
+        public Instant getTimestamp() {
+            return timestamp;
+        }
+
+        /**
+         * The focus of this event. While this will usually be a reference to the focus resource of the event, it MAY contain a 
+         * reference to a non-FHIR object.
+         * 
+         * @return
+         *     An immutable object of type {@link Reference} that may be null.
+         */
+        public Reference getFocus() {
+            return focus;
+        }
+
+        /**
+         * Additional context information for this event. Generally, this will contain references to additional resources 
+         * included with the event (e.g., the Patient relevant to an Encounter), however it MAY refer to non-FHIR objects.
+         * 
+         * @return
+         *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
+         */
+        public List<Reference> getAdditionalContext() {
+            return additionalContext;
         }
 
         @Override
         public boolean hasChildren() {
             return super.hasChildren() || 
-                (item != null);
+                (eventNumber != null) || 
+                (timestamp != null) || 
+                (focus != null) || 
+                !additionalContext.isEmpty();
         }
 
         @Override
@@ -721,7 +815,10 @@ public class MedicinalProductInteraction extends DomainResource {
                     accept(id, "id", visitor);
                     accept(extension, "extension", visitor, Extension.class);
                     accept(modifierExtension, "modifierExtension", visitor, Extension.class);
-                    accept(item, "item", visitor);
+                    accept(eventNumber, "eventNumber", visitor);
+                    accept(timestamp, "timestamp", visitor);
+                    accept(focus, "focus", visitor);
+                    accept(additionalContext, "additionalContext", visitor, Reference.class);
                 }
                 visitor.visitEnd(elementName, elementIndex, this);
                 visitor.postVisit(this);
@@ -739,11 +836,14 @@ public class MedicinalProductInteraction extends DomainResource {
             if (getClass() != obj.getClass()) {
                 return false;
             }
-            Interactant other = (Interactant) obj;
+            NotificationEvent other = (NotificationEvent) obj;
             return Objects.equals(id, other.id) && 
                 Objects.equals(extension, other.extension) && 
                 Objects.equals(modifierExtension, other.modifierExtension) && 
-                Objects.equals(item, other.item);
+                Objects.equals(eventNumber, other.eventNumber) && 
+                Objects.equals(timestamp, other.timestamp) && 
+                Objects.equals(focus, other.focus) && 
+                Objects.equals(additionalContext, other.additionalContext);
         }
 
         @Override
@@ -753,7 +853,10 @@ public class MedicinalProductInteraction extends DomainResource {
                 result = Objects.hash(id, 
                     extension, 
                     modifierExtension, 
-                    item);
+                    eventNumber, 
+                    timestamp, 
+                    focus, 
+                    additionalContext);
                 hashCode = result;
             }
             return result;
@@ -769,7 +872,10 @@ public class MedicinalProductInteraction extends DomainResource {
         }
 
         public static class Builder extends BackboneElement.Builder {
-            private Element item;
+            private String eventNumber;
+            private Instant timestamp;
+            private Reference focus;
+            private List<Reference> additionalContext = new ArrayList<>();
 
             private Builder() {
                 super();
@@ -887,67 +993,161 @@ public class MedicinalProductInteraction extends DomainResource {
             }
 
             /**
-             * The specific medication, food or laboratory test that interacts.
+             * Convenience method for setting {@code eventNumber}.
              * 
              * <p>This element is required.
              * 
-             * <p>This is a choice element with the following allowed types:
-             * <ul>
-             * <li>{@link Reference}</li>
-             * <li>{@link CodeableConcept}</li>
-             * </ul>
-             * 
-             * When of type {@link Reference}, the allowed resource types for this reference are:
-             * <ul>
-             * <li>{@link MedicinalProduct}</li>
-             * <li>{@link Medication}</li>
-             * <li>{@link Substance}</li>
-             * <li>{@link ObservationDefinition}</li>
-             * </ul>
-             * 
-             * @param item
-             *     The specific medication, food or laboratory test that interacts
+             * @param eventNumber
+             *     Event number
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #eventNumber(com.ibm.fhir.model.type.String)
              */
-            public Builder item(Element item) {
-                this.item = item;
+            public Builder eventNumber(java.lang.String eventNumber) {
+                this.eventNumber = (eventNumber == null) ? null : String.of(eventNumber);
                 return this;
             }
 
             /**
-             * Build the {@link Interactant}
+             * The sequential number of this event in this subscription context. Note that this value is a 64-bit integer value, 
+             * encoded as a string.
+             * 
+             * <p>This element is required.
+             * 
+             * @param eventNumber
+             *     Event number
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder eventNumber(String eventNumber) {
+                this.eventNumber = eventNumber;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code timestamp}.
+             * 
+             * @param timestamp
+             *     The instant this event occurred
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #timestamp(com.ibm.fhir.model.type.Instant)
+             */
+            public Builder timestamp(java.time.ZonedDateTime timestamp) {
+                this.timestamp = (timestamp == null) ? null : Instant.of(timestamp);
+                return this;
+            }
+
+            /**
+             * The actual time this event occured on the server.
+             * 
+             * @param timestamp
+             *     The instant this event occurred
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder timestamp(Instant timestamp) {
+                this.timestamp = timestamp;
+                return this;
+            }
+
+            /**
+             * The focus of this event. While this will usually be a reference to the focus resource of the event, it MAY contain a 
+             * reference to a non-FHIR object.
+             * 
+             * @param focus
+             *     The focus of this event
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder focus(Reference focus) {
+                this.focus = focus;
+                return this;
+            }
+
+            /**
+             * Additional context information for this event. Generally, this will contain references to additional resources 
+             * included with the event (e.g., the Patient relevant to an Encounter), however it MAY refer to non-FHIR objects.
+             * 
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
+             * 
+             * @param additionalContext
+             *     Additional context for this event
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder additionalContext(Reference... additionalContext) {
+                for (Reference value : additionalContext) {
+                    this.additionalContext.add(value);
+                }
+                return this;
+            }
+
+            /**
+             * Additional context information for this event. Generally, this will contain references to additional resources 
+             * included with the event (e.g., the Patient relevant to an Encounter), however it MAY refer to non-FHIR objects.
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
+             * 
+             * @param additionalContext
+             *     Additional context for this event
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
+             */
+            public Builder additionalContext(Collection<Reference> additionalContext) {
+                this.additionalContext = new ArrayList<>(additionalContext);
+                return this;
+            }
+
+            /**
+             * Build the {@link NotificationEvent}
              * 
              * <p>Required elements:
              * <ul>
-             * <li>item</li>
+             * <li>eventNumber</li>
              * </ul>
              * 
              * @return
-             *     An immutable object of type {@link Interactant}
+             *     An immutable object of type {@link NotificationEvent}
              * @throws IllegalStateException
-             *     if the current state cannot be built into a valid Interactant per the base specification
+             *     if the current state cannot be built into a valid NotificationEvent per the base specification
              */
             @Override
-            public Interactant build() {
-                Interactant interactant = new Interactant(this);
+            public NotificationEvent build() {
+                NotificationEvent notificationEvent = new NotificationEvent(this);
                 if (validating) {
-                    validate(interactant);
+                    validate(notificationEvent);
                 }
-                return interactant;
+                return notificationEvent;
             }
 
-            protected void validate(Interactant interactant) {
-                super.validate(interactant);
-                ValidationSupport.requireChoiceElement(interactant.item, "item", Reference.class, CodeableConcept.class);
-                ValidationSupport.checkReferenceType(interactant.item, "item", "MedicinalProduct", "Medication", "Substance", "ObservationDefinition");
-                ValidationSupport.requireValueOrChildren(interactant);
+            protected void validate(NotificationEvent notificationEvent) {
+                super.validate(notificationEvent);
+                ValidationSupport.requireNonNull(notificationEvent.eventNumber, "eventNumber");
+                ValidationSupport.checkList(notificationEvent.additionalContext, "additionalContext", Reference.class);
+                ValidationSupport.requireValueOrChildren(notificationEvent);
             }
 
-            protected Builder from(Interactant interactant) {
-                super.from(interactant);
-                item = interactant.item;
+            protected Builder from(NotificationEvent notificationEvent) {
+                super.from(notificationEvent);
+                eventNumber = notificationEvent.eventNumber;
+                timestamp = notificationEvent.timestamp;
+                focus = notificationEvent.focus;
+                additionalContext.addAll(notificationEvent.additionalContext);
                 return this;
             }
         }

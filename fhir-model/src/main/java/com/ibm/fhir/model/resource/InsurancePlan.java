@@ -56,7 +56,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     id = "ipn-1",
     level = "Rule",
     location = "(base)",
-    description = "The organization SHALL at least have a name or an idendtifier, and possibly more than one",
+    description = "The organization SHALL at least have a name or an identifier, and possibly more than one",
     expression = "(identifier.count() + name.count()) > 0",
     source = "http://hl7.org/fhir/StructureDefinition/InsurancePlan"
 )
@@ -4504,7 +4504,6 @@ public class InsurancePlan extends DomainResource {
                             super.validate(cost);
                             ValidationSupport.requireNonNull(cost.type, "type");
                             ValidationSupport.checkList(cost.qualifiers, "qualifiers", CodeableConcept.class);
-                            ValidationSupport.checkValueSetBinding(cost.applicability, "applicability", "http://hl7.org/fhir/ValueSet/insuranceplan-applicability", "http://terminology.hl7.org/CodeSystem/applicability", "in-network", "out-of-network", "other");
                             ValidationSupport.requireValueOrChildren(cost);
                         }
 

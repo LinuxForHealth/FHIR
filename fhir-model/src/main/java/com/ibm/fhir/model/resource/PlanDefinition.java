@@ -67,17 +67,17 @@ import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * This resource allows for the definition of various types of plans as a sharable, consumable, and executable artifact. 
- * The resource is general enough to support the description of a broad range of clinical artifacts such as clinical 
- * decision support rules, order sets and protocols.
+ * The resource is general enough to support the description of a broad range of clinical and non-clinical artifacts such 
+ * as clinical decision support rules, order sets, protocols, and drug quality specifications.
  * 
- * <p>Maturity level: FMM2 (Trial Use)
+ * <p>Maturity level: FMM3 (Trial Use)
  */
 @Maturity(
-    level = 2,
+    level = 3,
     status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
-    id = "pdf-0",
+    id = "cnl-0",
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
@@ -170,8 +170,8 @@ public class PlanDefinition extends DomainResource {
     private final PublicationStatus status;
     @Summary
     private final Boolean experimental;
-    @ReferenceTarget({ "Group" })
-    @Choice({ CodeableConcept.class, Reference.class })
+    @ReferenceTarget({ "Group", "MedicinalProductDefinition", "SubstanceDefinition", "AdministrableProductDefinition", "ManufacturedItemDefinition", "PackagedProductDefinition" })
+    @Choice({ CodeableConcept.class, Reference.class, Canonical.class })
     @Binding(
         bindingName = "SubjectType",
         strength = BindingStrength.Value.EXTENSIBLE,
@@ -359,10 +359,13 @@ public class PlanDefinition extends DomainResource {
     }
 
     /**
-     * A code or group definition that describes the intended subject of the plan definition.
+     * A code, group definition, or canonical reference that describes or identifies the intended subject of the plan 
+     * definition. Canonical references are allowed to support the definition of protocols for drug and substance quality 
+     * specifications, and is allowed to reference a MedicinalProductDefinition, SubstanceDefinition, 
+     * AdministrableProductDefinition, ManufacturedItemDefinition, or PackagedProductDefinition resource.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept} or {@link Reference} that may be null.
+     *     An immutable object of type {@link CodeableConcept}, {@link Reference} or {@link Canonical} that may be null.
      */
     public Element getSubject() {
         return subject;
@@ -567,8 +570,9 @@ public class PlanDefinition extends DomainResource {
     }
 
     /**
-     * Goals that describe what the activities within the plan are intended to achieve. For example, weight loss, restoring 
-     * an activity of daily living, obtaining herd immunity via immunization, meeting a process improvement objective, etc.
+     * A goal describes an expected outcome that activities within the plan are intended to achieve. For example, weight 
+     * loss, restoring an activity of daily living, obtaining herd immunity via immunization, meeting a process improvement 
+     * objective, meeting the acceptance criteria for a test as specified by a quality specification, etc.
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Goal} that may be empty.
@@ -578,7 +582,9 @@ public class PlanDefinition extends DomainResource {
     }
 
     /**
-     * An action or group of actions to be taken as part of the plan.
+     * An action or group of actions to be taken as part of the plan. For example, in clinical care, an action would be to 
+     * prescribe a particular indicated medication, or perform a particular test as appropriate. In pharmaceutical quality, 
+     * an action would be the test that needs to be performed on a drug product as defined in the quality specification.
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Action} that may be empty.
@@ -1280,17 +1286,26 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * A code or group definition that describes the intended subject of the plan definition.
+         * A code, group definition, or canonical reference that describes or identifies the intended subject of the plan 
+         * definition. Canonical references are allowed to support the definition of protocols for drug and substance quality 
+         * specifications, and is allowed to reference a MedicinalProductDefinition, SubstanceDefinition, 
+         * AdministrableProductDefinition, ManufacturedItemDefinition, or PackagedProductDefinition resource.
          * 
          * <p>This is a choice element with the following allowed types:
          * <ul>
          * <li>{@link CodeableConcept}</li>
          * <li>{@link Reference}</li>
+         * <li>{@link Canonical}</li>
          * </ul>
          * 
          * When of type {@link Reference}, the allowed resource types for this reference are:
          * <ul>
          * <li>{@link Group}</li>
+         * <li>{@link MedicinalProductDefinition}</li>
+         * <li>{@link SubstanceDefinition}</li>
+         * <li>{@link AdministrableProductDefinition}</li>
+         * <li>{@link ManufacturedItemDefinition}</li>
+         * <li>{@link PackagedProductDefinition}</li>
          * </ul>
          * 
          * @param subject
@@ -1896,8 +1911,9 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * Goals that describe what the activities within the plan are intended to achieve. For example, weight loss, restoring 
-         * an activity of daily living, obtaining herd immunity via immunization, meeting a process improvement objective, etc.
+         * A goal describes an expected outcome that activities within the plan are intended to achieve. For example, weight 
+         * loss, restoring an activity of daily living, obtaining herd immunity via immunization, meeting a process improvement 
+         * objective, meeting the acceptance criteria for a test as specified by a quality specification, etc.
          * 
          * <p>Adds new element(s) to the existing list.
          * If any of the elements are null, calling {@link #build()} will fail.
@@ -1916,8 +1932,9 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * Goals that describe what the activities within the plan are intended to achieve. For example, weight loss, restoring 
-         * an activity of daily living, obtaining herd immunity via immunization, meeting a process improvement objective, etc.
+         * A goal describes an expected outcome that activities within the plan are intended to achieve. For example, weight 
+         * loss, restoring an activity of daily living, obtaining herd immunity via immunization, meeting a process improvement 
+         * objective, meeting the acceptance criteria for a test as specified by a quality specification, etc.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection.
          * If any of the elements are null, calling {@link #build()} will fail.
@@ -1937,7 +1954,9 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * An action or group of actions to be taken as part of the plan.
+         * An action or group of actions to be taken as part of the plan. For example, in clinical care, an action would be to 
+         * prescribe a particular indicated medication, or perform a particular test as appropriate. In pharmaceutical quality, 
+         * an action would be the test that needs to be performed on a drug product as defined in the quality specification.
          * 
          * <p>Adds new element(s) to the existing list.
          * If any of the elements are null, calling {@link #build()} will fail.
@@ -1956,7 +1975,9 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * An action or group of actions to be taken as part of the plan.
+         * An action or group of actions to be taken as part of the plan. For example, in clinical care, an action would be to 
+         * prescribe a particular indicated medication, or perform a particular test as appropriate. In pharmaceutical quality, 
+         * an action would be the test that needs to be performed on a drug product as defined in the quality specification.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection.
          * If any of the elements are null, calling {@link #build()} will fail.
@@ -2001,7 +2022,7 @@ public class PlanDefinition extends DomainResource {
             super.validate(planDefinition);
             ValidationSupport.checkList(planDefinition.identifier, "identifier", Identifier.class);
             ValidationSupport.requireNonNull(planDefinition.status, "status");
-            ValidationSupport.choiceElement(planDefinition.subject, "subject", CodeableConcept.class, Reference.class);
+            ValidationSupport.choiceElement(planDefinition.subject, "subject", CodeableConcept.class, Reference.class, Canonical.class);
             ValidationSupport.checkList(planDefinition.contact, "contact", ContactDetail.class);
             ValidationSupport.checkList(planDefinition.useContext, "useContext", UsageContext.class);
             ValidationSupport.checkList(planDefinition.jurisdiction, "jurisdiction", CodeableConcept.class);
@@ -2014,7 +2035,7 @@ public class PlanDefinition extends DomainResource {
             ValidationSupport.checkList(planDefinition.library, "library", Canonical.class);
             ValidationSupport.checkList(planDefinition.goal, "goal", Goal.class);
             ValidationSupport.checkList(planDefinition.action, "action", Action.class);
-            ValidationSupport.checkReferenceType(planDefinition.subject, "subject", "Group");
+            ValidationSupport.checkReferenceType(planDefinition.subject, "subject", "Group", "MedicinalProductDefinition", "SubstanceDefinition", "AdministrableProductDefinition", "ManufacturedItemDefinition", "PackagedProductDefinition");
         }
 
         protected Builder from(PlanDefinition planDefinition) {
@@ -2055,8 +2076,9 @@ public class PlanDefinition extends DomainResource {
     }
 
     /**
-     * Goals that describe what the activities within the plan are intended to achieve. For example, weight loss, restoring 
-     * an activity of daily living, obtaining herd immunity via immunization, meeting a process improvement objective, etc.
+     * A goal describes an expected outcome that activities within the plan are intended to achieve. For example, weight 
+     * loss, restoring an activity of daily living, obtaining herd immunity via immunization, meeting a process improvement 
+     * objective, meeting the acceptance criteria for a test as specified by a quality specification, etc.
      */
     public static class Goal extends BackboneElement {
         @Binding(
@@ -2646,10 +2668,11 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * The target value of the measure to be achieved to signify fulfillment of the goal, e.g. 150 pounds or 7.0%. Either the 
-             * high or low or both values of the range can be specified. When a low value is missing, it indicates that the goal is 
-             * achieved at any value at or below the high value. Similarly, if the high value is missing, it indicates that the goal 
-             * is achieved at any value at or above the low value.
+             * The target value of the measure to be achieved to signify fulfillment of the goal, e.g. 150 pounds or 7.0%, or in the 
+             * case of pharmaceutical quality - NMT 0.6%, Clear solution, etc. Either the high or low or both values of the range can 
+             * be specified. When a low value is missing, it indicates that the goal is achieved at any value at or below the high 
+             * value. Similarly, if the high value is missing, it indicates that the goal is achieved at any value at or above the 
+             * low value.
              * 
              * @return
              *     An immutable object of type {@link Quantity}, {@link Range} or {@link CodeableConcept} that may be null.
@@ -2873,10 +2896,11 @@ public class PlanDefinition extends DomainResource {
                 }
 
                 /**
-                 * The target value of the measure to be achieved to signify fulfillment of the goal, e.g. 150 pounds or 7.0%. Either the 
-                 * high or low or both values of the range can be specified. When a low value is missing, it indicates that the goal is 
-                 * achieved at any value at or below the high value. Similarly, if the high value is missing, it indicates that the goal 
-                 * is achieved at any value at or above the low value.
+                 * The target value of the measure to be achieved to signify fulfillment of the goal, e.g. 150 pounds or 7.0%, or in the 
+                 * case of pharmaceutical quality - NMT 0.6%, Clear solution, etc. Either the high or low or both values of the range can 
+                 * be specified. When a low value is missing, it indicates that the goal is achieved at any value at or below the high 
+                 * value. Similarly, if the high value is missing, it indicates that the goal is achieved at any value at or above the 
+                 * low value.
                  * 
                  * <p>This is a choice element with the following allowed types:
                  * <ul>
@@ -2945,7 +2969,9 @@ public class PlanDefinition extends DomainResource {
     }
 
     /**
-     * An action or group of actions to be taken as part of the plan.
+     * An action or group of actions to be taken as part of the plan. For example, in clinical care, an action would be to 
+     * prescribe a particular indicated medication, or perform a particular test as appropriate. In pharmaceutical quality, 
+     * an action would be the test that needs to be performed on a drug product as defined in the quality specification.
      */
     public static class Action extends BackboneElement {
         private final String prefix;
@@ -2959,12 +2985,24 @@ public class PlanDefinition extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.1"
         )
         private final RequestPriority priority;
+        @Binding(
+            bindingName = "ActionCode",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "Provides examples of actions to be performed.",
+            valueSet = "http://hl7.org/fhir/ValueSet/action-code"
+        )
         private final List<CodeableConcept> code;
+        @Binding(
+            bindingName = "ActionReasonCode",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "Provides examples of reasons for actions to be performed.",
+            valueSet = "http://hl7.org/fhir/ValueSet/action-reason-code"
+        )
         private final List<CodeableConcept> reason;
         private final List<RelatedArtifact> documentation;
         private final List<Id> goalId;
         @ReferenceTarget({ "Group" })
-        @Choice({ CodeableConcept.class, Reference.class })
+        @Choice({ CodeableConcept.class, Reference.class, Canonical.class })
         @Binding(
             bindingName = "SubjectType",
             strength = BindingStrength.Value.EXTENSIBLE,
@@ -3070,7 +3108,8 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * The title of the action displayed to a user.
+         * The textual description of the action displayed to a user. For example, when the action is a test to be performed, the 
+         * title would be the title of the test such as Assay by HPLC.
          * 
          * @return
          *     An immutable object of type {@link String} that may be null.
@@ -3111,8 +3150,9 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * A code that provides meaning for the action or action group. For example, a section may have a LOINC code for the 
-         * section of a documentation template.
+         * A code that provides a meaning, grouping, or classification for the action or action group. For example, a section may 
+         * have a LOINC code for the section of a documentation template. In pharmaceutical quality, an action (Test) such as pH 
+         * could be classified as a physical property.
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
@@ -3144,7 +3184,8 @@ public class PlanDefinition extends DomainResource {
 
         /**
          * Identifies goals that this action supports. The reference must be to a goal element defined within this plan 
-         * definition.
+         * definition. In pharmaceutical quality, a goal represents acceptance criteria (Goal) for a given action (Test), so the 
+         * goalId would be the unique id of a defined goal element establishing the acceptance criteria for the action.
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Id} that may be empty.
@@ -3154,10 +3195,13 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * A code or group definition that describes the intended subject of the action and its children, if any.
+         * A code, group definition, or canonical reference that describes the intended subject of the action and its children, 
+         * if any. Canonical references are allowed to support the definition of protocols for drug and substance quality 
+         * specifications, and is allowed to reference a MedicinalProductDefinition, SubstanceDefinition, 
+         * AdministrableProductDefinition, ManufacturedItemDefinition, or PackagedProductDefinition resource.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept} or {@link Reference} that may be null.
+         *     An immutable object of type {@link CodeableConcept}, {@link Reference} or {@link Canonical} that may be null.
          */
         public Element getSubject() {
             return subject;
@@ -3697,7 +3741,8 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * The title of the action displayed to a user.
+             * The textual description of the action displayed to a user. For example, when the action is a test to be performed, the 
+             * title would be the title of the test such as Assay by HPLC.
              * 
              * @param title
              *     User-visible title
@@ -3786,8 +3831,9 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * A code that provides meaning for the action or action group. For example, a section may have a LOINC code for the 
-             * section of a documentation template.
+             * A code that provides a meaning, grouping, or classification for the action or action group. For example, a section may 
+             * have a LOINC code for the section of a documentation template. In pharmaceutical quality, an action (Test) such as pH 
+             * could be classified as a physical property.
              * 
              * <p>Adds new element(s) to the existing list.
              * If any of the elements are null, calling {@link #build()} will fail.
@@ -3806,8 +3852,9 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * A code that provides meaning for the action or action group. For example, a section may have a LOINC code for the 
-             * section of a documentation template.
+             * A code that provides a meaning, grouping, or classification for the action or action group. For example, a section may 
+             * have a LOINC code for the section of a documentation template. In pharmaceutical quality, an action (Test) such as pH 
+             * could be classified as a physical property.
              * 
              * <p>Replaces the existing list with a new one containing elements from the Collection.
              * If any of the elements are null, calling {@link #build()} will fail.
@@ -3908,7 +3955,8 @@ public class PlanDefinition extends DomainResource {
 
             /**
              * Identifies goals that this action supports. The reference must be to a goal element defined within this plan 
-             * definition.
+             * definition. In pharmaceutical quality, a goal represents acceptance criteria (Goal) for a given action (Test), so the 
+             * goalId would be the unique id of a defined goal element establishing the acceptance criteria for the action.
              * 
              * <p>Adds new element(s) to the existing list.
              * If any of the elements are null, calling {@link #build()} will fail.
@@ -3928,7 +3976,8 @@ public class PlanDefinition extends DomainResource {
 
             /**
              * Identifies goals that this action supports. The reference must be to a goal element defined within this plan 
-             * definition.
+             * definition. In pharmaceutical quality, a goal represents acceptance criteria (Goal) for a given action (Test), so the 
+             * goalId would be the unique id of a defined goal element establishing the acceptance criteria for the action.
              * 
              * <p>Replaces the existing list with a new one containing elements from the Collection.
              * If any of the elements are null, calling {@link #build()} will fail.
@@ -3948,12 +3997,16 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * A code or group definition that describes the intended subject of the action and its children, if any.
+             * A code, group definition, or canonical reference that describes the intended subject of the action and its children, 
+             * if any. Canonical references are allowed to support the definition of protocols for drug and substance quality 
+             * specifications, and is allowed to reference a MedicinalProductDefinition, SubstanceDefinition, 
+             * AdministrableProductDefinition, ManufacturedItemDefinition, or PackagedProductDefinition resource.
              * 
              * <p>This is a choice element with the following allowed types:
              * <ul>
              * <li>{@link CodeableConcept}</li>
              * <li>{@link Reference}</li>
+             * <li>{@link Canonical}</li>
              * </ul>
              * 
              * When of type {@link Reference}, the allowed resource types for this reference are:
@@ -4459,7 +4512,7 @@ public class PlanDefinition extends DomainResource {
                 ValidationSupport.checkList(action.reason, "reason", CodeableConcept.class);
                 ValidationSupport.checkList(action.documentation, "documentation", RelatedArtifact.class);
                 ValidationSupport.checkList(action.goalId, "goalId", Id.class);
-                ValidationSupport.choiceElement(action.subject, "subject", CodeableConcept.class, Reference.class);
+                ValidationSupport.choiceElement(action.subject, "subject", CodeableConcept.class, Reference.class, Canonical.class);
                 ValidationSupport.checkList(action.trigger, "trigger", TriggerDefinition.class);
                 ValidationSupport.checkList(action.condition, "condition", Condition.class);
                 ValidationSupport.checkList(action.input, "input", DataRequirement.class);
@@ -5153,7 +5206,7 @@ public class PlanDefinition extends DomainResource {
                 bindingName = "ActionParticipantRole",
                 strength = BindingStrength.Value.EXAMPLE,
                 description = "Defines roles played by participants for the action.",
-                valueSet = "http://hl7.org/fhir/ValueSet/action-participant-role"
+                valueSet = "http://terminology.hl7.org/ValueSet/action-participant-role"
             )
             private final CodeableConcept role;
 

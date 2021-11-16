@@ -175,6 +175,8 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return parseAccount(elementName, jsonObject, elementIndex);
         case "ActivityDefinition":
             return parseActivityDefinition(elementName, jsonObject, elementIndex);
+        case "AdministrableProductDefinition":
+            return parseAdministrableProductDefinition(elementName, jsonObject, elementIndex);
         case "AdverseEvent":
             return parseAdverseEvent(elementName, jsonObject, elementIndex);
         case "AllergyIntolerance":
@@ -207,12 +209,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return parseChargeItem(elementName, jsonObject, elementIndex);
         case "ChargeItemDefinition":
             return parseChargeItemDefinition(elementName, jsonObject, elementIndex);
+        case "Citation":
+            return parseCitation(elementName, jsonObject, elementIndex);
         case "Claim":
             return parseClaim(elementName, jsonObject, elementIndex);
         case "ClaimResponse":
             return parseClaimResponse(elementName, jsonObject, elementIndex);
         case "ClinicalImpression":
             return parseClinicalImpression(elementName, jsonObject, elementIndex);
+        case "ClinicalUseDefinition":
+            return parseClinicalUseDefinition(elementName, jsonObject, elementIndex);
+        case "ClinicalUseIssue":
+            return parseClinicalUseIssue(elementName, jsonObject, elementIndex);
         case "CodeSystem":
             return parseCodeSystem(elementName, jsonObject, elementIndex);
         case "Communication":
@@ -255,8 +263,6 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return parseDocumentManifest(elementName, jsonObject, elementIndex);
         case "DocumentReference":
             return parseDocumentReference(elementName, jsonObject, elementIndex);
-        case "EffectEvidenceSynthesis":
-            return parseEffectEvidenceSynthesis(elementName, jsonObject, elementIndex);
         case "Encounter":
             return parseEncounter(elementName, jsonObject, elementIndex);
         case "Endpoint":
@@ -271,6 +277,8 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return parseEventDefinition(elementName, jsonObject, elementIndex);
         case "Evidence":
             return parseEvidence(elementName, jsonObject, elementIndex);
+        case "EvidenceReport":
+            return parseEvidenceReport(elementName, jsonObject, elementIndex);
         case "EvidenceVariable":
             return parseEvidenceVariable(elementName, jsonObject, elementIndex);
         case "ExampleScenario":
@@ -301,6 +309,8 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return parseImmunizationRecommendation(elementName, jsonObject, elementIndex);
         case "ImplementationGuide":
             return parseImplementationGuide(elementName, jsonObject, elementIndex);
+        case "Ingredient":
+            return parseIngredient(elementName, jsonObject, elementIndex);
         case "InsurancePlan":
             return parseInsurancePlan(elementName, jsonObject, elementIndex);
         case "Invoice":
@@ -313,6 +323,8 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return parseList(elementName, jsonObject, elementIndex);
         case "Location":
             return parseLocation(elementName, jsonObject, elementIndex);
+        case "ManufacturedItemDefinition":
+            return parseManufacturedItemDefinition(elementName, jsonObject, elementIndex);
         case "Measure":
             return parseMeasure(elementName, jsonObject, elementIndex);
         case "MeasureReport":
@@ -331,26 +343,8 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return parseMedicationRequest(elementName, jsonObject, elementIndex);
         case "MedicationStatement":
             return parseMedicationStatement(elementName, jsonObject, elementIndex);
-        case "MedicinalProduct":
-            return parseMedicinalProduct(elementName, jsonObject, elementIndex);
-        case "MedicinalProductAuthorization":
-            return parseMedicinalProductAuthorization(elementName, jsonObject, elementIndex);
-        case "MedicinalProductContraindication":
-            return parseMedicinalProductContraindication(elementName, jsonObject, elementIndex);
-        case "MedicinalProductIndication":
-            return parseMedicinalProductIndication(elementName, jsonObject, elementIndex);
-        case "MedicinalProductIngredient":
-            return parseMedicinalProductIngredient(elementName, jsonObject, elementIndex);
-        case "MedicinalProductInteraction":
-            return parseMedicinalProductInteraction(elementName, jsonObject, elementIndex);
-        case "MedicinalProductManufactured":
-            return parseMedicinalProductManufactured(elementName, jsonObject, elementIndex);
-        case "MedicinalProductPackaged":
-            return parseMedicinalProductPackaged(elementName, jsonObject, elementIndex);
-        case "MedicinalProductPharmaceutical":
-            return parseMedicinalProductPharmaceutical(elementName, jsonObject, elementIndex);
-        case "MedicinalProductUndesirableEffect":
-            return parseMedicinalProductUndesirableEffect(elementName, jsonObject, elementIndex);
+        case "MedicinalProductDefinition":
+            return parseMedicinalProductDefinition(elementName, jsonObject, elementIndex);
         case "MessageDefinition":
             return parseMessageDefinition(elementName, jsonObject, elementIndex);
         case "MessageHeader":
@@ -361,6 +355,8 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return parseNamingSystem(elementName, jsonObject, elementIndex);
         case "NutritionOrder":
             return parseNutritionOrder(elementName, jsonObject, elementIndex);
+        case "NutritionProduct":
+            return parseNutritionProduct(elementName, jsonObject, elementIndex);
         case "Observation":
             return parseObservation(elementName, jsonObject, elementIndex);
         case "ObservationDefinition":
@@ -373,6 +369,8 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return parseOrganization(elementName, jsonObject, elementIndex);
         case "OrganizationAffiliation":
             return parseOrganizationAffiliation(elementName, jsonObject, elementIndex);
+        case "PackagedProductDefinition":
+            return parsePackagedProductDefinition(elementName, jsonObject, elementIndex);
         case "Parameters":
             return parseParameters(elementName, jsonObject, elementIndex);
         case "Patient":
@@ -397,6 +395,8 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return parseQuestionnaire(elementName, jsonObject, elementIndex);
         case "QuestionnaireResponse":
             return parseQuestionnaireResponse(elementName, jsonObject, elementIndex);
+        case "RegulatedAuthorization":
+            return parseRegulatedAuthorization(elementName, jsonObject, elementIndex);
         case "RelatedPerson":
             return parseRelatedPerson(elementName, jsonObject, elementIndex);
         case "RequestGroup":
@@ -411,8 +411,6 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return parseResearchSubject(elementName, jsonObject, elementIndex);
         case "RiskAssessment":
             return parseRiskAssessment(elementName, jsonObject, elementIndex);
-        case "RiskEvidenceSynthesis":
-            return parseRiskEvidenceSynthesis(elementName, jsonObject, elementIndex);
         case "Schedule":
             return parseSchedule(elementName, jsonObject, elementIndex);
         case "SearchParameter":
@@ -431,20 +429,14 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return parseStructureMap(elementName, jsonObject, elementIndex);
         case "Subscription":
             return parseSubscription(elementName, jsonObject, elementIndex);
+        case "SubscriptionStatus":
+            return parseSubscriptionStatus(elementName, jsonObject, elementIndex);
+        case "SubscriptionTopic":
+            return parseSubscriptionTopic(elementName, jsonObject, elementIndex);
         case "Substance":
             return parseSubstance(elementName, jsonObject, elementIndex);
-        case "SubstanceNucleicAcid":
-            return parseSubstanceNucleicAcid(elementName, jsonObject, elementIndex);
-        case "SubstancePolymer":
-            return parseSubstancePolymer(elementName, jsonObject, elementIndex);
-        case "SubstanceProtein":
-            return parseSubstanceProtein(elementName, jsonObject, elementIndex);
-        case "SubstanceReferenceInformation":
-            return parseSubstanceReferenceInformation(elementName, jsonObject, elementIndex);
-        case "SubstanceSourceMaterial":
-            return parseSubstanceSourceMaterial(elementName, jsonObject, elementIndex);
-        case "SubstanceSpecification":
-            return parseSubstanceSpecification(elementName, jsonObject, elementIndex);
+        case "SubstanceDefinition":
+            return parseSubstanceDefinition(elementName, jsonObject, elementIndex);
         case "SupplyDelivery":
             return parseSupplyDelivery(elementName, jsonObject, elementIndex);
         case "SupplyRequest":
@@ -572,7 +564,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         builder.subtitle(parseString("subtitle", getJsonValue(jsonObject, "subtitle", JsonString.class), jsonObject.get("_subtitle"), -1));
         builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.experimental(parseBoolean("experimental", getJsonValue(jsonObject, "experimental", JsonValue.class), jsonObject.get("_experimental"), -1));
-        builder.subject(parseChoiceElement("subject", jsonObject, CodeableConcept.class, Reference.class));
+        builder.subject(parseChoiceElement("subject", jsonObject, CodeableConcept.class, Reference.class, Canonical.class));
         builder.date(parseDateTime("date", getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
         builder.publisher(parseString("publisher", getJsonValue(jsonObject, "publisher", JsonString.class), jsonObject.get("_publisher"), -1));
         JsonArray contactArray = getJsonArray(jsonObject, "contact");
@@ -761,6 +753,146 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         builder.postalCode(parseString("postalCode", getJsonValue(jsonObject, "postalCode", JsonString.class), jsonObject.get("_postalCode"), -1));
         builder.country(parseString("country", getJsonValue(jsonObject, "country", JsonString.class), jsonObject.get("_country"), -1));
         builder.period(parsePeriod("period", getJsonValue(jsonObject, "period", JsonObject.class), -1));
+        stackPop();
+        return builder.build();
+    }
+
+    private AdministrableProductDefinition parseAdministrableProductDefinition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(AdministrableProductDefinition.class, jsonObject);
+        }
+        AdministrableProductDefinition.Builder builder = AdministrableProductDefinition.builder();
+        builder.setValidating(validating);
+        parseDomainResource(builder, jsonObject);
+        JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
+        if (identifierArray != null) {
+            for (int i = 0; i < identifierArray.size(); i++) {
+                builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
+            }
+        }
+        builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
+        JsonArray formOfArray = getJsonArray(jsonObject, "formOf");
+        if (formOfArray != null) {
+            for (int i = 0; i < formOfArray.size(); i++) {
+                builder.formOf(parseReference("formOf", formOfArray.getJsonObject(i), i));
+            }
+        }
+        builder.administrableDoseForm(parseCodeableConcept("administrableDoseForm", getJsonValue(jsonObject, "administrableDoseForm", JsonObject.class), -1));
+        builder.unitOfPresentation(parseCodeableConcept("unitOfPresentation", getJsonValue(jsonObject, "unitOfPresentation", JsonObject.class), -1));
+        JsonArray producedFromArray = getJsonArray(jsonObject, "producedFrom");
+        if (producedFromArray != null) {
+            for (int i = 0; i < producedFromArray.size(); i++) {
+                builder.producedFrom(parseReference("producedFrom", producedFromArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray ingredientArray = getJsonArray(jsonObject, "ingredient");
+        if (ingredientArray != null) {
+            for (int i = 0; i < ingredientArray.size(); i++) {
+                builder.ingredient(parseCodeableConcept("ingredient", ingredientArray.getJsonObject(i), i));
+            }
+        }
+        builder.device(parseReference("device", getJsonValue(jsonObject, "device", JsonObject.class), -1));
+        JsonArray propertyArray = getJsonArray(jsonObject, "property");
+        if (propertyArray != null) {
+            for (int i = 0; i < propertyArray.size(); i++) {
+                builder.property(parseAdministrableProductDefinitionProperty("property", propertyArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray routeOfAdministrationArray = getJsonArray(jsonObject, "routeOfAdministration");
+        if (routeOfAdministrationArray != null) {
+            for (int i = 0; i < routeOfAdministrationArray.size(); i++) {
+                builder.routeOfAdministration(parseAdministrableProductDefinitionRouteOfAdministration("routeOfAdministration", routeOfAdministrationArray.getJsonObject(i), i));
+            }
+        }
+        stackPop();
+        return builder.build();
+    }
+
+    private AdministrableProductDefinition.Property parseAdministrableProductDefinitionProperty(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(AdministrableProductDefinition.Property.class, jsonObject);
+        }
+        AdministrableProductDefinition.Property.Builder builder = AdministrableProductDefinition.Property.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
+        builder.value(parseChoiceElement("value", jsonObject, CodeableConcept.class, Quantity.class, Date.class, Boolean.class, Attachment.class));
+        builder.status(parseCodeableConcept("status", getJsonValue(jsonObject, "status", JsonObject.class), -1));
+        stackPop();
+        return builder.build();
+    }
+
+    private AdministrableProductDefinition.RouteOfAdministration parseAdministrableProductDefinitionRouteOfAdministration(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(AdministrableProductDefinition.RouteOfAdministration.class, jsonObject);
+        }
+        AdministrableProductDefinition.RouteOfAdministration.Builder builder = AdministrableProductDefinition.RouteOfAdministration.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.code(parseCodeableConcept("code", getJsonValue(jsonObject, "code", JsonObject.class), -1));
+        builder.firstDose(parseQuantity("firstDose", getJsonValue(jsonObject, "firstDose", JsonObject.class), -1));
+        builder.maxSingleDose(parseQuantity("maxSingleDose", getJsonValue(jsonObject, "maxSingleDose", JsonObject.class), -1));
+        builder.maxDosePerDay(parseQuantity("maxDosePerDay", getJsonValue(jsonObject, "maxDosePerDay", JsonObject.class), -1));
+        builder.maxDosePerTreatmentPeriod(parseRatio("maxDosePerTreatmentPeriod", getJsonValue(jsonObject, "maxDosePerTreatmentPeriod", JsonObject.class), -1));
+        builder.maxTreatmentPeriod((Duration) parseQuantity(Duration.builder(), "maxTreatmentPeriod", getJsonValue(jsonObject, "maxTreatmentPeriod", JsonObject.class), -1));
+        JsonArray targetSpeciesArray = getJsonArray(jsonObject, "targetSpecies");
+        if (targetSpeciesArray != null) {
+            for (int i = 0; i < targetSpeciesArray.size(); i++) {
+                builder.targetSpecies(parseAdministrableProductDefinitionRouteOfAdministrationTargetSpecies("targetSpecies", targetSpeciesArray.getJsonObject(i), i));
+            }
+        }
+        stackPop();
+        return builder.build();
+    }
+
+    private AdministrableProductDefinition.RouteOfAdministration.TargetSpecies parseAdministrableProductDefinitionRouteOfAdministrationTargetSpecies(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(AdministrableProductDefinition.RouteOfAdministration.TargetSpecies.class, jsonObject);
+        }
+        AdministrableProductDefinition.RouteOfAdministration.TargetSpecies.Builder builder = AdministrableProductDefinition.RouteOfAdministration.TargetSpecies.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.code(parseCodeableConcept("code", getJsonValue(jsonObject, "code", JsonObject.class), -1));
+        JsonArray withdrawalPeriodArray = getJsonArray(jsonObject, "withdrawalPeriod");
+        if (withdrawalPeriodArray != null) {
+            for (int i = 0; i < withdrawalPeriodArray.size(); i++) {
+                builder.withdrawalPeriod(parseAdministrableProductDefinitionRouteOfAdministrationTargetSpeciesWithdrawalPeriod("withdrawalPeriod", withdrawalPeriodArray.getJsonObject(i), i));
+            }
+        }
+        stackPop();
+        return builder.build();
+    }
+
+    private AdministrableProductDefinition.RouteOfAdministration.TargetSpecies.WithdrawalPeriod parseAdministrableProductDefinitionRouteOfAdministrationTargetSpeciesWithdrawalPeriod(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(AdministrableProductDefinition.RouteOfAdministration.TargetSpecies.WithdrawalPeriod.class, jsonObject);
+        }
+        AdministrableProductDefinition.RouteOfAdministration.TargetSpecies.WithdrawalPeriod.Builder builder = AdministrableProductDefinition.RouteOfAdministration.TargetSpecies.WithdrawalPeriod.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.tissue(parseCodeableConcept("tissue", getJsonValue(jsonObject, "tissue", JsonObject.class), -1));
+        builder.value(parseQuantity("value", getJsonValue(jsonObject, "value", JsonObject.class), -1));
+        builder.supportingInformation(parseString("supportingInformation", getJsonValue(jsonObject, "supportingInformation", JsonString.class), jsonObject.get("_supportingInformation"), -1));
         stackPop();
         return builder.build();
     }
@@ -2808,6 +2940,686 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         return builder.build();
     }
 
+    private Citation parseCitation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(Citation.class, jsonObject);
+        }
+        Citation.Builder builder = Citation.builder();
+        builder.setValidating(validating);
+        parseDomainResource(builder, jsonObject);
+        builder.url(parseUri("url", getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
+        JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
+        if (identifierArray != null) {
+            for (int i = 0; i < identifierArray.size(); i++) {
+                builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
+            }
+        }
+        builder.version(parseString("version", getJsonValue(jsonObject, "version", JsonString.class), jsonObject.get("_version"), -1));
+        builder.name(parseString("name", getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
+        builder.title(parseString("title", getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1));
+        builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
+        builder.experimental(parseBoolean("experimental", getJsonValue(jsonObject, "experimental", JsonValue.class), jsonObject.get("_experimental"), -1));
+        builder.date(parseDateTime("date", getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
+        builder.publisher(parseString("publisher", getJsonValue(jsonObject, "publisher", JsonString.class), jsonObject.get("_publisher"), -1));
+        JsonArray contactArray = getJsonArray(jsonObject, "contact");
+        if (contactArray != null) {
+            for (int i = 0; i < contactArray.size(); i++) {
+                builder.contact(parseContactDetail("contact", contactArray.getJsonObject(i), i));
+            }
+        }
+        builder.description((Markdown) parseString(Markdown.builder(), "description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
+        JsonArray useContextArray = getJsonArray(jsonObject, "useContext");
+        if (useContextArray != null) {
+            for (int i = 0; i < useContextArray.size(); i++) {
+                builder.useContext(parseUsageContext("useContext", useContextArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray jurisdictionArray = getJsonArray(jsonObject, "jurisdiction");
+        if (jurisdictionArray != null) {
+            for (int i = 0; i < jurisdictionArray.size(); i++) {
+                builder.jurisdiction(parseCodeableConcept("jurisdiction", jurisdictionArray.getJsonObject(i), i));
+            }
+        }
+        builder.purpose((Markdown) parseString(Markdown.builder(), "purpose", getJsonValue(jsonObject, "purpose", JsonString.class), jsonObject.get("_purpose"), -1));
+        builder.copyright((Markdown) parseString(Markdown.builder(), "copyright", getJsonValue(jsonObject, "copyright", JsonString.class), jsonObject.get("_copyright"), -1));
+        builder.approvalDate(parseDate("approvalDate", getJsonValue(jsonObject, "approvalDate", JsonString.class), jsonObject.get("_approvalDate"), -1));
+        builder.lastReviewDate(parseDate("lastReviewDate", getJsonValue(jsonObject, "lastReviewDate", JsonString.class), jsonObject.get("_lastReviewDate"), -1));
+        builder.effectivePeriod(parsePeriod("effectivePeriod", getJsonValue(jsonObject, "effectivePeriod", JsonObject.class), -1));
+        JsonArray authorArray = getJsonArray(jsonObject, "author");
+        if (authorArray != null) {
+            for (int i = 0; i < authorArray.size(); i++) {
+                builder.author(parseContactDetail("author", authorArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray editorArray = getJsonArray(jsonObject, "editor");
+        if (editorArray != null) {
+            for (int i = 0; i < editorArray.size(); i++) {
+                builder.editor(parseContactDetail("editor", editorArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray reviewerArray = getJsonArray(jsonObject, "reviewer");
+        if (reviewerArray != null) {
+            for (int i = 0; i < reviewerArray.size(); i++) {
+                builder.reviewer(parseContactDetail("reviewer", reviewerArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray endorserArray = getJsonArray(jsonObject, "endorser");
+        if (endorserArray != null) {
+            for (int i = 0; i < endorserArray.size(); i++) {
+                builder.endorser(parseContactDetail("endorser", endorserArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray summaryArray = getJsonArray(jsonObject, "summary");
+        if (summaryArray != null) {
+            for (int i = 0; i < summaryArray.size(); i++) {
+                builder.summary(parseContactDetail("summary", summaryArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray classificationArray = getJsonArray(jsonObject, "classification");
+        if (classificationArray != null) {
+            for (int i = 0; i < classificationArray.size(); i++) {
+                builder.classification(parseCitationClassification("classification", classificationArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray noteArray = getJsonArray(jsonObject, "note");
+        if (noteArray != null) {
+            for (int i = 0; i < noteArray.size(); i++) {
+                builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray currentStateArray = getJsonArray(jsonObject, "currentState");
+        if (currentStateArray != null) {
+            for (int i = 0; i < currentStateArray.size(); i++) {
+                builder.currentState(parseCodeableConcept("currentState", currentStateArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray statusDateArray = getJsonArray(jsonObject, "statusDate");
+        if (statusDateArray != null) {
+            for (int i = 0; i < statusDateArray.size(); i++) {
+                builder.statusDate(parseCitationStatusDate("statusDate", statusDateArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray relatesToArray = getJsonArray(jsonObject, "relatesTo");
+        if (relatesToArray != null) {
+            for (int i = 0; i < relatesToArray.size(); i++) {
+                builder.relatesTo(parseCitationRelatesTo("relatesTo", relatesToArray.getJsonObject(i), i));
+            }
+        }
+        builder.citedArtifact(parseCitationCitedArtifact("citedArtifact", getJsonValue(jsonObject, "citedArtifact", JsonObject.class), -1));
+        stackPop();
+        return builder.build();
+    }
+
+    private Citation.CitedArtifact parseCitationCitedArtifact(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(Citation.CitedArtifact.class, jsonObject);
+        }
+        Citation.CitedArtifact.Builder builder = Citation.CitedArtifact.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
+        if (identifierArray != null) {
+            for (int i = 0; i < identifierArray.size(); i++) {
+                builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray relatedIdentifierArray = getJsonArray(jsonObject, "relatedIdentifier");
+        if (relatedIdentifierArray != null) {
+            for (int i = 0; i < relatedIdentifierArray.size(); i++) {
+                builder.relatedIdentifier(parseIdentifier("relatedIdentifier", relatedIdentifierArray.getJsonObject(i), i));
+            }
+        }
+        builder.dateAccessed(parseDateTime("dateAccessed", getJsonValue(jsonObject, "dateAccessed", JsonString.class), jsonObject.get("_dateAccessed"), -1));
+        builder.version(parseCitationCitedArtifactVersion("version", getJsonValue(jsonObject, "version", JsonObject.class), -1));
+        JsonArray currentStateArray = getJsonArray(jsonObject, "currentState");
+        if (currentStateArray != null) {
+            for (int i = 0; i < currentStateArray.size(); i++) {
+                builder.currentState(parseCodeableConcept("currentState", currentStateArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray statusDateArray = getJsonArray(jsonObject, "statusDate");
+        if (statusDateArray != null) {
+            for (int i = 0; i < statusDateArray.size(); i++) {
+                builder.statusDate(parseCitationCitedArtifactStatusDate("statusDate", statusDateArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray titleArray = getJsonArray(jsonObject, "title");
+        if (titleArray != null) {
+            for (int i = 0; i < titleArray.size(); i++) {
+                builder.title(parseCitationCitedArtifactTitle("title", titleArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray abstractArray = getJsonArray(jsonObject, "abstract");
+        if (abstractArray != null) {
+            for (int i = 0; i < abstractArray.size(); i++) {
+                builder._abstract(parseCitationCitedArtifactAbstract("abstract", abstractArray.getJsonObject(i), i));
+            }
+        }
+        builder.part(parseCitationCitedArtifactPart("part", getJsonValue(jsonObject, "part", JsonObject.class), -1));
+        JsonArray relatesToArray = getJsonArray(jsonObject, "relatesTo");
+        if (relatesToArray != null) {
+            for (int i = 0; i < relatesToArray.size(); i++) {
+                builder.relatesTo(parseCitationCitedArtifactRelatesTo("relatesTo", relatesToArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray publicationFormArray = getJsonArray(jsonObject, "publicationForm");
+        if (publicationFormArray != null) {
+            for (int i = 0; i < publicationFormArray.size(); i++) {
+                builder.publicationForm(parseCitationCitedArtifactPublicationForm("publicationForm", publicationFormArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray webLocationArray = getJsonArray(jsonObject, "webLocation");
+        if (webLocationArray != null) {
+            for (int i = 0; i < webLocationArray.size(); i++) {
+                builder.webLocation(parseCitationCitedArtifactWebLocation("webLocation", webLocationArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray classificationArray = getJsonArray(jsonObject, "classification");
+        if (classificationArray != null) {
+            for (int i = 0; i < classificationArray.size(); i++) {
+                builder.classification(parseCitationCitedArtifactClassification("classification", classificationArray.getJsonObject(i), i));
+            }
+        }
+        builder.contributorship(parseCitationCitedArtifactContributorship("contributorship", getJsonValue(jsonObject, "contributorship", JsonObject.class), -1));
+        JsonArray noteArray = getJsonArray(jsonObject, "note");
+        if (noteArray != null) {
+            for (int i = 0; i < noteArray.size(); i++) {
+                builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
+            }
+        }
+        stackPop();
+        return builder.build();
+    }
+
+    private Citation.CitedArtifact.Abstract parseCitationCitedArtifactAbstract(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(Citation.CitedArtifact.Abstract.class, jsonObject);
+        }
+        Citation.CitedArtifact.Abstract.Builder builder = Citation.CitedArtifact.Abstract.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
+        builder.language(parseCodeableConcept("language", getJsonValue(jsonObject, "language", JsonObject.class), -1));
+        builder.text((Markdown) parseString(Markdown.builder(), "text", getJsonValue(jsonObject, "text", JsonString.class), jsonObject.get("_text"), -1));
+        builder.copyright((Markdown) parseString(Markdown.builder(), "copyright", getJsonValue(jsonObject, "copyright", JsonString.class), jsonObject.get("_copyright"), -1));
+        stackPop();
+        return builder.build();
+    }
+
+    private Citation.CitedArtifact.Classification parseCitationCitedArtifactClassification(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(Citation.CitedArtifact.Classification.class, jsonObject);
+        }
+        Citation.CitedArtifact.Classification.Builder builder = Citation.CitedArtifact.Classification.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
+        JsonArray classifierArray = getJsonArray(jsonObject, "classifier");
+        if (classifierArray != null) {
+            for (int i = 0; i < classifierArray.size(); i++) {
+                builder.classifier(parseCodeableConcept("classifier", classifierArray.getJsonObject(i), i));
+            }
+        }
+        builder.whoClassified(parseCitationCitedArtifactClassificationWhoClassified("whoClassified", getJsonValue(jsonObject, "whoClassified", JsonObject.class), -1));
+        stackPop();
+        return builder.build();
+    }
+
+    private Citation.CitedArtifact.Classification.WhoClassified parseCitationCitedArtifactClassificationWhoClassified(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(Citation.CitedArtifact.Classification.WhoClassified.class, jsonObject);
+        }
+        Citation.CitedArtifact.Classification.WhoClassified.Builder builder = Citation.CitedArtifact.Classification.WhoClassified.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.person(parseReference("person", getJsonValue(jsonObject, "person", JsonObject.class), -1));
+        builder.organization(parseReference("organization", getJsonValue(jsonObject, "organization", JsonObject.class), -1));
+        builder.publisher(parseReference("publisher", getJsonValue(jsonObject, "publisher", JsonObject.class), -1));
+        builder.classifierCopyright(parseString("classifierCopyright", getJsonValue(jsonObject, "classifierCopyright", JsonString.class), jsonObject.get("_classifierCopyright"), -1));
+        builder.freeToShare(parseBoolean("freeToShare", getJsonValue(jsonObject, "freeToShare", JsonValue.class), jsonObject.get("_freeToShare"), -1));
+        stackPop();
+        return builder.build();
+    }
+
+    private Citation.CitedArtifact.Contributorship parseCitationCitedArtifactContributorship(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(Citation.CitedArtifact.Contributorship.class, jsonObject);
+        }
+        Citation.CitedArtifact.Contributorship.Builder builder = Citation.CitedArtifact.Contributorship.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.complete(parseBoolean("complete", getJsonValue(jsonObject, "complete", JsonValue.class), jsonObject.get("_complete"), -1));
+        JsonArray entryArray = getJsonArray(jsonObject, "entry");
+        if (entryArray != null) {
+            for (int i = 0; i < entryArray.size(); i++) {
+                builder.entry(parseCitationCitedArtifactContributorshipEntry("entry", entryArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray summaryArray = getJsonArray(jsonObject, "summary");
+        if (summaryArray != null) {
+            for (int i = 0; i < summaryArray.size(); i++) {
+                builder.summary(parseCitationCitedArtifactContributorshipSummary("summary", summaryArray.getJsonObject(i), i));
+            }
+        }
+        stackPop();
+        return builder.build();
+    }
+
+    private Citation.CitedArtifact.Contributorship.Entry parseCitationCitedArtifactContributorshipEntry(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(Citation.CitedArtifact.Contributorship.Entry.class, jsonObject);
+        }
+        Citation.CitedArtifact.Contributorship.Entry.Builder builder = Citation.CitedArtifact.Contributorship.Entry.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.name(parseHumanName("name", getJsonValue(jsonObject, "name", JsonObject.class), -1));
+        builder.initials(parseString("initials", getJsonValue(jsonObject, "initials", JsonString.class), jsonObject.get("_initials"), -1));
+        builder.collectiveName(parseString("collectiveName", getJsonValue(jsonObject, "collectiveName", JsonString.class), jsonObject.get("_collectiveName"), -1));
+        JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
+        if (identifierArray != null) {
+            for (int i = 0; i < identifierArray.size(); i++) {
+                builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray affiliationInfoArray = getJsonArray(jsonObject, "affiliationInfo");
+        if (affiliationInfoArray != null) {
+            for (int i = 0; i < affiliationInfoArray.size(); i++) {
+                builder.affiliationInfo(parseCitationCitedArtifactContributorshipEntryAffiliationInfo("affiliationInfo", affiliationInfoArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray addressArray = getJsonArray(jsonObject, "address");
+        if (addressArray != null) {
+            for (int i = 0; i < addressArray.size(); i++) {
+                builder.address(parseAddress("address", addressArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray telecomArray = getJsonArray(jsonObject, "telecom");
+        if (telecomArray != null) {
+            for (int i = 0; i < telecomArray.size(); i++) {
+                builder.telecom(parseContactPoint("telecom", telecomArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray contributionTypeArray = getJsonArray(jsonObject, "contributionType");
+        if (contributionTypeArray != null) {
+            for (int i = 0; i < contributionTypeArray.size(); i++) {
+                builder.contributionType(parseCodeableConcept("contributionType", contributionTypeArray.getJsonObject(i), i));
+            }
+        }
+        builder.role(parseCodeableConcept("role", getJsonValue(jsonObject, "role", JsonObject.class), -1));
+        JsonArray contributionInstanceArray = getJsonArray(jsonObject, "contributionInstance");
+        if (contributionInstanceArray != null) {
+            for (int i = 0; i < contributionInstanceArray.size(); i++) {
+                builder.contributionInstance(parseCitationCitedArtifactContributorshipEntryContributionInstance("contributionInstance", contributionInstanceArray.getJsonObject(i), i));
+            }
+        }
+        builder.correspondingContact(parseBoolean("correspondingContact", getJsonValue(jsonObject, "correspondingContact", JsonValue.class), jsonObject.get("_correspondingContact"), -1));
+        builder.listOrder((PositiveInt) parseInteger(PositiveInt.builder(), "listOrder", getJsonValue(jsonObject, "listOrder", JsonNumber.class), jsonObject.get("_listOrder"), -1));
+        stackPop();
+        return builder.build();
+    }
+
+    private Citation.CitedArtifact.Contributorship.Entry.AffiliationInfo parseCitationCitedArtifactContributorshipEntryAffiliationInfo(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(Citation.CitedArtifact.Contributorship.Entry.AffiliationInfo.class, jsonObject);
+        }
+        Citation.CitedArtifact.Contributorship.Entry.AffiliationInfo.Builder builder = Citation.CitedArtifact.Contributorship.Entry.AffiliationInfo.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.affiliation(parseString("affiliation", getJsonValue(jsonObject, "affiliation", JsonString.class), jsonObject.get("_affiliation"), -1));
+        builder.role(parseString("role", getJsonValue(jsonObject, "role", JsonString.class), jsonObject.get("_role"), -1));
+        JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
+        if (identifierArray != null) {
+            for (int i = 0; i < identifierArray.size(); i++) {
+                builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
+            }
+        }
+        stackPop();
+        return builder.build();
+    }
+
+    private Citation.CitedArtifact.Contributorship.Entry.ContributionInstance parseCitationCitedArtifactContributorshipEntryContributionInstance(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(Citation.CitedArtifact.Contributorship.Entry.ContributionInstance.class, jsonObject);
+        }
+        Citation.CitedArtifact.Contributorship.Entry.ContributionInstance.Builder builder = Citation.CitedArtifact.Contributorship.Entry.ContributionInstance.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
+        builder.time(parseDateTime("time", getJsonValue(jsonObject, "time", JsonString.class), jsonObject.get("_time"), -1));
+        stackPop();
+        return builder.build();
+    }
+
+    private Citation.CitedArtifact.Contributorship.Summary parseCitationCitedArtifactContributorshipSummary(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(Citation.CitedArtifact.Contributorship.Summary.class, jsonObject);
+        }
+        Citation.CitedArtifact.Contributorship.Summary.Builder builder = Citation.CitedArtifact.Contributorship.Summary.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
+        builder.style(parseCodeableConcept("style", getJsonValue(jsonObject, "style", JsonObject.class), -1));
+        builder.source(parseCodeableConcept("source", getJsonValue(jsonObject, "source", JsonObject.class), -1));
+        builder.value((Markdown) parseString(Markdown.builder(), "value", getJsonValue(jsonObject, "value", JsonString.class), jsonObject.get("_value"), -1));
+        stackPop();
+        return builder.build();
+    }
+
+    private Citation.CitedArtifact.Part parseCitationCitedArtifactPart(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(Citation.CitedArtifact.Part.class, jsonObject);
+        }
+        Citation.CitedArtifact.Part.Builder builder = Citation.CitedArtifact.Part.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
+        builder.value(parseString("value", getJsonValue(jsonObject, "value", JsonString.class), jsonObject.get("_value"), -1));
+        builder.baseCitation(parseReference("baseCitation", getJsonValue(jsonObject, "baseCitation", JsonObject.class), -1));
+        stackPop();
+        return builder.build();
+    }
+
+    private Citation.CitedArtifact.PublicationForm parseCitationCitedArtifactPublicationForm(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(Citation.CitedArtifact.PublicationForm.class, jsonObject);
+        }
+        Citation.CitedArtifact.PublicationForm.Builder builder = Citation.CitedArtifact.PublicationForm.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.publishedIn(parseCitationCitedArtifactPublicationFormPublishedIn("publishedIn", getJsonValue(jsonObject, "publishedIn", JsonObject.class), -1));
+        builder.periodicRelease(parseCitationCitedArtifactPublicationFormPeriodicRelease("periodicRelease", getJsonValue(jsonObject, "periodicRelease", JsonObject.class), -1));
+        builder.articleDate(parseDateTime("articleDate", getJsonValue(jsonObject, "articleDate", JsonString.class), jsonObject.get("_articleDate"), -1));
+        builder.lastRevisionDate(parseDateTime("lastRevisionDate", getJsonValue(jsonObject, "lastRevisionDate", JsonString.class), jsonObject.get("_lastRevisionDate"), -1));
+        JsonArray languageArray = getJsonArray(jsonObject, "language");
+        if (languageArray != null) {
+            for (int i = 0; i < languageArray.size(); i++) {
+                builder.language(parseCodeableConcept("language", languageArray.getJsonObject(i), i));
+            }
+        }
+        builder.accessionNumber(parseString("accessionNumber", getJsonValue(jsonObject, "accessionNumber", JsonString.class), jsonObject.get("_accessionNumber"), -1));
+        builder.pageString(parseString("pageString", getJsonValue(jsonObject, "pageString", JsonString.class), jsonObject.get("_pageString"), -1));
+        builder.firstPage(parseString("firstPage", getJsonValue(jsonObject, "firstPage", JsonString.class), jsonObject.get("_firstPage"), -1));
+        builder.lastPage(parseString("lastPage", getJsonValue(jsonObject, "lastPage", JsonString.class), jsonObject.get("_lastPage"), -1));
+        builder.pageCount(parseString("pageCount", getJsonValue(jsonObject, "pageCount", JsonString.class), jsonObject.get("_pageCount"), -1));
+        builder.copyright((Markdown) parseString(Markdown.builder(), "copyright", getJsonValue(jsonObject, "copyright", JsonString.class), jsonObject.get("_copyright"), -1));
+        stackPop();
+        return builder.build();
+    }
+
+    private Citation.CitedArtifact.PublicationForm.PeriodicRelease parseCitationCitedArtifactPublicationFormPeriodicRelease(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(Citation.CitedArtifact.PublicationForm.PeriodicRelease.class, jsonObject);
+        }
+        Citation.CitedArtifact.PublicationForm.PeriodicRelease.Builder builder = Citation.CitedArtifact.PublicationForm.PeriodicRelease.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.citedMedium(parseCodeableConcept("citedMedium", getJsonValue(jsonObject, "citedMedium", JsonObject.class), -1));
+        builder.volume(parseString("volume", getJsonValue(jsonObject, "volume", JsonString.class), jsonObject.get("_volume"), -1));
+        builder.issue(parseString("issue", getJsonValue(jsonObject, "issue", JsonString.class), jsonObject.get("_issue"), -1));
+        builder.dateOfPublication(parseCitationCitedArtifactPublicationFormPeriodicReleaseDateOfPublication("dateOfPublication", getJsonValue(jsonObject, "dateOfPublication", JsonObject.class), -1));
+        stackPop();
+        return builder.build();
+    }
+
+    private Citation.CitedArtifact.PublicationForm.PeriodicRelease.DateOfPublication parseCitationCitedArtifactPublicationFormPeriodicReleaseDateOfPublication(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(Citation.CitedArtifact.PublicationForm.PeriodicRelease.DateOfPublication.class, jsonObject);
+        }
+        Citation.CitedArtifact.PublicationForm.PeriodicRelease.DateOfPublication.Builder builder = Citation.CitedArtifact.PublicationForm.PeriodicRelease.DateOfPublication.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.date(parseDate("date", getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
+        builder.year(parseString("year", getJsonValue(jsonObject, "year", JsonString.class), jsonObject.get("_year"), -1));
+        builder.month(parseString("month", getJsonValue(jsonObject, "month", JsonString.class), jsonObject.get("_month"), -1));
+        builder.day(parseString("day", getJsonValue(jsonObject, "day", JsonString.class), jsonObject.get("_day"), -1));
+        builder.season(parseString("season", getJsonValue(jsonObject, "season", JsonString.class), jsonObject.get("_season"), -1));
+        builder.text(parseString("text", getJsonValue(jsonObject, "text", JsonString.class), jsonObject.get("_text"), -1));
+        stackPop();
+        return builder.build();
+    }
+
+    private Citation.CitedArtifact.PublicationForm.PublishedIn parseCitationCitedArtifactPublicationFormPublishedIn(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(Citation.CitedArtifact.PublicationForm.PublishedIn.class, jsonObject);
+        }
+        Citation.CitedArtifact.PublicationForm.PublishedIn.Builder builder = Citation.CitedArtifact.PublicationForm.PublishedIn.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
+        JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
+        if (identifierArray != null) {
+            for (int i = 0; i < identifierArray.size(); i++) {
+                builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
+            }
+        }
+        builder.title(parseString("title", getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1));
+        builder.publisher(parseReference("publisher", getJsonValue(jsonObject, "publisher", JsonObject.class), -1));
+        builder.publisherLocation(parseString("publisherLocation", getJsonValue(jsonObject, "publisherLocation", JsonString.class), jsonObject.get("_publisherLocation"), -1));
+        stackPop();
+        return builder.build();
+    }
+
+    private Citation.CitedArtifact.RelatesTo parseCitationCitedArtifactRelatesTo(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(Citation.CitedArtifact.RelatesTo.class, jsonObject);
+        }
+        Citation.CitedArtifact.RelatesTo.Builder builder = Citation.CitedArtifact.RelatesTo.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.relationshipType(parseCodeableConcept("relationshipType", getJsonValue(jsonObject, "relationshipType", JsonObject.class), -1));
+        JsonArray targetClassifierArray = getJsonArray(jsonObject, "targetClassifier");
+        if (targetClassifierArray != null) {
+            for (int i = 0; i < targetClassifierArray.size(); i++) {
+                builder.targetClassifier(parseCodeableConcept("targetClassifier", targetClassifierArray.getJsonObject(i), i));
+            }
+        }
+        builder.target(parseChoiceElement("target", jsonObject, Uri.class, Identifier.class, Reference.class, Attachment.class));
+        stackPop();
+        return builder.build();
+    }
+
+    private Citation.CitedArtifact.StatusDate parseCitationCitedArtifactStatusDate(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(Citation.CitedArtifact.StatusDate.class, jsonObject);
+        }
+        Citation.CitedArtifact.StatusDate.Builder builder = Citation.CitedArtifact.StatusDate.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.activity(parseCodeableConcept("activity", getJsonValue(jsonObject, "activity", JsonObject.class), -1));
+        builder.actual(parseBoolean("actual", getJsonValue(jsonObject, "actual", JsonValue.class), jsonObject.get("_actual"), -1));
+        builder.period(parsePeriod("period", getJsonValue(jsonObject, "period", JsonObject.class), -1));
+        stackPop();
+        return builder.build();
+    }
+
+    private Citation.CitedArtifact.Title parseCitationCitedArtifactTitle(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(Citation.CitedArtifact.Title.class, jsonObject);
+        }
+        Citation.CitedArtifact.Title.Builder builder = Citation.CitedArtifact.Title.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        JsonArray typeArray = getJsonArray(jsonObject, "type");
+        if (typeArray != null) {
+            for (int i = 0; i < typeArray.size(); i++) {
+                builder.type(parseCodeableConcept("type", typeArray.getJsonObject(i), i));
+            }
+        }
+        builder.language(parseCodeableConcept("language", getJsonValue(jsonObject, "language", JsonObject.class), -1));
+        builder.text((Markdown) parseString(Markdown.builder(), "text", getJsonValue(jsonObject, "text", JsonString.class), jsonObject.get("_text"), -1));
+        stackPop();
+        return builder.build();
+    }
+
+    private Citation.CitedArtifact.Version parseCitationCitedArtifactVersion(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(Citation.CitedArtifact.Version.class, jsonObject);
+        }
+        Citation.CitedArtifact.Version.Builder builder = Citation.CitedArtifact.Version.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.value(parseString("value", getJsonValue(jsonObject, "value", JsonString.class), jsonObject.get("_value"), -1));
+        builder.baseCitation(parseReference("baseCitation", getJsonValue(jsonObject, "baseCitation", JsonObject.class), -1));
+        stackPop();
+        return builder.build();
+    }
+
+    private Citation.CitedArtifact.WebLocation parseCitationCitedArtifactWebLocation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(Citation.CitedArtifact.WebLocation.class, jsonObject);
+        }
+        Citation.CitedArtifact.WebLocation.Builder builder = Citation.CitedArtifact.WebLocation.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
+        builder.url(parseUri("url", getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
+        stackPop();
+        return builder.build();
+    }
+
+    private Citation.Classification parseCitationClassification(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(Citation.Classification.class, jsonObject);
+        }
+        Citation.Classification.Builder builder = Citation.Classification.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
+        JsonArray classifierArray = getJsonArray(jsonObject, "classifier");
+        if (classifierArray != null) {
+            for (int i = 0; i < classifierArray.size(); i++) {
+                builder.classifier(parseCodeableConcept("classifier", classifierArray.getJsonObject(i), i));
+            }
+        }
+        stackPop();
+        return builder.build();
+    }
+
+    private Citation.RelatesTo parseCitationRelatesTo(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(Citation.RelatesTo.class, jsonObject);
+        }
+        Citation.RelatesTo.Builder builder = Citation.RelatesTo.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.relationshipType(parseCodeableConcept("relationshipType", getJsonValue(jsonObject, "relationshipType", JsonObject.class), -1));
+        JsonArray targetClassifierArray = getJsonArray(jsonObject, "targetClassifier");
+        if (targetClassifierArray != null) {
+            for (int i = 0; i < targetClassifierArray.size(); i++) {
+                builder.targetClassifier(parseCodeableConcept("targetClassifier", targetClassifierArray.getJsonObject(i), i));
+            }
+        }
+        builder.target(parseChoiceElement("target", jsonObject, Uri.class, Identifier.class, Reference.class, Attachment.class));
+        stackPop();
+        return builder.build();
+    }
+
+    private Citation.StatusDate parseCitationStatusDate(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(Citation.StatusDate.class, jsonObject);
+        }
+        Citation.StatusDate.Builder builder = Citation.StatusDate.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.activity(parseCodeableConcept("activity", getJsonValue(jsonObject, "activity", JsonObject.class), -1));
+        builder.actual(parseBoolean("actual", getJsonValue(jsonObject, "actual", JsonValue.class), jsonObject.get("_actual"), -1));
+        builder.period(parsePeriod("period", getJsonValue(jsonObject, "period", JsonObject.class), -1));
+        stackPop();
+        return builder.build();
+    }
+
     private Claim parseClaim(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
@@ -3838,6 +4650,421 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         return builder.build();
     }
 
+    private ClinicalUseDefinition parseClinicalUseDefinition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(ClinicalUseDefinition.class, jsonObject);
+        }
+        ClinicalUseDefinition.Builder builder = ClinicalUseDefinition.builder();
+        builder.setValidating(validating);
+        parseDomainResource(builder, jsonObject);
+        JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
+        if (identifierArray != null) {
+            for (int i = 0; i < identifierArray.size(); i++) {
+                builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
+            }
+        }
+        builder.type((ClinicalUseDefinitionType) parseString(ClinicalUseDefinitionType.builder(), "type", getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
+        JsonArray categoryArray = getJsonArray(jsonObject, "category");
+        if (categoryArray != null) {
+            for (int i = 0; i < categoryArray.size(); i++) {
+                builder.category(parseCodeableConcept("category", categoryArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray subjectArray = getJsonArray(jsonObject, "subject");
+        if (subjectArray != null) {
+            for (int i = 0; i < subjectArray.size(); i++) {
+                builder.subject(parseReference("subject", subjectArray.getJsonObject(i), i));
+            }
+        }
+        builder.status(parseCodeableConcept("status", getJsonValue(jsonObject, "status", JsonObject.class), -1));
+        builder.contraindication(parseClinicalUseDefinitionContraindication("contraindication", getJsonValue(jsonObject, "contraindication", JsonObject.class), -1));
+        builder.indication(parseClinicalUseDefinitionIndication("indication", getJsonValue(jsonObject, "indication", JsonObject.class), -1));
+        builder.interaction(parseClinicalUseDefinitionInteraction("interaction", getJsonValue(jsonObject, "interaction", JsonObject.class), -1));
+        JsonArray populationArray = getJsonArray(jsonObject, "population");
+        if (populationArray != null) {
+            for (int i = 0; i < populationArray.size(); i++) {
+                builder.population(parseReference("population", populationArray.getJsonObject(i), i));
+            }
+        }
+        builder.undesirableEffect(parseClinicalUseDefinitionUndesirableEffect("undesirableEffect", getJsonValue(jsonObject, "undesirableEffect", JsonObject.class), -1));
+        builder.warning(parseClinicalUseDefinitionWarning("warning", getJsonValue(jsonObject, "warning", JsonObject.class), -1));
+        stackPop();
+        return builder.build();
+    }
+
+    private ClinicalUseDefinition.Contraindication parseClinicalUseDefinitionContraindication(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(ClinicalUseDefinition.Contraindication.class, jsonObject);
+        }
+        ClinicalUseDefinition.Contraindication.Builder builder = ClinicalUseDefinition.Contraindication.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.diseaseSymptomProcedure(parseCodeableReference("diseaseSymptomProcedure", getJsonValue(jsonObject, "diseaseSymptomProcedure", JsonObject.class), -1));
+        builder.diseaseStatus(parseCodeableReference("diseaseStatus", getJsonValue(jsonObject, "diseaseStatus", JsonObject.class), -1));
+        JsonArray comorbidityArray = getJsonArray(jsonObject, "comorbidity");
+        if (comorbidityArray != null) {
+            for (int i = 0; i < comorbidityArray.size(); i++) {
+                builder.comorbidity(parseCodeableReference("comorbidity", comorbidityArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray indicationArray = getJsonArray(jsonObject, "indication");
+        if (indicationArray != null) {
+            for (int i = 0; i < indicationArray.size(); i++) {
+                builder.indication(parseReference("indication", indicationArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray otherTherapyArray = getJsonArray(jsonObject, "otherTherapy");
+        if (otherTherapyArray != null) {
+            for (int i = 0; i < otherTherapyArray.size(); i++) {
+                builder.otherTherapy(parseClinicalUseDefinitionContraindicationOtherTherapy("otherTherapy", otherTherapyArray.getJsonObject(i), i));
+            }
+        }
+        stackPop();
+        return builder.build();
+    }
+
+    private ClinicalUseDefinition.Contraindication.OtherTherapy parseClinicalUseDefinitionContraindicationOtherTherapy(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(ClinicalUseDefinition.Contraindication.OtherTherapy.class, jsonObject);
+        }
+        ClinicalUseDefinition.Contraindication.OtherTherapy.Builder builder = ClinicalUseDefinition.Contraindication.OtherTherapy.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.relationshipType(parseCodeableConcept("relationshipType", getJsonValue(jsonObject, "relationshipType", JsonObject.class), -1));
+        builder.therapy(parseCodeableReference("therapy", getJsonValue(jsonObject, "therapy", JsonObject.class), -1));
+        stackPop();
+        return builder.build();
+    }
+
+    private ClinicalUseDefinition.Indication parseClinicalUseDefinitionIndication(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(ClinicalUseDefinition.Indication.class, jsonObject);
+        }
+        ClinicalUseDefinition.Indication.Builder builder = ClinicalUseDefinition.Indication.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.diseaseSymptomProcedure(parseCodeableReference("diseaseSymptomProcedure", getJsonValue(jsonObject, "diseaseSymptomProcedure", JsonObject.class), -1));
+        builder.diseaseStatus(parseCodeableReference("diseaseStatus", getJsonValue(jsonObject, "diseaseStatus", JsonObject.class), -1));
+        JsonArray comorbidityArray = getJsonArray(jsonObject, "comorbidity");
+        if (comorbidityArray != null) {
+            for (int i = 0; i < comorbidityArray.size(); i++) {
+                builder.comorbidity(parseCodeableReference("comorbidity", comorbidityArray.getJsonObject(i), i));
+            }
+        }
+        builder.intendedEffect(parseCodeableReference("intendedEffect", getJsonValue(jsonObject, "intendedEffect", JsonObject.class), -1));
+        builder.duration(parseQuantity("duration", getJsonValue(jsonObject, "duration", JsonObject.class), -1));
+        JsonArray undesirableEffectArray = getJsonArray(jsonObject, "undesirableEffect");
+        if (undesirableEffectArray != null) {
+            for (int i = 0; i < undesirableEffectArray.size(); i++) {
+                builder.undesirableEffect(parseReference("undesirableEffect", undesirableEffectArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray otherTherapyArray = getJsonArray(jsonObject, "otherTherapy");
+        if (otherTherapyArray != null) {
+            for (int i = 0; i < otherTherapyArray.size(); i++) {
+                builder.otherTherapy(parseClinicalUseDefinitionContraindicationOtherTherapy("otherTherapy", otherTherapyArray.getJsonObject(i), i));
+            }
+        }
+        stackPop();
+        return builder.build();
+    }
+
+    private ClinicalUseDefinition.Interaction parseClinicalUseDefinitionInteraction(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(ClinicalUseDefinition.Interaction.class, jsonObject);
+        }
+        ClinicalUseDefinition.Interaction.Builder builder = ClinicalUseDefinition.Interaction.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        JsonArray interactantArray = getJsonArray(jsonObject, "interactant");
+        if (interactantArray != null) {
+            for (int i = 0; i < interactantArray.size(); i++) {
+                builder.interactant(parseClinicalUseDefinitionInteractionInteractant("interactant", interactantArray.getJsonObject(i), i));
+            }
+        }
+        builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
+        builder.effect(parseCodeableReference("effect", getJsonValue(jsonObject, "effect", JsonObject.class), -1));
+        builder.incidence(parseCodeableConcept("incidence", getJsonValue(jsonObject, "incidence", JsonObject.class), -1));
+        JsonArray managementArray = getJsonArray(jsonObject, "management");
+        if (managementArray != null) {
+            for (int i = 0; i < managementArray.size(); i++) {
+                builder.management(parseCodeableConcept("management", managementArray.getJsonObject(i), i));
+            }
+        }
+        stackPop();
+        return builder.build();
+    }
+
+    private ClinicalUseDefinition.Interaction.Interactant parseClinicalUseDefinitionInteractionInteractant(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(ClinicalUseDefinition.Interaction.Interactant.class, jsonObject);
+        }
+        ClinicalUseDefinition.Interaction.Interactant.Builder builder = ClinicalUseDefinition.Interaction.Interactant.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.item(parseChoiceElement("item", jsonObject, Reference.class, CodeableConcept.class));
+        stackPop();
+        return builder.build();
+    }
+
+    private ClinicalUseDefinition.UndesirableEffect parseClinicalUseDefinitionUndesirableEffect(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(ClinicalUseDefinition.UndesirableEffect.class, jsonObject);
+        }
+        ClinicalUseDefinition.UndesirableEffect.Builder builder = ClinicalUseDefinition.UndesirableEffect.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.symptomConditionEffect(parseCodeableReference("symptomConditionEffect", getJsonValue(jsonObject, "symptomConditionEffect", JsonObject.class), -1));
+        builder.classification(parseCodeableConcept("classification", getJsonValue(jsonObject, "classification", JsonObject.class), -1));
+        builder.frequencyOfOccurrence(parseCodeableConcept("frequencyOfOccurrence", getJsonValue(jsonObject, "frequencyOfOccurrence", JsonObject.class), -1));
+        stackPop();
+        return builder.build();
+    }
+
+    private ClinicalUseDefinition.Warning parseClinicalUseDefinitionWarning(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(ClinicalUseDefinition.Warning.class, jsonObject);
+        }
+        ClinicalUseDefinition.Warning.Builder builder = ClinicalUseDefinition.Warning.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.description((Markdown) parseString(Markdown.builder(), "description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
+        builder.code(parseCodeableConcept("code", getJsonValue(jsonObject, "code", JsonObject.class), -1));
+        stackPop();
+        return builder.build();
+    }
+
+    private ClinicalUseIssue parseClinicalUseIssue(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(ClinicalUseIssue.class, jsonObject);
+        }
+        ClinicalUseIssue.Builder builder = ClinicalUseIssue.builder();
+        builder.setValidating(validating);
+        parseDomainResource(builder, jsonObject);
+        JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
+        if (identifierArray != null) {
+            for (int i = 0; i < identifierArray.size(); i++) {
+                builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
+            }
+        }
+        builder.type((ClinicalUseIssueType) parseString(ClinicalUseIssueType.builder(), "type", getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
+        JsonArray categoryArray = getJsonArray(jsonObject, "category");
+        if (categoryArray != null) {
+            for (int i = 0; i < categoryArray.size(); i++) {
+                builder.category(parseCodeableConcept("category", categoryArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray subjectArray = getJsonArray(jsonObject, "subject");
+        if (subjectArray != null) {
+            for (int i = 0; i < subjectArray.size(); i++) {
+                builder.subject(parseReference("subject", subjectArray.getJsonObject(i), i));
+            }
+        }
+        builder.status(parseCodeableConcept("status", getJsonValue(jsonObject, "status", JsonObject.class), -1));
+        builder.description((Markdown) parseString(Markdown.builder(), "description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
+        builder.contraindication(parseClinicalUseIssueContraindication("contraindication", getJsonValue(jsonObject, "contraindication", JsonObject.class), -1));
+        builder.indication(parseClinicalUseIssueIndication("indication", getJsonValue(jsonObject, "indication", JsonObject.class), -1));
+        builder.interaction(parseClinicalUseIssueInteraction("interaction", getJsonValue(jsonObject, "interaction", JsonObject.class), -1));
+        JsonArray populationArray = getJsonArray(jsonObject, "population");
+        if (populationArray != null) {
+            for (int i = 0; i < populationArray.size(); i++) {
+                builder.population(parsePopulation("population", populationArray.getJsonObject(i), i));
+            }
+        }
+        builder.undesirableEffect(parseClinicalUseIssueUndesirableEffect("undesirableEffect", getJsonValue(jsonObject, "undesirableEffect", JsonObject.class), -1));
+        stackPop();
+        return builder.build();
+    }
+
+    private ClinicalUseIssue.Contraindication parseClinicalUseIssueContraindication(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(ClinicalUseIssue.Contraindication.class, jsonObject);
+        }
+        ClinicalUseIssue.Contraindication.Builder builder = ClinicalUseIssue.Contraindication.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.diseaseSymptomProcedure(parseCodeableReference("diseaseSymptomProcedure", getJsonValue(jsonObject, "diseaseSymptomProcedure", JsonObject.class), -1));
+        builder.diseaseStatus(parseCodeableReference("diseaseStatus", getJsonValue(jsonObject, "diseaseStatus", JsonObject.class), -1));
+        JsonArray comorbidityArray = getJsonArray(jsonObject, "comorbidity");
+        if (comorbidityArray != null) {
+            for (int i = 0; i < comorbidityArray.size(); i++) {
+                builder.comorbidity(parseCodeableReference("comorbidity", comorbidityArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray indicationArray = getJsonArray(jsonObject, "indication");
+        if (indicationArray != null) {
+            for (int i = 0; i < indicationArray.size(); i++) {
+                builder.indication(parseReference("indication", indicationArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray otherTherapyArray = getJsonArray(jsonObject, "otherTherapy");
+        if (otherTherapyArray != null) {
+            for (int i = 0; i < otherTherapyArray.size(); i++) {
+                builder.otherTherapy(parseClinicalUseIssueContraindicationOtherTherapy("otherTherapy", otherTherapyArray.getJsonObject(i), i));
+            }
+        }
+        stackPop();
+        return builder.build();
+    }
+
+    private ClinicalUseIssue.Contraindication.OtherTherapy parseClinicalUseIssueContraindicationOtherTherapy(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(ClinicalUseIssue.Contraindication.OtherTherapy.class, jsonObject);
+        }
+        ClinicalUseIssue.Contraindication.OtherTherapy.Builder builder = ClinicalUseIssue.Contraindication.OtherTherapy.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.relationshipType(parseCodeableConcept("relationshipType", getJsonValue(jsonObject, "relationshipType", JsonObject.class), -1));
+        builder.therapy(parseCodeableReference("therapy", getJsonValue(jsonObject, "therapy", JsonObject.class), -1));
+        stackPop();
+        return builder.build();
+    }
+
+    private ClinicalUseIssue.Indication parseClinicalUseIssueIndication(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(ClinicalUseIssue.Indication.class, jsonObject);
+        }
+        ClinicalUseIssue.Indication.Builder builder = ClinicalUseIssue.Indication.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.diseaseSymptomProcedure(parseCodeableReference("diseaseSymptomProcedure", getJsonValue(jsonObject, "diseaseSymptomProcedure", JsonObject.class), -1));
+        builder.diseaseStatus(parseCodeableReference("diseaseStatus", getJsonValue(jsonObject, "diseaseStatus", JsonObject.class), -1));
+        JsonArray comorbidityArray = getJsonArray(jsonObject, "comorbidity");
+        if (comorbidityArray != null) {
+            for (int i = 0; i < comorbidityArray.size(); i++) {
+                builder.comorbidity(parseCodeableReference("comorbidity", comorbidityArray.getJsonObject(i), i));
+            }
+        }
+        builder.intendedEffect(parseCodeableReference("intendedEffect", getJsonValue(jsonObject, "intendedEffect", JsonObject.class), -1));
+        builder.duration(parseQuantity("duration", getJsonValue(jsonObject, "duration", JsonObject.class), -1));
+        JsonArray undesirableEffectArray = getJsonArray(jsonObject, "undesirableEffect");
+        if (undesirableEffectArray != null) {
+            for (int i = 0; i < undesirableEffectArray.size(); i++) {
+                builder.undesirableEffect(parseReference("undesirableEffect", undesirableEffectArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray otherTherapyArray = getJsonArray(jsonObject, "otherTherapy");
+        if (otherTherapyArray != null) {
+            for (int i = 0; i < otherTherapyArray.size(); i++) {
+                builder.otherTherapy(parseClinicalUseIssueContraindicationOtherTherapy("otherTherapy", otherTherapyArray.getJsonObject(i), i));
+            }
+        }
+        stackPop();
+        return builder.build();
+    }
+
+    private ClinicalUseIssue.Interaction parseClinicalUseIssueInteraction(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(ClinicalUseIssue.Interaction.class, jsonObject);
+        }
+        ClinicalUseIssue.Interaction.Builder builder = ClinicalUseIssue.Interaction.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        JsonArray interactantArray = getJsonArray(jsonObject, "interactant");
+        if (interactantArray != null) {
+            for (int i = 0; i < interactantArray.size(); i++) {
+                builder.interactant(parseClinicalUseIssueInteractionInteractant("interactant", interactantArray.getJsonObject(i), i));
+            }
+        }
+        builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
+        builder.effect(parseCodeableReference("effect", getJsonValue(jsonObject, "effect", JsonObject.class), -1));
+        builder.incidence(parseCodeableConcept("incidence", getJsonValue(jsonObject, "incidence", JsonObject.class), -1));
+        JsonArray managementArray = getJsonArray(jsonObject, "management");
+        if (managementArray != null) {
+            for (int i = 0; i < managementArray.size(); i++) {
+                builder.management(parseCodeableConcept("management", managementArray.getJsonObject(i), i));
+            }
+        }
+        stackPop();
+        return builder.build();
+    }
+
+    private ClinicalUseIssue.Interaction.Interactant parseClinicalUseIssueInteractionInteractant(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(ClinicalUseIssue.Interaction.Interactant.class, jsonObject);
+        }
+        ClinicalUseIssue.Interaction.Interactant.Builder builder = ClinicalUseIssue.Interaction.Interactant.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.item(parseChoiceElement("item", jsonObject, Reference.class, CodeableConcept.class));
+        stackPop();
+        return builder.build();
+    }
+
+    private ClinicalUseIssue.UndesirableEffect parseClinicalUseIssueUndesirableEffect(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(ClinicalUseIssue.UndesirableEffect.class, jsonObject);
+        }
+        ClinicalUseIssue.UndesirableEffect.Builder builder = ClinicalUseIssue.UndesirableEffect.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.symptomConditionEffect(parseCodeableReference("symptomConditionEffect", getJsonValue(jsonObject, "symptomConditionEffect", JsonObject.class), -1));
+        builder.classification(parseCodeableConcept("classification", getJsonValue(jsonObject, "classification", JsonObject.class), -1));
+        builder.frequencyOfOccurrence(parseCodeableConcept("frequencyOfOccurrence", getJsonValue(jsonObject, "frequencyOfOccurrence", JsonObject.class), -1));
+        stackPop();
+        return builder.build();
+    }
+
     private CodeSystem parseCodeSystem(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
@@ -4047,6 +5274,23 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             }
         }
         builder.text(parseString("text", getJsonValue(jsonObject, "text", JsonString.class), jsonObject.get("_text"), -1));
+        stackPop();
+        return builder.build();
+    }
+
+    private CodeableReference parseCodeableReference(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(CodeableReference.class, jsonObject);
+        }
+        CodeableReference.Builder builder = CodeableReference.builder();
+        builder.setValidating(validating);
+        parseDataType(builder, jsonObject);
+        builder.concept(parseCodeableConcept("concept", getJsonValue(jsonObject, "concept", JsonObject.class), -1));
+        builder.reference(parseReference("reference", getJsonValue(jsonObject, "reference", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
@@ -6276,6 +7520,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         return builder.build();
     }
 
+    private void parseDataType(DataType.Builder builder, JsonObject jsonObject) {
+        builder.setValidating(validating);
+        parseElement(builder, jsonObject);
+    }
+
     private Date parseDate(java.lang.String elementName, JsonValue jsonValue, JsonValue _jsonValue, int elementIndex) {
         if (jsonValue == null && _jsonValue == null) {
             return null;
@@ -7476,267 +8725,6 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         return builder.build();
     }
 
-    private EffectEvidenceSynthesis parseEffectEvidenceSynthesis(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(EffectEvidenceSynthesis.class, jsonObject);
-        }
-        EffectEvidenceSynthesis.Builder builder = EffectEvidenceSynthesis.builder();
-        builder.setValidating(validating);
-        parseDomainResource(builder, jsonObject);
-        builder.url(parseUri("url", getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
-        JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
-        if (identifierArray != null) {
-            for (int i = 0; i < identifierArray.size(); i++) {
-                builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
-            }
-        }
-        builder.version(parseString("version", getJsonValue(jsonObject, "version", JsonString.class), jsonObject.get("_version"), -1));
-        builder.name(parseString("name", getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
-        builder.title(parseString("title", getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1));
-        builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
-        builder.date(parseDateTime("date", getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
-        builder.publisher(parseString("publisher", getJsonValue(jsonObject, "publisher", JsonString.class), jsonObject.get("_publisher"), -1));
-        JsonArray contactArray = getJsonArray(jsonObject, "contact");
-        if (contactArray != null) {
-            for (int i = 0; i < contactArray.size(); i++) {
-                builder.contact(parseContactDetail("contact", contactArray.getJsonObject(i), i));
-            }
-        }
-        builder.description((Markdown) parseString(Markdown.builder(), "description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
-        JsonArray noteArray = getJsonArray(jsonObject, "note");
-        if (noteArray != null) {
-            for (int i = 0; i < noteArray.size(); i++) {
-                builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray useContextArray = getJsonArray(jsonObject, "useContext");
-        if (useContextArray != null) {
-            for (int i = 0; i < useContextArray.size(); i++) {
-                builder.useContext(parseUsageContext("useContext", useContextArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray jurisdictionArray = getJsonArray(jsonObject, "jurisdiction");
-        if (jurisdictionArray != null) {
-            for (int i = 0; i < jurisdictionArray.size(); i++) {
-                builder.jurisdiction(parseCodeableConcept("jurisdiction", jurisdictionArray.getJsonObject(i), i));
-            }
-        }
-        builder.copyright((Markdown) parseString(Markdown.builder(), "copyright", getJsonValue(jsonObject, "copyright", JsonString.class), jsonObject.get("_copyright"), -1));
-        builder.approvalDate(parseDate("approvalDate", getJsonValue(jsonObject, "approvalDate", JsonString.class), jsonObject.get("_approvalDate"), -1));
-        builder.lastReviewDate(parseDate("lastReviewDate", getJsonValue(jsonObject, "lastReviewDate", JsonString.class), jsonObject.get("_lastReviewDate"), -1));
-        builder.effectivePeriod(parsePeriod("effectivePeriod", getJsonValue(jsonObject, "effectivePeriod", JsonObject.class), -1));
-        JsonArray topicArray = getJsonArray(jsonObject, "topic");
-        if (topicArray != null) {
-            for (int i = 0; i < topicArray.size(); i++) {
-                builder.topic(parseCodeableConcept("topic", topicArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray authorArray = getJsonArray(jsonObject, "author");
-        if (authorArray != null) {
-            for (int i = 0; i < authorArray.size(); i++) {
-                builder.author(parseContactDetail("author", authorArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray editorArray = getJsonArray(jsonObject, "editor");
-        if (editorArray != null) {
-            for (int i = 0; i < editorArray.size(); i++) {
-                builder.editor(parseContactDetail("editor", editorArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray reviewerArray = getJsonArray(jsonObject, "reviewer");
-        if (reviewerArray != null) {
-            for (int i = 0; i < reviewerArray.size(); i++) {
-                builder.reviewer(parseContactDetail("reviewer", reviewerArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray endorserArray = getJsonArray(jsonObject, "endorser");
-        if (endorserArray != null) {
-            for (int i = 0; i < endorserArray.size(); i++) {
-                builder.endorser(parseContactDetail("endorser", endorserArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray relatedArtifactArray = getJsonArray(jsonObject, "relatedArtifact");
-        if (relatedArtifactArray != null) {
-            for (int i = 0; i < relatedArtifactArray.size(); i++) {
-                builder.relatedArtifact(parseRelatedArtifact("relatedArtifact", relatedArtifactArray.getJsonObject(i), i));
-            }
-        }
-        builder.synthesisType(parseCodeableConcept("synthesisType", getJsonValue(jsonObject, "synthesisType", JsonObject.class), -1));
-        builder.studyType(parseCodeableConcept("studyType", getJsonValue(jsonObject, "studyType", JsonObject.class), -1));
-        builder.population(parseReference("population", getJsonValue(jsonObject, "population", JsonObject.class), -1));
-        builder.exposure(parseReference("exposure", getJsonValue(jsonObject, "exposure", JsonObject.class), -1));
-        builder.exposureAlternative(parseReference("exposureAlternative", getJsonValue(jsonObject, "exposureAlternative", JsonObject.class), -1));
-        builder.outcome(parseReference("outcome", getJsonValue(jsonObject, "outcome", JsonObject.class), -1));
-        builder.sampleSize(parseEffectEvidenceSynthesisSampleSize("sampleSize", getJsonValue(jsonObject, "sampleSize", JsonObject.class), -1));
-        JsonArray resultsByExposureArray = getJsonArray(jsonObject, "resultsByExposure");
-        if (resultsByExposureArray != null) {
-            for (int i = 0; i < resultsByExposureArray.size(); i++) {
-                builder.resultsByExposure(parseEffectEvidenceSynthesisResultsByExposure("resultsByExposure", resultsByExposureArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray effectEstimateArray = getJsonArray(jsonObject, "effectEstimate");
-        if (effectEstimateArray != null) {
-            for (int i = 0; i < effectEstimateArray.size(); i++) {
-                builder.effectEstimate(parseEffectEvidenceSynthesisEffectEstimate("effectEstimate", effectEstimateArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray certaintyArray = getJsonArray(jsonObject, "certainty");
-        if (certaintyArray != null) {
-            for (int i = 0; i < certaintyArray.size(); i++) {
-                builder.certainty(parseEffectEvidenceSynthesisCertainty("certainty", certaintyArray.getJsonObject(i), i));
-            }
-        }
-        stackPop();
-        return builder.build();
-    }
-
-    private EffectEvidenceSynthesis.Certainty parseEffectEvidenceSynthesisCertainty(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(EffectEvidenceSynthesis.Certainty.class, jsonObject);
-        }
-        EffectEvidenceSynthesis.Certainty.Builder builder = EffectEvidenceSynthesis.Certainty.builder();
-        builder.setValidating(validating);
-        parseBackboneElement(builder, jsonObject);
-        JsonArray ratingArray = getJsonArray(jsonObject, "rating");
-        if (ratingArray != null) {
-            for (int i = 0; i < ratingArray.size(); i++) {
-                builder.rating(parseCodeableConcept("rating", ratingArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray noteArray = getJsonArray(jsonObject, "note");
-        if (noteArray != null) {
-            for (int i = 0; i < noteArray.size(); i++) {
-                builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray certaintySubcomponentArray = getJsonArray(jsonObject, "certaintySubcomponent");
-        if (certaintySubcomponentArray != null) {
-            for (int i = 0; i < certaintySubcomponentArray.size(); i++) {
-                builder.certaintySubcomponent(parseEffectEvidenceSynthesisCertaintyCertaintySubcomponent("certaintySubcomponent", certaintySubcomponentArray.getJsonObject(i), i));
-            }
-        }
-        stackPop();
-        return builder.build();
-    }
-
-    private EffectEvidenceSynthesis.Certainty.CertaintySubcomponent parseEffectEvidenceSynthesisCertaintyCertaintySubcomponent(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(EffectEvidenceSynthesis.Certainty.CertaintySubcomponent.class, jsonObject);
-        }
-        EffectEvidenceSynthesis.Certainty.CertaintySubcomponent.Builder builder = EffectEvidenceSynthesis.Certainty.CertaintySubcomponent.builder();
-        builder.setValidating(validating);
-        parseBackboneElement(builder, jsonObject);
-        builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
-        JsonArray ratingArray = getJsonArray(jsonObject, "rating");
-        if (ratingArray != null) {
-            for (int i = 0; i < ratingArray.size(); i++) {
-                builder.rating(parseCodeableConcept("rating", ratingArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray noteArray = getJsonArray(jsonObject, "note");
-        if (noteArray != null) {
-            for (int i = 0; i < noteArray.size(); i++) {
-                builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
-            }
-        }
-        stackPop();
-        return builder.build();
-    }
-
-    private EffectEvidenceSynthesis.EffectEstimate parseEffectEvidenceSynthesisEffectEstimate(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(EffectEvidenceSynthesis.EffectEstimate.class, jsonObject);
-        }
-        EffectEvidenceSynthesis.EffectEstimate.Builder builder = EffectEvidenceSynthesis.EffectEstimate.builder();
-        builder.setValidating(validating);
-        parseBackboneElement(builder, jsonObject);
-        builder.description(parseString("description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
-        builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
-        builder.variantState(parseCodeableConcept("variantState", getJsonValue(jsonObject, "variantState", JsonObject.class), -1));
-        builder.value(parseDecimal("value", getJsonValue(jsonObject, "value", JsonNumber.class), jsonObject.get("_value"), -1));
-        builder.unitOfMeasure(parseCodeableConcept("unitOfMeasure", getJsonValue(jsonObject, "unitOfMeasure", JsonObject.class), -1));
-        JsonArray precisionEstimateArray = getJsonArray(jsonObject, "precisionEstimate");
-        if (precisionEstimateArray != null) {
-            for (int i = 0; i < precisionEstimateArray.size(); i++) {
-                builder.precisionEstimate(parseEffectEvidenceSynthesisEffectEstimatePrecisionEstimate("precisionEstimate", precisionEstimateArray.getJsonObject(i), i));
-            }
-        }
-        stackPop();
-        return builder.build();
-    }
-
-    private EffectEvidenceSynthesis.EffectEstimate.PrecisionEstimate parseEffectEvidenceSynthesisEffectEstimatePrecisionEstimate(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(EffectEvidenceSynthesis.EffectEstimate.PrecisionEstimate.class, jsonObject);
-        }
-        EffectEvidenceSynthesis.EffectEstimate.PrecisionEstimate.Builder builder = EffectEvidenceSynthesis.EffectEstimate.PrecisionEstimate.builder();
-        builder.setValidating(validating);
-        parseBackboneElement(builder, jsonObject);
-        builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
-        builder.level(parseDecimal("level", getJsonValue(jsonObject, "level", JsonNumber.class), jsonObject.get("_level"), -1));
-        builder.from(parseDecimal("from", getJsonValue(jsonObject, "from", JsonNumber.class), jsonObject.get("_from"), -1));
-        builder.to(parseDecimal("to", getJsonValue(jsonObject, "to", JsonNumber.class), jsonObject.get("_to"), -1));
-        stackPop();
-        return builder.build();
-    }
-
-    private EffectEvidenceSynthesis.ResultsByExposure parseEffectEvidenceSynthesisResultsByExposure(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(EffectEvidenceSynthesis.ResultsByExposure.class, jsonObject);
-        }
-        EffectEvidenceSynthesis.ResultsByExposure.Builder builder = EffectEvidenceSynthesis.ResultsByExposure.builder();
-        builder.setValidating(validating);
-        parseBackboneElement(builder, jsonObject);
-        builder.description(parseString("description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
-        builder.exposureState((ExposureState) parseString(ExposureState.builder(), "exposureState", getJsonValue(jsonObject, "exposureState", JsonString.class), jsonObject.get("_exposureState"), -1));
-        builder.variantState(parseCodeableConcept("variantState", getJsonValue(jsonObject, "variantState", JsonObject.class), -1));
-        builder.riskEvidenceSynthesis(parseReference("riskEvidenceSynthesis", getJsonValue(jsonObject, "riskEvidenceSynthesis", JsonObject.class), -1));
-        stackPop();
-        return builder.build();
-    }
-
-    private EffectEvidenceSynthesis.SampleSize parseEffectEvidenceSynthesisSampleSize(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(EffectEvidenceSynthesis.SampleSize.class, jsonObject);
-        }
-        EffectEvidenceSynthesis.SampleSize.Builder builder = EffectEvidenceSynthesis.SampleSize.builder();
-        builder.setValidating(validating);
-        parseBackboneElement(builder, jsonObject);
-        builder.description(parseString("description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
-        builder.numberOfStudies(parseInteger("numberOfStudies", getJsonValue(jsonObject, "numberOfStudies", JsonNumber.class), jsonObject.get("_numberOfStudies"), -1));
-        builder.numberOfParticipants(parseInteger("numberOfParticipants", getJsonValue(jsonObject, "numberOfParticipants", JsonNumber.class), jsonObject.get("_numberOfParticipants"), -1));
-        stackPop();
-        return builder.build();
-    }
-
     private void parseElement(Element.Builder builder, JsonObject jsonObject) {
         builder.setValidating(validating);
         builder.id(parseJavaString("id", getJsonValue(jsonObject, "id", JsonString.class), -1));
@@ -8571,46 +9559,23 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             }
         }
         builder.version(parseString("version", getJsonValue(jsonObject, "version", JsonString.class), jsonObject.get("_version"), -1));
-        builder.name(parseString("name", getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.title(parseString("title", getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1));
-        builder.shortTitle(parseString("shortTitle", getJsonValue(jsonObject, "shortTitle", JsonString.class), jsonObject.get("_shortTitle"), -1));
-        builder.subtitle(parseString("subtitle", getJsonValue(jsonObject, "subtitle", JsonString.class), jsonObject.get("_subtitle"), -1));
+        builder.citeAs(parseChoiceElement("citeAs", jsonObject, Reference.class, Markdown.class));
         builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.date(parseDateTime("date", getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
-        builder.publisher(parseString("publisher", getJsonValue(jsonObject, "publisher", JsonString.class), jsonObject.get("_publisher"), -1));
-        JsonArray contactArray = getJsonArray(jsonObject, "contact");
-        if (contactArray != null) {
-            for (int i = 0; i < contactArray.size(); i++) {
-                builder.contact(parseContactDetail("contact", contactArray.getJsonObject(i), i));
-            }
-        }
-        builder.description((Markdown) parseString(Markdown.builder(), "description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
-        JsonArray noteArray = getJsonArray(jsonObject, "note");
-        if (noteArray != null) {
-            for (int i = 0; i < noteArray.size(); i++) {
-                builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
-            }
-        }
         JsonArray useContextArray = getJsonArray(jsonObject, "useContext");
         if (useContextArray != null) {
             for (int i = 0; i < useContextArray.size(); i++) {
                 builder.useContext(parseUsageContext("useContext", useContextArray.getJsonObject(i), i));
             }
         }
-        JsonArray jurisdictionArray = getJsonArray(jsonObject, "jurisdiction");
-        if (jurisdictionArray != null) {
-            for (int i = 0; i < jurisdictionArray.size(); i++) {
-                builder.jurisdiction(parseCodeableConcept("jurisdiction", jurisdictionArray.getJsonObject(i), i));
-            }
-        }
-        builder.copyright((Markdown) parseString(Markdown.builder(), "copyright", getJsonValue(jsonObject, "copyright", JsonString.class), jsonObject.get("_copyright"), -1));
         builder.approvalDate(parseDate("approvalDate", getJsonValue(jsonObject, "approvalDate", JsonString.class), jsonObject.get("_approvalDate"), -1));
         builder.lastReviewDate(parseDate("lastReviewDate", getJsonValue(jsonObject, "lastReviewDate", JsonString.class), jsonObject.get("_lastReviewDate"), -1));
-        builder.effectivePeriod(parsePeriod("effectivePeriod", getJsonValue(jsonObject, "effectivePeriod", JsonObject.class), -1));
-        JsonArray topicArray = getJsonArray(jsonObject, "topic");
-        if (topicArray != null) {
-            for (int i = 0; i < topicArray.size(); i++) {
-                builder.topic(parseCodeableConcept("topic", topicArray.getJsonObject(i), i));
+        builder.publisher(parseString("publisher", getJsonValue(jsonObject, "publisher", JsonString.class), jsonObject.get("_publisher"), -1));
+        JsonArray contactArray = getJsonArray(jsonObject, "contact");
+        if (contactArray != null) {
+            for (int i = 0; i < contactArray.size(); i++) {
+                builder.contact(parseContactDetail("contact", contactArray.getJsonObject(i), i));
             }
         }
         JsonArray authorArray = getJsonArray(jsonObject, "author");
@@ -8643,19 +9608,460 @@ public class FHIRJsonParser extends FHIRAbstractParser {
                 builder.relatedArtifact(parseRelatedArtifact("relatedArtifact", relatedArtifactArray.getJsonObject(i), i));
             }
         }
-        builder.exposureBackground(parseReference("exposureBackground", getJsonValue(jsonObject, "exposureBackground", JsonObject.class), -1));
-        JsonArray exposureVariantArray = getJsonArray(jsonObject, "exposureVariant");
-        if (exposureVariantArray != null) {
-            for (int i = 0; i < exposureVariantArray.size(); i++) {
-                builder.exposureVariant(parseReference("exposureVariant", exposureVariantArray.getJsonObject(i), i));
+        builder.description((Markdown) parseString(Markdown.builder(), "description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
+        builder.assertion((Markdown) parseString(Markdown.builder(), "assertion", getJsonValue(jsonObject, "assertion", JsonString.class), jsonObject.get("_assertion"), -1));
+        JsonArray noteArray = getJsonArray(jsonObject, "note");
+        if (noteArray != null) {
+            for (int i = 0; i < noteArray.size(); i++) {
+                builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
-        JsonArray outcomeArray = getJsonArray(jsonObject, "outcome");
-        if (outcomeArray != null) {
-            for (int i = 0; i < outcomeArray.size(); i++) {
-                builder.outcome(parseReference("outcome", outcomeArray.getJsonObject(i), i));
+        JsonArray variableDefinitionArray = getJsonArray(jsonObject, "variableDefinition");
+        if (variableDefinitionArray != null) {
+            for (int i = 0; i < variableDefinitionArray.size(); i++) {
+                builder.variableDefinition(parseEvidenceVariableDefinition("variableDefinition", variableDefinitionArray.getJsonObject(i), i));
             }
         }
+        builder.synthesisType(parseCodeableConcept("synthesisType", getJsonValue(jsonObject, "synthesisType", JsonObject.class), -1));
+        builder.studyType(parseCodeableConcept("studyType", getJsonValue(jsonObject, "studyType", JsonObject.class), -1));
+        JsonArray statisticArray = getJsonArray(jsonObject, "statistic");
+        if (statisticArray != null) {
+            for (int i = 0; i < statisticArray.size(); i++) {
+                builder.statistic(parseEvidenceStatistic("statistic", statisticArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray certaintyArray = getJsonArray(jsonObject, "certainty");
+        if (certaintyArray != null) {
+            for (int i = 0; i < certaintyArray.size(); i++) {
+                builder.certainty(parseEvidenceCertainty("certainty", certaintyArray.getJsonObject(i), i));
+            }
+        }
+        stackPop();
+        return builder.build();
+    }
+
+    private Evidence.Certainty parseEvidenceCertainty(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(Evidence.Certainty.class, jsonObject);
+        }
+        Evidence.Certainty.Builder builder = Evidence.Certainty.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.description(parseString("description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
+        JsonArray noteArray = getJsonArray(jsonObject, "note");
+        if (noteArray != null) {
+            for (int i = 0; i < noteArray.size(); i++) {
+                builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
+            }
+        }
+        builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
+        builder.rating(parseCodeableConcept("rating", getJsonValue(jsonObject, "rating", JsonObject.class), -1));
+        builder.rater(parseString("rater", getJsonValue(jsonObject, "rater", JsonString.class), jsonObject.get("_rater"), -1));
+        JsonArray subcomponentArray = getJsonArray(jsonObject, "subcomponent");
+        if (subcomponentArray != null) {
+            for (int i = 0; i < subcomponentArray.size(); i++) {
+                builder.subcomponent(parseEvidenceCertainty("subcomponent", subcomponentArray.getJsonObject(i), i));
+            }
+        }
+        stackPop();
+        return builder.build();
+    }
+
+    private Evidence.Statistic parseEvidenceStatistic(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(Evidence.Statistic.class, jsonObject);
+        }
+        Evidence.Statistic.Builder builder = Evidence.Statistic.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.description(parseString("description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
+        JsonArray noteArray = getJsonArray(jsonObject, "note");
+        if (noteArray != null) {
+            for (int i = 0; i < noteArray.size(); i++) {
+                builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
+            }
+        }
+        builder.statisticType(parseCodeableConcept("statisticType", getJsonValue(jsonObject, "statisticType", JsonObject.class), -1));
+        builder.category(parseCodeableConcept("category", getJsonValue(jsonObject, "category", JsonObject.class), -1));
+        builder.quantity(parseQuantity("quantity", getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
+        builder.numberOfEvents((UnsignedInt) parseInteger(UnsignedInt.builder(), "numberOfEvents", getJsonValue(jsonObject, "numberOfEvents", JsonNumber.class), jsonObject.get("_numberOfEvents"), -1));
+        builder.numberAffected((UnsignedInt) parseInteger(UnsignedInt.builder(), "numberAffected", getJsonValue(jsonObject, "numberAffected", JsonNumber.class), jsonObject.get("_numberAffected"), -1));
+        builder.sampleSize(parseEvidenceStatisticSampleSize("sampleSize", getJsonValue(jsonObject, "sampleSize", JsonObject.class), -1));
+        JsonArray attributeEstimateArray = getJsonArray(jsonObject, "attributeEstimate");
+        if (attributeEstimateArray != null) {
+            for (int i = 0; i < attributeEstimateArray.size(); i++) {
+                builder.attributeEstimate(parseEvidenceStatisticAttributeEstimate("attributeEstimate", attributeEstimateArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray modelCharacteristicArray = getJsonArray(jsonObject, "modelCharacteristic");
+        if (modelCharacteristicArray != null) {
+            for (int i = 0; i < modelCharacteristicArray.size(); i++) {
+                builder.modelCharacteristic(parseEvidenceStatisticModelCharacteristic("modelCharacteristic", modelCharacteristicArray.getJsonObject(i), i));
+            }
+        }
+        stackPop();
+        return builder.build();
+    }
+
+    private Evidence.Statistic.AttributeEstimate parseEvidenceStatisticAttributeEstimate(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(Evidence.Statistic.AttributeEstimate.class, jsonObject);
+        }
+        Evidence.Statistic.AttributeEstimate.Builder builder = Evidence.Statistic.AttributeEstimate.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.description(parseString("description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
+        JsonArray noteArray = getJsonArray(jsonObject, "note");
+        if (noteArray != null) {
+            for (int i = 0; i < noteArray.size(); i++) {
+                builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
+            }
+        }
+        builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
+        builder.quantity(parseQuantity("quantity", getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
+        builder.level(parseDecimal("level", getJsonValue(jsonObject, "level", JsonNumber.class), jsonObject.get("_level"), -1));
+        builder.range(parseRange("range", getJsonValue(jsonObject, "range", JsonObject.class), -1));
+        JsonArray attributeEstimateArray = getJsonArray(jsonObject, "attributeEstimate");
+        if (attributeEstimateArray != null) {
+            for (int i = 0; i < attributeEstimateArray.size(); i++) {
+                builder.attributeEstimate(parseEvidenceStatisticAttributeEstimate("attributeEstimate", attributeEstimateArray.getJsonObject(i), i));
+            }
+        }
+        stackPop();
+        return builder.build();
+    }
+
+    private Evidence.Statistic.ModelCharacteristic parseEvidenceStatisticModelCharacteristic(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(Evidence.Statistic.ModelCharacteristic.class, jsonObject);
+        }
+        Evidence.Statistic.ModelCharacteristic.Builder builder = Evidence.Statistic.ModelCharacteristic.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.code(parseCodeableConcept("code", getJsonValue(jsonObject, "code", JsonObject.class), -1));
+        builder.value((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "value", getJsonValue(jsonObject, "value", JsonObject.class), -1));
+        JsonArray variableArray = getJsonArray(jsonObject, "variable");
+        if (variableArray != null) {
+            for (int i = 0; i < variableArray.size(); i++) {
+                builder.variable(parseEvidenceStatisticModelCharacteristicVariable("variable", variableArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray attributeEstimateArray = getJsonArray(jsonObject, "attributeEstimate");
+        if (attributeEstimateArray != null) {
+            for (int i = 0; i < attributeEstimateArray.size(); i++) {
+                builder.attributeEstimate(parseEvidenceStatisticAttributeEstimate("attributeEstimate", attributeEstimateArray.getJsonObject(i), i));
+            }
+        }
+        stackPop();
+        return builder.build();
+    }
+
+    private Evidence.Statistic.ModelCharacteristic.Variable parseEvidenceStatisticModelCharacteristicVariable(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(Evidence.Statistic.ModelCharacteristic.Variable.class, jsonObject);
+        }
+        Evidence.Statistic.ModelCharacteristic.Variable.Builder builder = Evidence.Statistic.ModelCharacteristic.Variable.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.variableDefinition(parseReference("variableDefinition", getJsonValue(jsonObject, "variableDefinition", JsonObject.class), -1));
+        builder.handling((EvidenceVariableHandling) parseString(EvidenceVariableHandling.builder(), "handling", getJsonValue(jsonObject, "handling", JsonString.class), jsonObject.get("_handling"), -1));
+        JsonArray valueCategoryArray = getJsonArray(jsonObject, "valueCategory");
+        if (valueCategoryArray != null) {
+            for (int i = 0; i < valueCategoryArray.size(); i++) {
+                builder.valueCategory(parseCodeableConcept("valueCategory", valueCategoryArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray valueQuantityArray = getJsonArray(jsonObject, "valueQuantity");
+        if (valueQuantityArray != null) {
+            for (int i = 0; i < valueQuantityArray.size(); i++) {
+                builder.valueQuantity(parseQuantity("valueQuantity", valueQuantityArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray valueRangeArray = getJsonArray(jsonObject, "valueRange");
+        if (valueRangeArray != null) {
+            for (int i = 0; i < valueRangeArray.size(); i++) {
+                builder.valueRange(parseRange("valueRange", valueRangeArray.getJsonObject(i), i));
+            }
+        }
+        stackPop();
+        return builder.build();
+    }
+
+    private Evidence.Statistic.SampleSize parseEvidenceStatisticSampleSize(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(Evidence.Statistic.SampleSize.class, jsonObject);
+        }
+        Evidence.Statistic.SampleSize.Builder builder = Evidence.Statistic.SampleSize.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.description(parseString("description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
+        JsonArray noteArray = getJsonArray(jsonObject, "note");
+        if (noteArray != null) {
+            for (int i = 0; i < noteArray.size(); i++) {
+                builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
+            }
+        }
+        builder.numberOfStudies((UnsignedInt) parseInteger(UnsignedInt.builder(), "numberOfStudies", getJsonValue(jsonObject, "numberOfStudies", JsonNumber.class), jsonObject.get("_numberOfStudies"), -1));
+        builder.numberOfParticipants((UnsignedInt) parseInteger(UnsignedInt.builder(), "numberOfParticipants", getJsonValue(jsonObject, "numberOfParticipants", JsonNumber.class), jsonObject.get("_numberOfParticipants"), -1));
+        builder.knownDataCount((UnsignedInt) parseInteger(UnsignedInt.builder(), "knownDataCount", getJsonValue(jsonObject, "knownDataCount", JsonNumber.class), jsonObject.get("_knownDataCount"), -1));
+        stackPop();
+        return builder.build();
+    }
+
+    private Evidence.VariableDefinition parseEvidenceVariableDefinition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(Evidence.VariableDefinition.class, jsonObject);
+        }
+        Evidence.VariableDefinition.Builder builder = Evidence.VariableDefinition.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.description((Markdown) parseString(Markdown.builder(), "description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
+        JsonArray noteArray = getJsonArray(jsonObject, "note");
+        if (noteArray != null) {
+            for (int i = 0; i < noteArray.size(); i++) {
+                builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
+            }
+        }
+        builder.variableRole(parseCodeableConcept("variableRole", getJsonValue(jsonObject, "variableRole", JsonObject.class), -1));
+        builder.observed(parseReference("observed", getJsonValue(jsonObject, "observed", JsonObject.class), -1));
+        builder.intended(parseReference("intended", getJsonValue(jsonObject, "intended", JsonObject.class), -1));
+        builder.directnessMatch(parseCodeableConcept("directnessMatch", getJsonValue(jsonObject, "directnessMatch", JsonObject.class), -1));
+        stackPop();
+        return builder.build();
+    }
+
+    private EvidenceReport parseEvidenceReport(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(EvidenceReport.class, jsonObject);
+        }
+        EvidenceReport.Builder builder = EvidenceReport.builder();
+        builder.setValidating(validating);
+        parseDomainResource(builder, jsonObject);
+        builder.url(parseUri("url", getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
+        builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
+        JsonArray useContextArray = getJsonArray(jsonObject, "useContext");
+        if (useContextArray != null) {
+            for (int i = 0; i < useContextArray.size(); i++) {
+                builder.useContext(parseUsageContext("useContext", useContextArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
+        if (identifierArray != null) {
+            for (int i = 0; i < identifierArray.size(); i++) {
+                builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray relatedIdentifierArray = getJsonArray(jsonObject, "relatedIdentifier");
+        if (relatedIdentifierArray != null) {
+            for (int i = 0; i < relatedIdentifierArray.size(); i++) {
+                builder.relatedIdentifier(parseIdentifier("relatedIdentifier", relatedIdentifierArray.getJsonObject(i), i));
+            }
+        }
+        builder.citeAs(parseChoiceElement("citeAs", jsonObject, Reference.class, Markdown.class));
+        builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
+        JsonArray noteArray = getJsonArray(jsonObject, "note");
+        if (noteArray != null) {
+            for (int i = 0; i < noteArray.size(); i++) {
+                builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray relatedArtifactArray = getJsonArray(jsonObject, "relatedArtifact");
+        if (relatedArtifactArray != null) {
+            for (int i = 0; i < relatedArtifactArray.size(); i++) {
+                builder.relatedArtifact(parseRelatedArtifact("relatedArtifact", relatedArtifactArray.getJsonObject(i), i));
+            }
+        }
+        builder.subject(parseEvidenceReportSubject("subject", getJsonValue(jsonObject, "subject", JsonObject.class), -1));
+        builder.publisher(parseString("publisher", getJsonValue(jsonObject, "publisher", JsonString.class), jsonObject.get("_publisher"), -1));
+        JsonArray contactArray = getJsonArray(jsonObject, "contact");
+        if (contactArray != null) {
+            for (int i = 0; i < contactArray.size(); i++) {
+                builder.contact(parseContactDetail("contact", contactArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray authorArray = getJsonArray(jsonObject, "author");
+        if (authorArray != null) {
+            for (int i = 0; i < authorArray.size(); i++) {
+                builder.author(parseContactDetail("author", authorArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray editorArray = getJsonArray(jsonObject, "editor");
+        if (editorArray != null) {
+            for (int i = 0; i < editorArray.size(); i++) {
+                builder.editor(parseContactDetail("editor", editorArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray reviewerArray = getJsonArray(jsonObject, "reviewer");
+        if (reviewerArray != null) {
+            for (int i = 0; i < reviewerArray.size(); i++) {
+                builder.reviewer(parseContactDetail("reviewer", reviewerArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray endorserArray = getJsonArray(jsonObject, "endorser");
+        if (endorserArray != null) {
+            for (int i = 0; i < endorserArray.size(); i++) {
+                builder.endorser(parseContactDetail("endorser", endorserArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray relatesToArray = getJsonArray(jsonObject, "relatesTo");
+        if (relatesToArray != null) {
+            for (int i = 0; i < relatesToArray.size(); i++) {
+                builder.relatesTo(parseEvidenceReportRelatesTo("relatesTo", relatesToArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray sectionArray = getJsonArray(jsonObject, "section");
+        if (sectionArray != null) {
+            for (int i = 0; i < sectionArray.size(); i++) {
+                builder.section(parseEvidenceReportSection("section", sectionArray.getJsonObject(i), i));
+            }
+        }
+        stackPop();
+        return builder.build();
+    }
+
+    private EvidenceReport.RelatesTo parseEvidenceReportRelatesTo(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(EvidenceReport.RelatesTo.class, jsonObject);
+        }
+        EvidenceReport.RelatesTo.Builder builder = EvidenceReport.RelatesTo.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.code((ReportRelationshipType) parseString(ReportRelationshipType.builder(), "code", getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1));
+        builder.target(parseChoiceElement("target", jsonObject, Identifier.class, Reference.class));
+        stackPop();
+        return builder.build();
+    }
+
+    private EvidenceReport.Section parseEvidenceReportSection(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(EvidenceReport.Section.class, jsonObject);
+        }
+        EvidenceReport.Section.Builder builder = EvidenceReport.Section.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.title(parseString("title", getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1));
+        builder.focus(parseCodeableConcept("focus", getJsonValue(jsonObject, "focus", JsonObject.class), -1));
+        builder.focusReference(parseReference("focusReference", getJsonValue(jsonObject, "focusReference", JsonObject.class), -1));
+        JsonArray authorArray = getJsonArray(jsonObject, "author");
+        if (authorArray != null) {
+            for (int i = 0; i < authorArray.size(); i++) {
+                builder.author(parseReference("author", authorArray.getJsonObject(i), i));
+            }
+        }
+        builder.text(parseNarrative("text", getJsonValue(jsonObject, "text", JsonObject.class), -1));
+        builder.mode((SectionMode) parseString(SectionMode.builder(), "mode", getJsonValue(jsonObject, "mode", JsonString.class), jsonObject.get("_mode"), -1));
+        builder.orderedBy(parseCodeableConcept("orderedBy", getJsonValue(jsonObject, "orderedBy", JsonObject.class), -1));
+        JsonArray entryClassifierArray = getJsonArray(jsonObject, "entryClassifier");
+        if (entryClassifierArray != null) {
+            for (int i = 0; i < entryClassifierArray.size(); i++) {
+                builder.entryClassifier(parseCodeableConcept("entryClassifier", entryClassifierArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray entryReferenceArray = getJsonArray(jsonObject, "entryReference");
+        if (entryReferenceArray != null) {
+            for (int i = 0; i < entryReferenceArray.size(); i++) {
+                builder.entryReference(parseReference("entryReference", entryReferenceArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray entryQuantityArray = getJsonArray(jsonObject, "entryQuantity");
+        if (entryQuantityArray != null) {
+            for (int i = 0; i < entryQuantityArray.size(); i++) {
+                builder.entryQuantity(parseQuantity("entryQuantity", entryQuantityArray.getJsonObject(i), i));
+            }
+        }
+        builder.emptyReason(parseCodeableConcept("emptyReason", getJsonValue(jsonObject, "emptyReason", JsonObject.class), -1));
+        JsonArray sectionArray = getJsonArray(jsonObject, "section");
+        if (sectionArray != null) {
+            for (int i = 0; i < sectionArray.size(); i++) {
+                builder.section(parseEvidenceReportSection("section", sectionArray.getJsonObject(i), i));
+            }
+        }
+        stackPop();
+        return builder.build();
+    }
+
+    private EvidenceReport.Subject parseEvidenceReportSubject(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(EvidenceReport.Subject.class, jsonObject);
+        }
+        EvidenceReport.Subject.Builder builder = EvidenceReport.Subject.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        JsonArray characteristicArray = getJsonArray(jsonObject, "characteristic");
+        if (characteristicArray != null) {
+            for (int i = 0; i < characteristicArray.size(); i++) {
+                builder.characteristic(parseEvidenceReportSubjectCharacteristic("characteristic", characteristicArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray noteArray = getJsonArray(jsonObject, "note");
+        if (noteArray != null) {
+            for (int i = 0; i < noteArray.size(); i++) {
+                builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
+            }
+        }
+        stackPop();
+        return builder.build();
+    }
+
+    private EvidenceReport.Subject.Characteristic parseEvidenceReportSubjectCharacteristic(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(EvidenceReport.Subject.Characteristic.class, jsonObject);
+        }
+        EvidenceReport.Subject.Characteristic.Builder builder = EvidenceReport.Subject.Characteristic.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.code(parseCodeableConcept("code", getJsonValue(jsonObject, "code", JsonObject.class), -1));
+        builder.value(parseChoiceElement("value", jsonObject, Reference.class, CodeableConcept.class, Boolean.class, Quantity.class, Range.class));
+        builder.exclude(parseBoolean("exclude", getJsonValue(jsonObject, "exclude", JsonValue.class), jsonObject.get("_exclude"), -1));
+        builder.period(parsePeriod("period", getJsonValue(jsonObject, "period", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
@@ -8685,13 +10091,6 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         builder.subtitle(parseString("subtitle", getJsonValue(jsonObject, "subtitle", JsonString.class), jsonObject.get("_subtitle"), -1));
         builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.date(parseDateTime("date", getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
-        builder.publisher(parseString("publisher", getJsonValue(jsonObject, "publisher", JsonString.class), jsonObject.get("_publisher"), -1));
-        JsonArray contactArray = getJsonArray(jsonObject, "contact");
-        if (contactArray != null) {
-            for (int i = 0; i < contactArray.size(); i++) {
-                builder.contact(parseContactDetail("contact", contactArray.getJsonObject(i), i));
-            }
-        }
         builder.description((Markdown) parseString(Markdown.builder(), "description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
@@ -8705,20 +10104,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
                 builder.useContext(parseUsageContext("useContext", useContextArray.getJsonObject(i), i));
             }
         }
-        JsonArray jurisdictionArray = getJsonArray(jsonObject, "jurisdiction");
-        if (jurisdictionArray != null) {
-            for (int i = 0; i < jurisdictionArray.size(); i++) {
-                builder.jurisdiction(parseCodeableConcept("jurisdiction", jurisdictionArray.getJsonObject(i), i));
-            }
-        }
-        builder.copyright((Markdown) parseString(Markdown.builder(), "copyright", getJsonValue(jsonObject, "copyright", JsonString.class), jsonObject.get("_copyright"), -1));
-        builder.approvalDate(parseDate("approvalDate", getJsonValue(jsonObject, "approvalDate", JsonString.class), jsonObject.get("_approvalDate"), -1));
-        builder.lastReviewDate(parseDate("lastReviewDate", getJsonValue(jsonObject, "lastReviewDate", JsonString.class), jsonObject.get("_lastReviewDate"), -1));
-        builder.effectivePeriod(parsePeriod("effectivePeriod", getJsonValue(jsonObject, "effectivePeriod", JsonObject.class), -1));
-        JsonArray topicArray = getJsonArray(jsonObject, "topic");
-        if (topicArray != null) {
-            for (int i = 0; i < topicArray.size(); i++) {
-                builder.topic(parseCodeableConcept("topic", topicArray.getJsonObject(i), i));
+        builder.publisher(parseString("publisher", getJsonValue(jsonObject, "publisher", JsonString.class), jsonObject.get("_publisher"), -1));
+        JsonArray contactArray = getJsonArray(jsonObject, "contact");
+        if (contactArray != null) {
+            for (int i = 0; i < contactArray.size(); i++) {
+                builder.contact(parseContactDetail("contact", contactArray.getJsonObject(i), i));
             }
         }
         JsonArray authorArray = getJsonArray(jsonObject, "author");
@@ -8751,13 +10141,38 @@ public class FHIRJsonParser extends FHIRAbstractParser {
                 builder.relatedArtifact(parseRelatedArtifact("relatedArtifact", relatedArtifactArray.getJsonObject(i), i));
             }
         }
-        builder.type((EvidenceVariableType) parseString(EvidenceVariableType.builder(), "type", getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
+        builder.actual(parseBoolean("actual", getJsonValue(jsonObject, "actual", JsonValue.class), jsonObject.get("_actual"), -1));
+        builder.characteristicCombination((CharacteristicCombination) parseString(CharacteristicCombination.builder(), "characteristicCombination", getJsonValue(jsonObject, "characteristicCombination", JsonString.class), jsonObject.get("_characteristicCombination"), -1));
         JsonArray characteristicArray = getJsonArray(jsonObject, "characteristic");
         if (characteristicArray != null) {
             for (int i = 0; i < characteristicArray.size(); i++) {
                 builder.characteristic(parseEvidenceVariableCharacteristic("characteristic", characteristicArray.getJsonObject(i), i));
             }
         }
+        builder.handling((EvidenceVariableHandling) parseString(EvidenceVariableHandling.builder(), "handling", getJsonValue(jsonObject, "handling", JsonString.class), jsonObject.get("_handling"), -1));
+        JsonArray categoryArray = getJsonArray(jsonObject, "category");
+        if (categoryArray != null) {
+            for (int i = 0; i < categoryArray.size(); i++) {
+                builder.category(parseEvidenceVariableCategory("category", categoryArray.getJsonObject(i), i));
+            }
+        }
+        stackPop();
+        return builder.build();
+    }
+
+    private EvidenceVariable.Category parseEvidenceVariableCategory(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(EvidenceVariable.Category.class, jsonObject);
+        }
+        EvidenceVariable.Category.Builder builder = EvidenceVariable.Category.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.name(parseString("name", getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
+        builder.value(parseChoiceElement("value", jsonObject, CodeableConcept.class, Quantity.class, Range.class));
         stackPop();
         return builder.build();
     }
@@ -8774,17 +10189,36 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.description(parseString("description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
-        builder.definition(parseChoiceElement("definition", jsonObject, Reference.class, Canonical.class, CodeableConcept.class, Expression.class, DataRequirement.class, TriggerDefinition.class));
-        JsonArray usageContextArray = getJsonArray(jsonObject, "usageContext");
-        if (usageContextArray != null) {
-            for (int i = 0; i < usageContextArray.size(); i++) {
-                builder.usageContext(parseUsageContext("usageContext", usageContextArray.getJsonObject(i), i));
+        builder.definition(parseChoiceElement("definition", jsonObject, Reference.class, Canonical.class, CodeableConcept.class, Expression.class));
+        builder.method(parseCodeableConcept("method", getJsonValue(jsonObject, "method", JsonObject.class), -1));
+        builder.device(parseReference("device", getJsonValue(jsonObject, "device", JsonObject.class), -1));
+        builder.exclude(parseBoolean("exclude", getJsonValue(jsonObject, "exclude", JsonValue.class), jsonObject.get("_exclude"), -1));
+        builder.timeFromStart(parseEvidenceVariableCharacteristicTimeFromStart("timeFromStart", getJsonValue(jsonObject, "timeFromStart", JsonObject.class), -1));
+        builder.groupMeasure((GroupMeasure) parseString(GroupMeasure.builder(), "groupMeasure", getJsonValue(jsonObject, "groupMeasure", JsonString.class), jsonObject.get("_groupMeasure"), -1));
+        stackPop();
+        return builder.build();
+    }
+
+    private EvidenceVariable.Characteristic.TimeFromStart parseEvidenceVariableCharacteristicTimeFromStart(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(EvidenceVariable.Characteristic.TimeFromStart.class, jsonObject);
+        }
+        EvidenceVariable.Characteristic.TimeFromStart.Builder builder = EvidenceVariable.Characteristic.TimeFromStart.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.description(parseString("description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
+        builder.quantity(parseQuantity("quantity", getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
+        builder.range(parseRange("range", getJsonValue(jsonObject, "range", JsonObject.class), -1));
+        JsonArray noteArray = getJsonArray(jsonObject, "note");
+        if (noteArray != null) {
+            for (int i = 0; i < noteArray.size(); i++) {
+                builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
-        builder.exclude(parseBoolean("exclude", getJsonValue(jsonObject, "exclude", JsonValue.class), jsonObject.get("_exclude"), -1));
-        builder.participantEffective(parseChoiceElement("participantEffective", jsonObject, DateTime.class, Period.class, Duration.class, Timing.class));
-        builder.timeFromStart((Duration) parseQuantity(Duration.builder(), "timeFromStart", getJsonValue(jsonObject, "timeFromStart", JsonObject.class), -1));
-        builder.groupMeasure((GroupMeasure) parseString(GroupMeasure.builder(), "groupMeasure", getJsonValue(jsonObject, "groupMeasure", JsonString.class), jsonObject.get("_groupMeasure"), -1));
         stackPop();
         return builder.build();
     }
@@ -11426,6 +12860,139 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         return builder.build();
     }
 
+    private Ingredient parseIngredient(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(Ingredient.class, jsonObject);
+        }
+        Ingredient.Builder builder = Ingredient.builder();
+        builder.setValidating(validating);
+        parseDomainResource(builder, jsonObject);
+        builder.identifier(parseIdentifier("identifier", getJsonValue(jsonObject, "identifier", JsonObject.class), -1));
+        builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
+        JsonArray forArray = getJsonArray(jsonObject, "for");
+        if (forArray != null) {
+            for (int i = 0; i < forArray.size(); i++) {
+                builder._for(parseReference("for", forArray.getJsonObject(i), i));
+            }
+        }
+        builder.role(parseCodeableConcept("role", getJsonValue(jsonObject, "role", JsonObject.class), -1));
+        JsonArray functionArray = getJsonArray(jsonObject, "function");
+        if (functionArray != null) {
+            for (int i = 0; i < functionArray.size(); i++) {
+                builder.function(parseCodeableConcept("function", functionArray.getJsonObject(i), i));
+            }
+        }
+        builder.allergenicIndicator(parseBoolean("allergenicIndicator", getJsonValue(jsonObject, "allergenicIndicator", JsonValue.class), jsonObject.get("_allergenicIndicator"), -1));
+        JsonArray manufacturerArray = getJsonArray(jsonObject, "manufacturer");
+        if (manufacturerArray != null) {
+            for (int i = 0; i < manufacturerArray.size(); i++) {
+                builder.manufacturer(parseIngredientManufacturer("manufacturer", manufacturerArray.getJsonObject(i), i));
+            }
+        }
+        builder.substance(parseIngredientSubstance("substance", getJsonValue(jsonObject, "substance", JsonObject.class), -1));
+        stackPop();
+        return builder.build();
+    }
+
+    private Ingredient.Manufacturer parseIngredientManufacturer(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(Ingredient.Manufacturer.class, jsonObject);
+        }
+        Ingredient.Manufacturer.Builder builder = Ingredient.Manufacturer.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.role(parseCoding("role", getJsonValue(jsonObject, "role", JsonObject.class), -1));
+        builder.manufacturer(parseReference("manufacturer", getJsonValue(jsonObject, "manufacturer", JsonObject.class), -1));
+        stackPop();
+        return builder.build();
+    }
+
+    private Ingredient.Substance parseIngredientSubstance(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(Ingredient.Substance.class, jsonObject);
+        }
+        Ingredient.Substance.Builder builder = Ingredient.Substance.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.code(parseCodeableReference("code", getJsonValue(jsonObject, "code", JsonObject.class), -1));
+        JsonArray strengthArray = getJsonArray(jsonObject, "strength");
+        if (strengthArray != null) {
+            for (int i = 0; i < strengthArray.size(); i++) {
+                builder.strength(parseIngredientSubstanceStrength("strength", strengthArray.getJsonObject(i), i));
+            }
+        }
+        stackPop();
+        return builder.build();
+    }
+
+    private Ingredient.Substance.Strength parseIngredientSubstanceStrength(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(Ingredient.Substance.Strength.class, jsonObject);
+        }
+        Ingredient.Substance.Strength.Builder builder = Ingredient.Substance.Strength.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.presentation(parseChoiceElement("presentation", jsonObject, Ratio.class, RatioRange.class));
+        builder.presentationText(parseString("presentationText", getJsonValue(jsonObject, "presentationText", JsonString.class), jsonObject.get("_presentationText"), -1));
+        builder.concentration(parseChoiceElement("concentration", jsonObject, Ratio.class, RatioRange.class));
+        builder.concentrationText(parseString("concentrationText", getJsonValue(jsonObject, "concentrationText", JsonString.class), jsonObject.get("_concentrationText"), -1));
+        builder.measurementPoint(parseString("measurementPoint", getJsonValue(jsonObject, "measurementPoint", JsonString.class), jsonObject.get("_measurementPoint"), -1));
+        JsonArray countryArray = getJsonArray(jsonObject, "country");
+        if (countryArray != null) {
+            for (int i = 0; i < countryArray.size(); i++) {
+                builder.country(parseCodeableConcept("country", countryArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray referenceStrengthArray = getJsonArray(jsonObject, "referenceStrength");
+        if (referenceStrengthArray != null) {
+            for (int i = 0; i < referenceStrengthArray.size(); i++) {
+                builder.referenceStrength(parseIngredientSubstanceStrengthReferenceStrength("referenceStrength", referenceStrengthArray.getJsonObject(i), i));
+            }
+        }
+        stackPop();
+        return builder.build();
+    }
+
+    private Ingredient.Substance.Strength.ReferenceStrength parseIngredientSubstanceStrengthReferenceStrength(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(Ingredient.Substance.Strength.ReferenceStrength.class, jsonObject);
+        }
+        Ingredient.Substance.Strength.ReferenceStrength.Builder builder = Ingredient.Substance.Strength.ReferenceStrength.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.substance(parseCodeableReference("substance", getJsonValue(jsonObject, "substance", JsonObject.class), -1));
+        builder.strength(parseChoiceElement("strength", jsonObject, Ratio.class, RatioRange.class));
+        builder.measurementPoint(parseString("measurementPoint", getJsonValue(jsonObject, "measurementPoint", JsonString.class), jsonObject.get("_measurementPoint"), -1));
+        JsonArray countryArray = getJsonArray(jsonObject, "country");
+        if (countryArray != null) {
+            for (int i = 0; i < countryArray.size(); i++) {
+                builder.country(parseCodeableConcept("country", countryArray.getJsonObject(i), i));
+            }
+        }
+        stackPop();
+        return builder.build();
+    }
+
     private Instant parseInstant(java.lang.String elementName, JsonValue jsonValue, JsonValue _jsonValue, int elementIndex) {
         if (jsonValue == null && _jsonValue == null) {
             return null;
@@ -12211,6 +13778,65 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         builder.longitude(parseDecimal("longitude", getJsonValue(jsonObject, "longitude", JsonNumber.class), jsonObject.get("_longitude"), -1));
         builder.latitude(parseDecimal("latitude", getJsonValue(jsonObject, "latitude", JsonNumber.class), jsonObject.get("_latitude"), -1));
         builder.altitude(parseDecimal("altitude", getJsonValue(jsonObject, "altitude", JsonNumber.class), jsonObject.get("_altitude"), -1));
+        stackPop();
+        return builder.build();
+    }
+
+    private ManufacturedItemDefinition parseManufacturedItemDefinition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(ManufacturedItemDefinition.class, jsonObject);
+        }
+        ManufacturedItemDefinition.Builder builder = ManufacturedItemDefinition.builder();
+        builder.setValidating(validating);
+        parseDomainResource(builder, jsonObject);
+        JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
+        if (identifierArray != null) {
+            for (int i = 0; i < identifierArray.size(); i++) {
+                builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
+            }
+        }
+        builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
+        builder.manufacturedDoseForm(parseCodeableConcept("manufacturedDoseForm", getJsonValue(jsonObject, "manufacturedDoseForm", JsonObject.class), -1));
+        builder.unitOfPresentation(parseCodeableConcept("unitOfPresentation", getJsonValue(jsonObject, "unitOfPresentation", JsonObject.class), -1));
+        JsonArray manufacturerArray = getJsonArray(jsonObject, "manufacturer");
+        if (manufacturerArray != null) {
+            for (int i = 0; i < manufacturerArray.size(); i++) {
+                builder.manufacturer(parseReference("manufacturer", manufacturerArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray ingredientArray = getJsonArray(jsonObject, "ingredient");
+        if (ingredientArray != null) {
+            for (int i = 0; i < ingredientArray.size(); i++) {
+                builder.ingredient(parseCodeableConcept("ingredient", ingredientArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray propertyArray = getJsonArray(jsonObject, "property");
+        if (propertyArray != null) {
+            for (int i = 0; i < propertyArray.size(); i++) {
+                builder.property(parseManufacturedItemDefinitionProperty("property", propertyArray.getJsonObject(i), i));
+            }
+        }
+        stackPop();
+        return builder.build();
+    }
+
+    private ManufacturedItemDefinition.Property parseManufacturedItemDefinitionProperty(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(ManufacturedItemDefinition.Property.class, jsonObject);
+        }
+        ManufacturedItemDefinition.Property.Builder builder = ManufacturedItemDefinition.Property.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
+        builder.value(parseChoiceElement("value", jsonObject, CodeableConcept.class, Quantity.class, Date.class, Boolean.class, Attachment.class));
         stackPop();
         return builder.build();
     }
@@ -13741,15 +15367,15 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         return builder.build();
     }
 
-    private MedicinalProduct parseMedicinalProduct(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicinalProductDefinition parseMedicinalProductDefinition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(MedicinalProduct.class, jsonObject);
+            checkForUnrecognizedElements(MedicinalProductDefinition.class, jsonObject);
         }
-        MedicinalProduct.Builder builder = MedicinalProduct.builder();
+        MedicinalProductDefinition.Builder builder = MedicinalProductDefinition.builder();
         builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
@@ -13759,22 +15385,32 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             }
         }
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
-        builder.domain(parseCoding("domain", getJsonValue(jsonObject, "domain", JsonObject.class), -1));
+        builder.domain(parseCodeableConcept("domain", getJsonValue(jsonObject, "domain", JsonObject.class), -1));
+        builder.version(parseString("version", getJsonValue(jsonObject, "version", JsonString.class), jsonObject.get("_version"), -1));
+        builder.status(parseCodeableConcept("status", getJsonValue(jsonObject, "status", JsonObject.class), -1));
+        builder.statusDate(parseDateTime("statusDate", getJsonValue(jsonObject, "statusDate", JsonString.class), jsonObject.get("_statusDate"), -1));
+        builder.description((Markdown) parseString(Markdown.builder(), "description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
         builder.combinedPharmaceuticalDoseForm(parseCodeableConcept("combinedPharmaceuticalDoseForm", getJsonValue(jsonObject, "combinedPharmaceuticalDoseForm", JsonObject.class), -1));
-        builder.legalStatusOfSupply(parseCodeableConcept("legalStatusOfSupply", getJsonValue(jsonObject, "legalStatusOfSupply", JsonObject.class), -1));
-        builder.additionalMonitoringIndicator(parseCodeableConcept("additionalMonitoringIndicator", getJsonValue(jsonObject, "additionalMonitoringIndicator", JsonObject.class), -1));
-        JsonArray specialMeasuresArray = getJsonArray(jsonObject, "specialMeasures", true);
-        if (specialMeasuresArray != null) {
-            JsonArray _specialMeasuresArray = jsonObject.getJsonArray("_specialMeasures");
-            for (int i = 0; i < specialMeasuresArray.size(); i++) {
-                builder.specialMeasures(parseString("specialMeasures", specialMeasuresArray.get(i), getJsonValue(_specialMeasuresArray, i), i));
+        JsonArray routeArray = getJsonArray(jsonObject, "route");
+        if (routeArray != null) {
+            for (int i = 0; i < routeArray.size(); i++) {
+                builder.route(parseCodeableConcept("route", routeArray.getJsonObject(i), i));
             }
         }
-        builder.paediatricUseIndicator(parseCodeableConcept("paediatricUseIndicator", getJsonValue(jsonObject, "paediatricUseIndicator", JsonObject.class), -1));
-        JsonArray productClassificationArray = getJsonArray(jsonObject, "productClassification");
-        if (productClassificationArray != null) {
-            for (int i = 0; i < productClassificationArray.size(); i++) {
-                builder.productClassification(parseCodeableConcept("productClassification", productClassificationArray.getJsonObject(i), i));
+        builder.indication((Markdown) parseString(Markdown.builder(), "indication", getJsonValue(jsonObject, "indication", JsonString.class), jsonObject.get("_indication"), -1));
+        builder.legalStatusOfSupply(parseCodeableConcept("legalStatusOfSupply", getJsonValue(jsonObject, "legalStatusOfSupply", JsonObject.class), -1));
+        builder.additionalMonitoringIndicator(parseCodeableConcept("additionalMonitoringIndicator", getJsonValue(jsonObject, "additionalMonitoringIndicator", JsonObject.class), -1));
+        JsonArray specialMeasuresArray = getJsonArray(jsonObject, "specialMeasures");
+        if (specialMeasuresArray != null) {
+            for (int i = 0; i < specialMeasuresArray.size(); i++) {
+                builder.specialMeasures(parseCodeableConcept("specialMeasures", specialMeasuresArray.getJsonObject(i), i));
+            }
+        }
+        builder.pediatricUseIndicator(parseCodeableConcept("pediatricUseIndicator", getJsonValue(jsonObject, "pediatricUseIndicator", JsonObject.class), -1));
+        JsonArray classificationArray = getJsonArray(jsonObject, "classification");
+        if (classificationArray != null) {
+            for (int i = 0; i < classificationArray.size(); i++) {
+                builder.classification(parseCodeableConcept("classification", classificationArray.getJsonObject(i), i));
             }
         }
         JsonArray marketingStatusArray = getJsonArray(jsonObject, "marketingStatus");
@@ -13783,16 +15419,22 @@ public class FHIRJsonParser extends FHIRAbstractParser {
                 builder.marketingStatus(parseMarketingStatus("marketingStatus", marketingStatusArray.getJsonObject(i), i));
             }
         }
-        JsonArray pharmaceuticalProductArray = getJsonArray(jsonObject, "pharmaceuticalProduct");
-        if (pharmaceuticalProductArray != null) {
-            for (int i = 0; i < pharmaceuticalProductArray.size(); i++) {
-                builder.pharmaceuticalProduct(parseReference("pharmaceuticalProduct", pharmaceuticalProductArray.getJsonObject(i), i));
-            }
-        }
         JsonArray packagedMedicinalProductArray = getJsonArray(jsonObject, "packagedMedicinalProduct");
         if (packagedMedicinalProductArray != null) {
             for (int i = 0; i < packagedMedicinalProductArray.size(); i++) {
-                builder.packagedMedicinalProduct(parseReference("packagedMedicinalProduct", packagedMedicinalProductArray.getJsonObject(i), i));
+                builder.packagedMedicinalProduct(parseCodeableConcept("packagedMedicinalProduct", packagedMedicinalProductArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray ingredientArray = getJsonArray(jsonObject, "ingredient");
+        if (ingredientArray != null) {
+            for (int i = 0; i < ingredientArray.size(); i++) {
+                builder.ingredient(parseCodeableConcept("ingredient", ingredientArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray impurityArray = getJsonArray(jsonObject, "impurity");
+        if (impurityArray != null) {
+            for (int i = 0; i < impurityArray.size(); i++) {
+                builder.impurity(parseCodeableReference("impurity", impurityArray.getJsonObject(i), i));
             }
         }
         JsonArray attachedDocumentArray = getJsonArray(jsonObject, "attachedDocument");
@@ -13810,7 +15452,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray contactArray = getJsonArray(jsonObject, "contact");
         if (contactArray != null) {
             for (int i = 0; i < contactArray.size(); i++) {
-                builder.contact(parseReference("contact", contactArray.getJsonObject(i), i));
+                builder.contact(parseMedicinalProductDefinitionContact("contact", contactArray.getJsonObject(i), i));
             }
         }
         JsonArray clinicalTrialArray = getJsonArray(jsonObject, "clinicalTrial");
@@ -13819,97 +15461,129 @@ public class FHIRJsonParser extends FHIRAbstractParser {
                 builder.clinicalTrial(parseReference("clinicalTrial", clinicalTrialArray.getJsonObject(i), i));
             }
         }
+        JsonArray codeArray = getJsonArray(jsonObject, "code");
+        if (codeArray != null) {
+            for (int i = 0; i < codeArray.size(); i++) {
+                builder.code(parseCoding("code", codeArray.getJsonObject(i), i));
+            }
+        }
         JsonArray nameArray = getJsonArray(jsonObject, "name");
         if (nameArray != null) {
             for (int i = 0; i < nameArray.size(); i++) {
-                builder.name(parseMedicinalProductName("name", nameArray.getJsonObject(i), i));
+                builder.name(parseMedicinalProductDefinitionName("name", nameArray.getJsonObject(i), i));
             }
         }
         JsonArray crossReferenceArray = getJsonArray(jsonObject, "crossReference");
         if (crossReferenceArray != null) {
             for (int i = 0; i < crossReferenceArray.size(); i++) {
-                builder.crossReference(parseIdentifier("crossReference", crossReferenceArray.getJsonObject(i), i));
+                builder.crossReference(parseMedicinalProductDefinitionCrossReference("crossReference", crossReferenceArray.getJsonObject(i), i));
             }
         }
-        JsonArray manufacturingBusinessOperationArray = getJsonArray(jsonObject, "manufacturingBusinessOperation");
-        if (manufacturingBusinessOperationArray != null) {
-            for (int i = 0; i < manufacturingBusinessOperationArray.size(); i++) {
-                builder.manufacturingBusinessOperation(parseMedicinalProductManufacturingBusinessOperation("manufacturingBusinessOperation", manufacturingBusinessOperationArray.getJsonObject(i), i));
+        JsonArray operationArray = getJsonArray(jsonObject, "operation");
+        if (operationArray != null) {
+            for (int i = 0; i < operationArray.size(); i++) {
+                builder.operation(parseMedicinalProductDefinitionOperation("operation", operationArray.getJsonObject(i), i));
             }
         }
-        JsonArray specialDesignationArray = getJsonArray(jsonObject, "specialDesignation");
-        if (specialDesignationArray != null) {
-            for (int i = 0; i < specialDesignationArray.size(); i++) {
-                builder.specialDesignation(parseMedicinalProductSpecialDesignation("specialDesignation", specialDesignationArray.getJsonObject(i), i));
+        JsonArray characteristicArray = getJsonArray(jsonObject, "characteristic");
+        if (characteristicArray != null) {
+            for (int i = 0; i < characteristicArray.size(); i++) {
+                builder.characteristic(parseMedicinalProductDefinitionCharacteristic("characteristic", characteristicArray.getJsonObject(i), i));
             }
         }
         stackPop();
         return builder.build();
     }
 
-    private MedicinalProduct.ManufacturingBusinessOperation parseMedicinalProductManufacturingBusinessOperation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicinalProductDefinition.Characteristic parseMedicinalProductDefinitionCharacteristic(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(MedicinalProduct.ManufacturingBusinessOperation.class, jsonObject);
+            checkForUnrecognizedElements(MedicinalProductDefinition.Characteristic.class, jsonObject);
         }
-        MedicinalProduct.ManufacturingBusinessOperation.Builder builder = MedicinalProduct.ManufacturingBusinessOperation.builder();
+        MedicinalProductDefinition.Characteristic.Builder builder = MedicinalProductDefinition.Characteristic.builder();
         builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
-        builder.operationType(parseCodeableConcept("operationType", getJsonValue(jsonObject, "operationType", JsonObject.class), -1));
-        builder.authorisationReferenceNumber(parseIdentifier("authorisationReferenceNumber", getJsonValue(jsonObject, "authorisationReferenceNumber", JsonObject.class), -1));
-        builder.effectiveDate(parseDateTime("effectiveDate", getJsonValue(jsonObject, "effectiveDate", JsonString.class), jsonObject.get("_effectiveDate"), -1));
-        builder.confidentialityIndicator(parseCodeableConcept("confidentialityIndicator", getJsonValue(jsonObject, "confidentialityIndicator", JsonObject.class), -1));
-        JsonArray manufacturerArray = getJsonArray(jsonObject, "manufacturer");
-        if (manufacturerArray != null) {
-            for (int i = 0; i < manufacturerArray.size(); i++) {
-                builder.manufacturer(parseReference("manufacturer", manufacturerArray.getJsonObject(i), i));
-            }
-        }
-        builder.regulator(parseReference("regulator", getJsonValue(jsonObject, "regulator", JsonObject.class), -1));
+        builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
+        builder.value(parseChoiceElement("value", jsonObject, CodeableConcept.class, Quantity.class, Date.class, Boolean.class, Attachment.class));
         stackPop();
         return builder.build();
     }
 
-    private MedicinalProduct.Name parseMedicinalProductName(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicinalProductDefinition.Contact parseMedicinalProductDefinitionContact(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(MedicinalProduct.Name.class, jsonObject);
+            checkForUnrecognizedElements(MedicinalProductDefinition.Contact.class, jsonObject);
         }
-        MedicinalProduct.Name.Builder builder = MedicinalProduct.Name.builder();
+        MedicinalProductDefinition.Contact.Builder builder = MedicinalProductDefinition.Contact.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
+        builder.contact(parseReference("contact", getJsonValue(jsonObject, "contact", JsonObject.class), -1));
+        stackPop();
+        return builder.build();
+    }
+
+    private MedicinalProductDefinition.CrossReference parseMedicinalProductDefinitionCrossReference(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(MedicinalProductDefinition.CrossReference.class, jsonObject);
+        }
+        MedicinalProductDefinition.CrossReference.Builder builder = MedicinalProductDefinition.CrossReference.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.product(parseCodeableReference("product", getJsonValue(jsonObject, "product", JsonObject.class), -1));
+        builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
+        stackPop();
+        return builder.build();
+    }
+
+    private MedicinalProductDefinition.Name parseMedicinalProductDefinitionName(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(MedicinalProductDefinition.Name.class, jsonObject);
+        }
+        MedicinalProductDefinition.Name.Builder builder = MedicinalProductDefinition.Name.builder();
         builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.productName(parseString("productName", getJsonValue(jsonObject, "productName", JsonString.class), jsonObject.get("_productName"), -1));
+        builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
         JsonArray namePartArray = getJsonArray(jsonObject, "namePart");
         if (namePartArray != null) {
             for (int i = 0; i < namePartArray.size(); i++) {
-                builder.namePart(parseMedicinalProductNameNamePart("namePart", namePartArray.getJsonObject(i), i));
+                builder.namePart(parseMedicinalProductDefinitionNameNamePart("namePart", namePartArray.getJsonObject(i), i));
             }
         }
         JsonArray countryLanguageArray = getJsonArray(jsonObject, "countryLanguage");
         if (countryLanguageArray != null) {
             for (int i = 0; i < countryLanguageArray.size(); i++) {
-                builder.countryLanguage(parseMedicinalProductNameCountryLanguage("countryLanguage", countryLanguageArray.getJsonObject(i), i));
+                builder.countryLanguage(parseMedicinalProductDefinitionNameCountryLanguage("countryLanguage", countryLanguageArray.getJsonObject(i), i));
             }
         }
         stackPop();
         return builder.build();
     }
 
-    private MedicinalProduct.Name.CountryLanguage parseMedicinalProductNameCountryLanguage(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicinalProductDefinition.Name.CountryLanguage parseMedicinalProductDefinitionNameCountryLanguage(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(MedicinalProduct.Name.CountryLanguage.class, jsonObject);
+            checkForUnrecognizedElements(MedicinalProductDefinition.Name.CountryLanguage.class, jsonObject);
         }
-        MedicinalProduct.Name.CountryLanguage.Builder builder = MedicinalProduct.Name.CountryLanguage.builder();
+        MedicinalProductDefinition.Name.CountryLanguage.Builder builder = MedicinalProductDefinition.Name.CountryLanguage.builder();
         builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.country(parseCodeableConcept("country", getJsonValue(jsonObject, "country", JsonObject.class), -1));
@@ -13919,804 +15593,43 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         return builder.build();
     }
 
-    private MedicinalProduct.Name.NamePart parseMedicinalProductNameNamePart(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicinalProductDefinition.Name.NamePart parseMedicinalProductDefinitionNameNamePart(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(MedicinalProduct.Name.NamePart.class, jsonObject);
+            checkForUnrecognizedElements(MedicinalProductDefinition.Name.NamePart.class, jsonObject);
         }
-        MedicinalProduct.Name.NamePart.Builder builder = MedicinalProduct.Name.NamePart.builder();
+        MedicinalProductDefinition.Name.NamePart.Builder builder = MedicinalProductDefinition.Name.NamePart.builder();
         builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.part(parseString("part", getJsonValue(jsonObject, "part", JsonString.class), jsonObject.get("_part"), -1));
-        builder.type(parseCoding("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
-        stackPop();
-        return builder.build();
-    }
-
-    private MedicinalProduct.SpecialDesignation parseMedicinalProductSpecialDesignation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(MedicinalProduct.SpecialDesignation.class, jsonObject);
-        }
-        MedicinalProduct.SpecialDesignation.Builder builder = MedicinalProduct.SpecialDesignation.builder();
-        builder.setValidating(validating);
-        parseBackboneElement(builder, jsonObject);
-        JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
-        if (identifierArray != null) {
-            for (int i = 0; i < identifierArray.size(); i++) {
-                builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
-            }
-        }
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
-        builder.intendedUse(parseCodeableConcept("intendedUse", getJsonValue(jsonObject, "intendedUse", JsonObject.class), -1));
-        builder.indication(parseChoiceElement("indication", jsonObject, CodeableConcept.class, Reference.class));
-        builder.status(parseCodeableConcept("status", getJsonValue(jsonObject, "status", JsonObject.class), -1));
-        builder.date(parseDateTime("date", getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
-        builder.species(parseCodeableConcept("species", getJsonValue(jsonObject, "species", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    private MedicinalProductAuthorization parseMedicinalProductAuthorization(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicinalProductDefinition.Operation parseMedicinalProductDefinitionOperation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(MedicinalProductAuthorization.class, jsonObject);
+            checkForUnrecognizedElements(MedicinalProductDefinition.Operation.class, jsonObject);
         }
-        MedicinalProductAuthorization.Builder builder = MedicinalProductAuthorization.builder();
-        builder.setValidating(validating);
-        parseDomainResource(builder, jsonObject);
-        JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
-        if (identifierArray != null) {
-            for (int i = 0; i < identifierArray.size(); i++) {
-                builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
-            }
-        }
-        builder.subject(parseReference("subject", getJsonValue(jsonObject, "subject", JsonObject.class), -1));
-        JsonArray countryArray = getJsonArray(jsonObject, "country");
-        if (countryArray != null) {
-            for (int i = 0; i < countryArray.size(); i++) {
-                builder.country(parseCodeableConcept("country", countryArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray jurisdictionArray = getJsonArray(jsonObject, "jurisdiction");
-        if (jurisdictionArray != null) {
-            for (int i = 0; i < jurisdictionArray.size(); i++) {
-                builder.jurisdiction(parseCodeableConcept("jurisdiction", jurisdictionArray.getJsonObject(i), i));
-            }
-        }
-        builder.status(parseCodeableConcept("status", getJsonValue(jsonObject, "status", JsonObject.class), -1));
-        builder.statusDate(parseDateTime("statusDate", getJsonValue(jsonObject, "statusDate", JsonString.class), jsonObject.get("_statusDate"), -1));
-        builder.restoreDate(parseDateTime("restoreDate", getJsonValue(jsonObject, "restoreDate", JsonString.class), jsonObject.get("_restoreDate"), -1));
-        builder.validityPeriod(parsePeriod("validityPeriod", getJsonValue(jsonObject, "validityPeriod", JsonObject.class), -1));
-        builder.dataExclusivityPeriod(parsePeriod("dataExclusivityPeriod", getJsonValue(jsonObject, "dataExclusivityPeriod", JsonObject.class), -1));
-        builder.dateOfFirstAuthorization(parseDateTime("dateOfFirstAuthorization", getJsonValue(jsonObject, "dateOfFirstAuthorization", JsonString.class), jsonObject.get("_dateOfFirstAuthorization"), -1));
-        builder.internationalBirthDate(parseDateTime("internationalBirthDate", getJsonValue(jsonObject, "internationalBirthDate", JsonString.class), jsonObject.get("_internationalBirthDate"), -1));
-        builder.legalBasis(parseCodeableConcept("legalBasis", getJsonValue(jsonObject, "legalBasis", JsonObject.class), -1));
-        JsonArray jurisdictionalAuthorizationArray = getJsonArray(jsonObject, "jurisdictionalAuthorization");
-        if (jurisdictionalAuthorizationArray != null) {
-            for (int i = 0; i < jurisdictionalAuthorizationArray.size(); i++) {
-                builder.jurisdictionalAuthorization(parseMedicinalProductAuthorizationJurisdictionalAuthorization("jurisdictionalAuthorization", jurisdictionalAuthorizationArray.getJsonObject(i), i));
-            }
-        }
-        builder.holder(parseReference("holder", getJsonValue(jsonObject, "holder", JsonObject.class), -1));
-        builder.regulator(parseReference("regulator", getJsonValue(jsonObject, "regulator", JsonObject.class), -1));
-        builder.procedure(parseMedicinalProductAuthorizationProcedure("procedure", getJsonValue(jsonObject, "procedure", JsonObject.class), -1));
-        stackPop();
-        return builder.build();
-    }
-
-    private MedicinalProductAuthorization.JurisdictionalAuthorization parseMedicinalProductAuthorizationJurisdictionalAuthorization(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(MedicinalProductAuthorization.JurisdictionalAuthorization.class, jsonObject);
-        }
-        MedicinalProductAuthorization.JurisdictionalAuthorization.Builder builder = MedicinalProductAuthorization.JurisdictionalAuthorization.builder();
+        MedicinalProductDefinition.Operation.Builder builder = MedicinalProductDefinition.Operation.builder();
         builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
-        JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
-        if (identifierArray != null) {
-            for (int i = 0; i < identifierArray.size(); i++) {
-                builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
+        builder.type(parseCodeableReference("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
+        builder.effectiveDate(parsePeriod("effectiveDate", getJsonValue(jsonObject, "effectiveDate", JsonObject.class), -1));
+        JsonArray organizationArray = getJsonArray(jsonObject, "organization");
+        if (organizationArray != null) {
+            for (int i = 0; i < organizationArray.size(); i++) {
+                builder.organization(parseReference("organization", organizationArray.getJsonObject(i), i));
             }
         }
-        builder.country(parseCodeableConcept("country", getJsonValue(jsonObject, "country", JsonObject.class), -1));
-        JsonArray jurisdictionArray = getJsonArray(jsonObject, "jurisdiction");
-        if (jurisdictionArray != null) {
-            for (int i = 0; i < jurisdictionArray.size(); i++) {
-                builder.jurisdiction(parseCodeableConcept("jurisdiction", jurisdictionArray.getJsonObject(i), i));
-            }
-        }
-        builder.legalStatusOfSupply(parseCodeableConcept("legalStatusOfSupply", getJsonValue(jsonObject, "legalStatusOfSupply", JsonObject.class), -1));
-        builder.validityPeriod(parsePeriod("validityPeriod", getJsonValue(jsonObject, "validityPeriod", JsonObject.class), -1));
-        stackPop();
-        return builder.build();
-    }
-
-    private MedicinalProductAuthorization.Procedure parseMedicinalProductAuthorizationProcedure(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(MedicinalProductAuthorization.Procedure.class, jsonObject);
-        }
-        MedicinalProductAuthorization.Procedure.Builder builder = MedicinalProductAuthorization.Procedure.builder();
-        builder.setValidating(validating);
-        parseBackboneElement(builder, jsonObject);
-        builder.identifier(parseIdentifier("identifier", getJsonValue(jsonObject, "identifier", JsonObject.class), -1));
-        builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
-        builder.date(parseChoiceElement("date", jsonObject, Period.class, DateTime.class));
-        JsonArray applicationArray = getJsonArray(jsonObject, "application");
-        if (applicationArray != null) {
-            for (int i = 0; i < applicationArray.size(); i++) {
-                builder.application(parseMedicinalProductAuthorizationProcedure("application", applicationArray.getJsonObject(i), i));
-            }
-        }
-        stackPop();
-        return builder.build();
-    }
-
-    private MedicinalProductContraindication parseMedicinalProductContraindication(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(MedicinalProductContraindication.class, jsonObject);
-        }
-        MedicinalProductContraindication.Builder builder = MedicinalProductContraindication.builder();
-        builder.setValidating(validating);
-        parseDomainResource(builder, jsonObject);
-        JsonArray subjectArray = getJsonArray(jsonObject, "subject");
-        if (subjectArray != null) {
-            for (int i = 0; i < subjectArray.size(); i++) {
-                builder.subject(parseReference("subject", subjectArray.getJsonObject(i), i));
-            }
-        }
-        builder.disease(parseCodeableConcept("disease", getJsonValue(jsonObject, "disease", JsonObject.class), -1));
-        builder.diseaseStatus(parseCodeableConcept("diseaseStatus", getJsonValue(jsonObject, "diseaseStatus", JsonObject.class), -1));
-        JsonArray comorbidityArray = getJsonArray(jsonObject, "comorbidity");
-        if (comorbidityArray != null) {
-            for (int i = 0; i < comorbidityArray.size(); i++) {
-                builder.comorbidity(parseCodeableConcept("comorbidity", comorbidityArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray therapeuticIndicationArray = getJsonArray(jsonObject, "therapeuticIndication");
-        if (therapeuticIndicationArray != null) {
-            for (int i = 0; i < therapeuticIndicationArray.size(); i++) {
-                builder.therapeuticIndication(parseReference("therapeuticIndication", therapeuticIndicationArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray otherTherapyArray = getJsonArray(jsonObject, "otherTherapy");
-        if (otherTherapyArray != null) {
-            for (int i = 0; i < otherTherapyArray.size(); i++) {
-                builder.otherTherapy(parseMedicinalProductContraindicationOtherTherapy("otherTherapy", otherTherapyArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray populationArray = getJsonArray(jsonObject, "population");
-        if (populationArray != null) {
-            for (int i = 0; i < populationArray.size(); i++) {
-                builder.population(parsePopulation("population", populationArray.getJsonObject(i), i));
-            }
-        }
-        stackPop();
-        return builder.build();
-    }
-
-    private MedicinalProductContraindication.OtherTherapy parseMedicinalProductContraindicationOtherTherapy(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(MedicinalProductContraindication.OtherTherapy.class, jsonObject);
-        }
-        MedicinalProductContraindication.OtherTherapy.Builder builder = MedicinalProductContraindication.OtherTherapy.builder();
-        builder.setValidating(validating);
-        parseBackboneElement(builder, jsonObject);
-        builder.therapyRelationshipType(parseCodeableConcept("therapyRelationshipType", getJsonValue(jsonObject, "therapyRelationshipType", JsonObject.class), -1));
-        builder.medication(parseChoiceElement("medication", jsonObject, CodeableConcept.class, Reference.class));
-        stackPop();
-        return builder.build();
-    }
-
-    private MedicinalProductIndication parseMedicinalProductIndication(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(MedicinalProductIndication.class, jsonObject);
-        }
-        MedicinalProductIndication.Builder builder = MedicinalProductIndication.builder();
-        builder.setValidating(validating);
-        parseDomainResource(builder, jsonObject);
-        JsonArray subjectArray = getJsonArray(jsonObject, "subject");
-        if (subjectArray != null) {
-            for (int i = 0; i < subjectArray.size(); i++) {
-                builder.subject(parseReference("subject", subjectArray.getJsonObject(i), i));
-            }
-        }
-        builder.diseaseSymptomProcedure(parseCodeableConcept("diseaseSymptomProcedure", getJsonValue(jsonObject, "diseaseSymptomProcedure", JsonObject.class), -1));
-        builder.diseaseStatus(parseCodeableConcept("diseaseStatus", getJsonValue(jsonObject, "diseaseStatus", JsonObject.class), -1));
-        JsonArray comorbidityArray = getJsonArray(jsonObject, "comorbidity");
-        if (comorbidityArray != null) {
-            for (int i = 0; i < comorbidityArray.size(); i++) {
-                builder.comorbidity(parseCodeableConcept("comorbidity", comorbidityArray.getJsonObject(i), i));
-            }
-        }
-        builder.intendedEffect(parseCodeableConcept("intendedEffect", getJsonValue(jsonObject, "intendedEffect", JsonObject.class), -1));
-        builder.duration(parseQuantity("duration", getJsonValue(jsonObject, "duration", JsonObject.class), -1));
-        JsonArray otherTherapyArray = getJsonArray(jsonObject, "otherTherapy");
-        if (otherTherapyArray != null) {
-            for (int i = 0; i < otherTherapyArray.size(); i++) {
-                builder.otherTherapy(parseMedicinalProductIndicationOtherTherapy("otherTherapy", otherTherapyArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray undesirableEffectArray = getJsonArray(jsonObject, "undesirableEffect");
-        if (undesirableEffectArray != null) {
-            for (int i = 0; i < undesirableEffectArray.size(); i++) {
-                builder.undesirableEffect(parseReference("undesirableEffect", undesirableEffectArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray populationArray = getJsonArray(jsonObject, "population");
-        if (populationArray != null) {
-            for (int i = 0; i < populationArray.size(); i++) {
-                builder.population(parsePopulation("population", populationArray.getJsonObject(i), i));
-            }
-        }
-        stackPop();
-        return builder.build();
-    }
-
-    private MedicinalProductIndication.OtherTherapy parseMedicinalProductIndicationOtherTherapy(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(MedicinalProductIndication.OtherTherapy.class, jsonObject);
-        }
-        MedicinalProductIndication.OtherTherapy.Builder builder = MedicinalProductIndication.OtherTherapy.builder();
-        builder.setValidating(validating);
-        parseBackboneElement(builder, jsonObject);
-        builder.therapyRelationshipType(parseCodeableConcept("therapyRelationshipType", getJsonValue(jsonObject, "therapyRelationshipType", JsonObject.class), -1));
-        builder.medication(parseChoiceElement("medication", jsonObject, CodeableConcept.class, Reference.class));
-        stackPop();
-        return builder.build();
-    }
-
-    private MedicinalProductIngredient parseMedicinalProductIngredient(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(MedicinalProductIngredient.class, jsonObject);
-        }
-        MedicinalProductIngredient.Builder builder = MedicinalProductIngredient.builder();
-        builder.setValidating(validating);
-        parseDomainResource(builder, jsonObject);
-        builder.identifier(parseIdentifier("identifier", getJsonValue(jsonObject, "identifier", JsonObject.class), -1));
-        builder.role(parseCodeableConcept("role", getJsonValue(jsonObject, "role", JsonObject.class), -1));
-        builder.allergenicIndicator(parseBoolean("allergenicIndicator", getJsonValue(jsonObject, "allergenicIndicator", JsonValue.class), jsonObject.get("_allergenicIndicator"), -1));
-        JsonArray manufacturerArray = getJsonArray(jsonObject, "manufacturer");
-        if (manufacturerArray != null) {
-            for (int i = 0; i < manufacturerArray.size(); i++) {
-                builder.manufacturer(parseReference("manufacturer", manufacturerArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray specifiedSubstanceArray = getJsonArray(jsonObject, "specifiedSubstance");
-        if (specifiedSubstanceArray != null) {
-            for (int i = 0; i < specifiedSubstanceArray.size(); i++) {
-                builder.specifiedSubstance(parseMedicinalProductIngredientSpecifiedSubstance("specifiedSubstance", specifiedSubstanceArray.getJsonObject(i), i));
-            }
-        }
-        builder.substance(parseMedicinalProductIngredientSubstance("substance", getJsonValue(jsonObject, "substance", JsonObject.class), -1));
-        stackPop();
-        return builder.build();
-    }
-
-    private MedicinalProductIngredient.SpecifiedSubstance parseMedicinalProductIngredientSpecifiedSubstance(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(MedicinalProductIngredient.SpecifiedSubstance.class, jsonObject);
-        }
-        MedicinalProductIngredient.SpecifiedSubstance.Builder builder = MedicinalProductIngredient.SpecifiedSubstance.builder();
-        builder.setValidating(validating);
-        parseBackboneElement(builder, jsonObject);
-        builder.code(parseCodeableConcept("code", getJsonValue(jsonObject, "code", JsonObject.class), -1));
-        builder.group(parseCodeableConcept("group", getJsonValue(jsonObject, "group", JsonObject.class), -1));
-        builder.confidentiality(parseCodeableConcept("confidentiality", getJsonValue(jsonObject, "confidentiality", JsonObject.class), -1));
-        JsonArray strengthArray = getJsonArray(jsonObject, "strength");
-        if (strengthArray != null) {
-            for (int i = 0; i < strengthArray.size(); i++) {
-                builder.strength(parseMedicinalProductIngredientSpecifiedSubstanceStrength("strength", strengthArray.getJsonObject(i), i));
-            }
-        }
-        stackPop();
-        return builder.build();
-    }
-
-    private MedicinalProductIngredient.SpecifiedSubstance.Strength parseMedicinalProductIngredientSpecifiedSubstanceStrength(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(MedicinalProductIngredient.SpecifiedSubstance.Strength.class, jsonObject);
-        }
-        MedicinalProductIngredient.SpecifiedSubstance.Strength.Builder builder = MedicinalProductIngredient.SpecifiedSubstance.Strength.builder();
-        builder.setValidating(validating);
-        parseBackboneElement(builder, jsonObject);
-        builder.presentation(parseRatio("presentation", getJsonValue(jsonObject, "presentation", JsonObject.class), -1));
-        builder.presentationLowLimit(parseRatio("presentationLowLimit", getJsonValue(jsonObject, "presentationLowLimit", JsonObject.class), -1));
-        builder.concentration(parseRatio("concentration", getJsonValue(jsonObject, "concentration", JsonObject.class), -1));
-        builder.concentrationLowLimit(parseRatio("concentrationLowLimit", getJsonValue(jsonObject, "concentrationLowLimit", JsonObject.class), -1));
-        builder.measurementPoint(parseString("measurementPoint", getJsonValue(jsonObject, "measurementPoint", JsonString.class), jsonObject.get("_measurementPoint"), -1));
-        JsonArray countryArray = getJsonArray(jsonObject, "country");
-        if (countryArray != null) {
-            for (int i = 0; i < countryArray.size(); i++) {
-                builder.country(parseCodeableConcept("country", countryArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray referenceStrengthArray = getJsonArray(jsonObject, "referenceStrength");
-        if (referenceStrengthArray != null) {
-            for (int i = 0; i < referenceStrengthArray.size(); i++) {
-                builder.referenceStrength(parseMedicinalProductIngredientSpecifiedSubstanceStrengthReferenceStrength("referenceStrength", referenceStrengthArray.getJsonObject(i), i));
-            }
-        }
-        stackPop();
-        return builder.build();
-    }
-
-    private MedicinalProductIngredient.SpecifiedSubstance.Strength.ReferenceStrength parseMedicinalProductIngredientSpecifiedSubstanceStrengthReferenceStrength(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(MedicinalProductIngredient.SpecifiedSubstance.Strength.ReferenceStrength.class, jsonObject);
-        }
-        MedicinalProductIngredient.SpecifiedSubstance.Strength.ReferenceStrength.Builder builder = MedicinalProductIngredient.SpecifiedSubstance.Strength.ReferenceStrength.builder();
-        builder.setValidating(validating);
-        parseBackboneElement(builder, jsonObject);
-        builder.substance(parseCodeableConcept("substance", getJsonValue(jsonObject, "substance", JsonObject.class), -1));
-        builder.strength(parseRatio("strength", getJsonValue(jsonObject, "strength", JsonObject.class), -1));
-        builder.strengthLowLimit(parseRatio("strengthLowLimit", getJsonValue(jsonObject, "strengthLowLimit", JsonObject.class), -1));
-        builder.measurementPoint(parseString("measurementPoint", getJsonValue(jsonObject, "measurementPoint", JsonString.class), jsonObject.get("_measurementPoint"), -1));
-        JsonArray countryArray = getJsonArray(jsonObject, "country");
-        if (countryArray != null) {
-            for (int i = 0; i < countryArray.size(); i++) {
-                builder.country(parseCodeableConcept("country", countryArray.getJsonObject(i), i));
-            }
-        }
-        stackPop();
-        return builder.build();
-    }
-
-    private MedicinalProductIngredient.Substance parseMedicinalProductIngredientSubstance(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(MedicinalProductIngredient.Substance.class, jsonObject);
-        }
-        MedicinalProductIngredient.Substance.Builder builder = MedicinalProductIngredient.Substance.builder();
-        builder.setValidating(validating);
-        parseBackboneElement(builder, jsonObject);
-        builder.code(parseCodeableConcept("code", getJsonValue(jsonObject, "code", JsonObject.class), -1));
-        JsonArray strengthArray = getJsonArray(jsonObject, "strength");
-        if (strengthArray != null) {
-            for (int i = 0; i < strengthArray.size(); i++) {
-                builder.strength(parseMedicinalProductIngredientSpecifiedSubstanceStrength("strength", strengthArray.getJsonObject(i), i));
-            }
-        }
-        stackPop();
-        return builder.build();
-    }
-
-    private MedicinalProductInteraction parseMedicinalProductInteraction(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(MedicinalProductInteraction.class, jsonObject);
-        }
-        MedicinalProductInteraction.Builder builder = MedicinalProductInteraction.builder();
-        builder.setValidating(validating);
-        parseDomainResource(builder, jsonObject);
-        JsonArray subjectArray = getJsonArray(jsonObject, "subject");
-        if (subjectArray != null) {
-            for (int i = 0; i < subjectArray.size(); i++) {
-                builder.subject(parseReference("subject", subjectArray.getJsonObject(i), i));
-            }
-        }
-        builder.description(parseString("description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
-        JsonArray interactantArray = getJsonArray(jsonObject, "interactant");
-        if (interactantArray != null) {
-            for (int i = 0; i < interactantArray.size(); i++) {
-                builder.interactant(parseMedicinalProductInteractionInteractant("interactant", interactantArray.getJsonObject(i), i));
-            }
-        }
-        builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
-        builder.effect(parseCodeableConcept("effect", getJsonValue(jsonObject, "effect", JsonObject.class), -1));
-        builder.incidence(parseCodeableConcept("incidence", getJsonValue(jsonObject, "incidence", JsonObject.class), -1));
-        builder.management(parseCodeableConcept("management", getJsonValue(jsonObject, "management", JsonObject.class), -1));
-        stackPop();
-        return builder.build();
-    }
-
-    private MedicinalProductInteraction.Interactant parseMedicinalProductInteractionInteractant(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(MedicinalProductInteraction.Interactant.class, jsonObject);
-        }
-        MedicinalProductInteraction.Interactant.Builder builder = MedicinalProductInteraction.Interactant.builder();
-        builder.setValidating(validating);
-        parseBackboneElement(builder, jsonObject);
-        builder.item(parseChoiceElement("item", jsonObject, Reference.class, CodeableConcept.class));
-        stackPop();
-        return builder.build();
-    }
-
-    private MedicinalProductManufactured parseMedicinalProductManufactured(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(MedicinalProductManufactured.class, jsonObject);
-        }
-        MedicinalProductManufactured.Builder builder = MedicinalProductManufactured.builder();
-        builder.setValidating(validating);
-        parseDomainResource(builder, jsonObject);
-        builder.manufacturedDoseForm(parseCodeableConcept("manufacturedDoseForm", getJsonValue(jsonObject, "manufacturedDoseForm", JsonObject.class), -1));
-        builder.unitOfPresentation(parseCodeableConcept("unitOfPresentation", getJsonValue(jsonObject, "unitOfPresentation", JsonObject.class), -1));
-        builder.quantity(parseQuantity("quantity", getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
-        JsonArray manufacturerArray = getJsonArray(jsonObject, "manufacturer");
-        if (manufacturerArray != null) {
-            for (int i = 0; i < manufacturerArray.size(); i++) {
-                builder.manufacturer(parseReference("manufacturer", manufacturerArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray ingredientArray = getJsonArray(jsonObject, "ingredient");
-        if (ingredientArray != null) {
-            for (int i = 0; i < ingredientArray.size(); i++) {
-                builder.ingredient(parseReference("ingredient", ingredientArray.getJsonObject(i), i));
-            }
-        }
-        builder.physicalCharacteristics(parseProdCharacteristic("physicalCharacteristics", getJsonValue(jsonObject, "physicalCharacteristics", JsonObject.class), -1));
-        JsonArray otherCharacteristicsArray = getJsonArray(jsonObject, "otherCharacteristics");
-        if (otherCharacteristicsArray != null) {
-            for (int i = 0; i < otherCharacteristicsArray.size(); i++) {
-                builder.otherCharacteristics(parseCodeableConcept("otherCharacteristics", otherCharacteristicsArray.getJsonObject(i), i));
-            }
-        }
-        stackPop();
-        return builder.build();
-    }
-
-    private MedicinalProductPackaged parseMedicinalProductPackaged(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(MedicinalProductPackaged.class, jsonObject);
-        }
-        MedicinalProductPackaged.Builder builder = MedicinalProductPackaged.builder();
-        builder.setValidating(validating);
-        parseDomainResource(builder, jsonObject);
-        JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
-        if (identifierArray != null) {
-            for (int i = 0; i < identifierArray.size(); i++) {
-                builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray subjectArray = getJsonArray(jsonObject, "subject");
-        if (subjectArray != null) {
-            for (int i = 0; i < subjectArray.size(); i++) {
-                builder.subject(parseReference("subject", subjectArray.getJsonObject(i), i));
-            }
-        }
-        builder.description(parseString("description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
-        builder.legalStatusOfSupply(parseCodeableConcept("legalStatusOfSupply", getJsonValue(jsonObject, "legalStatusOfSupply", JsonObject.class), -1));
-        JsonArray marketingStatusArray = getJsonArray(jsonObject, "marketingStatus");
-        if (marketingStatusArray != null) {
-            for (int i = 0; i < marketingStatusArray.size(); i++) {
-                builder.marketingStatus(parseMarketingStatus("marketingStatus", marketingStatusArray.getJsonObject(i), i));
-            }
-        }
-        builder.marketingAuthorization(parseReference("marketingAuthorization", getJsonValue(jsonObject, "marketingAuthorization", JsonObject.class), -1));
-        JsonArray manufacturerArray = getJsonArray(jsonObject, "manufacturer");
-        if (manufacturerArray != null) {
-            for (int i = 0; i < manufacturerArray.size(); i++) {
-                builder.manufacturer(parseReference("manufacturer", manufacturerArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray batchIdentifierArray = getJsonArray(jsonObject, "batchIdentifier");
-        if (batchIdentifierArray != null) {
-            for (int i = 0; i < batchIdentifierArray.size(); i++) {
-                builder.batchIdentifier(parseMedicinalProductPackagedBatchIdentifier("batchIdentifier", batchIdentifierArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray packageItemArray = getJsonArray(jsonObject, "packageItem");
-        if (packageItemArray != null) {
-            for (int i = 0; i < packageItemArray.size(); i++) {
-                builder.packageItem(parseMedicinalProductPackagedPackageItem("packageItem", packageItemArray.getJsonObject(i), i));
-            }
-        }
-        stackPop();
-        return builder.build();
-    }
-
-    private MedicinalProductPackaged.BatchIdentifier parseMedicinalProductPackagedBatchIdentifier(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(MedicinalProductPackaged.BatchIdentifier.class, jsonObject);
-        }
-        MedicinalProductPackaged.BatchIdentifier.Builder builder = MedicinalProductPackaged.BatchIdentifier.builder();
-        builder.setValidating(validating);
-        parseBackboneElement(builder, jsonObject);
-        builder.outerPackaging(parseIdentifier("outerPackaging", getJsonValue(jsonObject, "outerPackaging", JsonObject.class), -1));
-        builder.immediatePackaging(parseIdentifier("immediatePackaging", getJsonValue(jsonObject, "immediatePackaging", JsonObject.class), -1));
-        stackPop();
-        return builder.build();
-    }
-
-    private MedicinalProductPackaged.PackageItem parseMedicinalProductPackagedPackageItem(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(MedicinalProductPackaged.PackageItem.class, jsonObject);
-        }
-        MedicinalProductPackaged.PackageItem.Builder builder = MedicinalProductPackaged.PackageItem.builder();
-        builder.setValidating(validating);
-        parseBackboneElement(builder, jsonObject);
-        JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
-        if (identifierArray != null) {
-            for (int i = 0; i < identifierArray.size(); i++) {
-                builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
-            }
-        }
-        builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
-        builder.quantity(parseQuantity("quantity", getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
-        JsonArray materialArray = getJsonArray(jsonObject, "material");
-        if (materialArray != null) {
-            for (int i = 0; i < materialArray.size(); i++) {
-                builder.material(parseCodeableConcept("material", materialArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray alternateMaterialArray = getJsonArray(jsonObject, "alternateMaterial");
-        if (alternateMaterialArray != null) {
-            for (int i = 0; i < alternateMaterialArray.size(); i++) {
-                builder.alternateMaterial(parseCodeableConcept("alternateMaterial", alternateMaterialArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray deviceArray = getJsonArray(jsonObject, "device");
-        if (deviceArray != null) {
-            for (int i = 0; i < deviceArray.size(); i++) {
-                builder.device(parseReference("device", deviceArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray manufacturedItemArray = getJsonArray(jsonObject, "manufacturedItem");
-        if (manufacturedItemArray != null) {
-            for (int i = 0; i < manufacturedItemArray.size(); i++) {
-                builder.manufacturedItem(parseReference("manufacturedItem", manufacturedItemArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray packageItemArray = getJsonArray(jsonObject, "packageItem");
-        if (packageItemArray != null) {
-            for (int i = 0; i < packageItemArray.size(); i++) {
-                builder.packageItem(parseMedicinalProductPackagedPackageItem("packageItem", packageItemArray.getJsonObject(i), i));
-            }
-        }
-        builder.physicalCharacteristics(parseProdCharacteristic("physicalCharacteristics", getJsonValue(jsonObject, "physicalCharacteristics", JsonObject.class), -1));
-        JsonArray otherCharacteristicsArray = getJsonArray(jsonObject, "otherCharacteristics");
-        if (otherCharacteristicsArray != null) {
-            for (int i = 0; i < otherCharacteristicsArray.size(); i++) {
-                builder.otherCharacteristics(parseCodeableConcept("otherCharacteristics", otherCharacteristicsArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray shelfLifeStorageArray = getJsonArray(jsonObject, "shelfLifeStorage");
-        if (shelfLifeStorageArray != null) {
-            for (int i = 0; i < shelfLifeStorageArray.size(); i++) {
-                builder.shelfLifeStorage(parseProductShelfLife("shelfLifeStorage", shelfLifeStorageArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray manufacturerArray = getJsonArray(jsonObject, "manufacturer");
-        if (manufacturerArray != null) {
-            for (int i = 0; i < manufacturerArray.size(); i++) {
-                builder.manufacturer(parseReference("manufacturer", manufacturerArray.getJsonObject(i), i));
-            }
-        }
-        stackPop();
-        return builder.build();
-    }
-
-    private MedicinalProductPharmaceutical parseMedicinalProductPharmaceutical(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(MedicinalProductPharmaceutical.class, jsonObject);
-        }
-        MedicinalProductPharmaceutical.Builder builder = MedicinalProductPharmaceutical.builder();
-        builder.setValidating(validating);
-        parseDomainResource(builder, jsonObject);
-        JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
-        if (identifierArray != null) {
-            for (int i = 0; i < identifierArray.size(); i++) {
-                builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
-            }
-        }
-        builder.administrableDoseForm(parseCodeableConcept("administrableDoseForm", getJsonValue(jsonObject, "administrableDoseForm", JsonObject.class), -1));
-        builder.unitOfPresentation(parseCodeableConcept("unitOfPresentation", getJsonValue(jsonObject, "unitOfPresentation", JsonObject.class), -1));
-        JsonArray ingredientArray = getJsonArray(jsonObject, "ingredient");
-        if (ingredientArray != null) {
-            for (int i = 0; i < ingredientArray.size(); i++) {
-                builder.ingredient(parseReference("ingredient", ingredientArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray deviceArray = getJsonArray(jsonObject, "device");
-        if (deviceArray != null) {
-            for (int i = 0; i < deviceArray.size(); i++) {
-                builder.device(parseReference("device", deviceArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray characteristicsArray = getJsonArray(jsonObject, "characteristics");
-        if (characteristicsArray != null) {
-            for (int i = 0; i < characteristicsArray.size(); i++) {
-                builder.characteristics(parseMedicinalProductPharmaceuticalCharacteristics("characteristics", characteristicsArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray routeOfAdministrationArray = getJsonArray(jsonObject, "routeOfAdministration");
-        if (routeOfAdministrationArray != null) {
-            for (int i = 0; i < routeOfAdministrationArray.size(); i++) {
-                builder.routeOfAdministration(parseMedicinalProductPharmaceuticalRouteOfAdministration("routeOfAdministration", routeOfAdministrationArray.getJsonObject(i), i));
-            }
-        }
-        stackPop();
-        return builder.build();
-    }
-
-    private MedicinalProductPharmaceutical.Characteristics parseMedicinalProductPharmaceuticalCharacteristics(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(MedicinalProductPharmaceutical.Characteristics.class, jsonObject);
-        }
-        MedicinalProductPharmaceutical.Characteristics.Builder builder = MedicinalProductPharmaceutical.Characteristics.builder();
-        builder.setValidating(validating);
-        parseBackboneElement(builder, jsonObject);
-        builder.code(parseCodeableConcept("code", getJsonValue(jsonObject, "code", JsonObject.class), -1));
-        builder.status(parseCodeableConcept("status", getJsonValue(jsonObject, "status", JsonObject.class), -1));
-        stackPop();
-        return builder.build();
-    }
-
-    private MedicinalProductPharmaceutical.RouteOfAdministration parseMedicinalProductPharmaceuticalRouteOfAdministration(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(MedicinalProductPharmaceutical.RouteOfAdministration.class, jsonObject);
-        }
-        MedicinalProductPharmaceutical.RouteOfAdministration.Builder builder = MedicinalProductPharmaceutical.RouteOfAdministration.builder();
-        builder.setValidating(validating);
-        parseBackboneElement(builder, jsonObject);
-        builder.code(parseCodeableConcept("code", getJsonValue(jsonObject, "code", JsonObject.class), -1));
-        builder.firstDose(parseQuantity("firstDose", getJsonValue(jsonObject, "firstDose", JsonObject.class), -1));
-        builder.maxSingleDose(parseQuantity("maxSingleDose", getJsonValue(jsonObject, "maxSingleDose", JsonObject.class), -1));
-        builder.maxDosePerDay(parseQuantity("maxDosePerDay", getJsonValue(jsonObject, "maxDosePerDay", JsonObject.class), -1));
-        builder.maxDosePerTreatmentPeriod(parseRatio("maxDosePerTreatmentPeriod", getJsonValue(jsonObject, "maxDosePerTreatmentPeriod", JsonObject.class), -1));
-        builder.maxTreatmentPeriod((Duration) parseQuantity(Duration.builder(), "maxTreatmentPeriod", getJsonValue(jsonObject, "maxTreatmentPeriod", JsonObject.class), -1));
-        JsonArray targetSpeciesArray = getJsonArray(jsonObject, "targetSpecies");
-        if (targetSpeciesArray != null) {
-            for (int i = 0; i < targetSpeciesArray.size(); i++) {
-                builder.targetSpecies(parseMedicinalProductPharmaceuticalRouteOfAdministrationTargetSpecies("targetSpecies", targetSpeciesArray.getJsonObject(i), i));
-            }
-        }
-        stackPop();
-        return builder.build();
-    }
-
-    private MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies parseMedicinalProductPharmaceuticalRouteOfAdministrationTargetSpecies(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.class, jsonObject);
-        }
-        MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.Builder builder = MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.builder();
-        builder.setValidating(validating);
-        parseBackboneElement(builder, jsonObject);
-        builder.code(parseCodeableConcept("code", getJsonValue(jsonObject, "code", JsonObject.class), -1));
-        JsonArray withdrawalPeriodArray = getJsonArray(jsonObject, "withdrawalPeriod");
-        if (withdrawalPeriodArray != null) {
-            for (int i = 0; i < withdrawalPeriodArray.size(); i++) {
-                builder.withdrawalPeriod(parseMedicinalProductPharmaceuticalRouteOfAdministrationTargetSpeciesWithdrawalPeriod("withdrawalPeriod", withdrawalPeriodArray.getJsonObject(i), i));
-            }
-        }
-        stackPop();
-        return builder.build();
-    }
-
-    private MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.WithdrawalPeriod parseMedicinalProductPharmaceuticalRouteOfAdministrationTargetSpeciesWithdrawalPeriod(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.WithdrawalPeriod.class, jsonObject);
-        }
-        MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.WithdrawalPeriod.Builder builder = MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.WithdrawalPeriod.builder();
-        builder.setValidating(validating);
-        parseBackboneElement(builder, jsonObject);
-        builder.tissue(parseCodeableConcept("tissue", getJsonValue(jsonObject, "tissue", JsonObject.class), -1));
-        builder.value(parseQuantity("value", getJsonValue(jsonObject, "value", JsonObject.class), -1));
-        builder.supportingInformation(parseString("supportingInformation", getJsonValue(jsonObject, "supportingInformation", JsonString.class), jsonObject.get("_supportingInformation"), -1));
-        stackPop();
-        return builder.build();
-    }
-
-    private MedicinalProductUndesirableEffect parseMedicinalProductUndesirableEffect(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(MedicinalProductUndesirableEffect.class, jsonObject);
-        }
-        MedicinalProductUndesirableEffect.Builder builder = MedicinalProductUndesirableEffect.builder();
-        builder.setValidating(validating);
-        parseDomainResource(builder, jsonObject);
-        JsonArray subjectArray = getJsonArray(jsonObject, "subject");
-        if (subjectArray != null) {
-            for (int i = 0; i < subjectArray.size(); i++) {
-                builder.subject(parseReference("subject", subjectArray.getJsonObject(i), i));
-            }
-        }
-        builder.symptomConditionEffect(parseCodeableConcept("symptomConditionEffect", getJsonValue(jsonObject, "symptomConditionEffect", JsonObject.class), -1));
-        builder.classification(parseCodeableConcept("classification", getJsonValue(jsonObject, "classification", JsonObject.class), -1));
-        builder.frequencyOfOccurrence(parseCodeableConcept("frequencyOfOccurrence", getJsonValue(jsonObject, "frequencyOfOccurrence", JsonObject.class), -1));
-        JsonArray populationArray = getJsonArray(jsonObject, "population");
-        if (populationArray != null) {
-            for (int i = 0; i < populationArray.size(); i++) {
-                builder.population(parsePopulation("population", populationArray.getJsonObject(i), i));
-            }
-        }
+        builder.confidentialityIndicator(parseCodeableConcept("confidentialityIndicator", getJsonValue(jsonObject, "confidentialityIndicator", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
@@ -15583,6 +16496,152 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         return builder.build();
     }
 
+    private NutritionProduct parseNutritionProduct(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(NutritionProduct.class, jsonObject);
+        }
+        NutritionProduct.Builder builder = NutritionProduct.builder();
+        builder.setValidating(validating);
+        parseDomainResource(builder, jsonObject);
+        builder.status((NutritionProductStatus) parseString(NutritionProductStatus.builder(), "status", getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
+        JsonArray categoryArray = getJsonArray(jsonObject, "category");
+        if (categoryArray != null) {
+            for (int i = 0; i < categoryArray.size(); i++) {
+                builder.category(parseCodeableConcept("category", categoryArray.getJsonObject(i), i));
+            }
+        }
+        builder.code(parseCodeableConcept("code", getJsonValue(jsonObject, "code", JsonObject.class), -1));
+        JsonArray manufacturerArray = getJsonArray(jsonObject, "manufacturer");
+        if (manufacturerArray != null) {
+            for (int i = 0; i < manufacturerArray.size(); i++) {
+                builder.manufacturer(parseReference("manufacturer", manufacturerArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray nutrientArray = getJsonArray(jsonObject, "nutrient");
+        if (nutrientArray != null) {
+            for (int i = 0; i < nutrientArray.size(); i++) {
+                builder.nutrient(parseNutritionProductNutrient("nutrient", nutrientArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray ingredientArray = getJsonArray(jsonObject, "ingredient");
+        if (ingredientArray != null) {
+            for (int i = 0; i < ingredientArray.size(); i++) {
+                builder.ingredient(parseNutritionProductIngredient("ingredient", ingredientArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray knownAllergenArray = getJsonArray(jsonObject, "knownAllergen");
+        if (knownAllergenArray != null) {
+            for (int i = 0; i < knownAllergenArray.size(); i++) {
+                builder.knownAllergen(parseCodeableReference("knownAllergen", knownAllergenArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray productCharacteristicArray = getJsonArray(jsonObject, "productCharacteristic");
+        if (productCharacteristicArray != null) {
+            for (int i = 0; i < productCharacteristicArray.size(); i++) {
+                builder.productCharacteristic(parseNutritionProductProductCharacteristic("productCharacteristic", productCharacteristicArray.getJsonObject(i), i));
+            }
+        }
+        builder.instance(parseNutritionProductInstance("instance", getJsonValue(jsonObject, "instance", JsonObject.class), -1));
+        JsonArray noteArray = getJsonArray(jsonObject, "note");
+        if (noteArray != null) {
+            for (int i = 0; i < noteArray.size(); i++) {
+                builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
+            }
+        }
+        stackPop();
+        return builder.build();
+    }
+
+    private NutritionProduct.Ingredient parseNutritionProductIngredient(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(NutritionProduct.Ingredient.class, jsonObject);
+        }
+        NutritionProduct.Ingredient.Builder builder = NutritionProduct.Ingredient.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.item(parseCodeableReference("item", getJsonValue(jsonObject, "item", JsonObject.class), -1));
+        JsonArray amountArray = getJsonArray(jsonObject, "amount");
+        if (amountArray != null) {
+            for (int i = 0; i < amountArray.size(); i++) {
+                builder.amount(parseRatio("amount", amountArray.getJsonObject(i), i));
+            }
+        }
+        stackPop();
+        return builder.build();
+    }
+
+    private NutritionProduct.Instance parseNutritionProductInstance(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(NutritionProduct.Instance.class, jsonObject);
+        }
+        NutritionProduct.Instance.Builder builder = NutritionProduct.Instance.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.quantity((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "quantity", getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
+        JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
+        if (identifierArray != null) {
+            for (int i = 0; i < identifierArray.size(); i++) {
+                builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
+            }
+        }
+        builder.lotNumber(parseString("lotNumber", getJsonValue(jsonObject, "lotNumber", JsonString.class), jsonObject.get("_lotNumber"), -1));
+        builder.expiry(parseDateTime("expiry", getJsonValue(jsonObject, "expiry", JsonString.class), jsonObject.get("_expiry"), -1));
+        builder.useBy(parseDateTime("useBy", getJsonValue(jsonObject, "useBy", JsonString.class), jsonObject.get("_useBy"), -1));
+        stackPop();
+        return builder.build();
+    }
+
+    private NutritionProduct.Nutrient parseNutritionProductNutrient(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(NutritionProduct.Nutrient.class, jsonObject);
+        }
+        NutritionProduct.Nutrient.Builder builder = NutritionProduct.Nutrient.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.item(parseCodeableReference("item", getJsonValue(jsonObject, "item", JsonObject.class), -1));
+        JsonArray amountArray = getJsonArray(jsonObject, "amount");
+        if (amountArray != null) {
+            for (int i = 0; i < amountArray.size(); i++) {
+                builder.amount(parseRatio("amount", amountArray.getJsonObject(i), i));
+            }
+        }
+        stackPop();
+        return builder.build();
+    }
+
+    private NutritionProduct.ProductCharacteristic parseNutritionProductProductCharacteristic(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(NutritionProduct.ProductCharacteristic.class, jsonObject);
+        }
+        NutritionProduct.ProductCharacteristic.Builder builder = NutritionProduct.ProductCharacteristic.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
+        builder.value(parseChoiceElement("value", jsonObject, CodeableConcept.class, String.class, SimpleQuantity.class, Base64Binary.class, Attachment.class, Boolean.class));
+        stackPop();
+        return builder.build();
+    }
+
     private Observation parseObservation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
@@ -16211,6 +17270,186 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         return builder.build();
     }
 
+    private PackagedProductDefinition parsePackagedProductDefinition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(PackagedProductDefinition.class, jsonObject);
+        }
+        PackagedProductDefinition.Builder builder = PackagedProductDefinition.builder();
+        builder.setValidating(validating);
+        parseDomainResource(builder, jsonObject);
+        JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
+        if (identifierArray != null) {
+            for (int i = 0; i < identifierArray.size(); i++) {
+                builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
+            }
+        }
+        builder.name(parseString("name", getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
+        builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
+        JsonArray packageForArray = getJsonArray(jsonObject, "packageFor");
+        if (packageForArray != null) {
+            for (int i = 0; i < packageForArray.size(); i++) {
+                builder.packageFor(parseReference("packageFor", packageForArray.getJsonObject(i), i));
+            }
+        }
+        builder.status(parseCodeableConcept("status", getJsonValue(jsonObject, "status", JsonObject.class), -1));
+        builder.statusDate(parseDateTime("statusDate", getJsonValue(jsonObject, "statusDate", JsonString.class), jsonObject.get("_statusDate"), -1));
+        JsonArray containedItemQuantityArray = getJsonArray(jsonObject, "containedItemQuantity");
+        if (containedItemQuantityArray != null) {
+            for (int i = 0; i < containedItemQuantityArray.size(); i++) {
+                builder.containedItemQuantity(parseQuantity("containedItemQuantity", containedItemQuantityArray.getJsonObject(i), i));
+            }
+        }
+        builder.description((Markdown) parseString(Markdown.builder(), "description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
+        JsonArray legalStatusOfSupplyArray = getJsonArray(jsonObject, "legalStatusOfSupply");
+        if (legalStatusOfSupplyArray != null) {
+            for (int i = 0; i < legalStatusOfSupplyArray.size(); i++) {
+                builder.legalStatusOfSupply(parsePackagedProductDefinitionLegalStatusOfSupply("legalStatusOfSupply", legalStatusOfSupplyArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray marketingStatusArray = getJsonArray(jsonObject, "marketingStatus");
+        if (marketingStatusArray != null) {
+            for (int i = 0; i < marketingStatusArray.size(); i++) {
+                builder.marketingStatus(parseMarketingStatus("marketingStatus", marketingStatusArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray characteristicArray = getJsonArray(jsonObject, "characteristic");
+        if (characteristicArray != null) {
+            for (int i = 0; i < characteristicArray.size(); i++) {
+                builder.characteristic(parseCodeableConcept("characteristic", characteristicArray.getJsonObject(i), i));
+            }
+        }
+        builder.copackagedIndicator(parseBoolean("copackagedIndicator", getJsonValue(jsonObject, "copackagedIndicator", JsonValue.class), jsonObject.get("_copackagedIndicator"), -1));
+        JsonArray manufacturerArray = getJsonArray(jsonObject, "manufacturer");
+        if (manufacturerArray != null) {
+            for (int i = 0; i < manufacturerArray.size(); i++) {
+                builder.manufacturer(parseReference("manufacturer", manufacturerArray.getJsonObject(i), i));
+            }
+        }
+        builder._package(parsePackagedProductDefinitionPackage("package", getJsonValue(jsonObject, "package", JsonObject.class), -1));
+        stackPop();
+        return builder.build();
+    }
+
+    private PackagedProductDefinition.LegalStatusOfSupply parsePackagedProductDefinitionLegalStatusOfSupply(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(PackagedProductDefinition.LegalStatusOfSupply.class, jsonObject);
+        }
+        PackagedProductDefinition.LegalStatusOfSupply.Builder builder = PackagedProductDefinition.LegalStatusOfSupply.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.code(parseCodeableConcept("code", getJsonValue(jsonObject, "code", JsonObject.class), -1));
+        builder.jurisdiction(parseCodeableConcept("jurisdiction", getJsonValue(jsonObject, "jurisdiction", JsonObject.class), -1));
+        stackPop();
+        return builder.build();
+    }
+
+    private PackagedProductDefinition.Package parsePackagedProductDefinitionPackage(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(PackagedProductDefinition.Package.class, jsonObject);
+        }
+        PackagedProductDefinition.Package.Builder builder = PackagedProductDefinition.Package.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
+        if (identifierArray != null) {
+            for (int i = 0; i < identifierArray.size(); i++) {
+                builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
+            }
+        }
+        builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
+        builder.quantity(parseInteger("quantity", getJsonValue(jsonObject, "quantity", JsonNumber.class), jsonObject.get("_quantity"), -1));
+        JsonArray materialArray = getJsonArray(jsonObject, "material");
+        if (materialArray != null) {
+            for (int i = 0; i < materialArray.size(); i++) {
+                builder.material(parseCodeableConcept("material", materialArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray alternateMaterialArray = getJsonArray(jsonObject, "alternateMaterial");
+        if (alternateMaterialArray != null) {
+            for (int i = 0; i < alternateMaterialArray.size(); i++) {
+                builder.alternateMaterial(parseCodeableConcept("alternateMaterial", alternateMaterialArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray shelfLifeStorageArray = getJsonArray(jsonObject, "shelfLifeStorage");
+        if (shelfLifeStorageArray != null) {
+            for (int i = 0; i < shelfLifeStorageArray.size(); i++) {
+                builder.shelfLifeStorage(parseProductShelfLife("shelfLifeStorage", shelfLifeStorageArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray manufacturerArray = getJsonArray(jsonObject, "manufacturer");
+        if (manufacturerArray != null) {
+            for (int i = 0; i < manufacturerArray.size(); i++) {
+                builder.manufacturer(parseReference("manufacturer", manufacturerArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray propertyArray = getJsonArray(jsonObject, "property");
+        if (propertyArray != null) {
+            for (int i = 0; i < propertyArray.size(); i++) {
+                builder.property(parsePackagedProductDefinitionPackageProperty("property", propertyArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray containedItemArray = getJsonArray(jsonObject, "containedItem");
+        if (containedItemArray != null) {
+            for (int i = 0; i < containedItemArray.size(); i++) {
+                builder.containedItem(parsePackagedProductDefinitionPackageContainedItem("containedItem", containedItemArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray packageArray = getJsonArray(jsonObject, "package");
+        if (packageArray != null) {
+            for (int i = 0; i < packageArray.size(); i++) {
+                builder._package(parsePackagedProductDefinitionPackage("package", packageArray.getJsonObject(i), i));
+            }
+        }
+        stackPop();
+        return builder.build();
+    }
+
+    private PackagedProductDefinition.Package.ContainedItem parsePackagedProductDefinitionPackageContainedItem(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(PackagedProductDefinition.Package.ContainedItem.class, jsonObject);
+        }
+        PackagedProductDefinition.Package.ContainedItem.Builder builder = PackagedProductDefinition.Package.ContainedItem.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.item(parseCodeableReference("item", getJsonValue(jsonObject, "item", JsonObject.class), -1));
+        builder.amount(parseQuantity("amount", getJsonValue(jsonObject, "amount", JsonObject.class), -1));
+        stackPop();
+        return builder.build();
+    }
+
+    private PackagedProductDefinition.Package.Property parsePackagedProductDefinitionPackageProperty(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(PackagedProductDefinition.Package.Property.class, jsonObject);
+        }
+        PackagedProductDefinition.Package.Property.Builder builder = PackagedProductDefinition.Package.Property.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
+        builder.value(parseChoiceElement("value", jsonObject, CodeableConcept.class, Quantity.class, Date.class, Boolean.class, Attachment.class));
+        stackPop();
+        return builder.build();
+    }
+
     private ParameterDefinition parseParameterDefinition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
@@ -16648,7 +17887,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.experimental(parseBoolean("experimental", getJsonValue(jsonObject, "experimental", JsonValue.class), jsonObject.get("_experimental"), -1));
-        builder.subject(parseChoiceElement("subject", jsonObject, CodeableConcept.class, Reference.class));
+        builder.subject(parseChoiceElement("subject", jsonObject, CodeableConcept.class, Reference.class, Canonical.class));
         builder.date(parseDateTime("date", getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
         builder.publisher(parseString("publisher", getJsonValue(jsonObject, "publisher", JsonString.class), jsonObject.get("_publisher"), -1));
         JsonArray contactArray = getJsonArray(jsonObject, "contact");
@@ -16776,7 +18015,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
                 builder.goalId((Id) parseString(Id.builder(), "goalId", goalIdArray.get(i), getJsonValue(_goalIdArray, i), i));
             }
         }
-        builder.subject(parseChoiceElement("subject", jsonObject, CodeableConcept.class, Reference.class));
+        builder.subject(parseChoiceElement("subject", jsonObject, CodeableConcept.class, Reference.class, Canonical.class));
         JsonArray triggerArray = getJsonArray(jsonObject, "trigger");
         if (triggerArray != null) {
             for (int i = 0; i < triggerArray.size(); i++) {
@@ -17400,9 +18639,8 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         ProductShelfLife.Builder builder = ProductShelfLife.builder();
         builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
-        builder.identifier(parseIdentifier("identifier", getJsonValue(jsonObject, "identifier", JsonObject.class), -1));
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
-        builder.period(parseQuantity("period", getJsonValue(jsonObject, "period", JsonObject.class), -1));
+        builder.period(parseChoiceElement("period", jsonObject, Duration.class, String.class));
         JsonArray specialPrecautionsForStorageArray = getJsonArray(jsonObject, "specialPrecautionsForStorage");
         if (specialPrecautionsForStorageArray != null) {
             for (int i = 0; i < specialPrecautionsForStorageArray.size(); i++) {
@@ -17852,6 +19090,24 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         return builder.build();
     }
 
+    private RatioRange parseRatioRange(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(RatioRange.class, jsonObject);
+        }
+        RatioRange.Builder builder = RatioRange.builder();
+        builder.setValidating(validating);
+        parseDataType(builder, jsonObject);
+        builder.lowNumerator((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "lowNumerator", getJsonValue(jsonObject, "lowNumerator", JsonObject.class), -1));
+        builder.highNumerator((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "highNumerator", getJsonValue(jsonObject, "highNumerator", JsonObject.class), -1));
+        builder.denominator((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "denominator", getJsonValue(jsonObject, "denominator", JsonObject.class), -1));
+        stackPop();
+        return builder.build();
+    }
+
     private Reference parseReference(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
@@ -17867,6 +19123,80 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         builder.type(parseUri("type", getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         builder.identifier(parseIdentifier("identifier", getJsonValue(jsonObject, "identifier", JsonObject.class), -1));
         builder.display(parseString("display", getJsonValue(jsonObject, "display", JsonString.class), jsonObject.get("_display"), -1));
+        stackPop();
+        return builder.build();
+    }
+
+    private RegulatedAuthorization parseRegulatedAuthorization(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(RegulatedAuthorization.class, jsonObject);
+        }
+        RegulatedAuthorization.Builder builder = RegulatedAuthorization.builder();
+        builder.setValidating(validating);
+        parseDomainResource(builder, jsonObject);
+        JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
+        if (identifierArray != null) {
+            for (int i = 0; i < identifierArray.size(); i++) {
+                builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray subjectArray = getJsonArray(jsonObject, "subject");
+        if (subjectArray != null) {
+            for (int i = 0; i < subjectArray.size(); i++) {
+                builder.subject(parseReference("subject", subjectArray.getJsonObject(i), i));
+            }
+        }
+        builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
+        builder.description((Markdown) parseString(Markdown.builder(), "description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
+        JsonArray regionArray = getJsonArray(jsonObject, "region");
+        if (regionArray != null) {
+            for (int i = 0; i < regionArray.size(); i++) {
+                builder.region(parseCodeableConcept("region", regionArray.getJsonObject(i), i));
+            }
+        }
+        builder.status(parseCodeableConcept("status", getJsonValue(jsonObject, "status", JsonObject.class), -1));
+        builder.statusDate(parseDateTime("statusDate", getJsonValue(jsonObject, "statusDate", JsonString.class), jsonObject.get("_statusDate"), -1));
+        builder.validityPeriod(parsePeriod("validityPeriod", getJsonValue(jsonObject, "validityPeriod", JsonObject.class), -1));
+        builder.indication(parseCodeableReference("indication", getJsonValue(jsonObject, "indication", JsonObject.class), -1));
+        builder.intendedUse(parseCodeableConcept("intendedUse", getJsonValue(jsonObject, "intendedUse", JsonObject.class), -1));
+        JsonArray basisArray = getJsonArray(jsonObject, "basis");
+        if (basisArray != null) {
+            for (int i = 0; i < basisArray.size(); i++) {
+                builder.basis(parseCodeableConcept("basis", basisArray.getJsonObject(i), i));
+            }
+        }
+        builder.holder(parseReference("holder", getJsonValue(jsonObject, "holder", JsonObject.class), -1));
+        builder.regulator(parseReference("regulator", getJsonValue(jsonObject, "regulator", JsonObject.class), -1));
+        builder._case(parseRegulatedAuthorizationCase("case", getJsonValue(jsonObject, "case", JsonObject.class), -1));
+        stackPop();
+        return builder.build();
+    }
+
+    private RegulatedAuthorization.Case parseRegulatedAuthorizationCase(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(RegulatedAuthorization.Case.class, jsonObject);
+        }
+        RegulatedAuthorization.Case.Builder builder = RegulatedAuthorization.Case.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.identifier(parseIdentifier("identifier", getJsonValue(jsonObject, "identifier", JsonObject.class), -1));
+        builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
+        builder.status(parseCodeableConcept("status", getJsonValue(jsonObject, "status", JsonObject.class), -1));
+        builder.date(parseChoiceElement("date", jsonObject, Period.class, DateTime.class));
+        JsonArray applicationArray = getJsonArray(jsonObject, "application");
+        if (applicationArray != null) {
+            for (int i = 0; i < applicationArray.size(); i++) {
+                builder.application(parseRegulatedAuthorizationCase("application", applicationArray.getJsonObject(i), i));
+            }
+        }
         stackPop();
         return builder.build();
     }
@@ -18673,237 +20003,6 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         builder.relativeRisk(parseDecimal("relativeRisk", getJsonValue(jsonObject, "relativeRisk", JsonNumber.class), jsonObject.get("_relativeRisk"), -1));
         builder.when(parseChoiceElement("when", jsonObject, Period.class, Range.class));
         builder.rationale(parseString("rationale", getJsonValue(jsonObject, "rationale", JsonString.class), jsonObject.get("_rationale"), -1));
-        stackPop();
-        return builder.build();
-    }
-
-    private RiskEvidenceSynthesis parseRiskEvidenceSynthesis(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(RiskEvidenceSynthesis.class, jsonObject);
-        }
-        RiskEvidenceSynthesis.Builder builder = RiskEvidenceSynthesis.builder();
-        builder.setValidating(validating);
-        parseDomainResource(builder, jsonObject);
-        builder.url(parseUri("url", getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
-        JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
-        if (identifierArray != null) {
-            for (int i = 0; i < identifierArray.size(); i++) {
-                builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
-            }
-        }
-        builder.version(parseString("version", getJsonValue(jsonObject, "version", JsonString.class), jsonObject.get("_version"), -1));
-        builder.name(parseString("name", getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
-        builder.title(parseString("title", getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1));
-        builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
-        builder.date(parseDateTime("date", getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
-        builder.publisher(parseString("publisher", getJsonValue(jsonObject, "publisher", JsonString.class), jsonObject.get("_publisher"), -1));
-        JsonArray contactArray = getJsonArray(jsonObject, "contact");
-        if (contactArray != null) {
-            for (int i = 0; i < contactArray.size(); i++) {
-                builder.contact(parseContactDetail("contact", contactArray.getJsonObject(i), i));
-            }
-        }
-        builder.description((Markdown) parseString(Markdown.builder(), "description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
-        JsonArray noteArray = getJsonArray(jsonObject, "note");
-        if (noteArray != null) {
-            for (int i = 0; i < noteArray.size(); i++) {
-                builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray useContextArray = getJsonArray(jsonObject, "useContext");
-        if (useContextArray != null) {
-            for (int i = 0; i < useContextArray.size(); i++) {
-                builder.useContext(parseUsageContext("useContext", useContextArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray jurisdictionArray = getJsonArray(jsonObject, "jurisdiction");
-        if (jurisdictionArray != null) {
-            for (int i = 0; i < jurisdictionArray.size(); i++) {
-                builder.jurisdiction(parseCodeableConcept("jurisdiction", jurisdictionArray.getJsonObject(i), i));
-            }
-        }
-        builder.copyright((Markdown) parseString(Markdown.builder(), "copyright", getJsonValue(jsonObject, "copyright", JsonString.class), jsonObject.get("_copyright"), -1));
-        builder.approvalDate(parseDate("approvalDate", getJsonValue(jsonObject, "approvalDate", JsonString.class), jsonObject.get("_approvalDate"), -1));
-        builder.lastReviewDate(parseDate("lastReviewDate", getJsonValue(jsonObject, "lastReviewDate", JsonString.class), jsonObject.get("_lastReviewDate"), -1));
-        builder.effectivePeriod(parsePeriod("effectivePeriod", getJsonValue(jsonObject, "effectivePeriod", JsonObject.class), -1));
-        JsonArray topicArray = getJsonArray(jsonObject, "topic");
-        if (topicArray != null) {
-            for (int i = 0; i < topicArray.size(); i++) {
-                builder.topic(parseCodeableConcept("topic", topicArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray authorArray = getJsonArray(jsonObject, "author");
-        if (authorArray != null) {
-            for (int i = 0; i < authorArray.size(); i++) {
-                builder.author(parseContactDetail("author", authorArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray editorArray = getJsonArray(jsonObject, "editor");
-        if (editorArray != null) {
-            for (int i = 0; i < editorArray.size(); i++) {
-                builder.editor(parseContactDetail("editor", editorArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray reviewerArray = getJsonArray(jsonObject, "reviewer");
-        if (reviewerArray != null) {
-            for (int i = 0; i < reviewerArray.size(); i++) {
-                builder.reviewer(parseContactDetail("reviewer", reviewerArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray endorserArray = getJsonArray(jsonObject, "endorser");
-        if (endorserArray != null) {
-            for (int i = 0; i < endorserArray.size(); i++) {
-                builder.endorser(parseContactDetail("endorser", endorserArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray relatedArtifactArray = getJsonArray(jsonObject, "relatedArtifact");
-        if (relatedArtifactArray != null) {
-            for (int i = 0; i < relatedArtifactArray.size(); i++) {
-                builder.relatedArtifact(parseRelatedArtifact("relatedArtifact", relatedArtifactArray.getJsonObject(i), i));
-            }
-        }
-        builder.synthesisType(parseCodeableConcept("synthesisType", getJsonValue(jsonObject, "synthesisType", JsonObject.class), -1));
-        builder.studyType(parseCodeableConcept("studyType", getJsonValue(jsonObject, "studyType", JsonObject.class), -1));
-        builder.population(parseReference("population", getJsonValue(jsonObject, "population", JsonObject.class), -1));
-        builder.exposure(parseReference("exposure", getJsonValue(jsonObject, "exposure", JsonObject.class), -1));
-        builder.outcome(parseReference("outcome", getJsonValue(jsonObject, "outcome", JsonObject.class), -1));
-        builder.sampleSize(parseRiskEvidenceSynthesisSampleSize("sampleSize", getJsonValue(jsonObject, "sampleSize", JsonObject.class), -1));
-        builder.riskEstimate(parseRiskEvidenceSynthesisRiskEstimate("riskEstimate", getJsonValue(jsonObject, "riskEstimate", JsonObject.class), -1));
-        JsonArray certaintyArray = getJsonArray(jsonObject, "certainty");
-        if (certaintyArray != null) {
-            for (int i = 0; i < certaintyArray.size(); i++) {
-                builder.certainty(parseRiskEvidenceSynthesisCertainty("certainty", certaintyArray.getJsonObject(i), i));
-            }
-        }
-        stackPop();
-        return builder.build();
-    }
-
-    private RiskEvidenceSynthesis.Certainty parseRiskEvidenceSynthesisCertainty(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(RiskEvidenceSynthesis.Certainty.class, jsonObject);
-        }
-        RiskEvidenceSynthesis.Certainty.Builder builder = RiskEvidenceSynthesis.Certainty.builder();
-        builder.setValidating(validating);
-        parseBackboneElement(builder, jsonObject);
-        JsonArray ratingArray = getJsonArray(jsonObject, "rating");
-        if (ratingArray != null) {
-            for (int i = 0; i < ratingArray.size(); i++) {
-                builder.rating(parseCodeableConcept("rating", ratingArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray noteArray = getJsonArray(jsonObject, "note");
-        if (noteArray != null) {
-            for (int i = 0; i < noteArray.size(); i++) {
-                builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray certaintySubcomponentArray = getJsonArray(jsonObject, "certaintySubcomponent");
-        if (certaintySubcomponentArray != null) {
-            for (int i = 0; i < certaintySubcomponentArray.size(); i++) {
-                builder.certaintySubcomponent(parseRiskEvidenceSynthesisCertaintyCertaintySubcomponent("certaintySubcomponent", certaintySubcomponentArray.getJsonObject(i), i));
-            }
-        }
-        stackPop();
-        return builder.build();
-    }
-
-    private RiskEvidenceSynthesis.Certainty.CertaintySubcomponent parseRiskEvidenceSynthesisCertaintyCertaintySubcomponent(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(RiskEvidenceSynthesis.Certainty.CertaintySubcomponent.class, jsonObject);
-        }
-        RiskEvidenceSynthesis.Certainty.CertaintySubcomponent.Builder builder = RiskEvidenceSynthesis.Certainty.CertaintySubcomponent.builder();
-        builder.setValidating(validating);
-        parseBackboneElement(builder, jsonObject);
-        builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
-        JsonArray ratingArray = getJsonArray(jsonObject, "rating");
-        if (ratingArray != null) {
-            for (int i = 0; i < ratingArray.size(); i++) {
-                builder.rating(parseCodeableConcept("rating", ratingArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray noteArray = getJsonArray(jsonObject, "note");
-        if (noteArray != null) {
-            for (int i = 0; i < noteArray.size(); i++) {
-                builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
-            }
-        }
-        stackPop();
-        return builder.build();
-    }
-
-    private RiskEvidenceSynthesis.RiskEstimate parseRiskEvidenceSynthesisRiskEstimate(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(RiskEvidenceSynthesis.RiskEstimate.class, jsonObject);
-        }
-        RiskEvidenceSynthesis.RiskEstimate.Builder builder = RiskEvidenceSynthesis.RiskEstimate.builder();
-        builder.setValidating(validating);
-        parseBackboneElement(builder, jsonObject);
-        builder.description(parseString("description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
-        builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
-        builder.value(parseDecimal("value", getJsonValue(jsonObject, "value", JsonNumber.class), jsonObject.get("_value"), -1));
-        builder.unitOfMeasure(parseCodeableConcept("unitOfMeasure", getJsonValue(jsonObject, "unitOfMeasure", JsonObject.class), -1));
-        builder.denominatorCount(parseInteger("denominatorCount", getJsonValue(jsonObject, "denominatorCount", JsonNumber.class), jsonObject.get("_denominatorCount"), -1));
-        builder.numeratorCount(parseInteger("numeratorCount", getJsonValue(jsonObject, "numeratorCount", JsonNumber.class), jsonObject.get("_numeratorCount"), -1));
-        JsonArray precisionEstimateArray = getJsonArray(jsonObject, "precisionEstimate");
-        if (precisionEstimateArray != null) {
-            for (int i = 0; i < precisionEstimateArray.size(); i++) {
-                builder.precisionEstimate(parseRiskEvidenceSynthesisRiskEstimatePrecisionEstimate("precisionEstimate", precisionEstimateArray.getJsonObject(i), i));
-            }
-        }
-        stackPop();
-        return builder.build();
-    }
-
-    private RiskEvidenceSynthesis.RiskEstimate.PrecisionEstimate parseRiskEvidenceSynthesisRiskEstimatePrecisionEstimate(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(RiskEvidenceSynthesis.RiskEstimate.PrecisionEstimate.class, jsonObject);
-        }
-        RiskEvidenceSynthesis.RiskEstimate.PrecisionEstimate.Builder builder = RiskEvidenceSynthesis.RiskEstimate.PrecisionEstimate.builder();
-        builder.setValidating(validating);
-        parseBackboneElement(builder, jsonObject);
-        builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
-        builder.level(parseDecimal("level", getJsonValue(jsonObject, "level", JsonNumber.class), jsonObject.get("_level"), -1));
-        builder.from(parseDecimal("from", getJsonValue(jsonObject, "from", JsonNumber.class), jsonObject.get("_from"), -1));
-        builder.to(parseDecimal("to", getJsonValue(jsonObject, "to", JsonNumber.class), jsonObject.get("_to"), -1));
-        stackPop();
-        return builder.build();
-    }
-
-    private RiskEvidenceSynthesis.SampleSize parseRiskEvidenceSynthesisSampleSize(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(RiskEvidenceSynthesis.SampleSize.class, jsonObject);
-        }
-        RiskEvidenceSynthesis.SampleSize.Builder builder = RiskEvidenceSynthesis.SampleSize.builder();
-        builder.setValidating(validating);
-        parseBackboneElement(builder, jsonObject);
-        builder.description(parseString("description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
-        builder.numberOfStudies(parseInteger("numberOfStudies", getJsonValue(jsonObject, "numberOfStudies", JsonNumber.class), jsonObject.get("_numberOfStudies"), -1));
-        builder.numberOfParticipants(parseInteger("numberOfParticipants", getJsonValue(jsonObject, "numberOfParticipants", JsonNumber.class), jsonObject.get("_numberOfParticipants"), -1));
         stackPop();
         return builder.build();
     }
@@ -20086,6 +21185,265 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         return builder.build();
     }
 
+    private SubscriptionStatus parseSubscriptionStatus(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(SubscriptionStatus.class, jsonObject);
+        }
+        SubscriptionStatus.Builder builder = SubscriptionStatus.builder();
+        builder.setValidating(validating);
+        parseDomainResource(builder, jsonObject);
+        builder.status((SubscriptionStatus) parseString(SubscriptionStatus.builder(), "status", getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
+        builder.type((SubscriptionNotificationType) parseString(SubscriptionNotificationType.builder(), "type", getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
+        builder.eventsSinceSubscriptionStart(parseString("eventsSinceSubscriptionStart", getJsonValue(jsonObject, "eventsSinceSubscriptionStart", JsonString.class), jsonObject.get("_eventsSinceSubscriptionStart"), -1));
+        builder.eventsInNotification(parseInteger("eventsInNotification", getJsonValue(jsonObject, "eventsInNotification", JsonNumber.class), jsonObject.get("_eventsInNotification"), -1));
+        JsonArray notificationEventArray = getJsonArray(jsonObject, "notificationEvent");
+        if (notificationEventArray != null) {
+            for (int i = 0; i < notificationEventArray.size(); i++) {
+                builder.notificationEvent(parseSubscriptionStatusNotificationEvent("notificationEvent", notificationEventArray.getJsonObject(i), i));
+            }
+        }
+        builder.subscription(parseReference("subscription", getJsonValue(jsonObject, "subscription", JsonObject.class), -1));
+        builder.topic((Canonical) parseUri(Canonical.builder(), "topic", getJsonValue(jsonObject, "topic", JsonString.class), jsonObject.get("_topic"), -1));
+        JsonArray errorArray = getJsonArray(jsonObject, "error");
+        if (errorArray != null) {
+            for (int i = 0; i < errorArray.size(); i++) {
+                builder.error(parseCodeableConcept("error", errorArray.getJsonObject(i), i));
+            }
+        }
+        stackPop();
+        return builder.build();
+    }
+
+    private SubscriptionStatus.NotificationEvent parseSubscriptionStatusNotificationEvent(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(SubscriptionStatus.NotificationEvent.class, jsonObject);
+        }
+        SubscriptionStatus.NotificationEvent.Builder builder = SubscriptionStatus.NotificationEvent.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.eventNumber(parseString("eventNumber", getJsonValue(jsonObject, "eventNumber", JsonString.class), jsonObject.get("_eventNumber"), -1));
+        builder.timestamp(parseInstant("timestamp", getJsonValue(jsonObject, "timestamp", JsonString.class), jsonObject.get("_timestamp"), -1));
+        builder.focus(parseReference("focus", getJsonValue(jsonObject, "focus", JsonObject.class), -1));
+        JsonArray additionalContextArray = getJsonArray(jsonObject, "additionalContext");
+        if (additionalContextArray != null) {
+            for (int i = 0; i < additionalContextArray.size(); i++) {
+                builder.additionalContext(parseReference("additionalContext", additionalContextArray.getJsonObject(i), i));
+            }
+        }
+        stackPop();
+        return builder.build();
+    }
+
+    private SubscriptionTopic parseSubscriptionTopic(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(SubscriptionTopic.class, jsonObject);
+        }
+        SubscriptionTopic.Builder builder = SubscriptionTopic.builder();
+        builder.setValidating(validating);
+        parseDomainResource(builder, jsonObject);
+        builder.url(parseUri("url", getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
+        JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
+        if (identifierArray != null) {
+            for (int i = 0; i < identifierArray.size(); i++) {
+                builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
+            }
+        }
+        builder.version(parseString("version", getJsonValue(jsonObject, "version", JsonString.class), jsonObject.get("_version"), -1));
+        builder.title(parseString("title", getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1));
+        JsonArray derivedFromArray = getJsonArray(jsonObject, "derivedFrom", true);
+        if (derivedFromArray != null) {
+            JsonArray _derivedFromArray = jsonObject.getJsonArray("_derivedFrom");
+            for (int i = 0; i < derivedFromArray.size(); i++) {
+                builder.derivedFrom((Canonical) parseUri(Canonical.builder(), "derivedFrom", derivedFromArray.get(i), getJsonValue(_derivedFromArray, i), i));
+            }
+        }
+        builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
+        builder.experimental(parseBoolean("experimental", getJsonValue(jsonObject, "experimental", JsonValue.class), jsonObject.get("_experimental"), -1));
+        builder.date(parseDateTime("date", getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
+        builder.publisher(parseString("publisher", getJsonValue(jsonObject, "publisher", JsonString.class), jsonObject.get("_publisher"), -1));
+        JsonArray contactArray = getJsonArray(jsonObject, "contact");
+        if (contactArray != null) {
+            for (int i = 0; i < contactArray.size(); i++) {
+                builder.contact(parseContactDetail("contact", contactArray.getJsonObject(i), i));
+            }
+        }
+        builder.description((Markdown) parseString(Markdown.builder(), "description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
+        JsonArray useContextArray = getJsonArray(jsonObject, "useContext");
+        if (useContextArray != null) {
+            for (int i = 0; i < useContextArray.size(); i++) {
+                builder.useContext(parseUsageContext("useContext", useContextArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray jurisdictionArray = getJsonArray(jsonObject, "jurisdiction");
+        if (jurisdictionArray != null) {
+            for (int i = 0; i < jurisdictionArray.size(); i++) {
+                builder.jurisdiction(parseCodeableConcept("jurisdiction", jurisdictionArray.getJsonObject(i), i));
+            }
+        }
+        builder.purpose((Markdown) parseString(Markdown.builder(), "purpose", getJsonValue(jsonObject, "purpose", JsonString.class), jsonObject.get("_purpose"), -1));
+        builder.copyright((Markdown) parseString(Markdown.builder(), "copyright", getJsonValue(jsonObject, "copyright", JsonString.class), jsonObject.get("_copyright"), -1));
+        builder.approvalDate(parseDate("approvalDate", getJsonValue(jsonObject, "approvalDate", JsonString.class), jsonObject.get("_approvalDate"), -1));
+        builder.lastReviewDate(parseDate("lastReviewDate", getJsonValue(jsonObject, "lastReviewDate", JsonString.class), jsonObject.get("_lastReviewDate"), -1));
+        builder.effectivePeriod(parsePeriod("effectivePeriod", getJsonValue(jsonObject, "effectivePeriod", JsonObject.class), -1));
+        JsonArray resourceTriggerArray = getJsonArray(jsonObject, "resourceTrigger");
+        if (resourceTriggerArray != null) {
+            for (int i = 0; i < resourceTriggerArray.size(); i++) {
+                builder.resourceTrigger(parseSubscriptionTopicResourceTrigger("resourceTrigger", resourceTriggerArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray eventTriggerArray = getJsonArray(jsonObject, "eventTrigger");
+        if (eventTriggerArray != null) {
+            for (int i = 0; i < eventTriggerArray.size(); i++) {
+                builder.eventTrigger(parseSubscriptionTopicEventTrigger("eventTrigger", eventTriggerArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray canFilterByArray = getJsonArray(jsonObject, "canFilterBy");
+        if (canFilterByArray != null) {
+            for (int i = 0; i < canFilterByArray.size(); i++) {
+                builder.canFilterBy(parseSubscriptionTopicCanFilterBy("canFilterBy", canFilterByArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray notificationShapeArray = getJsonArray(jsonObject, "notificationShape");
+        if (notificationShapeArray != null) {
+            for (int i = 0; i < notificationShapeArray.size(); i++) {
+                builder.notificationShape(parseSubscriptionTopicNotificationShape("notificationShape", notificationShapeArray.getJsonObject(i), i));
+            }
+        }
+        stackPop();
+        return builder.build();
+    }
+
+    private SubscriptionTopic.CanFilterBy parseSubscriptionTopicCanFilterBy(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(SubscriptionTopic.CanFilterBy.class, jsonObject);
+        }
+        SubscriptionTopic.CanFilterBy.Builder builder = SubscriptionTopic.CanFilterBy.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.description((Markdown) parseString(Markdown.builder(), "description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
+        builder.resource(parseUri("resource", getJsonValue(jsonObject, "resource", JsonString.class), jsonObject.get("_resource"), -1));
+        builder.filterParameter(parseString("filterParameter", getJsonValue(jsonObject, "filterParameter", JsonString.class), jsonObject.get("_filterParameter"), -1));
+        JsonArray modifierArray = getJsonArray(jsonObject, "modifier", true);
+        if (modifierArray != null) {
+            JsonArray _modifierArray = jsonObject.getJsonArray("_modifier");
+            for (int i = 0; i < modifierArray.size(); i++) {
+                builder.modifier((SubscriptionTopicFilterBySearchModifier) parseString(SubscriptionTopicFilterBySearchModifier.builder(), "modifier", modifierArray.get(i), getJsonValue(_modifierArray, i), i));
+            }
+        }
+        stackPop();
+        return builder.build();
+    }
+
+    private SubscriptionTopic.EventTrigger parseSubscriptionTopicEventTrigger(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(SubscriptionTopic.EventTrigger.class, jsonObject);
+        }
+        SubscriptionTopic.EventTrigger.Builder builder = SubscriptionTopic.EventTrigger.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.description((Markdown) parseString(Markdown.builder(), "description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
+        builder.event(parseCodeableConcept("event", getJsonValue(jsonObject, "event", JsonObject.class), -1));
+        builder.resource(parseUri("resource", getJsonValue(jsonObject, "resource", JsonString.class), jsonObject.get("_resource"), -1));
+        stackPop();
+        return builder.build();
+    }
+
+    private SubscriptionTopic.NotificationShape parseSubscriptionTopicNotificationShape(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(SubscriptionTopic.NotificationShape.class, jsonObject);
+        }
+        SubscriptionTopic.NotificationShape.Builder builder = SubscriptionTopic.NotificationShape.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.resource(parseUri("resource", getJsonValue(jsonObject, "resource", JsonString.class), jsonObject.get("_resource"), -1));
+        JsonArray includeArray = getJsonArray(jsonObject, "include", true);
+        if (includeArray != null) {
+            JsonArray _includeArray = jsonObject.getJsonArray("_include");
+            for (int i = 0; i < includeArray.size(); i++) {
+                builder.include(parseString("include", includeArray.get(i), getJsonValue(_includeArray, i), i));
+            }
+        }
+        JsonArray revIncludeArray = getJsonArray(jsonObject, "revInclude", true);
+        if (revIncludeArray != null) {
+            JsonArray _revIncludeArray = jsonObject.getJsonArray("_revInclude");
+            for (int i = 0; i < revIncludeArray.size(); i++) {
+                builder.revInclude(parseString("revInclude", revIncludeArray.get(i), getJsonValue(_revIncludeArray, i), i));
+            }
+        }
+        stackPop();
+        return builder.build();
+    }
+
+    private SubscriptionTopic.ResourceTrigger parseSubscriptionTopicResourceTrigger(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(SubscriptionTopic.ResourceTrigger.class, jsonObject);
+        }
+        SubscriptionTopic.ResourceTrigger.Builder builder = SubscriptionTopic.ResourceTrigger.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.description((Markdown) parseString(Markdown.builder(), "description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
+        builder.resource(parseUri("resource", getJsonValue(jsonObject, "resource", JsonString.class), jsonObject.get("_resource"), -1));
+        JsonArray supportedInteractionArray = getJsonArray(jsonObject, "supportedInteraction", true);
+        if (supportedInteractionArray != null) {
+            JsonArray _supportedInteractionArray = jsonObject.getJsonArray("_supportedInteraction");
+            for (int i = 0; i < supportedInteractionArray.size(); i++) {
+                builder.supportedInteraction((MethodCode) parseString(MethodCode.builder(), "supportedInteraction", supportedInteractionArray.get(i), getJsonValue(_supportedInteractionArray, i), i));
+            }
+        }
+        builder.queryCriteria(parseSubscriptionTopicResourceTriggerQueryCriteria("queryCriteria", getJsonValue(jsonObject, "queryCriteria", JsonObject.class), -1));
+        builder.fhirPathCriteria(parseString("fhirPathCriteria", getJsonValue(jsonObject, "fhirPathCriteria", JsonString.class), jsonObject.get("_fhirPathCriteria"), -1));
+        stackPop();
+        return builder.build();
+    }
+
+    private SubscriptionTopic.ResourceTrigger.QueryCriteria parseSubscriptionTopicResourceTriggerQueryCriteria(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(SubscriptionTopic.ResourceTrigger.QueryCriteria.class, jsonObject);
+        }
+        SubscriptionTopic.ResourceTrigger.QueryCriteria.Builder builder = SubscriptionTopic.ResourceTrigger.QueryCriteria.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.previous(parseString("previous", getJsonValue(jsonObject, "previous", JsonString.class), jsonObject.get("_previous"), -1));
+        builder.resultForCreate((CriteriaNotExistsBehavior) parseString(CriteriaNotExistsBehavior.builder(), "resultForCreate", getJsonValue(jsonObject, "resultForCreate", JsonString.class), jsonObject.get("_resultForCreate"), -1));
+        builder.current(parseString("current", getJsonValue(jsonObject, "current", JsonString.class), jsonObject.get("_current"), -1));
+        builder.resultForDelete((CriteriaNotExistsBehavior) parseString(CriteriaNotExistsBehavior.builder(), "resultForDelete", getJsonValue(jsonObject, "resultForDelete", JsonString.class), jsonObject.get("_resultForDelete"), -1));
+        builder.requireBoth(parseBoolean("requireBoth", getJsonValue(jsonObject, "requireBoth", JsonValue.class), jsonObject.get("_requireBoth"), -1));
+        stackPop();
+        return builder.build();
+    }
+
     private Substance parseSubstance(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
@@ -20163,767 +21521,125 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         return builder.build();
     }
 
-    private SubstanceAmount parseSubstanceAmount(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SubstanceDefinition parseSubstanceDefinition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(SubstanceAmount.class, jsonObject);
+            checkForUnrecognizedElements(SubstanceDefinition.class, jsonObject);
         }
-        SubstanceAmount.Builder builder = SubstanceAmount.builder();
-        builder.setValidating(validating);
-        parseBackboneElement(builder, jsonObject);
-        builder.amount(parseChoiceElement("amount", jsonObject, Quantity.class, Range.class, String.class));
-        builder.amountType(parseCodeableConcept("amountType", getJsonValue(jsonObject, "amountType", JsonObject.class), -1));
-        builder.amountText(parseString("amountText", getJsonValue(jsonObject, "amountText", JsonString.class), jsonObject.get("_amountText"), -1));
-        builder.referenceRange(parseSubstanceAmountReferenceRange("referenceRange", getJsonValue(jsonObject, "referenceRange", JsonObject.class), -1));
-        stackPop();
-        return builder.build();
-    }
-
-    private SubstanceAmount.ReferenceRange parseSubstanceAmountReferenceRange(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(SubstanceAmount.ReferenceRange.class, jsonObject);
-        }
-        SubstanceAmount.ReferenceRange.Builder builder = SubstanceAmount.ReferenceRange.builder();
-        builder.setValidating(validating);
-        parseBackboneElement(builder, jsonObject);
-        builder.lowLimit(parseQuantity("lowLimit", getJsonValue(jsonObject, "lowLimit", JsonObject.class), -1));
-        builder.highLimit(parseQuantity("highLimit", getJsonValue(jsonObject, "highLimit", JsonObject.class), -1));
-        stackPop();
-        return builder.build();
-    }
-
-    private SubstanceNucleicAcid parseSubstanceNucleicAcid(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(SubstanceNucleicAcid.class, jsonObject);
-        }
-        SubstanceNucleicAcid.Builder builder = SubstanceNucleicAcid.builder();
+        SubstanceDefinition.Builder builder = SubstanceDefinition.builder();
         builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
-        builder.sequenceType(parseCodeableConcept("sequenceType", getJsonValue(jsonObject, "sequenceType", JsonObject.class), -1));
-        builder.numberOfSubunits(parseInteger("numberOfSubunits", getJsonValue(jsonObject, "numberOfSubunits", JsonNumber.class), jsonObject.get("_numberOfSubunits"), -1));
-        builder.areaOfHybridisation(parseString("areaOfHybridisation", getJsonValue(jsonObject, "areaOfHybridisation", JsonString.class), jsonObject.get("_areaOfHybridisation"), -1));
-        builder.oligoNucleotideType(parseCodeableConcept("oligoNucleotideType", getJsonValue(jsonObject, "oligoNucleotideType", JsonObject.class), -1));
-        JsonArray subunitArray = getJsonArray(jsonObject, "subunit");
-        if (subunitArray != null) {
-            for (int i = 0; i < subunitArray.size(); i++) {
-                builder.subunit(parseSubstanceNucleicAcidSubunit("subunit", subunitArray.getJsonObject(i), i));
+        JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
+        if (identifierArray != null) {
+            for (int i = 0; i < identifierArray.size(); i++) {
+                builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
-        stackPop();
-        return builder.build();
-    }
-
-    private SubstanceNucleicAcid.Subunit parseSubstanceNucleicAcidSubunit(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(SubstanceNucleicAcid.Subunit.class, jsonObject);
-        }
-        SubstanceNucleicAcid.Subunit.Builder builder = SubstanceNucleicAcid.Subunit.builder();
-        builder.setValidating(validating);
-        parseBackboneElement(builder, jsonObject);
-        builder.subunit(parseInteger("subunit", getJsonValue(jsonObject, "subunit", JsonNumber.class), jsonObject.get("_subunit"), -1));
-        builder.sequence(parseString("sequence", getJsonValue(jsonObject, "sequence", JsonString.class), jsonObject.get("_sequence"), -1));
-        builder.length(parseInteger("length", getJsonValue(jsonObject, "length", JsonNumber.class), jsonObject.get("_length"), -1));
-        builder.sequenceAttachment(parseAttachment("sequenceAttachment", getJsonValue(jsonObject, "sequenceAttachment", JsonObject.class), -1));
-        builder.fivePrime(parseCodeableConcept("fivePrime", getJsonValue(jsonObject, "fivePrime", JsonObject.class), -1));
-        builder.threePrime(parseCodeableConcept("threePrime", getJsonValue(jsonObject, "threePrime", JsonObject.class), -1));
-        JsonArray linkageArray = getJsonArray(jsonObject, "linkage");
-        if (linkageArray != null) {
-            for (int i = 0; i < linkageArray.size(); i++) {
-                builder.linkage(parseSubstanceNucleicAcidSubunitLinkage("linkage", linkageArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray sugarArray = getJsonArray(jsonObject, "sugar");
-        if (sugarArray != null) {
-            for (int i = 0; i < sugarArray.size(); i++) {
-                builder.sugar(parseSubstanceNucleicAcidSubunitSugar("sugar", sugarArray.getJsonObject(i), i));
-            }
-        }
-        stackPop();
-        return builder.build();
-    }
-
-    private SubstanceNucleicAcid.Subunit.Linkage parseSubstanceNucleicAcidSubunitLinkage(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(SubstanceNucleicAcid.Subunit.Linkage.class, jsonObject);
-        }
-        SubstanceNucleicAcid.Subunit.Linkage.Builder builder = SubstanceNucleicAcid.Subunit.Linkage.builder();
-        builder.setValidating(validating);
-        parseBackboneElement(builder, jsonObject);
-        builder.connectivity(parseString("connectivity", getJsonValue(jsonObject, "connectivity", JsonString.class), jsonObject.get("_connectivity"), -1));
-        builder.identifier(parseIdentifier("identifier", getJsonValue(jsonObject, "identifier", JsonObject.class), -1));
-        builder.name(parseString("name", getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
-        builder.residueSite(parseString("residueSite", getJsonValue(jsonObject, "residueSite", JsonString.class), jsonObject.get("_residueSite"), -1));
-        stackPop();
-        return builder.build();
-    }
-
-    private SubstanceNucleicAcid.Subunit.Sugar parseSubstanceNucleicAcidSubunitSugar(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(SubstanceNucleicAcid.Subunit.Sugar.class, jsonObject);
-        }
-        SubstanceNucleicAcid.Subunit.Sugar.Builder builder = SubstanceNucleicAcid.Subunit.Sugar.builder();
-        builder.setValidating(validating);
-        parseBackboneElement(builder, jsonObject);
-        builder.identifier(parseIdentifier("identifier", getJsonValue(jsonObject, "identifier", JsonObject.class), -1));
-        builder.name(parseString("name", getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
-        builder.residueSite(parseString("residueSite", getJsonValue(jsonObject, "residueSite", JsonString.class), jsonObject.get("_residueSite"), -1));
-        stackPop();
-        return builder.build();
-    }
-
-    private SubstancePolymer parseSubstancePolymer(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(SubstancePolymer.class, jsonObject);
-        }
-        SubstancePolymer.Builder builder = SubstancePolymer.builder();
-        builder.setValidating(validating);
-        parseDomainResource(builder, jsonObject);
-        builder.clazz(parseCodeableConcept("class", getJsonValue(jsonObject, "class", JsonObject.class), -1));
-        builder.geometry(parseCodeableConcept("geometry", getJsonValue(jsonObject, "geometry", JsonObject.class), -1));
-        JsonArray copolymerConnectivityArray = getJsonArray(jsonObject, "copolymerConnectivity");
-        if (copolymerConnectivityArray != null) {
-            for (int i = 0; i < copolymerConnectivityArray.size(); i++) {
-                builder.copolymerConnectivity(parseCodeableConcept("copolymerConnectivity", copolymerConnectivityArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray modificationArray = getJsonArray(jsonObject, "modification", true);
-        if (modificationArray != null) {
-            JsonArray _modificationArray = jsonObject.getJsonArray("_modification");
-            for (int i = 0; i < modificationArray.size(); i++) {
-                builder.modification(parseString("modification", modificationArray.get(i), getJsonValue(_modificationArray, i), i));
-            }
-        }
-        JsonArray monomerSetArray = getJsonArray(jsonObject, "monomerSet");
-        if (monomerSetArray != null) {
-            for (int i = 0; i < monomerSetArray.size(); i++) {
-                builder.monomerSet(parseSubstancePolymerMonomerSet("monomerSet", monomerSetArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray repeatArray = getJsonArray(jsonObject, "repeat");
-        if (repeatArray != null) {
-            for (int i = 0; i < repeatArray.size(); i++) {
-                builder.repeat(parseSubstancePolymerRepeat("repeat", repeatArray.getJsonObject(i), i));
-            }
-        }
-        stackPop();
-        return builder.build();
-    }
-
-    private SubstancePolymer.MonomerSet parseSubstancePolymerMonomerSet(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(SubstancePolymer.MonomerSet.class, jsonObject);
-        }
-        SubstancePolymer.MonomerSet.Builder builder = SubstancePolymer.MonomerSet.builder();
-        builder.setValidating(validating);
-        parseBackboneElement(builder, jsonObject);
-        builder.ratioType(parseCodeableConcept("ratioType", getJsonValue(jsonObject, "ratioType", JsonObject.class), -1));
-        JsonArray startingMaterialArray = getJsonArray(jsonObject, "startingMaterial");
-        if (startingMaterialArray != null) {
-            for (int i = 0; i < startingMaterialArray.size(); i++) {
-                builder.startingMaterial(parseSubstancePolymerMonomerSetStartingMaterial("startingMaterial", startingMaterialArray.getJsonObject(i), i));
-            }
-        }
-        stackPop();
-        return builder.build();
-    }
-
-    private SubstancePolymer.MonomerSet.StartingMaterial parseSubstancePolymerMonomerSetStartingMaterial(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(SubstancePolymer.MonomerSet.StartingMaterial.class, jsonObject);
-        }
-        SubstancePolymer.MonomerSet.StartingMaterial.Builder builder = SubstancePolymer.MonomerSet.StartingMaterial.builder();
-        builder.setValidating(validating);
-        parseBackboneElement(builder, jsonObject);
-        builder.material(parseCodeableConcept("material", getJsonValue(jsonObject, "material", JsonObject.class), -1));
-        builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
-        builder.isDefining(parseBoolean("isDefining", getJsonValue(jsonObject, "isDefining", JsonValue.class), jsonObject.get("_isDefining"), -1));
-        builder.amount(parseSubstanceAmount("amount", getJsonValue(jsonObject, "amount", JsonObject.class), -1));
-        stackPop();
-        return builder.build();
-    }
-
-    private SubstancePolymer.Repeat parseSubstancePolymerRepeat(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(SubstancePolymer.Repeat.class, jsonObject);
-        }
-        SubstancePolymer.Repeat.Builder builder = SubstancePolymer.Repeat.builder();
-        builder.setValidating(validating);
-        parseBackboneElement(builder, jsonObject);
-        builder.numberOfUnits(parseInteger("numberOfUnits", getJsonValue(jsonObject, "numberOfUnits", JsonNumber.class), jsonObject.get("_numberOfUnits"), -1));
-        builder.averageMolecularFormula(parseString("averageMolecularFormula", getJsonValue(jsonObject, "averageMolecularFormula", JsonString.class), jsonObject.get("_averageMolecularFormula"), -1));
-        builder.repeatUnitAmountType(parseCodeableConcept("repeatUnitAmountType", getJsonValue(jsonObject, "repeatUnitAmountType", JsonObject.class), -1));
-        JsonArray repeatUnitArray = getJsonArray(jsonObject, "repeatUnit");
-        if (repeatUnitArray != null) {
-            for (int i = 0; i < repeatUnitArray.size(); i++) {
-                builder.repeatUnit(parseSubstancePolymerRepeatRepeatUnit("repeatUnit", repeatUnitArray.getJsonObject(i), i));
-            }
-        }
-        stackPop();
-        return builder.build();
-    }
-
-    private SubstancePolymer.Repeat.RepeatUnit parseSubstancePolymerRepeatRepeatUnit(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(SubstancePolymer.Repeat.RepeatUnit.class, jsonObject);
-        }
-        SubstancePolymer.Repeat.RepeatUnit.Builder builder = SubstancePolymer.Repeat.RepeatUnit.builder();
-        builder.setValidating(validating);
-        parseBackboneElement(builder, jsonObject);
-        builder.orientationOfPolymerisation(parseCodeableConcept("orientationOfPolymerisation", getJsonValue(jsonObject, "orientationOfPolymerisation", JsonObject.class), -1));
-        builder.repeatUnit(parseString("repeatUnit", getJsonValue(jsonObject, "repeatUnit", JsonString.class), jsonObject.get("_repeatUnit"), -1));
-        builder.amount(parseSubstanceAmount("amount", getJsonValue(jsonObject, "amount", JsonObject.class), -1));
-        JsonArray degreeOfPolymerisationArray = getJsonArray(jsonObject, "degreeOfPolymerisation");
-        if (degreeOfPolymerisationArray != null) {
-            for (int i = 0; i < degreeOfPolymerisationArray.size(); i++) {
-                builder.degreeOfPolymerisation(parseSubstancePolymerRepeatRepeatUnitDegreeOfPolymerisation("degreeOfPolymerisation", degreeOfPolymerisationArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray structuralRepresentationArray = getJsonArray(jsonObject, "structuralRepresentation");
-        if (structuralRepresentationArray != null) {
-            for (int i = 0; i < structuralRepresentationArray.size(); i++) {
-                builder.structuralRepresentation(parseSubstancePolymerRepeatRepeatUnitStructuralRepresentation("structuralRepresentation", structuralRepresentationArray.getJsonObject(i), i));
-            }
-        }
-        stackPop();
-        return builder.build();
-    }
-
-    private SubstancePolymer.Repeat.RepeatUnit.DegreeOfPolymerisation parseSubstancePolymerRepeatRepeatUnitDegreeOfPolymerisation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(SubstancePolymer.Repeat.RepeatUnit.DegreeOfPolymerisation.class, jsonObject);
-        }
-        SubstancePolymer.Repeat.RepeatUnit.DegreeOfPolymerisation.Builder builder = SubstancePolymer.Repeat.RepeatUnit.DegreeOfPolymerisation.builder();
-        builder.setValidating(validating);
-        parseBackboneElement(builder, jsonObject);
-        builder.degree(parseCodeableConcept("degree", getJsonValue(jsonObject, "degree", JsonObject.class), -1));
-        builder.amount(parseSubstanceAmount("amount", getJsonValue(jsonObject, "amount", JsonObject.class), -1));
-        stackPop();
-        return builder.build();
-    }
-
-    private SubstancePolymer.Repeat.RepeatUnit.StructuralRepresentation parseSubstancePolymerRepeatRepeatUnitStructuralRepresentation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(SubstancePolymer.Repeat.RepeatUnit.StructuralRepresentation.class, jsonObject);
-        }
-        SubstancePolymer.Repeat.RepeatUnit.StructuralRepresentation.Builder builder = SubstancePolymer.Repeat.RepeatUnit.StructuralRepresentation.builder();
-        builder.setValidating(validating);
-        parseBackboneElement(builder, jsonObject);
-        builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
-        builder.representation(parseString("representation", getJsonValue(jsonObject, "representation", JsonString.class), jsonObject.get("_representation"), -1));
-        builder.attachment(parseAttachment("attachment", getJsonValue(jsonObject, "attachment", JsonObject.class), -1));
-        stackPop();
-        return builder.build();
-    }
-
-    private SubstanceProtein parseSubstanceProtein(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(SubstanceProtein.class, jsonObject);
-        }
-        SubstanceProtein.Builder builder = SubstanceProtein.builder();
-        builder.setValidating(validating);
-        parseDomainResource(builder, jsonObject);
-        builder.sequenceType(parseCodeableConcept("sequenceType", getJsonValue(jsonObject, "sequenceType", JsonObject.class), -1));
-        builder.numberOfSubunits(parseInteger("numberOfSubunits", getJsonValue(jsonObject, "numberOfSubunits", JsonNumber.class), jsonObject.get("_numberOfSubunits"), -1));
-        JsonArray disulfideLinkageArray = getJsonArray(jsonObject, "disulfideLinkage", true);
-        if (disulfideLinkageArray != null) {
-            JsonArray _disulfideLinkageArray = jsonObject.getJsonArray("_disulfideLinkage");
-            for (int i = 0; i < disulfideLinkageArray.size(); i++) {
-                builder.disulfideLinkage(parseString("disulfideLinkage", disulfideLinkageArray.get(i), getJsonValue(_disulfideLinkageArray, i), i));
-            }
-        }
-        JsonArray subunitArray = getJsonArray(jsonObject, "subunit");
-        if (subunitArray != null) {
-            for (int i = 0; i < subunitArray.size(); i++) {
-                builder.subunit(parseSubstanceProteinSubunit("subunit", subunitArray.getJsonObject(i), i));
-            }
-        }
-        stackPop();
-        return builder.build();
-    }
-
-    private SubstanceProtein.Subunit parseSubstanceProteinSubunit(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(SubstanceProtein.Subunit.class, jsonObject);
-        }
-        SubstanceProtein.Subunit.Builder builder = SubstanceProtein.Subunit.builder();
-        builder.setValidating(validating);
-        parseBackboneElement(builder, jsonObject);
-        builder.subunit(parseInteger("subunit", getJsonValue(jsonObject, "subunit", JsonNumber.class), jsonObject.get("_subunit"), -1));
-        builder.sequence(parseString("sequence", getJsonValue(jsonObject, "sequence", JsonString.class), jsonObject.get("_sequence"), -1));
-        builder.length(parseInteger("length", getJsonValue(jsonObject, "length", JsonNumber.class), jsonObject.get("_length"), -1));
-        builder.sequenceAttachment(parseAttachment("sequenceAttachment", getJsonValue(jsonObject, "sequenceAttachment", JsonObject.class), -1));
-        builder.nTerminalModificationId(parseIdentifier("nTerminalModificationId", getJsonValue(jsonObject, "nTerminalModificationId", JsonObject.class), -1));
-        builder.nTerminalModification(parseString("nTerminalModification", getJsonValue(jsonObject, "nTerminalModification", JsonString.class), jsonObject.get("_nTerminalModification"), -1));
-        builder.cTerminalModificationId(parseIdentifier("cTerminalModificationId", getJsonValue(jsonObject, "cTerminalModificationId", JsonObject.class), -1));
-        builder.cTerminalModification(parseString("cTerminalModification", getJsonValue(jsonObject, "cTerminalModification", JsonString.class), jsonObject.get("_cTerminalModification"), -1));
-        stackPop();
-        return builder.build();
-    }
-
-    private SubstanceReferenceInformation parseSubstanceReferenceInformation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(SubstanceReferenceInformation.class, jsonObject);
-        }
-        SubstanceReferenceInformation.Builder builder = SubstanceReferenceInformation.builder();
-        builder.setValidating(validating);
-        parseDomainResource(builder, jsonObject);
-        builder.comment(parseString("comment", getJsonValue(jsonObject, "comment", JsonString.class), jsonObject.get("_comment"), -1));
-        JsonArray geneArray = getJsonArray(jsonObject, "gene");
-        if (geneArray != null) {
-            for (int i = 0; i < geneArray.size(); i++) {
-                builder.gene(parseSubstanceReferenceInformationGene("gene", geneArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray geneElementArray = getJsonArray(jsonObject, "geneElement");
-        if (geneElementArray != null) {
-            for (int i = 0; i < geneElementArray.size(); i++) {
-                builder.geneElement(parseSubstanceReferenceInformationGeneElement("geneElement", geneElementArray.getJsonObject(i), i));
-            }
-        }
+        builder.version(parseString("version", getJsonValue(jsonObject, "version", JsonString.class), jsonObject.get("_version"), -1));
+        builder.status(parseCodeableConcept("status", getJsonValue(jsonObject, "status", JsonObject.class), -1));
         JsonArray classificationArray = getJsonArray(jsonObject, "classification");
         if (classificationArray != null) {
             for (int i = 0; i < classificationArray.size(); i++) {
-                builder.classification(parseSubstanceReferenceInformationClassification("classification", classificationArray.getJsonObject(i), i));
+                builder.classification(parseCodeableConcept("classification", classificationArray.getJsonObject(i), i));
             }
         }
-        JsonArray targetArray = getJsonArray(jsonObject, "target");
-        if (targetArray != null) {
-            for (int i = 0; i < targetArray.size(); i++) {
-                builder.target(parseSubstanceReferenceInformationTarget("target", targetArray.getJsonObject(i), i));
-            }
-        }
-        stackPop();
-        return builder.build();
-    }
-
-    private SubstanceReferenceInformation.Classification parseSubstanceReferenceInformationClassification(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(SubstanceReferenceInformation.Classification.class, jsonObject);
-        }
-        SubstanceReferenceInformation.Classification.Builder builder = SubstanceReferenceInformation.Classification.builder();
-        builder.setValidating(validating);
-        parseBackboneElement(builder, jsonObject);
         builder.domain(parseCodeableConcept("domain", getJsonValue(jsonObject, "domain", JsonObject.class), -1));
-        builder.classification(parseCodeableConcept("classification", getJsonValue(jsonObject, "classification", JsonObject.class), -1));
-        JsonArray subtypeArray = getJsonArray(jsonObject, "subtype");
-        if (subtypeArray != null) {
-            for (int i = 0; i < subtypeArray.size(); i++) {
-                builder.subtype(parseCodeableConcept("subtype", subtypeArray.getJsonObject(i), i));
+        JsonArray gradeArray = getJsonArray(jsonObject, "grade");
+        if (gradeArray != null) {
+            for (int i = 0; i < gradeArray.size(); i++) {
+                builder.grade(parseCodeableConcept("grade", gradeArray.getJsonObject(i), i));
             }
         }
-        JsonArray sourceArray = getJsonArray(jsonObject, "source");
-        if (sourceArray != null) {
-            for (int i = 0; i < sourceArray.size(); i++) {
-                builder.source(parseReference("source", sourceArray.getJsonObject(i), i));
+        builder.description((Markdown) parseString(Markdown.builder(), "description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
+        JsonArray informationSourceArray = getJsonArray(jsonObject, "informationSource");
+        if (informationSourceArray != null) {
+            for (int i = 0; i < informationSourceArray.size(); i++) {
+                builder.informationSource(parseReference("informationSource", informationSourceArray.getJsonObject(i), i));
             }
         }
-        stackPop();
-        return builder.build();
-    }
-
-    private SubstanceReferenceInformation.Gene parseSubstanceReferenceInformationGene(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(SubstanceReferenceInformation.Gene.class, jsonObject);
-        }
-        SubstanceReferenceInformation.Gene.Builder builder = SubstanceReferenceInformation.Gene.builder();
-        builder.setValidating(validating);
-        parseBackboneElement(builder, jsonObject);
-        builder.geneSequenceOrigin(parseCodeableConcept("geneSequenceOrigin", getJsonValue(jsonObject, "geneSequenceOrigin", JsonObject.class), -1));
-        builder.gene(parseCodeableConcept("gene", getJsonValue(jsonObject, "gene", JsonObject.class), -1));
-        JsonArray sourceArray = getJsonArray(jsonObject, "source");
-        if (sourceArray != null) {
-            for (int i = 0; i < sourceArray.size(); i++) {
-                builder.source(parseReference("source", sourceArray.getJsonObject(i), i));
+        JsonArray noteArray = getJsonArray(jsonObject, "note");
+        if (noteArray != null) {
+            for (int i = 0; i < noteArray.size(); i++) {
+                builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
-        stackPop();
-        return builder.build();
-    }
-
-    private SubstanceReferenceInformation.GeneElement parseSubstanceReferenceInformationGeneElement(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(SubstanceReferenceInformation.GeneElement.class, jsonObject);
-        }
-        SubstanceReferenceInformation.GeneElement.Builder builder = SubstanceReferenceInformation.GeneElement.builder();
-        builder.setValidating(validating);
-        parseBackboneElement(builder, jsonObject);
-        builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
-        builder.element(parseIdentifier("element", getJsonValue(jsonObject, "element", JsonObject.class), -1));
-        JsonArray sourceArray = getJsonArray(jsonObject, "source");
-        if (sourceArray != null) {
-            for (int i = 0; i < sourceArray.size(); i++) {
-                builder.source(parseReference("source", sourceArray.getJsonObject(i), i));
+        JsonArray manufacturerArray = getJsonArray(jsonObject, "manufacturer");
+        if (manufacturerArray != null) {
+            for (int i = 0; i < manufacturerArray.size(); i++) {
+                builder.manufacturer(parseReference("manufacturer", manufacturerArray.getJsonObject(i), i));
             }
         }
-        stackPop();
-        return builder.build();
-    }
-
-    private SubstanceReferenceInformation.Target parseSubstanceReferenceInformationTarget(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(SubstanceReferenceInformation.Target.class, jsonObject);
-        }
-        SubstanceReferenceInformation.Target.Builder builder = SubstanceReferenceInformation.Target.builder();
-        builder.setValidating(validating);
-        parseBackboneElement(builder, jsonObject);
-        builder.target(parseIdentifier("target", getJsonValue(jsonObject, "target", JsonObject.class), -1));
-        builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
-        builder.interaction(parseCodeableConcept("interaction", getJsonValue(jsonObject, "interaction", JsonObject.class), -1));
-        builder.organism(parseCodeableConcept("organism", getJsonValue(jsonObject, "organism", JsonObject.class), -1));
-        builder.organismType(parseCodeableConcept("organismType", getJsonValue(jsonObject, "organismType", JsonObject.class), -1));
-        builder.amount(parseChoiceElement("amount", jsonObject, Quantity.class, Range.class, String.class));
-        builder.amountType(parseCodeableConcept("amountType", getJsonValue(jsonObject, "amountType", JsonObject.class), -1));
-        JsonArray sourceArray = getJsonArray(jsonObject, "source");
-        if (sourceArray != null) {
-            for (int i = 0; i < sourceArray.size(); i++) {
-                builder.source(parseReference("source", sourceArray.getJsonObject(i), i));
+        JsonArray supplierArray = getJsonArray(jsonObject, "supplier");
+        if (supplierArray != null) {
+            for (int i = 0; i < supplierArray.size(); i++) {
+                builder.supplier(parseReference("supplier", supplierArray.getJsonObject(i), i));
             }
         }
-        stackPop();
-        return builder.build();
-    }
-
-    private SubstanceSourceMaterial parseSubstanceSourceMaterial(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(SubstanceSourceMaterial.class, jsonObject);
-        }
-        SubstanceSourceMaterial.Builder builder = SubstanceSourceMaterial.builder();
-        builder.setValidating(validating);
-        parseDomainResource(builder, jsonObject);
-        builder.sourceMaterialClass(parseCodeableConcept("sourceMaterialClass", getJsonValue(jsonObject, "sourceMaterialClass", JsonObject.class), -1));
-        builder.sourceMaterialType(parseCodeableConcept("sourceMaterialType", getJsonValue(jsonObject, "sourceMaterialType", JsonObject.class), -1));
-        builder.sourceMaterialState(parseCodeableConcept("sourceMaterialState", getJsonValue(jsonObject, "sourceMaterialState", JsonObject.class), -1));
-        builder.organismId(parseIdentifier("organismId", getJsonValue(jsonObject, "organismId", JsonObject.class), -1));
-        builder.organismName(parseString("organismName", getJsonValue(jsonObject, "organismName", JsonString.class), jsonObject.get("_organismName"), -1));
-        JsonArray parentSubstanceIdArray = getJsonArray(jsonObject, "parentSubstanceId");
-        if (parentSubstanceIdArray != null) {
-            for (int i = 0; i < parentSubstanceIdArray.size(); i++) {
-                builder.parentSubstanceId(parseIdentifier("parentSubstanceId", parentSubstanceIdArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray parentSubstanceNameArray = getJsonArray(jsonObject, "parentSubstanceName", true);
-        if (parentSubstanceNameArray != null) {
-            JsonArray _parentSubstanceNameArray = jsonObject.getJsonArray("_parentSubstanceName");
-            for (int i = 0; i < parentSubstanceNameArray.size(); i++) {
-                builder.parentSubstanceName(parseString("parentSubstanceName", parentSubstanceNameArray.get(i), getJsonValue(_parentSubstanceNameArray, i), i));
-            }
-        }
-        JsonArray countryOfOriginArray = getJsonArray(jsonObject, "countryOfOrigin");
-        if (countryOfOriginArray != null) {
-            for (int i = 0; i < countryOfOriginArray.size(); i++) {
-                builder.countryOfOrigin(parseCodeableConcept("countryOfOrigin", countryOfOriginArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray geographicalLocationArray = getJsonArray(jsonObject, "geographicalLocation", true);
-        if (geographicalLocationArray != null) {
-            JsonArray _geographicalLocationArray = jsonObject.getJsonArray("_geographicalLocation");
-            for (int i = 0; i < geographicalLocationArray.size(); i++) {
-                builder.geographicalLocation(parseString("geographicalLocation", geographicalLocationArray.get(i), getJsonValue(_geographicalLocationArray, i), i));
-            }
-        }
-        builder.developmentStage(parseCodeableConcept("developmentStage", getJsonValue(jsonObject, "developmentStage", JsonObject.class), -1));
-        JsonArray fractionDescriptionArray = getJsonArray(jsonObject, "fractionDescription");
-        if (fractionDescriptionArray != null) {
-            for (int i = 0; i < fractionDescriptionArray.size(); i++) {
-                builder.fractionDescription(parseSubstanceSourceMaterialFractionDescription("fractionDescription", fractionDescriptionArray.getJsonObject(i), i));
-            }
-        }
-        builder.organism(parseSubstanceSourceMaterialOrganism("organism", getJsonValue(jsonObject, "organism", JsonObject.class), -1));
-        JsonArray partDescriptionArray = getJsonArray(jsonObject, "partDescription");
-        if (partDescriptionArray != null) {
-            for (int i = 0; i < partDescriptionArray.size(); i++) {
-                builder.partDescription(parseSubstanceSourceMaterialPartDescription("partDescription", partDescriptionArray.getJsonObject(i), i));
-            }
-        }
-        stackPop();
-        return builder.build();
-    }
-
-    private SubstanceSourceMaterial.FractionDescription parseSubstanceSourceMaterialFractionDescription(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(SubstanceSourceMaterial.FractionDescription.class, jsonObject);
-        }
-        SubstanceSourceMaterial.FractionDescription.Builder builder = SubstanceSourceMaterial.FractionDescription.builder();
-        builder.setValidating(validating);
-        parseBackboneElement(builder, jsonObject);
-        builder.fraction(parseString("fraction", getJsonValue(jsonObject, "fraction", JsonString.class), jsonObject.get("_fraction"), -1));
-        builder.materialType(parseCodeableConcept("materialType", getJsonValue(jsonObject, "materialType", JsonObject.class), -1));
-        stackPop();
-        return builder.build();
-    }
-
-    private SubstanceSourceMaterial.Organism parseSubstanceSourceMaterialOrganism(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(SubstanceSourceMaterial.Organism.class, jsonObject);
-        }
-        SubstanceSourceMaterial.Organism.Builder builder = SubstanceSourceMaterial.Organism.builder();
-        builder.setValidating(validating);
-        parseBackboneElement(builder, jsonObject);
-        builder.family(parseCodeableConcept("family", getJsonValue(jsonObject, "family", JsonObject.class), -1));
-        builder.genus(parseCodeableConcept("genus", getJsonValue(jsonObject, "genus", JsonObject.class), -1));
-        builder.species(parseCodeableConcept("species", getJsonValue(jsonObject, "species", JsonObject.class), -1));
-        builder.intraspecificType(parseCodeableConcept("intraspecificType", getJsonValue(jsonObject, "intraspecificType", JsonObject.class), -1));
-        builder.intraspecificDescription(parseString("intraspecificDescription", getJsonValue(jsonObject, "intraspecificDescription", JsonString.class), jsonObject.get("_intraspecificDescription"), -1));
-        JsonArray authorArray = getJsonArray(jsonObject, "author");
-        if (authorArray != null) {
-            for (int i = 0; i < authorArray.size(); i++) {
-                builder.author(parseSubstanceSourceMaterialOrganismAuthor("author", authorArray.getJsonObject(i), i));
-            }
-        }
-        builder.hybrid(parseSubstanceSourceMaterialOrganismHybrid("hybrid", getJsonValue(jsonObject, "hybrid", JsonObject.class), -1));
-        builder.organismGeneral(parseSubstanceSourceMaterialOrganismOrganismGeneral("organismGeneral", getJsonValue(jsonObject, "organismGeneral", JsonObject.class), -1));
-        stackPop();
-        return builder.build();
-    }
-
-    private SubstanceSourceMaterial.Organism.Author parseSubstanceSourceMaterialOrganismAuthor(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(SubstanceSourceMaterial.Organism.Author.class, jsonObject);
-        }
-        SubstanceSourceMaterial.Organism.Author.Builder builder = SubstanceSourceMaterial.Organism.Author.builder();
-        builder.setValidating(validating);
-        parseBackboneElement(builder, jsonObject);
-        builder.authorType(parseCodeableConcept("authorType", getJsonValue(jsonObject, "authorType", JsonObject.class), -1));
-        builder.authorDescription(parseString("authorDescription", getJsonValue(jsonObject, "authorDescription", JsonString.class), jsonObject.get("_authorDescription"), -1));
-        stackPop();
-        return builder.build();
-    }
-
-    private SubstanceSourceMaterial.Organism.Hybrid parseSubstanceSourceMaterialOrganismHybrid(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(SubstanceSourceMaterial.Organism.Hybrid.class, jsonObject);
-        }
-        SubstanceSourceMaterial.Organism.Hybrid.Builder builder = SubstanceSourceMaterial.Organism.Hybrid.builder();
-        builder.setValidating(validating);
-        parseBackboneElement(builder, jsonObject);
-        builder.maternalOrganismId(parseString("maternalOrganismId", getJsonValue(jsonObject, "maternalOrganismId", JsonString.class), jsonObject.get("_maternalOrganismId"), -1));
-        builder.maternalOrganismName(parseString("maternalOrganismName", getJsonValue(jsonObject, "maternalOrganismName", JsonString.class), jsonObject.get("_maternalOrganismName"), -1));
-        builder.paternalOrganismId(parseString("paternalOrganismId", getJsonValue(jsonObject, "paternalOrganismId", JsonString.class), jsonObject.get("_paternalOrganismId"), -1));
-        builder.paternalOrganismName(parseString("paternalOrganismName", getJsonValue(jsonObject, "paternalOrganismName", JsonString.class), jsonObject.get("_paternalOrganismName"), -1));
-        builder.hybridType(parseCodeableConcept("hybridType", getJsonValue(jsonObject, "hybridType", JsonObject.class), -1));
-        stackPop();
-        return builder.build();
-    }
-
-    private SubstanceSourceMaterial.Organism.OrganismGeneral parseSubstanceSourceMaterialOrganismOrganismGeneral(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(SubstanceSourceMaterial.Organism.OrganismGeneral.class, jsonObject);
-        }
-        SubstanceSourceMaterial.Organism.OrganismGeneral.Builder builder = SubstanceSourceMaterial.Organism.OrganismGeneral.builder();
-        builder.setValidating(validating);
-        parseBackboneElement(builder, jsonObject);
-        builder.kingdom(parseCodeableConcept("kingdom", getJsonValue(jsonObject, "kingdom", JsonObject.class), -1));
-        builder.phylum(parseCodeableConcept("phylum", getJsonValue(jsonObject, "phylum", JsonObject.class), -1));
-        builder.clazz(parseCodeableConcept("class", getJsonValue(jsonObject, "class", JsonObject.class), -1));
-        builder.order(parseCodeableConcept("order", getJsonValue(jsonObject, "order", JsonObject.class), -1));
-        stackPop();
-        return builder.build();
-    }
-
-    private SubstanceSourceMaterial.PartDescription parseSubstanceSourceMaterialPartDescription(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(SubstanceSourceMaterial.PartDescription.class, jsonObject);
-        }
-        SubstanceSourceMaterial.PartDescription.Builder builder = SubstanceSourceMaterial.PartDescription.builder();
-        builder.setValidating(validating);
-        parseBackboneElement(builder, jsonObject);
-        builder.part(parseCodeableConcept("part", getJsonValue(jsonObject, "part", JsonObject.class), -1));
-        builder.partLocation(parseCodeableConcept("partLocation", getJsonValue(jsonObject, "partLocation", JsonObject.class), -1));
-        stackPop();
-        return builder.build();
-    }
-
-    private SubstanceSpecification parseSubstanceSpecification(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(SubstanceSpecification.class, jsonObject);
-        }
-        SubstanceSpecification.Builder builder = SubstanceSpecification.builder();
-        builder.setValidating(validating);
-        parseDomainResource(builder, jsonObject);
-        builder.identifier(parseIdentifier("identifier", getJsonValue(jsonObject, "identifier", JsonObject.class), -1));
-        builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
-        builder.status(parseCodeableConcept("status", getJsonValue(jsonObject, "status", JsonObject.class), -1));
-        builder.domain(parseCodeableConcept("domain", getJsonValue(jsonObject, "domain", JsonObject.class), -1));
-        builder.description(parseString("description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
-        JsonArray sourceArray = getJsonArray(jsonObject, "source");
-        if (sourceArray != null) {
-            for (int i = 0; i < sourceArray.size(); i++) {
-                builder.source(parseReference("source", sourceArray.getJsonObject(i), i));
-            }
-        }
-        builder.comment(parseString("comment", getJsonValue(jsonObject, "comment", JsonString.class), jsonObject.get("_comment"), -1));
         JsonArray moietyArray = getJsonArray(jsonObject, "moiety");
         if (moietyArray != null) {
             for (int i = 0; i < moietyArray.size(); i++) {
-                builder.moiety(parseSubstanceSpecificationMoiety("moiety", moietyArray.getJsonObject(i), i));
+                builder.moiety(parseSubstanceDefinitionMoiety("moiety", moietyArray.getJsonObject(i), i));
             }
         }
         JsonArray propertyArray = getJsonArray(jsonObject, "property");
         if (propertyArray != null) {
             for (int i = 0; i < propertyArray.size(); i++) {
-                builder.property(parseSubstanceSpecificationProperty("property", propertyArray.getJsonObject(i), i));
-            }
-        }
-        builder.referenceInformation(parseReference("referenceInformation", getJsonValue(jsonObject, "referenceInformation", JsonObject.class), -1));
-        builder.structure(parseSubstanceSpecificationStructure("structure", getJsonValue(jsonObject, "structure", JsonObject.class), -1));
-        JsonArray codeArray = getJsonArray(jsonObject, "code");
-        if (codeArray != null) {
-            for (int i = 0; i < codeArray.size(); i++) {
-                builder.code(parseSubstanceSpecificationCode("code", codeArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray nameArray = getJsonArray(jsonObject, "name");
-        if (nameArray != null) {
-            for (int i = 0; i < nameArray.size(); i++) {
-                builder.name(parseSubstanceSpecificationName("name", nameArray.getJsonObject(i), i));
+                builder.property(parseSubstanceDefinitionProperty("property", propertyArray.getJsonObject(i), i));
             }
         }
         JsonArray molecularWeightArray = getJsonArray(jsonObject, "molecularWeight");
         if (molecularWeightArray != null) {
             for (int i = 0; i < molecularWeightArray.size(); i++) {
-                builder.molecularWeight(parseSubstanceSpecificationStructureIsotopeMolecularWeight("molecularWeight", molecularWeightArray.getJsonObject(i), i));
+                builder.molecularWeight(parseSubstanceDefinitionMolecularWeight("molecularWeight", molecularWeightArray.getJsonObject(i), i));
+            }
+        }
+        builder.structure(parseSubstanceDefinitionStructure("structure", getJsonValue(jsonObject, "structure", JsonObject.class), -1));
+        JsonArray codeArray = getJsonArray(jsonObject, "code");
+        if (codeArray != null) {
+            for (int i = 0; i < codeArray.size(); i++) {
+                builder.code(parseSubstanceDefinitionCode("code", codeArray.getJsonObject(i), i));
+            }
+        }
+        JsonArray nameArray = getJsonArray(jsonObject, "name");
+        if (nameArray != null) {
+            for (int i = 0; i < nameArray.size(); i++) {
+                builder.name(parseSubstanceDefinitionName("name", nameArray.getJsonObject(i), i));
             }
         }
         JsonArray relationshipArray = getJsonArray(jsonObject, "relationship");
         if (relationshipArray != null) {
             for (int i = 0; i < relationshipArray.size(); i++) {
-                builder.relationship(parseSubstanceSpecificationRelationship("relationship", relationshipArray.getJsonObject(i), i));
+                builder.relationship(parseSubstanceDefinitionRelationship("relationship", relationshipArray.getJsonObject(i), i));
             }
         }
-        builder.nucleicAcid(parseReference("nucleicAcid", getJsonValue(jsonObject, "nucleicAcid", JsonObject.class), -1));
-        builder.polymer(parseReference("polymer", getJsonValue(jsonObject, "polymer", JsonObject.class), -1));
-        builder.protein(parseReference("protein", getJsonValue(jsonObject, "protein", JsonObject.class), -1));
-        builder.sourceMaterial(parseReference("sourceMaterial", getJsonValue(jsonObject, "sourceMaterial", JsonObject.class), -1));
+        builder.sourceMaterial(parseSubstanceDefinitionSourceMaterial("sourceMaterial", getJsonValue(jsonObject, "sourceMaterial", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    private SubstanceSpecification.Code parseSubstanceSpecificationCode(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SubstanceDefinition.Code parseSubstanceDefinitionCode(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(SubstanceSpecification.Code.class, jsonObject);
+            checkForUnrecognizedElements(SubstanceDefinition.Code.class, jsonObject);
         }
-        SubstanceSpecification.Code.Builder builder = SubstanceSpecification.Code.builder();
+        SubstanceDefinition.Code.Builder builder = SubstanceDefinition.Code.builder();
         builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.code(parseCodeableConcept("code", getJsonValue(jsonObject, "code", JsonObject.class), -1));
         builder.status(parseCodeableConcept("status", getJsonValue(jsonObject, "status", JsonObject.class), -1));
         builder.statusDate(parseDateTime("statusDate", getJsonValue(jsonObject, "statusDate", JsonString.class), jsonObject.get("_statusDate"), -1));
-        builder.comment(parseString("comment", getJsonValue(jsonObject, "comment", JsonString.class), jsonObject.get("_comment"), -1));
+        JsonArray noteArray = getJsonArray(jsonObject, "note");
+        if (noteArray != null) {
+            for (int i = 0; i < noteArray.size(); i++) {
+                builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
+            }
+        }
         JsonArray sourceArray = getJsonArray(jsonObject, "source");
         if (sourceArray != null) {
             for (int i = 0; i < sourceArray.size(); i++) {
@@ -20934,15 +21650,15 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         return builder.build();
     }
 
-    private SubstanceSpecification.Moiety parseSubstanceSpecificationMoiety(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SubstanceDefinition.Moiety parseSubstanceDefinitionMoiety(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(SubstanceSpecification.Moiety.class, jsonObject);
+            checkForUnrecognizedElements(SubstanceDefinition.Moiety.class, jsonObject);
         }
-        SubstanceSpecification.Moiety.Builder builder = SubstanceSpecification.Moiety.builder();
+        SubstanceDefinition.Moiety.Builder builder = SubstanceDefinition.Moiety.builder();
         builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.role(parseCodeableConcept("role", getJsonValue(jsonObject, "role", JsonObject.class), -1));
@@ -20952,19 +21668,38 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         builder.opticalActivity(parseCodeableConcept("opticalActivity", getJsonValue(jsonObject, "opticalActivity", JsonObject.class), -1));
         builder.molecularFormula(parseString("molecularFormula", getJsonValue(jsonObject, "molecularFormula", JsonString.class), jsonObject.get("_molecularFormula"), -1));
         builder.amount(parseChoiceElement("amount", jsonObject, Quantity.class, String.class));
+        builder.amountType(parseCodeableConcept("amountType", getJsonValue(jsonObject, "amountType", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    private SubstanceSpecification.Name parseSubstanceSpecificationName(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SubstanceDefinition.MolecularWeight parseSubstanceDefinitionMolecularWeight(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(SubstanceSpecification.Name.class, jsonObject);
+            checkForUnrecognizedElements(SubstanceDefinition.MolecularWeight.class, jsonObject);
         }
-        SubstanceSpecification.Name.Builder builder = SubstanceSpecification.Name.builder();
+        SubstanceDefinition.MolecularWeight.Builder builder = SubstanceDefinition.MolecularWeight.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.method(parseCodeableConcept("method", getJsonValue(jsonObject, "method", JsonObject.class), -1));
+        builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
+        builder.amount(parseQuantity("amount", getJsonValue(jsonObject, "amount", JsonObject.class), -1));
+        stackPop();
+        return builder.build();
+    }
+
+    private SubstanceDefinition.Name parseSubstanceDefinitionName(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(SubstanceDefinition.Name.class, jsonObject);
+        }
+        SubstanceDefinition.Name.Builder builder = SubstanceDefinition.Name.builder();
         builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.name(parseString("name", getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
@@ -20992,19 +21727,19 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray synonymArray = getJsonArray(jsonObject, "synonym");
         if (synonymArray != null) {
             for (int i = 0; i < synonymArray.size(); i++) {
-                builder.synonym(parseSubstanceSpecificationName("synonym", synonymArray.getJsonObject(i), i));
+                builder.synonym(parseSubstanceDefinitionName("synonym", synonymArray.getJsonObject(i), i));
             }
         }
         JsonArray translationArray = getJsonArray(jsonObject, "translation");
         if (translationArray != null) {
             for (int i = 0; i < translationArray.size(); i++) {
-                builder.translation(parseSubstanceSpecificationName("translation", translationArray.getJsonObject(i), i));
+                builder.translation(parseSubstanceDefinitionName("translation", translationArray.getJsonObject(i), i));
             }
         }
         JsonArray officialArray = getJsonArray(jsonObject, "official");
         if (officialArray != null) {
             for (int i = 0; i < officialArray.size(); i++) {
-                builder.official(parseSubstanceSpecificationNameOfficial("official", officialArray.getJsonObject(i), i));
+                builder.official(parseSubstanceDefinitionNameOfficial("official", officialArray.getJsonObject(i), i));
             }
         }
         JsonArray sourceArray = getJsonArray(jsonObject, "source");
@@ -21017,15 +21752,15 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         return builder.build();
     }
 
-    private SubstanceSpecification.Name.Official parseSubstanceSpecificationNameOfficial(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SubstanceDefinition.Name.Official parseSubstanceDefinitionNameOfficial(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(SubstanceSpecification.Name.Official.class, jsonObject);
+            checkForUnrecognizedElements(SubstanceDefinition.Name.Official.class, jsonObject);
         }
-        SubstanceSpecification.Name.Official.Builder builder = SubstanceSpecification.Name.Official.builder();
+        SubstanceDefinition.Name.Official.Builder builder = SubstanceDefinition.Name.Official.builder();
         builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.authority(parseCodeableConcept("authority", getJsonValue(jsonObject, "authority", JsonObject.class), -1));
@@ -21035,42 +21770,39 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         return builder.build();
     }
 
-    private SubstanceSpecification.Property parseSubstanceSpecificationProperty(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SubstanceDefinition.Property parseSubstanceDefinitionProperty(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(SubstanceSpecification.Property.class, jsonObject);
+            checkForUnrecognizedElements(SubstanceDefinition.Property.class, jsonObject);
         }
-        SubstanceSpecification.Property.Builder builder = SubstanceSpecification.Property.builder();
+        SubstanceDefinition.Property.Builder builder = SubstanceDefinition.Property.builder();
         builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
-        builder.category(parseCodeableConcept("category", getJsonValue(jsonObject, "category", JsonObject.class), -1));
-        builder.code(parseCodeableConcept("code", getJsonValue(jsonObject, "code", JsonObject.class), -1));
-        builder.parameters(parseString("parameters", getJsonValue(jsonObject, "parameters", JsonString.class), jsonObject.get("_parameters"), -1));
-        builder.definingSubstance(parseChoiceElement("definingSubstance", jsonObject, Reference.class, CodeableConcept.class));
-        builder.amount(parseChoiceElement("amount", jsonObject, Quantity.class, String.class));
+        builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
+        builder.value(parseChoiceElement("value", jsonObject, CodeableConcept.class, Quantity.class, Date.class, Boolean.class, Attachment.class));
         stackPop();
         return builder.build();
     }
 
-    private SubstanceSpecification.Relationship parseSubstanceSpecificationRelationship(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SubstanceDefinition.Relationship parseSubstanceDefinitionRelationship(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(SubstanceSpecification.Relationship.class, jsonObject);
+            checkForUnrecognizedElements(SubstanceDefinition.Relationship.class, jsonObject);
         }
-        SubstanceSpecification.Relationship.Builder builder = SubstanceSpecification.Relationship.builder();
+        SubstanceDefinition.Relationship.Builder builder = SubstanceDefinition.Relationship.builder();
         builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
-        builder.substance(parseChoiceElement("substance", jsonObject, Reference.class, CodeableConcept.class));
-        builder.relationship(parseCodeableConcept("relationship", getJsonValue(jsonObject, "relationship", JsonObject.class), -1));
+        builder.substanceDefinition(parseChoiceElement("substanceDefinition", jsonObject, Reference.class, CodeableConcept.class));
+        builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.isDefining(parseBoolean("isDefining", getJsonValue(jsonObject, "isDefining", JsonValue.class), jsonObject.get("_isDefining"), -1));
-        builder.amount(parseChoiceElement("amount", jsonObject, Quantity.class, Range.class, Ratio.class, String.class));
-        builder.amountRatioLowLimit(parseRatio("amountRatioLowLimit", getJsonValue(jsonObject, "amountRatioLowLimit", JsonObject.class), -1));
+        builder.amount(parseChoiceElement("amount", jsonObject, Quantity.class, Ratio.class, String.class));
+        builder.amountRatioHighLimit(parseRatio("amountRatioHighLimit", getJsonValue(jsonObject, "amountRatioHighLimit", JsonObject.class), -1));
         builder.amountType(parseCodeableConcept("amountType", getJsonValue(jsonObject, "amountType", JsonObject.class), -1));
         JsonArray sourceArray = getJsonArray(jsonObject, "source");
         if (sourceArray != null) {
@@ -21082,96 +21814,84 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         return builder.build();
     }
 
-    private SubstanceSpecification.Structure parseSubstanceSpecificationStructure(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SubstanceDefinition.SourceMaterial parseSubstanceDefinitionSourceMaterial(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(SubstanceSpecification.Structure.class, jsonObject);
+            checkForUnrecognizedElements(SubstanceDefinition.SourceMaterial.class, jsonObject);
         }
-        SubstanceSpecification.Structure.Builder builder = SubstanceSpecification.Structure.builder();
+        SubstanceDefinition.SourceMaterial.Builder builder = SubstanceDefinition.SourceMaterial.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
+        builder.genus(parseCodeableConcept("genus", getJsonValue(jsonObject, "genus", JsonObject.class), -1));
+        builder.species(parseCodeableConcept("species", getJsonValue(jsonObject, "species", JsonObject.class), -1));
+        builder.part(parseCodeableConcept("part", getJsonValue(jsonObject, "part", JsonObject.class), -1));
+        JsonArray countryOfOriginArray = getJsonArray(jsonObject, "countryOfOrigin");
+        if (countryOfOriginArray != null) {
+            for (int i = 0; i < countryOfOriginArray.size(); i++) {
+                builder.countryOfOrigin(parseCodeableConcept("countryOfOrigin", countryOfOriginArray.getJsonObject(i), i));
+            }
+        }
+        stackPop();
+        return builder.build();
+    }
+
+    private SubstanceDefinition.Structure parseSubstanceDefinitionStructure(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(SubstanceDefinition.Structure.class, jsonObject);
+        }
+        SubstanceDefinition.Structure.Builder builder = SubstanceDefinition.Structure.builder();
         builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.stereochemistry(parseCodeableConcept("stereochemistry", getJsonValue(jsonObject, "stereochemistry", JsonObject.class), -1));
         builder.opticalActivity(parseCodeableConcept("opticalActivity", getJsonValue(jsonObject, "opticalActivity", JsonObject.class), -1));
         builder.molecularFormula(parseString("molecularFormula", getJsonValue(jsonObject, "molecularFormula", JsonString.class), jsonObject.get("_molecularFormula"), -1));
         builder.molecularFormulaByMoiety(parseString("molecularFormulaByMoiety", getJsonValue(jsonObject, "molecularFormulaByMoiety", JsonString.class), jsonObject.get("_molecularFormulaByMoiety"), -1));
-        JsonArray isotopeArray = getJsonArray(jsonObject, "isotope");
-        if (isotopeArray != null) {
-            for (int i = 0; i < isotopeArray.size(); i++) {
-                builder.isotope(parseSubstanceSpecificationStructureIsotope("isotope", isotopeArray.getJsonObject(i), i));
+        builder.molecularWeight(parseSubstanceDefinitionMolecularWeight("molecularWeight", getJsonValue(jsonObject, "molecularWeight", JsonObject.class), -1));
+        JsonArray techniqueArray = getJsonArray(jsonObject, "technique");
+        if (techniqueArray != null) {
+            for (int i = 0; i < techniqueArray.size(); i++) {
+                builder.technique(parseCodeableConcept("technique", techniqueArray.getJsonObject(i), i));
             }
         }
-        builder.molecularWeight(parseSubstanceSpecificationStructureIsotopeMolecularWeight("molecularWeight", getJsonValue(jsonObject, "molecularWeight", JsonObject.class), -1));
-        JsonArray sourceArray = getJsonArray(jsonObject, "source");
-        if (sourceArray != null) {
-            for (int i = 0; i < sourceArray.size(); i++) {
-                builder.source(parseReference("source", sourceArray.getJsonObject(i), i));
+        JsonArray sourceDocumentArray = getJsonArray(jsonObject, "sourceDocument");
+        if (sourceDocumentArray != null) {
+            for (int i = 0; i < sourceDocumentArray.size(); i++) {
+                builder.sourceDocument(parseReference("sourceDocument", sourceDocumentArray.getJsonObject(i), i));
             }
         }
         JsonArray representationArray = getJsonArray(jsonObject, "representation");
         if (representationArray != null) {
             for (int i = 0; i < representationArray.size(); i++) {
-                builder.representation(parseSubstanceSpecificationStructureRepresentation("representation", representationArray.getJsonObject(i), i));
+                builder.representation(parseSubstanceDefinitionStructureRepresentation("representation", representationArray.getJsonObject(i), i));
             }
         }
         stackPop();
         return builder.build();
     }
 
-    private SubstanceSpecification.Structure.Isotope parseSubstanceSpecificationStructureIsotope(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SubstanceDefinition.Structure.Representation parseSubstanceDefinitionStructureRepresentation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(SubstanceSpecification.Structure.Isotope.class, jsonObject);
+            checkForUnrecognizedElements(SubstanceDefinition.Structure.Representation.class, jsonObject);
         }
-        SubstanceSpecification.Structure.Isotope.Builder builder = SubstanceSpecification.Structure.Isotope.builder();
-        builder.setValidating(validating);
-        parseBackboneElement(builder, jsonObject);
-        builder.identifier(parseIdentifier("identifier", getJsonValue(jsonObject, "identifier", JsonObject.class), -1));
-        builder.name(parseCodeableConcept("name", getJsonValue(jsonObject, "name", JsonObject.class), -1));
-        builder.substitution(parseCodeableConcept("substitution", getJsonValue(jsonObject, "substitution", JsonObject.class), -1));
-        builder.halfLife(parseQuantity("halfLife", getJsonValue(jsonObject, "halfLife", JsonObject.class), -1));
-        builder.molecularWeight(parseSubstanceSpecificationStructureIsotopeMolecularWeight("molecularWeight", getJsonValue(jsonObject, "molecularWeight", JsonObject.class), -1));
-        stackPop();
-        return builder.build();
-    }
-
-    private SubstanceSpecification.Structure.Isotope.MolecularWeight parseSubstanceSpecificationStructureIsotopeMolecularWeight(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(SubstanceSpecification.Structure.Isotope.MolecularWeight.class, jsonObject);
-        }
-        SubstanceSpecification.Structure.Isotope.MolecularWeight.Builder builder = SubstanceSpecification.Structure.Isotope.MolecularWeight.builder();
-        builder.setValidating(validating);
-        parseBackboneElement(builder, jsonObject);
-        builder.method(parseCodeableConcept("method", getJsonValue(jsonObject, "method", JsonObject.class), -1));
-        builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
-        builder.amount(parseQuantity("amount", getJsonValue(jsonObject, "amount", JsonObject.class), -1));
-        stackPop();
-        return builder.build();
-    }
-
-    private SubstanceSpecification.Structure.Representation parseSubstanceSpecificationStructureRepresentation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (!ignoringUnrecognizedElements) {
-            checkForUnrecognizedElements(SubstanceSpecification.Structure.Representation.class, jsonObject);
-        }
-        SubstanceSpecification.Structure.Representation.Builder builder = SubstanceSpecification.Structure.Representation.builder();
+        SubstanceDefinition.Structure.Representation.Builder builder = SubstanceDefinition.Structure.Representation.builder();
         builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.representation(parseString("representation", getJsonValue(jsonObject, "representation", JsonString.class), jsonObject.get("_representation"), -1));
-        builder.attachment(parseAttachment("attachment", getJsonValue(jsonObject, "attachment", JsonObject.class), -1));
+        builder.format(parseCodeableConcept("format", getJsonValue(jsonObject, "format", JsonObject.class), -1));
+        builder.document(parseReference("document", getJsonValue(jsonObject, "document", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }

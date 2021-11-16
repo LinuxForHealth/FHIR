@@ -151,7 +151,7 @@ public class Composition extends DomainResource {
         bindingName = "DocumentConfidentiality",
         strength = BindingStrength.Value.REQUIRED,
         description = "Codes specifying the level of confidentiality of the composition.",
-        valueSet = "http://terminology.hl7.org/ValueSet/v3-ConfidentialityClassification|2014-03-26"
+        valueSet = "http://terminology.hl7.org/ValueSet/v3-Confidentiality|2.0.0|2.0.0"
     )
     private final DocumentConfidentiality confidentiality;
     private final List<Attester> attester;

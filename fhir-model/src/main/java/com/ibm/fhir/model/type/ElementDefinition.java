@@ -164,7 +164,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "Element names cannot include some special characters",
-    expression = "path.matches('[^\\s\\.,:;\\\'\"\\/|?!@#$%&*()\\[\\]{}]{1,64}(\\.[^\\s\\.,:;\\\'\"\\/|?!@#$%&*()\\[\\]{}]{1,64}(\\[x\\])?(\\:[^\\s\\.]+)?)*')",
+    expression = "path.matches('^[^\\s\\.,:;\\\'\"\\/|?!@#$%&*()\\[\\]{}]{1,64}(\\.[^\\s\\.,:;\\\'\"\\/|?!@#$%&*()\\[\\]{}]{1,64}(\\[x\\])?(\\:[^\\s\\.]+)?)*$')",
     source = "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
 )
 @Constraint(

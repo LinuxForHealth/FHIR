@@ -347,7 +347,7 @@ public class Parameters extends Resource {
         }
 
         /**
-         * If the parameter is a data type.
+         * Conveys the content if the parameter is a data type.
          * 
          * @return
          *     An immutable object of type {@link Base64Binary}, {@link Boolean}, {@link Canonical}, {@link Code}, {@link Date}, 
@@ -710,7 +710,7 @@ public class Parameters extends Resource {
             }
 
             /**
-             * If the parameter is a data type.
+             * Conveys the content if the parameter is a data type.
              * 
              * <p>This is a choice element with the following allowed types:
              * <ul>
