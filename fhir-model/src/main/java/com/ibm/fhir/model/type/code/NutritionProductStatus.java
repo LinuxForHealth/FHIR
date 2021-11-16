@@ -16,65 +16,74 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/exposure-state")
+@System("http://hl7.org/fhir/nutritionproduct-status")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
-public class ExposureState extends Code {
+public class NutritionProductStatus extends Code {
     /**
-     * Exposure
+     * Active
      * 
-     * <p>used when the results by exposure is describing the results for the primary exposure of interest.
+     * <p>The product can be used.
      */
-    public static final ExposureState EXPOSURE = ExposureState.builder().value(Value.EXPOSURE).build();
+    public static final NutritionProductStatus ACTIVE = NutritionProductStatus.builder().value(Value.ACTIVE).build();
 
     /**
-     * Exposure Alternative
+     * Inactive
      * 
-     * <p>used when the results by exposure is describing the results for the alternative exposure state, control state or 
-     * comparator state.
+     * <p>The product is not expected or allowed to be used.
      */
-    public static final ExposureState EXPOSURE_ALTERNATIVE = ExposureState.builder().value(Value.EXPOSURE_ALTERNATIVE).build();
+    public static final NutritionProductStatus INACTIVE = NutritionProductStatus.builder().value(Value.INACTIVE).build();
+
+    /**
+     * Entered in Error
+     * 
+     * <p>This electronic record should never have existed, though it is possible that real-world decisions were based on it. 
+     * (If real-world activity has occurred, the status should be "cancelled" rather than "entered-in-error".).
+     */
+    public static final NutritionProductStatus ENTERED_IN_ERROR = NutritionProductStatus.builder().value(Value.ENTERED_IN_ERROR).build();
 
     private volatile int hashCode;
 
-    private ExposureState(Builder builder) {
+    private NutritionProductStatus(Builder builder) {
         super(builder);
     }
 
     /**
-     * Get the value of this ExposureState as an enum constant.
+     * Get the value of this NutritionProductStatus as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
     }
 
     /**
-     * Factory method for creating ExposureState objects from a passed enum value.
+     * Factory method for creating NutritionProductStatus objects from a passed enum value.
      */
-    public static ExposureState of(Value value) {
+    public static NutritionProductStatus of(Value value) {
         switch (value) {
-        case EXPOSURE:
-            return EXPOSURE;
-        case EXPOSURE_ALTERNATIVE:
-            return EXPOSURE_ALTERNATIVE;
+        case ACTIVE:
+            return ACTIVE;
+        case INACTIVE:
+            return INACTIVE;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
         default:
             throw new IllegalStateException(value.name());
         }
     }
 
     /**
-     * Factory method for creating ExposureState objects from a passed string value.
+     * Factory method for creating NutritionProductStatus objects from a passed string value.
      * 
      * @param value
      *     A string that matches one of the allowed code values
      * @throws IllegalArgumentException
      *     If the passed string cannot be parsed into an allowed code value
      */
-    public static ExposureState of(java.lang.String value) {
+    public static NutritionProductStatus of(java.lang.String value) {
         return of(Value.from(value));
     }
 
     /**
-     * Inherited factory method for creating ExposureState objects from a passed string value.
+     * Inherited factory method for creating NutritionProductStatus objects from a passed string value.
      * 
      * @param value
      *     A string that matches one of the allowed code values
@@ -86,7 +95,7 @@ public class ExposureState extends Code {
     }
 
     /**
-     * Inherited factory method for creating ExposureState objects from a passed string value.
+     * Inherited factory method for creating NutritionProductStatus objects from a passed string value.
      * 
      * @param value
      *     A string that matches one of the allowed code values
@@ -108,7 +117,7 @@ public class ExposureState extends Code {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        ExposureState other = (ExposureState) obj;
+        NutritionProductStatus other = (NutritionProductStatus) obj;
         return Objects.equals(id, other.id) && Objects.equals(extension, other.extension) && Objects.equals(value, other.value);
     }
 
@@ -159,7 +168,7 @@ public class ExposureState extends Code {
          * Primitive value for code
          * 
          * @param value
-         *     An enum constant for ExposureState
+         *     An enum constant for NutritionProductStatus
          * 
          * @return
          *     A reference to this Builder instance
@@ -169,39 +178,46 @@ public class ExposureState extends Code {
         }
 
         @Override
-        public ExposureState build() {
-            ExposureState exposureState = new ExposureState(this);
+        public NutritionProductStatus build() {
+            NutritionProductStatus nutritionProductStatus = new NutritionProductStatus(this);
             if (validating) {
-                validate(exposureState);
+                validate(nutritionProductStatus);
             }
-            return exposureState;
+            return nutritionProductStatus;
         }
 
-        protected void validate(ExposureState exposureState) {
-            super.validate(exposureState);
+        protected void validate(NutritionProductStatus nutritionProductStatus) {
+            super.validate(nutritionProductStatus);
         }
 
-        protected Builder from(ExposureState exposureState) {
-            super.from(exposureState);
+        protected Builder from(NutritionProductStatus nutritionProductStatus) {
+            super.from(nutritionProductStatus);
             return this;
         }
     }
 
     public enum Value {
         /**
-         * Exposure
+         * Active
          * 
-         * <p>used when the results by exposure is describing the results for the primary exposure of interest.
+         * <p>The product can be used.
          */
-        EXPOSURE("exposure"),
+        ACTIVE("active"),
 
         /**
-         * Exposure Alternative
+         * Inactive
          * 
-         * <p>used when the results by exposure is describing the results for the alternative exposure state, control state or 
-         * comparator state.
+         * <p>The product is not expected or allowed to be used.
          */
-        EXPOSURE_ALTERNATIVE("exposure-alternative");
+        INACTIVE("inactive"),
+
+        /**
+         * Entered in Error
+         * 
+         * <p>This electronic record should never have existed, though it is possible that real-world decisions were based on it. 
+         * (If real-world activity has occurred, the status should be "cancelled" rather than "entered-in-error".).
+         */
+        ENTERED_IN_ERROR("entered-in-error");
 
         private final java.lang.String value;
 
@@ -218,12 +234,12 @@ public class ExposureState extends Code {
         }
 
         /**
-         * Factory method for creating ExposureState.Value values from a passed string value.
+         * Factory method for creating NutritionProductStatus.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
          * @return
-         *     The corresponding ExposureState.Value or null if a null value was passed
+         *     The corresponding NutritionProductStatus.Value or null if a null value was passed
          * @throws IllegalArgumentException
          *     If the passed string is not null and cannot be parsed into an allowed code value
          */
@@ -232,10 +248,12 @@ public class ExposureState extends Code {
                 return null;
             }
             switch (value) {
-            case "exposure":
-                return EXPOSURE;
-            case "exposure-alternative":
-                return EXPOSURE_ALTERNATIVE;
+            case "active":
+                return ACTIVE;
+            case "inactive":
+                return INACTIVE;
+            case "entered-in-error":
+                return ENTERED_IN_ERROR;
             default:
                 throw new IllegalArgumentException(value);
             }

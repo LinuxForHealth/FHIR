@@ -85,6 +85,12 @@ public interface Visitor {
 
     /**
      * @return
+     *     true if the children of this administrableProductDefinition should be visited; otherwise false
+     */
+    boolean visit(java.lang.String elementName, int elementIndex, AdministrableProductDefinition administrableProductDefinition);
+
+    /**
+     * @return
      *     true if the children of this adverseEvent should be visited; otherwise false
      */
     boolean visit(java.lang.String elementName, int elementIndex, AdverseEvent adverseEvent);
@@ -223,6 +229,12 @@ public interface Visitor {
 
     /**
      * @return
+     *     true if the children of this citation should be visited; otherwise false
+     */
+    boolean visit(java.lang.String elementName, int elementIndex, Citation citation);
+
+    /**
+     * @return
      *     true if the children of this claim should be visited; otherwise false
      */
     boolean visit(java.lang.String elementName, int elementIndex, Claim claim);
@@ -241,6 +253,18 @@ public interface Visitor {
 
     /**
      * @return
+     *     true if the children of this clinicalUseDefinition should be visited; otherwise false
+     */
+    boolean visit(java.lang.String elementName, int elementIndex, ClinicalUseDefinition clinicalUseDefinition);
+
+    /**
+     * @return
+     *     true if the children of this clinicalUseIssue should be visited; otherwise false
+     */
+    boolean visit(java.lang.String elementName, int elementIndex, ClinicalUseIssue clinicalUseIssue);
+
+    /**
+     * @return
      *     true if the children of this code should be visited; otherwise false
      */
     boolean visit(java.lang.String elementName, int elementIndex, Code code);
@@ -256,6 +280,12 @@ public interface Visitor {
      *     true if the children of this codeableConcept should be visited; otherwise false
      */
     boolean visit(java.lang.String elementName, int elementIndex, CodeableConcept codeableConcept);
+
+    /**
+     * @return
+     *     true if the children of this codeableReference should be visited; otherwise false
+     */
+    boolean visit(java.lang.String elementName, int elementIndex, CodeableReference codeableReference);
 
     /**
      * @return
@@ -361,6 +391,12 @@ public interface Visitor {
 
     /**
      * @return
+     *     true if the children of this dataType should be visited; otherwise false
+     */
+    boolean visit(java.lang.String elementName, int elementIndex, DataType dataType);
+
+    /**
+     * @return
      *     true if the children of this date should be visited; otherwise false
      */
     boolean visit(java.lang.String elementName, int elementIndex, Date date);
@@ -457,12 +493,6 @@ public interface Visitor {
 
     /**
      * @return
-     *     true if the children of this effectEvidenceSynthesis should be visited; otherwise false
-     */
-    boolean visit(java.lang.String elementName, int elementIndex, EffectEvidenceSynthesis effectEvidenceSynthesis);
-
-    /**
-     * @return
      *     true if the children of this element should be visited; otherwise false
      */
     boolean visit(java.lang.String elementName, int elementIndex, Element element);
@@ -514,6 +544,12 @@ public interface Visitor {
      *     true if the children of this evidence should be visited; otherwise false
      */
     boolean visit(java.lang.String elementName, int elementIndex, Evidence evidence);
+
+    /**
+     * @return
+     *     true if the children of this evidenceReport should be visited; otherwise false
+     */
+    boolean visit(java.lang.String elementName, int elementIndex, EvidenceReport evidenceReport);
 
     /**
      * @return
@@ -637,6 +673,12 @@ public interface Visitor {
 
     /**
      * @return
+     *     true if the children of this ingredient should be visited; otherwise false
+     */
+    boolean visit(java.lang.String elementName, int elementIndex, Ingredient ingredient);
+
+    /**
+     * @return
      *     true if the children of this instant should be visited; otherwise false
      */
     boolean visit(java.lang.String elementName, int elementIndex, Instant instant);
@@ -682,6 +724,12 @@ public interface Visitor {
      *     true if the children of this location should be visited; otherwise false
      */
     boolean visit(java.lang.String elementName, int elementIndex, Location location);
+
+    /**
+     * @return
+     *     true if the children of this manufacturedItemDefinition should be visited; otherwise false
+     */
+    boolean visit(java.lang.String elementName, int elementIndex, ManufacturedItemDefinition manufacturedItemDefinition);
 
     /**
      * @return
@@ -751,63 +799,9 @@ public interface Visitor {
 
     /**
      * @return
-     *     true if the children of this medicinalProduct should be visited; otherwise false
+     *     true if the children of this medicinalProductDefinition should be visited; otherwise false
      */
-    boolean visit(java.lang.String elementName, int elementIndex, MedicinalProduct medicinalProduct);
-
-    /**
-     * @return
-     *     true if the children of this medicinalProductAuthorization should be visited; otherwise false
-     */
-    boolean visit(java.lang.String elementName, int elementIndex, MedicinalProductAuthorization medicinalProductAuthorization);
-
-    /**
-     * @return
-     *     true if the children of this medicinalProductContraindication should be visited; otherwise false
-     */
-    boolean visit(java.lang.String elementName, int elementIndex, MedicinalProductContraindication medicinalProductContraindication);
-
-    /**
-     * @return
-     *     true if the children of this medicinalProductIndication should be visited; otherwise false
-     */
-    boolean visit(java.lang.String elementName, int elementIndex, MedicinalProductIndication medicinalProductIndication);
-
-    /**
-     * @return
-     *     true if the children of this medicinalProductIngredient should be visited; otherwise false
-     */
-    boolean visit(java.lang.String elementName, int elementIndex, MedicinalProductIngredient medicinalProductIngredient);
-
-    /**
-     * @return
-     *     true if the children of this medicinalProductInteraction should be visited; otherwise false
-     */
-    boolean visit(java.lang.String elementName, int elementIndex, MedicinalProductInteraction medicinalProductInteraction);
-
-    /**
-     * @return
-     *     true if the children of this medicinalProductManufactured should be visited; otherwise false
-     */
-    boolean visit(java.lang.String elementName, int elementIndex, MedicinalProductManufactured medicinalProductManufactured);
-
-    /**
-     * @return
-     *     true if the children of this medicinalProductPackaged should be visited; otherwise false
-     */
-    boolean visit(java.lang.String elementName, int elementIndex, MedicinalProductPackaged medicinalProductPackaged);
-
-    /**
-     * @return
-     *     true if the children of this medicinalProductPharmaceutical should be visited; otherwise false
-     */
-    boolean visit(java.lang.String elementName, int elementIndex, MedicinalProductPharmaceutical medicinalProductPharmaceutical);
-
-    /**
-     * @return
-     *     true if the children of this medicinalProductUndesirableEffect should be visited; otherwise false
-     */
-    boolean visit(java.lang.String elementName, int elementIndex, MedicinalProductUndesirableEffect medicinalProductUndesirableEffect);
+    boolean visit(java.lang.String elementName, int elementIndex, MedicinalProductDefinition medicinalProductDefinition);
 
     /**
      * @return
@@ -865,6 +859,12 @@ public interface Visitor {
 
     /**
      * @return
+     *     true if the children of this nutritionProduct should be visited; otherwise false
+     */
+    boolean visit(java.lang.String elementName, int elementIndex, NutritionProduct nutritionProduct);
+
+    /**
+     * @return
      *     true if the children of this observation should be visited; otherwise false
      */
     boolean visit(java.lang.String elementName, int elementIndex, Observation observation);
@@ -904,6 +904,12 @@ public interface Visitor {
      *     true if the children of this organizationAffiliation should be visited; otherwise false
      */
     boolean visit(java.lang.String elementName, int elementIndex, OrganizationAffiliation organizationAffiliation);
+
+    /**
+     * @return
+     *     true if the children of this packagedProductDefinition should be visited; otherwise false
+     */
+    boolean visit(java.lang.String elementName, int elementIndex, PackagedProductDefinition packagedProductDefinition);
 
     /**
      * @return
@@ -1033,9 +1039,21 @@ public interface Visitor {
 
     /**
      * @return
+     *     true if the children of this ratioRange should be visited; otherwise false
+     */
+    boolean visit(java.lang.String elementName, int elementIndex, RatioRange ratioRange);
+
+    /**
+     * @return
      *     true if the children of this reference should be visited; otherwise false
      */
     boolean visit(java.lang.String elementName, int elementIndex, Reference reference);
+
+    /**
+     * @return
+     *     true if the children of this regulatedAuthorization should be visited; otherwise false
+     */
+    boolean visit(java.lang.String elementName, int elementIndex, RegulatedAuthorization regulatedAuthorization);
 
     /**
      * @return
@@ -1090,12 +1108,6 @@ public interface Visitor {
      *     true if the children of this riskAssessment should be visited; otherwise false
      */
     boolean visit(java.lang.String elementName, int elementIndex, RiskAssessment riskAssessment);
-
-    /**
-     * @return
-     *     true if the children of this riskEvidenceSynthesis should be visited; otherwise false
-     */
-    boolean visit(java.lang.String elementName, int elementIndex, RiskEvidenceSynthesis riskEvidenceSynthesis);
 
     /**
      * @return
@@ -1177,51 +1189,27 @@ public interface Visitor {
 
     /**
      * @return
+     *     true if the children of this subscriptionStatus should be visited; otherwise false
+     */
+    boolean visit(java.lang.String elementName, int elementIndex, SubscriptionStatus subscriptionStatus);
+
+    /**
+     * @return
+     *     true if the children of this subscriptionTopic should be visited; otherwise false
+     */
+    boolean visit(java.lang.String elementName, int elementIndex, SubscriptionTopic subscriptionTopic);
+
+    /**
+     * @return
      *     true if the children of this substance should be visited; otherwise false
      */
     boolean visit(java.lang.String elementName, int elementIndex, Substance substance);
 
     /**
      * @return
-     *     true if the children of this substanceAmount should be visited; otherwise false
+     *     true if the children of this substanceDefinition should be visited; otherwise false
      */
-    boolean visit(java.lang.String elementName, int elementIndex, SubstanceAmount substanceAmount);
-
-    /**
-     * @return
-     *     true if the children of this substanceNucleicAcid should be visited; otherwise false
-     */
-    boolean visit(java.lang.String elementName, int elementIndex, SubstanceNucleicAcid substanceNucleicAcid);
-
-    /**
-     * @return
-     *     true if the children of this substancePolymer should be visited; otherwise false
-     */
-    boolean visit(java.lang.String elementName, int elementIndex, SubstancePolymer substancePolymer);
-
-    /**
-     * @return
-     *     true if the children of this substanceProtein should be visited; otherwise false
-     */
-    boolean visit(java.lang.String elementName, int elementIndex, SubstanceProtein substanceProtein);
-
-    /**
-     * @return
-     *     true if the children of this substanceReferenceInformation should be visited; otherwise false
-     */
-    boolean visit(java.lang.String elementName, int elementIndex, SubstanceReferenceInformation substanceReferenceInformation);
-
-    /**
-     * @return
-     *     true if the children of this substanceSourceMaterial should be visited; otherwise false
-     */
-    boolean visit(java.lang.String elementName, int elementIndex, SubstanceSourceMaterial substanceSourceMaterial);
-
-    /**
-     * @return
-     *     true if the children of this substanceSpecification should be visited; otherwise false
-     */
-    boolean visit(java.lang.String elementName, int elementIndex, SubstanceSpecification substanceSpecification);
+    boolean visit(java.lang.String elementName, int elementIndex, SubstanceDefinition substanceDefinition);
 
     /**
      * @return

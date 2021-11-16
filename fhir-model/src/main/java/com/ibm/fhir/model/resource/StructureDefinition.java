@@ -584,7 +584,7 @@ public class StructureDefinition extends DomainResource {
 
     /**
      * The version of the FHIR specification on which this StructureDefinition is based - this is the formal version of the 
-     * specification, without the revision number, e.g. [publication].[major].[minor], which is 4.0.1. for this version.
+     * specification, without the revision number, e.g. [publication].[major].[minor], which is 4.1.0 for this version.
      * 
      * @return
      *     An immutable object of type {@link FHIRVersion} that may be null.
@@ -1584,7 +1584,7 @@ public class StructureDefinition extends DomainResource {
 
         /**
          * The version of the FHIR specification on which this StructureDefinition is based - this is the formal version of the 
-         * specification, without the revision number, e.g. [publication].[major].[minor], which is 4.0.1. for this version.
+         * specification, without the revision number, e.g. [publication].[major].[minor], which is 4.1.0 for this version.
          * 
          * @param fhirVersion
          *     FHIR Version this StructureDefinition targets
