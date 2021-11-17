@@ -1,12 +1,11 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-// Generated from UCUM.g4 by ANTLR 4.9.1
+// Generated from fhir-model/UCUM.g4 by ANTLR 4.9.3
 package com.ibm.fhir.model.ucum;
-
 import java.util.List;
 
 import org.antlr.v4.runtime.NoViableAltException;
@@ -27,7 +26,7 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class UCUMParser extends Parser {
-    static { RuntimeMetaData.checkVersion("4.9.1", RuntimeMetaData.VERSION); }
+    static { RuntimeMetaData.checkVersion("4.9.3", RuntimeMetaData.VERSION); }
 
     protected static final DFA[] _decisionToDFA;
     protected static final PredictionContextCache _sharedContextCache =
