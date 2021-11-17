@@ -309,6 +309,10 @@ public class ChainParameterParseTest extends BaseSearchTest {
         FHIRSearchContext searchContext;
         Class<ClinicalImpression> resourceType = ClinicalImpression.class;
         Instant now = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+        // If the Instant has a millseconds value of exactly 0, then the toString() will not include milliseconds in the search query,
+        // which will cause the lower/upper bound to include all milliseconds within the second, instead of just the exact millisecond.
+        // For the purpose of this testcase, just ensure that there is a non-0 value for milliseconds, so the toString() includes
+        // milliseconds in the search query.
         if (now.get(ChronoField.MILLI_OF_SECOND) == 0) {
             now = now.plusMillis(1);
         }
