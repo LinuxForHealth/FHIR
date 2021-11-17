@@ -1748,6 +1748,80 @@ public class BundleTest extends FHIRServerTestBase {
     }
 
     @Test(groups = { "batch" })
+    public void testBatchLocalRefs4() throws Exception {
+        String method = "testBatchLocalRefs4";
+        // 3 Observations each referencing its own Patient
+        WebTarget target = getWebTarget();
+
+        Bundle bundle = buildBundle(BundleType.BATCH);
+
+        // Add 3 POST entries to create the Patient resources.
+        for (int i = 1; i <= 3; i++) {
+            String patientLocalRef = (i < 3) ? "https://test.com/fhir-server/api/v4/Patient/" + Integer.toString(i) : "Patient/3";
+
+            Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
+
+            HumanName newName = HumanName.builder().family(string("Doe_" + Integer.toString(i))).given(string("John"))
+                    .build();
+            List<HumanName> emptyList = new ArrayList<HumanName>();
+            patient = patient.toBuilder().name(emptyList).name(newName).build();
+
+            bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null, patient, patientLocalRef);
+        }
+
+        // Next, add 3 POST entries to create the Observation resources
+        for (int i = 1; i <= 3; i++) {
+            // Create an Observation that will reference the Patient via a local reference.
+            String observationLocalRef;
+            Observation obs = TestUtil.readLocalResource("Observation1.json");
+            if (i == 1) {
+                obs = obs.toBuilder().subject(Reference.builder().reference(string("Patient/1")).build()).build();
+                observationLocalRef = "https://test.com/fhir-server/api/v4/Observation/1";
+            } else if (i == 2) {
+                obs = obs.toBuilder().subject(Reference.builder().reference(string("https://test.com/fhir-server/api/v4/Patient/2")).build()).build();
+                observationLocalRef = "https://test2.com/fhir-server/api/v4/Observation/2";
+            } else {
+                obs = obs.toBuilder().subject(Reference.builder().reference(string("Patient/3")).build()).build();
+                observationLocalRef = "urn:3";
+            }
+            bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Observation", null, obs, observationLocalRef);
+        }
+
+        printBundle(method, "request", bundle);
+
+        Entity<Bundle> entity = Entity.entity(bundle, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response = target.request().header(PREFER_HEADER_NAME, PREFER_HEADER_RETURN_REPRESENTATION).post(entity, Response.class);
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle responseBundle = getEntityWithExtraWork(response,method);
+
+        // Verify that each resource was created as expected.
+        assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 6);
+        for (int i = 0; i < 6; i++) {
+            assertGoodPostPutResponse(responseBundle.getEntry().get(i), Status.CREATED.getStatusCode());
+        }
+
+        // Verify that each Observation correctly references its corresponding Patient.
+        for (int i = 0; i < 3; i++) {
+            Bundle.Entry patientEntry = responseBundle.getEntry().get(i);
+            Bundle.Entry obsEntry = responseBundle.getEntry().get(i + 3);
+
+            // Retrieve the Patient's id from its response entry.
+            String patientId = patientEntry.getResponse().getId();
+            String expectedReference = "Patient/" + patientId;
+
+            // Retrieve the resource from the request entry.
+            Resource resource = obsEntry.getResource();
+            assertTrue(resource instanceof Observation);
+            Observation obs = (Observation) resource;
+            assertNotNull(obs.getSubject());
+            assertNotNull(obs.getSubject().getReference());
+            String actualReference = obs.getSubject().getReference().getValue();
+            assertNotNull(actualReference);
+            assertEquals(actualReference, expectedReference);
+        }
+    }
+
+    @Test(groups = { "batch" })
     public void testBatchErrorDuplicateUrl() throws Exception {
         // duplicate fullUrl values
         String method = "testBatchErrorDuplicateUrl";
@@ -1862,6 +1936,139 @@ public class BundleTest extends FHIRServerTestBase {
             assertNotNull(obs.getSubject());
             assertNotNull(obs.getSubject().getReference());
             String actualReference = obs.getSubject().getReference().getValue();
+            assertNotNull(actualReference);
+            assertEquals(actualReference, expectedPatientReference);
+
+            // Verify the "org" reference in the extension attribute.
+            assertNotNull(obs.getExtension().get(0));
+            assertNotNull(obs.getExtension().get(0).getValue());
+            Reference orgRef = (Reference) obs.getExtension().get(0).getValue();
+            String actualOrgReference = orgRef.getReference().getValue();
+            assertEquals(actualOrgReference, expectedOrgReference);
+        }
+    }
+
+    @Test(groups = { "transaction" })
+    public void testTransactionLocalRefs2() throws Exception {
+        // 1 Patient referencing an Organization and a Practitioner
+        // and 2 Observations that reference the Patient
+        String method = "testTransactionLocalRefs2";
+        WebTarget target = getWebTarget();
+
+        Bundle bundle = buildBundle(BundleType.TRANSACTION);
+
+        // Add a POST entry to create the Organization.
+        String urlBase = "http://test.org/fhir-server/api/v4/";
+        String orgRelativeRef = "Organization/Org1";
+        String orgLocalRef = urlBase + orgRelativeRef;
+        Organization org = TestUtil.readLocalResource("AcmeOrg.json");
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Organization", null, org, orgLocalRef);
+
+        // Add a POST entry to create the Practitioner.
+        String practitionerRelativeRef = "Practitioner/Doctor1";
+        String practitionerLocalRef = urlBase + practitionerRelativeRef;
+        Practitioner doctor = TestUtil.readLocalResource("DrStrangelove.json");
+
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Practitioner", null, doctor, practitionerLocalRef);
+
+        // Next, add a POST entry to create the Patient.
+        String patientRelativeRef = "Patient/" + UUID.randomUUID().toString();
+        String patientLocalRef = urlBase + patientRelativeRef;
+        Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
+
+        patient = patient.toBuilder().managingOrganization(Reference.builder().reference(string(orgRelativeRef)).build())
+                .generalPractitioner(Reference.builder().reference(string(practitionerRelativeRef)).build()).build();
+
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null, patient, patientLocalRef);
+
+        // Next, add 2 POST entries to create the Observation resources
+        for (int i = 1; i <= 2; i++) {
+            // Load the Observation resource.
+            Observation obs = TestUtil.readLocalResource("Observation1.json");
+
+            // Set its "subject" field to reference the Patient.
+            // Add an extension element that references the Organization
+            String obsLocalRef = urlBase + "Observation/" + Integer.toString(i);
+            if (i == 1) {
+                obs = obs.toBuilder().subject(Reference.builder().reference(string(patientLocalRef)).build())
+                        .extension(Extension.builder().url(ORG_EXTENSION_URL)
+                            .value(Reference.builder().reference(string(orgRelativeRef)).build()).build())
+                        .build();
+
+                bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Observation", null, obs, obsLocalRef);
+            } else {
+                obs = obs.toBuilder().subject(Reference.builder().reference(string(patientRelativeRef)).build())
+                        .extension(Extension.builder().url(ORG_EXTENSION_URL)
+                            .value(Reference.builder().reference(string(orgLocalRef)).build()).build())
+                        .build();
+
+                bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Observation", null, obs, obsLocalRef);
+            }
+        }
+
+        printBundle(method, "request", bundle);
+
+        Entity<Bundle> entity = Entity.entity(bundle, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response = target.request()
+                                .header(PREFER_HEADER_NAME, PREFER_HEADER_RETURN_REPRESENTATION)
+                                .post(entity, Response.class);
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle responseBundle = getEntityWithExtraWork(response,method);
+
+        // Verify that each resource was created as expected.
+        assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 5);
+        for (int i = 0; i < 5; i++) {
+            assertGoodPostPutResponse(responseBundle.getEntry().get(i), Status.CREATED.getStatusCode());
+        }
+
+        Bundle.Entry orgEntry = responseBundle.getEntry().get(0);
+        Bundle.Entry practitionerEntry = responseBundle.getEntry().get(1);
+        Bundle.Entry patientEntry = responseBundle.getEntry().get(2);
+
+        // Retrieve the Organization's id from its response entry.
+        String orgId = orgEntry.getResponse().getId();
+        String expectedOrgReference = "Organization/" + orgId;
+
+        // Retrieve the Practitioner's id from its response entry.
+        String practitionerId = practitionerEntry.getResponse().getId();
+        String expectedPractitionerReference = "Practitioner/" + practitionerId;
+
+        // Retrieve the Patient's id from its response entry.
+        String patientId = patientEntry.getResponse().getId();
+        String expectedPatientReference = "Patient/" + patientId;
+
+        // Check Patient to make sure its local references were processed correctly.
+        Resource patientResource = patientEntry.getResource();
+        assertTrue(patientResource instanceof Patient);
+        patient = (Patient) patientResource;
+        
+        // Verify the Patient.managingOrganization field.
+        assertNotNull(patient.getManagingOrganization());
+        assertNotNull(patient.getManagingOrganization().getReference());
+        String actualReference = patient.getManagingOrganization().getReference().getValue();
+        assertNotNull(actualReference);
+        assertEquals(actualReference, expectedOrgReference);
+
+        // Verify the Patient.generalPractitioner field.
+        assertNotNull(patient.getGeneralPractitioner());
+        assertNotNull(patient.getGeneralPractitioner().get(0).getReference());
+        actualReference = patient.getGeneralPractitioner().get(0).getReference().getValue();
+        assertNotNull(actualReference);
+        assertEquals(actualReference, expectedPractitionerReference);
+        
+        // Next, check each observation to make sure their local references were
+        // processed correctly.
+        for (int i = 3; i < 5; i++) {
+            // Retrieve the resource from the request entry.
+            Bundle.Entry obsEntry = responseBundle.getEntry().get(i);
+            Resource resource = obsEntry.getResource();
+            assertTrue(resource instanceof Observation);
+            Observation obs = (Observation) resource;
+
+            // Verify the Observation.subject field.
+            assertNotNull(obs.getSubject());
+            assertNotNull(obs.getSubject().getReference());
+            actualReference = obs.getSubject().getReference().getValue();
             assertNotNull(actualReference);
             assertEquals(actualReference, expectedPatientReference);
 

@@ -6,8 +6,8 @@
 
 package com.ibm.fhir.model.util.test;
 
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotEquals;
-import static org.testng.AssertJUnit.assertNotSame;
 
 import java.io.StringWriter;
 import java.time.LocalDate;
@@ -37,8 +37,7 @@ import com.ibm.fhir.model.util.ReferenceMappingVisitor;
 public class ReferenceMappingVisitorTest {
     public boolean DEBUG = false;
 
-    private Patient patient;
-    private HashMap<java.lang.String, java.lang.String> localRefMap;
+    private Patient basePatient;
 
     @BeforeClass
     public void setUp() throws Exception {
@@ -70,45 +69,211 @@ public class ReferenceMappingVisitorTest {
                         .family(String.of("Doe"))
                         .build();
 
-        java.lang.String uUID = UUID.randomUUID().toString();
-
-        localRefMap = new HashMap<java.lang.String, java.lang.String>();
-        localRefMap.put("urn:uuid:" + uUID, "urn:romote:" + uUID);
-
-        Reference providerRef = Reference.builder()
-                        .reference(String.of("urn:uuid:" + uUID))
-                        .build();
-
-        patient = Patient.builder()
+        basePatient = Patient.builder()
                         .id(id)
                         .active(Boolean.TRUE)
                         .multipleBirth(Integer.of(2))
                         .meta(meta)
                         .name(name)
                         .birthDate(Date.of(LocalDate.now()))
-                        .generalPractitioner(providerRef)
                         .build();
     }
 
     @Test(enabled = true)
     public void testUpdateReferences() throws FHIRGeneratorException {
-        ReferenceMappingVisitor<Patient> visitor = new ReferenceMappingVisitor<Patient>(localRefMap);
+        java.lang.String uUID = UUID.randomUUID().toString();
+        HashMap<java.lang.String, java.lang.String> localRefMap = new HashMap<java.lang.String, java.lang.String>();
+        localRefMap.put("urn:uuid:" + uUID, "urn:romote:" + uUID);
+        
+        Reference providerRef = Reference.builder()
+                .reference(String.of("urn:uuid:" + uUID))
+                .build();
+
+        Patient patient = basePatient.toBuilder().generalPractitioner(providerRef).build();
+        ReferenceMappingVisitor<Patient> visitor = new ReferenceMappingVisitor<Patient>(localRefMap, null);
         patient.accept(visitor);
         Patient result = visitor.getResult();
-
-        assertNotSame(result, patient);
 
         StringWriter writer1 = new StringWriter();
         FHIRGenerator.generator(Format.JSON, true).generate(patient, writer1);
         StringWriter writer2 = new StringWriter();
         FHIRGenerator.generator(Format.JSON, true).generate(result, writer2);
-        assertNotEquals(writer2.toString(), writer1.toString());
 
         if (DEBUG) {
             System.out.println(writer1.toString());
             System.out.println(writer2.toString());
         }
 
-        assertNotEquals(result, patient);
+        assertNotEquals(writer2.toString(), writer1.toString());
+        assertEquals(result.getGeneralPractitioner().get(0).getReference().getValue(), "urn:romote:" + uUID);
+    }
+
+    @Test(enabled = true)
+    public void testUpdateReferencesWithAbsoluteFullUrlAndRelativeReferenceMatch() throws FHIRGeneratorException {
+        HashMap<java.lang.String, java.lang.String> localRefMap = new HashMap<java.lang.String, java.lang.String>();
+        localRefMap.put("https://test.com/fhir-server/api/v4/Practitioner/test", "Practitioner/1");
+        
+        Reference providerRef = Reference.builder()
+                .reference(String.of("Practitioner/test"))
+                .build();
+
+        Patient patient = basePatient.toBuilder().generalPractitioner(providerRef).build();
+        ReferenceMappingVisitor<Patient> visitor = new ReferenceMappingVisitor<Patient>(localRefMap,
+                "https://test.com/fhir-server/api/v4/Patient/test");
+        patient.accept(visitor);
+        Patient result = visitor.getResult();
+
+        StringWriter writer1 = new StringWriter();
+        FHIRGenerator.generator(Format.JSON, true).generate(patient, writer1);
+        StringWriter writer2 = new StringWriter();
+        FHIRGenerator.generator(Format.JSON, true).generate(result, writer2);
+
+        if (DEBUG) {
+            System.out.println(writer1.toString());
+            System.out.println(writer2.toString());
+        }
+
+        assertNotEquals(writer2.toString(), writer1.toString());
+        assertEquals(result.getGeneralPractitioner().get(0).getReference().getValue(), "Practitioner/1");
+    }
+
+    @Test(enabled = true)
+    public void testUpdateReferencesWithRelativeFullUrlAndAbsoluteReferenceMatch() throws FHIRGeneratorException {
+        HashMap<java.lang.String, java.lang.String> localRefMap = new HashMap<java.lang.String, java.lang.String>();
+        localRefMap.put("https://test.com/fhir-server/api/v4/Practitioner/test", "Practitioner/1");
+        
+        Reference providerRef = Reference.builder()
+                .reference(String.of("https://test.com/fhir-server/api/v4/Practitioner/test"))
+                .build();
+
+        Patient patient = basePatient.toBuilder().generalPractitioner(providerRef).build();
+        ReferenceMappingVisitor<Patient> visitor = new ReferenceMappingVisitor<Patient>(localRefMap, "Patient/test");
+        patient.accept(visitor);
+        Patient result = visitor.getResult();
+
+        StringWriter writer1 = new StringWriter();
+        FHIRGenerator.generator(Format.JSON, true).generate(patient, writer1);
+        StringWriter writer2 = new StringWriter();
+        FHIRGenerator.generator(Format.JSON, true).generate(result, writer2);
+
+        if (DEBUG) {
+            System.out.println(writer1.toString());
+            System.out.println(writer2.toString());
+        }
+
+        assertNotEquals(writer2.toString(), writer1.toString());
+        assertEquals(result.getGeneralPractitioner().get(0).getReference().getValue(), "Practitioner/1");
+    }
+
+    @Test(enabled = true)
+    public void testUpdateReferencesWithRelativeFullUrlAndRelativeReferenceMatch() throws FHIRGeneratorException {
+        HashMap<java.lang.String, java.lang.String> localRefMap = new HashMap<java.lang.String, java.lang.String>();
+        localRefMap.put("Practitioner/test", "Practitioner/1");
+        
+        Reference providerRef = Reference.builder()
+                .reference(String.of("Practitioner/test"))
+                .build();
+
+        Patient patient = basePatient.toBuilder().generalPractitioner(providerRef).build();
+        ReferenceMappingVisitor<Patient> visitor = new ReferenceMappingVisitor<Patient>(localRefMap, "Patient/test");
+        patient.accept(visitor);
+        Patient result = visitor.getResult();
+
+        StringWriter writer1 = new StringWriter();
+        FHIRGenerator.generator(Format.JSON, true).generate(patient, writer1);
+        StringWriter writer2 = new StringWriter();
+        FHIRGenerator.generator(Format.JSON, true).generate(result, writer2);
+
+        if (DEBUG) {
+            System.out.println(writer1.toString());
+            System.out.println(writer2.toString());
+        }
+
+        assertNotEquals(writer2.toString(), writer1.toString());
+        assertEquals(result.getGeneralPractitioner().get(0).getReference().getValue(), "Practitioner/1");
+    }
+
+    @Test(enabled = true)
+    public void testUpdateReferencesWithAbsoluteFullUrlAndAbsoluteReferenceNoMatch() throws FHIRGeneratorException {
+        HashMap<java.lang.String, java.lang.String> localRefMap = new HashMap<java.lang.String, java.lang.String>();
+        localRefMap.put("https://test.com/fhir-server/api/v4/Practitioner/test", "Practitioner/1");
+        
+        Reference providerRef = Reference.builder()
+                .reference(String.of("https://test2.com/fhir-server/api/v4/Practitioner/test"))
+                .build();
+
+        Patient patient = basePatient.toBuilder().generalPractitioner(providerRef).build();
+        ReferenceMappingVisitor<Patient> visitor = new ReferenceMappingVisitor<Patient>(localRefMap,
+                "https://test.com/fhir-server/api/v4/Patient/test");
+        patient.accept(visitor);
+        Patient result = visitor.getResult();
+
+        StringWriter writer1 = new StringWriter();
+        FHIRGenerator.generator(Format.JSON, true).generate(patient, writer1);
+        StringWriter writer2 = new StringWriter();
+        FHIRGenerator.generator(Format.JSON, true).generate(result, writer2);
+
+        if (DEBUG) {
+            System.out.println(writer1.toString());
+            System.out.println(writer2.toString());
+        }
+
+        assertEquals(writer2.toString(), writer1.toString());
+    }
+
+    @Test(enabled = true)
+    public void testUpdateReferencesWithAbsoluteFullUrlAndFragmentReferenceNoMatch() throws FHIRGeneratorException {
+        HashMap<java.lang.String, java.lang.String> localRefMap = new HashMap<java.lang.String, java.lang.String>();
+        localRefMap.put("https://test.com/fhir-server/api/v4/#Practitioner", "Practitioner/1");
+        
+        Reference providerRef = Reference.builder()
+                .reference(String.of("#Practitioner"))
+                .build();
+
+        Patient patient = basePatient.toBuilder().generalPractitioner(providerRef).build();
+        ReferenceMappingVisitor<Patient> visitor = new ReferenceMappingVisitor<Patient>(localRefMap,
+                "https://test.com/fhir-server/api/v4/Patient/test");
+        patient.accept(visitor);
+        Patient result = visitor.getResult();
+
+        StringWriter writer1 = new StringWriter();
+        FHIRGenerator.generator(Format.JSON, true).generate(patient, writer1);
+        StringWriter writer2 = new StringWriter();
+        FHIRGenerator.generator(Format.JSON, true).generate(result, writer2);
+
+        if (DEBUG) {
+            System.out.println(writer1.toString());
+            System.out.println(writer2.toString());
+        }
+
+        assertEquals(writer2.toString(), writer1.toString());
+    }
+
+    @Test(enabled = true)
+    public void testUpdateReferencesWithNonRestfulAbsoluteFullUrlAndRelativeReferenceNoMatch() throws FHIRGeneratorException {
+        HashMap<java.lang.String, java.lang.String> localRefMap = new HashMap<java.lang.String, java.lang.String>();
+        localRefMap.put("https://test.com/fhir-server/api/v4/Practitioner/test", "Practitioner/1");
+        
+        Reference providerRef = Reference.builder()
+                .reference(String.of("Practitioner/test"))
+                .build();
+
+        Patient patient = basePatient.toBuilder().generalPractitioner(providerRef).build();
+        ReferenceMappingVisitor<Patient> visitor = new ReferenceMappingVisitor<Patient>(localRefMap,
+                "https://test.com/fhir-server/api/v4/NotValidRestfulRegex/test");
+        patient.accept(visitor);
+        Patient result = visitor.getResult();
+
+        StringWriter writer1 = new StringWriter();
+        FHIRGenerator.generator(Format.JSON, true).generate(patient, writer1);
+        StringWriter writer2 = new StringWriter();
+        FHIRGenerator.generator(Format.JSON, true).generate(result, writer2);
+
+        if (DEBUG) {
+            System.out.println(writer1.toString());
+            System.out.println(writer2.toString());
+        }
+
+        assertEquals(writer2.toString(), writer1.toString());
     }
 }

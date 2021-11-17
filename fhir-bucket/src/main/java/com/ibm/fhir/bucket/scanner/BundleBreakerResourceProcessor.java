@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -178,7 +178,7 @@ public class BundleBreakerResourceProcessor implements IResourceEntryProcessor {
                     if (HTTPVerb.PUT.equals(requestEntry.getRequest().getMethod())) {
                         // PUT remapped to PUT. The local id is already an external identifier
                         ReferenceMappingVisitor<Resource> visitor =
-                                new ReferenceMappingVisitor<Resource>(localRefMap);
+                                new ReferenceMappingVisitor<Resource>(localRefMap, localId);
                         resource.accept(visitor);
                         resource = visitor.getResult();
                         
@@ -195,7 +195,7 @@ public class BundleBreakerResourceProcessor implements IResourceEntryProcessor {
                         String externalId = localRefMap.get(localId);
                         if (externalId != null) {
                             String newId = externalId.substring(externalId.lastIndexOf('/')+1);
-                            IdReferenceMappingVisitor visitor = new IdReferenceMappingVisitor(localRefMap, newId);
+                            IdReferenceMappingVisitor visitor = new IdReferenceMappingVisitor(localRefMap, localId, newId);
                             resource.accept(visitor);
                             resource = visitor.getResult();
                             
@@ -209,7 +209,7 @@ public class BundleBreakerResourceProcessor implements IResourceEntryProcessor {
                     } else if (HTTPVerb.DELETE.equals(requestEntry.getRequest().getMethod())) {
                         // Update any local references contained within the resource
                         ReferenceMappingVisitor<Resource> visitor =
-                                new ReferenceMappingVisitor<Resource>(localRefMap);
+                                new ReferenceMappingVisitor<Resource>(localRefMap, localId);
                         resource.accept(visitor);
                         resource = visitor.getResult();
 

@@ -3,7 +3,7 @@ layout: post
 title:  IBM FHIR Server User's Guide
 description: IBM FHIR Server User's Guide
 Copyright: years 2017, 2021
-lastupdated: "2021-11-08"
+lastupdated: "2021-11-17"
 permalink: /FHIRServerUsersGuide/
 ---
 
@@ -917,11 +917,11 @@ To use the FHIR Client from your application, specify the `fhir-client` artifact
 For examples on how to use the IBM FHIR Client, look for tests like `com.ibm.fhir.client.test.mains.FHIRClientSample` from the `fhir-client` project in git. Additionally, the FHIR Client is heavilly used from our integration tests in `fhir-server-test`.
 
 ## 4.8 Using local references within request bundles
-Inter-dependencies between resources are typically defined by one resource containing a field of type `Reference` which contains an _external reference_<sup id="a5">[5](#f5)</sup> to another resource. For example, an `Observation` resource could reference a `Patient` resource via the Observation's `subject` field. The value that is stored in the `Reference-type` field (for example, `subject` in the case of the `Observation` resource) could be an absolute URL, such as `https://fhirserver1:9443/fhir-server/api/v4/Patient/12345`, or a relative URL (for example, `Patient/12345`).
+Inter-dependencies between resources are typically defined by one resource containing a field of type `Reference` which contains an _external reference_<sup id="a5">[5](#f5)</sup> to another resource. For example, an `Observation` resource could reference a `Patient` resource via the Observation's `subject` field. The value that is stored in the `Reference.reference` field (for example, `Observation.subject.reference` in the case of the `Observation` resource) could be an absolute URL, such as `https://fhirserver1:9443/fhir-server/api/v4/Patient/12345`, or a relative URL, such as `Patient/12345`.
 
-In order to establish a reference to a resource, you must first know its resource identifier. However, if you are using a request bundle to create both the referenced resource (`Patient` in this example) and the resource which references it (`Observation`), then it is impossible to know the `Patient`resource identifier before the request bundle has been processed (that is, before the new `Patient` resource is created).
-
-Thankfully, the HL7 FHIR specification defines a way to express a dependency between two resources within a request bundle by using a _local reference_<sup id="a6">[6](#f6)</sup>. In the following example, a request bundle contains a `POST` request to create a new `Patient` resource, along with a `POST` request to create a new `Observation` resource that references that `Patient`:
+As described above, in order to establish a reference to a resource, you must first know its resource identifier. However, if you are using a request bundle to create both the referenced resource (`Patient` in this example) and the resource which references it (`Observation`), then it is impossible to know the `Patient`resource identifier before the request bundle has been processed (that is, before the new `Patient` resource is created).
+ 
+Thankfully, the HL7 FHIR specification defines a way to express a dependency between two resources within a request bundle by using a _local identifier_ to identify the resource being referenced, and a _local reference_<sup id="a6">[6](#f6)</sup> to reference the resource via its local identifier. In the following example, a request bundle contains a `POST` request to create a new `Patient` resource, along with a `POST` request to create a new `Observation` resource that references that `Patient`:
 
 #### 4.8.0.1 Example 1: Observation references Patient via local reference
 ```
@@ -955,17 +955,20 @@ Thankfully, the HL7 FHIR specification defines a way to express a dependency bet
 }
 ```
 
-In order to reference a resource via a local reference, you must first define a local identifier for that resource by specifying the `fullUrl` field within the request entry. To define a local identifier, use a value that starts with `urn:` as in the preceding example. The HL7 FHIR specification highly recommends that the value of the identifier should be a UUID-type value, although the FHIR server does not require the use of a UUID value. You can use any value you like after the `urn:` prefix as long as it is unique within the bundle. For example, you can use urn:Patient_1, urn:ABC, or urn:Foo. Just make sure that no two request entries share the same fullUrl value within the request bundle.
+To define a local identifier for a resource, you must specify it in the `Bundle.entry.fullUrl` field of the resource's bundle entry. The HL7 FHIR specification recommends that the local identifier be the persistent identity of the resource if known, otherwise a UUID-type value prefixed with `urn:` as in the preceding example. However, the FHIR server does not require the use of a UUID value. You can use any value you like after the `urn:` prefix as long as it is unique within the bundle. For example, you can use `urn:Patient_1`, `urn:ABC`, or `urn:Foo`. Just make sure that no two request entries share the same `fullUrl` value within the request bundle.
 
 After you define a local identifier for the referenced resource, you can then define one or more references to that resource by using the local identifier instead of an external identifier. In the preceding example, you can see that the Observation's `subject.reference` field specifies the Patient's local identifier as specified in the `fullUrl` field of the Patient's request entry.
 
 ### 4.8.1 Processing rules
 The following processing rules apply for the use of local references within a request bundle:
-1.  A local identifier must be defined via a request entry's `fullUrl` field in order for that local identifier to be used in a local reference.
-2.  Local references will only be recognized for local identifiers associated with requst entries with a request method of `POST` or `PUT`.
+1.  A local identifier must be defined via a request bundle entry's `fullUrl` field in order for that local identifier to be used in a local reference.
+2.  Local references will only be recognized for local identifiers associated with request bundle entries with a request method of `POST` or `PUT`.
 3.  `POST` requests will be processed before `PUT` requests.
-4.  There is no order dependency within a request bundle for request entries defining local identifiers, and request entries which reference those local identifiers via local reference. The exception to this rule is for request entries which specify [conditional create](https://www.hl7.org/fhir/http.html#ccreate) or [conditional update](https://www.hl7.org/fhir/http.html#cond-update) requests.
-5.  If a request entry specifying a conditional create or update request defines a local identifier, that request entry must be processed before a request entry which references the local identifier in a local reference.
+4.  There is no order dependency within a request bundle for bundle entries defining local identifiers, and bundle entries which reference those local identifiers via local references. The exception to this rule is for request bundle entries which specify [conditional create](https://www.hl7.org/fhir/http.html#ccreate) or [conditional update](https://www.hl7.org/fhir/http.html#cond-update) requests.
+5.  If a request bundle entry specifying a conditional create or update request defines a local identifier, that request bundle entry must be processed before a request bundle entry which references the local identifier in a local reference.
+6. If a request bundle entry contains a reference which is a relative URL, such as `Patient/1`, and if that bundle entry has a local identifier which is an absolute URL conforming to the FHIR specification's [RESTful URL definition](https://www.hl7.org/fhir/references.html#regex), such as `https://fhirserver1:9443/fhir-server/api/v4/Observation/1`, then the FHIR server will attempt to resolve the local reference as follows, based on the [FHIR specification](https://www.hl7.org/fhir/bundle.html#references):
+    - it will extract the [root] from the local identifier (`https://fhirserver1:9443/fhir-server/api/v4/`) and append the reference (`Patient/1`) to it
+    - it will then try to resolve the reference within the request bundle using the updated local reference (`https://fhirserver1:9443/fhir-server/api/v4/Patient/1`)
 
 In the example in [Section 4.8.0.1](#4801-example-1-observation-references-patient-via-local-reference), you can see that there are two POST requests and the `Patient` request entry appears in the bundle before the `Observation` request entry. However, based on rule 4, it would still be a valid request bundle if the `Observation` request entry appeared before the `Patient` request entry, unless the `Patient` request entry specified a conditional create (rule 5).
 
@@ -1093,6 +1096,41 @@ Then when the FHIR server processes the POST requests for the `Encounter` and `P
     } ]
 }
 ```
+
+#### 4.8.1.4 Example 5: Observation references Patient via relative local reference
+```
+{
+    "resourceType" : "Bundle",
+    "type" : "batch",
+    "entry" : [ {
+        "fullUrl" : "https://fhirserver1:9443/fhir-server/api/v4/Patient/new",
+        "resource" : {
+            "resourceType" : "Patient",
+            …
+        },
+        "request" : {
+            "method" : "POST",
+            "url" : "Patient"
+        }
+    }, {
+        "fullUrl" : "https://fhirserver1:9443/fhir-server/api/v4/Observation/new",
+        "resource" : {
+            "resourceType" : "Observation",
+            …
+            "subject" : {
+                "reference" : "Patient/new"
+            },
+            …
+        },
+        "request" : {
+            "method" : "POST",
+            "url" : "Observation"
+        }
+    } ]
+}
+```
+
+In example 5, the local identifiers for the request bundle entries are absolute URLs that conform to the FHIR specification's RESTful URL definition. When the FHIR server attempts to resolve the `Observation` request entry's `subject` reference, it will apply rule 6, since the reference is a relative URL. The local reference will be modified to be the original local reference (`Patient/new`) appended to the [root] from the `Observation` entry's local identifier (`https://fhirserver1:9443/fhir-server/api/v4/`). This will then be a valid reference  (`https://fhirserver1:9443/fhir-server/api/v4/Patient/new`) to the `Patient` request entry resource.
 
 ## 4.9 Multi-tenancy
 The FHIR server includes features that allow a single instance of the server to simultaneously support multiple tenants. A tenant is defined as a group of one or more FHIR REST API consumers that share a FHIR server configuration along with one or more data stores associated with that configuration. A tenant could be a single application using the FHIR REST API, or it could be a group of applications belonging to a single customer. The main idea behind multi-tenancy is that each tenant can experience its own customized FHIR server runtime behavior and its data can be physically isolated from other tenants' data for increased security and privacy.
