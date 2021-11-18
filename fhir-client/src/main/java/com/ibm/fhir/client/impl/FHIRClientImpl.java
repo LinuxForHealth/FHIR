@@ -783,12 +783,20 @@ public class FHIRClientImpl implements FHIRClient {
      *            the array of headers to be added to the request
      */
     private Builder addRequestHeaders(Builder builder, FHIRRequestHeader[] headers) {
+        boolean contentType = false;
         if (headers != null) {
             for (FHIRRequestHeader header : headers) {
                 if (header.getName() != null && header.getValue() != null) {
+                    if (header.getName().equals("Content-Type")) {
+                        contentType = true;
+                    }
                     builder = builder.header(header.getName(), header.getValue());
                 }
             }
+        }
+
+        if (!contentType) {
+            builder.header("Content-Type", "json");
         }
 
         // Set the tenantId, if we have one
