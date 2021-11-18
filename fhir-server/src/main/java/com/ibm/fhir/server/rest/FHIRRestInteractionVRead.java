@@ -6,7 +6,7 @@
 
 package com.ibm.fhir.server.rest;
 
-import javax.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.MultivaluedMap;
 
 import com.ibm.fhir.server.util.FHIRUrlParser;
 

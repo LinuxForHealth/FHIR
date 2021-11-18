@@ -13,7 +13,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.ws.rs.core.Response.Status;
+import jakarta.ws.rs.core.Response.Status;
 
 import com.ibm.fhir.bulkdata.audit.BulkAuditLogger;
 import com.ibm.fhir.model.resource.Group;

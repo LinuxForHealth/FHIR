@@ -14,8 +14,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-import javax.ws.rs.core.MultivaluedHashMap;
-import javax.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.MultivaluedHashMap;
+import jakarta.ws.rs.core.MultivaluedMap;
 
 import com.ibm.fhir.cql.engine.retrieve.SearchParameterFHIRRetrieveProvider;
 import com.ibm.fhir.cql.engine.retrieve.SearchParameterMap;

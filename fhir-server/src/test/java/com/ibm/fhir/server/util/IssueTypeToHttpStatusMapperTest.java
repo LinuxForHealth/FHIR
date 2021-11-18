@@ -10,7 +10,7 @@ import static org.testng.Assert.assertEquals;
 
 import java.util.Arrays;
 
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 
 import org.testng.annotations.Test;
 

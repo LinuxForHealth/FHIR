@@ -9,7 +9,6 @@ package com.ibm.fhir.server.rest;
 import static com.ibm.fhir.model.type.String.string;
 
 import java.time.ZoneOffset;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -17,10 +16,6 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
-
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.Response.Status;
 
 import org.owasp.encoder.Encode;
 
@@ -43,13 +38,15 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedExceptio
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.exception.FHIRSearchException;
-import com.ibm.fhir.server.exception.FHIRRestBundledRequestException;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers.Interaction;
 import com.ibm.fhir.server.spi.operation.FHIRRestOperationResponse;
 import com.ibm.fhir.server.util.FHIRUrlParser;
 import com.ibm.fhir.server.util.IssueTypeToHttpStatusMapper;
+
+import jakarta.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.Response.Status;
 
 /**
  * Used to prepare bundle entries before they hit the persistence layer. For write operations

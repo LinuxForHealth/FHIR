@@ -11,8 +11,8 @@ import static org.testng.Assert.fail;
 
 import java.util.concurrent.Callable;
 
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.core.Response;
 
 import com.ibm.fhir.client.FHIRClient;
 import com.ibm.fhir.client.FHIRResponse;

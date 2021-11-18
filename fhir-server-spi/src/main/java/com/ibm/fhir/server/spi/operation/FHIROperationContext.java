@@ -9,7 +9,7 @@ package com.ibm.fhir.server.spi.operation;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.core.HttpHeaders;
 
 /**
  * This class holds context information for custom operation invocations.

@@ -14,7 +14,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.ws.rs.core.SecurityContext;
+import jakarta.ws.rs.core.SecurityContext;
 
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.exception.FHIROperationException;

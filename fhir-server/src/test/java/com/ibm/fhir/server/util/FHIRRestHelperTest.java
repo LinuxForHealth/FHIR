@@ -16,7 +16,7 @@ import static org.testng.Assert.fail;
 
 import java.util.Arrays;
 
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;

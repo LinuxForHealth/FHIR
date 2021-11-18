@@ -10,8 +10,8 @@ import static org.testng.Assert.assertNotNull;
 
 import java.io.StringReader;
 
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.core.Response;
 
 import org.testng.annotations.Test;
 

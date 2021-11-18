@@ -10,7 +10,7 @@ import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 
 import jakarta.json.JsonObject;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;

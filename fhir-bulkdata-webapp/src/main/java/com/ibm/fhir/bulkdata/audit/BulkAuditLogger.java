@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 
 import com.ibm.fhir.audit.AuditLogEventType;
 import com.ibm.fhir.audit.AuditLogService;

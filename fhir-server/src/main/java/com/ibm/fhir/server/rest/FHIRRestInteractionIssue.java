@@ -6,7 +6,7 @@
 
 package com.ibm.fhir.server.rest;
 
-import javax.ws.rs.core.Response.Status;
+import jakarta.ws.rs.core.Response.Status;
 
 import com.ibm.fhir.model.resource.Bundle.Entry;
 

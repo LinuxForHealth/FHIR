@@ -9,7 +9,7 @@ package com.ibm.fhir.operation.bulkdata;
 import java.io.InputStream;
 import java.util.List;
 
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MediaType;
 
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.exception.FHIROperationException;
