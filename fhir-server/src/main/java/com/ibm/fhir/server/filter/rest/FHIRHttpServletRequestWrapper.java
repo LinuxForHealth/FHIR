@@ -121,6 +121,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
     private static void initDefaultHeaderValues() {
         defaultHeaderValues = new HashMap<>();
         defaultHeaderValues.put("accept", DEFAULT_ACCEPT_HEADER_VALUE);
+        defaultHeaderValues.put("content-type", "application/json");
     }
 
     /**
