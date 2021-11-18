@@ -9,7 +9,7 @@ package com.ibm.fhir.search.group.characteristic;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.MultivaluedMap;
 
 import com.ibm.fhir.model.resource.Group.Characteristic;
 

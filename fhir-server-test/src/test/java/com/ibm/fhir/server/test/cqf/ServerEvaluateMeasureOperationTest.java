@@ -9,7 +9,7 @@ import static org.testng.Assert.assertEquals;
 
 import java.io.StringReader;
 
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 
 import org.testng.annotations.Test;
 

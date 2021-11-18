@@ -9,7 +9,7 @@ package com.ibm.fhir.server.test.profiles.uscore.v400;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 
 import org.testng.annotations.Test;
 

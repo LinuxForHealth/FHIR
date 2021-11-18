@@ -12,7 +12,7 @@ import static org.testng.Assert.fail;
 
 import java.util.List;
 
-import javax.ws.rs.core.MultivaluedHashMap;
+import jakarta.ws.rs.core.MultivaluedHashMap;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;

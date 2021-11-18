@@ -12,9 +12,9 @@ import static org.testng.AssertJUnit.assertNotNull;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.Response;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;

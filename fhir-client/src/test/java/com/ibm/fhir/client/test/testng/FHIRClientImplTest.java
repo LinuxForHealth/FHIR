@@ -10,7 +10,7 @@ import static org.testng.Assert.assertNotNull;
 
 import java.util.Properties;
 
-import javax.ws.rs.client.WebTarget;
+import jakarta.ws.rs.client.WebTarget;
 
 import org.testng.annotations.Test;
 
