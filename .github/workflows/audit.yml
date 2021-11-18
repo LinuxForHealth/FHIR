@@ -49,3 +49,7 @@ jobs:
       with:
         name: integration-test-results-${{ matrix.audit }}-${{ matrix.java }}
         path: build/audit/integration-test-results
+
+concurrency:
+  group: audit-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: true

@@ -84,3 +84,7 @@ jobs:
       with:
         name: integration-test-results-windows-${{ matrix.java }}
         path: SIT/integration-test-results
+
+concurrency:
+  group: windows-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: true
