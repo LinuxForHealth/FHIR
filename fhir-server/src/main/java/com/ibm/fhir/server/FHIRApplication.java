@@ -90,4 +90,11 @@ public class FHIRApplication extends Application {
             log.exiting(this.getClass().getName(), "getSingletons");
         }
     }
+
+    @Override
+    public Map<String, Object> getProperties() {
+        Map<String,Object> props = super.getProperties();
+        props.put("org.apache.cxf.jaxrs.mediaTypeCheck.strict", "false");
+        return props;
+    }
 }
