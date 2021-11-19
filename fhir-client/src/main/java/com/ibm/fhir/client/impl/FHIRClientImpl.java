@@ -795,9 +795,9 @@ public class FHIRClientImpl implements FHIRClient {
             }
         }
 
-        if (!contentType) {
-            builder.header("Content-Type", "application/json");
-        }
+        //if (!contentType) {
+        builder.header("Content-Type", "application/fhir+json");
+        //}
 
         // Set the tenantId, if we have one
         if (tenantId != null) {
