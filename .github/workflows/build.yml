@@ -20,7 +20,7 @@ jobs:
     - name: Setup java
       uses: actions/setup-java@v2.3.1
       with:
-        distribution: 'adopt-openj9'
+        distribution: 'temurin'
         java-version: ${{ matrix.java }}
         cache: 'maven'
     - name: Build tools
@@ -45,7 +45,7 @@ jobs:
     - name: Setup java
       uses: actions/setup-java@v2.3.1
       with:
-        distribution: 'adopt-openj9'
+        distribution: 'temurin'
         java-version: ${{ matrix.java }}
         cache: 'maven'
     - name: Fetch target branch
@@ -129,7 +129,7 @@ jobs:
     - name: Setup java
       uses: actions/setup-java@v2.3.1
       with:
-        distribution: 'adopt-openj9'
+        distribution: 'temurin'
         java-version: ${{ matrix.java }}
         cache: 'maven'
     - name: Build tools and samples

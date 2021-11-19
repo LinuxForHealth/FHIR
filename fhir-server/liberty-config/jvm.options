@@ -8,7 +8,6 @@
 # See https://openliberty.io/docs/ref/config/serverConfiguration.html for more info
 
 # Use only TLSv1.2
--Xmx4G
 -Dhttps.protocols=TLSv1.2
 -Djdk.tls.client.protocols=TLSv1.2
 -Dcom.ibm.jsse2.overrideDefaultProtocol=TLSv1.2
