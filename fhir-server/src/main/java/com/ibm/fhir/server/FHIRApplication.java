@@ -6,6 +6,8 @@
 
 package com.ibm.fhir.server;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -94,8 +96,9 @@ public class FHIRApplication extends Application {
 
     @Override
     public Map<String, Object> getProperties() {
-        Map<String,Object> props = super.getProperties();
-        props.put("org.apache.cxf.jaxrs.mediaTypeCheck.strict", "false");
-        return props;
+        Map<String,Object> props = new HashMap<>();
+        props.putAll(super.getProperties());
+        props.put("org.apache.cxf.jaxrs.mediaTypeCheck.strict", "true");
+        return Collections.unmodifiableMap(props);
     }
 }
