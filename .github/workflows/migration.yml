@@ -149,3 +149,7 @@ jobs:
         with:
           name: integration-test-results-${{ matrix.datastore }}-${{ matrix.release }}
           path: fhir/build/migration/integration-test-results
+
+concurrency:
+  group: migration-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: true
