@@ -53,8 +53,8 @@ public class PostgresResourceDAO extends ResourceDAOImpl {
 
     private static final String SQL_READ_RESOURCE_TYPE = "{CALL %s.add_resource_type(?, ?)}";
     
-    // 12 args (9 in, 3 out)
-    private static final String SQL_INSERT_WITH_PARAMETERS = "{CALL %s.add_any_resource(?,?,?,?,?,?,?,?,?,?,?,?)}";
+    // 13 args (9 in, 4 out)
+    private static final String SQL_INSERT_WITH_PARAMETERS = "{CALL %s.add_any_resource(?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 
     // DAO used to obtain sequence values from FHIR_REF_SEQUENCE
     private FhirRefSequenceDAO fhirRefSequenceDAO;
@@ -114,6 +114,7 @@ public class PostgresResourceDAO extends ResourceDAOImpl {
             stmt.registerOutParameter(10, Types.BIGINT);
             stmt.registerOutParameter(11, Types.VARCHAR); // The old parameter_hash
             stmt.registerOutParameter(12, Types.INTEGER); // o_interaction_status
+            stmt.registerOutParameter(13, Types.INTEGER); // o_if_none_match_version
 
             dbCallStartTime = System.nanoTime();
             stmt.execute();
@@ -124,6 +125,7 @@ public class PostgresResourceDAO extends ResourceDAOImpl {
             if (stmt.getInt(12) == 1) {
                 // no change, so skip parameter updates
                 resource.setInteractionStatus(InteractionStatus.IF_NONE_MATCH_EXISTED);
+                resource.setIfNoneMatchVersion(stmt.getInt(13)); // current version
             } else {
                 resource.setInteractionStatus(InteractionStatus.MODIFIED);
     

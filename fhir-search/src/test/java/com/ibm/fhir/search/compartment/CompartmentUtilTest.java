@@ -44,7 +44,7 @@ public class CompartmentUtilTest extends BaseSearchTest {
 
     }
 
-    @Test(expectedExceptions = {})
+    @Test
     public void testGetCompartmentResourceTypeExists() throws FHIRSearchException {
         // The Compartment Does not Exist Exists
         List<String> results = CompartmentUtil.getCompartmentResourceTypes("Patient");

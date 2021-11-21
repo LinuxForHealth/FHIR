@@ -416,6 +416,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             SingleResourceResult.Builder<T> resultBuilder = new SingleResourceResult.Builder<T>()
                     .success(true)
                     .interactionStatus(resourceDTO.getInteractionStatus())
+                    .ifNoneMatchVersion(resourceDTO.getIfNoneMatchVersion())
                     .resource(updatedResource);
 
             // Add supplemental issues to the OperationOutcome
@@ -606,6 +607,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             SingleResourceResult.Builder<T> resultBuilder = new SingleResourceResult.Builder<T>()
                     .success(true)
                     .interactionStatus(resourceDTO.getInteractionStatus())
+                    .ifNoneMatchVersion(resourceDTO.getIfNoneMatchVersion())
                     .resource(resource);
 
             // Add supplemental issues to an OperationOutcome

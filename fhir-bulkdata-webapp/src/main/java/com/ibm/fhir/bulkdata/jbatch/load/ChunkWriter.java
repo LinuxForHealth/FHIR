@@ -54,10 +54,11 @@ import com.ibm.fhir.operation.bulkdata.model.type.BulkDataContext;
 import com.ibm.fhir.operation.bulkdata.model.type.OperationFields;
 import com.ibm.fhir.operation.bulkdata.model.type.StorageType;
 import com.ibm.fhir.persistence.FHIRPersistence;
+import com.ibm.fhir.persistence.InteractionStatus;
+import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
 import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
 import com.ibm.fhir.persistence.payload.PayloadPersistenceHelper;
@@ -185,7 +186,6 @@ public class ChunkWriter extends AbstractItemWriter {
 
             // Get the Skippable Update status
             boolean skip = adapter.enableSkippableUpdates();
-            Map<String,SaltHash> localCache = new HashMap<>();
             try {
                 for (Object objResJsonList : arg0) {
                     @SuppressWarnings("unchecked")
@@ -219,15 +219,9 @@ public class ChunkWriter extends AbstractItemWriter {
 
                                 FHIRPersistenceEvent event = new FHIRPersistenceEvent(fhirResource, props);
 
-                                // Set up the persistence context to include deleted resources when we read
+                                // Set up the persistence context to include the deleted resources when we read
                                 FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(event, true);
-                                long startTime = System.currentTimeMillis();
-                                operationOutcome = conditionalFingerprintUpdate(chunkData, skip, localCache, fhirPersistence, persistenceContext, id, fhirResource);
-                                if (auditLogger.shouldLog()) {
-                                    long endTime = System.currentTimeMillis();
-                                    String location = "@source:" + ctx.getSource() + "/" + ctx.getImportPartitionWorkitem();
-                                    auditLogger.logUpdateOnImport(null, fhirResource, new Date(startTime), new Date(endTime), Response.Status.OK, location, "BulkDataOperator");
-                                }
+                                operationOutcome = conditionalFingerprintUpdate(chunkData, skip, fhirPersistence, persistenceContext, id, fhirResource, ctx);
                             }
 
                             succeededNum++;
@@ -292,48 +286,55 @@ public class ChunkWriter extends AbstractItemWriter {
      *
      * @param chunkData the transient user data used increment the number of skips
      * @param skip should skip the resource if it matches
-     * @param localCache map containing the key-saltHash
      * @param persistence used to facilitate the calls to the underlying db
      * @param context used in db calls
      * @param logicalId the logical id of the FHIR resource (e.g. 1-2-3-4)
      * @param resource the FHIR Resource
+     * @param ctx the bulk data context
      * @return outcomes including information or warnings
-     * @throws FHIRPersistenceException
+     * @throws Exception
      */
-    public OperationOutcome conditionalFingerprintUpdate(ImportTransientUserData chunkData, boolean skip, Map<String, SaltHash> localCache, FHIRPersistence persistence, FHIRPersistenceContext context, String logicalId, Resource resource) throws FHIRPersistenceException {
+    public OperationOutcome conditionalFingerprintUpdate(ImportTransientUserData chunkData, boolean skip, FHIRPersistence persistence, FHIRPersistenceContext context, String logicalId, Resource resource, BulkDataContext ctx) throws Exception {
+        long startTime = System.currentTimeMillis();
+        Response.Status status = Response.Status.OK;
 
         // Since issue 1869, we must perform the read at this point in order to obtain the
         // latest version id. The persistence layer no longer makes any changes to the
         // resource so the resource needs to be fully prepared before the persistence
         // create/update call is made
-        final Resource oldResource = persistence.read(context, resource.getClass(), logicalId).getResource();
+        SingleResourceResult<? extends Resource> oldResourceResult = persistence.read(context, resource.getClass(), logicalId);
+        Resource oldResource = oldResourceResult.getResource();
 
         final com.ibm.fhir.model.type.Instant lastUpdated = PayloadPersistenceHelper.getCurrentInstant();
         final int newVersionNumber = oldResource != null && oldResource.getMeta() != null && oldResource.getMeta().getVersionId() != null
                 ? Integer.parseInt(oldResource.getMeta().getVersionId().getValue()) + 1 : 1;
         resource = FHIRPersistenceUtil.copyAndSetResourceMetaFields(resource, logicalId, newVersionNumber, lastUpdated);
 
+        // If the resource was previously deleted, we need to treat this as a not to skip, otherwise we end up with really inconsistent data
+        // when there is a DELETED resource.
+        boolean skipped = false;
         OperationOutcome oo;
-        if (skip) {
-            // Key is scoped to the ResourceType.
-            String key = resourceType + "/" + logicalId;
-            SaltHash oldBaseLine = localCache.get(key);
+        if (!skip || oldResourceResult.isDeleted() || oldResource == null) {
+            SingleResourceResult<? extends Resource> result = persistence.updateWithMeta(context, resource);
 
-            ResourceFingerprintVisitor fp = new ResourceFingerprintVisitor();
-            if (oldBaseLine == null) {
-                // If the resource exists, then we need to fingerprint.
-                if (oldResource != null) {
-                    ResourceFingerprintVisitor fpOld = new ResourceFingerprintVisitor();
-                    oldResource.accept(fpOld);
-                    oldBaseLine = fpOld.getSaltAndHash();
-                    fp = new ResourceFingerprintVisitor(oldBaseLine);
-                }
+            if (result.getStatus() == InteractionStatus.MODIFIED) {
+                status = Response.Status.CREATED;
             }
+            oo = result.getOutcome();
+        } else {
+            // Fingerprint old base line
+            ResourceFingerprintVisitor fpOld = new ResourceFingerprintVisitor();
+            oldResource.accept(fpOld);
+            SaltHash oldBaseLine = fpOld.getSaltAndHash();
 
+            // Fingerprint new base line
+            ResourceFingerprintVisitor fp = new ResourceFingerprintVisitor(oldBaseLine);
             resource.accept(fp);
             SaltHash newBaseLine = fp.getSaltAndHash();
 
             if (oldBaseLine != null && oldBaseLine.equals(newBaseLine)) {
+                // Outcome is an informational message (no change to datastore)
+                String key = resource.getClass().getSimpleName() + "/" + logicalId;
                 if (logger.isLoggable(Level.FINE)) {
                     logger.fine("Skipping $import - update for '" + key + "'");
                 }
@@ -343,21 +344,30 @@ public class ChunkWriter extends AbstractItemWriter {
                         .severity(IssueSeverity.INFORMATION)
                         .code(IssueType.INFORMATIONAL)
                         .details(CodeableConcept.builder()
-                            .text(string("Update resource matches the existing resource; skipping the update for '" + key + "'"))
+                            .text(string("Update to an existing resource matches the stored resource's hash; skipping the update for '" + key + "'"))
                             .build())
                         .build())
                     .build();
+                skipped = true;
             } else {
+                // Outcome is an Update
                 // We need to update the db and update the local cache
-                if (oldResource != null) {
-                    // Old Resource is set so we avoid an extra read
-                    context.getPersistenceEvent().setPrevFhirResource(oldResource);
-                }
-                oo = persistence.updateWithMeta(context, resource).getOutcome();
-                localCache.put(key, newBaseLine);
+                // Old Resource is set so we avoid an extra read
+                context.getPersistenceEvent().setPrevFhirResource(oldResource);
+                SingleResourceResult<? extends Resource> result = persistence.updateWithMeta(context, resource);
+                oo = result.getOutcome();
             }
-        } else {
-            oo = persistence.updateWithMeta(context, resource).getOutcome();
+        }
+
+        // Audit Logging
+        if (auditLogger.shouldLog()) {
+            long endTime = System.currentTimeMillis();
+            String location = "@source:" + ctx.getSource() + "/" + ctx.getImportPartitionWorkitem();
+            if (!skipped) {
+                auditLogger.logUpdateOnImport(oldResource, resource, new Date(startTime), new Date(endTime), status, location, "BulkDataOperator");
+            } else {
+                auditLogger.logUpdateOnImportSkipped(resource, new Date(startTime), new Date(endTime), status, location, "BulkDataOperator");
+            }
         }
         return oo;
     }

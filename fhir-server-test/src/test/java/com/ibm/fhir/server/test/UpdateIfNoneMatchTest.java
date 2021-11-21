@@ -43,8 +43,9 @@ public class UpdateIfNoneMatchTest extends FHIRServerTestBase {
             final FHIRRequestHeader ifNoneMatch = new FHIRRequestHeader(HEADERNAME_IF_NONE_MATCH, "*");
             response = client.update(patient, ifNoneMatch);
             status = response.getStatus();
-            assertEquals(status, 304);
-            assertEquals(response.getETag(), "W/\"1\""); // not updated
+            
+            // by default, hitting If-None-Match is considered a 412 Precondition Failed error
+            assertEquals(status, 412);
 
             // Read back the patient and make sure it is still at version 1
             response = client.read(Patient.class.getSimpleName(), patientLogicalId);

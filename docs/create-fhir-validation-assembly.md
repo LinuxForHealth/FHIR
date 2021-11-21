@@ -1,1 +1,0 @@
-# PLEASE USE the files in src/pages/ as it is part of the build - CreateFHIRValidationAssembly

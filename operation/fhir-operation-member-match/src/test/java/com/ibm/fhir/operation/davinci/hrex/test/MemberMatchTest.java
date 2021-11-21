@@ -209,7 +209,7 @@ public class MemberMatchTest {
     }
 
     @Test
-    public void testMemberMatchFactory() {
+    public void testMemberMatchFactory() throws FHIROperationException {
         MemberMatchFactory factory = MemberMatchFactory.factory();
         assertNotNull(factory);
         MemberMatchStrategy strategy = factory.getStrategy(new ConfigurationAdapter() {
@@ -233,11 +233,11 @@ public class MemberMatchTest {
 
     }
 
-    @Test
-    public void testMemberMatchFactory_BadKey() {
+    @Test(expectedExceptions= {FHIROperationException.class})
+    public void testMemberMatchFactory_BadKey() throws FHIROperationException {
         MemberMatchFactory factory = MemberMatchFactory.factory();
         assertNotNull(factory);
-        MemberMatchStrategy strategy = factory.getStrategy(new ConfigurationAdapter() {
+        factory.getStrategy(new ConfigurationAdapter() {
 
             @Override
             public boolean enabled() {
@@ -254,8 +254,6 @@ public class MemberMatchTest {
                 return null;
             }
         });
-        assertNotNull(strategy);
-        assertEquals("default", strategy.getMemberMatchIdentifier());
     }
 
     @Test
@@ -1029,6 +1027,7 @@ public class MemberMatchTest {
         builder = HumanName.builder().family("Test Family").given("Test");
         compiler.visit("name", 1, builder.build());
         assertEquals(compiler.getSearchParameters().size(), 1);
+        assertEquals(compiler.getSearchParameters().get("name").size(), 2);
     }
 
     @Test
@@ -1165,6 +1164,14 @@ public class MemberMatchTest {
         builder =
                 Identifier
                     .builder()
+                    .type(CodeableConcept
+                            .builder()
+                                .coding(
+                                    Coding.builder()
+                                        .system(Uri.of("http://terminology.hl7.org/CodeSystem/v2-0203"))
+                                        .code(Code.of("MB"))
+                                        .build())
+                                .build())
                     .system(Uri.of("http://test.com/sys"))
                     .value(com.ibm.fhir.model.type.String.builder().extension(DATA_ABSENT).build())
                     .use(IdentifierUse.USUAL);
@@ -1174,32 +1181,67 @@ public class MemberMatchTest {
 
         // Value Missing
         compiler = new GetPatientIdentifier();
-        builder = Identifier.builder().system(Uri.of("http://test.com/sys")).use(IdentifierUse.USUAL);
+        builder = Identifier.builder().system(Uri.of("http://test.com/sys")).use(IdentifierUse.USUAL).type(CodeableConcept
+            .builder()
+            .coding(
+                Coding.builder()
+                    .system(Uri.of("http://terminology.hl7.org/CodeSystem/v2-0203"))
+                    .code(Code.of("MB"))
+                    .build())
+            .build());
         compiler.visit("identifier", 1, builder.build());
         assertNotNull(compiler.getSystem());
         assertNull(compiler.getValue());
 
         compiler = new GetPatientIdentifier();
-        builder = Identifier.builder().system(com.ibm.fhir.model.type.Uri.builder().extension(DATA_ABSENT).build()).value("1-2-3-4").use(IdentifierUse.USUAL);
+        builder = Identifier.builder().system(com.ibm.fhir.model.type.Uri.builder().extension(DATA_ABSENT).build()).value("1-2-3-4").use(IdentifierUse.USUAL).type(CodeableConcept
+            .builder()
+            .coding(
+                Coding.builder()
+                    .system(Uri.of("http://terminology.hl7.org/CodeSystem/v2-0203"))
+                    .code(Code.of("MB"))
+                    .build())
+            .build());
         compiler.visit("identifier", 1, builder.build());
         assertNull(compiler.getSystem());
         assertNotNull(compiler.getValue());
 
         // Unsupported Identifier Type
         compiler = new GetPatientIdentifier();
-        builder = Identifier.builder().system(Uri.of("http://test.com/sys")).value("1-2-3-4").use(IdentifierUse.OLD);
+        builder = Identifier.builder().system(Uri.of("http://test.com/sys")).value("1-2-3-4").use(IdentifierUse.OLD).type(CodeableConcept
+            .builder()
+            .coding(
+                Coding.builder()
+                    .system(Uri.of("http://terminology.hl7.org/CodeSystem/v2-0203"))
+                    .code(Code.of("MB"))
+                    .build())
+            .build());
         compiler.visit("identifier", 1, builder.build());
         assertNull(compiler.getSystem());
         assertNull(compiler.getValue());
 
         compiler = new GetPatientIdentifier();
-        builder = Identifier.builder().system(Uri.of("http://test.com/sys")).value("1-2-3-4").use(IdentifierUse.USUAL);
+        builder = Identifier.builder().system(Uri.of("http://test.com/sys")).value("1-2-3-4").use(IdentifierUse.USUAL).type(CodeableConcept
+            .builder()
+            .coding(
+                Coding.builder()
+                    .system(Uri.of("http://terminology.hl7.org/CodeSystem/v2-0203"))
+                    .code(Code.of("MB"))
+                    .build())
+            .build());
         compiler.visit("identifier", 1, builder.build());
         assertNotNull(compiler.getSystem());
         assertNotNull(compiler.getValue());
 
         // Check 2nd Identifier... which should be ignored
-        builder = Identifier.builder().system(Uri.of("http://test.com/sys1")).value("5431").use(IdentifierUse.USUAL);
+        builder = Identifier.builder().system(Uri.of("http://test.com/sys1")).value("5431").use(IdentifierUse.USUAL).type(CodeableConcept
+            .builder()
+            .coding(
+                Coding.builder()
+                    .system(Uri.of("http://terminology.hl7.org/CodeSystem/v2-0203"))
+                    .code(Code.of("MB"))
+                    .build())
+            .build());
         compiler.visit("identifier", 1, builder.build());
         assertNotNull(compiler.getSystem());
         assertNotNull(compiler.getValue());
@@ -1720,7 +1762,7 @@ public class MemberMatchTest {
             MultivaluedMap<String, String> queryParameters) throws Exception {
             throw new AssertionError("Unused");
         }
-        
+
         @Override
         public List<Issue> validateResource(Resource resource) throws FHIROperationException {
             throw new AssertionError("Unused");

@@ -95,6 +95,9 @@ public class InputOutputByteStream {
         // each read stream gets its own read offset in the buffer
         private int posn = 0;
 
+        // maintains the position of the last call to mark
+        private int mark = 0;
+
         @Override
         public int read() throws IOException {
             return posn < offset ? (buffer[posn++] & 0xff) : -1;
@@ -138,6 +141,21 @@ public class InputOutputByteStream {
 
             posn += n;
             return n;
+        }
+
+        @Override
+        public void reset() throws IOException {
+            posn = mark;
+        }
+
+        @Override
+        public void mark(int readlimit) {
+            mark = posn;
+        }
+
+        @Override
+        public boolean markSupported() {
+            return true;
         }
     }
 
@@ -221,7 +239,7 @@ public class InputOutputByteStream {
     public ByteBuffer wrap() {
         return ByteBuffer.wrap(this.buffer, 0, size()).asReadOnlyBuffer();
     }
-    
+
     /**
      * Reset the offset to make the buffer appear empty. Does not change the current
      * length (capacity). Note that any streams currently being used to read the data

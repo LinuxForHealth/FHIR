@@ -23,14 +23,14 @@ import com.ibm.fhir.database.utils.common.DateMath;
  */
 public class Db2CatalogAccess implements ICatalogAccess {
     private static final Logger logger = Logger.getLogger(Db2CatalogAccess.class.getName());
-    
+
     private Connection connection;
     private Db2CatalogDAO dao = new Db2CatalogDAO(new Db2Translator());
 
     public Db2CatalogAccess(Connection c) {
         this.connection = c;
     }
-    
+
     @Override
     public List<PartitionInfo> getPartitionList(String schema, String table) {
         try {

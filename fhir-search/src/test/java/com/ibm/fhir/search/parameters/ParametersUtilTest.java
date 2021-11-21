@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,21 +15,15 @@ import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.io.Reader;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Set;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.model.format.Format;
-import com.ibm.fhir.model.parser.FHIRParser;
-import com.ibm.fhir.model.parser.exception.FHIRParserException;
-import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Markdown;
@@ -40,42 +34,22 @@ import com.ibm.fhir.model.type.code.SearchParamType;
 import com.ibm.fhir.search.test.BaseSearchTest;
 
 /**
- *
  * Tests ParametersUtil
  */
 public class ParametersUtilTest extends BaseSearchTest {
+    public static final boolean DEBUG = true;
 
     @Test
-    public void testGetBuiltInSearchParameterMap() throws IOException {
+    public void testGetAllSearchParameters() throws IOException {
         // Tests JSON
-        Map<String, ParametersMap> params = ParametersUtil.getBuiltInSearchParametersMap();
+        Set<SearchParameter> params = ParametersUtil.getAllSearchParameters();
         assertNotNull(params);
         // Intentionally the data is captured in the bytearray output stream.
         try (ByteArrayOutputStream outBA = new ByteArrayOutputStream(); PrintStream out = new PrintStream(outBA, true);) {
             ParametersUtil.print(out);
             Assert.assertNotNull(outBA);
         }
-        assertEquals(params.size(), 134);
-    }
-
-    @Test(expectedExceptions = {})
-    public void testPopulateSearchParameterMapFromFile() throws IOException, FHIRParserException {
-        File customSearchParams = new File("src/test/resources/config/tenant1/extension-search-parameters.json");
-        if (DEBUG) {
-            System.out.println(customSearchParams.getAbsolutePath());
-        }
-        Reader reader = new FileReader(customSearchParams);
-        Bundle bundle = FHIRParser.parser(Format.JSON).parse(reader);
-        Map<String, ParametersMap> params = ParametersUtil.buildSearchParametersMapFromBundle(bundle);
-        if (DEBUG) {
-            System.out.println(params.keySet());
-        }
-
-        // validates checks
-        assertNotNull(params);
-        assertFalse(params.isEmpty());
-        assertEquals(params.size(), 2);
-
+        assertEquals(params.size(), 1385);
     }
 
     @Test
@@ -94,10 +68,10 @@ public class ParametersUtilTest extends BaseSearchTest {
 
     }
 
-    @Test(expectedExceptions = {})
-    public void testGetBuiltInSearchParameterMapByResourceType() {
+    @Test
+    public void testGetTenantSPs() {
         // getBuiltInSearchParameterMapByResourceType
-        Map<String, ParametersMap> result = ParametersUtil.getBuiltInSearchParametersMap();
+        Map<String, ParametersMap> result = ParametersUtil.getTenantSPs("default");
         assertNotNull(result);
         assertNull(result.get("Junk"));
         assertFalse(result.get("Observation").isEmpty());

@@ -62,6 +62,7 @@ public class USCoreMedicationRequestTest extends ProfilesTestBaseV2 {
         String resource = "Bundle-uscore-mo3.json";
         WebTarget target = getWebTarget();
 
+        // re-purposing search result bundle - update fields to create valid request bundle
         Bundle bundle = USCoreExamplesUtil.readLocalJSONResource("400", resource);
         List<Bundle.Entry> entries = bundle.getEntry();
         List<Bundle.Entry> output = new ArrayList<>();
@@ -72,10 +73,10 @@ public class USCoreMedicationRequestTest extends ProfilesTestBaseV2 {
             Meta meta = Meta.builder().versionId(Id.of("" + System.currentTimeMillis())).build();
             entry.getResource().toBuilder().meta(meta).build();
 
-            Bundle.Entry tmpEntry = entry.toBuilder().request(request).build();
+            Bundle.Entry tmpEntry = entry.toBuilder().request(request).search(null).build();
             output.add(tmpEntry);
         }
-        bundle = bundle.toBuilder().type(BundleType.BATCH).entry(output).build();
+        bundle = bundle.toBuilder().type(BundleType.BATCH).entry(output).total(null).build();
 
         Entity<Bundle> entity = Entity.entity(bundle, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().header(PREFER_HEADER_NAME, PREFER_HEADER_RETURN_REPRESENTATION).post(entity, Response.class);

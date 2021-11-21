@@ -34,6 +34,16 @@ import com.ibm.fhir.search.parameters.QueryParameterValue;
 public class NumberParmBehaviorUtilTest {
     //---------------------------------------------------------------------------------------------------------
     // Supporting Methods:
+    @BeforeClass
+    public void before() throws FHIRException {
+        FHIRRequestContext.get().setTenantId("number");
+    }
+
+    @AfterClass
+    public void after() throws FHIRException {
+        FHIRRequestContext.get().setTenantId("default");
+    }
+
     private QueryParameterValue generateParameterValue(String value, SearchConstants.Prefix prefix) {
         QueryParameterValue parameterValue = new QueryParameterValue();
         parameterValue.setPrefix(prefix);
@@ -80,16 +90,6 @@ public class NumberParmBehaviorUtilTest {
         NewNumberParmBehaviorUtil newNumberParmBehaviorUtil = new NewNumberParmBehaviorUtil();
         newNumberParmBehaviorUtil.executeBehavior(actualWhereClauseSegment, queryParm, tableAlias);
         assertExpectedSQL(actualWhereClauseSegment, expectedSql, expectedBindVariables);
-    }
-
-    @BeforeClass
-    public static void before() throws FHIRException {
-        FHIRRequestContext.get().setTenantId("number");
-    }
-
-    @AfterClass
-    public static void after() throws FHIRException {
-        FHIRRequestContext.get().setTenantId("default");
     }
     //---------------------------------------------------------------------------------------------------------
 

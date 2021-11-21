@@ -13,6 +13,14 @@
                 "enableResourceTypesCache": true
             }
         },
+        "resources": {
+            "Basic": {
+                "searchParameters": {
+                    "code": "http://ibm.com/fhir/SearchParameter/Basic-code",
+                    "*": "*"
+                }
+            }
+        },
         "bulkdata": {
             "enabled": false
         }

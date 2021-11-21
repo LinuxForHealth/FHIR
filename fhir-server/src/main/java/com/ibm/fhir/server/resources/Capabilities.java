@@ -31,6 +31,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -347,21 +348,22 @@ public class Capabilities extends FHIRResource {
 
             // Build the set of ConformanceSearchParams for this resource type.
             List<Rest.Resource.SearchParam> conformanceSearchParams = new ArrayList<>();
-            List<SearchParameter> searchParameters = SearchUtil.getApplicableSearchParameters(resourceTypeName);
-            if (searchParameters != null) {
-                for (SearchParameter searchParameter : searchParameters) {
-                    Rest.Resource.SearchParam.Builder conformanceSearchParamBuilder =
-                            Rest.Resource.SearchParam.builder()
-                                .name(searchParameter.getCode())
-                                .type(searchParameter.getType());
-                    if (searchParameter.getDescription() != null) {
-                        conformanceSearchParamBuilder.documentation(searchParameter.getDescription());
-                    }
+            Map<String, SearchParameter> searchParameters = SearchUtil.getSearchParameters(resourceTypeName);
+            for (Entry<String, SearchParameter> entry : searchParameters.entrySet()) {
+                String code = entry.getKey();
+                SearchParameter searchParameter = entry.getValue();
 
-                    Rest.Resource.SearchParam conformanceSearchParam =
-                            conformanceSearchParamBuilder.build();
-                    conformanceSearchParams.add(conformanceSearchParam);
+                Rest.Resource.SearchParam.Builder conformanceSearchParamBuilder =
+                        Rest.Resource.SearchParam.builder()
+                            .name(code)
+                            .type(searchParameter.getType());
+                if (searchParameter.getDescription() != null) {
+                    conformanceSearchParamBuilder.documentation(searchParameter.getDescription());
                 }
+
+                Rest.Resource.SearchParam conformanceSearchParam =
+                        conformanceSearchParamBuilder.build();
+                conformanceSearchParams.add(conformanceSearchParam);
             }
 
             List<Operation> ops = mapOperationDefinitionsToRestOperations(typeOps.get(resourceType));

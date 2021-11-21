@@ -29,18 +29,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import jakarta.json.Json;
-import jakarta.json.JsonArray;
-import jakarta.json.JsonArrayBuilder;
-import jakarta.json.JsonBuilderFactory;
-import jakarta.json.JsonObject;
-import jakarta.json.JsonObjectBuilder;
-import jakarta.json.JsonReader;
-import jakarta.json.JsonStructure;
-import jakarta.json.JsonWriter;
-import jakarta.json.JsonWriterFactory;
-import jakarta.json.stream.JsonGenerator;
-
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.examples.ExamplesUtil;
 import com.ibm.fhir.model.annotation.Required;
@@ -105,6 +93,18 @@ import com.ibm.fhir.search.compartment.CompartmentUtil;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.swagger.generator.APIConnectAdapter;
+
+import jakarta.json.Json;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonArrayBuilder;
+import jakarta.json.JsonBuilderFactory;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
+import jakarta.json.JsonReader;
+import jakarta.json.JsonStructure;
+import jakarta.json.JsonWriter;
+import jakarta.json.JsonWriterFactory;
+import jakarta.json.stream.JsonGenerator;
 
 /**
  * Generate OpenAPI 3.0 from the HL7 FHIR R4 artifacts and IBM FHIR object model.
@@ -707,9 +707,11 @@ public class FHIROpenApiGenerator {
 
     private static void generateSearchParameters(JsonObjectBuilder parameters, Filter filter) throws Exception {
         if (filter.acceptOperation("search")) {
-            for (SearchParameter searchParameter : SearchUtil.getApplicableSearchParameters(Resource.class.getSimpleName())) {
+            for (Map.Entry<String, SearchParameter> entry : SearchUtil.getSearchParameters(Resource.class.getSimpleName()).entrySet()) {
+                SearchParameter searchParameter = entry.getValue();
+
                 JsonObjectBuilder parameter = factory.createObjectBuilder();
-                String name = searchParameter.getName().getValue();
+                String name = entry.getKey();
                 parameter.add("name", name);
                 parameter.add("description", searchParameter.getDescription().getValue());
                 parameter.add("in", "query");
@@ -1065,11 +1067,11 @@ public class FHIROpenApiGenerator {
     }
 
     private static void generateSearchParameters(Class<?> modelClass, JsonArrayBuilder parameters) throws Exception {
-        List<SearchParameter> searchParameters = new ArrayList<SearchParameter>(
-                SearchUtil.getApplicableSearchParameters(modelClass.getSimpleName()));
-        for (SearchParameter searchParameter : searchParameters) {
+        for (Map.Entry<String, SearchParameter> entry : SearchUtil.getSearchParameters(modelClass.getSimpleName()).entrySet()) {
+            SearchParameter searchParameter = entry.getValue();
+
             JsonObjectBuilder parameter = factory.createObjectBuilder();
-            String name = searchParameter.getName().getValue();
+            String name = entry.getKey();
             if (name.startsWith("_")) {
                 parameter.add("$ref", "#/components/parameters/" + name + "Param");
             } else {

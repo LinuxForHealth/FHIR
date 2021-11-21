@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Objects;
 
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.registry.resource.FHIRRegistryResource;
 import com.ibm.fhir.registry.resource.FHIRRegistryResource.Version;
 
@@ -45,6 +46,29 @@ public abstract class AbstractRegistryResourceProvider implements FHIRRegistryRe
         return null;
     }
 
+    /**
+     * facilitates the retrieval of a resource from the registry allowing the provider to
+     * be excluded from the resource retrieval.
+     *
+     * designed to be used at startup.
+     *
+     * @param <T>
+     * @param url
+     * @param resourceType
+     * @return
+     */
+    protected <T extends Resource> T loadFromRegistry(String url, Class<T> resourceType){
+        return FHIRRegistry.getInstance()
+                    .getResource(url, resourceType, getClass().getCanonicalName());
+    }
+
+    /**
+     * Return a sorted list of FHIRRegistryResource with the passed canonical url
+     *
+     * @param resourceType
+     * @param url the canonical url for this resource (without version suffix)
+     * @return a list of FHIRRegistryResources with this url, sorted from low to high by version
+     */
     protected abstract List<FHIRRegistryResource> getRegistryResources(Class<? extends Resource> resourceType, String url);
 
     @Override

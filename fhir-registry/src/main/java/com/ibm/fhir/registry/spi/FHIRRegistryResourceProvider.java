@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,9 +13,18 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.registry.resource.FHIRRegistryResource;
 
 /**
- * An SPI for {@link FHIRRegistryResource} instances
+ * An SPI for {@link FHIRRegistryResource} instances.
+ *
+ * When implementing this SPI, the constructor and instance variables should not make calls to the FHIRRegistry. Use the init method to call back to the Registry.
  */
 public interface FHIRRegistryResourceProvider {
+    /**
+     * Facilitates callbacks after the ServiceLoader has discovered the providers and conditionally loaded the Providers.
+     */
+    default void init() {
+        // NOP
+    }
+
     /**
      * Get the registry resource from this provider for the given resource type, url and version
      *
@@ -38,7 +47,7 @@ public interface FHIRRegistryResourceProvider {
      * @param resourceType
      *     the resource type of the registry resource
      * @return
-     *     the registry resources from this provider for the given resource type
+     *     the registry resources from this provider for the given resource type; never null
      */
     Collection<FHIRRegistryResource> getRegistryResources(Class<? extends Resource> resourceType);
 
@@ -46,7 +55,7 @@ public interface FHIRRegistryResourceProvider {
      * Get all the registry resources from this provider
      *
      * @return
-     *     all of the registry resources from this provider
+     *     all of the registry resources from this provider; never null
      */
     Collection<FHIRRegistryResource> getRegistryResources();
 
@@ -56,7 +65,7 @@ public interface FHIRRegistryResourceProvider {
      * @param type
      *     the constrained resource type
      * @return
-     *     the profile resources from this provider that constrain the given resource type
+     *     the profile resources from this provider that constrain the given resource type; never null
      */
     Collection<FHIRRegistryResource> getProfileResources(String type);
 
@@ -67,7 +76,7 @@ public interface FHIRRegistryResourceProvider {
      * @param type
      *     the search parameter type
      * @return
-     *     the search parameter resources from this provider with the given search parameter type
+     *     the search parameter resources from this provider with the given search parameter type; never null
      */
     Collection<FHIRRegistryResource> getSearchParameterResources(String type);
 

@@ -21,7 +21,6 @@ import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.database.utils.model.DbType;
-import com.ibm.fhir.database.utils.version.SchemaConstants;
 
 /**
  * Run a correlated update statement to update the new V0014 columns in LOGICAL_RESOURCES from the
@@ -49,7 +48,8 @@ public class MigrateV0014LogicalResourceIsDeletedLastUpdated implements IDatabas
     /**
      * Public constructor
      * @param schemaName
-     * @param tableName
+     * @param resourceTypeName
+     * @param resourceTypeId
      */
     public MigrateV0014LogicalResourceIsDeletedLastUpdated(String schemaName, String resourceTypeName, int resourceTypeId) {
         this.schemaName = schemaName;
@@ -83,7 +83,6 @@ public class MigrateV0014LogicalResourceIsDeletedLastUpdated implements IDatabas
                         + " WHERE tgt.logical_resource_id IN "
                         + "(SELECT tgt2.logical_resource_id FROM " + tgtTable + " tgt2"
                         + "  WHERE tgt2.resource_type_id = " + this.resourceTypeId + " AND tgt2.is_deleted = 'X' " + translator.limit(MAX_CORRELATED_UPDATE_ROWS + "") + ")";
-                ;
 
         try (PreparedStatement ps = c.prepareStatement(DML)) {
             int count = 1;

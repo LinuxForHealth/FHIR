@@ -11,6 +11,7 @@
         <feature>jdbc-4.1</feature>
         <feature>websocket-1.1</feature>
         <feature>localConnector-1.0</feature>
+	<feature>monitor-1.0</feature>
         <!-- mpJwt-1.2 isn't used by default,
              but we include it here to avoid NoClassDefFound in our classes that *can* use it -->
         <feature>mpJwt-1.2</feature>

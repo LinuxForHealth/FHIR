@@ -63,6 +63,10 @@ public class Resource {
      */
     private InteractionStatus interactionStatus;
 
+    /**
+     * The version of the resource found if we hit IfNoneMatch
+     */
+    private Integer ifNoneMatchVersion;
 
     public Resource() {
         super();
@@ -82,6 +86,22 @@ public class Resource {
 
     public void setLastUpdated(Timestamp lastUpdated) {
         this.lastUpdated = lastUpdated;
+    }
+
+    /**
+     * Setter for the ifNoneMatchVersion value
+     * @param version
+     */
+    public void setIfNoneMatchVersion(Integer version) {
+        this.ifNoneMatchVersion = version;
+    }
+
+    /**
+     * Getter for the ifNoneMatchVersion value
+     * @return
+     */
+    public Integer getIfNoneMatchVersion() {
+        return this.ifNoneMatchVersion;
     }
 
     public long getId() {

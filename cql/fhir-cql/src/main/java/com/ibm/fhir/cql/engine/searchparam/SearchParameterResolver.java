@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang3.tuple.Pair;
@@ -20,13 +21,13 @@ import com.ibm.fhir.search.util.SearchUtil;
 
 public class SearchParameterResolver {
 
-    public SearchParameter getSearchParameterDefinition(String dataType, String path) throws Exception {
-        return getSearchParameterDefinition(dataType, path, null);
+    public SearchParameter getSearchParameterDefinition(String resourceType, String path) throws Exception {
+        return getSearchParameterDefinition(resourceType, path, null);
     }
 
-    public SearchParameter getSearchParameterDefinition(String dataType, String path, SearchParamType paramType)
-        throws Exception {
-        if (dataType == null || path == null) {
+    public SearchParameter getSearchParameterDefinition(String resourceType, String path, SearchParamType paramType)
+            throws Exception {
+        if (resourceType == null || path == null) {
             return null;
         }
 
@@ -36,15 +37,16 @@ public class SearchParameterResolver {
             path = "";
         }
 
-        List<SearchParameter> params = SearchUtil.getApplicableSearchParameters(dataType);
+        // XXX should this use the registry (all parameters) or the filtered set of search parameters for a given tenant?
+        Map<String, SearchParameter> params = SearchUtil.getSearchParameters(resourceType);
 
-        for (SearchParameter param : params) {
+        for (SearchParameter param : params.values()) {
             if (name != null && param.getName().getValue().equals(name)) {
                 return param;
             }
 
             if (paramType == null || param.getType().equals(paramType)) {
-                Set<String> normalizedPath = normalizePath(dataType, param.getExpression().getValue());
+                Set<String> normalizedPath = normalizePath(resourceType, param.getExpression().getValue());
                 if (normalizedPath.contains(path)) {
                     return param;
                 }
@@ -54,12 +56,12 @@ public class SearchParameterResolver {
         return null;
     }
 
-    public Pair<String, IQueryParameter> createSearchParameter(String context, String dataType, String path, String value)
-        throws Exception {
+    public Pair<String, IQueryParameter> createSearchParameter(String context, String resourceType, String path, String value)
+            throws Exception {
 
         Pair<String, IQueryParameter> result = null;
 
-        SearchParameter searchParam = this.getSearchParameterDefinition(dataType, path);
+        SearchParameter searchParam = this.getSearchParameterDefinition(resourceType, path);
         if (searchParam != null) {
 
             String name = searchParam.getName().getValue();
@@ -86,7 +88,7 @@ public class SearchParameterResolver {
 
     // This is actually a lot of processing. We should cache search parameter
     // resolutions.
-    private Set<String> normalizePath(String dataType, String path) {
+    private Set<String> normalizePath(String resourceType, String path) {
         // TODO: What we really need is FhirPath parsing to just get the path
         // MedicationAdministration.medication.as(CodeableConcept)
         // MedicationAdministration.medication.as(Reference)
@@ -105,7 +107,7 @@ public class SearchParameterResolver {
             part = removeParens(part);
 
             // Trim off DataType
-            if (part.startsWith(dataType)) {
+            if (part.startsWith(resourceType)) {
                 part = part.substring(part.indexOf(".") + 1, part.length());
 
                 // Split into components
@@ -148,8 +150,8 @@ public class SearchParameterResolver {
 //        }
         return normalizedParts;
     }
-    
-    private String removeParens(String path) { 
+
+    private String removeParens(String path) {
         if (path.startsWith("(")) {
             path = path.substring(1, path.length() - 1);
         }

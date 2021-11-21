@@ -15,11 +15,7 @@ import static java.util.Objects.nonNull;
 import java.io.StringWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Base64;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -32,8 +28,6 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
-import javax.crypto.KeyGenerator;
 
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.exception.FHIROperationException;
@@ -59,7 +53,6 @@ import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.DataAbsentReason;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
-import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.visitor.Visitable;
 
 import jakarta.json.Json;
@@ -72,6 +65,7 @@ import jakarta.json.JsonValue;
  * Utility methods for working with the FHIR object model.
  */
 public class FHIRUtil {
+    private static final Logger log = Logger.getLogger(FHIRUtil.class.getName());
     public static final Pattern REFERENCE_PATTERN = buildReferencePattern();
     public static final Extension DATA_ABSENT_REASON_UNKNOWN = Extension.builder()
             .url("http://hl7.org/fhir/StructureDefinition/data-absent-reason")
@@ -80,10 +74,7 @@ public class FHIRUtil {
     public static final com.ibm.fhir.model.type.String STRING_DATA_ABSENT_REASON_UNKNOWN = com.ibm.fhir.model.type.String.builder()
             .extension(DATA_ABSENT_REASON_UNKNOWN)
             .build();
-    @Deprecated
-    private static final SecureRandom RANDOM = new SecureRandom();
     private static final JsonBuilderFactory BUILDER_FACTORY = Json.createBuilderFactory(null);
-    private static final Logger log = Logger.getLogger(FHIRUtil.class.getName());
     public static final OperationOutcome ALL_OK = OperationOutcome.builder()
         .issue(Issue.builder()
         .severity(IssueSeverity.INFORMATION)
@@ -268,18 +259,42 @@ public class FHIRUtil {
 
     /**
      * Builds a relative "Location" header value for the specified resource. This will be a string of the form
-     * <code>"<resource-type>/<id>/_history/<version>"</code>. Note that the server will turn this into an absolute URL prior to
+     * <code>"[resource-type]/[id]/_history/[version]"</code>. Note that the server will turn this into an absolute URL prior to
      * returning it to the client.
      *
+     * @param type
+     *            the resource type name
      * @param resource
      *            the resource for which the location header value should be returned
      */
     public static URI buildLocationURI(String type, Resource resource) {
-        String resourceTypeName = resource.getClass().getSimpleName();
-        if (!resourceTypeName.equals(type)) {
-            resourceTypeName = type;
-        }
-        return URI.create(resourceTypeName + "/" + resource.getId() + "/_history/" + resource.getMeta().getVersionId().getValue());
+        StringBuilder sb = new StringBuilder();
+        sb.append(type);
+        sb.append("/");
+        sb.append(resource.getId());
+        sb.append("/_history/");
+        sb.append(resource.getMeta().getVersionId().getValue());
+        return URI.create(sb.toString());
+    }
+
+    /**
+     * Builds a relative "Location" header value for the specified resource type/id/version. This will be a string of the form
+     * <code>"[resource-type]/[id]/_history/[version]"</code>. Note that the server will turn this into an absolute URL prior to
+     * returning it to the client.
+     * 
+     * @param type the resource type name
+     * @param id the resource logical id value
+     * @param version the resource version
+     * @return
+     */
+    public static URI buildLocationURI(String type, String id, int version) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(type);
+        sb.append("/");
+        sb.append(id);
+        sb.append("/_history/");
+        sb.append(version);
+        return URI.create(sb.toString());
     }
 
     /**
@@ -538,31 +553,6 @@ public class FHIRUtil {
     }
 
     /**
-     * Returns the resource type (as a String) of the specified resource.
-     *
-     * @param resource
-     *            the resource
-     * @return the name of the resource type associated with the resource
-     * @deprecated use {@link ModelSupport.getTypeName(Class<?>)}
-     */
-    @Deprecated
-    public static String getResourceTypeName(Resource resource) {
-        return resource.getClass().getSimpleName();
-    }
-
-    /**
-     * @return a list of all resource type names, including abstract supertypes
-     * @implNote this list does not include "logical" resources like {code MetadataResource}
-     * @deprecated use {@link ModelSupport.getResourceTypes()}
-     */
-    @Deprecated
-    public static List<String> getResourceTypeNames() {
-        return Arrays.stream(ResourceType.Value.values())
-                .map(ResourceType.Value::value)
-                .collect(Collectors.toList());
-    }
-
-    /**
      * Determine if any of the issues in the list of issues are failure issues
      *
      * @param issues
@@ -590,27 +580,6 @@ public class FHIRUtil {
             return false;
         default:
             return true;
-        }
-    }
-
-    /**
-     * Generate a random key using the passed algorithm or, if that algorithm isn't supported, a random 32 byte value.
-     * In either case, the resulting value is encoded as a Base64 string before returning.
-     *
-     * @return a base64-encoded random key string
-     * @deprecated we plan to remove this from FHIRUtil in a future release
-     */
-    @Deprecated
-    public static String getRandomKey(String algorithm) {
-        try {
-            KeyGenerator keyGen = KeyGenerator.getInstance(algorithm);
-            keyGen.init(256);
-            return Base64.getEncoder().encodeToString(keyGen.generateKey().getEncoded());
-        } catch (NoSuchAlgorithmException e) {
-            log.warning("Algorithm '" + algorithm + "' is not supported; using SecureRandom instead");
-            byte[] buffer = new byte[32];
-            RANDOM.nextBytes(buffer);
-            return Base64.getEncoder().encodeToString(buffer);
         }
     }
 

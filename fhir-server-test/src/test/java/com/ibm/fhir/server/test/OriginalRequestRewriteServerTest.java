@@ -97,4 +97,42 @@ public class OriginalRequestRewriteServerTest extends FHIRServerTestBase {
         assertTrue(responseBundle.getEntry().stream().allMatch(e -> e.getFullUrl().getValue().startsWith(ORIGINAL_URI + "/Patient")),
                 "All search response bundle entry fullUrls start with the passed in uri");
     }
+
+    /**
+     * Create a Patient and ensure the Location header reflects the OriginalRequestUri
+     */
+    @Test
+    public void testCreatePatientWithCustomBaseUrls() throws Exception {
+        WebTarget target = getWebTarget();
+        String customBaseUrl;
+        Patient patient = TestUtil.getMinimalResource(Patient.class);
+        Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response;
+
+        // Build a new Patient and then call the 'create' API.
+        customBaseUrl = "https://example.com";
+        response = target.path("Patient").request()
+                .header("X-FHIR-Forwarded-URL", customBaseUrl + "/Patient")
+                .post(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+        assertTrue(response.getLocation().toString().startsWith(customBaseUrl),
+                response.getLocation().toString() + " should begin with " + customBaseUrl);
+
+        customBaseUrl = "https://example.com/my/patient/api";
+        response = target.path("Patient").request()
+                .header("X-FHIR-Forwarded-URL", customBaseUrl + "/Patient")
+                .post(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+        assertTrue(response.getLocation().toString().startsWith(customBaseUrl),
+                response.getLocation().toString() + " should begin with " + customBaseUrl);
+
+        customBaseUrl = "https://example.com/my/Patient/api";
+        response = target.path("Patient").request()
+                .header("X-FHIR-Forwarded-URL", customBaseUrl + "/Patient")
+                .post(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+        assertFalse(response.getLocation().toString().startsWith(customBaseUrl),
+                response.getLocation().toString() + " doesn't begin with " + customBaseUrl
+                + " because of a documented limitation");
+    }
 }

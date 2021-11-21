@@ -7,12 +7,12 @@
 ###############################################################################
 set -ex
 
-# Steps that need to be executed
+nvm use 14.0
 
-# install gatsby and plugins
-# npm install gatsby-plugin-slug --save
-npm install 
+nvm install 14.0 
 
-gatsby build --prefix-paths
+npm install yarn -g
 
-# Run gatsby serve to see what the site looks like. 
+yarn install
+
+yarn run build:dev

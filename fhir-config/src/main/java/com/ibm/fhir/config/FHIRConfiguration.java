@@ -33,6 +33,7 @@ public class FHIRConfiguration {
     public static final String PROPERTY_CHECK_REFERENCE_TYPES = "fhirServer/core/checkReferenceTypes";
     public static final String PROPERTY_CHECK_CONTROL_CHARS = "fhirServer/core/checkControlCharacters";
     public static final String PROPERTY_CONDITIONAL_DELETE_MAX_NUMBER = "fhirServer/core/conditionalDeleteMaxNumber";
+    public static final String PROPERTY_IF_NONE_MATCH_RETURNS_NOT_MODIFIED = "fhirServer/core/ifNoneMatchReturnsNotModified";
     public static final String PROPERTY_SERVER_REGISTRY_RESOURCE_PROVIDER_ENABLED = "fhirServer/core/serverRegistryResourceProviderEnabled";
     public static final String PROPERTY_SERVER_RESOLVE_FUNCTION_ENABLED = "fhirServer/core/serverResolveFunctionEnabled";
     public static final String PROPERTY_CAPABILITY_STATEMENT_CACHE = "fhirServer/core/capabilityStatementCacheTimeout";
@@ -246,38 +247,29 @@ public class FHIRConfiguration {
     }
 
     /**
-     * This method returns the list of tenant id's for which a configuration exists.
-     * @return
+     * This method returns the list of tenant ids for which a configuration directory exists.
+     * @return a possibly-empty list of tenant ids that isn't null
      */
     public List<String> getConfiguredTenants() {
-        log.entering(this.getClass().getName(), "getConfiguredTenants");
+        List<String> result = new ArrayList<>();
 
-        try {
-            List<String> result = new ArrayList<>();
+        // 'configDir' represents the directory that contains the tenant ids
+        // Example: "/opt/ibm/fhir-server/wlp/usr/servers/fhir-server/config".
+        File configDir = new File(getConfigHome() + CONFIG_LOCATION);
+        log.fine("Listing tenant id's rooted at directory: " + configDir.getName());
 
-            // 'configDir' represents the directory that contains the tenant ids
-            // Example: "/opt/ibm/fhir-server/wlp/usr/servers/fhir-server/config".
-            File configDir = new File(getConfigHome() + CONFIG_LOCATION);
-            log.fine("Listing tenant id's rooted at directory: " + configDir.getName());
-
+        File[] files = configDir.listFiles();
+        if (files != null) {
             // List the directories within 'configDir' that contain a fhir-server-config.json file.
-            for (File f : configDir.listFiles()) {
-                // For a directory, let's verify that a config exists within it.
-                // If yes, then add the name of the directory to the result list, as that
-                // represents a tenant id.
+            for (File f : files) {
                 if (f.isDirectory()) {
-                    File configFile = new File(f, CONFIG_FILE_BASENAME);
-                    if (configFile.exists() && configFile.isFile()) {
-                        result.add(f.getName());
-                    }
+                    result.add(f.getName());
                 }
             }
-
-            log.fine("Returning list of tenant ids: " + result.toString());
-
-            return result;
-        } finally {
-            log.exiting(this.getClass().getName(), "getConfiguredTenants");
         }
+
+        log.fine("Returning list of tenant ids: " + result.toString());
+
+        return result;
     }
 }

@@ -336,11 +336,12 @@ public class FHIRConfigHelperTest {
     public void testGetConfiguredTenants() {
         List<String> tenants = FHIRConfiguration.getInstance().getConfiguredTenants();
         assertNotNull(tenants);
-        assertEquals(5, tenants.size());
+        assertEquals(6, tenants.size());
         assertTrue(tenants.contains("default"));
         assertTrue(tenants.contains("tenant1"));
         assertTrue(tenants.contains("tenant2"));
         assertTrue(tenants.contains("tenant3"));
+        assertTrue(tenants.contains("tenant4"));
         assertTrue(tenants.contains("tenant5"));
     }
 

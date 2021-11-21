@@ -24,8 +24,6 @@ import com.ibm.fhir.persistence.test.common.AbstractDeleteTest;
 
 /**
  * Concrete subclass for delete tests run against the JDBC schema.
- * @author markd
- *
  */
 public class JDBCDeleteTest extends AbstractDeleteTest {
 

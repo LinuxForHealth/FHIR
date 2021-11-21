@@ -68,6 +68,8 @@ public class UpdateTest extends FHIRServerTestBase {
             assertNotNull(response);
             assertResponse(response.getResponse(), Response.Status.CREATED.getStatusCode());
 
+            validateLocationURI(response.getLocation(), "Patient", newId, "1");
+
             // Now read the resource to verify it's there.
             response = client.read("Patient", newId);
             assertNotNull(response);
@@ -97,9 +99,9 @@ public class UpdateTest extends FHIRServerTestBase {
             assertNotNull(response);
             assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
             String locationURI = response.getLocation();
+
+            validateLocationURI(locationURI, "Patient", patient.getId(), "2");
             String[] locationTokens = parseLocationURI(locationURI);
-            assertEquals(3, locationTokens.length);
-            assertEquals("2", locationTokens[2]);
 
             // Now read the resource to verify it's there.
             response = client.vread(locationTokens[0], locationTokens[1], locationTokens[2]);
@@ -129,9 +131,9 @@ public class UpdateTest extends FHIRServerTestBase {
             assertNotNull(response);
             assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
             String locationURI = response.getLocation();
+
+            validateLocationURI(locationURI, "Patient", patient.getId(), "2");
             String[] locationTokens = parseLocationURI(locationURI);
-            assertEquals(3, locationTokens.length);
-            assertEquals("2", locationTokens[2]);
 
             // Now read the resource to verify it's there.
             response = client.vread(locationTokens[0], locationTokens[1], locationTokens[2]);
@@ -153,9 +155,9 @@ public class UpdateTest extends FHIRServerTestBase {
             assertNotNull(response);
             assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
             String locationURI = response.getLocation();
+
+            validateLocationURI(locationURI, "Patient", patient.getId(), "3");
             String[] locationTokens = parseLocationURI(locationURI);
-            assertEquals(3, locationTokens.length);
-            assertEquals("3", locationTokens[2]);
 
             // Now read the resource to verify it's there.
             response = client.vread(locationTokens[0], locationTokens[1], locationTokens[2]);
@@ -298,16 +300,15 @@ public class UpdateTest extends FHIRServerTestBase {
             assertResponse(response.getResponse(), Response.Status.CREATED.getStatusCode());
             String locationURI = response.getLocation();
 
-            String[] locationTokens = response.parseLocation(response.getLocation());
-            String deletedId = locationTokens[1];
+            String resourceId = getLocationLogicalId(response.getResponse());
 
             // Read the new patient.
-            response = client.read(locationTokens[0], locationTokens[1]);
+            response = client.read("Patient", resourceId);
             assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
             Patient createdPatient = response.getResource(Patient.class);
             assertNotNull(createdPatient);
 
-            response = client.delete("Patient", deletedId);
+            response = client.delete("Patient", resourceId);
             assertNotNull(response);
             if (isDeleteSupported()) {
                 assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
@@ -318,7 +319,7 @@ public class UpdateTest extends FHIRServerTestBase {
             }
 
             // Read the new patient.
-            response = client.read("Patient", deletedId);
+            response = client.read("Patient", resourceId);
             assertResponse(response.getResponse(), Response.Status.GONE.getStatusCode());
 
             // Update the patient.
@@ -327,9 +328,38 @@ public class UpdateTest extends FHIRServerTestBase {
             response = client.update(createdPatient);
             assertResponse(response.getResponse(), Response.Status.CREATED.getStatusCode());
             locationURI = response.getLocation();
-            locationTokens = parseLocationURI(locationURI);
-            assertEquals(3, locationTokens.length);
-            assertEquals("3", locationTokens[2]);
+            validateLocationURI(locationURI, "Patient", resourceId, "3");
+        }
+    }
+
+    /**
+     * Test the "update/create" behavior with an purposefully nasty id.
+     */
+    @Test(dependsOnMethods = {"retrieveConfig"})
+    public void testUpdateCreate4() throws Exception {
+        assertNotNull(updateCreateEnabled);
+
+        // If the "Update/Create" feature is enabled, then test the normal update behavior.
+        if (updateCreateEnabled.booleanValue()) {
+
+            String nastyId = "Patient" + UUID.randomUUID();
+            Patient patient = TestUtil.getMinimalResource(Patient.class).toBuilder()
+                    .id(nastyId)
+                    .build();
+
+            // Create the new resource via the update operation.
+            FHIRClient client = getFHIRClient();
+            FHIRResponse response = client.update(patient);
+            assertNotNull(response);
+            assertResponse(response.getResponse(), Response.Status.CREATED.getStatusCode());
+            validateLocationURI(response.getLocationURI().toString(), "Patient", nastyId, "1");
+
+            // Now read the resource to verify it's there.
+            response = client.read("Patient", getLocationLogicalId(response.getResponse()));
+            assertNotNull(response);
+            assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+            Patient responsePatient = response.getResource(Patient.class);
+            assertNotNull(responsePatient);
         }
     }
 

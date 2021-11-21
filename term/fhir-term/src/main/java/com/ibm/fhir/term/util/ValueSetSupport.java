@@ -93,7 +93,8 @@ public final class ValueSetSupport {
             return computeCodeSetMap(valueSet);
         }
         java.lang.String url = cacheKey(valueSet);
-        Map<java.lang.String, Map<java.lang.String, Set<java.lang.String>>> cacheAsMap = CacheManager.getCacheAsMap(CODE_SET_MAP_CACHE_NAME, CODE_SET_MAP_CACHE_CONFIG);
+        Map<java.lang.String, Map<java.lang.String, Set<java.lang.String>>> cacheAsMap =
+                CacheManager.getCacheAsMap(CODE_SET_MAP_CACHE_NAME, CODE_SET_MAP_CACHE_CONFIG);
         try {
             return cacheAsMap.computeIfAbsent(url, k -> computeCodeSetMap(valueSet));
         } finally {

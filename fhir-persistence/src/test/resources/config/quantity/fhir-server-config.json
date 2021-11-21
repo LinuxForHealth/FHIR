@@ -1,0 +1,13 @@
+{
+    "__comment": "FHIR Server configuration extension for the quantity test tenant",
+    "fhirServer": {
+        "resources": {
+            "Basic": {
+                "searchParameters": {
+                    "code": "http://ibm.com/fhir/SearchParameter/Basic-code",
+                    "*": "*"
+                }
+            }
+        }
+    }
+}

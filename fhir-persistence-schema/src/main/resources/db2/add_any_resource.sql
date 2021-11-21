@@ -26,6 +26,8 @@
 --   o_logical_resource_id: output field returning the newly assigned logical_resource_id value
 --   o_resource_id: output field returning the newly assigned resource_id value
 --   o_current_parameter_hash: Base64 current parameter hash if existing resource
+--   o_interaction_status: output indicating whether a change was made or IfNoneMatch hit
+--   o_if_none_match_version: output revealing the version found when o_interaction_status is 1 (IfNoneMatch)
 -- Exceptions:
 --   SQLSTATE 99001: on version conflict (concurrency)
 --   SQLSTATE 99002: missing expected row (data integrity)
@@ -41,7 +43,8 @@
       OUT o_logical_resource_id          BIGINT,
       OUT o_resource_row_id              BIGINT,
       OUT o_current_parameter_hash      VARCHAR(44 OCTETS),
-      OUT o_interaction_status              INT
+      OUT o_interaction_status              INT,
+      OUT o_if_none_match_version           INT
     )
     LANGUAGE SQL
     MODIFIES SQL DATA
@@ -142,6 +145,7 @@ BEGIN
     THEN
         -- If-None-Match: * hit
         SET o_interaction_status = 1;
+        SET o_if_none_match_version = v_current_version;
         RETURN;
     END IF;
     

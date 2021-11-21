@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 package com.ibm.fhir.profile;
 
 import static com.ibm.fhir.model.type.String.string;
@@ -24,7 +25,7 @@ public class ExtensionBuilder extends ProfileBuilder {
      */
     public ExtensionBuilder(String url, String version, String type) {
         super(Extension.class, url, version);
-        fixed("Extension.url", string("http://ibm.com/fhir/StructureDefinition/favorite-team"));
+        fixed("Extension.url", string(url));
         type("Extension.value[x]", ProfileBuilder.type(type));
     }
 

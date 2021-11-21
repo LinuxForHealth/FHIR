@@ -177,6 +177,20 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
     }
 
     @Override
+    public void dropTable(String schemaName, String tableName) {
+        final String nm = getQualifiedName(schemaName, tableName);
+        final String ddl = "DROP TABLE " + nm;
+
+        if (doesTableExist(schemaName, tableName)) {
+            try {
+                runStatement(ddl);
+            } catch (UndefinedNameException x) {
+                logger.warning(ddl + "; TABLE not found");
+            }
+        }
+    }
+
+    @Override
     public void detachPartition(String schemaName, String tableName, String partitionName, String newTableName) {
         warnOnce(MessageKey.PARTITIONING, "Detach partition not supported in Derby");
     }

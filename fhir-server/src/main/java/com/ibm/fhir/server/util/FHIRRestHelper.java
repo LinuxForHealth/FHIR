@@ -98,6 +98,7 @@ import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.context.FHIRSystemHistoryContext;
 import com.ibm.fhir.persistence.erase.EraseDTO;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceIfNoneMatchException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
@@ -445,7 +446,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             }
 
             // Persist the resource
-            FHIRRestOperationResponse ior = doPatchOrUpdatePersist(event, type, id, patch != null, metaResponse.getResource(), metaResponse.getPrevResource(), warnings, metaResponse.isDeleted(),
+            FHIRRestOperationResponse ior = doPatchOrUpdatePersist(event, type, id, patch != null,
+                    metaResponse.getResource(), metaResponse.getPrevResource(), warnings, metaResponse.isDeleted(),
                     ifNoneMatch);
 
             txn.commit();
@@ -739,9 +741,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             FHIRPersistenceContext persistenceContext =
                     FHIRPersistenceContextFactory.createPersistenceContext(event, ifNoneMatch);
-            boolean updateCreate = (prevResource == null);
+            boolean createOnUpdate = (prevResource == null);
             final SingleResourceResult<Resource> result;
-            if (updateCreate) {
+            if (createOnUpdate) {
                 // resource shouldn't exist, so we assume it's a create
                 result = persistence.createWithMeta(persistenceContext, newResource);
             } else {
@@ -757,32 +759,50 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             ior.setResource(newResource);
             ior.setOperationOutcome(FHIRUtil.buildOperationOutcome(warnings));
 
-            // Build our location URI and add it to the interceptor event structure since it is now known.
-            ior.setLocationURI(FHIRUtil.buildLocationURI(type, newResource));
-            event.getProperties().put(FHIRPersistenceEvent.PROPNAME_RESOURCE_LOCATION_URI, ior.getLocationURI().toString());
-
             // Invoke the 'afterUpdate' interceptor methods.
-            if (updateCreate) {
+            if (createOnUpdate) {
+                // No previous resource found in initial read, so we attempted to
+                // create a new one
                 if (result.getStatus() == InteractionStatus.IF_NONE_MATCH_EXISTED) {
-                    // Use the location assigned to the previous resource because we're
-                    // not updating anything. Also, we don't fire any 'after' event
-                    // for the same reason.
-                    ior.setResource(prevResource); // resource wasn't changed
-                    ior.setLocationURI(FHIRUtil.buildLocationURI(type, prevResource));
-                    ior.setStatus(Response.Status.NOT_MODIFIED);
+
+                    // Another thread snuck in and created the resource. Because the client requested
+                    // If-None-Match, we skip any update and return 304 Not Modified.
+                    ior.setResource(null); // null, because we're in createOnUpdate
+                    ior.setLocationURI(FHIRUtil.buildLocationURI(type, id, result.getIfNoneMatchVersion()));
+                    Boolean ifNoneMatchNotModified = FHIRConfigHelper.getBooleanProperty(
+                        FHIRConfiguration.PROPERTY_IF_NONE_MATCH_RETURNS_NOT_MODIFIED, Boolean.FALSE);
+                    if (ifNoneMatchNotModified != null && ifNoneMatchNotModified) {
+                        // Don't treat as an error
+                        ior.setStatus(Response.Status.NOT_MODIFIED);
+                    } else {
+                        throw new FHIRPersistenceIfNoneMatchException("IfNoneMatch precondition failed.");
+                    }
                 } else {
                     ior.setStatus(Response.Status.CREATED);
+                    ior.setLocationURI(FHIRUtil.buildLocationURI(type, newResource));
+                    event.getProperties().put(FHIRPersistenceEvent.PROPNAME_RESOURCE_LOCATION_URI, ior.getLocationURI().toString());
                     getInterceptorMgr().fireAfterCreateEvent(event);
                 }
             } else {
+                // prevResource exists
                 if (result.getStatus() == InteractionStatus.IF_NONE_MATCH_EXISTED) {
                     // Use the location assigned to the previous resource because we're
                     // not updating anything. Also, we don't fire any 'after' event
                     // for the same reason.
-                    ior.setResource(prevResource); // resource wasn't changed
-                    ior.setLocationURI(FHIRUtil.buildLocationURI(type, prevResource));
-                    ior.setStatus(Response.Status.NOT_MODIFIED);
+                    ior.setResource(prevResource); // 304 Not Modified never needs to return content
+                    ior.setLocationURI(FHIRUtil.buildLocationURI(type, id, result.getIfNoneMatchVersion()));
+                    Boolean ifNoneMatchNotModified = FHIRConfigHelper.getBooleanProperty(
+                        FHIRConfiguration.PROPERTY_IF_NONE_MATCH_RETURNS_NOT_MODIFIED, Boolean.FALSE);
+                    if (ifNoneMatchNotModified != null && ifNoneMatchNotModified) {
+                        // Don't treat as an error
+                        ior.setStatus(Response.Status.NOT_MODIFIED);
+                    } else {
+                        throw new FHIRPersistenceIfNoneMatchException("IfNoneMatch precondition failed.");
+                    }
                 } else {
+                    // update, so make sure the location is configured correctly for the event
+                    ior.setLocationURI(FHIRUtil.buildLocationURI(type, newResource));
+                    event.getProperties().put(FHIRPersistenceEvent.PROPNAME_RESOURCE_LOCATION_URI, ior.getLocationURI().toString());
                     ior.setStatus(Response.Status.OK);
                     if (isPatch) {
                         getInterceptorMgr().fireAfterPatchEvent(event);
@@ -1507,7 +1527,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             BundleType.Value requestType = bundle.getType().getValueAsEnum();
             if (requestType != BundleType.Value.BATCH && requestType != BundleType.Value.TRANSACTION) {
-                // TODO add support for posting history bundles
+                // TODO add support for posting history bundles. Note that when that support
+                // is added, some of the following bundle constraint checks will need to be updated
+                // since they are assuming a bundle type of 'batch' or 'transaction'.
                 String msg = "Bundle.type must be either 'batch' or 'transaction'.";
                 throw buildRestException(msg, IssueType.VALUE);
             }
@@ -1524,11 +1546,18 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         .build();
                 throw buildRestException(msg, extendedIssueType);
             }
+            if (bundle.getTotal() != null) {
+                // Verify that the total field is not present for 'batch' or
+                // 'transaction' type bundles (Bundle constraint bdl-1).
+                String msg = "Bundle.total must be empty.";
+                throw buildRestException(msg, IssueType.INVALID);
+            }
 
             // For 'transaction' bundle requests, keep a list of issues in case of failure
             List<OperationOutcome.Issue> issueList = new ArrayList<OperationOutcome.Issue>();
 
             Set<String> localIdentifiers = new HashSet<>();
+            Set<String> fullUrls = new HashSet<>();
 
             for (int i = 0; i < bundle.getEntry().size(); i++) {
                 // Create a corresponding response entry and add it to the response bundle.
@@ -1539,7 +1568,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 try {
                     Bundle.Entry.Request request = requestEntry.getRequest();
 
-                    // Verify that the request field is present.
+                    // Verify that the request field is present for 'batch' or 'transaction'
+                    // type bundles (Bundle constraint bdl-3, also covers Bundle constraint bdl-5).
                     if (request == null) {
                         String msg = "Bundle.Entry is missing the 'request' field.";
                         throw buildRestException(msg, IssueType.REQUIRED);
@@ -1559,8 +1589,10 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
                     // Verify that the fullUrl field is not a duplicate if it specifies a local reference
                     // and if the request method is POST or PUT.
-                    if (request.getMethod().equals(HTTPVerb.POST) || request.getMethod().equals(HTTPVerb.PUT)) {
-                        String localIdentifier = retrieveLocalIdentifier(requestEntry);
+                    String fullUrl = requestEntry.getFullUrl() != null ? requestEntry.getFullUrl().getValue() : null;
+                    if ((request.getMethod().equals(HTTPVerb.POST) || request.getMethod().equals(HTTPVerb.PUT))
+                            && fullUrl != null) {
+                        String localIdentifier = retrieveLocalIdentifier(fullUrl);
                         if (localIdentifier != null) {
                             if (localIdentifiers.contains(localIdentifier)) {
                                 String msg = "Duplicate local identifier encountered in bundled request entry: " + localIdentifier;
@@ -1570,8 +1602,42 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         }
                     }
 
-                    // Retrieve the resource from the request entry to prepare for some validations below.
+                    // Verify that the search field is not present for 'batch' or 'transaction'
+                    // type bundles (Bundle constraint bdl-2).
+                    if (requestEntry.getSearch() != null) {
+                        String msg = "Bundle.Entry.search must be empty.";
+                        throw buildRestException(msg, IssueType.INVALID);
+                    }
+
+                    // Verify that the response field is not present for 'batch' or 'transaction'
+                    // type bundles (Bundle constraint bdl-4).
+                    if (requestEntry.getResponse() != null) {
+                        String msg = "Bundle.Entry.response must be empty.";
+                        throw buildRestException(msg, IssueType.INVALID);
+                    }
+
+                    // Verify that the fullUrl field is not a version specific reference
+                    // (Bundle constraint bdl-8) and that the fullUrl field + resource.meta.versionId
+                    // is unique for 'batch' or 'transaction' type bundles (Bundle constraint bdl-7)
                     Resource resource = requestEntry.getResource();
+                    if (fullUrl != null) {
+                        if (fullUrl.contains("/_history/")) {
+                            String msg = "Bundle.Entry.fullUrl cannot be a version specific reference.";
+                            throw buildRestException(msg, IssueType.VALUE);
+                        }
+                        String fullUrlPlusVersion = fullUrl;
+                        if (resource != null && resource.getMeta() != null
+                                && resource.getMeta().getVersionId() != null && resource.getMeta().getVersionId().hasValue()) {
+                            fullUrlPlusVersion = fullUrl + resource.getMeta().getVersionId().getValue();
+                        } else {
+                            fullUrlPlusVersion = fullUrl;
+                        }
+                        if (fullUrls.contains(fullUrlPlusVersion)) {
+                            String msg = "Duplicate Bundle.Entry.fullUrl encountered in bundled request entry: " + fullUrl;
+                            throw buildRestException(msg, IssueType.DUPLICATE);
+                        }
+                        fullUrls.add(fullUrlPlusVersion);
+                    }
 
                     // Validate the resource for the requested HTTP method.
                     methodValidation(request.getMethod(), resource);
@@ -1804,7 +1870,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      *            resource on the server, then skip the update; if false, then always attempt the updates specified in the bundle
      * @return a response bundle
      */
-    private Bundle processBundleEntries(Bundle requestBundle, Map<Integer, Entry> validationResponseEntries, boolean skippableUpdates) throws Exception {
+    private Bundle processBundleEntries(Bundle requestBundle, Map<Integer, Entry> validationResponseEntries,
+            boolean skippableUpdates) throws Exception {
         log.entering(this.getClass().getName(), "processBundleEntries");
 
         // Generate a request correlation id for this request bundle.
@@ -1826,7 +1893,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             // then process in order
             final boolean isTransactionBundle = bundleType == BundleType.Value.TRANSACTION;
             FHIRRestBundleHelper bundleHelper = new FHIRRestBundleHelper(this);
-            List<FHIRRestInteraction> bundleInteractions = bundleHelper.translateBundleEntries(requestBundle, validationResponseEntries, isTransactionBundle, bundleRequestCorrelationId, skippableUpdates);
+            List<FHIRRestInteraction> bundleInteractions = bundleHelper.translateBundleEntries(requestBundle,
+                    validationResponseEntries, isTransactionBundle, bundleRequestCorrelationId, skippableUpdates);
             List<Entry> responseEntries = processBundleInteractions(bundleInteractions, validationResponseEntries, isTransactionBundle);
 
             // Build the response bundle.
@@ -1861,7 +1929,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      * @return
      * @throws Exception
      */
-    private List<Entry> processBundleInteractions(List<FHIRRestInteraction> bundleInteractions, Map<Integer, Entry> validationResponseEntries, boolean transaction) throws Exception {
+    private List<Entry> processBundleInteractions(List<FHIRRestInteraction> bundleInteractions,
+            Map<Integer, Entry> validationResponseEntries, boolean transaction) throws Exception {
         assert(bundleInteractions.size() > 0);
         Entry[] responseEntries = new Entry[bundleInteractions.size()];
         Map<String, String> localRefMap = new HashMap<>();
@@ -1958,25 +2027,21 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     }
 
     /**
-     * This method will retrieve the local identifier associated with the specified bundle request entry, or return null
-     * if the fullUrl field is not specified or doesn't contain a local identifier.
+     * This method will return the fullUrl if it is a local identifier, or return null
+     * otherwise.
      *
-     * @param requestEntry
-     *            the bundle request entry
+     * @param fullUrl
+     *            the non-null bundle request entry fullUrl value
      * @return the local identifier
      */
-    private String retrieveLocalIdentifier(Entry requestEntry) {
-        String localIdentifier = null;
-        if (requestEntry.getFullUrl() != null) {
-            String fullUrl = requestEntry.getFullUrl().getValue();
-            if (fullUrl != null && fullUrl.startsWith(LOCAL_REF_PREFIX)) {
-                localIdentifier = fullUrl;
-                if (log.isLoggable(Level.FINER)) {
-                    log.finer("Request entry contains local identifier: " + localIdentifier);
-                }
+    private String retrieveLocalIdentifier(String fullUrl) {
+        if (fullUrl.startsWith(LOCAL_REF_PREFIX)) {
+            if (log.isLoggable(Level.FINER)) {
+                log.finer("Request entry contains local identifier: " + fullUrl);
             }
+            return fullUrl;
         }
-        return localIdentifier;
+        return null;
     }
 
     /**
@@ -2621,7 +2686,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     atLeastOneProfiles.addAll(defaultAtLeastOneProfiles);
                 }
             }
-            
+
             // Build the list of 'atLeastOne' profiles that didn't specify a version
             for (String profile : atLeastOneProfiles) {
                 if (!profile.contains("|")) {
@@ -2654,11 +2719,11 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     notAllowedProfilesWithoutVersion.add(profile);
                 }
             }
-            
+
             if (log.isLoggable(Level.FINER)) {
                 log.finer("Not allowed profile list: " + notAllowedProfiles);
             }
-            
+
             // Get the 'allowUnknown' property
             Boolean resourceSpecificAllowUnknown =
                     FHIRConfigHelper.getBooleanProperty(resourceSpecificProfileConfigPath.toString() +
@@ -2668,12 +2733,12 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             } else {
                 allowUnknown = FHIRConfigHelper.getBooleanProperty(defaultProfileConfigPath.toString() +
                     FHIRConfiguration.PROPERTY_FIELD_RESOURCES_PROFILES_ALLOW_UNKNOWN, Boolean.TRUE);
-            }            
-            
+            }
+
             if (log.isLoggable(Level.FINER)) {
                 log.finer("Allow unknown: " + allowUnknown);
             }
-            
+
             // Get the 'defaultVersions' entries
             PropertyGroup resourceSpecificDefaultVersionsGroup =
                     FHIRConfigHelper.getPropertyGroup(resourceSpecificProfileConfigPath.toString() +
@@ -2694,7 +2759,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     }
                 }
             }
-            
+
             if (log.isLoggable(Level.FINER)) {
                 log.finer("Default profile versions: [");
                 for (String profile : defaultVersions.keySet()) {
@@ -2778,7 +2843,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     }
                 }
             }
-            
+
             // Check if a profile is required but no valid profile asserted
             if (!atLeastOneProfiles.isEmpty() && !validProfileFound) {
                 issues.add(buildOperationOutcomeIssue(IssueSeverity.ERROR, IssueType.BUSINESS_RULE,
@@ -2797,13 +2862,13 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 resourceToValidate = resource.toBuilder().meta(metaCopy).build();
             }
         }
-        
+
         try {
             issues = validator.validate(resourceToValidate);
         } catch (FHIRValidationException e) {
             throw new FHIROperationException("Error validating resource.", e);
         }
-        
+
         return issues;
     }
 
