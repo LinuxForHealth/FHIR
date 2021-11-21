@@ -48,3 +48,7 @@ jobs:
       with:
         name: integration-test-results-${{ matrix.persistence }}-${{ matrix.java }}
         path: build/persistence/integration-test-results
+
+concurrency:
+  group: persistence-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: true

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-// Generated from FHIRPath.g4 by ANTLR 4.9.1
+// Generated from fhir-path/FHIRPath.g4 by ANTLR 4.9.3
 package com.ibm.fhir.path;
 import java.util.List;
 
@@ -27,10 +27,9 @@ import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
-//Manually changed to 4.9.1
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class FHIRPathParser extends Parser {
-    static { RuntimeMetaData.checkVersion("4.9.1", RuntimeMetaData.VERSION); }
+    static { RuntimeMetaData.checkVersion("4.9.3", RuntimeMetaData.VERSION); }
 
     protected static final DFA[] _decisionToDFA;
     protected static final PredictionContextCache _sharedContextCache =

@@ -144,7 +144,7 @@
             <dependency>
                 <groupId>jakarta.xml.ws</groupId>
                 <artifactId>jakarta.xml.ws-api</artifactId>
-                <version>2.3.3</version>
+                <version>3.0.1</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
@@ -160,7 +160,7 @@
             <dependency>
                 <groupId>io.openliberty</groupId>
                 <artifactId>openliberty-runtime</artifactId>
-                <version>21.0.0.9</version>
+                <version>21.0.0.11</version>
                 <type>zip</type>
             </dependency>
             <dependency>
@@ -402,7 +402,7 @@
             <dependency>
                 <groupId>org.antlr</groupId>
                 <artifactId>antlr4-runtime</artifactId>
-                <version>4.9.1</version>
+                <version>4.9.3</version>
             </dependency>
             <dependency>
                 <groupId>jakarta.mail</groupId>

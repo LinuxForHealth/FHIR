@@ -73,3 +73,7 @@ jobs:
       with:
         name: integration-test-results-db2-${{ matrix.java }}
         path: integration-test-results
+
+concurrency:
+  group: integration-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: true

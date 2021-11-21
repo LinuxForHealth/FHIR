@@ -586,7 +586,7 @@ The following JSON is an example of a serialized notification event:
 }
 ```
 
-If the resource is over the limit specified in `fhirServer/notifications/common/maxNotificationSizeBytes`, the default value is to subset `id`, `meta` and `resourceType` and add the subset to the FHIRNotificationEvent. In alternative configurations, user may set `fhirServer/notifications/common/maxNotificationSizeBehavior` to `omit` and subsequently retrieve the resource using the location.
+If the resource is over the limit specified in `fhirServer/notifications/common/maxNotificationSizeBytes`, the default value is to subset `id`, `meta`, `resourceType`, and all Resource required fields and add the subset to the FHIRNotificationEvent. In alternative configurations, user may set `fhirServer/notifications/common/maxNotificationSizeBehavior` to `omit` and subsequently retrieve the resource using the location.
 
 ### 4.2.2 WebSocket
 The WebSocket implementation of the notification service will publish notification event messages to a WebSocket. To enable WebSocket notifications, set the `fhirServer/notifications/websocket/enabled` property to `true`, as in the following example:
@@ -1317,7 +1317,7 @@ To use Amazon S3 bucket for exporting, please set `accessKeyId` to S3 access key
 
 Basic system exports to S3 without typeFilters use a streamlined implementation which bypasses the IBM FHIR Server Search API for direct access to the data enabling better throughput. The `fhirServer/bulkdata/core/systemExportImpl` property can be used to disable the streamlined system export implementation. To use the legacy implementation based on IBM FHIR Server search, set the value to "legacy". The new system export implementation is used by default for any export not using typeFilters. Exports using typeFilters use FHIR Search, and cannot use the streamlined export.
 
-To import using the `$import` operation with `https`, one must additionally configure the `fhirServer/bulkdata/validBaseUrls`. For example, if one stores bulk data at `https://test-url1.cos.ibm.com/bucket1/test.ndjson` and `https://test-url2.cos.ibm.com/bucket2/test2.ndjson` you must specify both baseUrls in the configuration:
+To import using the `$import` operation with `https`, one must additionally configure the `fhirServer/bulkdata/storageProviders/(source)/validBaseUrls`. For example, if one stores bulk data at `https://test-url1.cos.ibm.com/bucket1/test.ndjson` and `https://test-url2.cos.ibm.com/bucket2/test2.ndjson` you must specify both baseUrls in the configuration:
 
 ```json
     "validBaseUrls": [

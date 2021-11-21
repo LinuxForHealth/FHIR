@@ -49,3 +49,7 @@ jobs:
       with:
         name: integration-test-results-${{ matrix.notifications }}-${{ matrix.java }}
         path: build/notifications/${{ matrix.notifications }}/integration-test-results
+
+concurrency:
+  group: notification-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: true
