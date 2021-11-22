@@ -58,7 +58,7 @@ import com.ibm.fhir.operation.bulkdata.config.s3.S3HostStyle;
  */
 public class S3Provider implements Provider {
 
-    private static final Logger logger = Logger.getLogger(S3Provider.class.getName());
+    private static final Logger LOG = Logger.getLogger(S3Provider.class.getName());
 
     private static final long COS_PART_MINIMALSIZE = ConfigurationFactory.getInstance().getCoreCosPartUploadTriggerSize();
     private static final long READ_BLOCK_OPT = 524288L;
@@ -84,6 +84,13 @@ public class S3Provider implements Provider {
     private String fhirResourceType = null;
 
     /**
+     * Used for Testing
+     */
+    protected S3Provider() {
+        // NOP
+    }
+
+    /**
      * The provider loads the Client based on the Source.
      * The Source (storageProvider) must be s3 compatible.
      * @param source
@@ -104,7 +111,7 @@ public class S3Provider implements Provider {
         String resourceId = null;
         String authType = adapter.getStorageProviderAuthType(source);
         if (authType == null) {
-            logger.warning("S3Wrapper: No Auth Type Found");
+            LOG.warning("S3Wrapper: No Auth Type Found");
         } else if ("hmac".equalsIgnoreCase(authType)) {
             apiKey = adapter.getStorageProviderAuthTypeHmacAccessKey(source);
             resourceId = adapter.getStorageProviderAuthTypeHmacSecretKey(source);
@@ -117,8 +124,8 @@ public class S3Provider implements Provider {
         }
 
         // Set up the connection to Cos
-        if (logger.isLoggable(Level.FINE)) {
-            logger.fine("Connecting to S3: [" + cosEndpointUrl + "] [" + cosLocation + "]");
+        if (LOG.isLoggable(Level.FINE)) {
+            LOG.fine("Connecting to S3: [" + cosEndpointUrl + "] [" + cosLocation + "]");
         }
 
         create = adapter.shouldStorageProviderCreate(source);
@@ -131,14 +138,14 @@ public class S3Provider implements Provider {
         client = getClient(iam, apiKey, resourceId, cosEndpointUrl, cosLocation, useFhirServerTrustStore);
 
         if (client == null) {
-            logger.warning("Failed to get client!");
+            LOG.warning("Failed to get client!");
             throw new FHIRException("Failed to get client!!");
         } else {
-            logger.fine("Succeed to get client!");
+            LOG.fine("Succeed to get client!");
         }
 
         if (bucketName != null) {
-            logger.fine("Succeed to get BucketName!");
+            LOG.fine("Succeed to get BucketName!");
             // Naming convention has it as - The bucket name can be between 3 and 63 characters long, and can contain only lower-case characters, numbers, periods, and dashes.
             this.bucketName = bucketName.trim().toLowerCase();
         }
@@ -148,7 +155,7 @@ public class S3Provider implements Provider {
                 Class.forName("org.apache.spark.sql.SparkSession");
                 parquetWriter = new SparkParquetWriter(adapter.isStorageProviderAuthTypeIam(source), cosEndpointUrl, apiKey, resourceId);
             } catch (ClassNotFoundException e) {
-                logger.info("No SparkSession in classpath; skipping SparkParquetWriter initialization");
+                LOG.info("No SparkSession in classpath; skipping SparkParquetWriter initialization");
             }
         }
     }
@@ -192,7 +199,7 @@ public class S3Provider implements Provider {
             }
         }
 
-        logger.fine(() -> "The Path Style access is '" + pathStyle + "'");
+        LOG.fine(() -> "The Path Style access is '" + pathStyle + "'");
 
         // A useful link for the builder describing the pathStyle:
         // https://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/com/amazonaws/services/s3/AmazonS3Builder.html#withPathStyleAccessEnabled-java.lang.Boolean-
@@ -219,11 +226,11 @@ public class S3Provider implements Provider {
      * lists the buckets when logging out bucket details
      */
     public void listBuckets() {
-        if (client != null && logger.isLoggable(Level.FINE)) {
+        if (client != null && LOG.isLoggable(Level.FINE)) {
             final List<Bucket> bucketList = client.listBuckets();
             int bucketCount = 1;
             for (final Bucket bucket : bucketList) {
-                logger.fine("[" + bucketCount + "] - '" + bucket.getName() + "'");
+                LOG.fine("[" + bucketCount + "] - '" + bucket.getName() + "'");
                 bucketCount++;
             }
         }
@@ -254,11 +261,23 @@ public class S3Provider implements Provider {
 
     @Override
     public long getSize(String workItem) throws FHIRException {
+        return getSize(client, bucketName, workItem);
+    }
+
+    /**
+     * Get Size enables multiple use case beyond the default of getSize
+     * @param c
+     * @param bn
+     * @param workItem
+     * @return
+     * @throws FHIRException
+     */
+    public long getSize(AmazonS3 c, String bn, String workItem) throws FHIRException {
         try {
-            S3Object item = client.getObject(new GetObjectRequest(bucketName, workItem));
+            S3Object item = c.getObject(new GetObjectRequest(bn, workItem));
             return item.getObjectMetadata().getContentLength();
         } catch (Exception e) {
-            throw new FHIRException("Error Getting File Size '" + bucketName + "/" + workItem + "'", e);
+            throw new FHIRException("Error Getting File Size '" + bn + "/" + workItem + "'", e);
         }
     }
 
@@ -284,210 +303,137 @@ public class S3Provider implements Provider {
 
     @Override
     public void readResources(long numOfLinesToSkip, String workItem) throws FHIRException {
-        readFromObjectStoreWithLowMaxRange(workItem);
+        readFromObjectStoreWithLowMaxRange(client, bucketName, workItem);
     }
 
     /**
      * Reads Object Store with Low and Max Ranges
+     * @param c
+     * @param b
      * @param workItem
      * @throws FHIRException
      */
-    protected void readFromObjectStoreWithLowMaxRange(String workItem) throws FHIRException {
-        int retry = 1;
-        while (retry > 0) {
-            long current = this.transientUserData.getCurrentBytes();
+    protected void readFromObjectStoreWithLowMaxRange(AmazonS3 c, String b, String workItem) throws FHIRException {
 
-            if (this.transientUserData.getImportFileSize() <= this.transientUserData.getCurrentBytes()) {
+        // Don't add tempResources to resources until we're done (we do retry), it's a temporary cache of the Resources
+        List<Resource> tempResources = new ArrayList<>();
+
+        // number of bytes read.
+        long numberOfBytesRead = 0l;
+        int totalReads = 0;
+
+        // Parse/End of Line
+        boolean lastParseFailed = false;
+        FHIRParserException fpe = null;
+        StringBuilder cache = new StringBuilder();
+        String temp = null;
+
+        boolean complete = false;
+        while (!complete) {
+            // Condition: The optimized block and the number of Resources read
+            // exceed the minimum thresholds and the maximum size of a single resource
+            if (numberOfBytesRead > READ_BLOCK_OPT && tempResources.size() >= maxRead) {
                 break;
             }
 
-            long max = current + 100000L;
-            if (max > this.transientUserData.getImportFileSize()) {
-                max = this.transientUserData.getImportFileSize();
+            // Condition: The optimized block is exceeded and the number of resources is
+            // only one so we want to threshold a maximum number of resources
+            // 512K * 5 segments (we don't want to repeat too much work) = 2.6M
+            if (numberOfBytesRead > 2621440 && tempResources.size() >= 1) {
+                break;
             }
 
-            GetObjectRequest req = new GetObjectRequest(bucketName, workItem)
-                    .withRange(current);
-            try (S3Object obj = client.getObject(req);
+            // Condition: The maximum read block is exceeded and we have at least one Resource
+            // 2147483648 / (256*1024*1024) = 8192 (we
+            if (totalReads == 8193) {
+                throw new FHIRException("Too Long a Line");
+            }
+
+            // Condition: At the end of the file... and it should never be more than the file Size
+            // however, in rare circumstances the person may have 'grown' or added to the file
+            // while operating on the $import and we want to defensively end rather than an exact match
+            // Early exit from the loop...
+            long start = this.transientUserData.getCurrentBytes();
+            if (this.transientUserData.getImportFileSize() <= start) {
+                break;
+            }
+
+            // Condition: Window would exceed the maximum File Size
+            // Prune the end to -1 off the maximum.
+            // The following is 256K window. 256 is used so we only drain a portion of the inputstream.
+            // and not the whole file's input stream.
+            long end = start + 268435456L;
+            if (end >= this.transientUserData.getImportFileSize()) {
+                end = this.transientUserData.getImportFileSize() - 1;
+                complete = true; // We still need to process the bytes.
+            }
+
+            // Set the start and end of the S3 Object inputstream that we are going to retrieve
+            GetObjectRequest req = new GetObjectRequest(b, workItem)
+                    .withRange(start, end);
+
+            try (S3Object obj = c.getObject(req);
                     S3ObjectInputStream in = obj.getObjectContent();
                     CountInputStreamReader reader = new CountInputStreamReader(in)) {
-                // Don't add tempResources to resources until we're done (we do retry).
-                List<Resource> tempResources = new ArrayList<>();
+                // The interior block allows a drain operation to be executed.
+                // as a best practice we want to drain the remainder of the input
+                // this drain should be 0-256K.
+                try {
+                    int chunkRead = 0;
+                    boolean continueRead = true;
+                    String resourceStr = reader.readLine();
+                    while (continueRead && resourceStr != null) {
+                        chunkRead++;
 
-                int chunkRead = 0;
+                        try (StringReader stringReader = new StringReader(cache.toString() + resourceStr)) {
+                            tempResources.add(FHIRParser.parser(Format.JSON).parse(stringReader));
+                            lastParseFailed = false;
+                            cache = new StringBuilder();
+                        } catch (FHIRParserException fpeTemp) {
+                            // Log and skip the invalid FHIR resource.
+                            lastParseFailed = true;
+                            fpe = fpeTemp;
+                            temp = resourceStr;
+                        }
 
-                String resourceStr = reader.readLine();
-                boolean continueRead = true;
-                while (continueRead && resourceStr != null) {
-                    chunkRead++;
-                    try (StringReader stringReader = new StringReader(resourceStr)){
-                        tempResources.add(
-                                    FHIRParser.parser(Format.JSON)
-                                                .parse(stringReader));
-                    } catch (FHIRParserException e) {
-                        // Log and skip the invalid FHIR resource.
-                        parseFailures++;
-                        logger.log(Level.INFO, "readResources: Failed to parse line " + chunkRead + " of [" + workItem + "].", e);
-                    }
-
-                    // With small resources the 50 at a time gets really expensive.
-                    // so we have a READ_BLOCK_OPT to get at least a decent segment to
-                    // insert into the db.
-                    if (chunkRead < maxRead || reader.getLength() < READ_BLOCK_OPT) {
                         resourceStr = reader.readLine();
-                    } else {
-                        resourceStr = null;
-                        continueRead = false;
+                        // Condition: last read in this block...
+                        if (resourceStr == null && lastParseFailed) {
+                            // Not yet a failure
+                            fpe = null;
+                            cache.append(temp);
+                        } else if (lastParseFailed) {
+                            // It failed on the nearly last one
+                            parseFailures++;
+                            LOG.log(Level.INFO, "readResources: Failed to parse line " + chunkRead + " of [" + workItem + "].", fpe);
+                            fpe = null;
+                        }
+
+                        this.transientUserData.setCurrentBytes(this.transientUserData.getCurrentBytes() + reader.getLength());
+                    }
+                    totalReads += chunkRead;
+                } catch (Exception ex) {
+                    LOG.warning("readFhirResourceFromObjectStore: Error proccesing file [" + workItem + "] - " + ex.getMessage());
+                    // Throw exception to fail the job, the job can be continued from the current checkpoint after the
+                    // problem is solved.
+                    try {
                         reader.drain();
+                    } catch (Exception s3e) {
+                        LOG.fine(() -> "Error while draining the stream, this is benign");
+                        LOG.throwing("S3Provider", "readFromObjectStoreWithLowMaxRange", s3e);
                     }
+                    throw new FHIRException("Unable to read from S3 during processing", ex);
                 }
-                // The Channel enables us to skip the future seek.
-                this.transientUserData.setCurrentBytes(this.transientUserData.getCurrentBytes() + reader.getLength());
-
-                this.resources.addAll(tempResources);
-                retry = 0;
-            } catch (Exception ex) {
-                logger.warning("readFhirResourceFromObjectStore: Error proccesing file [" + workItem + "] - " + ex.getMessage());
-                if ((retry--) > 0) {
-                    logger.warning("readFhirResourceFromObjectStore: Retry ...");
-                } else {
-                    // Throw exception to fail the job, the job can be continued from the current checkpoint after the problem is solved.
-                    throw new FHIRException("Unable to read from S3 File", ex);
-                }
+            } catch (FHIRException fe) {
+                throw fe;
+            } catch (Exception e) {
+                throw new FHIRException("Unable to read from S3 File", e);
             }
+
         }
-    }
 
-    protected void readFromObjectStoreWithRangeAndDrain(long numOfLinesToSkip, String workItem) throws FHIRException {
-        int retry = 1;
-        while (retry > 0) {
-            long current = this.transientUserData.getCurrentBytes();
-
-            if (this.transientUserData.getImportFileSize() <= this.transientUserData.getCurrentBytes()) {
-                break;
-            }
-
-            long max = current + 200000L;
-            if (max > this.transientUserData.getImportFileSize()) {
-                max = this.transientUserData.getImportFileSize();
-            }
-
-            GetObjectRequest req = new GetObjectRequest(bucketName, workItem)
-                    .withRange(current);
-            try (S3Object obj = client.getObject(req);
-                    S3ObjectInputStream in = obj.getObjectContent();
-                    CountInputStreamReader reader = new CountInputStreamReader(in)) {
-                // Don't add tempResources to resources until we're done (we do retry).
-                List<Resource> tempResources = new ArrayList<>();
-
-                int chunkRead = 0;
-
-                String resourceStr = reader.readLine();
-                boolean continueRead = true;
-                while (continueRead && resourceStr != null) {
-                    chunkRead++;
-                    try (StringReader stringReader = new StringReader(resourceStr)){
-                        tempResources.add(
-                                    FHIRParser.parser(Format.JSON)
-                                                .parse(stringReader));
-                    } catch (FHIRParserException e) {
-                        // Log and skip the invalid FHIR resource.
-                        parseFailures++;
-                        logger.log(Level.INFO, "readResources: Failed to parse line " + (numOfLinesToSkip + chunkRead) + " of [" + workItem + "].", e);
-                    }
-
-                    // With small resources the 50 at a time gets really expensive.
-                    // so we have a READ_BLOCK_OPT to get at least a decent segment to
-                    // insert into the db.
-                    if (chunkRead < maxRead || reader.getLength() < READ_BLOCK_OPT) {
-                        resourceStr = reader.readLine();
-                    } else {
-                        resourceStr = null;
-                        continueRead = false;
-                    }
-                }
-                // The Channel enables us to skip the future seek.
-                this.transientUserData.setCurrentBytes(this.transientUserData.getCurrentBytes() + reader.getLength());
-
-                this.resources.addAll(tempResources);
-                retry = 0;
-            } catch (Exception ex) {
-                logger.warning("readFhirResourceFromObjectStore: Error proccesing file [" + workItem + "] - " + ex.getMessage());
-                if ((retry--) > 0) {
-                    logger.warning("readFhirResourceFromObjectStore: Retry ...");
-                } else {
-                    // Throw exception to fail the job, the job can be continued from the current checkpoint after the problem is solved.
-                    throw new FHIRException("Unable to read from S3 File", ex);
-                }
-            }
-        }
-    }
-
-    /**
-     * Reads from ObjectStore with Range and doesn't drain the input stream.
-     * @param numOfLinesToSkip
-     * @param workItem
-     * @throws FHIRException
-     */
-    protected void readFromObjectStoreWithRange(long numOfLinesToSkip, String workItem) throws FHIRException {
-        int retry = 1;
-        while (retry > 0) {
-            long current = this.transientUserData.getCurrentBytes();
-
-            long max = current + 200000L;
-            if (max > this.transientUserData.getImportFileSize()) {
-                max = this.transientUserData.getImportFileSize();
-            }
-
-            GetObjectRequest req = new GetObjectRequest(bucketName, workItem)
-                    .withRange(current, max);
-            try (S3Object obj = client.getObject(req);
-                    S3ObjectInputStream in = obj.getObjectContent();
-                    CountInputStreamReader reader = new CountInputStreamReader(in)) {
-                // Don't add tempResources to resources until we're done (we do retry).
-                List<Resource> tempResources = new ArrayList<>();
-
-                int chunkRead = 0;
-
-                String resourceStr = reader.readLine();
-                boolean continueRead = true;
-                while (continueRead && resourceStr != null) {
-                    chunkRead++;
-                    try (StringReader stringReader = new StringReader(resourceStr)){
-                        tempResources.add(
-                                    FHIRParser.parser(Format.JSON)
-                                                .parse(stringReader));
-                    } catch (FHIRParserException e) {
-                        // Log and skip the invalid FHIR resource.
-                        parseFailures++;
-                        logger.log(Level.INFO, "readResources: Failed to parse line " + (numOfLinesToSkip + chunkRead) + " of [" + workItem + "].", e);
-                    }
-
-                    // With small resources the 50 at a time gets really expensive.
-                    // so we have a READ_BLOCK_OPT to get at least a decent segment to
-                    // insert into the db.
-                    if (chunkRead < maxRead || reader.getLength() < READ_BLOCK_OPT) {
-                        resourceStr = reader.readLine();
-                    } else {
-                        resourceStr = null;
-                        continueRead = false;
-                    }
-                }
-                // The Channel enables us to skip the future seek.
-                this.transientUserData.setCurrentBytes(this.transientUserData.getCurrentBytes() + reader.getLength());
-
-                this.resources.addAll(tempResources);
-                retry = 0;
-            } catch (Exception ex) {
-                logger.warning("readFhirResourceFromObjectStore: Error proccesing file [" + workItem + "] - " + ex.getMessage());
-                if ((retry--) > 0) {
-                    logger.warning("readFhirResourceFromObjectStore: Retry ...");
-                } else {
-                    // Throw exception to fail the job, the job can be continued from the current checkpoint after the problem is solved.
-                    throw new FHIRException("Unable to read from S3 File", ex);
-                }
-            }
-        }
+        // Add the accumulated resources
+        this.resources.addAll(tempResources);
     }
 
     /**
@@ -504,8 +450,8 @@ public class S3Provider implements Provider {
 
         private long length = 0;
 
-        // We buffer 8192 characters
-        private char[] buffer = new char[65536];
+        // We buffer 256K characters
+        private char[] buffer = new char[268435456];
         private int bufferIdx = 0;
         private int bufferSize = 0;
 
@@ -621,8 +567,8 @@ public class S3Provider implements Provider {
                         transientUserData.getBufferStreamForImport().size(),
                         transientUserData.getPartNumForOperationOutcomes()));
 
-                if (logger.isLoggable(Level.FINE)) {
-                    logger.fine("pushImportOperationOutcomesToCOS: " + transientUserData.getBufferStreamForImport().size()
+                if (LOG.isLoggable(Level.FINE)) {
+                    LOG.fine("pushImportOperationOutcomesToCOS: " + transientUserData.getBufferStreamForImport().size()
                             + " bytes were successfully appended to COS object - " + transientUserData.getUniqueIDForImportOperationOutcomes());
                 }
                 transientUserData.setPartNumForOperationOutcomes(transientUserData.getPartNumForOperationOutcomes() + 1);
@@ -643,8 +589,8 @@ public class S3Provider implements Provider {
                         new ByteArrayInputStream(transientUserData.getBufferStreamForImportError().toByteArray()),
                         transientUserData.getBufferStreamForImportError().size(),
                         transientUserData.getPartNumForFailureOperationOutcomes()));
-                if (logger.isLoggable(Level.FINE)) {
-                    logger.fine("pushImportOperationOutcomesToOS: " + transientUserData.getBufferStreamForImportError().size()
+                if (LOG.isLoggable(Level.FINE)) {
+                    LOG.fine("pushImportOperationOutcomesToOS: " + transientUserData.getBufferStreamForImportError().size()
                             + " bytes were successfully appended to COS object - " + transientUserData.getUniqueIDForImportFailureOperationOutcomes());
                 }
                 transientUserData.setPartNumForFailureOperationOutcomes(transientUserData.getPartNumForFailureOperationOutcomes() + 1);
@@ -677,7 +623,7 @@ public class S3Provider implements Provider {
 
     @Override
     public void close() throws Exception {
-        logger.fine("closing the S3Wrapper");
+        LOG.fine("closing the S3Wrapper");
         if (parquetWriter != null) {
             parquetWriter.close();
         }
@@ -706,7 +652,7 @@ public class S3Provider implements Provider {
     @Override
     public void registerTransient(long executionId, ExportTransientUserData transientUserData, String cosBucketPathPrefix, String fhirResourceType) throws Exception {
         if (transientUserData == null) {
-            logger.warning("registerTransient: chunkData is null, this should never happen!");
+            LOG.warning("registerTransient: chunkData is null, this should never happen!");
             throw new Exception("registerTransient: chunkData is null, this should never happen!");
         }
 
@@ -731,7 +677,7 @@ public class S3Provider implements Provider {
         }
 
         chunkData.getCosDataPacks().add(BulkDataUtils.multiPartUpload(client, bucketName, itemName, uploadId, in, dataLength, chunkData.getPartNum()));
-        logger.info("pushFhirJsonsToCos: '" + dataLength + "' bytes were successfully appended to COS object - '" + itemName + "' uploadId='" + uploadId + "'");
+        LOG.info("pushFhirJsonsToCos: '" + dataLength + "' bytes were successfully appended to COS object - '" + itemName + "' uploadId='" + uploadId + "'");
         chunkData.setPartNum(chunkData.getPartNum() + 1);
         chunkData.getBufferStream().reset();
 
@@ -765,7 +711,7 @@ public class S3Provider implements Provider {
 
     private void pushFhirParquetToCos(List<Resource> resources) throws Exception {
         if (chunkData == null) {
-            logger.warning("pushFhirParquetToCos: chunkData is null, this should never happen!");
+            LOG.warning("pushFhirParquetToCos: chunkData is null, this should never happen!");
             throw new Exception("pushFhirParquetToCos: chunkData is null, this should never happen!");
         }
 
