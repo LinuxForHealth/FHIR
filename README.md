@@ -86,10 +86,6 @@ The IBM FHIR Server is modular and extensible. The following tables provide an o
 |fhir-persistence-cos|Decorates the fhir-persistence-jdbc module with the ability to offload payload storage to IBM Cloud Object Storage *experimental* |false|
 |fhir-persistence-cassandra|Decorates the fhir-persistence-jdbc module with the ability to offload payload storage to Cassandra *experimental* |false|
 |fhir-provider|JAX-RS Providers for FHIR XML and JSON and related patch formats|false|
-|fhir-notification|[Subscription](https://www.hl7.org/fhir/R4/subscription.html) and notification interfaces and helpers|false|
-|fhir-notification-websocket|A fhir-notification implementation that uses WebSockets as described at https://www.hl7.org/fhir/R4/subscription.html#2.46.7.2 |false|
-|fhir-notification-kafka|An experimental fhir-notification implementation that uses Apache Kafka instead of WebSockets|false|
-|fhir-notification-nats|An experimental fhir-notification implementation that uses [NATS](https://nats.io/) instead of WebSockets|false|
 |fhir-server|JAX-RS resources and related classes for implementing the FHIR REST API and extended operations|false|
 |fhir-server-webapp|A web application that packages the fhir-server with a set of built-in extended operations|false|
 |fhir-server-test|End-to-end integration tests for testing a running server|false|
