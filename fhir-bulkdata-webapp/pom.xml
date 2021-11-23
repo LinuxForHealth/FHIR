@@ -179,6 +179,7 @@
                     <groupId>org.apache.arrow</groupId>
                     <artifactId>arrow-vector</artifactId>
                 </exclusion>
+                <!--  Don't add an exclusion for slf4j-log4j it causes a strange stackoverflow error with spark-sql -->
             </exclusions>
         </dependency>
         <dependency>
