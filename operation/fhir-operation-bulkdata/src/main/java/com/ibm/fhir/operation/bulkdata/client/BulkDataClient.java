@@ -391,6 +391,9 @@ public class BulkDataClient {
                 restart.releaseConnection();
                 restartResponse.close();
             }
+
+            // Don't forget to return null, so the HTTP Status Code is 202
+            return null;
         } else if (OperationConstants.SUCCESS_STATUS.contains(batchStatus)) {
             // Job has a successful batch status, so go to work
             try {
