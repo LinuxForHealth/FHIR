@@ -1365,7 +1365,7 @@ https://s3.appdomain.cloud/fhir-example/Patient_1.ndjson?X-Amz-Algorithm=AWS4-HM
 
 The presigned URL is valid for 86400 seconds (1 day).
 
-Note, the deletion of an a job is split into two phases, ACCEPTED (202) response and DELETED (204).  202 is returned until the operation is stopped or removed, and then 204.
+Note, the deletion of an a job is split into two phases, ACCEPTED (202) response and then 404 when the job is no longer available.
 
 Prior to version 4.8.1, the exported `ndjson` file is configured with public access automatically and with 2 hours expiration time using `fhirServer/bulkdata/storageProviders/(source)/exportPublic`. The exported content is best made available with  presigned urls with the `hmac` authentication type.
 
