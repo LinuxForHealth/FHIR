@@ -1590,6 +1590,11 @@ In the `ibmcom/ibm-fhir-server` docker image, these logs will be at `/logs/joblo
 
 Note, if you are using the default derby, the logs are overwritten upon restart of the server. You should use Db2 or Postgres for production purposes.
 
+### 4.10.6 Known Limitations
+
+The IBM FHIR Server's fhir-bulkdata-webapp does not support [persistence interceptors](https://github.com/IBM/FHIR/blob/main/docs/src/pages/guides/FHIRServerUsersGuide.md#43-persistence-interceptors). Therefor, $import requests will not lead to `beforeCreate`/`beforeUpdate` or `afterCreate`/`afterUpdate` method calls and $export requests will not lead to `beforeRead`/`beforeSearch` or `afterRead`/`afterSearch` method calls.
+Because the IBM FHIR Server's notifications feature is implemented as a persistence interceptor, bulk operations will not result in any notification events.
+
 ## 4.11 Audit logging service
 The Audit logging service pushes FHIR server audit events for FHIR operations in [Cloud Auditing Data Federation (CADF)](https://www.dmtf.org/standards/cadf) standard format to a Kafka backend, such as *IBM Cloud Event Streams service*.
 
