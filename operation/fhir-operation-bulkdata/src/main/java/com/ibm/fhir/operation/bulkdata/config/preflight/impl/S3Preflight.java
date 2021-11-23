@@ -145,7 +145,7 @@ public class S3Preflight extends NopPreflight {
         }
 
         String url = adapter.getStorageProviderEndpointInternal(source);
-        if (url == null || url.isEmpty()|| url.isBlank()) {
+        if (url == null || url.isEmpty()) {
             throw export.buildOperationException("endpoint internal is undefined.", IssueType.EXCEPTION);
         }
         // There are two styles PATH/VIRTUAL_HOST
@@ -153,7 +153,7 @@ public class S3Preflight extends NopPreflight {
         boolean withPathStyle = S3HostStyle.PATH.equals(kind);
 
         String location = adapter.getStorageProviderLocation(source);
-        if (location == null || location.isEmpty() || location.isBlank()) {
+        if (location == null || location.isEmpty()) {
             throw export.buildOperationException("endpoint location is undefined.", IssueType.EXCEPTION);
         }
 
