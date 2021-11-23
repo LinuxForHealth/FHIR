@@ -6,8 +6,6 @@
 
 package com.ibm.fhir.operation.bulkdata.config.preflight.impl;
 
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -18,12 +16,9 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
-import javax.net.ssl.HttpsURLConnection;
-
 import com.ibm.cloud.objectstorage.services.s3.AmazonS3;
 import com.ibm.cloud.objectstorage.services.s3.model.HeadBucketRequest;
 import com.ibm.cloud.objectstorage.services.s3.model.HeadBucketResult;
-import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.operation.bulkdata.OperationConstants;
@@ -91,7 +86,11 @@ public class S3Preflight extends NopPreflight {
             List<Future<BucketResult>> futures = executor.invokeAll(callables, 60, TimeUnit.SECONDS);
             for (Future<BucketResult> future : futures) {
                 if (!future.get().result) {
-                    throw export.buildOperationException("Unable to access s3 storageProvider during timeout '" + future.get().source + "'", IssueType.EXCEPTION, future.get().ex);
+                    if (future.get().ex == null) {
+                        throw export.buildOperationException("Unable to access s3 storageProvider during timeout '" + future.get().source + "'", IssueType.EXCEPTION, future.get().ex);
+                    } else {
+                        throw future.get().ex;
+                    }
                 }
             }
         } catch (ExecutionException ee) {
@@ -204,77 +203,19 @@ public class S3Preflight extends NopPreflight {
                 result.result = true;
             } catch (com.ibm.cloud.objectstorage.AmazonServiceException ex) {
                 LOG.throwing("S3Preflight.BucketHostS3Callable", "call", ex);
-                switch (ex.getErrorCode()) {
-                case "301": // the bucket is in a different region than the client is configured with
+                switch (ex.getStatusCode()) {
+                case 301: // the bucket is in a different region than the client is configured with
                     result.ex = export.buildOperationException("Storage provider's region is incorrect" + source + "'", IssueType.EXCEPTION);
                     break;
-                case "403": // if the user does not have access to the bucket
+                case 403: // if the user does not have access to the bucket
                     result.ex = export.buildOperationException("Storage provider's credentials are incorrect '" + source + "'", IssueType.EXCEPTION);
                     break;
-                case "404": // the bucket does not exist
+                case 404: // the bucket does not exist
                     result.ex = export.buildOperationException("The bucket does not exist '" + source + "/" + bucketName + "'", IssueType.EXCEPTION);
                     break;
                 default:
                     LOG.throwing("S3Preflight.BucketHostS3Callable", "call()", ex);
-                    result.ex = export.buildOperationException("Unexpected Exception" + source + "'", IssueType.EXCEPTION, ex);
-                }
-            }
-            return result;
-        }
-    }
-
-    /**
-     * Connects to the S3 Bucket's host's endpoint and returns a BucketResult.
-     */
-    protected static class BucketHostUrlCallable implements Callable<BucketResult> {
-
-        private String source = null;
-        private String url = null;
-
-        public BucketHostUrlCallable(String source) throws FHIROperationException {
-            this.source = source;
-            ConfigurationAdapter adapter = ConfigurationFactory.getInstance();
-            url = adapter.getStorageProviderEndpointInternal(source);
-            if (url == null || url.isEmpty()) {
-                throw export.buildOperationException("endpoint-internal is undefined.", IssueType.EXCEPTION);
-            }
-        }
-
-        @Override
-        public BucketResult call() throws Exception {
-            BucketResult result = new BucketResult();
-            result.source = source;
-            // Check can connect to host (HEAD)
-            if (url.startsWith("https://")) {
-                HttpsURLConnection httpsConnection = null;
-                try {
-                    httpsConnection = (HttpsURLConnection) new URL(url).openConnection();
-                    httpsConnection.setRequestMethod("HEAD");
-                    httpsConnection.getContentLengthLong();
-                    result.result = true;
-                } catch (Exception e) {
-                    LOG.throwing("S3Preflight", "call", e);
-                    result.ex = new FHIRException("Unable to connect to s3 endpoint '" + source + '"', e);
-                } finally {
-                    if (httpsConnection != null) {
-                        httpsConnection.disconnect();
-                    }
-                }
-            } else {
-                HttpURLConnection httpConnection = null;
-                try {
-                    LOG.warning("BulkData Request is using a provider that connects to an insecure url: " + url);
-                    httpConnection = (HttpURLConnection) new URL(url).openConnection();
-                    httpConnection.setRequestMethod("HEAD");
-                    httpConnection.getContentLengthLong();
-                    result.result = true;
-                } catch (Exception e) {
-                    LOG.throwing("S3Preflight", "call", e);
-                    result.ex = new FHIRException("Unable to connect to s3 endpoint '" + source + '"', e);
-                } finally {
-                    if (httpConnection != null) {
-                        httpConnection.disconnect();
-                    }
+                    result.ex = export.buildOperationException("Unexpected Exception '" + source + "'", IssueType.EXCEPTION, ex);
                 }
             }
             return result;
@@ -287,7 +228,7 @@ public class S3Preflight extends NopPreflight {
     private static class BucketResult {
         private String source = null;
         private boolean result = false;
-        private FHIRException ex;
+        private FHIROperationException ex;
     }
 
     @Override
