@@ -424,6 +424,11 @@ public class S3Provider implements Provider {
                     }
                     throw new FHIRException("Unable to read from S3 during processing", ex);
                 }
+
+                // Increment if the last line fails
+                if (lastParseFailed && this.transientUserData.getImportFileSize() <= this.transientUserData.getCurrentBytes()) {
+                    parseFailures++;
+                }
             } catch (FHIRException fe) {
                 throw fe;
             } catch (Exception e) {

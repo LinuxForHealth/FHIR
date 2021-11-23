@@ -537,15 +537,14 @@ public class ImportOperationTest extends FHIRServerTestBase {
         }
     }
 
-    @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = {"testCreateDeletedPatient"})
+    @Test(groups = { TEST_GROUP_NAME })
     public void testImportLargeFromS3() throws Exception {
         if (ON) {
             String path = BASE_VALID_URL;
             String inputFormat = FORMAT;
             String inputSource = "https://localhost:9443/source-fhir-server";
-            String resourceType = "Questionnaire";
-            // https://s3.us-east.cloud-object-storage.appdomain.cloud/fhir-integration-test/test-import.ndjson
-            String url = "questionnaire.ndjson";
+            String resourceType = "Patient";
+            String url = "patient-large.ndjson";
 
             Response response = doPost(path, inputFormat, inputSource, resourceType, url, "minio");
             assertEquals(response.getStatus(), Response.Status.ACCEPTED.getStatusCode());
@@ -563,19 +562,9 @@ public class ImportOperationTest extends FHIRServerTestBase {
             assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
             checkValidResponse(response);
 
-            checkOnResource("qs1-import");
-            checkOnResource("qs1-import2");
+            checkOnResource("17d4cf94fcc-91381ffd-9fc4-4830-be49-c317ae540001");
+            checkOnResource("17d4cf94fcc-91381ffd-9fc4-4830-be49-c317ae540002");
         }
-    }
-
-    public void checkOnQuestionnaireResource(String id) {
-        WebTarget target = getWebTarget();
-        Response response =
-                target.path("Questionnaire").queryParam("_id", id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
-        assertResponse(response, Response.Status.OK.getStatusCode());
-        Bundle bundle = response.readEntity(Bundle.class);
-        assertNotNull(bundle);
-        assertTrue(bundle.getEntry().size() >= 1);
     }
 
     /*
