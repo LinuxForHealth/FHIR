@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
  
-package com.ibm.fhir.schema.app;
+package com.ibm.fhir.database.utils.schema;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -14,14 +14,11 @@ import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.api.ILeaseManager;
+import com.ibm.fhir.database.utils.api.ILeaseManagerConfig;
 import com.ibm.fhir.database.utils.api.ITransaction;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.database.utils.thread.ThreadHandler;
-import com.ibm.fhir.schema.api.ILeaseManager;
-import com.ibm.fhir.schema.api.ILeaseManagerConfig;
-import com.ibm.fhir.schema.control.CancelLease;
-import com.ibm.fhir.schema.control.GetLease;
-import com.ibm.fhir.schema.control.GetLeasePostgresql;
 
 /**
  * Manages acquisition and maintenance of the lease we need before we

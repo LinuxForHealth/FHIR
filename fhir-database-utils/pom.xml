@@ -13,6 +13,18 @@
     <artifactId>fhir-database-utils</artifactId>
 
     <dependencies>
+        <!-- The specific DB driver jars are marked as optional; must be re-declared by consuming modules -->
+        <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derby</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derbytools</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <!-- End of optional DB drivers -->
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>

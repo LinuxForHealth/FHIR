@@ -49,11 +49,14 @@ import com.ibm.fhir.bucket.scanner.ImmediateLocalFileReader;
 import com.ibm.fhir.bucket.scanner.LocalFileReader;
 import com.ibm.fhir.bucket.scanner.LocalFileScanner;
 import com.ibm.fhir.bucket.scanner.ResourceHandler;
+import com.ibm.fhir.core.util.handler.HostnameHandler;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.api.ILeaseManagerConfig;
 import com.ibm.fhir.database.utils.api.ITransaction;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
+import com.ibm.fhir.database.utils.api.UniqueConstraintViolationException;
 import com.ibm.fhir.database.utils.common.JdbcConnectionProvider;
 import com.ibm.fhir.database.utils.db2.Db2Adapter;
 import com.ibm.fhir.database.utils.db2.Db2PropertyAdapter;
@@ -68,9 +71,15 @@ import com.ibm.fhir.database.utils.postgres.PostgresAdapter;
 import com.ibm.fhir.database.utils.postgres.PostgresPropertyAdapter;
 import com.ibm.fhir.database.utils.postgres.PostgresTranslator;
 import com.ibm.fhir.database.utils.transaction.SimpleTransactionProvider;
+import com.ibm.fhir.database.utils.version.CreateControl;
 import com.ibm.fhir.database.utils.version.CreateVersionHistory;
+import com.ibm.fhir.database.utils.version.CreateWholeSchemaVersion;
 import com.ibm.fhir.database.utils.version.VersionHistoryService;
 import com.ibm.fhir.model.type.code.FHIRResourceType;
+import com.ibm.fhir.database.utils.api.ConcurrentUpdateException;
+import com.ibm.fhir.database.utils.schema.LeaseManager;
+import com.ibm.fhir.database.utils.schema.LeaseManagerConfig;
+import com.ibm.fhir.database.utils.schema.SchemaVersionsManager;
 import com.ibm.fhir.task.api.ITaskCollector;
 import com.ibm.fhir.task.api.ITaskGroup;
 import com.ibm.fhir.task.core.service.TaskService;
@@ -134,6 +143,9 @@ public class Main {
     // The list of buckets to scan for resources to load
     private final List<String> cosBucketList = new ArrayList<>();
 
+    // The translator for the configured database type
+    private IDatabaseTranslator translator;
+
     // The adapter configured for the type of database we're using
     private IDatabaseAdapter adapter;
 
@@ -167,9 +179,15 @@ public class Main {
     // optional prefix for scanning a subset of the COS bucket
     private String pathPrefix;
 
-    // Just create the schema and exit
+    // To to create the schema before the program runs
     private boolean createSchema = false;
 
+    // Should we just exit after creating the schema (default behavior unless --bootstrap-schema is given)
+    private boolean exitAfterCreatingSchema = true;
+    
+    // How many seconds to wait to obtain the schema update lease on the database
+    private int waitForUpdateLeaseSeconds = 10;
+    
     // Skip NDJSON rows already processed. Assumes each row is an individual resource or transaction bundle
     private boolean incremental = false;
 
@@ -223,12 +241,20 @@ public class Main {
 
     // Should we load directly from a dir, without scanning and recording files in the FHIRBUCKET DB
     private boolean isImmediateLocal;
-    
+
+    // Configuration to control how the LeaseManager operates
+    private ILeaseManagerConfig leaseManagerConfig;
+
     /**
      * Parse command line arguments
      * @param args
      */
     public void parseArgs(String[] args) {
+        LeaseManagerConfig.Builder lmConfig = LeaseManagerConfig.builder();
+        lmConfig.withHost(new HostnameHandler().getHostname());
+        lmConfig.withLeaseTimeSeconds(100); // default
+        lmConfig.withStayAlive(true);       // default
+        
         for (int i=0; i<args.length; i++) {
             String arg = args[i];
             switch (arg) {
@@ -239,8 +265,15 @@ public class Main {
                     throw new IllegalArgumentException("missing value for --db-type");
                 }
                 break;
-            case "--create-schema":
+            case "--bootstrap-schema":
+                // new behavior - create the schema before main run
                 this.createSchema = true;
+                this.exitAfterCreatingSchema = false;
+                break;
+            case "--create-schema":
+                // old behavior - just create the schema then exit
+                this.createSchema = true;
+                this.exitAfterCreatingSchema = true;
                 break;
             case "--schema-name":
                 if (i < args.length + 1) {
@@ -464,6 +497,7 @@ public class Main {
                 throw new IllegalArgumentException("Bad arg: " + arg);
             }
         }
+        this.leaseManagerConfig = lmConfig.build();
     }
 
     /**
@@ -597,7 +631,8 @@ public class Main {
         }
 
         DerbyPropertyAdapter propertyAdapter = new DerbyPropertyAdapter(dbProperties);
-        IConnectionProvider cp = new JdbcConnectionProvider(new DerbyTranslator(), propertyAdapter);
+        this.translator = new DerbyTranslator();
+        IConnectionProvider cp = new JdbcConnectionProvider(this.translator, propertyAdapter);
         this.connectionPool = new PoolConnectionProvider(cp, connectionPoolSize);
         this.connectionPool.setCloseOnAnyError();
         this.adapter = new DerbyAdapter(connectionPool);
@@ -613,7 +648,7 @@ public class Main {
             schemaName = DEFAULT_SCHEMA_NAME;
         }
 
-        IDatabaseTranslator translator = new Db2Translator();
+        this.translator = new Db2Translator();
         try {
             Class.forName(translator.getDriverClassName());
         } catch (ClassNotFoundException e) {
@@ -636,7 +671,7 @@ public class Main {
             schemaName = DEFAULT_SCHEMA_NAME;
         }
 
-        IDatabaseTranslator translator = new PostgresTranslator();
+        this.translator = new PostgresTranslator();
         try {
             Class.forName(translator.getDriverClassName());
         } catch (ClassNotFoundException e) {
@@ -664,7 +699,6 @@ public class Main {
         // Create the version history table if it doesn't yet exist
         try (ITransaction tx = transactionProvider.getTransaction()) {
             try {
-                adapter.createSchema(schemaName);
                 CreateVersionHistory.createTableIfNeeded(schemaName, this.adapter);
             } catch (Exception x) {
                 logger.log(Level.SEVERE, "failed to create version history table", x);
@@ -685,7 +719,62 @@ public class Main {
      * Create or update the database schema to the latest definition
      */
     public void bootstrapDb() {
+        if (this.adapter == null) {
+            throw new IllegalStateException("Database adapter not configured");
+        }
 
+        boolean success = false;
+        while (!success) {
+            try (ITransaction tx = transactionProvider.getTransaction()) {
+                try {
+                    adapter.createSchema(schemaName);
+                    CreateControl.createTableIfNeeded(schemaName, adapter);
+                    CreateWholeSchemaVersion.createTableIfNeeded(schemaName, adapter);
+                    success = true;
+                } catch (Exception x) {
+                    logger.log(Level.SEVERE, "failed to create control table", x);
+                    tx.setRollbackOnly();
+                    throw x;
+                }
+            } catch (UniqueConstraintViolationException x) {
+                // Race condition - two or more instances trying to create either the CONTROL or 
+                // whole schema version table. These are idempotent, so we leave success - false
+                // to try again
+            }
+        }
+
+        // Obtain a lease on the CONTROL table so that only once instance attempts to update
+        // the main schema
+        LeaseManager leaseManager = new LeaseManager(this.translator, connectionPool, transactionProvider, schemaName, schemaName,
+            leaseManagerConfig);
+
+        try {
+            if (!leaseManager.waitForLease(waitForUpdateLeaseSeconds)) {
+                throw new IllegalStateException("Concurrent update for FHIR data schema: '" + schemaName + "'");
+            }
+            
+            // Check to see if we have the latest version before processing any updates
+            // If our schema is already at the latest version, we can skip a lot of processing
+            SchemaVersionsManager svm = new SchemaVersionsManager(translator, connectionPool, transactionProvider, schemaName,
+                FhirBucketSchemaVersion.getLatestSchemaVersion().vid());
+            if (svm.isLatestSchema()) {
+                logger.info("Already at latest version; skipping update for: '" + schemaName + "'");
+            } else {
+                buildSchema();
+                
+                // Update the whole schema version
+                svm.updateSchemaVersion();
+            }
+        } finally {
+            leaseManager.cancelLease();
+        }
+    }
+    
+    /**
+     * Build the FHIRBUCKET schema, applying updates as needed to bring the schema up
+     * to the latest version
+     */
+    private void buildSchema() {
         // The version history service is used to track schema changes
         // so we know which to apply and which to skip
         VersionHistoryService vhs = createVersionHistoryService();
@@ -836,7 +925,9 @@ public class Main {
     public void process() {
         if (this.createSchema) {
             bootstrapDb();
-        } else {
+        }
+        
+        if (!this.createSchema || !this.exitAfterCreatingSchema) {
             // Set up the shutdown hook to keep things orderly when asked to terminate
             Runtime.getRuntime().addShutdownHook(new Thread(() -> shutdown()));
 

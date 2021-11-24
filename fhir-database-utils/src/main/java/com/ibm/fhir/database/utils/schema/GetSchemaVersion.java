@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.schema.control;
+package com.ibm.fhir.database.utils.schema;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

@@ -60,6 +60,8 @@ import com.ibm.fhir.database.utils.api.UndefinedNameException;
 import com.ibm.fhir.database.utils.api.UniqueConstraintViolationException;
 import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.database.utils.query.Select;
+import com.ibm.fhir.database.utils.schema.GetSchemaVersion;
+import com.ibm.fhir.database.utils.schema.SchemaVersionsManager;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
@@ -156,10 +158,8 @@ import com.ibm.fhir.persistence.payload.PayloadKey;
 import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.fhir.persistence.util.InputOutputByteStream;
 import com.ibm.fhir.persistence.util.LogicalIdentityProvider;
-import com.ibm.fhir.schema.app.SchemaVersionsManager;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
 import com.ibm.fhir.schema.control.FhirSchemaVersion;
-import com.ibm.fhir.schema.control.GetSchemaVersion;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SummaryValueSet;
 import com.ibm.fhir.search.TotalValueSet;
@@ -2048,7 +2048,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         // compare what's in the database with the latest FhirSchemaVersion. For now,
         // we allow the database schema to be equal to or ahead of the latest schema known
         // to this instance. This helps with rolling deploys.
-        FhirSchemaVersion latest = SchemaVersionsManager.getLatestFhirSchemaVersion();
+        FhirSchemaVersion latest = FhirSchemaVersion.getLatestFhirSchemaVersion();
         final boolean result;
         if (versionId < 0) {
             // the new server code is running against a database which hasn't been

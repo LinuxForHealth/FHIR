@@ -37,10 +37,12 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.core.util.handler.HostnameHandler;
+import com.ibm.fhir.database.utils.api.ConcurrentUpdateException;
 import com.ibm.fhir.database.utils.api.DataAccessException;
 import com.ibm.fhir.database.utils.api.DatabaseNotReadyException;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.api.ILeaseManagerConfig;
 import com.ibm.fhir.database.utils.api.ITransaction;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.database.utils.api.TableSpaceRemovalException;
@@ -67,6 +69,9 @@ import com.ibm.fhir.database.utils.postgres.GatherTablesDataModelVisitor;
 import com.ibm.fhir.database.utils.postgres.PostgresAdapter;
 import com.ibm.fhir.database.utils.postgres.PostgresTranslator;
 import com.ibm.fhir.database.utils.postgres.PostgresVacuumSettingDAO;
+import com.ibm.fhir.database.utils.schema.LeaseManager;
+import com.ibm.fhir.database.utils.schema.LeaseManagerConfig;
+import com.ibm.fhir.database.utils.schema.SchemaVersionsManager;
 import com.ibm.fhir.database.utils.tenant.AddTenantKeyDAO;
 import com.ibm.fhir.database.utils.tenant.DeleteTenantKeyDAO;
 import com.ibm.fhir.database.utils.tenant.GetTenantDAO;
@@ -78,8 +83,6 @@ import com.ibm.fhir.database.utils.version.CreateWholeSchemaVersion;
 import com.ibm.fhir.database.utils.version.SchemaConstants;
 import com.ibm.fhir.database.utils.version.VersionHistoryService;
 import com.ibm.fhir.model.util.ModelSupport;
-import com.ibm.fhir.schema.api.ConcurrentUpdateException;
-import com.ibm.fhir.schema.api.ILeaseManagerConfig;
 import com.ibm.fhir.schema.app.util.TenantKeyFileUtil;
 import com.ibm.fhir.schema.control.BackfillResourceChangeLog;
 import com.ibm.fhir.schema.control.BackfillResourceChangeLogDb2;
@@ -88,6 +91,7 @@ import com.ibm.fhir.schema.control.DropForeignKey;
 import com.ibm.fhir.schema.control.EnableForeignKey;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
 import com.ibm.fhir.schema.control.FhirSchemaGenerator;
+import com.ibm.fhir.schema.control.FhirSchemaVersion;
 import com.ibm.fhir.schema.control.GetLogicalResourceNeedsV0014Migration;
 import com.ibm.fhir.schema.control.GetResourceChangeLogEmpty;
 import com.ibm.fhir.schema.control.GetResourceTypeList;
@@ -450,7 +454,8 @@ public class Main {
             }
 
             // If our schema is already at the latest version, we can skip a lot of processing
-            SchemaVersionsManager svm = new SchemaVersionsManager(translator, connectionPool, transactionProvider, targetSchemaName);
+            SchemaVersionsManager svm = new SchemaVersionsManager(translator, connectionPool, transactionProvider, targetSchemaName,
+                FhirSchemaVersion.getLatestFhirSchemaVersion().vid());
             if (svm.isLatestSchema()) {
                 logger.info("Already at latest version; skipping update for: '" + targetSchemaName + "'");
             } else {
@@ -516,7 +521,8 @@ public class Main {
             }
 
             // If our schema is already at the latest version, we can skip a lot of processing
-            SchemaVersionsManager svm = new SchemaVersionsManager(translator, connectionPool, transactionProvider, targetSchemaName);
+            SchemaVersionsManager svm = new SchemaVersionsManager(translator, connectionPool, transactionProvider, targetSchemaName,
+                FhirSchemaVersion.getLatestFhirSchemaVersion().vid());
             if (svm.isLatestSchema()) {
                 logger.info("Already at latest version; skipping update for: '" + targetSchemaName + "'");
             } else {
@@ -558,7 +564,8 @@ public class Main {
             }
 
             // If our schema is already at the latest version, we can skip a lot of processing
-            SchemaVersionsManager svm = new SchemaVersionsManager(translator, connectionPool, transactionProvider, targetSchemaName);
+            SchemaVersionsManager svm = new SchemaVersionsManager(translator, connectionPool, transactionProvider, targetSchemaName,
+                FhirSchemaVersion.getLatestFhirSchemaVersion().vid());
             if (svm.isLatestSchema()) {
                 logger.info("Already at latest version; skipping update for: '" + targetSchemaName + "'");
             } else {

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.schema.derby;
+package com.ibm.fhir.database.utils.schema;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
@@ -19,7 +19,6 @@ import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
 import com.ibm.fhir.database.utils.schema.SchemaVersionsManager;
 import com.ibm.fhir.database.utils.transaction.SimpleTransactionProvider;
 import com.ibm.fhir.database.utils.version.CreateWholeSchemaVersion;
-import com.ibm.fhir.schema.control.FhirSchemaVersion;
 
 /**
  * Unit test for the WHOLE_SCHEMA_VERSION table
@@ -41,18 +40,18 @@ public class DerbySchemaVersionsTest {
             PoolConnectionProvider connectionPool = new PoolConnectionProvider(cp, 10);
             ITransactionProvider transactionProvider = new SimpleTransactionProvider(connectionPool);
             SchemaVersionsManager svm = new SchemaVersionsManager(db.getTranslator(), connectionPool, transactionProvider, SCHEMA_NAME,
-                FhirSchemaVersion.getLatestFhirSchemaVersion().vid());
+                5);
 
-            svm.updateSchemaVersionId(FhirSchemaVersion.V0001.vid());
-            assertEquals(svm.getVersionForSchema(), FhirSchemaVersion.V0001.vid());
-            svm.updateSchemaVersionId(FhirSchemaVersion.V0002.vid());
-            assertEquals(svm.getVersionForSchema(), FhirSchemaVersion.V0002.vid());
-            svm.updateSchemaVersionId(FhirSchemaVersion.V0003.vid());
-            assertEquals(svm.getVersionForSchema(), FhirSchemaVersion.V0003.vid());
+            svm.updateSchemaVersionId(1);
+            assertEquals(svm.getVersionForSchema(), 1);
+            svm.updateSchemaVersionId(2);
+            assertEquals(svm.getVersionForSchema(), 2);
+            svm.updateSchemaVersionId(3);
+            assertEquals(svm.getVersionForSchema(), 3);
 
             // Make sure we can correctly determine the latest schema version value
             svm.updateSchemaVersion();
-            assertEquals(svm.getVersionForSchema(), FhirSchemaVersion.V0022.vid());
+            assertEquals(svm.getVersionForSchema(), 5);
 
             assertTrue(svm.isLatestSchema());
        }
