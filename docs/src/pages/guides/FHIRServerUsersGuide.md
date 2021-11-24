@@ -1443,6 +1443,8 @@ Note: If you use PostgreSQL database as IBM FHIR Server data store or the JavaBa
 
 For more information about Liberty JavaBatch configuration, please refer to [IBM WebSphere Liberty Java Batch White paper](https://www-03.ibm.com/support/techdocs/atsmastr.nsf/webindex/wp102544).
 
+If you are running in a Kubernetes deployment, be sure to set the environment variable MY_POD_NAME to `metadata.name` as shown in [deployment.yaml](https://github.com/Alvearie/alvearie-helm/blob/main/charts/ibm-fhir-server/templates/deployment.yaml#L159). This setting allows the stopping and deleting of jobs on all the  hosts in the deployment.
+
 ### 4.10.1 *Path* and *Virtual Host* Bucket Access
 
 For BulkData storage types of `ibm-cos` and `aws-s3`, the IBM FHIR Server supports two styles of accessing the `s3` bucket - virtual host and path.  In the IBM FHIR Server, `path` is the default access. [Link](https://docs.aws.amazon.com/AmazonS3/latest/userguide/VirtualHosting.html)

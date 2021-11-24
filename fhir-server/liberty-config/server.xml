@@ -42,6 +42,12 @@
     <httpEndpoint id="defaultHttpEndpoint" host="*" httpPort="-1" httpsPort="9443" onError="FAIL"/>
 
     <!--
+         The defaultHostName is set in the deployment.yaml https://github.com/Alvearie/alvearie-helm/blob/main/charts/ibm-fhir-server/templates/deployment.yaml#L159
+         and is subsequently used by the bulkdata configurations
+    -->
+    <variable name="defaultHostName" value="${env.MY_POD_NAME}"/>
+
+    <!--
         The trace specification can be set via the TRACE_SPEC environment variable (or by overriding it below).
         
         Example trace specifications: 
