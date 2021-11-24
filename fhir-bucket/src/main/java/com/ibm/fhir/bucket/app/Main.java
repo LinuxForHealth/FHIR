@@ -76,7 +76,6 @@ import com.ibm.fhir.database.utils.version.CreateVersionHistory;
 import com.ibm.fhir.database.utils.version.CreateWholeSchemaVersion;
 import com.ibm.fhir.database.utils.version.VersionHistoryService;
 import com.ibm.fhir.model.type.code.FHIRResourceType;
-import com.ibm.fhir.database.utils.api.ConcurrentUpdateException;
 import com.ibm.fhir.database.utils.schema.LeaseManager;
 import com.ibm.fhir.database.utils.schema.LeaseManagerConfig;
 import com.ibm.fhir.database.utils.schema.SchemaVersionsManager;
@@ -98,9 +97,6 @@ public class Main {
     private final Properties dbProperties = new Properties();
     private final Properties fhirClientProperties = new Properties();
     
-    // The "bucket" name to use when scanning a local directory
-    private final String LOCAL_BUCKET_NAME = ":local";
-
     // The type of database we're talking to
     private DbType dbType;
 
@@ -179,10 +175,10 @@ public class Main {
     // optional prefix for scanning a subset of the COS bucket
     private String pathPrefix;
 
-    // To to create the schema before the program runs
+    // Create the schema before the program runs
     private boolean createSchema = false;
 
-    // Should we just exit after creating the schema (default behavior unless --bootstrap-schema is given)
+    // When true, exit after creating the schema (default behavior unless --bootstrap-schema is given)
     private boolean exitAfterCreatingSchema = true;
     
     // How many seconds to wait to obtain the schema update lease on the database
@@ -732,7 +728,7 @@ public class Main {
                     CreateWholeSchemaVersion.createTableIfNeeded(schemaName, adapter);
                     success = true;
                 } catch (Exception x) {
-                    logger.log(Level.SEVERE, "failed to create control table", x);
+                    logger.log(Level.SEVERE, "failed to create schema management tables", x);
                     tx.setRollbackOnly();
                     throw x;
                 }

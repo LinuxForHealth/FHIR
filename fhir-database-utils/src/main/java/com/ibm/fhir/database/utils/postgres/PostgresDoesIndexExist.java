@@ -29,7 +29,7 @@ public class PostgresDoesIndexExist implements IDatabaseSupplier<Boolean> {
     /**
      * Public constructor
      * @param schemaName
-     * @param tableName
+     * @param indexName
      */
     public PostgresDoesIndexExist(String schemaName, String indexName) {
         this.schemaName = DataDefinitionUtil.assertValidName(schemaName.toLowerCase());
@@ -50,7 +50,7 @@ public class PostgresDoesIndexExist implements IDatabaseSupplier<Boolean> {
             ps.setString(2, indexName);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                // if we get a row, we know the table exists
+                // if we get a row, we know the index exists
                 result = true;
             }
         }

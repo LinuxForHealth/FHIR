@@ -228,7 +228,7 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
         // the "RESTRICT" keyword is mandatory in Derby
         final String sname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
         final String ddl = "DROP SEQUENCE " + sname + " RESTRICT";
-        
+
         try {
             runStatement(ddl);
         } catch (UndefinedNameException x) {
@@ -397,13 +397,13 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
         List<SchemaInfoObject> result = new ArrayList<>();
         DerbyListTablesForSchema listTables = new DerbyListTablesForSchema(schemaName);
         result.addAll(runStatement(listTables));
-        
+
         DerbyListViewsForSchema listViews = new DerbyListViewsForSchema(schemaName);
         result.addAll(runStatement(listViews));
-        
+
         DerbyListSequencesForSchema listSequences = new DerbyListSequencesForSchema(schemaName);
         result.addAll(runStatement(listSequences));
-        
+
         return result;
     }
 }

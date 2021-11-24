@@ -64,7 +64,7 @@ public class SchemaVersionsManager {
      * Record the version information for the given schemaName in the
      * WHOLESCHEMA_VERSION table, creating a new record if required
      * @param schemaName
-     * @param version
+     * @param versionId
      */
     public void updateSchemaVersionId(int versionId) {
         try (ITransaction tx = transactionProvider.getTransaction()) {

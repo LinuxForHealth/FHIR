@@ -52,7 +52,7 @@ public enum FhirBucketSchemaVersion {
     }
 
     /**
-     * Get the max FhirSchemaVersion based on vid
+     * Get the max FhirBucketSchemaVersion based on vid
      * @return
      */
     public static FhirBucketSchemaVersion getLatestSchemaVersion() {

@@ -9,7 +9,6 @@ package com.ibm.fhir.schema.derby;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 
 import java.sql.Connection;
@@ -31,7 +30,6 @@ import com.ibm.fhir.database.utils.model.DatabaseObjectType;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
 import com.ibm.fhir.database.utils.transaction.SimpleTransactionProvider;
-import com.ibm.fhir.database.utils.version.CreateVersionHistory;
 import com.ibm.fhir.database.utils.version.CreateWholeSchemaVersion;
 import com.ibm.fhir.database.utils.version.VersionHistoryService;
 import com.ibm.fhir.schema.app.Main;
@@ -62,7 +60,7 @@ public class DerbyFhirDatabaseTest {
         try (DerbyFhirDatabase db = new DerbyFhirDatabase(DB_NAME)) {
             System.out.println("FHIR database exists.");
             checkDatabase(db, db.getSchemaName());
-            
+
             // Test the schema drop
             testDrop(db, db.getSchemaName());
         }
@@ -87,9 +85,9 @@ public class DerbyFhirDatabaseTest {
             FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, schemaName, false);
             gen.buildSchema(pdm);
             pdm.drop(adapter, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
-            
+
             CreateWholeSchemaVersion.dropTable(schemaName, adapter);
-            
+
             // Check that the schema is empty
             List<SchemaInfoObject> schemaObjects = adapter.listSchemaObjects(schemaName);
             boolean schemaIsEmpty = schemaObjects.isEmpty();
@@ -100,7 +98,7 @@ public class DerbyFhirDatabaseTest {
             }
             assertTrue(schemaIsEmpty);
         }
-        
+
         // Now we're all done we can finally clean up the version-history for
         // our schema. Make sure we don't get a version for an object we know
         // we created
@@ -137,7 +135,7 @@ public class DerbyFhirDatabaseTest {
                 JdbcTarget tgt = new JdbcTarget(c);
                 DerbyAdapter adapter = new DerbyAdapter(tgt);
                 checkRefSequence(adapter);
-                
+
                 // Check that we have the correct number of tables. This will need to be updated
                 // whenever tables, views or sequences are added or removed
                 assertEquals(adapter.listSchemaObjects(schemaName).size(), 1917);

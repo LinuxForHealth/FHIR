@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,10 +20,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import com.ibm.fhir.bucket.api.BucketLoaderJob;
 import com.ibm.fhir.bucket.api.CosItem;
 import com.ibm.fhir.bucket.api.FileType;
-import com.ibm.fhir.bucket.cos.COSClient;
 import com.ibm.fhir.database.utils.thread.ThreadHandler;
 
 /**
