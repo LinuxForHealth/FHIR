@@ -158,7 +158,8 @@ public class S3Preflight extends NopPreflight {
         }
 
         // Create a COS/S3 client if it's not created yet.
-        return GENERATOR.getClient(iam, access, secret, url, location, iam, withPathStyle);
+        boolean useFhirServerTrustStore = adapter.shouldCoreCosUseServerTruststore();
+        return GENERATOR.getClient(iam, access, secret, url, location, useFhirServerTrustStore, withPathStyle);
     }
 
     /*
