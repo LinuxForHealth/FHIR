@@ -38,8 +38,8 @@ import com.ibm.fhir.bucket.persistence.MergeResourceTypesPostgres;
 import com.ibm.fhir.bucket.reindex.ClientDrivenReindexOperation;
 import com.ibm.fhir.bucket.reindex.DriveReindexOperation;
 import com.ibm.fhir.bucket.reindex.ServerDrivenReindexOperation;
-import com.ibm.fhir.bucket.scanner.BundleBreakerResourceProcessor;
 import com.ibm.fhir.bucket.scanner.BaseFileReader;
+import com.ibm.fhir.bucket.scanner.BundleBreakerResourceProcessor;
 import com.ibm.fhir.bucket.scanner.COSReader;
 import com.ibm.fhir.bucket.scanner.CosScanner;
 import com.ibm.fhir.bucket.scanner.DataAccess;
@@ -70,15 +70,15 @@ import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
 import com.ibm.fhir.database.utils.postgres.PostgresAdapter;
 import com.ibm.fhir.database.utils.postgres.PostgresPropertyAdapter;
 import com.ibm.fhir.database.utils.postgres.PostgresTranslator;
+import com.ibm.fhir.database.utils.schema.LeaseManager;
+import com.ibm.fhir.database.utils.schema.LeaseManagerConfig;
+import com.ibm.fhir.database.utils.schema.SchemaVersionsManager;
 import com.ibm.fhir.database.utils.transaction.SimpleTransactionProvider;
 import com.ibm.fhir.database.utils.version.CreateControl;
 import com.ibm.fhir.database.utils.version.CreateVersionHistory;
 import com.ibm.fhir.database.utils.version.CreateWholeSchemaVersion;
 import com.ibm.fhir.database.utils.version.VersionHistoryService;
 import com.ibm.fhir.model.type.code.FHIRResourceType;
-import com.ibm.fhir.database.utils.schema.LeaseManager;
-import com.ibm.fhir.database.utils.schema.LeaseManagerConfig;
-import com.ibm.fhir.database.utils.schema.SchemaVersionsManager;
 import com.ibm.fhir.task.api.ITaskCollector;
 import com.ibm.fhir.task.api.ITaskGroup;
 import com.ibm.fhir.task.core.service.TaskService;
@@ -762,6 +762,8 @@ public class Main {
                 svm.updateSchemaVersion();
             }
         } finally {
+            // stop trying to refresh the lease before we cancel it for good
+            leaseManager.shutdown();
             leaseManager.cancelLease();
         }
     }
