@@ -226,15 +226,8 @@ public final class XMLSupport {
 
     private static TransformerFactory createTransformerFactory() {
         try {
-            boolean isSet = System.getProperty(PROP_TRANSFORMER_FACTORY) != null;
-            if (!isSet) {
-                System.setProperty(PROP_TRANSFORMER_FACTORY, TRANSFORMER_FACTORY_IMPL);
-            }
-            TransformerFactory factory = TransformerFactory.newInstance();
-            if (!isSet) {
-                System.clearProperty(PROP_TRANSFORMER_FACTORY);
-            }
-
+            // Always get the correct TransformerFactory
+            TransformerFactory factory = TransformerFactory.newInstance(TRANSFORMER_FACTORY_IMPL, null);
             factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
             return factory;
         } catch (Exception e) {
