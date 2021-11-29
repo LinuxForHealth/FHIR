@@ -573,13 +573,15 @@ public class BulkDataClient {
         if (!"COMPLETED".equals(exitStatus) && !"bulkimportchunkjob".equals(executionResponse.getJobName())) {
             List<String> resourceTypeInfs = Arrays.asList(exitStatus.split("\\s*:\\s*"));
             List<PollingLocationResponse.Output> outputList = new ArrayList<>();
+
+            // Only if the storage provider is Parquet, and the output format is parquet.
+            boolean parquet = adapter.isStorageProviderParquetEnabled(source) && FHIRMediaType.APPLICATION_PARQUET.equals(executionResponse.getJobParameters().getFhirExportFormat());
+            StorageType storageType = adapter.getStorageProviderStorageType(source);
             for (String resourceTypeInf : resourceTypeInfs) {
                 String resourceType = resourceTypeInf.substring(0, resourceTypeInf.indexOf("["));
                 String[] resourceCounts =
                         resourceTypeInf.substring(resourceTypeInf.indexOf("[") + 1, resourceTypeInf.indexOf("]")).split("\\s*,\\s*");
                 for (int i = 0; i < resourceCounts.length; i++) {
-                    boolean parquet = adapter.isStorageProviderParquetEnabled(source);
-                    StorageType storageType = adapter.getStorageProviderStorageType(source);
                     String sUrl;
 
                     LOG.fine(() -> "Storage Type is " + storageType + " " + StorageType.IBMCOS.equals(storageType) + " " + StorageType.AWSS3.equals(storageType));
