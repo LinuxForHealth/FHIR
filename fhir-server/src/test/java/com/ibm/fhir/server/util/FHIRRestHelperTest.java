@@ -1983,7 +1983,7 @@ public class FHIRRestHelperTest {
                 .build();
 
         // Process bundle
-        Bundle responseBundle = helper.createSearchBundle(Arrays.asList(null, patientNoId), context, "Patient");
+        Bundle responseBundle = helper.createSearchResponseBundle(Arrays.asList(null, patientNoId), context, "Patient");
 
         // Validate results
         assertNotNull(responseBundle);
