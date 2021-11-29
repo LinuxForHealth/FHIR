@@ -26,12 +26,16 @@ import javax.xml.transform.TransformerFactory;
 public final class XMLSupport {
     public static final String FHIR_NS_URI = "http://hl7.org/fhir";
     public static final String XHTML_NS_URI = "http://www.w3.org/1999/xhtml";
-
+    
+    // System properties used to control XML factory behavior
     private static final String PROP_XML_INPUT_FACTORY = "javax.xml.stream.XMLInputFactory";
+    private static final String PROP_XML_INPUT_FACTORY_CONFIG = "com.ibm.fhir.xml.input.factory";
     private static final String PROP_XML_OUTPUT_FACTORY = "javax.xml.stream.XMLOutputFactory";
-    private static final String PROP_TRANSFORMER_FACTORY = "javax.xml.stream.XMLTransformerFactory";
+    private static final String PROP_XML_OUTPUT_FACTORY_CONFIG = "com.ibm.fhir.xml.output.factory";
 
+    private static final String XML_INPUT_FACTORY_ID = "com.ibm.fhir.xml.input.factory";
     private static final String XML_INPUT_FACTORY_IMPL = "com.sun.xml.internal.stream.XMLInputFactoryImpl";
+    private static final String XML_OUTPUT_FACTORY_ID = "com.ibm.fhir.xml.output.factory";
     private static final String XML_OUTPUT_FACTORY_IMPL = "com.sun.xml.internal.stream.XMLOutputFactoryImpl";
     private static final String TRANSFORMER_FACTORY_IMPL = "com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl";
 
@@ -190,17 +194,25 @@ public final class XMLSupport {
 
     private static XMLInputFactory createXMLInputFactory() {
         try {
-            boolean isSet = System.getProperty(PROP_XML_INPUT_FACTORY) != null;
-            if (!isSet) {
-                System.setProperty(PROP_XML_INPUT_FACTORY, XML_INPUT_FACTORY_IMPL);
+            final XMLInputFactory factory;
+            if (System.getProperty(PROP_XML_INPUT_FACTORY_CONFIG) != null) {
+                // Use [java_home]/conf/stax.properties to specify the impl class 
+                // using the value of XML_INPUT_FACTORY_ID as a key
+                factory = XMLInputFactory.newFactory(XML_INPUT_FACTORY_ID, null);
+            } else {
+                boolean isSet = System.getProperty(PROP_XML_INPUT_FACTORY) != null;
+                if (!isSet) {
+                    System.setProperty(PROP_XML_INPUT_FACTORY, XML_INPUT_FACTORY_IMPL);
+                }
+                factory = XMLInputFactory.newFactory();
+                if (!isSet) {
+                    System.clearProperty(PROP_XML_INPUT_FACTORY);
+                }
             }
-            XMLInputFactory factory = XMLInputFactory.newFactory();
-            if (!isSet) {
-                System.clearProperty(PROP_XML_INPUT_FACTORY);
-            }
-
+            
             factory.setProperty(XMLInputFactory.SUPPORT_DTD, false);
             factory.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, false);
+            
             return factory;
         } catch (Exception e) {
             throw new Error(e);
@@ -209,15 +221,21 @@ public final class XMLSupport {
 
     private static XMLOutputFactory createXMLOutputFactory() {
         try {
-            boolean isSet = System.getProperty(PROP_XML_OUTPUT_FACTORY) != null;
-            if (!isSet) {
-                System.setProperty(PROP_XML_OUTPUT_FACTORY, XML_OUTPUT_FACTORY_IMPL);
+            final XMLOutputFactory factory;
+            if (System.getProperty(PROP_XML_OUTPUT_FACTORY_CONFIG) != null) {
+                // Use [java_home]/conf/stax.properties to specify the impl class 
+                // using the value of XML_OUTPUT_FACTORY_ID as a key
+                factory = XMLOutputFactory.newFactory(XML_OUTPUT_FACTORY_ID, null);
+            } else {
+                boolean isSet = System.getProperty(PROP_XML_OUTPUT_FACTORY) != null;
+                if (!isSet) {
+                    System.setProperty(PROP_XML_OUTPUT_FACTORY, XML_OUTPUT_FACTORY_IMPL);
+                }
+                factory = XMLOutputFactory.newFactory();
+                if (!isSet) {
+                    System.clearProperty(PROP_XML_OUTPUT_FACTORY);
+                }
             }
-            XMLOutputFactory factory = XMLOutputFactory.newFactory();
-            if (!isSet) {
-                System.clearProperty(PROP_XML_OUTPUT_FACTORY);
-            }
-
             return factory;
         } catch (Exception e) {
             throw new Error(e);
