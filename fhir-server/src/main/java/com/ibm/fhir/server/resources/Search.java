@@ -32,8 +32,6 @@ import com.ibm.fhir.server.util.FHIRRestHelper;
 import com.ibm.fhir.server.util.RestAuditLogger;
 
 @Path("/")
-@Consumes({ FHIRMediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON,
-        FHIRMediaType.APPLICATION_FHIR_XML, MediaType.APPLICATION_XML })
 @Produces({ FHIRMediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON,
         FHIRMediaType.APPLICATION_FHIR_XML, MediaType.APPLICATION_XML })
 @RolesAllowed("FHIRUsers")
@@ -142,7 +140,6 @@ public class Search extends FHIRResource {
     }
 
     @GET
-    @Path("/")
     public Response searchAllGet() {
         return doSearchAll();
     }
