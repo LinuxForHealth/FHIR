@@ -566,7 +566,7 @@
                 <groupId>com.github.ben-manes.caffeine</groupId>
                 <artifactId>caffeine</artifactId>
                 <!-- upgrade to 3.x after we discontinue Java 8 support -->
-                <version>2.9.0</version>
+                <version>3.0.4</version>
             </dependency>
             <dependency>
                 <!-- Netty is an open-source, asynchronous event-driven network application framework; used by org.apache.tinkerpop:gremlin-driver -->
