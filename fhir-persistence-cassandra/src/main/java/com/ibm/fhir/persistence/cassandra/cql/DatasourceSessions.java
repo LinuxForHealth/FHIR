@@ -85,13 +85,12 @@ public class DatasourceSessions implements EventCallback {
     }
 
     /**
-     * Build a new CqlSession object for the tenant/datasource.
+     * Build a new CqlSession object for the tenant/datasource tuple described by key.
      * @param key
      * @return
      */
     private static CqlSession newSession(TenantDatasourceKey key) {
-        
-        String dsPropertyName = FHIRConfiguration.PROPERTY_DATASOURCES + "/" + key.getDatasourceId();
+        String dsPropertyName = FHIRConfiguration.PROPERTY_PERSISTENCE_PAYLOAD + "/" + key.getDatasourceId();
         CassandraPropertyGroupAdapter adapter = getPropertyGroupAdapter(dsPropertyName);
         return getDatabaseSession(key, adapter, true);
     }
@@ -167,7 +166,7 @@ public class DatasourceSessions implements EventCallback {
      */    
     public static CqlSession getSessionForBootstrap(String tenantId, String dsId) {
 
-        String dsPropertyName = FHIRConfiguration.PROPERTY_DATASOURCES + "/" + dsId;
+        String dsPropertyName = FHIRConfiguration.PROPERTY_PERSISTENCE_PAYLOAD + "/" + dsId;
         TenantDatasourceKey key = new TenantDatasourceKey(tenantId, dsId);
         CassandraPropertyGroupAdapter adapter = getPropertyGroupAdapter(dsPropertyName);
         return getDatabaseSession(key, adapter, false);

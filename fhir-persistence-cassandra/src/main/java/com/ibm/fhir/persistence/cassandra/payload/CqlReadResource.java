@@ -89,7 +89,6 @@ public class CqlReadResource {
         // resourceType/logicalId is sufficient.
         Select statement =
                 selectFrom("logical_resources")
-                .column("payload_id")
                 .column("chunk")
                 .whereColumn("partition_id").isEqualTo(literal(partitionId))
                 .whereColumn("resource_type_id").isEqualTo(literal(resourceTypeId))
@@ -106,17 +105,16 @@ public class CqlReadResource {
             if (row != null) {
                 // If the chunk is small, it's stored in the LOGICAL_RESOURCS record. If
                 // it's big, then it requires multiple fetches
-                String payloadId = row.getString(1);
-                if (payloadId != null) {
-                    // Big payload split into multiple chunks. Requires a separate read
-                    return readFromChunks(resourceType, session, payloadId);
-                } else {
+                ByteBuffer bb = row.getByteBuffer(1);
+                if (bb != null) {
                     // The payload is small enough to fit in the current row, so no need for an
                     // extra read
-                    ByteBuffer bb = row.getByteBuffer(2);
                     try (InputStream in = new GZIPInputStream(new CqlPayloadStream(bb))) {
                         result = parseStream(resourceType, in);
                     }
+                } else {
+                    // Big payload split into multiple chunks. Requires a separate read
+                    return readFromChunks(resourceType, session);
                 }
             } else {
                 // resource doesn't exist.
@@ -141,15 +139,16 @@ public class CqlReadResource {
      * Read the resource payload from the payload_chunks table
      * @param resourceType
      * @param session
-     * @param payloadId
      * @return
      */
-    private <T extends Resource> T readFromChunks(Class<T> resourceType, CqlSession session, String payloadId) throws IOException, FHIRParserException {
+    private <T extends Resource> T readFromChunks(Class<T> resourceType, CqlSession session) throws IOException, FHIRParserException {
         Select statement =
                 selectFrom("payload_chunks")
                 .column("chunk")
                 .whereColumn("partition_id").isEqualTo(literal(partitionId))
-                .whereColumn("payload_id").isEqualTo(bindMarker())
+                .whereColumn("resource_type_id").isEqualTo(literal(resourceTypeId))
+                .whereColumn("logical_id").isEqualTo(bindMarker())
+                .whereColumn("version").isEqualTo(bindMarker())
                 .orderBy("ordinal", ClusteringOrder.ASC)
                 ;
 

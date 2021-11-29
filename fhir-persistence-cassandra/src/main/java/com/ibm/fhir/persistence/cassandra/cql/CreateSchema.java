@@ -8,8 +8,8 @@ package com.ibm.fhir.persistence.cassandra.cql;
 
 import static com.ibm.fhir.persistence.cassandra.cql.SchemaConstants.LOGICAL_RESOURCES;
 import static com.ibm.fhir.persistence.cassandra.cql.SchemaConstants.PAYLOAD_CHUNKS;
-import static com.ibm.fhir.persistence.cassandra.cql.SchemaConstants.PAYLOAD_TRACKING;
 import static com.ibm.fhir.persistence.cassandra.cql.SchemaConstants.PAYLOAD_RECONCILIATION;
+import static com.ibm.fhir.persistence.cassandra.cql.SchemaConstants.PAYLOAD_TRACKING;
 
 import java.util.logging.Logger;
 
@@ -83,7 +83,6 @@ public class CreateSchema {
                 + "logical_id             text, "
                 + "version                 int, "
                 + "last_modified     timestamp, "
-                + "payload_id             text, "
                 + "chunk                  blob, "
                 + "parameter_block        blob, "
                 + "PRIMARY KEY (partition_id, resource_type_id, logical_id, version)"
@@ -102,13 +101,15 @@ public class CreateSchema {
      */
     protected void createPayloadChunksTable(CqlSession session) {
         // partition by partition_id (application-defined, like patient logical id)
-        // cluster within each partition by resource_type_id, payload_id
         final String cql = "CREATE TABLE IF NOT EXISTS " + PAYLOAD_CHUNKS + " ("
-                + "payload_id   text, "
-                + "ordinal       int, "
-                + "chunk        blob, "
-                + "PRIMARY KEY (payload_id, ordinal)"
-                + ") WITH CLUSTERING ORDER BY (ordinal ASC)";
+                + "partition_id           text, "
+                + "resource_type_id        int, "
+                + "logical_id             text, "
+                + "version                 int, "
+                + "ordinal                 int, "
+                + "chunk                  blob, "
+                + "PRIMARY KEY (partition_id, resource_type_id, logical_id, version, ordinal)"
+                + ") WITH CLUSTERING ORDER BY (resource_type_id ASC, logical_id ASC, version ASC, ordinal ASC)";
 
         logger.info("Running: " + cql);
         session.execute(cql);
@@ -123,7 +124,7 @@ public class CreateSchema {
      */
     protected void createPayloadTrackingTable(CqlSession session) {
         // partition by partition_id (application-defined, like patient logical id)
-        // cluster within each partition by resource_type_id, payload_id
+        // cluster within each partition by tstamp
         final String cql = "CREATE TABLE IF NOT EXISTS " + PAYLOAD_TRACKING + " ("
                 + "partition_id         smallint, "
                 + "tstamp                 bigint, "
@@ -154,8 +155,8 @@ public class CreateSchema {
     protected void createPayloadReconciliationTable(CqlSession session) {
         final String cql = "CREATE TABLE IF NOT EXISTS " + PAYLOAD_RECONCILIATION + " ("
                 + "partition_id   smallint, " // FK to payload_tracking table
-                + "tstamp           bigint  " // FK to payload_tracking table
-                + "PRIMARY KEY (partition_id, tstamp)"
+                + "tstamp           bigint, " // FK to payload_tracking table
+                + "PRIMARY KEY (partition_id, tstamp) "
                 + ") WITH CLUSTERING ORDER BY (tstamp ASC)";
 
         logger.info("Running: " + cql);

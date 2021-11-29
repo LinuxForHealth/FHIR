@@ -26,7 +26,7 @@ public class Main {
 
     private static void bootstrapTenant(String tenantId) throws Exception {
         FHIRRequestContext.set(new FHIRRequestContext(tenantId, "default"));
-        PropertyGroup pg = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_DATASOURCES);
+        PropertyGroup pg = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_PERSISTENCE_PAYLOAD);
         if (pg != null) {
             for (PropertyEntry pe: pg.getProperties()) {
                 final String dsId = pe.getName();
@@ -52,7 +52,7 @@ public class Main {
     
     public static void main(String[] args) {
         if (args.length < 2) {
-            throw new IllegalArgumentException("Usage: java -jar fhir-persistence-cassandra-cli.jar <fhir-config-dir> <tenant-id>");
+            throw new IllegalArgumentException("Usage: java -jar fhir-persistence-cassandra-VERSION-cli.jar <fhir-config-dir> <tenant-id>");
         }
         
         final String fhirConfigDir = args[0];

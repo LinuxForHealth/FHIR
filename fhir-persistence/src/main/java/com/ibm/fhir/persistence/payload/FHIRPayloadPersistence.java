@@ -54,7 +54,8 @@ public interface FHIRPayloadPersistence {
     <T extends Resource> Future<T> readResource(Class<T> resourceType, PayloadKey payloadKey) throws FHIRPersistenceException;
 
     /**
-     * Delete the payload item. This may be called to clean up after a failed transaction
+     * Delete the payload item. This may be called to clean up after a failed transaction or
+     * when performing a hard delete on a resource.
      * @param resourceTypeId
      * @param logicalId
      * @param version

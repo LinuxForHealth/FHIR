@@ -15,9 +15,7 @@ import static com.ibm.fhir.persistence.cassandra.cql.SchemaConstants.PAYLOAD_CHU
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -83,14 +81,14 @@ public class CqlStorePayload {
         // the payload exceeds the chunk size. If it doesn't, we store
         // it in the main resource table, avoiding the cost of a second
         // random read when we need to access it again.
-        final String payloadId = payloadStream.size() > CHUNK_SIZE ? UUID.randomUUID().toString() : null;
-        storeResource(session, payloadId);
+        final boolean storeAsMultipleChunks = payloadStream.size() > CHUNK_SIZE;
+        storeResource(session, storeAsMultipleChunks);
 
-        if (payloadId != null) {
+        if (storeAsMultipleChunks) {
             // payload too big for the main resource table, so break it
             // into smaller chunks and store as adjacent rows in a child
             // table
-            storePayloadChunks(session, payloadId);
+            storePayloadChunks(session);
         }
     }
 
@@ -99,11 +97,11 @@ public class CqlStorePayload {
      * @param session
      * @param payloadId the unique id for storing the payload in multiple chunks
      */
-    private void storeResource(CqlSession session, String payloadId) throws FHIRPersistenceException {
+    private void storeResource(CqlSession session, boolean storeAsMultipleChunks) throws FHIRPersistenceException {
         RegularInsert insert =
                 insertInto(LOGICAL_RESOURCES)
                 .value("partition_id", literal(partitionId))
-                .value("resource_type_id", bindMarker())
+                .value("resource_type_id", literal(resourceTypeId))
                 .value("logical_id", bindMarker())
                 .value("version", bindMarker())
             ;
@@ -111,19 +109,14 @@ public class CqlStorePayload {
         // If we are given a payloadId it means that the payload is too large
         // to fit inside a single row, so instead we break it into multiple
         // rows in the payload_chunks table, using the payloadId as the key
-        if (payloadId != null) {
-            insert.value("payload_id", bindMarker());
-        } else {
+        if (!storeAsMultipleChunks) {
             insert.value("chunk", bindMarker());
         }
 
         PreparedStatement ps = session.prepare(insert.build());
-        BoundStatementBuilder bsb = ps.boundStatementBuilder(resourceTypeId, logicalId, version);
+        BoundStatementBuilder bsb = ps.boundStatementBuilder(logicalId, version);
 
-        if (payloadId != null) {
-            // payload is too big to go in the main table, so just store the reference id here
-            bsb.setString(4, payloadId);
-        } else {
+        if (!storeAsMultipleChunks) {
             // small enough, so we store directly in the main logical_resources table
             bsb.setByteBuffer(4, payloadStream.wrap());
         }
@@ -140,20 +133,17 @@ public class CqlStorePayload {
     /**
      * Store the payload data as a contiguous set of rows ordered by
      * an ordinal which, being part of the key, is used to retrieve the data in the same
-     * order so that the original order.
+     * order they were inserted.
      * @param session
-     * @param payloadId
      */
-    private void storePayloadChunks(CqlSession session, String payloadId) {
-//        + "partition_id text, "
-//        + "payload_id   text, "
-//        + "ordinal       int, "
-//        + "chunk        blob, "
+    private void storePayloadChunks(CqlSession session) {
 
         SimpleStatement statement =
             insertInto(PAYLOAD_CHUNKS)
-            .value("partition_id", bindMarker())
-            .value("payload_id", bindMarker())
+            .value("partition_id", literal(partitionId))
+            .value("resource_type_id", literal(resourceTypeId))
+            .value("logical_id", bindMarker())
+            .value("version", bindMarker())
             .value("ordinal", bindMarker())
             .value("chunk", bindMarker())
             .build();
@@ -170,7 +160,7 @@ public class CqlStorePayload {
             int len = Math.min(CHUNK_SIZE, payloadStream.size() - offset);
             bb.get(buffer, offset, len);
             
-            statements.add(ps.bind(partitionId, payloadId, ordinal++, buffer));
+            statements.add(ps.bind(logicalId, version, ordinal++, buffer));
             offset += CHUNK_SIZE;
         }
 
