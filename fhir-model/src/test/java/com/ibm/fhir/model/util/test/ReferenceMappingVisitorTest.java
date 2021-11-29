@@ -79,7 +79,7 @@ public class ReferenceMappingVisitorTest {
                         .build();
     }
 
-    @Test(enabled = true)
+    @Test
     public void testUpdateReferences() throws FHIRGeneratorException {
         java.lang.String uUID = UUID.randomUUID().toString();
         HashMap<java.lang.String, java.lang.String> localRefMap = new HashMap<java.lang.String, java.lang.String>();
@@ -108,7 +108,7 @@ public class ReferenceMappingVisitorTest {
         assertEquals(result.getGeneralPractitioner().get(0).getReference().getValue(), "urn:romote:" + uUID);
     }
 
-    @Test(enabled = true)
+    @Test
     public void testUpdateReferencesWithAbsoluteFullUrlAndRelativeReferenceMatch() throws FHIRGeneratorException {
         HashMap<java.lang.String, java.lang.String> localRefMap = new HashMap<java.lang.String, java.lang.String>();
         localRefMap.put("https://test.com/fhir-server/api/v4/Practitioner/test", "Practitioner/1");
@@ -137,7 +137,7 @@ public class ReferenceMappingVisitorTest {
         assertEquals(result.getGeneralPractitioner().get(0).getReference().getValue(), "Practitioner/1");
     }
 
-    @Test(enabled = true)
+    @Test
     public void testUpdateReferencesWithRelativeFullUrlAndAbsoluteReferenceMatch() throws FHIRGeneratorException {
         HashMap<java.lang.String, java.lang.String> localRefMap = new HashMap<java.lang.String, java.lang.String>();
         localRefMap.put("https://test.com/fhir-server/api/v4/Practitioner/test", "Practitioner/1");
@@ -165,7 +165,7 @@ public class ReferenceMappingVisitorTest {
         assertEquals(result.getGeneralPractitioner().get(0).getReference().getValue(), "Practitioner/1");
     }
 
-    @Test(enabled = true)
+    @Test
     public void testUpdateReferencesWithRelativeFullUrlAndRelativeReferenceMatch() throws FHIRGeneratorException {
         HashMap<java.lang.String, java.lang.String> localRefMap = new HashMap<java.lang.String, java.lang.String>();
         localRefMap.put("Practitioner/test", "Practitioner/1");
@@ -193,7 +193,7 @@ public class ReferenceMappingVisitorTest {
         assertEquals(result.getGeneralPractitioner().get(0).getReference().getValue(), "Practitioner/1");
     }
 
-    @Test(enabled = true)
+    @Test
     public void testUpdateReferencesWithAbsoluteFullUrlAndAbsoluteReferenceNoMatch() throws FHIRGeneratorException {
         HashMap<java.lang.String, java.lang.String> localRefMap = new HashMap<java.lang.String, java.lang.String>();
         localRefMap.put("https://test.com/fhir-server/api/v4/Practitioner/test", "Practitioner/1");
@@ -221,7 +221,7 @@ public class ReferenceMappingVisitorTest {
         assertEquals(writer2.toString(), writer1.toString());
     }
 
-    @Test(enabled = true)
+    @Test
     public void testUpdateReferencesWithAbsoluteFullUrlAndFragmentReferenceNoMatch() throws FHIRGeneratorException {
         HashMap<java.lang.String, java.lang.String> localRefMap = new HashMap<java.lang.String, java.lang.String>();
         localRefMap.put("https://test.com/fhir-server/api/v4/#Practitioner", "Practitioner/1");
@@ -249,7 +249,7 @@ public class ReferenceMappingVisitorTest {
         assertEquals(writer2.toString(), writer1.toString());
     }
 
-    @Test(enabled = true)
+    @Test
     public void testUpdateReferencesWithNonRestfulAbsoluteFullUrlAndRelativeReferenceNoMatch() throws FHIRGeneratorException {
         HashMap<java.lang.String, java.lang.String> localRefMap = new HashMap<java.lang.String, java.lang.String>();
         localRefMap.put("https://test.com/fhir-server/api/v4/Practitioner/test", "Practitioner/1");
