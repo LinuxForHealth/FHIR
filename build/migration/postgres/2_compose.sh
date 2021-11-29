@@ -20,7 +20,7 @@ pre_integration(){
 
 # setup_docker - setup docker
 setup_docker(){
-    pushd $(pwd) > /dev/null 
+    pushd $(pwd) > /dev/null
     cd ${WORKSPACE}/fhir/build/migration/postgres
     mkdir -p ${WORKSPACE}/fhir/build/migration/postgres/workarea/volumes/dist/db
     docker build -t test/fhir-postgres:snapshot .
@@ -38,19 +38,19 @@ config(){
     # Setup the Configurations for Migration
     echo "Copying fhir configuration files..."
     mkdir -p ${DIST}/config
-    cp -pr ${WORKSPACE}/prev/fhir-server-webapp/src/main/liberty/config/config $DIST
-    cp -pr ${WORKSPACE}/prev/fhir-server/liberty-config-tenants/config/* $DIST/config
+    if [ -d ${WORKSPACE}/prev/fhir-server-webapp/src/main/liberty ]
+    then
+        cp -r ${WORKSPACE}/prev/fhir-server-webapp/src/main/liberty/config/config $DIST/
+    else
+        cp -r ${WORKSPACE}/prev/fhir-server/liberty-config/config $DIST/
+        cp -r ${WORKSPACE}/prev/fhir-server/liberty-config-tenants/config/* $DIST/config/
+    fi
 
     echo "Copying test artifacts to install location..."
     USERLIB="${DIST}/userlib"
     mkdir -p "${USERLIB}"
     find ${WORKSPACE}/prev/conformance -iname 'fhir-ig*.jar' -not -iname 'fhir*-tests.jar' -not -iname 'fhir*-test-*.jar' -exec cp -f {} ${USERLIB} \;
     find ${WORKSPACE}/prev/operation/fhir-operation-test/target -iname '*.jar' -exec cp -f {} ${USERLIB} \;
-
-    echo "Copying over the overrides for the datasource"
-    mkdir -p ${DIST}/overrides
-    cp ${WORKSPACE}/prev/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/datasource-postgresql.xml ${DIST}/overrides
-    cp -p ${WORKSPACE}/prev/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/datasource-derby.xml ${DIST}/overrides
     if [ -d ${WORKSPACE}/prev/operation/fhir-operation-term-cache/target ]
     then
         find ${WORKSPACE}/prev/operation/fhir-operation-term-cache/target -iname '*.jar' -exec cp -f {} ${USERLIB} \;
@@ -59,6 +59,18 @@ config(){
     then
         find ${WORKSPACE}/prev/term/operation/fhir-operation-term-cache/target -iname '*.jar' -exec cp -f {} ${USERLIB} \;
     fi
+
+    echo "Copying over the overrides for the datasource"
+    mkdir -p ${DIST}/overrides
+    if [ -d ${WORKSPACE}/prev/fhir-server-webapp/src/main/liberty ]
+    then
+        cp ${WORKSPACE}/prev/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/datasource-postgresql.xml ${DIST}/overrides
+        cp ${WORKSPACE}/prev/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/datasource-derby.xml ${DIST}/overrides
+    else
+        cp ${WORKSPACE}/prev/fhir-server/liberty-config/configDropins/disabled/datasource-postgresql.xml ${DIST}/overrides
+        cp ${WORKSPACE}/prev/fhir-server/liberty-config/configDropins/disabled/datasource-derby.xml ${DIST}/overrides
+    fi
+
     # Move over the test configurations
     echo "Copying over the fhir-server-config.json and updating publishing"
     cp -f ${DIST}/config/default/fhir-server-config-postgresql.json ${DIST}/config/default/fhir-server-config.json
@@ -82,7 +94,7 @@ bringup(){
     echo "Previous Version: ${PREVIOUS_VERSION}"
     echo "Bringing up containers >>> Current time: " $(date)
 
-    # In order not to hit this after packaging everything up,w e want to run this before we start up the db.
+    # In order not to hit this after packaging everything up, we want to run this before we start up the db.
     # waiting for server to start....2021-07-16 20:42:03.136 UTC [9] FATAL:  data directory "/db/data" has invalid permissions
     # 2021-07-16 20:42:03.136 UTC [9] DETAIL:  Permissions should be u=rwx (0700) or u=rwx,g=rx (0750).
     sudo chown -R 70:70 ${WORKSPACE}/fhir/build/migration/postgres/workarea/volumes/dist/db

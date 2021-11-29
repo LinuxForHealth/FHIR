@@ -20,7 +20,7 @@ pre_integration(){
 
 # setup_docker - setup docker
 setup_docker(){
-    pushd $(pwd) > /dev/null 
+    pushd $(pwd) > /dev/null
     cd ${WORKSPACE}/fhir/build/migration/db2
     mkdir -p ${WORKSPACE}/fhir/build/migration/db2/workarea/volumes/dist/db
     docker build -t test/fhir-db2 resources/
@@ -37,8 +37,13 @@ config(){
     # Setup the Configurations for Migration
     echo "Copying fhir configuration files..."
     mkdir -p ${DIST}/config
-    cp -pr ${WORKSPACE}/prev/fhir-server-webapp/src/main/liberty/config/config $DIST
-    cp -pr ${WORKSPACE}/prev/fhir-server/liberty-config-tenants/config/* $DIST/config
+    if [ -d ${WORKSPACE}/prev/fhir-server-webapp/src/main/liberty ]
+    then
+        cp -r ${WORKSPACE}/prev/fhir-server-webapp/src/main/liberty/config/config $DIST/
+    else
+        cp -r ${WORKSPACE}/prev/fhir-server/liberty-config/config $DIST/
+        cp -r ${WORKSPACE}/prev/fhir-server/liberty-config-tenants/config/* $DIST/config/
+    fi
 
     echo "Copying test artifacts to install location..."
     USERLIB="${DIST}/userlib"
@@ -56,8 +61,14 @@ config(){
 
     echo "Copying over the overrides for the datasource"
     mkdir -p ${DIST}/overrides
-    cp ${WORKSPACE}/prev/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/datasource-db2.xml ${DIST}/overrides
-    cp -p ${WORKSPACE}/prev/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/datasource-derby.xml ${DIST}/overrides
+    if [ -d ${WORKSPACE}/prev/fhir-server-webapp/src/main/liberty ]
+    then
+        cp ${WORKSPACE}/prev/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/datasource-db2.xml ${DIST}/overrides
+        cp ${WORKSPACE}/prev/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/datasource-derby.xml ${DIST}/overrides
+    else
+        cp ${WORKSPACE}/prev/fhir-server/liberty-config/configDropins/disabled/datasource-db2.xml ${DIST}/overrides
+        cp ${WORKSPACE}/prev/fhir-server/liberty-config/configDropins/disabled/datasource-derby.xml ${DIST}/overrides
+    fi
 
     # Move over the test configurations
     echo "Copying over the fhir-server-config.json and updating publishing"
