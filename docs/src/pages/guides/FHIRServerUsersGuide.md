@@ -586,7 +586,7 @@ The following JSON is an example of a serialized notification event:
 }
 ```
 
-If the resource is over the limit specified in `fhirServer/notifications/common/maxNotificationSizeBytes`, the default value is to subset `id`, `meta` and `resourceType` and add the subset to the FHIRNotificationEvent. In alternative configurations, user may set `fhirServer/notifications/common/maxNotificationSizeBehavior` to `omit` and subsequently retrieve the resource using the location.
+If the resource is over the limit specified in `fhirServer/notifications/common/maxNotificationSizeBytes`, the default value is to subset `id`, `meta`, `resourceType`, and all Resource required fields and add the subset to the FHIRNotificationEvent. In alternative configurations, user may set `fhirServer/notifications/common/maxNotificationSizeBehavior` to `omit` and subsequently retrieve the resource using the location.
 
 ### 4.2.2 WebSocket
 The WebSocket implementation of the notification service will publish notification event messages to a WebSocket. To enable WebSocket notifications, set the `fhirServer/notifications/websocket/enabled` property to `true`, as in the following example:
@@ -1317,7 +1317,7 @@ To use Amazon S3 bucket for exporting, please set `accessKeyId` to S3 access key
 
 Basic system exports to S3 without typeFilters use a streamlined implementation which bypasses the IBM FHIR Server Search API for direct access to the data enabling better throughput. The `fhirServer/bulkdata/core/systemExportImpl` property can be used to disable the streamlined system export implementation. To use the legacy implementation based on IBM FHIR Server search, set the value to "legacy". The new system export implementation is used by default for any export not using typeFilters. Exports using typeFilters use FHIR Search, and cannot use the streamlined export.
 
-To import using the `$import` operation with `https`, one must additionally configure the `fhirServer/bulkdata/validBaseUrls`. For example, if one stores bulk data at `https://test-url1.cos.ibm.com/bucket1/test.ndjson` and `https://test-url2.cos.ibm.com/bucket2/test2.ndjson` you must specify both baseUrls in the configuration:
+To import using the `$import` operation with `https`, one must additionally configure the `fhirServer/bulkdata/storageProviders/(source)/validBaseUrls`. For example, if one stores bulk data at `https://test-url1.cos.ibm.com/bucket1/test.ndjson` and `https://test-url2.cos.ibm.com/bucket2/test2.ndjson` you must specify both baseUrls in the configuration:
 
 ```json
     "validBaseUrls": [
@@ -1591,6 +1591,11 @@ In a standard installation, these logs will be at `wlp/usr/servers/fhir-server/l
 In the `ibmcom/ibm-fhir-server` docker image, these logs will be at `/logs/joblogs`.
 
 Note, if you are using the default derby, the logs are overwritten upon restart of the server. You should use Db2 or Postgres for production purposes.
+
+### 4.10.6 Known Limitations
+
+The IBM FHIR Server's fhir-bulkdata-webapp does not support [persistence interceptors](https://github.com/IBM/FHIR/blob/main/docs/src/pages/guides/FHIRServerUsersGuide.md#43-persistence-interceptors). Therefor, $import requests will not lead to `beforeCreate`/`beforeUpdate` or `afterCreate`/`afterUpdate` method calls and $export requests will not lead to `beforeRead`/`beforeSearch` or `afterRead`/`afterSearch` method calls.
+Because the IBM FHIR Server's notifications feature is implemented as a persistence interceptor, bulk operations will not result in any notification events.
 
 ## 4.11 Audit logging service
 The Audit logging service pushes FHIR server audit events for FHIR operations in [Cloud Auditing Data Federation (CADF)](https://www.dmtf.org/standards/cadf) standard format to a Kafka backend, such as *IBM Cloud Event Streams service*.

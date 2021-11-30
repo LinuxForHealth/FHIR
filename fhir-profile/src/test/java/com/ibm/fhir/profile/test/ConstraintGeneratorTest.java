@@ -31,6 +31,7 @@ import com.ibm.fhir.model.resource.Organization;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.StructureDefinition;
+import com.ibm.fhir.model.resource.StructureDefinition.Context;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Quantity;
 import com.ibm.fhir.model.type.Reference;
@@ -38,8 +39,10 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.ConstraintSeverity;
 import com.ibm.fhir.model.type.code.DiscriminatorType;
+import com.ibm.fhir.model.type.code.ExtensionContextType;
 import com.ibm.fhir.model.type.code.SlicingRules;
 import com.ibm.fhir.profile.ConstraintGenerator;
+import com.ibm.fhir.profile.ExtensionBuilder;
 import com.ibm.fhir.profile.ProfileBuilder;
 import com.ibm.fhir.profile.ProfileSupport;
 import com.ibm.fhir.registry.FHIRRegistry;
@@ -57,6 +60,22 @@ public class ConstraintGeneratorTest {
     public void before() {
         FHIRRegistry.getInstance();
         FHIRRegistry.init();
+    }
+
+    @Test
+    public static void testConstraintGeneratorOnExtension() throws Exception {
+        StructureDefinition builtExtDef = new ExtensionBuilder("http://example.com/fhir/StructureDefinition/genderExt", "1.0.0", "code")
+                .context(Context.builder()
+                    .type(ExtensionContextType.ELEMENT)
+                    .expression("Patient")
+                    .build())
+                .cardinality("Extension.value[x]", 1, "1")
+                .binding("Extension.value[x]", ExtensionBuilder.binding(BindingStrength.REQUIRED, "http://hl7.org/fhir/ValueSet/administrative-gender"))
+                .build();
+        ConstraintGenerator generator = new ConstraintGenerator(builtExtDef);
+        List<Constraint> constraints = generator.generate();
+        assertEquals(constraints.size(), 1);
+        assertEquals(constraints.get(0).expression(), "value.as(code).exists() and value.as(code).all(memberOf('http://hl7.org/fhir/ValueSet/administrative-gender', 'required'))");
     }
 
     @Test

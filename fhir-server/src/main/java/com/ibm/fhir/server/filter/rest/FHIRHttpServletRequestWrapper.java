@@ -1,33 +1,27 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.server.filter.rest;
 
-import java.io.BufferedReader;
-import java.io.IOException;
+import static javax.ws.rs.core.HttpHeaders.ACCEPT;
+import static javax.ws.rs.core.HttpHeaders.ACCEPT_CHARSET;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.security.Principal;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletInputStream;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
-import javax.servlet.http.HttpSession;
-import javax.ws.rs.core.HttpHeaders;
 
 import org.owasp.encoder.Encode;
 
@@ -43,12 +37,8 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
     private static final Logger log = Logger.getLogger(FHIRHttpServletRequestWrapper.class.getName());
 
     public static final String UTF8 = "utf-8";
-    public static final String UTF16 = "utf-16";
     public static final String DEFAULT_ACCEPT_HEADER_VALUE = FHIRMediaType.APPLICATION_FHIR_JSON;
-    public static final String HEADER_X_METHOD_OVERRIDE = "X-Method-Override";
     public static final String CHARSET = "charset";
-    public static final String ACCEPT = "Accept";
-    public static final String ACCEPT_CHARSET = "Accept-Charset";
 
     // The real HttpServletRequest instance that we'll delegate to.
     private HttpServletRequest delegate;
@@ -153,8 +143,6 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
 
         //                  header name, query parameter name
         headerNameMappings.put("accept", "_format");
-        headerNameMappings.put("x-method-override", "x-method-override");
-        headerNameMappings.put("x-http-method-override", "x-http-method-override");
 
     }
 
@@ -216,8 +204,8 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
 
 
     /**
-     * This function is called to modified the accept header to add the missing charset setting,
-     * the content of the updated accept header will be used in content-type header of the response by the javax
+     * This function is called to modify the accept header to add the missing charset setting.
+     * The content of the updated accept header will be used in content-type header of the response by the JAX-RS
      * framework.
      * This function fixes the missing charset errors which are caused by:
      * (1) charset is defined in "Accept-Charset" header instead of in "Accept" header.
@@ -243,13 +231,9 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
     /**
      * This method allows us to support overriding of HTTP headers with query parameters. For example, if this
      * method is called for the "Accept" header, we'll allow the "_format" query parameter to act as an override for the
-     * HTTP header value. We support this behavior for several HTTP headers. They are inserted into the
-     * "headerNameMappings" map defined above.
+     * HTTP header value.
      *
-     * Also for selected HTTP headers, we'll support a default value in the event that no value is specified via the
-     * HTTP request header or via the query string.
-     *
-     * Finally, if headerName includes a ":" we interpret that as a request for the value of a specific part of a complex header.
+     * <p>If headerName includes a ":" we interpret that as a request for the value of a specific part of a complex header.
      * For example, given a header value like:
      * <pre>
      * X-TEST: part1=a;part2=multipart;part3=value;
@@ -326,11 +310,11 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
     }
 
     /**
-     * For specific request headers specified as a query parameter (e.g. "accept/_format"), we'll attempt
+     * For specific request headers specified as a query parameter (e.g. "_format"), we'll attempt
      * to map the input value (specified by the user in the URI string) to a more official value.
      *
      * @param headerName
-     *            the name of the request header that was specified as a query parameter
+     *            the lower-case name of the request header that was specified as a query parameter
      * @param value
      *            the value of the query parameter (header value)
      * @return a possibly mapped value or the original value if no mapping exists
@@ -390,20 +374,21 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
             return null;
         }
 
-        // Copy all the header names into a Vector, then
-        // add to it any headers that were specified via the query string.
+        // Copy all the header names into a Vector and track whether Accept is there or not
+        boolean foundAccept = false;
         Vector<String> v = new Vector<String>();
         while (e.hasMoreElements()) {
-            v.add(e.nextElement());
+            String header = e.nextElement();
+            if (ACCEPT.equalsIgnoreCase(header)) {
+                foundAccept = true;
+            }
+            v.add(header);
         }
 
         // Make sure the ACCEPT header is in the returned list since we
         // have a default value for that one.
-        addHeaderNameIfNotPresent(v, HttpHeaders.ACCEPT);
-
-        // Next, add names of headers that were specified via the query string.
-        for (String s : headerQueryParameters.keySet()) {
-            addHeaderNameIfNotPresent(v, s);
+        if (!foundAccept) {
+            v.add(ACCEPT);
         }
 
         if (log.isLoggable(Level.FINEST)) {
@@ -413,26 +398,9 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
         return v.elements();
     }
 
-    private void addHeaderNameIfNotPresent(Vector<String> v, String value) {
-        // Walk through the vecter 'v', looking for 'value'.
-        boolean foundIt = false;
-        for (int i = 0; i < v.size(); i++) {
-            String element = v.get(i);
-            if (value.equalsIgnoreCase(element)) {
-                foundIt = true;
-                break;
-            }
-        }
-
-        // If we didn't find it, then add it to the vector.
-        if (!foundIt) {
-            v.add(value);
-        }
-    }
-
     /**
      * This method allows us to support the overriding of HTTP headers with query parameters. For example, if this
-     * method is called for the "Accept" header, we'll allow the "accept" query parameter to act as an override for the
+     * method is called for the "Accept" header, we'll allow the "_format" query parameter to act as an override for the
      * HTTP header value. We support this behavior for several HTTP headers. They are inserted into the
      * "headerNameMappings" map defined above.
      *
@@ -504,251 +472,6 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
         return e;
     }
 
-    @SuppressWarnings("unused")
-    private String displayHeaderValues(Enumeration<String> headers) {
-        StringBuffer sb = new StringBuffer();
-        sb.append("[");
-        while (headers.hasMoreElements()) {
-            String s = headers.nextElement();
-            sb.append("{");
-            sb.append(s);
-            sb.append("}");
-        }
-        sb.append("]");
-        return sb.toString();
-    }
-
-    /**
-     * @param arg0
-     * @return
-     * @see javax.servlet.ServletRequest#getAttribute(java.lang.String)
-     */
-    @Override
-    public Object getAttribute(String arg0) {
-        return delegate.getAttribute(arg0);
-    }
-
-    /**
-     * @return
-     * @see javax.servlet.ServletRequest#getAttributeNames()
-     */
-    @Override
-    public Enumeration<String> getAttributeNames() {
-        return delegate.getAttributeNames();
-    }
-
-    /**
-     * @return
-     * @see javax.servlet.http.HttpServletRequest#getAuthType()
-     */
-    @Override
-    public String getAuthType() {
-        return delegate.getAuthType();
-    }
-
-    /**
-     * @return
-     * @see javax.servlet.ServletRequest#getCharacterEncoding()
-     */
-    @Override
-    public String getCharacterEncoding() {
-        return delegate.getCharacterEncoding();
-    }
-
-    /**
-     * @return
-     * @see javax.servlet.ServletRequest#getContentLength()
-     */
-    @Override
-    public int getContentLength() {
-        return delegate.getContentLength();
-    }
-
-    /**
-     * @return
-     * @see javax.servlet.ServletRequest#getContentType()
-     */
-    @Override
-    public String getContentType() {
-        return delegate.getContentType();
-    }
-
-    /**
-     * @return
-     * @see javax.servlet.http.HttpServletRequest#getContextPath()
-     */
-    @Override
-    public String getContextPath() {
-        return delegate.getContextPath();
-    }
-
-    /**
-     * @return
-     * @see javax.servlet.http.HttpServletRequest#getCookies()
-     */
-    @Override
-    public Cookie[] getCookies() {
-        return delegate.getCookies();
-    }
-
-    /**
-     * @param headerName
-     * @return
-     * @see javax.servlet.http.HttpServletRequest#getDateHeader(java.lang.String)
-     * @throws IllegalArgumentException
-     */
-    @Override
-    public long getDateHeader(String headerName) {
-        return delegate.getDateHeader(headerName);
-    }
-
-    /**
-     * @return
-     * @throws IOException
-     * @see javax.servlet.ServletRequest#getInputStream()
-     */
-    @Override
-    public ServletInputStream getInputStream() throws IOException {
-        return delegate.getInputStream();
-    }
-
-    /**
-     * @param arg0
-     * @return
-     * @see javax.servlet.http.HttpServletRequest#getIntHeader(java.lang.String)
-     */
-    @Override
-    public int getIntHeader(String arg0) {
-        return delegate.getIntHeader(arg0);
-    }
-
-    /**
-     * @return
-     * @see javax.servlet.ServletRequest#getLocalAddr()
-     */
-    @Override
-    public String getLocalAddr() {
-        return delegate.getLocalAddr();
-    }
-
-    /**
-     * @return
-     * @see javax.servlet.ServletRequest#getLocalName()
-     */
-    @Override
-    public String getLocalName() {
-        return delegate.getLocalName();
-    }
-
-    /**
-     * @return
-     * @see javax.servlet.ServletRequest#getLocalPort()
-     */
-    @Override
-    public int getLocalPort() {
-        return delegate.getLocalPort();
-    }
-
-    /**
-     * @return
-     * @see javax.servlet.ServletRequest#getLocale()
-     */
-    @Override
-    public Locale getLocale() {
-        return delegate.getLocale();
-    }
-
-    /**
-     * @return
-     * @see javax.servlet.ServletRequest#getLocales()
-     */
-    @Override
-    public Enumeration<Locale> getLocales() {
-        return delegate.getLocales();
-    }
-
-    /**
-     * @return
-     * @see javax.servlet.http.HttpServletRequest#getMethod()
-     */
-    @Override
-    public String getMethod() {
-        String override = this.getHeader(HEADER_X_METHOD_OVERRIDE);
-        if (override != null) {
-            override = override.trim();
-            if (log.isLoggable(Level.FINER)) {
-                log.finest("The HTTP method is overridden by the " + HEADER_X_METHOD_OVERRIDE + " header.  The value is (" + override + ")");
-            }
-            return override;
-        }
-        return delegate.getMethod();
-    }
-
-    /**
-     * @param arg0
-     * @return
-     * @see javax.servlet.ServletRequest#getParameter(java.lang.String)
-     */
-    @Override
-    public String getParameter(String arg0) {
-        return delegate.getParameter(arg0);
-    }
-
-    /**
-     * @return
-     * @see javax.servlet.ServletRequest#getParameterMap()
-     */
-    @Override
-    public Map<String, String[]> getParameterMap() {
-        return delegate.getParameterMap();
-    }
-
-    /**
-     * @return
-     * @see javax.servlet.ServletRequest#getParameterNames()
-     */
-    @Override
-    public Enumeration<String> getParameterNames() {
-        return delegate.getParameterNames();
-    }
-
-    /**
-     * @param arg0
-     * @return
-     * @see javax.servlet.ServletRequest#getParameterValues(java.lang.String)
-     */
-    @Override
-    public String[] getParameterValues(String arg0) {
-        return delegate.getParameterValues(arg0);
-    }
-
-    /**
-     * @return
-     * @see javax.servlet.http.HttpServletRequest#getPathInfo()
-     */
-    @Override
-    public String getPathInfo() {
-        return delegate.getPathInfo();
-    }
-
-    /**
-     * @return
-     * @see javax.servlet.http.HttpServletRequest#getPathTranslated()
-     */
-    @Override
-    public String getPathTranslated() {
-        return delegate.getPathTranslated();
-    }
-
-    /**
-     * @return
-     * @see javax.servlet.ServletRequest#getProtocol()
-     */
-    @Override
-    public String getProtocol() {
-        return delegate.getProtocol();
-    }
-
     /**
      * @return
      * @see javax.servlet.http.HttpServletRequest#getQueryString()
@@ -760,250 +483,5 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
             return queryString;
         }
         return delegate.getQueryString();
-    }
-
-    /**
-     * @return
-     * @throws IOException
-     * @see javax.servlet.ServletRequest#getReader()
-     */
-    @Override
-    public BufferedReader getReader() throws IOException {
-        return delegate.getReader();
-    }
-
-    /**
-     * @param arg0
-     * @return
-     * @deprecated
-     * @see javax.servlet.ServletRequest#getRealPath(java.lang.String)
-     */
-    @Deprecated
-    @Override
-    public String getRealPath(String arg0) {
-        return delegate.getRealPath(arg0);
-    }
-
-    /**
-     * @return
-     * @see javax.servlet.ServletRequest#getRemoteAddr()
-     */
-    @Override
-    public String getRemoteAddr() {
-        return delegate.getRemoteAddr();
-    }
-
-    /**
-     * @return
-     * @see javax.servlet.ServletRequest#getRemoteHost()
-     */
-    @Override
-    public String getRemoteHost() {
-        return delegate.getRemoteHost();
-    }
-
-    /**
-     * @return
-     * @see javax.servlet.ServletRequest#getRemotePort()
-     */
-    @Override
-    public int getRemotePort() {
-        return delegate.getRemotePort();
-    }
-
-    /**
-     * @return
-     * @see javax.servlet.http.HttpServletRequest#getRemoteUser()
-     */
-    @Override
-    public String getRemoteUser() {
-        return delegate.getRemoteUser();
-    }
-
-    /**
-     * @param arg0
-     * @return
-     * @see javax.servlet.ServletRequest#getRequestDispatcher(java.lang.String)
-     */
-    @Override
-    public RequestDispatcher getRequestDispatcher(String arg0) {
-        return delegate.getRequestDispatcher(arg0);
-    }
-
-    /**
-     * @return
-     * @see javax.servlet.http.HttpServletRequest#getRequestURI()
-     */
-    @Override
-    public String getRequestURI() {
-        return delegate.getRequestURI();
-    }
-
-    /**
-     * @return
-     * @see javax.servlet.http.HttpServletRequest#getRequestURL()
-     */
-    @Override
-    public StringBuffer getRequestURL() {
-        return delegate.getRequestURL();
-    }
-
-    /**
-     * @return
-     * @see javax.servlet.http.HttpServletRequest#getRequestedSessionId()
-     */
-    @Override
-    public String getRequestedSessionId() {
-        return delegate.getRequestedSessionId();
-    }
-
-    /**
-     * @return
-     * @see javax.servlet.ServletRequest#getScheme()
-     */
-    @Override
-    public String getScheme() {
-        return delegate.getScheme();
-    }
-
-    /**
-     * @return
-     * @see javax.servlet.ServletRequest#getServerName()
-     */
-    @Override
-    public String getServerName() {
-        return delegate.getServerName();
-    }
-
-    /**
-     * @return
-     * @see javax.servlet.ServletRequest#getServerPort()
-     */
-    @Override
-    public int getServerPort() {
-        return delegate.getServerPort();
-    }
-
-    /**
-     * @return
-     * @see javax.servlet.http.HttpServletRequest#getServletPath()
-     */
-    @Override
-    public String getServletPath() {
-        return delegate.getServletPath();
-    }
-
-    /**
-     * @return
-     * @see javax.servlet.http.HttpServletRequest#getSession()
-     */
-    @Override
-    public HttpSession getSession() {
-        return delegate.getSession();
-    }
-
-    /**
-     * @param arg0
-     * @return
-     * @see javax.servlet.http.HttpServletRequest#getSession(boolean)
-     */
-    @Override
-    public HttpSession getSession(boolean arg0) {
-        return delegate.getSession(arg0);
-    }
-
-    /**
-     * @return
-     * @see javax.servlet.http.HttpServletRequest#getUserPrincipal()
-     */
-    @Override
-    public Principal getUserPrincipal() {
-        return delegate.getUserPrincipal();
-    }
-
-    /**
-     * @return
-     * @see javax.servlet.http.HttpServletRequest#isRequestedSessionIdFromCookie()
-     */
-    @Override
-    public boolean isRequestedSessionIdFromCookie() {
-        return delegate.isRequestedSessionIdFromCookie();
-    }
-
-    /**
-     * @return
-     * @see javax.servlet.http.HttpServletRequest#isRequestedSessionIdFromURL()
-     */
-    @Override
-    public boolean isRequestedSessionIdFromURL() {
-        return delegate.isRequestedSessionIdFromURL();
-    }
-
-    /**
-     * @return
-     * @deprecated
-     * @see javax.servlet.http.HttpServletRequest#isRequestedSessionIdFromUrl()
-     */
-    @Deprecated
-    @Override
-    public boolean isRequestedSessionIdFromUrl() {
-        return delegate.isRequestedSessionIdFromUrl();
-    }
-
-    /**
-     * @return
-     * @see javax.servlet.http.HttpServletRequest#isRequestedSessionIdValid()
-     */
-    @Override
-    public boolean isRequestedSessionIdValid() {
-        return delegate.isRequestedSessionIdValid();
-    }
-
-    /**
-     * @return
-     * @see javax.servlet.ServletRequest#isSecure()
-     */
-    @Override
-    public boolean isSecure() {
-        return delegate.isSecure();
-    }
-
-    /**
-     * @param arg0
-     * @return
-     * @see javax.servlet.http.HttpServletRequest#isUserInRole(java.lang.String)
-     */
-    @Override
-    public boolean isUserInRole(String arg0) {
-        return delegate.isUserInRole(arg0);
-    }
-
-    /**
-     * @param arg0
-     * @see javax.servlet.ServletRequest#removeAttribute(java.lang.String)
-     */
-    @Override
-    public void removeAttribute(String arg0) {
-        delegate.removeAttribute(arg0);
-    }
-
-    /**
-     * @param arg0
-     * @param arg1
-     * @see javax.servlet.ServletRequest#setAttribute(java.lang.String, java.lang.Object)
-     */
-    @Override
-    public void setAttribute(String arg0, Object arg1) {
-        delegate.setAttribute(arg0, arg1);
-    }
-
-    /**
-     * @param arg0
-     * @throws UnsupportedEncodingException
-     * @see javax.servlet.ServletRequest#setCharacterEncoding(java.lang.String)
-     */
-    @Override
-    public void setCharacterEncoding(String arg0) throws UnsupportedEncodingException {
-        delegate.setCharacterEncoding(arg0);
     }
 }

@@ -47,3 +47,7 @@ jobs:
       with:
         name: integration-test-results-${{ matrix.datastore }}
         path: build/reindex/integration-test-results
+
+concurrency:
+  group: reindex-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: true

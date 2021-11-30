@@ -2,13 +2,10 @@
   "__comment": "config for internal fhir-server deployments",
   "fhirServer": {
     "core": {
-      "tenantIdHeaderName": "X-FHIR-TENANT-ID",
-      "datastoreIdHeaderName": "X-FHIR-DSID",
-      "checkReferenceTypes": true,
       "conditionalDeleteMaxNumber": 1,
       "defaultPrettyPrint": true,
-      "originalRequestUriHeaderName": "X-Watson-DP-URL-in",
-      "serverRegistryResourceProviderEnabled": false
+      "serverRegistryResourceProviderEnabled": false,
+      "ifNoneMatchReturnsNotModified": true
     },
     "resources": {
       "open": false,

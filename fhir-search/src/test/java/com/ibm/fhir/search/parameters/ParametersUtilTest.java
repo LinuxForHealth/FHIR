@@ -37,7 +37,7 @@ import com.ibm.fhir.search.test.BaseSearchTest;
  * Tests ParametersUtil
  */
 public class ParametersUtilTest extends BaseSearchTest {
-    public static final boolean DEBUG = true;
+    public static final boolean DEBUG = false;
 
     @Test
     public void testGetAllSearchParameters() throws IOException {
