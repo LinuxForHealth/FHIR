@@ -65,6 +65,8 @@ public class S3Transformer implements PartitionSourceTransformer {
             throw new FHIRLoadException("The source is not found '" + location + "'");
         }
 
+        LOG.fine("The total number of inputs sources are: " + sources.size());
+
         return sources;
     }
 }
