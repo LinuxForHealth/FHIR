@@ -173,6 +173,7 @@ public class FHIRDbTenantDatasourceConnectionStrategy extends FHIRDbConnectionSt
                 log.fine("Got the connection for [" + tenantId + "/" + dsId + "]. Took " + deltams + " ms");
             }
         } catch (Throwable e) {
+            log.throwing(this.getClass().getSimpleName(), "getConnection", e);
             // Don't emit secrets in case they are returned to a client
             FHIRPersistenceDBConnectException fx =
                     new FHIRPersistenceDBConnectException("Failure acquiring connection for datasource");
