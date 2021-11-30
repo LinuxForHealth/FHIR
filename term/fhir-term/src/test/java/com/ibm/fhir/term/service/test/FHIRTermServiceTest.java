@@ -264,7 +264,7 @@ public class FHIRTermServiceTest {
 
         ValidationOutcome expected = ValidationOutcome.builder()
                 .result(Boolean.FALSE)
-                .message(string("Code 'x' is invalid"))
+                .message(string("Code 'x' was not found in system 'http://ibm.com/fhir/CodeSystem/cs5'"))
                 .build();
 
         CodeSystem codeSystem = getCodeSystem("http://ibm.com/fhir/CodeSystem/cs5");
@@ -306,7 +306,8 @@ public class FHIRTermServiceTest {
 
         ValidationOutcome expected = ValidationOutcome.builder()
                 .result(Boolean.FALSE)
-                .message(string("Code 'x' is invalid"))
+                .message(string("Code 'x' in system 'http://ibm.com/fhir/CodeSystem/cs5' is not a valid member of ValueSet" +
+                        " with URL=http://ibm.com/fhir/ValueSet/vs5 and version=1.0.0"))
                 .build();
 
         ValidationOutcome actual = FHIRTermService.getInstance().validateCode(valueSet, coding);
@@ -455,7 +456,8 @@ public class FHIRTermServiceTest {
 
         ValidationOutcome expected = ValidationOutcome.builder()
                 .result(Boolean.FALSE)
-                .message(string("Code 'a' is invalid"))
+                .message(string("Code 'a' in system 'null' is not a valid member of ValueSet " +
+                        "with URL=http://ibm.com/fhir/ValueSet/vs1 and version=1.0.0"))
                 .build();
 
         ValidationOutcome actual = FHIRTermService.getInstance().validateCode(valueSet, coding);
@@ -474,6 +476,8 @@ public class FHIRTermServiceTest {
 
         ValidationOutcome expected = ValidationOutcome.builder()
                 .result(Boolean.FALSE)
+                .message(string("Code 'null' in system 'http://ibm.com/fhir/CodeSystem/cs1' is not a valid member of ValueSet" +
+                        " with URL=http://ibm.com/fhir/ValueSet/vs1 and version=1.0.0"))
                 .build();
 
         ValidationOutcome actual = FHIRTermService.getInstance().validateCode(valueSet, coding);
@@ -504,7 +508,8 @@ public class FHIRTermServiceTest {
 
         ValidationOutcome expected = ValidationOutcome.builder()
                 .result(Boolean.FALSE)
-                .message(string("Code 'x' is invalid"))
+                .message(string("Code 'x' is not a valid member of ValueSet" +
+                        " with URL=http://ibm.com/fhir/ValueSet/vs1 and version=1.0.0"))
                 .build();
 
         ValidationOutcome actual = FHIRTermService.getInstance().validateCode(valueSet, code);
@@ -520,7 +525,8 @@ public class FHIRTermServiceTest {
 
         ValidationOutcome expected = ValidationOutcome.builder()
                 .result(Boolean.FALSE)
-                .message(string("Code 'null' is invalid"))
+                .message(string("Code 'null' is not a valid member of ValueSet" +
+                        " with URL=http://ibm.com/fhir/ValueSet/vs1 and version=1.0.0"))
                 .build();
 
         ValidationOutcome actual = FHIRTermService.getInstance().validateCode(valueSet, code);

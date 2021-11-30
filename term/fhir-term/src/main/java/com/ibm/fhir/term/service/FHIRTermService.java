@@ -737,7 +737,17 @@ public class FHIRTermService {
                 return outcome;
             }
         }
-        return validateCode(null, false, null);
+
+        StringBuilder message = new StringBuilder()
+                .append("None of the Coding values in the CodeableConcept were found to be valid in a CodeSystem with URL=")
+                .append(codeSystem.getUrl() == null ? null : codeSystem.getUrl().getValue())
+                .append(" and version=")
+                .append(codeSystem.getVersion() == null ? null : codeSystem.getVersion().getValue());
+
+        return ValidationOutcome.builder()
+                .result(Boolean.FALSE)
+                .message(string(message.toString()))
+                .build();
     }
 
     /**
@@ -771,7 +781,11 @@ public class FHIRTermService {
             throw new UnsupportedOperationException("Validation parameters are not supported");
         }
         LookupOutcome outcome = lookup(coding, LookupParameters.EMPTY);
-        return validateCode(codeSystem, coding, (outcome != null), outcome);
+        if (outcome != null) {
+            return validateDisplay(null, coding, outcome);
+        } else {
+            return buildNotFoundValidationOutcome(coding);
+        }
     }
 
     /**
@@ -852,7 +866,24 @@ public class FHIRTermService {
             throw new UnsupportedOperationException("Validation parameters are not supported");
         }
         boolean result = ValueSetSupport.validateCode(valueSet, code);
-        return validateCode(null, Coding.builder().code(code).build(), result, null);
+        if (result) {
+            return ValidationOutcome.builder()
+                    .result(Boolean.TRUE)
+                    .build();
+        } else {
+            StringBuilder message = new StringBuilder()
+                    .append("Code '")
+                    .append(code.getValue())
+                    .append("' is not a valid member of ValueSet with URL=")
+                    .append(valueSet.getUrl() == null ? null : valueSet.getUrl().getValue())
+                    .append(" and version=")
+                    .append(valueSet.getVersion() == null ? null : valueSet.getVersion().getValue());
+
+            return ValidationOutcome.builder()
+                    .result(Boolean.FALSE)
+                    .message(string(message.toString()))
+                    .build();
+        }
     }
 
     /**
@@ -893,10 +924,20 @@ public class FHIRTermService {
             boolean result = ValueSetSupport.validateCode(valueSet, coding);
             if (result) {
                 LookupOutcome outcome = lookup(coding);
-                return validateCode(coding, result, outcome);
+                return validateDisplay(null, coding, outcome);
             }
         }
-        return validateCode(null, false, null);
+        
+        StringBuilder message = new StringBuilder()
+                .append("None of the Coding values in the CodeableConcept were found to be valid in a ValueSet with URL=")
+                .append(valueSet.getUrl() == null ? null : valueSet.getUrl().getValue())
+                .append(" and version=")
+                .append(valueSet.getVersion() == null ? null : valueSet.getVersion().getValue());
+
+        return ValidationOutcome.builder()
+                .result(Boolean.FALSE)
+                .message(string(message.toString()))
+                .build();
     }
 
     /**
@@ -936,8 +977,25 @@ public class FHIRTermService {
             throw new UnsupportedOperationException("Validation parameters are not supported");
         }
         boolean result = ValueSetSupport.validateCode(valueSet, coding);
-        LookupOutcome outcome = result ? lookup(coding) : null;
-        return validateCode(coding, result, outcome);
+        if (result) {
+            LookupOutcome outcome = lookup(coding);
+            return validateDisplay(null, coding, outcome);
+        } else {
+            StringBuilder message = new StringBuilder()
+                    .append("Code '")
+                    .append(coding.getCode() == null ? null : coding.getCode().getValue())
+                    .append("' in system '")
+                    .append(coding.getSystem() == null ? null : coding.getSystem().getValue())
+                    .append("' is not a valid member of ValueSet with URL=")
+                    .append(valueSet.getUrl() == null ? null : valueSet.getUrl().getValue())
+                    .append(" and version=")
+                    .append(valueSet.getVersion() == null ? null : valueSet.getVersion().getValue());
+
+            return ValidationOutcome.builder()
+                    .result(Boolean.FALSE)
+                    .message(string(message.toString()))
+                    .build();
+        }
     }
 
     /**
@@ -1021,38 +1079,55 @@ public class FHIRTermService {
         return providers;
     }
 
-    private ValidationOutcome validateCode(CodeSystem codeSystem, Coding coding, boolean result, LookupOutcome outcome) {
-        java.lang.String message = null;
-        if (!result && coding != null && coding.getCode() != null) {
-            message = java.lang.String.format("Code '%s' is invalid", coding.getCode().getValue());
+    private ValidationOutcome validateDisplay(CodeSystem codeSystem, Coding coding, LookupOutcome lookupOutcome) {
+        if (lookupOutcome == null || coding == null ||
+                lookupOutcome.getDisplay() == null || coding.getDisplay() == null ||
+                lookupOutcome.getDisplay().getValue() == null && coding.getDisplay().getValue() == null) {
+            return ValidationOutcome.builder()
+                    .result(Boolean.TRUE)
+                    .display((lookupOutcome != null) ? lookupOutcome.getDisplay() : null)
+                    .build();
         }
-        if (result && outcome != null && coding != null &&
-                outcome.getDisplay() != null && coding.getDisplay() != null &&
-                outcome.getDisplay().getValue() != null && coding.getDisplay().getValue() != null) {
-            java.lang.String system = null;
-            if (coding.getSystem() != null) {
-                system = coding.getSystem().getValue();
-            } else if (codeSystem != null && codeSystem.getUrl() != null) {
-                system = codeSystem.getUrl().getValue();
-            }
-            boolean caseSensitive = (codeSystem != null) ? CodeSystemSupport.isCaseSensitive(codeSystem) : false;
-            if (codeSystem == null && system != null) {
-                java.lang.String version = (coding.getVersion() != null) ? coding.getVersion().getValue() : null;
-                java.lang.String url = (version != null) ? system + "|" + version : system;
-                caseSensitive = CodeSystemSupport.isCaseSensitive(url);
-            }
-            result = caseSensitive ? outcome.getDisplay().equals(coding.getDisplay()) : normalize(outcome.getDisplay().getValue()).equals(normalize(coding.getDisplay().getValue()));
-            message = !result ? java.lang.String.format("The display '%s' is incorrect for code '%s' from code system '%s'", coding.getDisplay().getValue(), coding.getCode().getValue(), system) : null;
+
+        java.lang.String system = null;
+        if (coding.getSystem() != null) {
+            system = coding.getSystem().getValue();
+        } else if (codeSystem != null && codeSystem.getUrl() != null) {
+            system = codeSystem.getUrl().getValue();
         }
+        boolean caseSensitive = (codeSystem != null) ? CodeSystemSupport.isCaseSensitive(codeSystem) : false;
+        if (codeSystem == null && system != null) {
+            java.lang.String version = (coding.getVersion() != null) ? coding.getVersion().getValue() : null;
+            java.lang.String url = (version != null) ? system + "|" + version : system;
+            caseSensitive = CodeSystemSupport.isCaseSensitive(url);
+        }
+        boolean result = caseSensitive ? lookupOutcome.getDisplay().equals(coding.getDisplay()) : 
+                normalize(lookupOutcome.getDisplay().getValue()).equals(normalize(coding.getDisplay().getValue()));
+        java.lang.String message = !result ? java.lang.String.format("The display '%s' is incorrect for code '%s' from code system '%s'", 
+                coding.getDisplay().getValue(), coding.getCode().getValue(), system) : null;
+        
         return ValidationOutcome.builder()
                 .result(result ? Boolean.TRUE : Boolean.FALSE)
                 .message((message != null) ? string(message) : null)
-                .display((outcome != null) ? outcome.getDisplay() : null)
+                .display(lookupOutcome.getDisplay())
                 .build();
     }
 
-    private ValidationOutcome validateCode(Coding coding, boolean result, LookupOutcome outcome) {
-        return validateCode(null, coding, result, outcome);
+    private ValidationOutcome buildNotFoundValidationOutcome(Coding coding) {
+        StringBuilder message = new StringBuilder("Code '");
+        if (coding != null && coding.getCode() != null) {
+            message.append(coding.getCode().getValue());
+        }
+        message.append("' was not found in system '");
+        if (coding != null && coding.getSystem() != null) {
+            message.append(coding.getSystem().getValue());
+        }
+        message.append("'");
+
+        return ValidationOutcome.builder()
+                .result(Boolean.FALSE)
+                .message(string(message.toString()))
+                .build();
     }
 
     public static FHIRTermService getInstance() {

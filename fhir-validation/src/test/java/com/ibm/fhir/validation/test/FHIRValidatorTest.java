@@ -17,17 +17,17 @@ import java.time.ZoneOffset;
 import java.util.List;
 import java.util.UUID;
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
-
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.parser.FHIRParser;
+import com.ibm.fhir.model.resource.Endpoint;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Canonical;
+import com.ibm.fhir.model.type.Code;
+import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Date;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.HumanName;
@@ -36,9 +36,14 @@ import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.Integer;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.String;
+import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.validation.FHIRValidator;
+import com.ibm.fhir.validation.exception.FHIRValidationException;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 public class FHIRValidatorTest {
     @Test
@@ -179,5 +184,26 @@ public class FHIRValidatorTest {
             issues.forEach(System.out::println);
             Assert.assertEquals(countErrors(issues), 0);
         }
+    }
+
+    @Test
+    public void testCodingValidation() throws FHIRValidationException {
+        Endpoint.Builder builder = Endpoint.builder();
+        builder.setValidating(false);
+        builder.meta(Meta.builder()
+                            .profile(
+                                Canonical.of("http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Endpoint"))
+                            .lastUpdated(Instant.now())
+                            .build());
+        builder.connectionType(Coding.builder()
+            .code(Code.of("hl7-fhir-opn"))
+            .system(Uri.of("http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/EndpointConnectionTypeCS"))
+            .display("HL7 FHIR Operation")
+            .build());
+        System.out.println(builder.build());
+        Endpoint endpoint = builder.build();
+
+        List<Issue> issues = FHIRValidator.validator().validate(endpoint);
+        issues.forEach(System.out::println);
     }
 }
