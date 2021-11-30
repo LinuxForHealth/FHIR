@@ -56,10 +56,11 @@ public interface FHIRPayloadPersistence {
     /**
      * Delete the payload item. This may be called to clean up after a failed transaction or
      * when performing a hard delete on a resource.
+     * @param resourceType
      * @param resourceTypeId
      * @param logicalId
      * @param version
      * @throws FHIRPersistenceException
      */
-    void deletePayload(int resourceTypeId, String logicalId, int version) throws FHIRPersistenceException;
+    void deletePayload(String resourceType, int resourceTypeId, String logicalId, int version) throws FHIRPersistenceException;
 }

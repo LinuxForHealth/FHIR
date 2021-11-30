@@ -32,6 +32,9 @@ public class FHIRPayloadPersistenceCassandraImpl implements FHIRPayloadPersisten
     private static final Logger logger = Logger.getLogger(FHIRPayloadPersistenceCassandraImpl.class.getName());
     private static final long NANOS = 1000000000L;
     
+    // ** DO NOT CHANGE** The number of Base64 digits to use in the partition hash (4*6 = 24 bits)
+    public static final int PARTITION_HASH_BASE64_DIGITS = 4;
+    
     // The strategy used to obtain the partition name for a given resource
     private final FHIRPayloadPartitionStrategy partitionStrategy;
 
@@ -49,13 +52,7 @@ public class FHIRPayloadPersistenceCassandraImpl implements FHIRPayloadPersisten
      * @return the partition strategy
      */
     public static FHIRPayloadPartitionStrategy defaultPartitionStrategy() {
-        return new FHIRPayloadPartitionStrategy() {
-            
-            @Override
-            public String getPartitionName() {
-                return "default";
-            }
-        };
+        return new FHIRPayloadHashPartitionStrategy(PARTITION_HASH_BASE64_DIGITS);
     }
 
     /**
@@ -72,7 +69,7 @@ public class FHIRPayloadPersistenceCassandraImpl implements FHIRPayloadPersisten
         try (CqlSession session = getCqlSession()) {
             // render to a compressed stream and store
             InputOutputByteStream ioStream = PayloadPersistenceHelper.render(resource, true);
-            String partitionName = partitionStrategy.getPartitionName();
+            String partitionName = partitionStrategy.getPartitionName(resourceType, logicalId);
             CqlStorePayload spl = new CqlStorePayload(partitionName, resourceTypeId, logicalId, version, ioStream);
             spl.run(session);
             
@@ -85,7 +82,7 @@ public class FHIRPayloadPersistenceCassandraImpl implements FHIRPayloadPersisten
     public <T extends Resource> T readResource(Class<T> resourceType, int resourceTypeId, String logicalId, int version, List<String> elements) throws FHIRPersistenceException {
 
         try (CqlSession session = getCqlSession()) {
-            CqlReadResource spl = new CqlReadResource(partitionStrategy.getPartitionName(), resourceTypeId, logicalId, version, elements);
+            CqlReadResource spl = new CqlReadResource(partitionStrategy.getPartitionName(resourceType.getSimpleName(), logicalId), resourceTypeId, logicalId, version, elements);
             return spl.run(resourceType, session);
         }
     }
@@ -104,11 +101,11 @@ public class FHIRPayloadPersistenceCassandraImpl implements FHIRPayloadPersisten
     }
 
     @Override
-    public void deletePayload(int resourceTypeId, String logicalId, int version) throws FHIRPersistenceException {
+    public void deletePayload(String resourceType, int resourceTypeId, String logicalId, int version) throws FHIRPersistenceException {
         try (CqlSession session = getCqlSession()) {
             // Currently not supporting a real async implementation, so we complete the read
             // synchronously here
-            CqlDeletePayload spl = new CqlDeletePayload(partitionStrategy.getPartitionName(), resourceTypeId, logicalId);
+            CqlDeletePayload spl = new CqlDeletePayload(partitionStrategy.getPartitionName(resourceType, logicalId), resourceTypeId, logicalId);
             spl.run(session);
         }
     }

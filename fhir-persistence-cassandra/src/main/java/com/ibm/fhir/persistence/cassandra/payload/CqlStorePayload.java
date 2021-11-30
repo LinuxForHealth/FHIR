@@ -75,9 +75,7 @@ public class CqlStorePayload {
      * @param session
      */
     public void run(CqlSession session) throws FHIRPersistenceException {
-        // Random id string used to tie together the resource record to
-        // the child payload chunk records. This is needed because
-        // we may split the payload into multiple chunks - but only if
+        // We may split the payload into multiple chunks - but only if
         // the payload exceeds the chunk size. If it doesn't, we store
         // it in the main resource table, avoiding the cost of a second
         // random read when we need to access it again.
@@ -106,9 +104,8 @@ public class CqlStorePayload {
                 .value("version", bindMarker())
             ;
 
-        // If we are given a payloadId it means that the payload is too large
-        // to fit inside a single row, so instead we break it into multiple
-        // rows in the payload_chunks table, using the payloadId as the key
+        // If the payload is small enough to fit in a single chunk, we can store
+        // it in line with the main resource record
         if (!storeAsMultipleChunks) {
             insert.value("chunk", bindMarker());
         }
@@ -118,7 +115,7 @@ public class CqlStorePayload {
 
         if (!storeAsMultipleChunks) {
             // small enough, so we store directly in the main logical_resources table
-            bsb.setByteBuffer(4, payloadStream.wrap());
+            bsb.setByteBuffer(3, payloadStream.wrap());
         }
 
         try {
