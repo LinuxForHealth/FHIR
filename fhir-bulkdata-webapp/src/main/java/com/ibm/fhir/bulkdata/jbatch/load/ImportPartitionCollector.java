@@ -7,6 +7,7 @@
 package com.ibm.fhir.bulkdata.jbatch.load;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,6 +21,7 @@ import javax.batch.runtime.context.StepContext;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
+import com.ibm.cloud.objectstorage.services.s3.model.PartETag;
 import com.ibm.fhir.bulkdata.common.BulkDataUtils;
 import com.ibm.fhir.bulkdata.jbatch.context.BatchContextAdapter;
 import com.ibm.fhir.bulkdata.jbatch.load.data.ImportCheckPointData;
@@ -63,14 +65,14 @@ public class ImportPartitionCollector implements PartitionCollector {
 
             StorageType type = adapter.getStorageProviderStorageType(ctx.getOutcome());
             boolean collectImportOperationOutcomes = adapter.shouldStorageProviderCollectOperationOutcomes(ctx.getSource())
-                    && (StorageType.AWSS3.equals(type) || StorageType.IBMCOS.equals(type));
+                    && !StorageType.HTTPS.equals(type);
 
             String cosOperationOutcomesBucketName = adapter.getStorageProviderBucketName(ctx.getOutcome());
             if (collectImportOperationOutcomes) {
                 wrapper = new S3Provider(ctx.getOutcome());
             }
 
-            ImportTransientUserData partitionSummaryData  = (ImportTransientUserData)stepCtx.getTransientUserData();
+            ImportTransientUserData partitionSummaryData  = (ImportTransientUserData) stepCtx.getTransientUserData();
             BatchStatus batchStatus = stepCtx.getBatchStatus();
 
             // If the job is being stopped or in other status except for "started", then do cleanup for the partition.
@@ -88,18 +90,21 @@ public class ImportPartitionCollector implements PartitionCollector {
                 if (collectImportOperationOutcomes) {
                     // Upload remaining OperationOutcomes.
                     if (partitionSummaryData.getBufferStreamForImport().size() > 0) {
-                        if (partitionSummaryData.getUploadIdForOperationOutcomes()  == null) {
+                        if (partitionSummaryData.getUploadIdForOperationOutcomes() == null) {
                             partitionSummaryData.setUploadIdForOperationOutcomes(BulkDataUtils.startPartUpload(wrapper.getClient(),
                                     cosOperationOutcomesBucketName, partitionSummaryData.getUniqueIDForImportOperationOutcomes()));
                         }
 
-                        partitionSummaryData.getDataPacksForOperationOutcomes().add(BulkDataUtils.multiPartUpload(wrapper.getClient(),
-                                cosOperationOutcomesBucketName,
-                                partitionSummaryData.getUniqueIDForImportOperationOutcomes(),
-                                partitionSummaryData.getUploadIdForOperationOutcomes(),
-                                new ByteArrayInputStream(partitionSummaryData.getBufferStreamForImport().toByteArray()),
-                                partitionSummaryData.getBufferStreamForImport().size(),
-                                partitionSummaryData.getPartNumForOperationOutcomes()));
+                        ByteArrayOutputStream baos = partitionSummaryData.getBufferStreamForImportError();
+
+                        PartETag tag = BulkDataUtils.multiPartUpload(wrapper.getClient(),
+                                                        cosOperationOutcomesBucketName,
+                                                        partitionSummaryData.getUniqueIDForImportOperationOutcomes(),
+                                                        partitionSummaryData.getUploadIdForOperationOutcomes(),
+                                                        new ByteArrayInputStream(baos.toByteArray()),
+                                                        baos.size(),
+                                                        partitionSummaryData.getPartNumForOperationOutcomes());
+                        partitionSummaryData.getDataPacksForOperationOutcomes().add(tag);
                         if (logger.isLoggable(Level.FINE)) {
                             logger.fine("pushImportOperationOutcomesToCOS: " + partitionSummaryData.getBufferStreamForImport().size()
                                 + " bytes were successfully appended to COS object - " + partitionSummaryData.getUniqueIDForImportOperationOutcomes());

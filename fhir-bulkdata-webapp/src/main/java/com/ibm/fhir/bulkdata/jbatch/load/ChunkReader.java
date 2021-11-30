@@ -7,6 +7,7 @@
 package com.ibm.fhir.bulkdata.jbatch.load;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -105,8 +106,12 @@ public class ChunkReader extends AbstractItemReader {
                     // Note: for those good imports, we don't really generate any meaningful OperationOutcome,
                     // so only error import
                     // OperationOutcomes are supported for now.
-                    .uniqueIDForImportOperationOutcomes(ctx.getImportPartitionWorkitem() + "_oo_success.ndjson")
-                    .uniqueIDForImportFailureOperationOutcomes(ctx.getImportPartitionWorkitem() + "_oo_errors.ndjson")
+                    .uniqueIDForImportOperationOutcomes(ctx.getCosBucketPathPrefix() + "/" + ctx.getImportPartitionWorkitem() + "_oo_success.ndjson")
+                    .uniqueIDForImportFailureOperationOutcomes(ctx.getCosBucketPathPrefix() + "/" + ctx.getImportPartitionWorkitem() + "_oo_errors.ndjson")
+                    .dataPacksForOperationOutcomes(new ArrayList<>())
+                    .dataPacksForFailureOperationOutcomes(new ArrayList<>())
+                    .partNumForFailureOperationOutcomes(1)
+                    .partNumForOperationOutcomes(1)
                     .build();
 
             Provider provider = ProviderFactory.getSourceWrapper(ctx.getSource(), ctx.getDataSourceStorageType());

@@ -383,7 +383,9 @@ public class ImportCheckPointData implements Serializable {
         }
 
         public Builder dataPacksForOperationOutcomes(List<PartETag> dataPacksForOperationOutcomes) {
-            this.dataPacksForOperationOutcomes = dataPacksForOperationOutcomes;
+            if (dataPacksForOperationOutcomes != null) {
+                this.dataPacksForOperationOutcomes = dataPacksForOperationOutcomes;
+            }
             return this;
         }
 
