@@ -131,4 +131,9 @@ public class ValidationOutcome {
             return this;
         }
     }
+
+    @Override
+    public java.lang.String toString() {
+        return "ValidationOutcome [display=" + display + ", message=" + message + ", result=" + result + "]";
+    }
 }

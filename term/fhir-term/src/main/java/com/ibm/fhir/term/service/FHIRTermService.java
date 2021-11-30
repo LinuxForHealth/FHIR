@@ -22,6 +22,8 @@ import java.util.ServiceLoader;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Function;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.cache.CachingProxy;
@@ -51,6 +53,7 @@ import com.ibm.fhir.term.util.CodeSystemSupport;
 import com.ibm.fhir.term.util.ValueSetSupport;
 
 public class FHIRTermService {
+    private static final Logger LOGGER = Logger.getLogger(FHIRTermService.class.getName());
     private static final FHIRTermService INSTANCE = new FHIRTermService();
     private static final FHIRTermServiceProvider NULL_TERM_SERVICE_PROVIDER = new FHIRTermServiceProvider() {
         @Override
@@ -737,7 +740,20 @@ public class FHIRTermService {
                 return outcome;
             }
         }
-        return validateCode(null, false, null);
+
+        if (LOGGER.isLoggable(Level.FINE)) {
+            StringBuilder message = new StringBuilder()
+                .append("None of the Coding values in the CodeableConcept were found to be valid in CodeSystem with URL=")
+                .append(codeSystem.getUrl() == null ? null : codeSystem.getUrl().getValue())
+                .append(" and version=")
+                .append(codeSystem.getVersion() == null ? null : codeSystem.getVersion().getValue());
+            LOGGER.fine(message.toString());
+        }
+        
+        // If we add a message to this ValidationOutcome, then it will create a new issue in the issue list;
+        // our assumption here is that the false result will instead bubble up to some other issue and so we 
+        // chose not to create redundant issues.
+        return buildValidationOutcome(false);
     }
 
     /**
@@ -771,7 +787,21 @@ public class FHIRTermService {
             throw new UnsupportedOperationException("Validation parameters are not supported");
         }
         LookupOutcome outcome = lookup(coding, LookupParameters.EMPTY);
-        return validateCode(codeSystem, coding, (outcome != null), outcome);
+        if (outcome != null) {
+            return validateDisplay(null, coding, outcome);
+        } else {
+            StringBuilder message = new StringBuilder("Code '");
+            if (coding != null && coding.getCode() != null) {
+                message.append(coding.getCode().getValue());
+            }
+            message.append("' was not found in system '");
+            if (coding != null && coding.getSystem() != null) {
+                message.append(coding.getSystem().getValue());
+            }
+            message.append("'");
+    
+            return buildValidationOutcome(false, message.toString());
+        }
     }
 
     /**
@@ -852,7 +882,19 @@ public class FHIRTermService {
             throw new UnsupportedOperationException("Validation parameters are not supported");
         }
         boolean result = ValueSetSupport.validateCode(valueSet, code);
-        return validateCode(null, Coding.builder().code(code).build(), result, null);
+        if (result) {
+            return buildValidationOutcome(true, null);
+        } else {
+            StringBuilder message = new StringBuilder()
+                    .append("Code '")
+                    .append(code.getValue())
+                    .append("' is not a valid member of ValueSet with URL=")
+                    .append(valueSet.getUrl() == null ? null : valueSet.getUrl().getValue())
+                    .append(" and version=")
+                    .append(valueSet.getVersion() == null ? null : valueSet.getVersion().getValue());
+
+            return buildValidationOutcome(false, message.toString());
+        }
     }
 
     /**
@@ -893,10 +935,23 @@ public class FHIRTermService {
             boolean result = ValueSetSupport.validateCode(valueSet, coding);
             if (result) {
                 LookupOutcome outcome = lookup(coding);
-                return validateCode(coding, result, outcome);
+                return validateDisplay(null, coding, outcome);
             }
         }
-        return validateCode(null, false, null);
+        
+        if (LOGGER.isLoggable(Level.FINE)) {
+            StringBuilder message = new StringBuilder()
+                    .append("None of the Coding values in the CodeableConcept were found to be valid in ValueSet with URL=")
+                    .append(valueSet.getUrl() == null ? null : valueSet.getUrl().getValue())
+                    .append(" and version=")
+                    .append(valueSet.getVersion() == null ? null : valueSet.getVersion().getValue());
+            LOGGER.fine(message.toString());
+        }
+
+        // If we add a message to this ValidationOutcome, then it will create a new issue in the issue list;
+        // our assumption here is that the false result will instead bubble up to some other issue and so we 
+        // chose not to create redundant issues.
+        return buildValidationOutcome(false);
     }
 
     /**
@@ -936,8 +991,22 @@ public class FHIRTermService {
             throw new UnsupportedOperationException("Validation parameters are not supported");
         }
         boolean result = ValueSetSupport.validateCode(valueSet, coding);
-        LookupOutcome outcome = result ? lookup(coding) : null;
-        return validateCode(coding, result, outcome);
+        if (result) {
+            LookupOutcome outcome = lookup(coding);
+            return validateDisplay(null, coding, outcome);
+        } else {
+            StringBuilder message = new StringBuilder()
+                    .append("Code '")
+                    .append(coding.getCode() == null ? null : coding.getCode().getValue())
+                    .append("' in system '")
+                    .append(coding.getSystem() == null ? null : coding.getSystem().getValue())
+                    .append("' is not a valid member of ValueSet with URL=")
+                    .append(valueSet.getUrl() == null ? null : valueSet.getUrl().getValue())
+                    .append(" and version=")
+                    .append(valueSet.getVersion() == null ? null : valueSet.getVersion().getValue());
+
+            return buildValidationOutcome(false, message.toString());
+        }
     }
 
     /**
@@ -1021,41 +1090,50 @@ public class FHIRTermService {
         return providers;
     }
 
-    private ValidationOutcome validateCode(CodeSystem codeSystem, Coding coding, boolean result, LookupOutcome outcome) {
-        java.lang.String message = null;
-        if (!result && coding != null && coding.getCode() != null) {
-            message = java.lang.String.format("Code '%s' is invalid", coding.getCode().getValue());
+    private ValidationOutcome validateDisplay(CodeSystem codeSystem, Coding coding, LookupOutcome lookupOutcome) {
+        if (lookupOutcome == null || coding == null ||
+                lookupOutcome.getDisplay() == null || coding.getDisplay() == null ||
+                lookupOutcome.getDisplay().getValue() == null && coding.getDisplay().getValue() == null) {
+            return buildValidationOutcome(true, null, lookupOutcome);
         }
-        if (result && outcome != null && coding != null &&
-                outcome.getDisplay() != null && coding.getDisplay() != null &&
-                outcome.getDisplay().getValue() != null && coding.getDisplay().getValue() != null) {
-            java.lang.String system = null;
-            if (coding.getSystem() != null) {
-                system = coding.getSystem().getValue();
-            } else if (codeSystem != null && codeSystem.getUrl() != null) {
-                system = codeSystem.getUrl().getValue();
-            }
-            boolean caseSensitive = (codeSystem != null) ? CodeSystemSupport.isCaseSensitive(codeSystem) : false;
-            if (codeSystem == null && system != null) {
-                java.lang.String version = (coding.getVersion() != null) ? coding.getVersion().getValue() : null;
-                java.lang.String url = (version != null) ? system + "|" + version : system;
-                caseSensitive = CodeSystemSupport.isCaseSensitive(url);
-            }
-            result = caseSensitive ? outcome.getDisplay().equals(coding.getDisplay()) : normalize(outcome.getDisplay().getValue()).equals(normalize(coding.getDisplay().getValue()));
-            message = !result ? java.lang.String.format("The display '%s' is incorrect for code '%s' from code system '%s'", coding.getDisplay().getValue(), coding.getCode().getValue(), system) : null;
-        }
-        return ValidationOutcome.builder()
-                .result(result ? Boolean.TRUE : Boolean.FALSE)
-                .message((message != null) ? string(message) : null)
-                .display((outcome != null) ? outcome.getDisplay() : null)
-                .build();
-    }
 
-    private ValidationOutcome validateCode(Coding coding, boolean result, LookupOutcome outcome) {
-        return validateCode(null, coding, result, outcome);
+        java.lang.String system = null;
+        if (coding.getSystem() != null) {
+            system = coding.getSystem().getValue();
+        } else if (codeSystem != null && codeSystem.getUrl() != null) {
+            system = codeSystem.getUrl().getValue();
+        }
+        boolean caseSensitive = (codeSystem != null) ? CodeSystemSupport.isCaseSensitive(codeSystem) : false;
+        if (codeSystem == null && system != null) {
+            java.lang.String version = (coding.getVersion() != null) ? coding.getVersion().getValue() : null;
+            java.lang.String url = (version != null) ? system + "|" + version : system;
+            caseSensitive = CodeSystemSupport.isCaseSensitive(url);
+        }
+        boolean result = caseSensitive ? lookupOutcome.getDisplay().equals(coding.getDisplay()) : 
+                normalize(lookupOutcome.getDisplay().getValue()).equals(normalize(coding.getDisplay().getValue()));
+        java.lang.String message = !result ? java.lang.String.format("The display '%s' is incorrect for code '%s' from code system '%s'", 
+                coding.getDisplay().getValue(), coding.getCode().getValue(), system) : null;
+        
+        return buildValidationOutcome(result, message, lookupOutcome);
     }
 
     public static FHIRTermService getInstance() {
         return INSTANCE;
+    }
+
+    private ValidationOutcome buildValidationOutcome(boolean result) {
+        return buildValidationOutcome(result, null, null);
+    }
+
+    private ValidationOutcome buildValidationOutcome(boolean result, java.lang.String message) {
+        return buildValidationOutcome(result, message, null);
+    }
+
+    private ValidationOutcome buildValidationOutcome(boolean result, java.lang.String message, LookupOutcome lookupOutcome) {
+        return ValidationOutcome.builder()
+                .result(result ? Boolean.TRUE : Boolean.FALSE)
+                .message((message != null) ? string(message) : null)
+                .display((lookupOutcome != null) ? lookupOutcome.getDisplay() : null)
+                .build();
     }
 }
