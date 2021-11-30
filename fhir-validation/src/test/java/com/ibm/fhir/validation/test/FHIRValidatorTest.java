@@ -200,10 +200,15 @@ public class FHIRValidatorTest {
             .system(Uri.of("http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/EndpointConnectionTypeCS"))
             .display("HL7 FHIR Operation")
             .build());
-        System.out.println(builder.build());
         Endpoint endpoint = builder.build();
 
         List<Issue> issues = FHIRValidator.validator().validate(endpoint);
-        issues.forEach(System.out::println);
+        // 1. Profile 'http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Endpoint' is not supported
+        // 2. dom-6: A resource should have narrative for robust management
+        // 3. Code 'hl7-fhir-opn' in system 'http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/EndpointConnectionTypeCS' 
+        //    is not a valid member of ValueSet with URL=http://hl7.org/fhir/ValueSet/endpoint-connection-type and version=4.0.1
+        // 4. endpoint-0: The concept in this element must be from the specified value set 
+        //    'http://hl7.org/fhir/ValueSet/endpoint-connection-type' if possible
+        assertEquals(issues.size(), 4, "number of issues");
     }
 }

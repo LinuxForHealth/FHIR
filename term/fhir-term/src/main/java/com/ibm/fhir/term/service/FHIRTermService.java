@@ -22,6 +22,8 @@ import java.util.ServiceLoader;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Function;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.cache.CachingProxy;
@@ -51,6 +53,7 @@ import com.ibm.fhir.term.util.CodeSystemSupport;
 import com.ibm.fhir.term.util.ValueSetSupport;
 
 public class FHIRTermService {
+    private static final Logger LOGGER = Logger.getLogger(FHIRTermService.class.getName());
     private static final FHIRTermService INSTANCE = new FHIRTermService();
     private static final FHIRTermServiceProvider NULL_TERM_SERVICE_PROVIDER = new FHIRTermServiceProvider() {
         @Override
@@ -738,16 +741,19 @@ public class FHIRTermService {
             }
         }
 
-        StringBuilder message = new StringBuilder()
-                .append("None of the Coding values in the CodeableConcept were found to be valid in a CodeSystem with URL=")
+        if (LOGGER.isLoggable(Level.FINE)) {
+            StringBuilder message = new StringBuilder()
+                .append("None of the Coding values in the CodeableConcept were found to be valid in CodeSystem with URL=")
                 .append(codeSystem.getUrl() == null ? null : codeSystem.getUrl().getValue())
                 .append(" and version=")
                 .append(codeSystem.getVersion() == null ? null : codeSystem.getVersion().getValue());
-
-        return ValidationOutcome.builder()
-                .result(Boolean.FALSE)
-                .message(string(message.toString()))
-                .build();
+            LOGGER.fine(message.toString());
+        }
+        
+        // If we add a message to this ValidationOutcome, then it will create a new issue in the issue list;
+        // our assumption here is that the false result will instead bubble up to some other issue and so we 
+        // chose not to create redundant issues.
+        return buildValidationOutcome(false);
     }
 
     /**
@@ -784,7 +790,17 @@ public class FHIRTermService {
         if (outcome != null) {
             return validateDisplay(null, coding, outcome);
         } else {
-            return buildNotFoundValidationOutcome(coding);
+            StringBuilder message = new StringBuilder("Code '");
+            if (coding != null && coding.getCode() != null) {
+                message.append(coding.getCode().getValue());
+            }
+            message.append("' was not found in system '");
+            if (coding != null && coding.getSystem() != null) {
+                message.append(coding.getSystem().getValue());
+            }
+            message.append("'");
+    
+            return buildValidationOutcome(false, message.toString());
         }
     }
 
@@ -867,9 +883,7 @@ public class FHIRTermService {
         }
         boolean result = ValueSetSupport.validateCode(valueSet, code);
         if (result) {
-            return ValidationOutcome.builder()
-                    .result(Boolean.TRUE)
-                    .build();
+            return buildValidationOutcome(true, null);
         } else {
             StringBuilder message = new StringBuilder()
                     .append("Code '")
@@ -879,10 +893,7 @@ public class FHIRTermService {
                     .append(" and version=")
                     .append(valueSet.getVersion() == null ? null : valueSet.getVersion().getValue());
 
-            return ValidationOutcome.builder()
-                    .result(Boolean.FALSE)
-                    .message(string(message.toString()))
-                    .build();
+            return buildValidationOutcome(false, message.toString());
         }
     }
 
@@ -928,16 +939,19 @@ public class FHIRTermService {
             }
         }
         
-        StringBuilder message = new StringBuilder()
-                .append("None of the Coding values in the CodeableConcept were found to be valid in a ValueSet with URL=")
-                .append(valueSet.getUrl() == null ? null : valueSet.getUrl().getValue())
-                .append(" and version=")
-                .append(valueSet.getVersion() == null ? null : valueSet.getVersion().getValue());
+        if (LOGGER.isLoggable(Level.FINE)) {
+            StringBuilder message = new StringBuilder()
+                    .append("None of the Coding values in the CodeableConcept were found to be valid in ValueSet with URL=")
+                    .append(valueSet.getUrl() == null ? null : valueSet.getUrl().getValue())
+                    .append(" and version=")
+                    .append(valueSet.getVersion() == null ? null : valueSet.getVersion().getValue());
+            LOGGER.fine(message.toString());
+        }
 
-        return ValidationOutcome.builder()
-                .result(Boolean.FALSE)
-                .message(string(message.toString()))
-                .build();
+        // If we add a message to this ValidationOutcome, then it will create a new issue in the issue list;
+        // our assumption here is that the false result will instead bubble up to some other issue and so we 
+        // chose not to create redundant issues.
+        return buildValidationOutcome(false);
     }
 
     /**
@@ -991,10 +1005,7 @@ public class FHIRTermService {
                     .append(" and version=")
                     .append(valueSet.getVersion() == null ? null : valueSet.getVersion().getValue());
 
-            return ValidationOutcome.builder()
-                    .result(Boolean.FALSE)
-                    .message(string(message.toString()))
-                    .build();
+            return buildValidationOutcome(false, message.toString());
         }
     }
 
@@ -1083,10 +1094,7 @@ public class FHIRTermService {
         if (lookupOutcome == null || coding == null ||
                 lookupOutcome.getDisplay() == null || coding.getDisplay() == null ||
                 lookupOutcome.getDisplay().getValue() == null && coding.getDisplay().getValue() == null) {
-            return ValidationOutcome.builder()
-                    .result(Boolean.TRUE)
-                    .display((lookupOutcome != null) ? lookupOutcome.getDisplay() : null)
-                    .build();
+            return buildValidationOutcome(true, null, lookupOutcome);
         }
 
         java.lang.String system = null;
@@ -1106,31 +1114,26 @@ public class FHIRTermService {
         java.lang.String message = !result ? java.lang.String.format("The display '%s' is incorrect for code '%s' from code system '%s'", 
                 coding.getDisplay().getValue(), coding.getCode().getValue(), system) : null;
         
-        return ValidationOutcome.builder()
-                .result(result ? Boolean.TRUE : Boolean.FALSE)
-                .message((message != null) ? string(message) : null)
-                .display(lookupOutcome.getDisplay())
-                .build();
-    }
-
-    private ValidationOutcome buildNotFoundValidationOutcome(Coding coding) {
-        StringBuilder message = new StringBuilder("Code '");
-        if (coding != null && coding.getCode() != null) {
-            message.append(coding.getCode().getValue());
-        }
-        message.append("' was not found in system '");
-        if (coding != null && coding.getSystem() != null) {
-            message.append(coding.getSystem().getValue());
-        }
-        message.append("'");
-
-        return ValidationOutcome.builder()
-                .result(Boolean.FALSE)
-                .message(string(message.toString()))
-                .build();
+        return buildValidationOutcome(result, message, lookupOutcome);
     }
 
     public static FHIRTermService getInstance() {
         return INSTANCE;
+    }
+
+    private ValidationOutcome buildValidationOutcome(boolean result) {
+        return buildValidationOutcome(result, null, null);
+    }
+
+    private ValidationOutcome buildValidationOutcome(boolean result, java.lang.String message) {
+        return buildValidationOutcome(result, message, null);
+    }
+
+    private ValidationOutcome buildValidationOutcome(boolean result, java.lang.String message, LookupOutcome lookupOutcome) {
+        return ValidationOutcome.builder()
+                .result(result ? Boolean.TRUE : Boolean.FALSE)
+                .message((message != null) ? string(message) : null)
+                .display((lookupOutcome != null) ? lookupOutcome.getDisplay() : null)
+                .build();
     }
 }

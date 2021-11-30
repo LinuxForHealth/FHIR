@@ -140,8 +140,18 @@ public class MaxValueSetTest {
 
         // Warning for statusReason
         device = buildDevice().toBuilder().statusReason(Arrays.asList(
-                CodeableConcept.builder().coding(Coding.builder().system(Uri.of("http://terminology.hl7.org/CodeSystem/device-status-reason")).code(Code.of("invalidCode")).build()).build(),
-                CodeableConcept.builder().coding(Coding.builder().system(Uri.of("invalidSystem")).code(Code.of("online")).build()).build()
+                CodeableConcept.builder()
+                        .coding(Coding.builder()
+                                .system(Uri.of("http://terminology.hl7.org/CodeSystem/device-status-reason"))
+                                .code(Code.of("invalidCode"))
+                                .build())
+                        .build(),
+                CodeableConcept.builder()
+                        .coding(Coding.builder()
+                                .system(Uri.of("invalidSystem"))
+                                .code(Code.of("online"))
+                                .build())
+                        .build()
                 )).build();
         issues = FHIRValidator.validator().validate(device);
         assertEquals(FHIRValidationUtil.countErrors(issues), 0);
