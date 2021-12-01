@@ -360,6 +360,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         // For PostgreSQL
         return result;
     }
+    
+    @Override
+    public void prepare() throws FHIRPersistenceException {
+        doCachePrefill();
+    }
 
     @Override
     public <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException  {
@@ -443,6 +448,22 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         }
         finally {
            log.exiting(CLASSNAME, METHODNAME);
+        }
+    }
+
+    /**
+     * Prefill the cache if required
+     * @throws FHIRPersistenceException
+     */
+    private void doCachePrefill() throws FHIRPersistenceException {
+        try (Connection connection = openConnection()) {
+            doCachePrefill(connection);
+        } catch(FHIRPersistenceException e) {
+            throw e;
+        } catch(Throwable e) {
+            FHIRPersistenceException fx = new FHIRPersistenceException("Cache prefill - unexpected error");
+            log.log(Level.SEVERE, fx.getMessage(), e);
+            throw fx;
         }
     }
 

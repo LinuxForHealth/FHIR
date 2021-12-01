@@ -32,6 +32,11 @@ import com.ibm.fhir.persistence.payload.PayloadKey;
 public class MockPersistenceImpl implements FHIRPersistence {
 
     @Override
+    public void prepare() {
+        // NOP
+    }
+
+    @Override
     public <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource) 
             throws FHIRPersistenceException {
     	return null;

@@ -37,6 +37,12 @@ public interface FHIRPersistence {
      */
     @Deprecated
     <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException;
+    
+    /**
+     * Prepare this persistence object, including doing any cache prefill for
+     * values we need to process the interaction
+     */
+    void prepare() throws FHIRPersistenceException;
 
     /**
      * Stores a new FHIR Resource in the datastore. The resource is not modified before it is stored. It

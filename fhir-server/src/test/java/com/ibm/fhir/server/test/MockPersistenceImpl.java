@@ -37,6 +37,11 @@ public class MockPersistenceImpl implements FHIRPersistence {
     int id = 0;
 
     @Override
+    public void prepare() {
+        // NOP
+    }
+
+    @Override
     public <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource) 
             throws FHIRPersistenceException {
         throw new IllegalStateException("API no longer used; provided for backward compatibility only");

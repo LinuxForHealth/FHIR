@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Timestamp;
+import java.sql.Types;
 import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
@@ -121,7 +122,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
             long resourceId = this.storeResource(resource.getResourceType(),
                 parameters,
                 resource.getLogicalId(),
-                resource.getDataStream().inputStream(),
+                resource.getDataStream() != null ? resource.getDataStream().inputStream() : null,
                 lastUpdated,
                 resource.isDeleted(),
                 sourceKey,
@@ -452,7 +453,13 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
             stmt.setLong(1, v_resource_id);
             stmt.setLong(2, v_logical_resource_id);
             stmt.setInt(3, p_version);
-            stmt.setBinaryStream(4, p_payload);
+            
+            if (p_payload != null) {
+                stmt.setBinaryStream(4, p_payload);
+            } else {
+                // payload offloaded to another data store
+                stmt.setNull(4, Types.BLOB);
+            }
             stmt.setTimestamp(5, p_last_updated, UTC);
             stmt.setString(6, p_is_deleted ? "Y" : "N");
             stmt.executeUpdate();

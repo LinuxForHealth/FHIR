@@ -94,6 +94,19 @@ public class DatasourceSessions implements EventCallback {
         CassandraPropertyGroupAdapter adapter = getPropertyGroupAdapter(dsPropertyName);
         return getDatabaseSession(key, adapter, true);
     }
+ 
+    /**
+     * Check if payload persistence is configured for the current tenant/datasource
+     * @return
+     */
+    public static boolean isPayloadPersistenceConfigured() {
+        final String tenantId = FHIRRequestContext.get().getTenantId();
+        final String dsId = FHIRRequestContext.get().getDataStoreId();
+        TenantDatasourceKey key = new TenantDatasourceKey(tenantId, dsId);
+        String dsPropertyName = FHIRConfiguration.PROPERTY_PERSISTENCE_PAYLOAD + "/" + key.getDatasourceId();
+        PropertyGroup dsPG = FHIRConfigHelper.getPropertyGroup(dsPropertyName);
+        return dsPG != null;
+    }
 
     /**
      * Get a CassandraPropertyGroupAdapter bound to the property group described by

@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.persistence.cassandra;
 
+import com.ibm.fhir.persistence.cassandra.cql.DatasourceSessions;
 import com.ibm.fhir.persistence.cassandra.payload.FHIRPayloadPersistenceCassandraImpl;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory;
@@ -18,8 +19,14 @@ public class FHIRPersistenceJDBCCassandraFactory extends FHIRPersistenceJDBCFact
 
     @Override
     public FHIRPayloadPersistence getPayloadPersistence() throws FHIRPersistenceException {
-        // Store the payload in Cassandra
-        // TODO use a real strategy
-        return new FHIRPayloadPersistenceCassandraImpl(FHIRPayloadPersistenceCassandraImpl.defaultPartitionStrategy());
-    };
+        
+        // If payload persistence is configured for this tenant, provide
+        // the impl otherwise null
+        FHIRPayloadPersistence result = null;
+        if (DatasourceSessions.isPayloadPersistenceConfigured()) {
+            result = new FHIRPayloadPersistenceCassandraImpl(FHIRPayloadPersistenceCassandraImpl.defaultPartitionStrategy());
+        }
+        
+        return result;
+    }
 }

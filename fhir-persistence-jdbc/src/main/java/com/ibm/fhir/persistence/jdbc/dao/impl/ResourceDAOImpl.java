@@ -524,14 +524,20 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             stmt.setString(1, resource.getResourceType());
             stmt.setString(2, resource.getLogicalId());
 
-            // Check for large objects, and branch around it.
-            boolean large = FhirSchemaConstants.STORED_PROCEDURE_SIZE_LIMIT < resource.getDataStream().size();
-            if (large) {
-                // Outside of the normal flow we have a BIG JSON or XML
-                stmt.setNull(3, Types.BLOB);
+            boolean large = false;
+            if (resource.getDataStream() != null) {
+                // Check for large objects, and branch around it.
+                large = FhirSchemaConstants.STORED_PROCEDURE_SIZE_LIMIT < resource.getDataStream().size();
+                if (large) {
+                    // Outside of the normal flow we have a BIG JSON or XML
+                    stmt.setNull(3, Types.BLOB);
+                } else {
+                    // Normal Flow, we set the data
+                    stmt.setBinaryStream(3, resource.getDataStream().inputStream());
+                }
             } else {
-                // Normal Flow, we set the data
-                stmt.setBinaryStream(3, resource.getDataStream().inputStream());
+                // payload offloaded to another data store
+                stmt.setNull(3, Types.BLOB);
             }
 
             lastUpdated = resource.getLastUpdated();

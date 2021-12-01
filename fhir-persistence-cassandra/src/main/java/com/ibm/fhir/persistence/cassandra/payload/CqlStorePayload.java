@@ -79,10 +79,10 @@ public class CqlStorePayload {
         // the payload exceeds the chunk size. If it doesn't, we store
         // it in the main resource table, avoiding the cost of a second
         // random read when we need to access it again.
-        final boolean storeAsMultipleChunks = payloadStream.size() > CHUNK_SIZE;
-        storeResource(session, storeAsMultipleChunks);
+        final boolean storeInline = payloadStream.size() <= CHUNK_SIZE;
+        storeResource(session, storeInline);
 
-        if (storeAsMultipleChunks) {
+        if (!storeInline) {
             // payload too big for the main resource table, so break it
             // into smaller chunks and store as adjacent rows in a child
             // table
@@ -93,9 +93,9 @@ public class CqlStorePayload {
     /**
      * Store the resource record
      * @param session
-     * @param payloadId the unique id for storing the payload in multiple chunks
+     * @param storeInline when true, store the payload inline in logical_resources
      */
-    private void storeResource(CqlSession session, boolean storeAsMultipleChunks) throws FHIRPersistenceException {
+    private void storeResource(CqlSession session, boolean storeInline) throws FHIRPersistenceException {
         RegularInsert insert =
                 insertInto(LOGICAL_RESOURCES)
                 .value("partition_id", literal(partitionId))
@@ -106,16 +106,19 @@ public class CqlStorePayload {
 
         // If the payload is small enough to fit in a single chunk, we can store
         // it in line with the main resource record
-        if (!storeAsMultipleChunks) {
-            insert.value("chunk", bindMarker());
+        if (storeInline) {
+            insert = insert.value("chunk", bindMarker());
         }
 
         PreparedStatement ps = session.prepare(insert.build());
-        BoundStatementBuilder bsb = ps.boundStatementBuilder(logicalId, version);
-
-        if (!storeAsMultipleChunks) {
-            // small enough, so we store directly in the main logical_resources table
-            bsb.setByteBuffer(3, payloadStream.wrap());
+        final BoundStatementBuilder bsb;
+        
+        if (storeInline) {
+            // small enough, so we bind the payload here
+            bsb = ps.boundStatementBuilder(logicalId, version, payloadStream.wrap());
+        } else {
+            // too big to be inlined, so don't include the payload here
+            bsb = ps.boundStatementBuilder(logicalId, version);
         }
 
         try {
