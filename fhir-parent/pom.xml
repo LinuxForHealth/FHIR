@@ -160,7 +160,7 @@
             <dependency>
                 <groupId>io.openliberty</groupId>
                 <artifactId>openliberty-runtime</artifactId>
-                <version>21.0.0.11</version>
+                <version>21.0.0.12</version>
                 <type>zip</type>
             </dependency>
             <dependency>
@@ -1360,7 +1360,7 @@
                 </repository>
             </distributionManagement>
         </profile>
-        
+
         <!-- removes unnecessary whitespace from json files while copying from src/main/resources to target -->
         <!-- produces smaller artifacts at the cost of a slight increase in build time -->
         <profile>
