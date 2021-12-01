@@ -864,18 +864,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         }
     }
 
-    /**
-     * Performs a 'delete' operation on the specified resource.
-     *
-     * @param type
-     *            the resource type associated with the Resource to be deleted
-     * @param id
-     *            the id of the Resource to be deleted
-     * @param requestProperties
-     *            additional request properties which supplement the HTTP headers associated with this request
-     * @return a FHIRRestOperationResponse that contains the results of the operation
-     * @throws Exception
-     */
     @Override
     public FHIRRestOperationResponse doDelete(String type, String id, String searchQueryString) throws Exception {
         log.entering(this.getClass().getName(), "doDelete");
@@ -1012,7 +1000,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         .details(CodeableConcept.builder()
                             .text(string("Deleted " + responseBundle.getEntry().size() + " " + type + " resource(s) " +
                                 "with the following id(s): " +
-                                responseBundle.getEntry().stream().map(Bundle.Entry::getId).collect(Collectors.joining(","))))
+                                responseBundle.getEntry().stream().map(e -> e.getResource().getId()).collect(Collectors.joining(","))))
                             .build())
                         .build());
 
@@ -2116,7 +2104,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 Entry.Builder entryBuilder = Entry.builder();
                 if (resource != null) {
                     if (resource.getId() != null) {
-                        entryBuilder.id(resource.getId());
+                        // do not set the entryBuilder.id value for response bundle
                         entryBuilder.fullUrl(Uri.of(getRequestBaseUri(type) + "/" + resource.getClass().getSimpleName() + "/" + resource.getId()));
                     } else {
                         String msg = "A resource with no id was found.";
