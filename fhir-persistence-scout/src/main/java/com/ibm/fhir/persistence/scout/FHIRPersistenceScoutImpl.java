@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.UUID;
+import java.util.concurrent.Future;
 import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -62,6 +63,7 @@ import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
+import com.ibm.fhir.persistence.payload.PayloadKey;
 import com.ibm.fhir.persistence.scout.SearchParameters.ParameterBlock;
 import com.ibm.fhir.persistence.scout.SearchParameters.StrValue;
 import com.ibm.fhir.persistence.scout.SearchParameters.StrValueList;
@@ -477,5 +479,26 @@ public class FHIRPersistenceScoutImpl implements FHIRPersistence {
     @Override
     public List<Long> retrieveIndex(int count, java.time.Instant notModifiedAfter, Long afterIndexId, String resourceTypeName) throws FHIRPersistenceException {
         throw new FHIRPersistenceNotSupportedException("API not supported at this time");
+    }
+
+    @Override
+    public <T extends Resource> SingleResourceResult<T> createWithMeta(FHIRPersistenceContext context, T resource)
+            throws FHIRPersistenceException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public <T extends Resource> SingleResourceResult<T> updateWithMeta(FHIRPersistenceContext context, T resource)
+            throws FHIRPersistenceException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Future<PayloadKey> storePayload(Resource resource, String logicalId, int newVersionNumber)
+            throws FHIRPersistenceException {
+        // TODO Auto-generated method stub
+        return null;
     }
 }
