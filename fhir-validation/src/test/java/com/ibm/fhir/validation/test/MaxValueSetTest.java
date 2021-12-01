@@ -155,21 +155,24 @@ public class MaxValueSetTest {
                 )).build();
         issues = FHIRValidator.validator().validate(device);
         assertEquals(FHIRValidationUtil.countErrors(issues), 0);
-        assertEquals(FHIRValidationUtil.countWarnings(issues), 2);
+        assertEquals(FHIRValidationUtil.countWarnings(issues), 0);
+        assertEquals(FHIRValidationUtil.countInformation(issues), 2);
 
         // Warning for type
         device = buildDevice().toBuilder()
                 .type(CodeableConcept.builder().coding(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of("tlh")).build()).build()).build();
         issues = FHIRValidator.validator().validate(device);
         assertEquals(FHIRValidationUtil.countErrors(issues), 0);
-        assertEquals(FHIRValidationUtil.countWarnings(issues), 1);
+        assertEquals(FHIRValidationUtil.countWarnings(issues), 0);
+        assertEquals(FHIRValidationUtil.countInformation(issues), 1);
 
         // Error for type
         device = buildDevice().toBuilder()
                 .type(CodeableConcept.builder().coding(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of("invalidLanguage")).build()).build()).build();
         issues = FHIRValidator.validator().validate(device);
         assertEquals(FHIRValidationUtil.countErrors(issues), 2);
-        assertEquals(FHIRValidationUtil.countWarnings(issues), 1);
+        assertEquals(FHIRValidationUtil.countWarnings(issues), 0);
+        assertEquals(FHIRValidationUtil.countInformation(issues), 1);
 
         // Warning and error for specialization.systemType
         device = buildDevice().toBuilder().specialization(Arrays.asList(
@@ -177,7 +180,8 @@ public class MaxValueSetTest {
                 Specialization.builder().systemType(CodeableConcept.builder().coding(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of("invalidSystem")).build()).build()).build())).build();
         issues = FHIRValidator.validator().validate(device);
         assertEquals(FHIRValidationUtil.countErrors(issues), 2);
-        assertEquals(FHIRValidationUtil.countWarnings(issues), 2);
+        assertEquals(FHIRValidationUtil.countWarnings(issues), 0);
+        assertEquals(FHIRValidationUtil.countInformation(issues), 2);
 
         // Warning and error for safety
         device = buildDevice().toBuilder().safety(Arrays.asList(
@@ -186,16 +190,17 @@ public class MaxValueSetTest {
                 )).build();
         issues = FHIRValidator.validator().validate(device);
         assertEquals(FHIRValidationUtil.countErrors(issues), 2);
-        assertEquals(FHIRValidationUtil.countWarnings(issues), 2);
+        assertEquals(FHIRValidationUtil.countWarnings(issues), 0);
+        assertEquals(FHIRValidationUtil.countInformation(issues), 2);
 
         // Warning for test-language-primary-extension
         device = buildDevice().toBuilder()
                 .extension(Collections.singletonList(Extension.builder().url("http://ibm.com/fhir/StructureDefinition/test-language-primary-extension")
                 .value(CodeableConcept.builder().coding(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of("tlh")).build()).build()).build())).build();
         issues = FHIRValidator.validator().validate(device);
-        issues.forEach(System.out::println);
         assertEquals(FHIRValidationUtil.countErrors(issues), 0);
-        assertEquals(FHIRValidationUtil.countWarnings(issues), 1);
+        assertEquals(FHIRValidationUtil.countWarnings(issues), 0);
+        assertEquals(FHIRValidationUtil.countInformation(issues), 1);
 
         // Error for test-language-primary-extension
         device = buildDevice().toBuilder()
@@ -203,8 +208,8 @@ public class MaxValueSetTest {
                 .value(CodeableConcept.builder().coding(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of("invalidLanguage")).build()).build()).build())).build();
         issues = FHIRValidator.validator().validate(device);
         assertEquals(FHIRValidationUtil.countErrors(issues), 2);
-        assertEquals(FHIRValidationUtil.countWarnings(issues), 1);
-        assertEquals(FHIRValidationUtil.countInformation(issues), 1);
+        assertEquals(FHIRValidationUtil.countWarnings(issues), 0);
+        assertEquals(FHIRValidationUtil.countInformation(issues), 2);
 
         // Warning for test-language-secondary-extension
         device = buildDevice().toBuilder()
@@ -212,7 +217,8 @@ public class MaxValueSetTest {
                 .value(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of("tlh")).build()).build())).build();
         issues = FHIRValidator.validator().validate(device);
         assertEquals(FHIRValidationUtil.countErrors(issues), 0);
-        assertEquals(FHIRValidationUtil.countWarnings(issues), 2);
+        assertEquals(FHIRValidationUtil.countWarnings(issues), 0);
+        assertEquals(FHIRValidationUtil.countInformation(issues), 2);
 
         // Error for test-language-secondary-extension
         device = buildDevice().toBuilder()
@@ -220,8 +226,8 @@ public class MaxValueSetTest {
                 .value(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of("invalidLanguage")).build()).build())).build();
         issues = FHIRValidator.validator().validate(device);
         assertEquals(FHIRValidationUtil.countErrors(issues), 2);
-        assertEquals(FHIRValidationUtil.countWarnings(issues), 2);
-        assertEquals(FHIRValidationUtil.countInformation(issues), 1);
+        assertEquals(FHIRValidationUtil.countWarnings(issues), 0);
+        assertEquals(FHIRValidationUtil.countInformation(issues), 3);
 
         // Warning for test-language-tertiary-extension
         device = buildDevice().toBuilder()
@@ -229,7 +235,8 @@ public class MaxValueSetTest {
                 .value(Code.of("tlh")).build())).build();
         issues = FHIRValidator.validator().validate(device);
         assertEquals(FHIRValidationUtil.countErrors(issues), 0);
-        assertEquals(FHIRValidationUtil.countWarnings(issues), 2);
+        assertEquals(FHIRValidationUtil.countWarnings(issues), 0);
+        assertEquals(FHIRValidationUtil.countInformation(issues), 2);
 
         // Error for test-language-tertiary-extension
         device = buildDevice().toBuilder()
@@ -237,7 +244,8 @@ public class MaxValueSetTest {
                 .value(Code.of("invalidLanguage")).build())).build();
         issues = FHIRValidator.validator().validate(device);
         assertEquals(FHIRValidationUtil.countErrors(issues), 2);
-        assertEquals(FHIRValidationUtil.countWarnings(issues), 2);
+        assertEquals(FHIRValidationUtil.countWarnings(issues), 0);
+        assertEquals(FHIRValidationUtil.countInformation(issues), 3);
     }
 
     /**
