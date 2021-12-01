@@ -273,6 +273,8 @@ public interface FHIRResourceHelpers {
      *            the resource type associated with the Resource to be deleted
      * @param id
      *            the id of the Resource to be deleted
+     * @param searchQueryString
+     *            a search query associated with a conditional delete request (mutually exclusive with id)
      * @return a FHIRRestOperationResponse that contains the results of the operation
      * @throws Exception
      */

@@ -1414,8 +1414,8 @@ public class InteractionValidationConfigTest {
             FHIRRestOperationResponse response = helper.doDelete("Patient", "1", null);
             List<Issue> issues = response.getOperationOutcome().getIssue();
             assertEquals(issues.size(), 1);
-            assertEquals("Deleted 1 Patient resource(s) with the following id(s): 1",
-                issues.get(0).getDetails().getText().getValue());
+            assertEquals(issues.get(0).getDetails().getText().getValue(),
+                "Deleted 1 Patient resource(s) with the following id(s): test");
             assertEquals(IssueSeverity.INFORMATION, issues.get(0).getSeverity());
             assertEquals(IssueType.INFORMATIONAL, issues.get(0).getCode());
         } catch (FHIROperationException e) {
@@ -1437,8 +1437,8 @@ public class InteractionValidationConfigTest {
             FHIRRestOperationResponse response = helper.doDelete("Encounter", "1", null);
             List<Issue> issues = response.getOperationOutcome().getIssue();
             assertEquals(issues.size(), 1);
-            assertEquals("Deleted 1 Encounter resource(s) with the following id(s): 1",
-                issues.get(0).getDetails().getText().getValue());
+            assertEquals(issues.get(0).getDetails().getText().getValue(),
+                "Deleted 1 Encounter resource(s) with the following id(s): test");
             assertEquals(IssueSeverity.INFORMATION, issues.get(0).getSeverity());
             assertEquals(IssueType.INFORMATIONAL, issues.get(0).getCode());
         } catch (FHIROperationException e) {
@@ -1460,10 +1460,9 @@ public class InteractionValidationConfigTest {
             FHIRRestOperationResponse response = helper.doDelete("Encounter", "1", null);
             List<Issue> issues = response.getOperationOutcome().getIssue();
             assertEquals(issues.size(), 1);
-            assertEquals("Deleted 1 Encounter resource(s) with the following id(s): 1",
-                issues.get(0).getDetails().getText().getValue());
-            assertEquals(IssueSeverity.INFORMATION, issues.get(0).getSeverity());
-            assertEquals(IssueType.INFORMATIONAL, issues.get(0).getCode());
+            assertEquals(issues.get(0).getDetails().getText().getValue(), "Deleted 1 Encounter resource(s) with the following id(s): test");
+            assertEquals(issues.get(0).getSeverity(), IssueSeverity.INFORMATION);
+            assertEquals(issues.get(0).getCode(), IssueType.INFORMATIONAL);
         } catch (FHIROperationException e) {
             fail();
         }

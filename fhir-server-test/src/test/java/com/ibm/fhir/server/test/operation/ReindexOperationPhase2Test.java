@@ -216,7 +216,7 @@ public class ReindexOperationPhase2Test extends FHIRServerTestBase {
         assertEquals(response.getStatus(), Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertFalse(bundle.getEntry().isEmpty());
-        assertEquals(bundle.getEntry().get(0).getId(), id);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), id);
     }
 
     @Test(groups = {"reindex"}, dependsOnMethods = {})
