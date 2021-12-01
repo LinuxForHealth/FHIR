@@ -439,6 +439,7 @@ public class CarinBlueButtonV100Test extends ProfilesTestBaseV2 {
     @Test
     public void testCARINBlueButton_ExplanationOfBenefit_Created_SearchParameter() throws Exception {
         FHIRParameters parameters = new FHIRParameters();
+        parameters.queryParam("_count", "100");
         parameters.searchParam("created", "2019-11-02T00:00:00+00:00");
         FHIRResponse response = client.search(ExplanationOfBenefit.class.getSimpleName(), parameters);
         assertSearchResponse(response, Response.Status.OK.getStatusCode());
@@ -457,6 +458,7 @@ public class CarinBlueButtonV100Test extends ProfilesTestBaseV2 {
          */
         FHIRParameters parameters = new FHIRParameters();
         parameters.searchParam("patient", "Patient/Patient1");
+        parameters.queryParam("_count", "100");
         parameters.searchParam("_lastUpdated", "ge2020");
         parameters.searchParam("_include", "ExplanationOfBenefit:patient");
         parameters.searchParam("_include", "ExplanationOfBenefit:provider");
