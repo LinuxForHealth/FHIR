@@ -78,6 +78,7 @@ import com.ibm.fhir.model.type.code.HTTPVerb;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.SearchEntryMode;
+import com.ibm.fhir.model.util.CollectingVisitor;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.model.util.SaltHash;
@@ -85,6 +86,7 @@ import com.ibm.fhir.model.visitor.ResourceFingerprintVisitor;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
+import com.ibm.fhir.path.exception.FHIRPathException;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.fhir.persistence.InteractionStatus;
@@ -110,6 +112,7 @@ import com.ibm.fhir.profile.ProfileSupport;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SummaryValueSet;
 import com.ibm.fhir.search.context.FHIRSearchContext;
+import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.parameters.QueryParameterValue;
 import com.ibm.fhir.search.util.ReferenceUtil;
@@ -867,18 +870,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         }
     }
 
-    /**
-     * Performs a 'delete' operation on the specified resource.
-     *
-     * @param type
-     *            the resource type associated with the Resource to be deleted
-     * @param id
-     *            the id of the Resource to be deleted
-     * @param requestProperties
-     *            additional request properties which supplement the HTTP headers associated with this request
-     * @return a FHIRRestOperationResponse that contains the results of the operation
-     * @throws Exception
-     */
     @Override
     public FHIRRestOperationResponse doDelete(String type, String id, String searchQueryString) throws Exception {
         log.entering(this.getClass().getName(), "doDelete");
@@ -1015,7 +1006,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         .details(CodeableConcept.builder()
                             .text(string("Deleted " + responseBundle.getEntry().size() + " " + type + " resource(s) " +
                                 "with the following id(s): " +
-                                responseBundle.getEntry().stream().map(Bundle.Entry::getId).collect(Collectors.joining(","))))
+                                responseBundle.getEntry().stream().map(e -> e.getResource().getId()).collect(Collectors.joining(","))))
                             .build())
                         .build());
 
@@ -1346,7 +1337,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             List<Resource> resources =
                     persistence.search(persistenceContext, resourceType).getResource();
 
-            bundle = createSearchBundle(resources, searchContext, type);
+            bundle = createSearchResponseBundle(resources, searchContext, type);
             if (requestUri != null) {
                 bundle = addLinks(searchContext, bundle, requestUri);
             }
@@ -2065,7 +2056,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      * @return the bundle
      * @throws Exception
      */
-    Bundle createSearchBundle(List<Resource> resources, FHIRSearchContext searchContext, String type) throws Exception {
+    Bundle createSearchResponseBundle(List<Resource> resources, FHIRSearchContext searchContext, String type) throws Exception {
 
         // throws if we have a count of more than 2,147,483,647 resources
         UnsignedInt totalCount = searchContext.getTotalCount() != null ? UnsignedInt.of(searchContext.getTotalCount()) : null;
@@ -2122,7 +2113,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 Entry.Builder entryBuilder = Entry.builder();
                 if (resource != null) {
                     if (resource.getId() != null) {
-                        entryBuilder.id(resource.getId());
+                        // do not set the entryBuilder.id value for response bundle
                         entryBuilder.fullUrl(Uri.of(getRequestBaseUri(type) + "/" + resource.getClass().getSimpleName() + "/" + resource.getId()));
                     } else {
                         String msg = "A resource with no id was found.";
@@ -2211,44 +2202,79 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             queryParameters.addAll(logicalIdReferenceQueryParameters);
             Map<String, String> logicalIdToTypeMap = new HashMap<>();
 
+            FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+
+
             // Loop through the resources, looking for versioned references and references to multiple resource types for the same logical ID
             for (Resource resource : matchResources) {
-                FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
-                EvaluationContext evaluationContext = new EvaluationContext(resource);
-                for (QueryParameter queryParameter : queryParameters) {
-                    SearchParameter searchParameter = searchParameterMap.get(queryParameter);
-                    if (searchParameter == null) {
-                        searchParameter = SearchUtil.getSearchParameter(resource.getClass(), queryParameter.getCode());
-                    }
+                // A flag that indicates whether we need to take a closer look at the reference values or not
+                boolean needsEval = false;
 
-                    // For logical ID check, only need to look at search parameters with more than one target resource type
-                    if (logicalIdReferenceQueryParameters.contains(queryParameter) && searchParameter.getTarget().size() == 1) {
-                        continue;
+                // If any of the reference values are "versioned"
+                // then we'll need to check that they aren't used for chaining
+                // TODO Should we pass the previously-gathered set of references into the method instead?
+                CollectingVisitor<Reference> refCollector = new CollectingVisitor<>(Reference.class);
+                resource.accept(refCollector);
+                List<Reference> references = refCollector.getResult();
+                for (Reference ref : references) {
+                    if (ref.getReference() != null && ref.getReference().getValue() != null
+                            && ref.getReference().getValue().contains("/_history/")) {
+                        needsEval = true;
+                        break;
                     }
+                }
 
-                    Collection<FHIRPathNode> nodes = evaluator.evaluate(evaluationContext, searchParameter.getExpression().getValue());
-                    for (FHIRPathNode node : nodes) {
-                        Reference reference = node.asElementNode().element().as(Reference.class);
-                        ReferenceValue rv = ReferenceUtil.createReferenceValueFrom(reference, ReferenceUtil.getBaseUrl(null));
-                        if (chainQueryParameters.contains(queryParameter) && rv.getVersion() != null &&
-                                (rv.getTargetResourceType() == null || rv.getTargetResourceType().equals(queryParameter.getModifierResourceTypeName()))) {
-                            // Found versioned reference value
-                            String msg = "Resource with id '" + resource.getId() +
-                                    "' contains a versioned reference in an element used for chained search, but chained search does not act on versioned references.";
-                            issues.add(FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.WARNING, IssueType.NOT_SUPPORTED, msg, node.path()));
-                        } else if (logicalIdReferenceQueryParameters.contains(queryParameter) && rv.getTargetResourceType() != null &&
-                                !rv.getTargetResourceType().equals(logicalIdToTypeMap.computeIfAbsent(queryParameter.getCode() + "|" + rv.getValue(), v -> rv.getTargetResourceType()))) {
-                            // Found multiple resource types this logical ID
-                            String msg = "Multiple resource type matches found for logical ID '" + rv.getValue() +
-                                    "' for search parameter '" + queryParameter.getCode() + "'.";
-                            throw buildRestException(msg, IssueType.INVALID, IssueSeverity.ERROR);
-                        }
-                    }
+                // If any of the ids are "logical id only" (i.e. have no target resource type info),
+                // then we'll need to check that they aren't ambiguous
+                if (!logicalIdReferenceQueryParameters.isEmpty()) {
+                    needsEval = true;
+                }
+
+                if (needsEval) {
+                    validateReferenceParams(chainQueryParameters, logicalIdReferenceQueryParameters, issues,
+                            searchParameterMap, queryParameters, logicalIdToTypeMap, evaluator, resource);
                 }
             }
         }
 
         return issues;
+    }
+
+    private void validateReferenceParams(List<QueryParameter> chainQueryParameters, List<QueryParameter> logicalIdReferenceQueryParameters,
+            List<Issue> issues, Map<QueryParameter, SearchParameter> searchParameterMap, List<QueryParameter> queryParameters,
+            Map<String, String> logicalIdToTypeMap, FHIRPathEvaluator evaluator, Resource resource)
+            throws Exception, FHIRPathException, FHIRSearchException, FHIROperationException {
+        EvaluationContext evaluationContext = new EvaluationContext(resource);
+        for (QueryParameter queryParameter : queryParameters) {
+            SearchParameter searchParameter = searchParameterMap.get(queryParameter);
+            if (searchParameter == null) {
+                searchParameter = SearchUtil.getSearchParameter(resource.getClass(), queryParameter.getCode());
+            }
+
+            // For logical ID check, only need to look at search parameters with more than one target resource type
+            if (logicalIdReferenceQueryParameters.contains(queryParameter) && searchParameter.getTarget().size() == 1) {
+                continue;
+            }
+
+            Collection<FHIRPathNode> nodes = evaluator.evaluate(evaluationContext, searchParameter.getExpression().getValue());
+            for (FHIRPathNode node : nodes) {
+                Reference reference = node.asElementNode().element().as(Reference.class);
+                ReferenceValue rv = ReferenceUtil.createReferenceValueFrom(reference, ReferenceUtil.getBaseUrl(null));
+                if (chainQueryParameters.contains(queryParameter) && rv.getVersion() != null &&
+                        (rv.getTargetResourceType() == null || rv.getTargetResourceType().equals(queryParameter.getModifierResourceTypeName()))) {
+                    // Found versioned reference value
+                    String msg = "Resource with id '" + resource.getId() +
+                            "' contains a versioned reference in an element used for chained search, but chained search does not act on versioned references.";
+                    issues.add(FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.WARNING, IssueType.NOT_SUPPORTED, msg, node.path()));
+                } else if (logicalIdReferenceQueryParameters.contains(queryParameter) && rv.getTargetResourceType() != null &&
+                        !rv.getTargetResourceType().equals(logicalIdToTypeMap.computeIfAbsent(queryParameter.getCode() + "|" + rv.getValue(), v -> rv.getTargetResourceType()))) {
+                    // Found multiple resource types this logical ID
+                    String msg = "Multiple resource type matches found for logical ID '" + rv.getValue() +
+                            "' for search parameter '" + queryParameter.getCode() + "'.";
+                    throw buildRestException(msg, IssueType.INVALID, IssueSeverity.ERROR);
+                }
+            }
+        }
     }
 
     /**

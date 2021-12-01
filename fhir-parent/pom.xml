@@ -326,7 +326,7 @@
             <dependency>
                 <groupId>org.eclipse.microprofile.jwt</groupId>
                 <artifactId>microprofile-jwt-auth-api</artifactId>
-                <version>1.2</version>
+                <version>1.2.2</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
@@ -460,7 +460,7 @@
             <dependency>
                 <groupId>com.google.protobuf</groupId>
                 <artifactId>protoc</artifactId>
-                <version>${protobuf.version}</version>
+                <version>3.19.1</version>
                 <type>pom</type>
             </dependency>
             <dependency>
@@ -561,7 +561,7 @@
             <dependency>
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-core</artifactId>
-                <version>1.2.5</version>
+                <version>1.2.7</version>
             </dependency>
             <dependency>
                 <groupId>com.github.ben-manes.caffeine</groupId>
@@ -788,7 +788,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-checkstyle-plugin</artifactId>
-                    <version>3.1.0</version>
+                    <version>3.1.2</version>
                     <configuration>
                         <configLocation>checkstyle.xml</configLocation>
                         <headerLocation>java.header</headerLocation>
