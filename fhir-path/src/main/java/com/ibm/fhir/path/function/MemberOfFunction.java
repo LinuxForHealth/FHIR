@@ -268,15 +268,15 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
      * @param strength the binding strength
      */
     private void generateIssue(String message, EvaluationContext evaluationContext, FHIRPathElementNode elementNode, String strength) {
-        IssueSeverity severity = ("extensible".equals(strength) || "preferred".equals(strength)) ? IssueSeverity.WARNING : IssueSeverity.ERROR;
+        IssueSeverity severity = ("required".equals(strength)) ? IssueSeverity.ERROR : IssueSeverity.INFORMATION;
         generateIssue(evaluationContext, severity, IssueType.CODE_INVALID, message, elementNode.path());
     }
 
     private Collection<FHIRPathNode> membershipCheckFailed(EvaluationContext evaluationContext, FHIRPathElementNode elementNode, String url, String strength) {
         if ("extensible".equals(strength) || "preferred".equals(strength)) {
             String prefix = evaluationContext.hasConstraint() ? evaluationContext.getConstraint().id() + ": " : "";
-            String description = prefix + "The concept in this element " + ("extensible".equals(strength) ? "must" : "should") + " be from the specified value set '" + url + "' if possible";
-            generateIssue(evaluationContext, IssueSeverity.WARNING, IssueType.CODE_INVALID, description, elementNode.path());
+            String description = prefix + "A code in this element " + ("extensible".equals(strength) ? "must" : "should") + " be from the specified value set '" + url + "' if possible";
+            generateIssue(evaluationContext, IssueSeverity.INFORMATION, IssueType.CODE_INVALID, description, elementNode.path());
             return SINGLETON_TRUE;
         }
         return SINGLETON_FALSE;
