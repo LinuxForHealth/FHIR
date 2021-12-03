@@ -83,7 +83,7 @@ public class ReferenceMappingVisitorTest {
     public void testUpdateReferences() throws FHIRGeneratorException {
         java.lang.String uUID = UUID.randomUUID().toString();
         HashMap<java.lang.String, java.lang.String> localRefMap = new HashMap<java.lang.String, java.lang.String>();
-        localRefMap.put("urn:uuid:" + uUID, "urn:romote:" + uUID);
+        localRefMap.put("urn:uuid:" + uUID, "urn:remote:" + uUID);
         
         Reference providerRef = Reference.builder()
                 .reference(String.of("urn:uuid:" + uUID))
@@ -105,7 +105,7 @@ public class ReferenceMappingVisitorTest {
         }
 
         assertNotEquals(writer2.toString(), writer1.toString());
-        assertEquals(result.getGeneralPractitioner().get(0).getReference().getValue(), "urn:romote:" + uUID);
+        assertEquals(result.getGeneralPractitioner().get(0).getReference().getValue(), "urn:remote:" + uUID);
     }
 
     @Test
