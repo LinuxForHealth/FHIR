@@ -113,7 +113,13 @@ public interface FHIRPersistence {
 
     /**
      * Deletes the specified FHIR Resource from the datastore.
-     *
+     * 
+     * This implementation of delete is open to a race condition if an update and delete
+     * are issues at the same time. This API has been deprecated and replaced with 
+     *     {@link #deleteWithMeta(FHIRPersistenceContext, Resource)}
+     * following the new pattern where the resource is never modified by the persistence
+     * layer.
+     * 
      * @param context the FHIRPersistenceContext instance associated with the current request
      * @param resourceType The type of FHIR Resource to be deleted.
      * @param logicalId the logical id of the FHIR Resource to be deleted
@@ -121,7 +127,20 @@ public interface FHIRPersistence {
      *         an OperationOutcome with hints, warnings, or errors related to the interaction
      * @throws FHIRPersistenceException
      */
+    @Deprecated
     default <T extends Resource> SingleResourceResult<T> delete(FHIRPersistenceContext context, Class<T> resourceType, String logicalId) throws FHIRPersistenceException {
+        throw new FHIRPersistenceNotSupportedException("The 'delete' operation is not supported by this persistence implementation");
+    }
+
+    /**
+     * Deletes the FHIR resource from the datastore. The resource must be configured with the correct
+     * meta information because the persistence layer no longer makes any modifications to resources.
+     * @param <T>
+     * @param context
+     * @param resource
+     * @throws FHIRPersistenceException
+     */
+    default <T extends Resource> void deleteWithMeta(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException {
         throw new FHIRPersistenceNotSupportedException("The 'delete' operation is not supported by this persistence implementation");
     }
 

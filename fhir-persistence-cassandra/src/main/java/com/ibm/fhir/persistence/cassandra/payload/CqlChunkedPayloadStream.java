@@ -79,7 +79,7 @@ public class CqlChunkedPayloadStream extends InputStream {
                 }
 
                 // check for gaps...which would break what is supposed to be a continuous stream of data
-                int rowOrdinal = row.getInt(1);
+                int rowOrdinal = row.getInt(0);
                 int gap = rowOrdinal - currentOrdinal;
                 if (gap != 1) {
                     throw new IOException("Gap in chunk ordinal. ResultSet not ordered by ordinal, or a row is missing");
@@ -87,7 +87,7 @@ public class CqlChunkedPayloadStream extends InputStream {
                 
                 // column 2 of the result set should be a blob which we can consume as
                 // a byte buffer
-                this.buffer = row.getByteBuffer(2);
+                this.buffer = row.getByteBuffer(1);
             } else {
                 // no more data
                 this.buffer = null;

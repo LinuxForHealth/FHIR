@@ -117,10 +117,12 @@ public class FHIRRestInteractionVisitorReferenceMapping extends FHIRRestInteract
                 addLocalRefMapping(localIdentifier, newResource);
             }
 
-            // TODO support payload offload here
+            // Try offloading storage of the payload. The offloadResponse will be null if not supported
+            int newVersionNumber = Integer.parseInt(newResource.getMeta().getVersionId().getValue());
+            Future<PayloadKey> offloadResponse = storePayload(newResource, newResource.getId(), newVersionNumber);
 
             // Pass back the updated resource so it can be used in the next phase
-            FHIRRestOperationResponse result = new FHIRRestOperationResponse(null, null, newResource);
+            FHIRRestOperationResponse result = new FHIRRestOperationResponse(newResource, null, offloadResponse);
             result.setDeleted(isDeleted);
             
             return result;
@@ -143,10 +145,12 @@ public class FHIRRestInteractionVisitorReferenceMapping extends FHIRRestInteract
                 addLocalRefMapping(localIdentifier, newResource);
             }
 
-            // TODO support payload offload here
+            // Try offloading storage of the payload. The offloadResponse will be null if not supported
+            int newVersionNumber = Integer.parseInt(newResource.getMeta().getVersionId().getValue());
+            Future<PayloadKey> offloadResponse = storePayload(newResource, newResource.getId(), newVersionNumber);
 
             // Pass back the updated resource so it can be used in the next phase
-            return new FHIRRestOperationResponse(null, null, newResource);
+            return new FHIRRestOperationResponse(newResource, null, offloadResponse);
         });
     }
 

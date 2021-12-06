@@ -19,6 +19,7 @@ import com.datastax.oss.driver.api.core.CqlSession;
 import com.datastax.oss.driver.api.core.cql.BoundStatementBuilder;
 import com.datastax.oss.driver.api.core.cql.PreparedStatement;
 import com.datastax.oss.driver.api.core.cql.SimpleStatement;
+import com.ibm.fhir.persistence.cassandra.cql.CqlDataUtil;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 
@@ -44,6 +45,7 @@ public class CqlDeletePayload {
      * @param logicalId
      */
     public CqlDeletePayload(String partitionId, int resourceTypeId, String logicalId) {
+        CqlDataUtil.safeBase64(partitionId);
         this.partitionId = partitionId;
         this.resourceTypeId = resourceTypeId;
         this.logicalId = logicalId;

@@ -167,8 +167,12 @@ public class InputOutputByteStream {
         this.reshapeStrat = new ReshapeStrategy();
     }
 
+    /**
+     * Adopt a buffer which may already contain data
+     * @param adoptBuffer
+     * @param offset
+     */
     public InputOutputByteStream(byte[] adoptBuffer, int offset) {
-        // Adopt a buffer which may already contain data
         this.buffer = adoptBuffer;
         this.offset = offset;
 
@@ -176,6 +180,23 @@ public class InputOutputByteStream {
         if (this.buffer == null) {
             this.buffer = new byte[4096];
         }
+        this.reshapeStrat = new ReshapeStrategy();
+    }
+    
+    /**
+     * Initialize the internal buffer by copying the contents of the given ByteBuffer
+     * (which can be read-only).
+     * @param bb
+     */
+    public InputOutputByteStream(ByteBuffer bb) {
+        int size = bb.remaining();
+        if (size < 1) {
+            throw new IllegalArgumentException("Buffer is empty");
+        }
+
+        this.buffer = new byte[size];
+        bb.get(buffer);
+        this.offset = size;
         this.reshapeStrat = new ReshapeStrategy();
     }
 

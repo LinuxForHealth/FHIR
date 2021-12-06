@@ -1119,6 +1119,48 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         }
     }
 
+    @Override
+    public <T extends Resource> void deleteWithMeta(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException {
+        final String METHODNAME = "deleteWithMeta";
+        log.entering(CLASSNAME, METHODNAME);
+
+        try (Connection connection = openConnection()) {
+            ResourceDAO resourceDao = makeResourceDAO(connection);
+
+            // Create a new Resource DTO instance to represent the deleted version.
+            int newVersionNumber = Integer.parseInt(resource.getMeta().getVersionId().getValue());
+
+            // Create the new Resource DTO instance.
+            com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO =
+                    createResourceDTO(resource.getId(), newVersionNumber, resource.getMeta().getLastUpdated(), resource);
+            resourceDTO.setDeleted(true);
+
+            // Persist the logically deleted Resource DTO.
+            resourceDao.setPersistenceContext(context);
+            resourceDao.insert(resourceDTO, null, null, null, IF_NONE_MATCH_NULL);
+
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("Deleted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
+                            + ", version=" + resourceDTO.getVersionId());
+            }
+        }
+        catch(FHIRPersistenceFKVException e) {
+            log.log(Level.INFO, this.performCacheDiagnostics());
+            throw e;
+        }
+        catch(FHIRPersistenceException e) {
+            throw e;
+        }
+        catch(Throwable e) {
+            FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while performing a delete operation.");
+            log.log(Level.SEVERE, fx.getMessage(), e);
+            throw fx;
+        }
+        finally {
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+    }
+    
     /**
      * Convert the payload to a resource class from the IBM FHIR Server model. If payloadPersistence has been
      * configured, the payload is read from another service. If payloadPersistence is null, then it is expected

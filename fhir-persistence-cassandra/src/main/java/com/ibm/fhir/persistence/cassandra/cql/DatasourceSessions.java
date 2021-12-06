@@ -23,13 +23,18 @@ import com.ibm.fhir.persistence.cassandra.CassandraPropertyGroupAdapter;
 import com.ibm.fhir.persistence.cassandra.ContactPoint;
 
 /**
- * Singleton to manage Cassandra CqlSession connections for each FHIR tenant/datasource
+ * Singleton to manage Cassandra CqlSession connections for each FHIR tenant/datasource.
+ * CqlSession holds the state of the cluster and is thread-safe. There should be a single
+ * value of CqlSession for a given tenant/datasource and this shouldn't be closed by the
+ * application until shutdown (handled by the EventCallback server lifecycle events).
  */
 public class DatasourceSessions implements EventCallback {
     private static final Logger logger = Logger.getLogger(DatasourceSessions.class.getName());
 
+    // Map holding one CqlSession instance per tenant/datasource
     private final ConcurrentHashMap<TenantDatasourceKey, CqlSession> sessionMap = new ConcurrentHashMap<>();
     
+    // so we can reject future requests when shut down
     private volatile boolean running = true;
     
     /**
@@ -66,8 +71,10 @@ public class DatasourceSessions implements EventCallback {
 
     /**
      * Get or create the CqlSession connection to Cassandra for the current
-     * tenant/datasource
-     * @return
+     * tenant/datasource. The wrapped instance intercepts calls to {@link AutoCloseable#close()}.
+     * Users do not need to close the object, but may do so (for instance in
+     * a try-with-resource pattern).
+     * @return a wrapped instance of the CqlSession for which {@link AutoCloseable#close()} is a NOP
      */
     private CqlSession getOrCreateSession() {
         if (!running) {
@@ -81,7 +88,10 @@ public class DatasourceSessions implements EventCallback {
         TenantDatasourceKey key = new TenantDatasourceKey(tenantId, dsId);
 
         // Get the session for this tenant/datasource, or create a new one if needed
-        return sessionMap.computeIfAbsent(key, DatasourceSessions::newSession);
+        CqlSession cs = sessionMap.computeIfAbsent(key, DatasourceSessions::newSession);
+        
+        // Wrap the session so we can intercept calls to #close
+        return new CqlSessionWrapper(cs);
     }
 
     /**

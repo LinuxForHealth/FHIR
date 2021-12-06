@@ -46,7 +46,7 @@ public class CqlReadResource implements ICqlReader<Resource> {
      * @param logicalId
      */
     public CqlReadResource(String partitionId, int resourceTypeId, String logicalId) {
-        CqlDataUtil.safeId(partitionId);
+        CqlDataUtil.safeBase64(partitionId);
         CqlDataUtil.safeId(logicalId);
         this.partitionId = partitionId;
         this.resourceTypeId = resourceTypeId;

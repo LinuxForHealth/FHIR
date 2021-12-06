@@ -147,6 +147,11 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     private static final com.ibm.fhir.model.type.String SC_BAD_REQUEST_STRING = string(Integer.toString(SC_BAD_REQUEST));
     private static final com.ibm.fhir.model.type.String SC_ACCEPTED_STRING = string(Integer.toString(SC_ACCEPTED));
     private static final ZoneId UTC = ZoneId.of("UTC");
+    
+    // Convenience constants to make call parameters more readable
+    private static final boolean THROW_EXC_ON_NULL = true;
+    private static final boolean INCLUDE_DELETED = true;
+    private static final boolean CHECK_INTERACTION_ALLOWED = true;
 
     // default number of entries in system history if no _count is given
     private static final int DEFAULT_HISTORY_ENTRIES = 100;
@@ -452,6 +457,17 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 txn.commit();
                 txn = null;
                 return metaResponse;
+            }
+
+            // Store the payload if we're offloading
+            // TODO perhaps store the newVersionNumber value in the FHIRRestOperationResponse so
+            // we don't have to keep converting to an int. At the very least we need a helper
+            // function for this.
+            int newVersionNumber = Integer.parseInt(metaResponse.getResource().getMeta().getVersionId().getValue());
+            Future<PayloadKey> offloadResponse = storePayload(metaResponse.getResource(), metaResponse.getResource().getId(), newVersionNumber);
+            PayloadKey payloadKey = offloadResponse != null ? offloadResponse.get() : null;
+            if (payloadKey != null && payloadKey.getStatus() != PayloadKey.Status.OK) {
+                throw new FHIRPersistenceException("Payload offload failure. Check server logs for details.");
             }
 
             // Persist the resource
@@ -952,7 +968,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
                 // Read the resource so it will be available to the beforeDelete interceptor methods.
                 try {
-                    resourceToDelete = doRead(type, id, false, false, null, null, false).getResource();
+                    resourceToDelete = doRead(type, id, !THROW_EXC_ON_NULL, !INCLUDE_DELETED, null, null, !CHECK_INTERACTION_ALLOWED).getResource();
                     if (resourceToDelete != null) {
                         responseBundle = Bundle.builder().type(BundleType.SEARCHSET)
                                 .id(UUID.randomUUID().toString())
@@ -965,7 +981,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     }
                 } catch (FHIRPersistenceResourceDeletedException e) {
                     // Absorb this exception.
-                    ior.setResource(doRead(type, id, false, true, null, null, false).getResource());
+                    ior.setResource(doRead(type, id, !THROW_EXC_ON_NULL, INCLUDE_DELETED, null, null, !CHECK_INTERACTION_ALLOWED).getResource());
                     warnings.add(buildOperationOutcomeIssue(IssueSeverity.WARNING, IssueType.DELETED, "Resource of type '"
                         + type + "' with id '" + id + "' is already deleted."));
                 }
@@ -981,22 +997,36 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                             new FHIRPersistenceEvent(null, buildPersistenceEventProperties(type, id, null, null));
                     event.setFhirResource(resourceToDelete);
                     getInterceptorMgr().fireBeforeDeleteEvent(event);
+                    
+                    // For soft-delete we store a new version of the resource with the deleted
+                    // flag set. Update the resource meta so that it has the correct version id
+                    final com.ibm.fhir.model.type.Instant lastUpdated = com.ibm.fhir.model.type.Instant.now(ZoneOffset.UTC);
+                    final int newVersionNumber = Integer.parseInt(resourceToDelete.getMeta().getVersionId().getValue()) + 1;
+                    final Resource resource = FHIRPersistenceUtil.copyAndSetResourceMetaFields(resourceToDelete, id, newVersionNumber, lastUpdated);
 
                     FHIRPersistenceContext persistenceContext =
                             FHIRPersistenceContextFactory.createPersistenceContext(event);
+                    
+                    // If we're offloading, the payload gets stored outside the RDBMS
+                    Future<PayloadKey> offloadResponse = storePayload(resource, resource.getId(), newVersionNumber);
 
-                    SingleResourceResult<? extends Resource> result = persistence.delete(persistenceContext, resourceType, id);
-                    if (result.getOutcome() != null) {
-                        warnings.addAll(result.getOutcome().getIssue());
+                    // Resolve the future so that we know the payload has been stored
+                    // TODO tie this into the transaction data so that we can clean up
+                    // more if there's a rollback for another reason.
+                    PayloadKey payloadKey = offloadResponse != null ? offloadResponse.get() : null;
+                    if (payloadKey == null || payloadKey.getStatus() == PayloadKey.Status.OK) {
+                        // If anything goes wrong with the delete we'll get an exception
+                        persistence.deleteWithMeta(persistenceContext, resource);
+                    } else {
+                        throw new FHIRPersistenceException("Payload offload failure. Check server logs for details.");
                     }
-                    Resource resource = result.getResource();
-                    event.setFhirResource(resource);
 
                     if (responseBundle.getEntry().size() == 1) {
                         ior.setResource(resource);
                     }
 
                     // Invoke the 'afterDelete' interceptor methods.
+                    event.setFhirResource(resource);
                     getInterceptorMgr().fireAfterDeleteEvent(event);
                 }
 

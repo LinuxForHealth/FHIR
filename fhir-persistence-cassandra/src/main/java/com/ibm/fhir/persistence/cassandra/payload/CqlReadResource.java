@@ -33,6 +33,8 @@ import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.persistence.cassandra.cql.CqlDataUtil;
 import com.ibm.fhir.persistence.cassandra.cql.CqlPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.payload.PayloadPersistenceHelper;
+import com.ibm.fhir.persistence.util.InputOutputByteStream;
 import com.ibm.fhir.search.SearchConstants;
 
 /**
@@ -64,8 +66,7 @@ public class CqlReadResource {
      * @param elements
      */
     public CqlReadResource(String partitionId, int resourceTypeId, String logicalId, int version, List<String> elements) {
-        CqlDataUtil.safeId(partitionId);
-        CqlDataUtil.safeId(logicalId);
+        CqlDataUtil.safeBase64(partitionId);
         this.partitionId = partitionId;
         this.resourceTypeId = resourceTypeId;
         this.logicalId = logicalId;
@@ -83,10 +84,9 @@ public class CqlReadResource {
     public <T extends Resource> T run(Class<T> resourceType, CqlSession session) throws FHIRPersistenceException {
         T result;
 
-        // Firstly, look up the payload_id for the latest version of the resource. The table
-        // is already ordered by version DESC so we don't need to do any explicit order by to
-        // get the most recent version. Simply picking the first row which matches the given
-        // resourceType/logicalId is sufficient.
+        // Read the resource record, and if the payload was stored in-line, we
+        // can process the chunk directly. If chunk is null, we have to read
+        // from the payload_chunks table instead
         Select statement =
                 selectFrom("logical_resources")
                 .column("chunk")
@@ -105,12 +105,12 @@ public class CqlReadResource {
             if (row != null) {
                 // If the chunk is small, it's stored in the LOGICAL_RESOURCS record. If
                 // it's big, then it requires multiple fetches
-                ByteBuffer bb = row.getByteBuffer(1);
+                ByteBuffer bb = row.getByteBuffer(0);
                 if (bb != null) {
-                    // The payload is small enough to fit in the current row, so no need for an
-                    // extra read
-                    try (InputStream in = new GZIPInputStream(new CqlPayloadStream(bb))) {
-                        result = parseStream(resourceType, in);
+                    // The payload is small enough to fit in the current row
+                    InputOutputByteStream readStream = new InputOutputByteStream(bb);
+                    try (InputStream in = new GZIPInputStream(readStream.inputStream())) {
+                        result = PayloadPersistenceHelper.parse(resourceType, in, this.elements);
                     }
                 } else {
                     // Big payload split into multiple chunks. Requires a separate read
@@ -144,6 +144,7 @@ public class CqlReadResource {
     private <T extends Resource> T readFromChunks(Class<T> resourceType, CqlSession session) throws IOException, FHIRParserException {
         Select statement =
                 selectFrom("payload_chunks")
+                .column("ordinal")
                 .column("chunk")
                 .whereColumn("partition_id").isEqualTo(literal(partitionId))
                 .whereColumn("resource_type_id").isEqualTo(literal(resourceTypeId))
