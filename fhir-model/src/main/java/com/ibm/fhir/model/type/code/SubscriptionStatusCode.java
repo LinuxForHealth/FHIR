@@ -18,52 +18,52 @@ import javax.annotation.Generated;
 
 @System("http://hl7.org/fhir/subscription-status")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
-public class SubscriptionStatus extends Code {
+public class SubscriptionStatusCode extends Code {
     /**
      * Requested
      * 
      * <p>The client has requested the subscription, and the server has not yet set it up.
      */
-    public static final SubscriptionStatus REQUESTED = SubscriptionStatus.builder().value(Value.REQUESTED).build();
+    public static final SubscriptionStatusCode REQUESTED = SubscriptionStatusCode.builder().value(Value.REQUESTED).build();
 
     /**
      * Active
      * 
      * <p>The subscription is active.
      */
-    public static final SubscriptionStatus ACTIVE = SubscriptionStatus.builder().value(Value.ACTIVE).build();
+    public static final SubscriptionStatusCode ACTIVE = SubscriptionStatusCode.builder().value(Value.ACTIVE).build();
 
     /**
      * Error
      * 
      * <p>The server has an error executing the notification.
      */
-    public static final SubscriptionStatus ERROR = SubscriptionStatus.builder().value(Value.ERROR).build();
+    public static final SubscriptionStatusCode ERROR = SubscriptionStatusCode.builder().value(Value.ERROR).build();
 
     /**
      * Off
      * 
      * <p>Too many errors have occurred or the subscription has expired.
      */
-    public static final SubscriptionStatus OFF = SubscriptionStatus.builder().value(Value.OFF).build();
+    public static final SubscriptionStatusCode OFF = SubscriptionStatusCode.builder().value(Value.OFF).build();
 
     private volatile int hashCode;
 
-    private SubscriptionStatus(Builder builder) {
+    private SubscriptionStatusCode(Builder builder) {
         super(builder);
     }
 
     /**
-     * Get the value of this SubscriptionStatus as an enum constant.
+     * Get the value of this SubscriptionStatusCode as an enum constant.
      */
     public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
     }
 
     /**
-     * Factory method for creating SubscriptionStatus objects from a passed enum value.
+     * Factory method for creating SubscriptionStatusCode objects from a passed enum value.
      */
-    public static SubscriptionStatus of(Value value) {
+    public static SubscriptionStatusCode of(Value value) {
         switch (value) {
         case REQUESTED:
             return REQUESTED;
@@ -79,19 +79,19 @@ public class SubscriptionStatus extends Code {
     }
 
     /**
-     * Factory method for creating SubscriptionStatus objects from a passed string value.
+     * Factory method for creating SubscriptionStatusCode objects from a passed string value.
      * 
      * @param value
      *     A string that matches one of the allowed code values
      * @throws IllegalArgumentException
      *     If the passed string cannot be parsed into an allowed code value
      */
-    public static SubscriptionStatus of(java.lang.String value) {
+    public static SubscriptionStatusCode of(java.lang.String value) {
         return of(Value.from(value));
     }
 
     /**
-     * Inherited factory method for creating SubscriptionStatus objects from a passed string value.
+     * Inherited factory method for creating SubscriptionStatusCode objects from a passed string value.
      * 
      * @param value
      *     A string that matches one of the allowed code values
@@ -103,7 +103,7 @@ public class SubscriptionStatus extends Code {
     }
 
     /**
-     * Inherited factory method for creating SubscriptionStatus objects from a passed string value.
+     * Inherited factory method for creating SubscriptionStatusCode objects from a passed string value.
      * 
      * @param value
      *     A string that matches one of the allowed code values
@@ -125,7 +125,7 @@ public class SubscriptionStatus extends Code {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        SubscriptionStatus other = (SubscriptionStatus) obj;
+        SubscriptionStatusCode other = (SubscriptionStatusCode) obj;
         return Objects.equals(id, other.id) && Objects.equals(extension, other.extension) && Objects.equals(value, other.value);
     }
 
@@ -176,7 +176,7 @@ public class SubscriptionStatus extends Code {
          * Primitive value for code
          * 
          * @param value
-         *     An enum constant for SubscriptionStatus
+         *     An enum constant for SubscriptionStatusCode
          * 
          * @return
          *     A reference to this Builder instance
@@ -186,20 +186,20 @@ public class SubscriptionStatus extends Code {
         }
 
         @Override
-        public SubscriptionStatus build() {
-            SubscriptionStatus subscriptionStatus = new SubscriptionStatus(this);
+        public SubscriptionStatusCode build() {
+            SubscriptionStatusCode subscriptionStatusCode = new SubscriptionStatusCode(this);
             if (validating) {
-                validate(subscriptionStatus);
+                validate(subscriptionStatusCode);
             }
-            return subscriptionStatus;
+            return subscriptionStatusCode;
         }
 
-        protected void validate(SubscriptionStatus subscriptionStatus) {
-            super.validate(subscriptionStatus);
+        protected void validate(SubscriptionStatusCode subscriptionStatusCode) {
+            super.validate(subscriptionStatusCode);
         }
 
-        protected Builder from(SubscriptionStatus subscriptionStatus) {
-            super.from(subscriptionStatus);
+        protected Builder from(SubscriptionStatusCode subscriptionStatusCode) {
+            super.from(subscriptionStatusCode);
             return this;
         }
     }
@@ -248,12 +248,12 @@ public class SubscriptionStatus extends Code {
         }
 
         /**
-         * Factory method for creating SubscriptionStatus.Value values from a passed string value.
+         * Factory method for creating SubscriptionStatusCode.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
          * @return
-         *     The corresponding SubscriptionStatus.Value or null if a null value was passed
+         *     The corresponding SubscriptionStatusCode.Value or null if a null value was passed
          * @throws IllegalArgumentException
          *     If the passed string is not null and cannot be parsed into an allowed code value
          */

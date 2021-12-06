@@ -61,7 +61,7 @@ public class NutritionProduct extends DomainResource {
         bindingName = "NutritionProductStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "Codes identifying the lifecycle stage of a product.",
-        valueSet = "http://hl7.org/fhir/ValueSet/nutritionproduct-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/nutritionproduct-status|4.1.0"
     )
     @Required
     private final NutritionProductStatus status;

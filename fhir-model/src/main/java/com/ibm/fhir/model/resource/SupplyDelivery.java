@@ -62,7 +62,7 @@ public class SupplyDelivery extends DomainResource {
         bindingName = "SupplyDeliveryStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "Status of the supply delivery.",
-        valueSet = "http://hl7.org/fhir/ValueSet/supplydelivery-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/supplydelivery-status|4.1.0"
     )
     private final SupplyDeliveryStatus status;
     @ReferenceTarget({ "Patient" })
@@ -71,7 +71,7 @@ public class SupplyDelivery extends DomainResource {
         bindingName = "SupplyDeliveryType",
         strength = BindingStrength.Value.REQUIRED,
         description = "The type of supply dispense.",
-        valueSet = "http://hl7.org/fhir/ValueSet/supplydelivery-type|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/supplydelivery-type|4.1.0"
     )
     private final CodeableConcept type;
     private final SuppliedItem suppliedItem;

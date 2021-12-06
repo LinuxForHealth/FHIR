@@ -37,7 +37,6 @@ import jakarta.json.JsonValue;
 
 import com.ibm.fhir.model.parser.exception.FHIRParserException;
 import com.ibm.fhir.model.resource.*;
-import com.ibm.fhir.model.resource.SubscriptionStatus;
 import com.ibm.fhir.model.type.*;
 import com.ibm.fhir.model.type.code.*;
 import com.ibm.fhir.model.type.Boolean;
@@ -21145,7 +21144,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         Subscription.Builder builder = Subscription.builder();
         builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
-        builder.status((com.ibm.fhir.model.type.code.SubscriptionStatus) parseString(com.ibm.fhir.model.type.code.SubscriptionStatus.builder(), "status", getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
+        builder.status((SubscriptionStatusCode) parseString(SubscriptionStatusCode.builder(), "status", getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         JsonArray contactArray = getJsonArray(jsonObject, "contact");
         if (contactArray != null) {
             for (int i = 0; i < contactArray.size(); i++) {
@@ -21194,10 +21193,10 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubscriptionStatus.class, jsonObject);
         }
-        com.ibm.fhir.model.resource.SubscriptionStatus.Builder builder = com.ibm.fhir.model.resource.SubscriptionStatus.builder();
+        SubscriptionStatus.Builder builder = SubscriptionStatus.builder();
         builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
-        builder.status((com.ibm.fhir.model.type.code.SubscriptionStatus) parseString(com.ibm.fhir.model.type.code.SubscriptionStatus.builder(), "status", getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
+        builder.status((SubscriptionStatusCode) parseString(SubscriptionStatusCode.builder(), "status", getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.type((SubscriptionNotificationType) parseString(SubscriptionNotificationType.builder(), "type", getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         builder.eventsSinceSubscriptionStart(parseString("eventsSinceSubscriptionStart", getJsonValue(jsonObject, "eventsSinceSubscriptionStart", JsonString.class), jsonObject.get("_eventsSinceSubscriptionStart"), -1));
         builder.eventsInNotification(parseInteger("eventsInNotification", getJsonValue(jsonObject, "eventsInNotification", JsonNumber.class), jsonObject.get("_eventsInNotification"), -1));

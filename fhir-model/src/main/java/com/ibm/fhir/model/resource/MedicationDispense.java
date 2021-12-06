@@ -80,7 +80,7 @@ public class MedicationDispense extends DomainResource {
         bindingName = "MedicationDispenseStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "A coded concept specifying the state of the dispense event.",
-        valueSet = "http://hl7.org/fhir/ValueSet/medicationdispense-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/medicationdispense-status|4.1.0"
     )
     @Required
     private final MedicationDispenseStatus status;

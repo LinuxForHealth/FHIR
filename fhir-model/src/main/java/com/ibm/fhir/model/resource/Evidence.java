@@ -169,7 +169,7 @@ public class Evidence extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.1.0"
     )
     @Required
     private final PublicationStatus status;
@@ -4206,7 +4206,7 @@ public class Evidence extends DomainResource {
                 @Binding(
                     bindingName = "EvidenceVariableHandling",
                     strength = BindingStrength.Value.REQUIRED,
-                    valueSet = "http://hl7.org/fhir/ValueSet/variable-handling|4.0.1"
+                    valueSet = "http://hl7.org/fhir/ValueSet/variable-handling|4.1.0"
                 )
                 private final EvidenceVariableHandling handling;
                 private final List<CodeableConcept> valueCategory;

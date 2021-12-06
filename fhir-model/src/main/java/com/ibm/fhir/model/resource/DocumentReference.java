@@ -91,7 +91,7 @@ public class DocumentReference extends DomainResource {
         bindingName = "DocumentReferenceStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The status of the document reference.",
-        valueSet = "http://hl7.org/fhir/ValueSet/document-reference-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/document-reference-status|4.1.0"
     )
     @Required
     private final DocumentReferenceStatus status;
@@ -100,7 +100,7 @@ public class DocumentReference extends DomainResource {
         bindingName = "ReferredDocumentStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "Status of the underlying document.",
-        valueSet = "http://hl7.org/fhir/ValueSet/composition-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/composition-status|4.1.0"
     )
     private final ReferredDocumentStatus docStatus;
     @Summary
@@ -1237,7 +1237,7 @@ public class DocumentReference extends DomainResource {
             bindingName = "DocumentRelationshipType",
             strength = BindingStrength.Value.REQUIRED,
             description = "The type of relationship between documents.",
-            valueSet = "http://hl7.org/fhir/ValueSet/document-relationship-type|4.0.1"
+            valueSet = "http://hl7.org/fhir/ValueSet/document-relationship-type|4.1.0"
         )
         @Required
         private final DocumentRelationshipType code;

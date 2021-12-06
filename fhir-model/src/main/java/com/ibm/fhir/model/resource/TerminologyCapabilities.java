@@ -124,7 +124,7 @@ public class TerminologyCapabilities extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.1.0"
     )
     @Required
     private final PublicationStatus status;
@@ -156,7 +156,7 @@ public class TerminologyCapabilities extends DomainResource {
         bindingName = "CapabilityStatementKind",
         strength = BindingStrength.Value.REQUIRED,
         description = "How a capability statement is intended to be used.",
-        valueSet = "http://hl7.org/fhir/ValueSet/capability-statement-kind|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/capability-statement-kind|4.1.0"
     )
     @Required
     private final CapabilityStatementKind kind;
@@ -172,7 +172,7 @@ public class TerminologyCapabilities extends DomainResource {
         bindingName = "CodeSearchSupport",
         strength = BindingStrength.Value.REQUIRED,
         description = "The degree to which the server supports the code search parameter on ValueSet, if it is supported.",
-        valueSet = "http://hl7.org/fhir/ValueSet/code-search-support|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/code-search-support|4.1.0"
     )
     private final CodeSearchSupport codeSearch;
     private final ValidateCode validateCode;

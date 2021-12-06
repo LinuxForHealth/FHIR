@@ -33,7 +33,7 @@ public class ParameterDefinition extends Element {
         bindingName = "ParameterUse",
         strength = BindingStrength.Value.REQUIRED,
         description = "Whether the parameter is input or output.",
-        valueSet = "http://hl7.org/fhir/ValueSet/operation-parameter-use|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/operation-parameter-use|4.1.0"
     )
     @Required
     private final ParameterUse use;
@@ -48,7 +48,7 @@ public class ParameterDefinition extends Element {
         bindingName = "FHIRAllTypes",
         strength = BindingStrength.Value.REQUIRED,
         description = "A list of all the concrete types defined in this version of the FHIR specification - Abstract Types, Data Types and Resource Types.",
-        valueSet = "http://hl7.org/fhir/ValueSet/all-types|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/all-types|4.1.0"
     )
     @Required
     private final FHIRAllTypes type;
