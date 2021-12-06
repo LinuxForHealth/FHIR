@@ -1,0 +1,323 @@
+{
+    "resourceType": "AdministrableProductDefinition",
+    "meta": {
+        "versionId": "fvzxMDn9q-",
+        "lastUpdated": "2021-12-10T02:40:14.63273-05:00",
+        "source": "URPOpO1I5F",
+        "profile": [
+            "Kt4ACwrE52"
+        ],
+        "security": [
+            {
+                "system": "t7ebysEvhM",
+                "version": "zdVfmpCnCs",
+                "code": "KgjiJOXhDs",
+                "display": "0nqliw7ko_",
+                "userSelected": true
+            }
+        ],
+        "tag": [
+            {
+                "system": "P3mnb5b15G",
+                "version": "c654_QYQHt",
+                "code": "7VSTtG2Gar",
+                "display": "AAvgpLAa3V",
+                "userSelected": true
+            },
+            {
+                "code": "ibm/complete-mock"
+            }
+        ]
+    },
+    "implicitRules": "EnCndsh7o_",
+    "language": "en-US",
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>"
+    },
+    "identifier": [
+        {
+            "use": "temp",
+            "type": {
+                "coding": [
+                    {
+                        "system": "m0wMKNcupM",
+                        "version": "PjrilZcyK7",
+                        "code": "d3DzKMB3u6",
+                        "display": "TGC7Kd9HJC",
+                        "userSelected": true
+                    }
+                ],
+                "text": "zGBXljWuYV"
+            },
+            "system": "MhHyX5MIQ8",
+            "value": "oWmWTeQ8m6",
+            "period": {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                        "valueCode": "unknown"
+                    }
+                ]
+            }
+        }
+    ],
+    "status": "draft",
+    "formOf": [
+        {
+            "reference": "MedicinalProductDefinition/GJdRbkG6ze",
+            "type": "MedicinalProductDefinition",
+            "identifier": {
+                "use": "old",
+                "type": {
+                    "coding": [
+                        {
+                            "system": "1oGRpMrba8",
+                            "version": "yjyX4UDaaB",
+                            "code": "sFqUBIYOFA",
+                            "display": "nm1XSTquVw",
+                            "userSelected": true
+                        }
+                    ],
+                    "text": "Zi7JhGwSbd"
+                },
+                "system": "M1yOP503wW",
+                "value": "t_QG558vTu",
+                "period": {
+                    "start": "2021-12-10T02:40:14.634611-05:00"
+                }
+            },
+            "display": "5R2Hj5Y9Nq"
+        }
+    ],
+    "administrableDoseForm": {
+        "coding": [
+            {
+                "system": "WkTY9855yV",
+                "version": "hXxK2VAAf1",
+                "code": "pSgmcMHpQl",
+                "display": "CfOEcBsrbn",
+                "userSelected": true
+            }
+        ],
+        "text": "dvUL4ro5mp"
+    },
+    "unitOfPresentation": {
+        "coding": [
+            {
+                "system": "y8W2gL9X6Z",
+                "version": "q9kVZIY_C2",
+                "code": "AYujpvZMk6",
+                "display": "mQ6Rt1zWch",
+                "userSelected": true
+            }
+        ],
+        "text": "vzDSFzfn1G"
+    },
+    "producedFrom": [
+        {
+            "reference": "ManufacturedItemDefinition/6RD29gBjIG",
+            "type": "ManufacturedItemDefinition",
+            "identifier": {
+                "use": "old",
+                "type": {
+                    "coding": [
+                        {
+                            "system": "pO0yVK778A",
+                            "version": "k743A5TSQp",
+                            "code": "4vzywy1YY8",
+                            "display": "9MiqX2tUFw",
+                            "userSelected": true
+                        }
+                    ],
+                    "text": "x5glUaS7B_"
+                },
+                "system": "ug1T1zmFPs",
+                "value": "Qgtm3tkJzd",
+                "period": {
+                    "start": "2021-12-10T02:40:14.635557-05:00"
+                }
+            },
+            "display": "oFllrDO__3"
+        }
+    ],
+    "ingredient": [
+        {
+            "coding": [
+                {
+                    "system": "M_8YMonMzp",
+                    "version": "FUIzy88rFd",
+                    "code": "RS3ePgsbB4",
+                    "display": "NFgFK_9_mc",
+                    "userSelected": true
+                }
+            ],
+            "text": "kgXirdWI8A"
+        }
+    ],
+    "device": {
+        "reference": "DeviceDefinition/GYuPyjIdWI",
+        "type": "DeviceDefinition",
+        "identifier": {
+            "use": "official",
+            "type": {
+                "coding": [
+                    {
+                        "system": "xBrBVe80Pg",
+                        "version": "RjNaYeMQQ_",
+                        "code": "dV6usTu2RV",
+                        "display": "w1PG_nHgof",
+                        "userSelected": true
+                    }
+                ],
+                "text": "6y7yvyr2zJ"
+            },
+            "system": "a8TtEcCWPp",
+            "value": "eTNGZ7e1Lu",
+            "period": {
+                "start": "2021-12-10T02:40:14.639086-05:00"
+            }
+        },
+        "display": "abLYRt_ZUh"
+    },
+    "property": [
+        {
+            "type": {
+                "coding": [
+                    {
+                        "system": "CC0RNmNua9",
+                        "version": "glZccZ_aXL",
+                        "code": "os5N4EDbaQ",
+                        "display": "7mbfFrTXev",
+                        "userSelected": true
+                    }
+                ],
+                "text": "NI5hdQyA1A"
+            },
+            "valueCodeableConcept": {
+                "coding": [
+                    {
+                        "system": "1zoauw_GYF",
+                        "version": "h2cBH1btdt",
+                        "code": "1tAFozUd7e",
+                        "display": "HEv3lE2wfA",
+                        "userSelected": true
+                    }
+                ],
+                "text": "O4HvF_cEdZ"
+            },
+            "status": {
+                "coding": [
+                    {
+                        "system": "sL1_Oop0O8",
+                        "version": "8HScdU0xPt",
+                        "code": "hBkTDzDoSE",
+                        "display": "mJiWtk5WOA",
+                        "userSelected": true
+                    }
+                ],
+                "text": "7Sf6EYPyni"
+            }
+        }
+    ],
+    "routeOfAdministration": [
+        {
+            "code": {
+                "coding": [
+                    {
+                        "system": "HAGl8aHETm",
+                        "version": "GvuhKWpWVf",
+                        "code": "J6GwbrtuhK",
+                        "display": "AY1cOO5uPO",
+                        "userSelected": true
+                    }
+                ],
+                "text": "C2ZldlOgfr"
+            },
+            "firstDose": {
+                "value": 672063489,
+                "comparator": "<=",
+                "unit": "2LIIVs3gpr",
+                "system": "vYR0zIPM8Z",
+                "code": "MlpjgJWl3r"
+            },
+            "maxSingleDose": {
+                "value": 34771530,
+                "comparator": ">=",
+                "unit": "C8YXZUhofT",
+                "system": "btlSoBNa3G",
+                "code": "IRF81ctCGW"
+            },
+            "maxDosePerDay": {
+                "value": 1835691123,
+                "comparator": "<=",
+                "unit": "RGuagQjX2H",
+                "system": "6gRYsdGP2R",
+                "code": "tn7JVb4Dyl"
+            },
+            "maxDosePerTreatmentPeriod": {
+                "numerator": {
+                    "value": 142713639,
+                    "comparator": ">",
+                    "unit": "v0ycU48uP0",
+                    "system": "_GM5R3TeYx",
+                    "code": "RikFliTnGZ"
+                },
+                "denominator": {
+                    "value": 660165321,
+                    "comparator": "<",
+                    "unit": "y3iAYTWyBc",
+                    "system": "BqboQrGp45",
+                    "code": "qFVBP2Vcb1"
+                }
+            },
+            "maxTreatmentPeriod": {
+                "value": 1997991198,
+                "comparator": "<",
+                "unit": "_nocbyqkrB",
+                "system": "http://unitsofmeasure.org",
+                "code": "h"
+            },
+            "targetSpecies": [
+                {
+                    "code": {
+                        "coding": [
+                            {
+                                "system": "C9RSBPo2CR",
+                                "version": "GTgZsy8RBc",
+                                "code": "TZI7VdvO52",
+                                "display": "UKSZKSxCYl",
+                                "userSelected": true
+                            }
+                        ],
+                        "text": "vid1Mdz6fO"
+                    },
+                    "withdrawalPeriod": [
+                        {
+                            "tissue": {
+                                "coding": [
+                                    {
+                                        "system": "AjykWmfhet",
+                                        "version": "lsLEpw_Pdt",
+                                        "code": "uNrJTXhsvH",
+                                        "display": "PD4daInkNz",
+                                        "userSelected": true
+                                    }
+                                ],
+                                "text": "WUTcJoRUm6"
+                            },
+                            "value": {
+                                "value": 1510751271,
+                                "comparator": ">",
+                                "unit": "G0hQqS0mf6",
+                                "system": "fg7cHsGK6r",
+                                "code": "xPU2c2U4mA"
+                            },
+                            "supportingInformation": "GSPEE3pXmt"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

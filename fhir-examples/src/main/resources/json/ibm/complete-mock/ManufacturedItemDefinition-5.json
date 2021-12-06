@@ -1,0 +1,152 @@
+{
+    "resourceType": "ManufacturedItemDefinition",
+    "meta": {
+        "versionId": "utq3zYrMab",
+        "lastUpdated": "2021-12-10T02:40:04.390525-05:00",
+        "source": "HHITlYAYfA",
+        "profile": [
+            "sXrvpc8zim"
+        ],
+        "security": [
+            {
+                "system": "UQ0E7vLoQ_",
+                "version": "KryEu_rPnZ",
+                "code": "Tw2opFWFgK",
+                "display": "10lPW3BfQ8",
+                "userSelected": true
+            }
+        ],
+        "tag": [
+            {
+                "system": "v55DqgXJ63",
+                "version": "Ij2pLt8imr",
+                "code": "TZCVW2XrNv",
+                "display": "8budBHTvRN",
+                "userSelected": true
+            },
+            {
+                "code": "ibm/complete-mock"
+            }
+        ]
+    },
+    "implicitRules": "zEpHAWJyto",
+    "language": "en-US",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>"
+    },
+    "identifier": [
+        {
+            "use": "old",
+            "type": {
+                "coding": [
+                    {
+                        "system": "eKVMHnB9YU",
+                        "version": "uGUXs2dEcy",
+                        "code": "0XueieTCFP",
+                        "display": "41x3vM6kRq",
+                        "userSelected": true
+                    }
+                ],
+                "text": "js7u3kKQNR"
+            },
+            "system": "TG_PJyCU1Y",
+            "value": "QQjbqjUEzX",
+            "period": {
+                "start": "2021-12-10T02:40:04.395891-05:00"
+            }
+        }
+    ],
+    "status": "unknown",
+    "manufacturedDoseForm": {
+        "coding": [
+            {
+                "system": "6Yl14HC1i3",
+                "version": "Th0RWBn05M",
+                "code": "mqjjCIFKYL",
+                "display": "TS442qfO3U",
+                "userSelected": true
+            }
+        ],
+        "text": "l0bZOSEETH"
+    },
+    "unitOfPresentation": {
+        "coding": [
+            {
+                "system": "_l9MB1KBi9",
+                "version": "eFDMFW17r2",
+                "code": "1zejFz6Uv8",
+                "display": "PgG1OoGacq",
+                "userSelected": true
+            }
+        ],
+        "text": "Q45dpn1q_E"
+    },
+    "manufacturer": [
+        {
+            "reference": "Organization/eacfhLkPlS",
+            "type": "Organization",
+            "identifier": {
+                "use": "old",
+                "type": {
+                    "coding": [
+                        {
+                            "system": "_0dYSfUmm0",
+                            "version": "tW7op16H8o",
+                            "code": "mjyZMOi1PT",
+                            "display": "tdKK3gDL6s",
+                            "userSelected": true
+                        }
+                    ],
+                    "text": "1yfzlErD9W"
+                },
+                "system": "JI7blAu20K",
+                "value": "icBXkNfKXH",
+                "period": {
+                    "start": "2021-12-10T02:40:04.393699-05:00"
+                }
+            },
+            "display": "BYmCUi7xaa"
+        }
+    ],
+    "ingredient": [
+        {
+            "coding": [
+                {
+                    "system": "R7unzVcHk1",
+                    "version": "wj17h2GVz3",
+                    "code": "FVEMigBmKV",
+                    "display": "oplFyPXFiI",
+                    "userSelected": true
+                }
+            ],
+            "text": "NlUueh2QJH"
+        }
+    ],
+    "property": [
+        {
+            "type": {
+                "coding": [
+                    {
+                        "system": "GiPfpBx7ls",
+                        "version": "t04fAXbd6S",
+                        "code": "Pea93TbT8w",
+                        "display": "r6NmGV4pvQ",
+                        "userSelected": true
+                    }
+                ],
+                "text": "mnXJAQoOL9"
+            },
+            "valueAttachment": {
+                "contentType": "d_gM1oTX0q",
+                "language": "en-US",
+                "data": "KypdXz8=",
+                "url": "UX_vXAAMnF",
+                "size": 1949786020,
+                "hash": "QU1fOx8=",
+                "title": "B8lxGUyjkq",
+                "creation": "2021-12-10T02:40:04.392906-05:00"
+            }
+        }
+    ]
+}
