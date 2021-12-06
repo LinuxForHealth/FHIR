@@ -148,7 +148,7 @@ public class Practitioner extends DomainResource {
     }
 
     /**
-     * Address(es) of the practitioner that are not role specific (typically home address). Work addresses are not typically 
+     * Address(es) of the practitioner that are not role specific (typically home address). Work addresses are not typically 
      * entered in this property as they are usually role dependent.
      * 
      * @return
@@ -699,7 +699,7 @@ public class Practitioner extends DomainResource {
         }
 
         /**
-         * Address(es) of the practitioner that are not role specific (typically home address). Work addresses are not typically 
+         * Address(es) of the practitioner that are not role specific (typically home address). Work addresses are not typically 
          * entered in this property as they are usually role dependent.
          * 
          * <p>Adds new element(s) to the existing list.
@@ -719,7 +719,7 @@ public class Practitioner extends DomainResource {
         }
 
         /**
-         * Address(es) of the practitioner that are not role specific (typically home address). Work addresses are not typically 
+         * Address(es) of the practitioner that are not role specific (typically home address). Work addresses are not typically 
          * entered in this property as they are usually role dependent.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection.
