@@ -71,7 +71,6 @@ public class FHIRRestBundleHelper {
     private static final Logger log =
             java.util.logging.Logger.getLogger(FHIRRestBundleHelper.class.getName());
 
-    private static final String LOCAL_REF_PREFIX = "urn:";
     private static final com.ibm.fhir.model.type.String SC_ACCEPTED_STRING = string(Integer.toString(SC_ACCEPTED));
 
     // Constant for indicating the need to validate a resource
@@ -816,13 +815,10 @@ public class FHIRRestBundleHelper {
      */
     private String retrieveLocalIdentifier(Entry requestEntry) {
         String localIdentifier = null;
-        if (requestEntry.getFullUrl() != null) {
-            String fullUrl = requestEntry.getFullUrl().getValue();
-            if (fullUrl != null && fullUrl.startsWith(LOCAL_REF_PREFIX)) {
-                localIdentifier = fullUrl;
-                if (log.isLoggable(Level.FINER)) {
-                    log.finer("Request entry contains local identifier: " + localIdentifier);
-                }
+        if (requestEntry.getFullUrl() != null && requestEntry.getFullUrl().getValue() != null) {
+            localIdentifier = requestEntry.getFullUrl().getValue();
+            if (log.isLoggable(Level.FINER)) {
+                log.finer("Request entry contains local identifier: " + localIdentifier);
             }
         }
         return localIdentifier;

@@ -87,7 +87,7 @@ public class FHIRRestInteractionVisitorReferenceMapping extends FHIRRestInteract
         return doOperation(entryIndex, requestDescription, initialTime, () -> {
 
             // Convert any local references found within the resource to their corresponding external reference.
-            ReferenceMappingVisitor<Resource> visitor = new ReferenceMappingVisitor<Resource>(localRefMap);
+            ReferenceMappingVisitor<Resource> visitor = new ReferenceMappingVisitor<Resource>(localRefMap, localIdentifier);
             resource.accept(visitor);
             final Resource finalResource = visitor.getResult(); // finalResource immutable
 
@@ -109,7 +109,7 @@ public class FHIRRestInteractionVisitorReferenceMapping extends FHIRRestInteract
         return doOperation(entryIndex, requestDescription, initialTime, () -> {
 
             // Convert any local references found within the resource to their corresponding external reference.
-            ReferenceMappingVisitor<Resource> visitor = new ReferenceMappingVisitor<Resource>(localRefMap);
+            ReferenceMappingVisitor<Resource> visitor = new ReferenceMappingVisitor<Resource>(localRefMap, localIdentifier);
             resource.accept(visitor);
             Resource newResource = visitor.getResult();
 
@@ -135,7 +135,7 @@ public class FHIRRestInteractionVisitorReferenceMapping extends FHIRRestInteract
         return doOperation(entryIndex, requestDescription, initialTime, () -> {
 
             // Convert any local references found within the resource to their corresponding external reference.
-            ReferenceMappingVisitor<Resource> visitor = new ReferenceMappingVisitor<Resource>(localRefMap);
+            ReferenceMappingVisitor<Resource> visitor = new ReferenceMappingVisitor<Resource>(localRefMap, localIdentifier);
             resource.accept(visitor);
             Resource newResource = visitor.getResult();
 
