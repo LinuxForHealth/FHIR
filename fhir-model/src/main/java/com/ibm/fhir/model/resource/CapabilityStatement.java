@@ -190,7 +190,7 @@ public class CapabilityStatement extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.1.0"
     )
     @Required
     private final PublicationStatus status;
@@ -221,7 +221,7 @@ public class CapabilityStatement extends DomainResource {
         bindingName = "CapabilityStatementKind",
         strength = BindingStrength.Value.REQUIRED,
         description = "How a capability statement is intended to be used.",
-        valueSet = "http://hl7.org/fhir/ValueSet/capability-statement-kind|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/capability-statement-kind|4.1.0"
     )
     @Required
     private final CapabilityStatementKind kind;
@@ -238,7 +238,7 @@ public class CapabilityStatement extends DomainResource {
         bindingName = "FHIRVersion",
         strength = BindingStrength.Value.REQUIRED,
         description = "All published FHIR Versions.",
-        valueSet = "http://hl7.org/fhir/ValueSet/FHIR-version|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/FHIR-version|4.1.0"
     )
     @Required
     private final FHIRVersion fhirVersion;
@@ -247,7 +247,7 @@ public class CapabilityStatement extends DomainResource {
         bindingName = "MimeType",
         strength = BindingStrength.Value.REQUIRED,
         description = "The mime type of an attachment. Any valid mime type is allowed.",
-        valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.1.0"
     )
     @Required
     private final List<Code> format;
@@ -256,7 +256,7 @@ public class CapabilityStatement extends DomainResource {
         bindingName = "MimeType",
         strength = BindingStrength.Value.REQUIRED,
         description = "The mime type of an attachment. Any valid mime type is allowed.",
-        valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.1.0"
     )
     private final List<Code> patchFormat;
     @Summary
@@ -2556,7 +2556,7 @@ public class CapabilityStatement extends DomainResource {
             bindingName = "RestfulCapabilityMode",
             strength = BindingStrength.Value.REQUIRED,
             description = "The mode of a RESTful capability statement.",
-            valueSet = "http://hl7.org/fhir/ValueSet/restful-capability-mode|4.0.1"
+            valueSet = "http://hl7.org/fhir/ValueSet/restful-capability-mode|4.1.0"
         )
         @Required
         private final RestfulCapabilityMode mode;
@@ -3538,7 +3538,7 @@ public class CapabilityStatement extends DomainResource {
                 bindingName = "ResourceType",
                 strength = BindingStrength.Value.REQUIRED,
                 description = "One of the resource types defined as part of this version of FHIR.",
-                valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.1"
+                valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.1.0"
             )
             @Required
             private final ResourceType type;
@@ -3552,7 +3552,7 @@ public class CapabilityStatement extends DomainResource {
                 bindingName = "ResourceVersionPolicy",
                 strength = BindingStrength.Value.REQUIRED,
                 description = "How the system supports versioning for a resource.",
-                valueSet = "http://hl7.org/fhir/ValueSet/versioning-policy|4.0.1"
+                valueSet = "http://hl7.org/fhir/ValueSet/versioning-policy|4.1.0"
             )
             private final ResourceVersionPolicy versioning;
             private final Boolean readHistory;
@@ -3562,7 +3562,7 @@ public class CapabilityStatement extends DomainResource {
                 bindingName = "ConditionalReadStatus",
                 strength = BindingStrength.Value.REQUIRED,
                 description = "A code that indicates how the server supports conditional read.",
-                valueSet = "http://hl7.org/fhir/ValueSet/conditional-read-status|4.0.1"
+                valueSet = "http://hl7.org/fhir/ValueSet/conditional-read-status|4.1.0"
             )
             private final ConditionalReadStatus conditionalRead;
             private final Boolean conditionalUpdate;
@@ -3570,14 +3570,14 @@ public class CapabilityStatement extends DomainResource {
                 bindingName = "ConditionalDeleteStatus",
                 strength = BindingStrength.Value.REQUIRED,
                 description = "A code that indicates how the server supports conditional delete.",
-                valueSet = "http://hl7.org/fhir/ValueSet/conditional-delete-status|4.0.1"
+                valueSet = "http://hl7.org/fhir/ValueSet/conditional-delete-status|4.1.0"
             )
             private final ConditionalDeleteStatus conditionalDelete;
             @Binding(
                 bindingName = "ReferenceHandlingPolicy",
                 strength = BindingStrength.Value.REQUIRED,
                 description = "A set of flags that defines how references are supported.",
-                valueSet = "http://hl7.org/fhir/ValueSet/reference-handling-policy|4.0.1"
+                valueSet = "http://hl7.org/fhir/ValueSet/reference-handling-policy|4.1.0"
             )
             private final List<ReferenceHandlingPolicy> referencePolicy;
             private final List<String> searchInclude;
@@ -4656,7 +4656,7 @@ public class CapabilityStatement extends DomainResource {
                     bindingName = "TypeRestfulInteraction",
                     strength = BindingStrength.Value.REQUIRED,
                     description = "Operations supported by REST at the type or instance level.",
-                    valueSet = "http://hl7.org/fhir/ValueSet/type-restful-interaction|4.0.1"
+                    valueSet = "http://hl7.org/fhir/ValueSet/type-restful-interaction|4.1.0"
                 )
                 @Required
                 private final TypeRestfulInteraction code;
@@ -4954,7 +4954,7 @@ public class CapabilityStatement extends DomainResource {
                     bindingName = "SearchParamType",
                     strength = BindingStrength.Value.REQUIRED,
                     description = "Data types allowed to be used for search parameters.",
-                    valueSet = "http://hl7.org/fhir/ValueSet/search-param-type|4.0.1"
+                    valueSet = "http://hl7.org/fhir/ValueSet/search-param-type|4.1.0"
                 )
                 @Required
                 private final SearchParamType type;
@@ -5695,7 +5695,7 @@ public class CapabilityStatement extends DomainResource {
                 bindingName = "SystemRestfulInteraction",
                 strength = BindingStrength.Value.REQUIRED,
                 description = "Operations supported by REST at the system level.",
-                valueSet = "http://hl7.org/fhir/ValueSet/system-restful-interaction|4.0.1"
+                valueSet = "http://hl7.org/fhir/ValueSet/system-restful-interaction|4.1.0"
             )
             @Required
             private final SystemRestfulInteraction code;
@@ -6687,7 +6687,7 @@ public class CapabilityStatement extends DomainResource {
                 bindingName = "EventCapabilityMode",
                 strength = BindingStrength.Value.REQUIRED,
                 description = "The mode of a message capability statement.",
-                valueSet = "http://hl7.org/fhir/ValueSet/event-capability-mode|4.0.1"
+                valueSet = "http://hl7.org/fhir/ValueSet/event-capability-mode|4.1.0"
             )
             @Required
             private final EventCapabilityMode mode;
@@ -6987,7 +6987,7 @@ public class CapabilityStatement extends DomainResource {
             bindingName = "DocumentMode",
             strength = BindingStrength.Value.REQUIRED,
             description = "Whether the application produces or consumes documents.",
-            valueSet = "http://hl7.org/fhir/ValueSet/document-mode|4.0.1"
+            valueSet = "http://hl7.org/fhir/ValueSet/document-mode|4.1.0"
         )
         @Required
         private final DocumentMode mode;

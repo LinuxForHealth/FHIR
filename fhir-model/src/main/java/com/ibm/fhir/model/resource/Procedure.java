@@ -82,7 +82,7 @@ public class Procedure extends DomainResource {
         bindingName = "ProcedureStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "A code specifying the state of the procedure.",
-        valueSet = "http://hl7.org/fhir/ValueSet/event-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/event-status|4.1.0"
     )
     @Required
     private final ProcedureStatus status;

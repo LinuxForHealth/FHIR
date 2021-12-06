@@ -34,6 +34,7 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.type.code.SubscriptionNotificationType;
+import com.ibm.fhir.model.type.code.SubscriptionStatusCode;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -53,15 +54,15 @@ public class SubscriptionStatus extends DomainResource {
         bindingName = "SubscriptionStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The status of a subscription at the time this notification was generated.",
-        valueSet = "http://hl7.org/fhir/ValueSet/subscription-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/subscription-status|4.1.0"
     )
-    private final com.ibm.fhir.model.type.code.SubscriptionStatus status;
+    private final SubscriptionStatusCode status;
     @Summary
     @Binding(
         bindingName = "SubscriptionNotificationType",
         strength = BindingStrength.Value.REQUIRED,
         description = "The type of notification represented by the status message.",
-        valueSet = "http://hl7.org/fhir/ValueSet/subscription-notification-type|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/subscription-notification-type|4.1.0"
     )
     @Required
     private final SubscriptionNotificationType type;
@@ -101,9 +102,9 @@ public class SubscriptionStatus extends DomainResource {
      * The status of the subscription, which marks the server state for managing the subscription.
      * 
      * @return
-     *     An immutable object of type {@link SubscriptionStatus} that may be null.
+     *     An immutable object of type {@link SubscriptionStatusCode} that may be null.
      */
-    public com.ibm.fhir.model.type.code.SubscriptionStatus getStatus() {
+    public SubscriptionStatusCode getStatus() {
         return status;
     }
 
@@ -195,6 +196,34 @@ public class SubscriptionStatus extends DomainResource {
     }
 
     @Override
+    public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
+        if (visitor.preVisit(this)) {
+            visitor.visitStart(elementName, elementIndex, this);
+            if (visitor.visit(elementName, elementIndex, this)) {
+                // visit children
+                accept(id, "id", visitor);
+                accept(meta, "meta", visitor);
+                accept(implicitRules, "implicitRules", visitor);
+                accept(language, "language", visitor);
+                accept(text, "text", visitor);
+                accept(contained, "contained", visitor, Resource.class);
+                accept(extension, "extension", visitor, Extension.class);
+                accept(modifierExtension, "modifierExtension", visitor, Extension.class);
+                accept(status, "status", visitor);
+                accept(type, "type", visitor);
+                accept(eventsSinceSubscriptionStart, "eventsSinceSubscriptionStart", visitor);
+                accept(eventsInNotification, "eventsInNotification", visitor);
+                accept(notificationEvent, "notificationEvent", visitor, NotificationEvent.class);
+                accept(subscription, "subscription", visitor);
+                accept(topic, "topic", visitor);
+                accept(error, "error", visitor, CodeableConcept.class);
+            }
+            visitor.visitEnd(elementName, elementIndex, this);
+            visitor.postVisit(this);
+        }
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -259,7 +288,7 @@ public class SubscriptionStatus extends DomainResource {
     }
 
     public static class Builder extends DomainResource.Builder {
-        private com.ibm.fhir.model.type.code.SubscriptionStatus status;
+        private SubscriptionStatusCode status;
         private SubscriptionNotificationType type;
         private String eventsSinceSubscriptionStart;
         private Integer eventsInNotification;
@@ -492,7 +521,7 @@ public class SubscriptionStatus extends DomainResource {
          * @return
          *     A reference to this Builder instance
          */
-        public Builder status(com.ibm.fhir.model.type.code.SubscriptionStatus status) {
+        public Builder status(SubscriptionStatusCode status) {
             this.status = status;
             return this;
         }
@@ -1151,11 +1180,5 @@ public class SubscriptionStatus extends DomainResource {
                 return this;
             }
         }
-    }
-
-    @Override
-    public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
-        // TODO Auto-generated method stub
-        
     }
 }

@@ -86,7 +86,7 @@ public class ServiceRequest extends DomainResource {
         bindingName = "ServiceRequestStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The status of a service order.",
-        valueSet = "http://hl7.org/fhir/ValueSet/request-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/request-status|4.1.0"
     )
     @Required
     private final ServiceRequestStatus status;
@@ -95,7 +95,7 @@ public class ServiceRequest extends DomainResource {
         bindingName = "ServiceRequestIntent",
         strength = BindingStrength.Value.REQUIRED,
         description = "The kind of service request.",
-        valueSet = "http://hl7.org/fhir/ValueSet/request-intent|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/request-intent|4.1.0"
     )
     @Required
     private final ServiceRequestIntent intent;
@@ -112,7 +112,7 @@ public class ServiceRequest extends DomainResource {
         bindingName = "ServiceRequestPriority",
         strength = BindingStrength.Value.REQUIRED,
         description = "Identifies the level of importance to be assigned to actioning the request.",
-        valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.1.0"
     )
     private final ServiceRequestPriority priority;
     @Summary

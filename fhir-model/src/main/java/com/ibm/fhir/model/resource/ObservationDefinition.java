@@ -104,7 +104,7 @@ public class ObservationDefinition extends DomainResource {
         bindingName = "ObservationDataType",
         strength = BindingStrength.Value.REQUIRED,
         description = "Permitted data type for observation value.",
-        valueSet = "http://hl7.org/fhir/ValueSet/permitted-data-type|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/permitted-data-type|4.1.0"
     )
     private final List<ObservationDataType> permittedDataType;
     private final Boolean multipleResultsAllowed;
@@ -1400,7 +1400,7 @@ public class ObservationDefinition extends DomainResource {
             bindingName = "ObservationRangeCategory",
             strength = BindingStrength.Value.REQUIRED,
             description = "Codes identifying the category of observation range.",
-            valueSet = "http://hl7.org/fhir/ValueSet/observation-range-category|4.0.1"
+            valueSet = "http://hl7.org/fhir/ValueSet/observation-range-category|4.1.0"
         )
         private final ObservationRangeCategory category;
         private final Range range;
@@ -1422,7 +1422,7 @@ public class ObservationDefinition extends DomainResource {
             bindingName = "AdministrativeGender",
             strength = BindingStrength.Value.REQUIRED,
             description = "The gender of a person used for administrative purposes.",
-            valueSet = "http://hl7.org/fhir/ValueSet/administrative-gender|4.0.1"
+            valueSet = "http://hl7.org/fhir/ValueSet/administrative-gender|4.1.0"
         )
         private final AdministrativeGender gender;
         private final Range age;
