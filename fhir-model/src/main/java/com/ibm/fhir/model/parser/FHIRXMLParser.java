@@ -25,7 +25,6 @@ import javax.xml.stream.XMLStreamReader;
 
 import com.ibm.fhir.model.parser.exception.FHIRParserException;
 import com.ibm.fhir.model.resource.*;
-import com.ibm.fhir.model.resource.SubscriptionStatus;
 import com.ibm.fhir.model.type.*;
 import com.ibm.fhir.model.type.code.*;
 import com.ibm.fhir.model.type.Boolean;
@@ -49069,7 +49068,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     break;
                 case "status":
                     position = checkElementOrder("status", 8, position, false);
-                    builder.status((com.ibm.fhir.model.type.code.SubscriptionStatus) parseString(com.ibm.fhir.model.type.code.SubscriptionStatus.builder(), "status", reader, -1));
+                    builder.status((SubscriptionStatusCode) parseString(SubscriptionStatusCode.builder(), "status", reader, -1));
                     break;
                 case "contact":
                     position = checkElementOrder("contact", 9, position, true);
@@ -49175,7 +49174,99 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     }
 
     private SubscriptionStatus parseSubscriptionStatus(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        return null;
+        stackPush(elementName, elementIndex);
+        SubscriptionStatus.Builder builder = SubscriptionStatus.builder();
+        builder.setValidating(validating);
+        int position = -1;
+        int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, notificationEventElementIndex = 0, errorElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "id":
+                    position = checkElementOrder("id", 0, position, false);
+                    builder.id(parseJavaString("id", reader, -1));
+                    break;
+                case "meta":
+                    position = checkElementOrder("meta", 1, position, false);
+                    builder.meta(parseMeta("meta", reader, -1));
+                    break;
+                case "implicitRules":
+                    position = checkElementOrder("implicitRules", 2, position, false);
+                    builder.implicitRules(parseUri("implicitRules", reader, -1));
+                    break;
+                case "language":
+                    position = checkElementOrder("language", 3, position, false);
+                    builder.language((Code) parseString(Code.builder(), "language", reader, -1));
+                    break;
+                case "text":
+                    position = checkElementOrder("text", 4, position, false);
+                    builder.text(parseNarrative("text", reader, -1));
+                    break;
+                case "contained":
+                    position = checkElementOrder("contained", 5, position, true);
+                    builder.contained(parseResource("contained", reader, containedElementIndex++));
+                    break;
+                case "extension":
+                    position = checkElementOrder("extension", 6, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 7, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "status":
+                    position = checkElementOrder("status", 8, position, false);
+                    builder.status((SubscriptionStatusCode) parseString(SubscriptionStatusCode.builder(), "status", reader, -1));
+                    break;
+                case "type":
+                    position = checkElementOrder("type", 9, position, false);
+                    builder.type((SubscriptionNotificationType) parseString(SubscriptionNotificationType.builder(), "type", reader, -1));
+                    break;
+                case "eventsSinceSubscriptionStart":
+                    position = checkElementOrder("eventsSinceSubscriptionStart", 10, position, false);
+                    builder.eventsSinceSubscriptionStart(parseString("eventsSinceSubscriptionStart", reader, -1));
+                    break;
+                case "eventsInNotification":
+                    position = checkElementOrder("eventsInNotification", 11, position, false);
+                    builder.eventsInNotification(parseInteger("eventsInNotification", reader, -1));
+                    break;
+                case "notificationEvent":
+                    position = checkElementOrder("notificationEvent", 12, position, true);
+                    builder.notificationEvent(parseSubscriptionStatusNotificationEvent("notificationEvent", reader, notificationEventElementIndex++));
+                    break;
+                case "subscription":
+                    position = checkElementOrder("subscription", 13, position, false);
+                    builder.subscription(parseReference("subscription", reader, -1));
+                    break;
+                case "topic":
+                    position = checkElementOrder("topic", 14, position, false);
+                    builder.topic((Canonical) parseUri(Canonical.builder(), "topic", reader, -1));
+                    break;
+                case "error":
+                    position = checkElementOrder("error", 15, position, true);
+                    builder.error(parseCodeableConcept("error", reader, errorElementIndex++));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
     }
 
     private SubscriptionStatus.NotificationEvent parseSubscriptionStatusNotificationEvent(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {

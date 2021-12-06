@@ -39,7 +39,7 @@ public class Identifier extends Element {
         bindingName = "IdentifierUse",
         strength = BindingStrength.Value.REQUIRED,
         description = "Identifies the purpose for this identifier, if known .",
-        valueSet = "http://hl7.org/fhir/ValueSet/identifier-use|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/identifier-use|4.1.0"
     )
     private final IdentifierUse use;
     @Summary

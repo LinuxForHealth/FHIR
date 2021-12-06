@@ -102,7 +102,7 @@ public class SearchParameter extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.1.0"
     )
     @Required
     private final PublicationStatus status;
@@ -136,7 +136,7 @@ public class SearchParameter extends DomainResource {
         bindingName = "ResourceType",
         strength = BindingStrength.Value.REQUIRED,
         description = "One of the resource types defined as part of this version of FHIR.",
-        valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.1.0"
     )
     @Required
     private final List<ResourceType> base;
@@ -145,7 +145,7 @@ public class SearchParameter extends DomainResource {
         bindingName = "SearchParamType",
         strength = BindingStrength.Value.REQUIRED,
         description = "Data types allowed to be used for search parameters.",
-        valueSet = "http://hl7.org/fhir/ValueSet/search-param-type|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/search-param-type|4.1.0"
     )
     @Required
     private final SearchParamType type;
@@ -155,14 +155,14 @@ public class SearchParameter extends DomainResource {
         bindingName = "XPathUsageType",
         strength = BindingStrength.Value.REQUIRED,
         description = "How a search parameter relates to the set of elements returned by evaluating its xpath query.",
-        valueSet = "http://hl7.org/fhir/ValueSet/search-xpath-usage|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/search-xpath-usage|4.1.0"
     )
     private final XPathUsageType xpathUsage;
     @Binding(
         bindingName = "ResourceType",
         strength = BindingStrength.Value.REQUIRED,
         description = "One of the resource types defined as part of this version of FHIR.",
-        valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.1.0"
     )
     private final List<ResourceType> target;
     private final Boolean multipleOr;
@@ -171,14 +171,14 @@ public class SearchParameter extends DomainResource {
         bindingName = "SearchComparator",
         strength = BindingStrength.Value.REQUIRED,
         description = "What Search Comparator Codes are supported in search.",
-        valueSet = "http://hl7.org/fhir/ValueSet/search-comparator|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/search-comparator|4.1.0"
     )
     private final List<SearchComparator> comparator;
     @Binding(
         bindingName = "SearchModifierCode",
         strength = BindingStrength.Value.REQUIRED,
         description = "A supported modifier for a search parameter.",
-        valueSet = "http://hl7.org/fhir/ValueSet/search-modifier-code|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/search-modifier-code|4.1.0"
     )
     private final List<SearchModifierCode> modifier;
     private final List<String> chain;

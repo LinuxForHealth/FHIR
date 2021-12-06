@@ -57,7 +57,7 @@ public class Account extends DomainResource {
         bindingName = "AccountStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "Indicates whether the account is available to be used.",
-        valueSet = "http://hl7.org/fhir/ValueSet/account-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/account-status|4.1.0"
     )
     @Required
     private final AccountStatus status;

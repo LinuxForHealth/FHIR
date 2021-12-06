@@ -74,7 +74,7 @@ public class DiagnosticReport extends DomainResource {
         bindingName = "DiagnosticReportStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The status of the diagnostic report.",
-        valueSet = "http://hl7.org/fhir/ValueSet/diagnostic-report-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/diagnostic-report-status|4.1.0"
     )
     @Required
     private final DiagnosticReportStatus status;

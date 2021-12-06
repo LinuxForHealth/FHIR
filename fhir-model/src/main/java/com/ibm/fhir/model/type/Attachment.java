@@ -45,7 +45,7 @@ public class Attachment extends Element {
         bindingName = "MimeType",
         strength = BindingStrength.Value.REQUIRED,
         description = "The mime type of an attachment. Any valid mime type is allowed.",
-        valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.1.0"
     )
     private final Code contentType;
     @Summary

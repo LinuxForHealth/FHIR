@@ -67,7 +67,7 @@ public class Endpoint extends DomainResource {
         bindingName = "EndpointStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The status of the endpoint.",
-        valueSet = "http://hl7.org/fhir/ValueSet/endpoint-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/endpoint-status|4.1.0"
     )
     @Required
     private final EndpointStatus status;
@@ -100,7 +100,7 @@ public class Endpoint extends DomainResource {
         bindingName = "MimeType",
         strength = BindingStrength.Value.REQUIRED,
         description = "The mime type of an attachment. Any valid mime type is allowed.",
-        valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.1.0"
     )
     private final List<Code> payloadMimeType;
     @Summary

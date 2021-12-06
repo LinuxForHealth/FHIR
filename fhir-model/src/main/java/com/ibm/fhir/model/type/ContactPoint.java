@@ -39,7 +39,7 @@ public class ContactPoint extends Element {
         bindingName = "ContactPointSystem",
         strength = BindingStrength.Value.REQUIRED,
         description = "Telecommunications form for contact point.",
-        valueSet = "http://hl7.org/fhir/ValueSet/contact-point-system|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/contact-point-system|4.1.0"
     )
     private final ContactPointSystem system;
     @Summary
@@ -49,7 +49,7 @@ public class ContactPoint extends Element {
         bindingName = "ContactPointUse",
         strength = BindingStrength.Value.REQUIRED,
         description = "Use of contact point.",
-        valueSet = "http://hl7.org/fhir/ValueSet/contact-point-use|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/contact-point-use|4.1.0"
     )
     private final ContactPointUse use;
     @Summary
