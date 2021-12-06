@@ -210,7 +210,7 @@ public class ElementDefinition extends BackboneElement {
         bindingName = "PropertyRepresentation",
         strength = BindingStrength.Value.REQUIRED,
         description = "How a property is represented when serialized.",
-        valueSet = "http://hl7.org/fhir/ValueSet/property-representation|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/property-representation|4.1.0"
     )
     private final List<PropertyRepresentation> representation;
     @Summary
@@ -2736,7 +2736,7 @@ public class ElementDefinition extends BackboneElement {
             bindingName = "SlicingRules",
             strength = BindingStrength.Value.REQUIRED,
             description = "How slices are interpreted when evaluating an instance.",
-            valueSet = "http://hl7.org/fhir/ValueSet/resource-slicing-rules|4.0.1"
+            valueSet = "http://hl7.org/fhir/ValueSet/resource-slicing-rules|4.1.0"
         )
         @Required
         private final SlicingRules rules;
@@ -3157,7 +3157,7 @@ public class ElementDefinition extends BackboneElement {
                 bindingName = "DiscriminatorType",
                 strength = BindingStrength.Value.REQUIRED,
                 description = "How an element value is interpreted when discrimination is evaluated.",
-                valueSet = "http://hl7.org/fhir/ValueSet/discriminator-type|4.0.1"
+                valueSet = "http://hl7.org/fhir/ValueSet/discriminator-type|4.1.0"
             )
             @Required
             private final DiscriminatorType type;
@@ -3861,7 +3861,7 @@ public class ElementDefinition extends BackboneElement {
             bindingName = "AggregationMode",
             strength = BindingStrength.Value.REQUIRED,
             description = "How resource references can be aggregated.",
-            valueSet = "http://hl7.org/fhir/ValueSet/resource-aggregation-mode|4.0.1"
+            valueSet = "http://hl7.org/fhir/ValueSet/resource-aggregation-mode|4.1.0"
         )
         private final List<AggregationMode> aggregation;
         @Summary
@@ -3869,7 +3869,7 @@ public class ElementDefinition extends BackboneElement {
             bindingName = "ReferenceVersionRules",
             strength = BindingStrength.Value.REQUIRED,
             description = "Whether a reference needs to be version specific or version independent, or whether either can be used.",
-            valueSet = "http://hl7.org/fhir/ValueSet/reference-version-rules|4.0.1"
+            valueSet = "http://hl7.org/fhir/ValueSet/reference-version-rules|4.1.0"
         )
         private final ReferenceVersionRules versioning;
 
@@ -4846,7 +4846,7 @@ public class ElementDefinition extends BackboneElement {
             bindingName = "ConstraintSeverity",
             strength = BindingStrength.Value.REQUIRED,
             description = "SHALL applications comply with this constraint?",
-            valueSet = "http://hl7.org/fhir/ValueSet/constraint-severity|4.0.1"
+            valueSet = "http://hl7.org/fhir/ValueSet/constraint-severity|4.1.0"
         )
         @Required
         private final ConstraintSeverity severity;
@@ -5377,7 +5377,7 @@ public class ElementDefinition extends BackboneElement {
             bindingName = "BindingStrength",
             strength = BindingStrength.Value.REQUIRED,
             description = "Indication of the degree of conformance expectations associated with a binding.",
-            valueSet = "http://hl7.org/fhir/ValueSet/binding-strength|4.0.1"
+            valueSet = "http://hl7.org/fhir/ValueSet/binding-strength|4.1.0"
         )
         @Required
         private final BindingStrength strength;
@@ -5723,7 +5723,7 @@ public class ElementDefinition extends BackboneElement {
             bindingName = "MimeType",
             strength = BindingStrength.Value.REQUIRED,
             description = "The mime type of an attachment. Any valid mime type is allowed.",
-            valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.1"
+            valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.1.0"
         )
         private final Code language;
         @Summary

@@ -63,7 +63,7 @@ public class Invoice extends DomainResource {
         bindingName = "InvoiceStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "Codes identifying the lifecycle stage of an Invoice.",
-        valueSet = "http://hl7.org/fhir/ValueSet/invoice-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/invoice-status|4.1.0"
     )
     @Required
     private final InvoiceStatus status;
@@ -1779,7 +1779,7 @@ public class Invoice extends DomainResource {
                 bindingName = "InvoicePriceComponentType",
                 strength = BindingStrength.Value.REQUIRED,
                 description = "Codes indicating the kind of the price component.",
-                valueSet = "http://hl7.org/fhir/ValueSet/invoice-priceComponentType|4.0.1"
+                valueSet = "http://hl7.org/fhir/ValueSet/invoice-priceComponentType|4.1.0"
             )
             @Required
             private final InvoicePriceComponentType type;

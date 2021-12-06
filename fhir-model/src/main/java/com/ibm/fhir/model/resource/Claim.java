@@ -86,7 +86,7 @@ public class Claim extends DomainResource {
         bindingName = "ClaimStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "A code specifying the state of the resource instance.",
-        valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.1.0"
     )
     @Required
     private final ClaimStatus status;
@@ -111,7 +111,7 @@ public class Claim extends DomainResource {
         bindingName = "Use",
         strength = BindingStrength.Value.REQUIRED,
         description = "The purpose of the Claim: predetermination, preauthorization, claim.",
-        valueSet = "http://hl7.org/fhir/ValueSet/claim-use|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/claim-use|4.1.0"
     )
     @Required
     private final Use use;

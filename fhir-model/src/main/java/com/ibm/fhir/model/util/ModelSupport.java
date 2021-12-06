@@ -1050,17 +1050,13 @@ public final class ModelSupport {
     }
 
     private static Map<String, Class<?>> buildCodeSubtypeMap() {
-        try (InputStream in = ModelSupport.class.getClassLoader().getResourceAsStream("codeSubtypeClasses")) {
-            Map<String, Class<?>> codeSubtypeMap = new LinkedHashMap<>();
-            List<String> lines = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8)).lines().collect(Collectors.toList());
-            for (String className : lines) {
-                Class<?> codeSubtypeClass = Class.forName(className);
-                codeSubtypeMap.put(codeSubtypeClass.getSimpleName(), codeSubtypeClass);
+        Map<String, Class<?>> codeSubtypeMap = new LinkedHashMap<>();
+        for (Class<?> clazz : MODEL_CLASSES) {
+            if (clazz != Code.class && Code.class.isAssignableFrom(clazz)) {
+                codeSubtypeMap.put(clazz.getSimpleName(), clazz);
             }
-            return Collections.unmodifiableMap(codeSubtypeMap);
-        } catch (Exception e) {
-            throw new Error(e);
         }
+        return Collections.unmodifiableMap(codeSubtypeMap);
     }
 
     private static Map<String, Class<?>> buildDataTypeMap() {

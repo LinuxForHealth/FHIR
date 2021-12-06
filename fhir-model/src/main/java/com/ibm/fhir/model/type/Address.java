@@ -34,7 +34,7 @@ public class Address extends Element {
         bindingName = "AddressUse",
         strength = BindingStrength.Value.REQUIRED,
         description = "The use of an address.",
-        valueSet = "http://hl7.org/fhir/ValueSet/address-use|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/address-use|4.1.0"
     )
     private final AddressUse use;
     @Summary
@@ -42,7 +42,7 @@ public class Address extends Element {
         bindingName = "AddressType",
         strength = BindingStrength.Value.REQUIRED,
         description = "The type of an address (physical / postal).",
-        valueSet = "http://hl7.org/fhir/ValueSet/address-type|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/address-type|4.1.0"
     )
     private final AddressType type;
     @Summary
