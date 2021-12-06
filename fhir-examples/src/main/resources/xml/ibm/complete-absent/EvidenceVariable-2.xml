@@ -128,52 +128,6 @@
       <valueCode value="unknown"/>
     </extension>
   </date>
-  <publisher>
-    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-      <valueCode value="unknown"/>
-    </extension>
-  </publisher>
-  <contact>
-    <name>
-      <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-        <valueCode value="unknown"/>
-      </extension>
-    </name>
-    <telecom>
-      <system>
-        <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-          <valueCode value="unknown"/>
-        </extension>
-      </system>
-      <value>
-        <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-          <valueCode value="unknown"/>
-        </extension>
-      </value>
-      <use>
-        <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-          <valueCode value="unknown"/>
-        </extension>
-      </use>
-      <rank>
-        <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-          <valueCode value="unknown"/>
-        </extension>
-      </rank>
-      <period>
-        <start>
-          <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-            <valueCode value="unknown"/>
-          </extension>
-        </start>
-        <end>
-          <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-            <valueCode value="unknown"/>
-          </extension>
-        </end>
-      </period>
-    </telecom>
-  </contact>
   <description>
     <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
       <valueCode value="unknown"/>
@@ -230,47 +184,52 @@
       </code>
     </valueQuantity>
   </useContext>
-  <jurisdiction>
-    <coding>
-      <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-        <valueCode value="unknown"/>
-      </extension>
-    </coding>
-  </jurisdiction>
-  <copyright>
+  <publisher>
     <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
       <valueCode value="unknown"/>
     </extension>
-  </copyright>
-  <approvalDate>
-    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-      <valueCode value="unknown"/>
-    </extension>
-  </approvalDate>
-  <lastReviewDate>
-    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-      <valueCode value="unknown"/>
-    </extension>
-  </lastReviewDate>
-  <effectivePeriod>
-    <start>
+  </publisher>
+  <contact>
+    <name>
       <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
         <valueCode value="unknown"/>
       </extension>
-    </start>
-    <end>
-      <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-        <valueCode value="unknown"/>
-      </extension>
-    </end>
-  </effectivePeriod>
-  <topic>
-    <coding>
-      <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-        <valueCode value="unknown"/>
-      </extension>
-    </coding>
-  </topic>
+    </name>
+    <telecom>
+      <system>
+        <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+          <valueCode value="unknown"/>
+        </extension>
+      </system>
+      <value>
+        <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+          <valueCode value="unknown"/>
+        </extension>
+      </value>
+      <use>
+        <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+          <valueCode value="unknown"/>
+        </extension>
+      </use>
+      <rank>
+        <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+          <valueCode value="unknown"/>
+        </extension>
+      </rank>
+      <period>
+        <start>
+          <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+            <valueCode value="unknown"/>
+          </extension>
+        </start>
+        <end>
+          <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+            <valueCode value="unknown"/>
+          </extension>
+        </end>
+      </period>
+    </telecom>
+  </contact>
   <author>
     <name>
       <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
@@ -509,11 +468,16 @@
       </extension>
     </resource>
   </relatedArtifact>
-  <type>
+  <actual>
     <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
       <valueCode value="unknown"/>
     </extension>
-  </type>
+  </actual>
+  <characteristicCombination>
+    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+      <valueCode value="unknown"/>
+    </extension>
+  </characteristicCombination>
   <characteristic>
     <description>
       <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
@@ -525,13 +489,78 @@
         <valueCode value="unknown"/>
       </extension>
     </definitionCanonical>
-    <usageContext>
-      <code>
+    <method>
+      <coding>
         <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
           <valueCode value="unknown"/>
         </extension>
-      </code>
-      <valueQuantity>
+      </coding>
+    </method>
+    <device>
+      <reference>
+        <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+          <valueCode value="unknown"/>
+        </extension>
+      </reference>
+      <type>
+        <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+          <valueCode value="unknown"/>
+        </extension>
+      </type>
+      <identifier>
+        <use>
+          <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+            <valueCode value="unknown"/>
+          </extension>
+        </use>
+        <type>
+          <coding>
+            <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+              <valueCode value="unknown"/>
+            </extension>
+          </coding>
+        </type>
+        <system>
+          <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+            <valueCode value="unknown"/>
+          </extension>
+        </system>
+        <value>
+          <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+            <valueCode value="unknown"/>
+          </extension>
+        </value>
+        <period>
+          <start>
+            <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+              <valueCode value="unknown"/>
+            </extension>
+          </start>
+          <end>
+            <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+              <valueCode value="unknown"/>
+            </extension>
+          </end>
+        </period>
+      </identifier>
+      <display>
+        <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+          <valueCode value="unknown"/>
+        </extension>
+      </display>
+    </device>
+    <exclude>
+      <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+        <valueCode value="unknown"/>
+      </extension>
+    </exclude>
+    <timeFromStart>
+      <description>
+        <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+          <valueCode value="unknown"/>
+        </extension>
+      </description>
+      <quantity>
         <value>
           <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
             <valueCode value="unknown"/>
@@ -557,41 +586,48 @@
             <valueCode value="unknown"/>
           </extension>
         </code>
-      </valueQuantity>
-    </usageContext>
-    <exclude>
-      <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-        <valueCode value="unknown"/>
-      </extension>
-    </exclude>
-    <participantEffectivePeriod>
-      <start>
-        <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-          <valueCode value="unknown"/>
-        </extension>
-      </start>
-      <end>
-        <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-          <valueCode value="unknown"/>
-        </extension>
-      </end>
-    </participantEffectivePeriod>
-    <timeFromStart>
-      <value>
-        <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-          <valueCode value="unknown"/>
-        </extension>
-      </value>
-      <comparator>
-        <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-          <valueCode value="unknown"/>
-        </extension>
-      </comparator>
-      <unit>
-        <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-          <valueCode value="unknown"/>
-        </extension>
-      </unit>
+      </quantity>
+      <range>
+        <low>
+          <value>
+            <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+              <valueCode value="unknown"/>
+            </extension>
+          </value>
+          <unit>
+            <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+              <valueCode value="unknown"/>
+            </extension>
+          </unit>
+          <system>
+            <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+              <valueCode value="unknown"/>
+            </extension>
+          </system>
+          <code>
+            <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+              <valueCode value="unknown"/>
+            </extension>
+          </code>
+        </low>
+      </range>
+      <note>
+        <authorString>
+          <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+            <valueCode value="unknown"/>
+          </extension>
+        </authorString>
+        <time>
+          <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+            <valueCode value="unknown"/>
+          </extension>
+        </time>
+        <text>
+          <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+            <valueCode value="unknown"/>
+          </extension>
+        </text>
+      </note>
     </timeFromStart>
     <groupMeasure>
       <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
@@ -599,4 +635,50 @@
       </extension>
     </groupMeasure>
   </characteristic>
+  <handling>
+    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+      <valueCode value="unknown"/>
+    </extension>
+  </handling>
+  <category>
+    <name>
+      <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+        <valueCode value="unknown"/>
+      </extension>
+    </name>
+    <valueCodeableConcept>
+      <coding>
+        <system>
+          <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+            <valueCode value="unknown"/>
+          </extension>
+        </system>
+        <version>
+          <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+            <valueCode value="unknown"/>
+          </extension>
+        </version>
+        <code>
+          <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+            <valueCode value="unknown"/>
+          </extension>
+        </code>
+        <display>
+          <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+            <valueCode value="unknown"/>
+          </extension>
+        </display>
+        <userSelected>
+          <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+            <valueCode value="unknown"/>
+          </extension>
+        </userSelected>
+      </coding>
+      <text>
+        <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+          <valueCode value="unknown"/>
+        </extension>
+      </text>
+    </valueCodeableConcept>
+  </category>
 </EvidenceVariable>

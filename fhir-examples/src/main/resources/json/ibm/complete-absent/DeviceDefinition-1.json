@@ -272,62 +272,6 @@
     ],
     "shelfLifeStorage": [
         {
-            "identifier": {
-                "_use": {
-                    "extension": [
-                        {
-                            "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
-                            "valueCode": "unknown"
-                        }
-                    ]
-                },
-                "type": {
-                    "coding": [
-                        {
-                            "extension": [
-                                {
-                                    "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
-                                    "valueCode": "unknown"
-                                }
-                            ]
-                        }
-                    ]
-                },
-                "_system": {
-                    "extension": [
-                        {
-                            "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
-                            "valueCode": "unknown"
-                        }
-                    ]
-                },
-                "_value": {
-                    "extension": [
-                        {
-                            "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
-                            "valueCode": "unknown"
-                        }
-                    ]
-                },
-                "period": {
-                    "_start": {
-                        "extension": [
-                            {
-                                "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
-                                "valueCode": "unknown"
-                            }
-                        ]
-                    },
-                    "_end": {
-                        "extension": [
-                            {
-                                "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
-                                "valueCode": "unknown"
-                            }
-                        ]
-                    }
-                }
-            },
             "type": {
                 "coding": [
                     {
@@ -382,15 +326,7 @@
                     ]
                 }
             },
-            "period": {
-                "_value": {
-                    "extension": [
-                        {
-                            "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
-                            "valueCode": "unknown"
-                        }
-                    ]
-                },
+            "periodDuration": {
                 "_comparator": {
                     "extension": [
                         {

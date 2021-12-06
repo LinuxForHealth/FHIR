@@ -244,11 +244,6 @@
       </code>
     </detailQuantity>
     <dueDuration>
-      <value>
-        <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-          <valueCode value="unknown"/>
-        </extension>
-      </value>
       <comparator>
         <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
           <valueCode value="unknown"/>
@@ -259,6 +254,16 @@
           <valueCode value="unknown"/>
         </extension>
       </unit>
+      <system>
+        <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+          <valueCode value="unknown"/>
+        </extension>
+      </system>
+      <code>
+        <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+          <valueCode value="unknown"/>
+        </extension>
+      </code>
     </dueDuration>
   </target>
   <statusDate>
