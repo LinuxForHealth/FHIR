@@ -1,0 +1,149 @@
+{
+    "resourceType": "ManufacturedItemDefinition",
+    "meta": {
+        "versionId": "fKVvdXAcNP",
+        "lastUpdated": "2021-12-10T02:40:04.365713-05:00",
+        "source": "6BMGYoYxhu",
+        "profile": [
+            "MVcA5nWMPs"
+        ],
+        "security": [
+            {
+                "system": "ZXu2C9fFQU",
+                "version": "KO1J73KN2S",
+                "code": "sgR1Dr4oMF",
+                "display": "Vmrc5y8mwa",
+                "userSelected": true
+            }
+        ],
+        "tag": [
+            {
+                "system": "r_GkOayN2a",
+                "version": "c7DaUIUNqj",
+                "code": "PoZU_BtIdE",
+                "display": "bB8oHo5QJx",
+                "userSelected": true
+            },
+            {
+                "code": "ibm/complete-mock"
+            }
+        ]
+    },
+    "implicitRules": "TI_igw71uC",
+    "language": "en-US",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>"
+    },
+    "identifier": [
+        {
+            "use": "old",
+            "type": {
+                "coding": [
+                    {
+                        "system": "hQGEN35U7l",
+                        "version": "4HMT7A3Ddp",
+                        "code": "ZMSOqoKGI6",
+                        "display": "6NTIgWxzR_",
+                        "userSelected": true
+                    }
+                ],
+                "text": "t3IHXJYO0W"
+            },
+            "system": "x_ha4XjVFO",
+            "value": "ME91u6fhN7",
+            "period": {
+                "start": "2021-12-10T02:40:04.372653-05:00"
+            }
+        }
+    ],
+    "status": "retired",
+    "manufacturedDoseForm": {
+        "coding": [
+            {
+                "system": "0GQb0vGPpJ",
+                "version": "_CcktrAUzI",
+                "code": "QVa2SE6usd",
+                "display": "rknius_HdI",
+                "userSelected": true
+            }
+        ],
+        "text": "_YISnNHLzc"
+    },
+    "unitOfPresentation": {
+        "coding": [
+            {
+                "system": "_qNYQDyQtw",
+                "version": "guYnlbqXEK",
+                "code": "aIHvFfP7uZ",
+                "display": "LqL3Xf2Jur",
+                "userSelected": true
+            }
+        ],
+        "text": "r2vs1WAw4n"
+    },
+    "manufacturer": [
+        {
+            "reference": "Organization/Egw5wnmTfV",
+            "type": "Organization",
+            "identifier": {
+                "use": "secondary",
+                "type": {
+                    "coding": [
+                        {
+                            "system": "P_A7mdBFLA",
+                            "version": "EV7yAmNE3v",
+                            "code": "BHrplHlmKP",
+                            "display": "u2mDOQx30t",
+                            "userSelected": true
+                        }
+                    ],
+                    "text": "fmIKviXjaP"
+                },
+                "system": "MfUarieF1i",
+                "value": "VU9ikl9NKO",
+                "period": {
+                    "start": "2021-12-10T02:40:04.370584-05:00"
+                }
+            },
+            "display": "AaUHWqbb7M"
+        }
+    ],
+    "ingredient": [
+        {
+            "coding": [
+                {
+                    "system": "TnFrG2zBkK",
+                    "version": "i8NcV693xh",
+                    "code": "toTZk0yN8W",
+                    "display": "0EOX2uj5ga",
+                    "userSelected": true
+                }
+            ],
+            "text": "hZrk8ZKVtW"
+        }
+    ],
+    "property": [
+        {
+            "type": {
+                "coding": [
+                    {
+                        "system": "FUpIylnEZd",
+                        "version": "JIKnOtOkvn",
+                        "code": "H0QoSBXiWu",
+                        "display": "P7VNMrlt8_",
+                        "userSelected": true
+                    }
+                ],
+                "text": "sArYcGtFqo"
+            },
+            "valueQuantity": {
+                "value": 1258295912,
+                "comparator": "<",
+                "unit": "5aE3brCzJs",
+                "system": "COMmWf5bJD",
+                "code": "G5OlBqAfMo"
+            }
+        }
+    ]
+}
