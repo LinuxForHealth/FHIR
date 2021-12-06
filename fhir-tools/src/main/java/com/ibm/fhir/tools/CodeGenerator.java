@@ -2422,9 +2422,13 @@ public class CodeGenerator {
             }
 
             if (isResource(structureDefinition) && isDataType(definition)) {
-                imports.add("com.ibm.fhir.model.type." + fieldType);
+                if (!fieldType.startsWith("com.ibm.fhir.model.type.")) {
+                    imports.add("com.ibm.fhir.model.type." + fieldType);
+                }
             } else if (hasRequiredBinding(elementDefinition)) {
-                imports.add("com.ibm.fhir.model.type.code." + fieldType);
+                if (!fieldType.startsWith("com.ibm.fhir.model.type.code.")) {
+                    imports.add("com.ibm.fhir.model.type.code." + fieldType);
+                }
             }
 
             if (isProhibited(elementDefinition)) {
@@ -3622,6 +3626,8 @@ public class CodeGenerator {
                     bindingName = "MessageHeaderResponseRequest";
                 } else if ("NutritiionOrderIntent".equals(bindingName)) {
                     bindingName = "NutritionOrderIntent";
+                } else if ("SubscriptionStatus".equals(bindingName)) {
+                    bindingName = "SubscriptionStatusCode";
                 }
 
                 bindingName = titleCase(bindingName);
@@ -4421,6 +4427,11 @@ public class CodeGenerator {
                     fieldType = "MessageHeaderResponseRequest";
                 } else if ("NutritiionOrderIntent".equals(fieldType)) {
                     fieldType = "NutritionOrderIntent";
+                } else if ("SubscriptionStatus".equals(fieldType)) {
+                    // Rename to avoid conflict with the SubscriptionStatus resource type.
+                    // This is easier than package-qualifying it all over because the parser uses
+                    // wildcard imports on both packages and uses the field name in method names.
+                    fieldType = "SubscriptionStatusCode";
                 }
                 fieldType = titleCase(fieldType);
             } else if ("Code".equals(fieldType) && containsBackboneElement(structureDefinition, "code")) {
@@ -4676,6 +4687,11 @@ public class CodeGenerator {
     }
 
     private boolean isCodeSubtype(String fieldType) {
+        if (resourceClassNames.contains(fieldType)) {
+            // when a code subtype has the same name as a resource type, we always package-qualify it
+            // and so this check ensures that we handle the unqualified name as NOT a code subtype
+            return false;
+        }
         String className = fieldType.replace("com.ibm.fhir.model.type.", "")
                 .replace("com.ibm.fhir.model.resource.", "")
                 .replace("java.util.", "")

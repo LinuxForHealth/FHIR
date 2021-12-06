@@ -61,7 +61,7 @@ public class SupplyRequest extends DomainResource {
         bindingName = "SupplyRequestStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "Status of the supply request.",
-        valueSet = "http://hl7.org/fhir/ValueSet/supplyrequest-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/supplyrequest-status|4.1.0"
     )
     private final SupplyRequestStatus status;
     @Summary
@@ -77,7 +77,7 @@ public class SupplyRequest extends DomainResource {
         bindingName = "RequestPriority",
         strength = BindingStrength.Value.REQUIRED,
         description = "Identifies the level of importance to be assigned to actioning the request.",
-        valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.1.0"
     )
     private final RequestPriority priority;
     @Summary

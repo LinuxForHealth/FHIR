@@ -185,7 +185,7 @@ public class AuditEvent extends DomainResource {
         bindingName = "AuditEventAction",
         strength = BindingStrength.Value.REQUIRED,
         description = "Indicator for type of action performed during the event that generated the event.",
-        valueSet = "http://hl7.org/fhir/ValueSet/audit-event-action|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/audit-event-action|4.1.0"
     )
     private final AuditEventAction action;
     private final Period period;
@@ -197,7 +197,7 @@ public class AuditEvent extends DomainResource {
         bindingName = "AuditEventOutcome",
         strength = BindingStrength.Value.REQUIRED,
         description = "Indicates whether the event succeeded or failed.",
-        valueSet = "http://hl7.org/fhir/ValueSet/audit-event-outcome|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/audit-event-outcome|4.1.0"
     )
     private final AuditEventOutcome outcome;
     @Summary
@@ -1805,7 +1805,7 @@ public class AuditEvent extends DomainResource {
                 bindingName = "AuditEventAgentNetworkType",
                 strength = BindingStrength.Value.REQUIRED,
                 description = "The type of network access point of this agent in the audit event.",
-                valueSet = "http://hl7.org/fhir/ValueSet/network-type|4.0.1"
+                valueSet = "http://hl7.org/fhir/ValueSet/network-type|4.1.0"
             )
             private final AuditEventAgentNetworkType type;
 

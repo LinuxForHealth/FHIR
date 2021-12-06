@@ -98,7 +98,7 @@ public class List extends DomainResource {
         bindingName = "ListStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The current state of the list.",
-        valueSet = "http://hl7.org/fhir/ValueSet/list-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/list-status|4.1.0"
     )
     @Required
     private final ListStatus status;
@@ -107,7 +107,7 @@ public class List extends DomainResource {
         bindingName = "ListMode",
         strength = BindingStrength.Value.REQUIRED,
         description = "The processing mode that applies to this list.",
-        valueSet = "http://hl7.org/fhir/ValueSet/list-mode|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/list-mode|4.1.0"
     )
     @Required
     private final ListMode mode;
