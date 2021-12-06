@@ -1,28 +1,28 @@
 <Substance xmlns="http://hl7.org/fhir">
   <meta>
-    <versionId value="87HHieENAq"/>
-    <lastUpdated value="2021-04-12T14:34:28.417-05:00"/>
-    <source value="tMbTgUO80H"/>
-    <profile value="TZR405j93_"/>
+    <versionId value="M8bDgRxxga"/>
+    <lastUpdated value="2021-12-10T02:40:15.216164-05:00"/>
+    <source value="Bt0oUAHlNB"/>
+    <profile value="dO9Nk9hKIl"/>
     <security>
-      <system value="o2wRecD3U9"/>
-      <version value="OsiXUey4dH"/>
-      <code value="OW_gyn6JWb"/>
-      <display value="teyRKBMd9N"/>
+      <system value="6JhfHfOjD_"/>
+      <version value="ICIbZaOpqv"/>
+      <code value="wRGAubtZNw"/>
+      <display value="vqb5TBb8Bu"/>
       <userSelected value="true"/>
     </security>
     <tag>
-      <system value="J8IeUhgdnc"/>
-      <version value="x_XibPeOBE"/>
-      <code value="XXvJC240B3"/>
-      <display value="26SRqbyT15"/>
+      <system value="inoUDSqEBQ"/>
+      <version value="vXGCYyrGaO"/>
+      <code value="g0OyoyFkOC"/>
+      <display value="GA_MhG3N_D"/>
       <userSelected value="true"/>
     </tag>
     <tag>
       <code value="ibm/complete-mock"/>
     </tag>
   </meta>
-  <implicitRules value="px7jdE0iJ6"/>
+  <implicitRules value="Fm3vpnDq3D"/>
   <language value="en-US"/>
   <text>
     <status value="empty"/>
@@ -32,97 +32,95 @@
     <use value="temp"/>
     <type>
       <coding>
-        <system value="p4HbDBjVBD"/>
-        <version value="onysGiD_vJ"/>
-        <code value="le48gaoA8c"/>
-        <display value="qyugoDsOT0"/>
+        <system value="YywRg9EkxE"/>
+        <version value="iJ05wyRrNE"/>
+        <code value="Jlwn90xL3s"/>
+        <display value="bBmw79iN8f"/>
         <userSelected value="true"/>
       </coding>
-      <text value="yNzo_icEoC"/>
+      <text value="LA6FjeZDhE"/>
     </type>
-    <system value="S19WFli1I5"/>
-    <value value="MFLLLAvbqp"/>
+    <system value="qovrGJ_nBV"/>
+    <value value="jBBqQhV25i"/>
     <period>
-      <start value="2021-04-12T14:34:28.411-05:00"/>
-      <end value="2021-04-12T14:34:28.412-05:00"/>
+      <start value="2021-12-10T02:40:15.220213-05:00"/>
     </period>
   </identifier>
   <status value="entered-in-error"/>
   <category>
     <coding>
-      <system value="BF6ondK0nx"/>
-      <version value="VIpZZ9HQ5h"/>
-      <code value="5ow9KSthJu"/>
-      <display value="hZxBP0McYk"/>
+      <system value="ezgTWPzmzo"/>
+      <version value="imNUV5HELg"/>
+      <code value="AAdK2pxdDT"/>
+      <display value="OpHFHnmXUi"/>
       <userSelected value="true"/>
     </coding>
-    <text value="kvJyDvxJ8w"/>
+    <text value="e9LQjSsIW7"/>
   </category>
   <code>
     <coding>
-      <system value="1iJwRd0acD"/>
-      <version value="rhujT2JW0T"/>
-      <code value="ps5UIeeDAC"/>
-      <display value="lUENaeZ7ct"/>
+      <system value="ZKlJyZDhJX"/>
+      <version value="igUpWA8rDB"/>
+      <code value="msmeE09vHr"/>
+      <display value="hxY6xAE82U"/>
       <userSelected value="true"/>
     </coding>
-    <text value="4vwolz97oz"/>
+    <text value="8OTRDESB_S"/>
   </code>
-  <description value="AbbWAsYg0L"/>
+  <description value="sHRzW3QC_3"/>
   <instance>
     <identifier>
-      <use value="usual"/>
+      <use value="secondary"/>
       <type>
         <coding>
-          <system value="Rq3_SwtXKX"/>
-          <version value="fic2gSNflX"/>
-          <code value="lRFyWsuJHU"/>
-          <display value="1pqkehlhJZ"/>
+          <system value="GTzfrgDYCc"/>
+          <version value="4KRPinKAYr"/>
+          <code value="FR04Rym0b6"/>
+          <display value="Pabv2y7Kxw"/>
           <userSelected value="true"/>
         </coding>
-        <text value="hf7bo3AGB0"/>
+        <text value="Ctt9lT6rez"/>
       </type>
-      <system value="QrB5Vj2Veo"/>
-      <value value="xsOyfscD0g"/>
+      <system value="LYgONoB6fS"/>
+      <value value="3lYZeE0CFQ"/>
       <period>
-        <start value="2021-04-12T14:34:28.415-05:00"/>
-        <end value="2021-04-12T14:34:28.415-05:00"/>
+        <start value="2021-12-10T02:40:15.230182-05:00"/>
       </period>
     </identifier>
-    <expiry value="2021-04-12T14:34:28.416-05:00"/>
+    <expiry value="2021-12-10T02:40:15.222972-05:00"/>
     <quantity>
-      <value value="310852995584"/>
-      <unit value="Z0JJVFsH7O"/>
-      <system value="Xu5as2ItwV"/>
-      <code value="YbSSLM4YhM"/>
+      <value value="1079504948"/>
+      <unit value="wPTzMvvRGL"/>
+      <system value="9jv8lEPH1X"/>
+      <code value="OAX2g6yvJv"/>
     </quantity>
   </instance>
   <ingredient>
     <quantity>
       <numerator>
-        <value value="547159964472"/>
-        <comparator value="&gt;"/>
-        <unit value="NGfKkpux5B"/>
-        <system value="GMxnu3vtEd"/>
-        <code value="koTsNM1Dwj"/>
+        <value value="779772487"/>
+        <comparator value="&gt;="/>
+        <unit value="yLthwmIWZe"/>
+        <system value="Q_r80pJexw"/>
+        <code value="EKdLdbthAP"/>
       </numerator>
       <denominator>
-        <value value="142345965339"/>
-        <comparator value="&gt;"/>
-        <unit value="NorXxLlBZy"/>
-        <system value="cyIjRpZP8O"/>
-        <code value="ZA5trJYvw8"/>
+        <value value="954128978"/>
+        <comparator value="&lt;"/>
+        <unit value="u6dwzNbJXS"/>
+        <system value="Nrn8z39r7s"/>
+        <code value="Y_NWOYlmYQ"/>
       </denominator>
     </quantity>
     <substanceCodeableConcept>
       <coding>
-        <system value="xsYN61osyW"/>
-        <version value="Y__sc99HJz"/>
-        <code value="4EGS64LDaQ"/>
-        <display value="Aqno0cE9Sd"/>
+        <system value="5h63NHsoz8"/>
+        <version value="CXPiBQY7O6"/>
+        <code value="1U6TM3HfQT"/>
+        <display value="Tc9lxamgdm"/>
         <userSelected value="true"/>
       </coding>
-      <text value="JEKZrQ2Q8j"/>
+      <text value="JHD2Hh9Bn7"/>
     </substanceCodeableConcept>
   </ingredient>
 </Substance>
