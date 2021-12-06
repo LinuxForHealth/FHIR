@@ -1,0 +1,159 @@
+{
+    "resourceType": "ManufacturedItemDefinition",
+    "meta": {
+        "versionId": "A1jE4VkzLI",
+        "lastUpdated": "2021-12-10T02:40:04.375881-05:00",
+        "source": "DCXOpk67PZ",
+        "profile": [
+            "IOPuk1ZX7K"
+        ],
+        "security": [
+            {
+                "system": "ifO1V4UsP_",
+                "version": "FkPf30r0UL",
+                "code": "uQznq0378B",
+                "display": "zHfjyOO9Ha",
+                "userSelected": true
+            }
+        ],
+        "tag": [
+            {
+                "system": "4SUyOwozwB",
+                "version": "Zi09bl9ne4",
+                "code": "hT5cHXCgMg",
+                "display": "B4EXRSahuk",
+                "userSelected": true
+            },
+            {
+                "code": "ibm/complete-mock"
+            }
+        ]
+    },
+    "implicitRules": "Tv5DHX3dO8",
+    "language": "en-US",
+    "text": {
+        "status": "additional",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>"
+    },
+    "identifier": [
+        {
+            "use": "temp",
+            "type": {
+                "coding": [
+                    {
+                        "system": "vK9L9TyeTf",
+                        "version": "15geI27UHR",
+                        "code": "yN5Am4tKwQ",
+                        "display": "3spYUiU0an",
+                        "userSelected": true
+                    }
+                ],
+                "text": "nxq9YJ8zC1"
+            },
+            "system": "pVZMMn9ohM",
+            "value": "W0OVpYBk1B",
+            "period": {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                        "valueCode": "unknown"
+                    }
+                ]
+            }
+        }
+    ],
+    "status": "draft",
+    "manufacturedDoseForm": {
+        "coding": [
+            {
+                "system": "uWONXMYovW",
+                "version": "h41bVTye7T",
+                "code": "hPOXGfsBOr",
+                "display": "Y7KIk6n_wG",
+                "userSelected": true
+            }
+        ],
+        "text": "Vi3pVGBftm"
+    },
+    "unitOfPresentation": {
+        "coding": [
+            {
+                "system": "51e4YWDjIF",
+                "version": "xOb6X1mOfk",
+                "code": "ao3OhPNKlj",
+                "display": "Q9o1ceQ9CE",
+                "userSelected": true
+            }
+        ],
+        "text": "UVYcjrnGWu"
+    },
+    "manufacturer": [
+        {
+            "reference": "Organization/nh1PSuUdso",
+            "type": "Organization",
+            "identifier": {
+                "use": "official",
+                "type": {
+                    "coding": [
+                        {
+                            "system": "Ro73m78_Cx",
+                            "version": "KWKpJPULre",
+                            "code": "QOpoigUkYc",
+                            "display": "xskF_TI6Ee",
+                            "userSelected": true
+                        }
+                    ],
+                    "text": "maqUDht0ZZ"
+                },
+                "system": "DkrebmgkZ6",
+                "value": "jlMDhNHjRv",
+                "period": {
+                    "start": "2021-12-10T02:40:04.378295-05:00"
+                }
+            },
+            "display": "eXytvtE0ql"
+        }
+    ],
+    "ingredient": [
+        {
+            "coding": [
+                {
+                    "system": "YAnMfeaZfD",
+                    "version": "TP50X6mOBL",
+                    "code": "cWDHtlVZdI",
+                    "display": "BIPEKMbCgz",
+                    "userSelected": true
+                }
+            ],
+            "text": "O1OhWwtN0k"
+        }
+    ],
+    "property": [
+        {
+            "type": {
+                "coding": [
+                    {
+                        "system": "ZGfQP69KWT",
+                        "version": "SNgDi1VCZs",
+                        "code": "p4wwO989YZ",
+                        "display": "hXKFTWqxa4",
+                        "userSelected": true
+                    }
+                ],
+                "text": "mcbUESuXgs"
+            },
+            "valueCodeableConcept": {
+                "coding": [
+                    {
+                        "system": "LUOYeCwWWj",
+                        "version": "bGSSjlX06L",
+                        "code": "AlpJYC1YQ9",
+                        "display": "ODosmoIYlq",
+                        "userSelected": true
+                    }
+                ],
+                "text": "4WkScaSG3g"
+            }
+        }
+    ]
+}

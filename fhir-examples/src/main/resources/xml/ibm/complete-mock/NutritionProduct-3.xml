@@ -1,0 +1,268 @@
+<NutritionProduct xmlns="http://hl7.org/fhir">
+  <meta>
+    <versionId value="hAS0fYnWOW"/>
+    <lastUpdated value="2021-12-10T02:40:15.104214-05:00"/>
+    <source value="DEqSSSwqUy"/>
+    <profile value="b6Nv8i_pfr"/>
+    <security>
+      <system value="oWiYuuDDwT"/>
+      <version value="6iaR9ddiqS"/>
+      <code value="tncbRrBZAP"/>
+      <display value="7Pt6Ww0EV9"/>
+      <userSelected value="true"/>
+    </security>
+    <tag>
+      <system value="lVpTi0_2Kx"/>
+      <version value="UfltauZcR7"/>
+      <code value="Bjeyw4iS9n"/>
+      <display value="dJFvI2Gm0U"/>
+      <userSelected value="true"/>
+    </tag>
+    <tag>
+      <code value="ibm/complete-mock"/>
+    </tag>
+  </meta>
+  <implicitRules value="Zs3KNj85U1"/>
+  <language value="en-US"/>
+  <text>
+    <status value="additional"/>
+    <div xmlns="http://www.w3.org/1999/xhtml"></div>
+  </text>
+  <status value="active"/>
+  <category>
+    <coding>
+      <system value="jvYbr6KYuL"/>
+      <version value="qXkkBhscz6"/>
+      <code value="_7KtWzPwS7"/>
+      <display value="uJBMPtQjSH"/>
+      <userSelected value="true"/>
+    </coding>
+    <text value="xVjV1Xe2GK"/>
+  </category>
+  <code>
+    <coding>
+      <system value="IHs71TNkan"/>
+      <version value="0hw45EU4LT"/>
+      <code value="tSgpCXRI_d"/>
+      <display value="3dpOKijCYW"/>
+      <userSelected value="true"/>
+    </coding>
+    <text value="fV_G8zkwzO"/>
+  </code>
+  <manufacturer>
+    <reference value="Organization/5GtTsymhl7"/>
+    <type value="Organization"/>
+    <identifier>
+      <use value="secondary"/>
+      <type>
+        <coding>
+          <system value="lNX6hccnF8"/>
+          <version value="JMf7M42Y7J"/>
+          <code value="HvIJ7JnXfz"/>
+          <display value="24OUyLWb1x"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="wf5Bg8AtWp"/>
+      </type>
+      <system value="VIjelz3h9i"/>
+      <value value="rcwv3Avb6M"/>
+      <period>
+        <start value="2021-12-10T02:40:15.110334-05:00"/>
+      </period>
+    </identifier>
+    <display value="_jcoR2kXGF"/>
+  </manufacturer>
+  <nutrient>
+    <item>
+      <concept>
+        <coding>
+          <system value="R2HSDOY4Ub"/>
+          <version value="evzO1I7fTg"/>
+          <code value="25_y0c956z"/>
+          <display value="TsdBFtRom3"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="_1VGksjSmm"/>
+      </concept>
+      <reference>
+        <reference value="Basic/VjvQjigucw"/>
+        <type value="Basic"/>
+        <identifier>
+          <use value="usual"/>
+          <type>
+            <coding>
+              <system value="VFlRBmDYgq"/>
+              <version value="C0h_BoH_wI"/>
+              <code value="DGWGl_E7Ut"/>
+              <display value="2wdMkT_xRY"/>
+              <userSelected value="true"/>
+            </coding>
+            <text value="Gf56BmUznb"/>
+          </type>
+          <system value="bQRLxlLsvG"/>
+          <value value="SZFUN8OszU"/>
+          <period>
+            <start value="2021-12-10T02:40:15.103009-05:00"/>
+          </period>
+        </identifier>
+        <display value="1aWw3lkcXa"/>
+      </reference>
+    </item>
+    <amount>
+      <numerator>
+        <value value="776703953"/>
+        <comparator value="&lt;="/>
+        <unit value="gk1Et5MTsG"/>
+        <system value="gMWWFxv4HB"/>
+        <code value="FSTuXiMlk7"/>
+      </numerator>
+      <denominator>
+        <value value="1212664087"/>
+        <comparator value="&lt;="/>
+        <unit value="VUThGsd5FN"/>
+        <system value="zpxV_Pcjuz"/>
+        <code value="8tL7H6qAOY"/>
+      </denominator>
+    </amount>
+  </nutrient>
+  <ingredient>
+    <item>
+      <concept>
+        <coding>
+          <system value="5YNdUNDfXI"/>
+          <version value="7u2d_RtGyJ"/>
+          <code value="wjdozpzln3"/>
+          <display value="DLErFy_cLT"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="zeWswZwhb3"/>
+      </concept>
+      <reference>
+        <reference value="Basic/Zt8BJz-lJu"/>
+        <type value="Basic"/>
+        <identifier>
+          <use value="secondary"/>
+          <type>
+            <coding>
+              <system value="4gP4jQwBhK"/>
+              <version value="FgsJn_lqfB"/>
+              <code value="xNpxxr0_Qk"/>
+              <display value="0hQTZB1eYW"/>
+              <userSelected value="true"/>
+            </coding>
+            <text value="CJk5HYocMI"/>
+          </type>
+          <system value="cj4j2_YfwB"/>
+          <value value="CxQ7LVjEPy"/>
+          <period>
+            <start value="2021-12-10T02:40:15.107768-05:00"/>
+          </period>
+        </identifier>
+        <display value="Fz4r38qCq9"/>
+      </reference>
+    </item>
+    <amount>
+      <numerator>
+        <value value="1200155476"/>
+        <comparator value="&gt;"/>
+        <unit value="CFvLiWlzbb"/>
+        <system value="UG7uS6BnjV"/>
+        <code value="B9HqPD7JJM"/>
+      </numerator>
+      <denominator>
+        <value value="422177171"/>
+        <comparator value="&lt;="/>
+        <unit value="CUVlKP5hKX"/>
+        <system value="ufcitVcfq7"/>
+        <code value="3pgAczDpvo"/>
+      </denominator>
+    </amount>
+  </ingredient>
+  <knownAllergen>
+    <concept>
+      <coding>
+        <system value="nfG0lvQfWB"/>
+        <version value="DigyiHoYAf"/>
+        <code value="glHHcJJ1Y9"/>
+        <display value="X_rFHH7mpE"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="_8XiDXt6qP"/>
+    </concept>
+    <reference>
+      <reference value="Basic/7r-JfsB6kb"/>
+      <type value="Basic"/>
+      <identifier>
+        <use value="temp"/>
+        <type>
+          <coding>
+            <system value="dXIh3evvXP"/>
+            <version value="Y_YijBOER5"/>
+            <code value="4MFBY_wDT_"/>
+            <display value="On1UnDZgej"/>
+            <userSelected value="true"/>
+          </coding>
+          <text value="Y0TpCKtppV"/>
+        </type>
+        <system value="cmSsU5_LLd"/>
+        <value value="94NFvXPu3Z"/>
+        <period>
+          <start value="2021-12-10T02:40:15.112469-05:00"/>
+        </period>
+      </identifier>
+      <display value="fqgDj9uJPf"/>
+    </reference>
+  </knownAllergen>
+  <productCharacteristic>
+    <type>
+      <coding>
+        <system value="3Z1foIVX5R"/>
+        <version value="_dm1X_mYmu"/>
+        <code value="NSLIymITp8"/>
+        <display value="DyiP_9JFk_"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="jaU52HPjNx"/>
+    </type>
+    <valueQuantity>
+      <value value="257119565"/>
+      <unit value="BmkIxn2Lzl"/>
+      <system value="6V14HBI3qB"/>
+      <code value="yEqXvTdEFN"/>
+    </valueQuantity>
+  </productCharacteristic>
+  <instance>
+    <quantity>
+      <value value="1792527697"/>
+      <unit value="c1MoQgmh1X"/>
+      <system value="UJkJKe3uwM"/>
+      <code value="pYSqJhxp1j"/>
+    </quantity>
+    <identifier>
+      <use value="old"/>
+      <type>
+        <coding>
+          <system value="7pHYmz_UGP"/>
+          <version value="PzIqC8YPWz"/>
+          <code value="JeFFtr_whE"/>
+          <display value="y8NBO0d_1W"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="Uwb0KQiDfh"/>
+      </type>
+      <system value="7qnPdnEEcp"/>
+      <value value="6FZA753exu"/>
+      <period>
+        <start value="2021-12-10T02:40:15.11583-05:00"/>
+      </period>
+    </identifier>
+    <lotNumber value="897pInBbNP"/>
+    <expiry value="2021-12-10T02:40:15.115209-05:00"/>
+    <useBy value="2021-12-10T02:40:15.115368-05:00"/>
+  </instance>
+  <note>
+    <authorString value="O8VcjsrdIW"/>
+    <time value="2021-12-10T02:40:15.109215-05:00"/>
+    <text value="PoENEujofj"/>
+  </note>
+</NutritionProduct>
