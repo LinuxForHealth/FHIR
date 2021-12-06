@@ -61,7 +61,7 @@ public class DeviceUseStatement extends DomainResource {
         bindingName = "DeviceUseStatementStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "A coded concept indicating the current status of the Device Usage.",
-        valueSet = "http://hl7.org/fhir/ValueSet/device-statement-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/device-statement-status|4.1.0"
     )
     @Required
     private final DeviceUseStatementStatus status;

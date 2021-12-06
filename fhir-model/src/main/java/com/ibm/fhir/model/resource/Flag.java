@@ -52,7 +52,7 @@ public class Flag extends DomainResource {
         bindingName = "FlagStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "Indicates whether this flag is active and needs to be displayed to a user, or whether it is no longer needed or was entered in error.",
-        valueSet = "http://hl7.org/fhir/ValueSet/flag-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/flag-status|4.1.0"
     )
     @Required
     private final FlagStatus status;

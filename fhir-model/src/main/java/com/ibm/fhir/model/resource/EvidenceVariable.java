@@ -89,7 +89,7 @@ public class EvidenceVariable extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.1.0"
     )
     @Required
     private final PublicationStatus status;
@@ -114,7 +114,7 @@ public class EvidenceVariable extends DomainResource {
         bindingName = "CharacteristicCombination",
         strength = BindingStrength.Value.REQUIRED,
         description = "Logical grouping of characteristics.",
-        valueSet = "http://hl7.org/fhir/ValueSet/characteristic-combination|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/characteristic-combination|4.1.0"
     )
     private final CharacteristicCombination characteristicCombination;
     @Summary
@@ -124,7 +124,7 @@ public class EvidenceVariable extends DomainResource {
         bindingName = "EvidenceVariableHandling",
         strength = BindingStrength.Value.REQUIRED,
         description = "The handling of the variable in statistical analysis for exposures or outcomes (E.g. Dichotomous, Continuous, Descriptive).",
-        valueSet = "http://hl7.org/fhir/ValueSet/variable-handling|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/variable-handling|4.1.0"
     )
     private final EvidenceVariableHandling handling;
     private final List<Category> category;
@@ -1669,7 +1669,7 @@ public class EvidenceVariable extends DomainResource {
             bindingName = "GroupMeasure",
             strength = BindingStrength.Value.REQUIRED,
             description = "Possible group measure aggregates (E.g. Mean, Median).",
-            valueSet = "http://hl7.org/fhir/ValueSet/group-measure|4.0.1"
+            valueSet = "http://hl7.org/fhir/ValueSet/group-measure|4.1.0"
         )
         private final GroupMeasure groupMeasure;
 
