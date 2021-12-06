@@ -54,6 +54,19 @@ public class ServerCqlOperationTest extends BaseCPGOperationTest {
     }
     
     @Test
+    public void testEvaluateArbitraryCqlGenderComparison() {
+        Response response = getWebTarget().path("$cql").queryParam("expression", "[Patient] p where p.gender = 'female'").queryParam("subject", TEST_PATIENT_ID).request().get();
+        assertResponse( response, 200 );
+        
+        Parameters parameters = response.readEntity(Parameters.class);
+        assertNotNull(parameters.getParameter(), "Null parameters list");
+        assertEquals(parameters.getParameter().size(), 1);
+        
+        Parameter pReturn = parameters.getParameter().get(0);
+        assertEquals(pReturn.getName().getValue(), "return");
+    }
+    
+    @Test
     public void testEvaluateArbitraryCqlCompileError() {
         Response response = getWebTarget().path("$cql").queryParam("expression", "[NonResource]").queryParam("subject", TEST_PATIENT_ID).request().get();
         assertResponse( response, 400 );

@@ -38,12 +38,15 @@ import com.ibm.fhir.cql.translator.FHIRLibraryLibrarySourceProvider;
 import com.ibm.fhir.cql.translator.impl.InJVMCqlTranslationProvider;
 import com.ibm.fhir.ecqm.common.MeasureReportType;
 import com.ibm.fhir.ecqm.r4.R4MeasureEvaluation;
+import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.Library;
 import com.ibm.fhir.model.resource.Measure;
 import com.ibm.fhir.model.resource.MeasureReport;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.type.Date;
+import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.server.spi.operation.AbstractOperation;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
@@ -209,5 +212,32 @@ public abstract class AbstractMeasureOperation extends AbstractOperation {
         List<org.cqframework.cql.elm.execution.Library> result =
                 libraries.stream().flatMap(fl -> LibraryHelper.loadLibrary(translator, fl).stream()).filter(Objects::nonNull).collect(Collectors.toList());
         return result;
+    }
+    
+    protected Measure loadMeasureByReference(FHIRResourceHelpers resourceHelper, String reference) throws FHIROperationException {
+        Measure measure;
+        if( reference.startsWith("Measure/") ) {
+            String resourceId = reference.substring("Measure/".length());
+            measure = loadMeasureById(resourceHelper, resourceId);
+        } else {
+            measure = FHIRRegistry.getInstance().getResource(reference, Measure.class);
+            if( measure == null ) {
+                // At this point an error will be thrown if not found
+                measure = loadMeasureById(resourceHelper, reference);
+            }
+        }
+        
+        return measure;
+    }
+
+    protected Measure loadMeasureById(FHIRResourceHelpers resourceHelper, String reference) throws FHIROperationException {
+        Measure measure;
+        try {
+            SingleResourceResult<?> readResult = resourceHelper.doRead(ResourceType.MEASURE.getValue(), reference, true, false, null);
+            measure = (Measure) readResult.getResource();
+        } catch (Exception ex) {
+            throw new FHIROperationException("Failed to resolve resource " + reference, ex);
+        }
+        return measure;
     }
 }
