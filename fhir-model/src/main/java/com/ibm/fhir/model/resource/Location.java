@@ -81,7 +81,7 @@ public class Location extends DomainResource {
         bindingName = "LocationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "Indicates whether the location is still in use.",
-        valueSet = "http://hl7.org/fhir/ValueSet/location-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/location-status|4.1.0"
     )
     private final LocationStatus status;
     @Summary
@@ -102,7 +102,7 @@ public class Location extends DomainResource {
         bindingName = "LocationMode",
         strength = BindingStrength.Value.REQUIRED,
         description = "Indicates whether a resource instance represents a specific location or a class of locations.",
-        valueSet = "http://hl7.org/fhir/ValueSet/location-mode|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/location-mode|4.1.0"
     )
     private final LocationMode mode;
     @Summary
@@ -1583,7 +1583,7 @@ public class Location extends DomainResource {
             bindingName = "DaysOfWeek",
             strength = BindingStrength.Value.REQUIRED,
             description = "The days of the week.",
-            valueSet = "http://hl7.org/fhir/ValueSet/days-of-week|4.0.1"
+            valueSet = "http://hl7.org/fhir/ValueSet/days-of-week|4.1.0"
         )
         private final List<DaysOfWeek> daysOfWeek;
         private final Boolean allDay;

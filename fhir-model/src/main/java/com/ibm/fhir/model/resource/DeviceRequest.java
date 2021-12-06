@@ -75,7 +75,7 @@ public class DeviceRequest extends DomainResource {
         bindingName = "DeviceRequestStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "Codes representing the status of the request.",
-        valueSet = "http://hl7.org/fhir/ValueSet/request-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/request-status|4.1.0"
     )
     private final DeviceRequestStatus status;
     @Summary
@@ -83,7 +83,7 @@ public class DeviceRequest extends DomainResource {
         bindingName = "RequestIntent",
         strength = BindingStrength.Value.REQUIRED,
         description = "The kind of diagnostic request.",
-        valueSet = "http://hl7.org/fhir/ValueSet/request-intent|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/request-intent|4.1.0"
     )
     @Required
     private final RequestIntent intent;
@@ -92,7 +92,7 @@ public class DeviceRequest extends DomainResource {
         bindingName = "RequestPriority",
         strength = BindingStrength.Value.REQUIRED,
         description = "Identifies the level of importance to be assigned to actioning the request.",
-        valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.1.0"
     )
     private final RequestPriority priority;
     @Summary

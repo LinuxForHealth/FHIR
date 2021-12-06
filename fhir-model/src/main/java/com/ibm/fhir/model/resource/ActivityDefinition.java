@@ -112,7 +112,7 @@ public class ActivityDefinition extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.1.0"
     )
     @Required
     private final PublicationStatus status;
@@ -170,7 +170,7 @@ public class ActivityDefinition extends DomainResource {
         bindingName = "ActivityDefinitionKind",
         strength = BindingStrength.Value.REQUIRED,
         description = "The kind of activity the definition is describing.",
-        valueSet = "http://hl7.org/fhir/ValueSet/request-resource-types|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/request-resource-types|4.1.0"
     )
     private final ActivityDefinitionKind kind;
     private final Canonical profile;
@@ -186,14 +186,14 @@ public class ActivityDefinition extends DomainResource {
         bindingName = "RequestIntent",
         strength = BindingStrength.Value.REQUIRED,
         description = "Codes indicating the degree of authority/intentionality associated with a request.",
-        valueSet = "http://hl7.org/fhir/ValueSet/request-intent|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/request-intent|4.1.0"
     )
     private final RequestIntent intent;
     @Binding(
         bindingName = "RequestPriority",
         strength = BindingStrength.Value.REQUIRED,
         description = "Identifies the level of importance to be assigned to actioning the request.",
-        valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.1.0"
     )
     private final RequestPriority priority;
     @Summary
@@ -2769,7 +2769,7 @@ public class ActivityDefinition extends DomainResource {
             bindingName = "ActivityParticipantType",
             strength = BindingStrength.Value.REQUIRED,
             description = "The type of participant in the activity.",
-            valueSet = "http://hl7.org/fhir/ValueSet/action-participant-type|4.0.1"
+            valueSet = "http://hl7.org/fhir/ValueSet/action-participant-type|4.1.0"
         )
         @Required
         private final ActivityParticipantType type;

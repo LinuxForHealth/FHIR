@@ -67,7 +67,7 @@ public class MedicationRequest extends DomainResource {
         bindingName = "MedicationRequestStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "A coded concept specifying the state of the prescribing event. Describes the lifecycle of the prescription.",
-        valueSet = "http://hl7.org/fhir/ValueSet/medicationrequest-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/medicationrequest-status|4.1.0"
     )
     @Required
     private final MedicationRequestStatus status;
@@ -83,7 +83,7 @@ public class MedicationRequest extends DomainResource {
         bindingName = "MedicationRequestIntent",
         strength = BindingStrength.Value.REQUIRED,
         description = "The kind of medication order.",
-        valueSet = "http://hl7.org/fhir/ValueSet/medicationrequest-intent|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/medicationrequest-intent|4.1.0"
     )
     @Required
     private final MedicationRequestIntent intent;
@@ -99,7 +99,7 @@ public class MedicationRequest extends DomainResource {
         bindingName = "MedicationRequestPriority",
         strength = BindingStrength.Value.REQUIRED,
         description = "Identifies the level of importance to be assigned to actioning the request.",
-        valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.1.0"
     )
     private final MedicationRequestPriority priority;
     @Summary

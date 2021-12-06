@@ -295,7 +295,7 @@ public class StructureDefinition extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.1.0"
     )
     @Required
     private final PublicationStatus status;
@@ -333,7 +333,7 @@ public class StructureDefinition extends DomainResource {
         bindingName = "FHIRVersion",
         strength = BindingStrength.Value.REQUIRED,
         description = "All published FHIR Versions.",
-        valueSet = "http://hl7.org/fhir/ValueSet/FHIR-version|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/FHIR-version|4.1.0"
     )
     private final FHIRVersion fhirVersion;
     private final List<Mapping> mapping;
@@ -342,7 +342,7 @@ public class StructureDefinition extends DomainResource {
         bindingName = "StructureDefinitionKind",
         strength = BindingStrength.Value.REQUIRED,
         description = "Defines the type of structure that a definition is describing.",
-        valueSet = "http://hl7.org/fhir/ValueSet/structure-definition-kind|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/structure-definition-kind|4.1.0"
     )
     @Required
     private final StructureDefinitionKind kind;
@@ -369,7 +369,7 @@ public class StructureDefinition extends DomainResource {
         bindingName = "TypeDerivationRule",
         strength = BindingStrength.Value.REQUIRED,
         description = "How a type relates to its baseDefinition.",
-        valueSet = "http://hl7.org/fhir/ValueSet/type-derivation-rule|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/type-derivation-rule|4.1.0"
     )
     private final TypeDerivationRule derivation;
     private final Snapshot snapshot;
@@ -2334,7 +2334,7 @@ public class StructureDefinition extends DomainResource {
             bindingName = "ExtensionContextType",
             strength = BindingStrength.Value.REQUIRED,
             description = "How an extension context is interpreted.",
-            valueSet = "http://hl7.org/fhir/ValueSet/extension-context-type|4.0.1"
+            valueSet = "http://hl7.org/fhir/ValueSet/extension-context-type|4.1.0"
         )
         @Required
         private final ExtensionContextType type;

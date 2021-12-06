@@ -97,7 +97,7 @@ public class ResearchStudy extends DomainResource {
         bindingName = "ResearchStudyStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "Codes that convey the current status of the research study.",
-        valueSet = "http://hl7.org/fhir/ValueSet/research-study-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/research-study-status|4.1.0"
     )
     @Required
     private final ResearchStudyStatus status;

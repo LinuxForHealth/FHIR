@@ -93,7 +93,7 @@ public class FamilyMemberHistory extends DomainResource {
         bindingName = "FamilyHistoryStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "A code that identifies the status of the family history record.",
-        valueSet = "http://hl7.org/fhir/ValueSet/history-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/history-status|4.1.0"
     )
     @Required
     private final FamilyHistoryStatus status;
