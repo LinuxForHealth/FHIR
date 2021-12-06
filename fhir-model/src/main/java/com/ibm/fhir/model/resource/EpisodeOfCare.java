@@ -64,7 +64,7 @@ public class EpisodeOfCare extends DomainResource {
         bindingName = "EpisodeOfCareStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The status of the episode of care.",
-        valueSet = "http://hl7.org/fhir/ValueSet/episode-of-care-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/episode-of-care-status|4.1.0"
     )
     @Required
     private final EpisodeOfCareStatus status;
@@ -1051,7 +1051,7 @@ public class EpisodeOfCare extends DomainResource {
             bindingName = "EpisodeOfCareStatus",
             strength = BindingStrength.Value.REQUIRED,
             description = "The status of the episode of care.",
-            valueSet = "http://hl7.org/fhir/ValueSet/episode-of-care-status|4.0.1"
+            valueSet = "http://hl7.org/fhir/ValueSet/episode-of-care-status|4.1.0"
         )
         @Required
         private final EpisodeOfCareStatus status;

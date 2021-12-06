@@ -60,7 +60,7 @@ public class TriggerDefinition extends Element {
         bindingName = "TriggerType",
         strength = BindingStrength.Value.REQUIRED,
         description = "The type of trigger.",
-        valueSet = "http://hl7.org/fhir/ValueSet/trigger-type|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/trigger-type|4.1.0"
     )
     @Required
     private final TriggerType type;

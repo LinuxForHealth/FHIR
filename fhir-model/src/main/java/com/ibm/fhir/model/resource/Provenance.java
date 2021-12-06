@@ -1391,7 +1391,7 @@ public class Provenance extends DomainResource {
             bindingName = "ProvenanceEntityRole",
             strength = BindingStrength.Value.REQUIRED,
             description = "How an entity was used in an activity.",
-            valueSet = "http://hl7.org/fhir/ValueSet/provenance-entity-role|4.0.1"
+            valueSet = "http://hl7.org/fhir/ValueSet/provenance-entity-role|4.1.0"
         )
         @Required
         private final ProvenanceEntityRole role;
