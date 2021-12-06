@@ -49,11 +49,6 @@ import com.ibm.fhir.model.resource.MedicationDispense;
 import com.ibm.fhir.model.resource.MedicationKnowledge;
 import com.ibm.fhir.model.resource.MedicationRequest;
 import com.ibm.fhir.model.resource.MedicationStatement;
-import com.ibm.fhir.model.resource.MedicinalProductContraindication;
-import com.ibm.fhir.model.resource.MedicinalProductIndication;
-import com.ibm.fhir.model.resource.MedicinalProductManufactured;
-import com.ibm.fhir.model.resource.MedicinalProductPackaged;
-import com.ibm.fhir.model.resource.MedicinalProductUndesirableEffect;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.PlanDefinition;
 import com.ibm.fhir.model.resource.RequestGroup;
@@ -62,7 +57,6 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.resource.StructureDefinition;
 import com.ibm.fhir.model.resource.StructureMap;
-import com.ibm.fhir.model.resource.SubstancePolymer;
 import com.ibm.fhir.model.resource.Task;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
@@ -83,7 +77,6 @@ import com.ibm.fhir.model.type.ProdCharacteristic;
 import com.ibm.fhir.model.type.ProductShelfLife;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.RelatedArtifact;
-import com.ibm.fhir.model.type.SubstanceAmount;
 import com.ibm.fhir.model.type.TriggerDefinition;
 import com.ibm.fhir.model.type.UsageContext;
 import com.ibm.fhir.model.type.Uuid;
@@ -2195,37 +2188,24 @@ public class FHIROpenApiGenerator {
                 UsageContext.class == typeModelClass.getEnclosingClass()) {
             // TODO: introspect the resourceModelClass to tell if its truly applicable or not
             isApplicable = true;
-        } else if (SubstanceAmount.class == typeModelClass ||
-                SubstanceAmount.class == typeModelClass.getEnclosingClass()) {
-            if (SubstancePolymer.class != outerModelClass) {
-                isApplicable = false;
-            }
         } else if (ProdCharacteristic.class == typeModelClass ||
                 ProdCharacteristic.class == typeModelClass.getEnclosingClass()) {
-            if (DeviceDefinition.class != outerModelClass &&
-                    MedicinalProductManufactured.class != outerModelClass &&
-                    MedicinalProductPackaged.class != outerModelClass) {
+            if (DeviceDefinition.class != outerModelClass) {
                 isApplicable = false;
             }
         } else if (ProductShelfLife.class == typeModelClass ||
                 ProductShelfLife.class == typeModelClass.getEnclosingClass()) {
-            if (DeviceDefinition.class != outerModelClass &&
-                    MedicinalProductPackaged.class != outerModelClass) {
+            if (DeviceDefinition.class != outerModelClass) {
                 isApplicable = false;
             }
         } else if (MarketingStatus.class == typeModelClass ||
                 MarketingStatus.class == typeModelClass.getEnclosingClass()) {
-            if (DeviceDefinition.class != outerModelClass &&
-                    MedicinalProductPackaged.class != outerModelClass) {
+            if (DeviceDefinition.class != outerModelClass) {
                 isApplicable = false;
             }
         } else if (Population.class == typeModelClass ||
                 Population.class == typeModelClass.getEnclosingClass()) {
-            if (MedicinalProductContraindication.class != outerModelClass &&
-                    MedicinalProductIndication.class != outerModelClass &&
-                    MedicinalProductUndesirableEffect.class != outerModelClass) {
-                isApplicable = false;
-            }
+            isApplicable = false;
         }
 
         return isApplicable;
