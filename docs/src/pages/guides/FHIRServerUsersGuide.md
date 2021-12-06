@@ -924,10 +924,11 @@ As described above, in order to establish a reference to a resource, you must fi
 Thankfully, the HL7 FHIR specification defines a way to express a dependency between two resources within a request bundle by using a _local identifier_ to identify the resource being referenced, and a _local reference_<sup id="a6">[6](#f6)</sup> to reference the resource via its local identifier. In the following example, a request bundle contains a `POST` request to create a new `Patient` resource, along with a `POST` request to create a new `Observation` resource that references that `Patient`:
 
 <a id="example-obs-ref-pat"></a>
+
 ```
 {
-    "resourceType" : "Bundle",
-    "type" : "batch",
+    "resourceType": "Bundle",
+    "type": "batch",
     "entry" : [ {
         "fullUrl" : "urn:uuid:7113a0bb-d9e0-49df-9855-887409388c69",
         "resource" : {
