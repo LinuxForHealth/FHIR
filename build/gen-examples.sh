@@ -12,7 +12,8 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 WORKSPACE="$( dirname "${DIR}" )"
 
 # Install the latest fhir-examples-generator
-mvn clean install -f ${WORKSPACE}/fhir-examples-generator -DskipTests
+mvn clean install -f ${WORKSPACE}/fhir-model -DskipTests -U
+mvn clean install -f ${WORKSPACE}/fhir-examples-generator -DskipTests -U
 
 if [[ $? -eq 0 ]]
 then

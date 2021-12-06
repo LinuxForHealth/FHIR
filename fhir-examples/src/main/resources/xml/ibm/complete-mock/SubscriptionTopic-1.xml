@@ -1,0 +1,144 @@
+<SubscriptionTopic xmlns="http://hl7.org/fhir">
+  <meta>
+    <versionId value="LP9twcx70I"/>
+    <lastUpdated value="2021-12-10T02:40:04.453552-05:00"/>
+    <source value="cgqpww15Cz"/>
+    <profile value="GqxIYD9_pm"/>
+    <security>
+      <system value="hpdOgMSpXA"/>
+      <version value="NHGdMnU80L"/>
+      <code value="8REO76lBU7"/>
+      <display value="n0k0Vlm41U"/>
+      <userSelected value="true"/>
+    </security>
+    <tag>
+      <system value="1jHnd29my0"/>
+      <version value="uKBAwefZ3v"/>
+      <code value="jBhtYe5jr_"/>
+      <display value="Et_LaPOx75"/>
+      <userSelected value="true"/>
+    </tag>
+    <tag>
+      <code value="ibm/complete-mock"/>
+    </tag>
+  </meta>
+  <implicitRules value="WMlbDn6tNV"/>
+  <language value="en-US"/>
+  <text>
+    <status value="extensions"/>
+    <div xmlns="http://www.w3.org/1999/xhtml"></div>
+  </text>
+  <url value="gKyLQYbsRD"/>
+  <identifier>
+    <use value="temp"/>
+    <type>
+      <coding>
+        <system value="nhCzK82tGf"/>
+        <version value="7YPcR3vUHa"/>
+        <code value="fLsvAMFPOE"/>
+        <display value="00JFyYgDXK"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="RTpW77FA_g"/>
+    </type>
+    <system value="b1uIktjJYf"/>
+    <value value="fb76SteGtf"/>
+    <period>
+      <start value="2021-12-10T02:40:04.472735-05:00"/>
+    </period>
+  </identifier>
+  <version value="ZNxmmyCVbT"/>
+  <title value="Gd8sc8pDbc"/>
+  <derivedFrom value="Xhqr1Ifrfv"/>
+  <status value="retired"/>
+  <experimental value="true"/>
+  <date value="2021-12-10T02:40:04.475874-05:00"/>
+  <publisher value="39nWi5GZNz"/>
+  <contact>
+    <name value="wUkmc5Ma7p"/>
+    <telecom>
+      <system value="url"/>
+      <value value="fPMjUgVtCZ"/>
+      <use value="mobile"/>
+      <rank value="490823660"/>
+      <period>
+        <start value="2021-12-10T02:40:04.456129-05:00"/>
+      </period>
+    </telecom>
+  </contact>
+  <description value="_HQfJHTcIU"/>
+  <useContext>
+    <code>
+      <system value="wLLh62XV5j"/>
+      <version value="Zq6OugAiJ_"/>
+      <code value="etdd6OB4Lt"/>
+      <display value="l3zifxy7or"/>
+      <userSelected value="true"/>
+    </code>
+    <valueCodeableConcept>
+      <coding>
+        <system value="ST_pcKON2y"/>
+        <version value="5MvodYieiL"/>
+        <code value="lw097DCROj"/>
+        <display value="HbUWeq5Cv6"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="1q9aFKJWwZ"/>
+    </valueCodeableConcept>
+  </useContext>
+  <jurisdiction>
+    <coding>
+      <system value="54fZsiWeRw"/>
+      <version value="1FDWDQZEqs"/>
+      <code value="O9XQIhBuon"/>
+      <display value="xSA7cVRMkI"/>
+      <userSelected value="true"/>
+    </coding>
+    <text value="RPvrwr0yJl"/>
+  </jurisdiction>
+  <purpose value="LsU7NAc50v"/>
+  <copyright value="CPQf5hsmjG"/>
+  <approvalDate value="2021-12-10"/>
+  <lastReviewDate value="2021-12-10"/>
+  <effectivePeriod>
+    <start value="2021-12-10T02:40:04.457241-05:00"/>
+  </effectivePeriod>
+  <resourceTrigger>
+    <description value="WzevWHDIP4"/>
+    <resource value="Clt0uU9fbi"/>
+    <supportedInteraction value="create"/>
+    <queryCriteria>
+      <previous value="iWVRJ6xL9r"/>
+      <resultForCreate value="test-fails"/>
+      <current value="gmfuViz1E0"/>
+      <resultForDelete value="test-fails"/>
+      <requireBoth value="true"/>
+    </queryCriteria>
+    <fhirPathCriteria value="qMo8VtS3Jy"/>
+  </resourceTrigger>
+  <eventTrigger>
+    <description value="mCcMBxj4kM"/>
+    <event>
+      <coding>
+        <system value="17U7GeLkhe"/>
+        <version value="9_h3MsQE8a"/>
+        <code value="cqjmJ5CUS_"/>
+        <display value="kdWm8cUM4f"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="TMOFTAvk7V"/>
+    </event>
+    <resource value="fbrkdlOX2C"/>
+  </eventTrigger>
+  <canFilterBy>
+    <description value="S6tz4L2Mmv"/>
+    <resource value="aFPq9Akyqw"/>
+    <filterParameter value="7QicNmKpoP"/>
+    <modifier value="ge"/>
+  </canFilterBy>
+  <notificationShape>
+    <resource value="dhZcKo2GUl"/>
+    <include value="HlnYakTR58"/>
+    <revInclude value="aOXwDrX1Xe"/>
+  </notificationShape>
+</SubscriptionTopic>
