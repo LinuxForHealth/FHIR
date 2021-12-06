@@ -24,6 +24,7 @@ import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
+import com.ibm.fhir.model.type.CodeableReference;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.ContactDetail;
 import com.ibm.fhir.model.type.ContactPoint;
@@ -60,12 +61,12 @@ import com.ibm.fhir.model.type.ProductShelfLife;
 import com.ibm.fhir.model.type.Quantity;
 import com.ibm.fhir.model.type.Range;
 import com.ibm.fhir.model.type.Ratio;
+import com.ibm.fhir.model.type.RatioRange;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.RelatedArtifact;
 import com.ibm.fhir.model.type.SampledData;
 import com.ibm.fhir.model.type.Signature;
 import com.ibm.fhir.model.type.String;
-import com.ibm.fhir.model.type.SubstanceAmount;
 import com.ibm.fhir.model.type.Time;
 import com.ibm.fhir.model.type.Timing;
 import com.ibm.fhir.model.type.TriggerDefinition;
@@ -80,6 +81,8 @@ import com.ibm.fhir.model.util.ModelSupport;
 /**
  * An enumeration that contains all of the FHIR base types, FHIR complex data types, FHIRPath primitive data types, FHIR resource types,
  * FHIRPath system types and FHIRPath metamodel types needed for evaluating FHIRPath expressions
+ * 
+ * TODO: add R4B types in
  */
 public enum FHIRPathType {
     // FHIR base types
@@ -126,7 +129,8 @@ public enum FHIRPathType {
     FHIR_RELATED_ARTIFACT("FHIR", "RelatedArtifact", FHIR_ELEMENT, RelatedArtifact.class),
     FHIR_SAMPLED_DATA("FHIR", "SampledData", FHIR_ELEMENT, SampledData.class),
     FHIR_SIGNATURE("FHIR", "Signature", FHIR_ELEMENT, Signature.class),
-    FHIR_SUBSTANCE_AMOUNT("FHIR", "SubstanceAmount", FHIR_BACKBONE_ELEMENT, SubstanceAmount.class),
+    FHIR_CODEABLE_REFERENCE("FHIR", "CodeableReference", FHIR_BACKBONE_ELEMENT, CodeableReference.class),
+    FHIR_RATIO_RANGE("FHIR", "RatioRange", FHIR_BACKBONE_ELEMENT, RatioRange.class),
     FHIR_TIMING("FHIR", "Timing", FHIR_BACKBONE_ELEMENT, Timing.class),
     FHIR_TRIGGER_DEFINITION("FHIR", "TriggerDefinition", FHIR_ELEMENT, TriggerDefinition.class),
     FHIR_USAGE_CONTEXT("FHIR", "UsageContext", FHIR_ELEMENT, UsageContext.class),
@@ -196,7 +200,6 @@ public enum FHIRPathType {
     FHIR_DIAGNOSTIC_REPORT("FHIR", "DiagnosticReport", FHIR_DOMAIN_RESOURCE, DiagnosticReport.class),
     FHIR_DOCUMENT_MANIFEST("FHIR", "DocumentManifest", FHIR_DOMAIN_RESOURCE, DocumentManifest.class),
     FHIR_DOCUMENT_REFERENCE("FHIR", "DocumentReference", FHIR_DOMAIN_RESOURCE, DocumentReference.class),
-    FHIR_EFFECT_EVIDENCE_SYNTHESIS("FHIR", "EffectEvidenceSynthesis", FHIR_DOMAIN_RESOURCE, EffectEvidenceSynthesis.class),
     FHIR_ENCOUNTER("FHIR", "Encounter", FHIR_DOMAIN_RESOURCE, Encounter.class),
     FHIR_ENDPOINT("FHIR", "Endpoint", FHIR_DOMAIN_RESOURCE, Endpoint.class),
     FHIR_ENROLLMENT_REQUEST("FHIR", "EnrollmentRequest", FHIR_DOMAIN_RESOURCE, EnrollmentRequest.class),
@@ -234,16 +237,6 @@ public enum FHIRPathType {
     FHIR_MEDICATION_KNOWLEDGE("FHIR", "MedicationKnowledge", FHIR_DOMAIN_RESOURCE, MedicationKnowledge.class),
     FHIR_MEDICATION_REQUEST("FHIR", "MedicationRequest", FHIR_DOMAIN_RESOURCE, MedicationRequest.class),
     FHIR_MEDICATION_STATEMENT("FHIR", "MedicationStatement", FHIR_DOMAIN_RESOURCE, MedicationStatement.class),
-    FHIR_MEDICINAL_PRODUCT("FHIR", "MedicinalProduct", FHIR_DOMAIN_RESOURCE, MedicinalProduct.class),
-    FHIR_MEDICINAL_PRODUCT_AUTHORIZATION("FHIR", "MedicinalProductAuthorization", FHIR_DOMAIN_RESOURCE, MedicinalProductAuthorization.class),
-    FHIR_MEDICINAL_PRODUCT_CONTRAINDICATION("FHIR", "MedicinalProductContraindication", FHIR_DOMAIN_RESOURCE, MedicinalProductContraindication.class),
-    FHIR_MEDICINAL_PRODUCT_INDICATION("FHIR", "MedicinalProductIndication", FHIR_DOMAIN_RESOURCE, MedicinalProductIndication.class),
-    FHIR_MEDICINAL_PRODUCT_INGREDIENT("FHIR", "MedicinalProductIngredient", FHIR_DOMAIN_RESOURCE, MedicinalProductIngredient.class),
-    FHIR_MEDICINAL_PRODUCT_INTERACTION("FHIR", "MedicinalProductInteraction", FHIR_DOMAIN_RESOURCE, MedicinalProductInteraction.class),
-    FHIR_MEDICINAL_PRODUCT_MANUFACTURED("FHIR", "MedicinalProductManufactured", FHIR_DOMAIN_RESOURCE, MedicinalProductManufactured.class),
-    FHIR_MEDICINAL_PRODUCT_PACKAGED("FHIR", "MedicinalProductPackaged", FHIR_DOMAIN_RESOURCE, MedicinalProductPackaged.class),
-    FHIR_MEDICINAL_PRODUCT_PHARMACEUTICAL("FHIR", "MedicinalProductPharmaceutical", FHIR_DOMAIN_RESOURCE, MedicinalProductPharmaceutical.class),
-    FHIR_MEDICINAL_PRODUCT_UNDESIRABLE_EFFECT("FHIR", "MedicinalProductUndesirableEffect", FHIR_DOMAIN_RESOURCE, MedicinalProductUndesirableEffect.class),
     FHIR_MESSAGE_DEFINITION("FHIR", "MessageDefinition", FHIR_DOMAIN_RESOURCE, MessageDefinition.class),
     FHIR_MESSAGE_HEADER("FHIR", "MessageHeader", FHIR_DOMAIN_RESOURCE, MessageHeader.class),
     FHIR_MOLECULAR_SEQUENCE("FHIR", "MolecularSequence", FHIR_DOMAIN_RESOURCE, MolecularSequence.class),
@@ -274,7 +267,6 @@ public enum FHIRPathType {
     FHIR_RESEARCH_STUDY("FHIR", "ResearchStudy", FHIR_DOMAIN_RESOURCE, ResearchStudy.class),
     FHIR_RESEARCH_SUBJECT("FHIR", "ResearchSubject", FHIR_DOMAIN_RESOURCE, ResearchSubject.class),
     FHIR_RISK_ASSESSMENT("FHIR", "RiskAssessment", FHIR_DOMAIN_RESOURCE, RiskAssessment.class),
-    FHIR_RISK_EVIDENCE_SYNTHESIS("FHIR", "RiskEvidenceSynthesis", FHIR_DOMAIN_RESOURCE, RiskEvidenceSynthesis.class),
     FHIR_SCHEDULE("FHIR", "Schedule", FHIR_DOMAIN_RESOURCE, Schedule.class),
     FHIR_SEARCH_PARAMETER("FHIR", "SearchParameter", FHIR_DOMAIN_RESOURCE, SearchParameter.class),
     FHIR_SERVICE_REQUEST("FHIR", "ServiceRequest", FHIR_DOMAIN_RESOURCE, ServiceRequest.class),
@@ -285,12 +277,6 @@ public enum FHIRPathType {
     FHIR_STRUCTURE_MAP("FHIR", "StructureMap", FHIR_DOMAIN_RESOURCE, StructureMap.class),
     FHIR_SUBSCRIPTION("FHIR", "Subscription", FHIR_DOMAIN_RESOURCE, Subscription.class),
     FHIR_SUBSTANCE("FHIR", "Substance", FHIR_DOMAIN_RESOURCE, Substance.class),
-    FHIR_SUBSTANCE_NUCLEIC_ACID("FHIR", "SubstanceNucleicAcid", FHIR_DOMAIN_RESOURCE, SubstanceNucleicAcid.class),
-    FHIR_SUBSTANCE_POLYMER("FHIR", "SubstancePolymer", FHIR_DOMAIN_RESOURCE, SubstancePolymer.class),
-    FHIR_SUBSTANCE_PROTEIN("FHIR", "SubstanceProtein", FHIR_DOMAIN_RESOURCE, SubstanceProtein.class),
-    FHIR_SUBSTANCE_REFERENCE_INFORMATION("FHIR", "SubstanceReferenceInformation", FHIR_DOMAIN_RESOURCE, SubstanceReferenceInformation.class),
-    FHIR_SUBSTANCE_SOURCE_MATERIAL("FHIR", "SubstanceSourceMaterial", FHIR_DOMAIN_RESOURCE, SubstanceSourceMaterial.class),
-    FHIR_SUBSTANCE_SPECIFICATION("FHIR", "SubstanceSpecification", FHIR_DOMAIN_RESOURCE, SubstanceSpecification.class),
     FHIR_SUPPLY_DELIVERY("FHIR", "SupplyDelivery", FHIR_DOMAIN_RESOURCE, SupplyDelivery.class),
     FHIR_SUPPLY_REQUEST("FHIR", "SupplyRequest", FHIR_DOMAIN_RESOURCE, SupplyRequest.class),
     FHIR_TASK("FHIR", "Task", FHIR_DOMAIN_RESOURCE, Task.class),

@@ -528,7 +528,7 @@ public class Capabilities extends FHIRResource {
                 .status(PublicationStatus.ACTIVE)
                 .date(DateTime.now(ZoneOffset.UTC))
                 .kind(CapabilityStatementKind.INSTANCE)
-                .fhirVersion(FHIRVersion.VERSION_4_0_1)
+                .fhirVersion(FHIRVersion.VERSION_4_1_0)
                 .format(format)
                 .patchFormat(Code.of(FHIRMediaType.APPLICATION_JSON_PATCH),
                              Code.of(FHIRMediaType.APPLICATION_FHIR_JSON),

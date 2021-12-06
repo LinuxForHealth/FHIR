@@ -194,8 +194,13 @@ public abstract class R4RestFHIRTest {
     }
 
     public CapabilityStatement getCapabilityStatement() throws Exception {
-        CapabilityStatement metadata =
-                CapabilityStatement.builder().fhirVersion(FHIRVersion.VERSION_4_0_1).status(PublicationStatus.ACTIVE).date(DateTime.now()).kind(CapabilityStatementKind.CAPABILITY).format(Code.of("application/json")).build();
+        CapabilityStatement metadata = CapabilityStatement.builder()
+                .fhirVersion(FHIRVersion.VERSION_4_1_0)
+                .status(PublicationStatus.ACTIVE)
+                .date(DateTime.now())
+                .kind(CapabilityStatementKind.CAPABILITY)
+                .format(Code.of("application/json"))
+                .build();
         return metadata;
     }
 
