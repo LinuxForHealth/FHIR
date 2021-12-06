@@ -927,8 +927,8 @@ Thankfully, the HL7 FHIR specification defines a way to express a dependency bet
 
 ```
 {
-    "resourceType" : "Bundle",
-    "type" : "batch",
+    "resourceType": "Bundle",
+    "type": "batch",
     "entry" : [ {
         "fullUrl" : "urn:uuid:7113a0bb-d9e0-49df-9855-887409388c69",
         "resource" : {
