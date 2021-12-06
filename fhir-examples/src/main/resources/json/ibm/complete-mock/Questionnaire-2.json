@@ -1,27 +1,27 @@
 {
     "resourceType": "Questionnaire",
     "meta": {
-        "versionId": "FXdEfwps3W",
-        "lastUpdated": "2021-04-12T14:34:26.835-05:00",
-        "source": "yr4u6WrkUT",
+        "versionId": "pUEM9Tv5Up",
+        "lastUpdated": "2021-12-10T02:40:10.752512-05:00",
+        "source": "t7qFSLnmFT",
         "profile": [
-            "g9ap0BZIOG"
+            "OIS2rp8mMk"
         ],
         "security": [
             {
-                "system": "sl5niyQ9mv",
-                "version": "LXjp_iVB6y",
-                "code": "d0dpy7d2OE",
-                "display": "wjhOAFOJkT",
+                "system": "0qPBWxq_RH",
+                "version": "YlJO3LsSpx",
+                "code": "awzs_carnB",
+                "display": "Ud1aB8dOKg",
                 "userSelected": true
             }
         ],
         "tag": [
             {
-                "system": "ZiMuSjCY5S",
-                "version": "UVJyTeVtDU",
-                "code": "leyACGSEVq",
-                "display": "YieROjBA5H",
+                "system": "DbxYcBwza2",
+                "version": "BhvR53ALYb",
+                "code": "w7jo3aF5LE",
+                "display": "nh_uF553V5",
                 "userSelected": true
             },
             {
@@ -29,82 +29,90 @@
             }
         ]
     },
-    "implicitRules": "jJI85R8GKw",
+    "implicitRules": "2pH4m73_y0",
     "language": "en-US",
     "text": {
         "status": "generated",
         "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>"
     },
-    "url": "bbRTYKCbnh",
+    "url": "f52rqPQwFs",
     "identifier": [
         {
-            "use": "old",
+            "use": "official",
             "type": {
                 "coding": [
                     {
-                        "system": "h7u0M1ZXra",
-                        "version": "VyAWWEnpQ3",
-                        "code": "hMuEq73gYI",
-                        "display": "ZmoO778ptv",
+                        "system": "wctnhlUYqm",
+                        "version": "7HCh8khBTk",
+                        "code": "89WhH8R4zU",
+                        "display": "y4kRkLyRuc",
                         "userSelected": true
                     }
                 ],
-                "text": "LhV7KGMg9C"
+                "text": "jpFArhBIsY"
             },
-            "system": "FWLAKOzyOM",
-            "value": "vDx7I5AEkA",
+            "system": "XhwiIm5mY0",
+            "value": "o2uOj99V8s",
             "period": {
-                "start": "2021-04-12T14:34:26.832-05:00",
-                "end": "2021-04-12T14:34:26.832-05:00"
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                        "valueCode": "unknown"
+                    }
+                ]
             }
         }
     ],
-    "version": "NExjFkDJIL",
-    "name": "0LHSGt5H1s",
-    "title": "aqRfbeFc9S",
+    "version": "U1FJcZQBWT",
+    "name": "rAj7eII5E0",
+    "title": "XpNewuejvj",
     "derivedFrom": [
-        "YIqCtv6167"
+        "D2tY03jcvs"
     ],
     "status": "retired",
     "experimental": true,
     "subjectType": [
-        "MedicationStatement"
+        "PaymentReconciliation"
     ],
-    "date": "2021-04-12T14:34:26.835-05:00",
-    "publisher": "K0rxe3TDy1",
+    "date": "2021-12-10T02:40:10.758656-05:00",
+    "publisher": "a_LimCVscd",
     "contact": [
         {
-            "name": "kgGlxqDiaS",
+            "name": "z6jOcWXwTb",
             "telecom": [
                 {
-                    "system": "email",
-                    "value": "q4fFFiulHY",
+                    "system": "url",
+                    "value": "KDu3q3YQJ_",
                     "use": "old",
-                    "rank": 1901166093,
+                    "rank": 1721671276,
                     "period": {
-                        "start": "2021-04-12T14:34:26.833-05:00",
-                        "end": "2021-04-12T14:34:26.833-05:00"
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                                "valueCode": "unknown"
+                            }
+                        ]
                     }
                 }
             ]
         }
     ],
-    "description": "g_ZWSTDeEs",
+    "description": "NqVBY1c43K",
     "useContext": [
         {
             "code": {
-                "system": "gJ_WOvXRAd",
-                "version": "xDQbNpNE0M",
-                "code": "l1exwZCOrZ",
-                "display": "AMBaqxEVxR",
+                "system": "4pgJ7mDVyV",
+                "version": "e5974T8XKf",
+                "code": "7gmkiIc57s",
+                "display": "t62NaDxnNq",
                 "userSelected": true
             },
             "valueQuantity": {
-                "value": 473071378744,
-                "comparator": "<",
-                "unit": "QKfgZDmbJD",
-                "system": "Fk_eEMSdeY",
-                "code": "SLl49F8KDS"
+                "value": 882690946,
+                "comparator": ">=",
+                "unit": "oO2exGolUI",
+                "system": "3MC80v7KP3",
+                "code": "v4owgpBCP2"
             }
         }
     ],
@@ -112,57 +120,61 @@
         {
             "coding": [
                 {
-                    "system": "WF9DYxxJlH",
-                    "version": "pqGZU73Zrd",
-                    "code": "R3QRrBH0qI",
-                    "display": "VUvhVgtdV_",
+                    "system": "1bF_oqjHtd",
+                    "version": "zDlNQgJFg_",
+                    "code": "vb8BCrH8pR",
+                    "display": "TNrEXrIN8S",
                     "userSelected": true
                 }
             ],
-            "text": "KaCr00Rbrj"
+            "text": "enPD1j9xkD"
         }
     ],
-    "purpose": "cxbtnAW3S7",
-    "copyright": "FO2QUtX6t9",
-    "approvalDate": "2021-04-12",
-    "lastReviewDate": "2021-04-12",
+    "purpose": "Qmdi5M991s",
+    "copyright": "SSenj8kUp6",
+    "approvalDate": "2021-12-10",
+    "lastReviewDate": "2021-12-10",
     "effectivePeriod": {
-        "start": "2021-04-12T14:34:26.831-05:00",
-        "end": "2021-04-12T14:34:26.831-05:00"
+        "extension": [
+            {
+                "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                "valueCode": "unknown"
+            }
+        ]
     },
     "code": [
         {
-            "system": "b6dhxEWoIq",
-            "version": "zrr9VRwBjQ",
-            "code": "DH1sePp6MR",
-            "display": "9TpuaRx2vz",
+            "system": "O14qI7TQA6",
+            "version": "1zwvR84Qrg",
+            "code": "d0eucbLNsu",
+            "display": "n3YXkxKof4",
             "userSelected": true
         }
     ],
     "item": [
         {
-            "linkId": "kd2OpPKYMC",
-            "definition": "m_SZUB7hH4",
+            "linkId": "VAQrh3jYNC",
+            "definition": "yQ47l94fhU",
             "code": [
                 {
-                    "system": "SiSOScsi82",
-                    "version": "w5jwD5bc1I",
-                    "code": "u8S0kPv5A0",
-                    "display": "267kWM3CmX",
+                    "system": "Aqa9zPo48N",
+                    "version": "B9IL1qTXAZ",
+                    "code": "gnpqLktmWR",
+                    "display": "MFDuB18DWm",
                     "userSelected": true
                 }
             ],
-            "prefix": "AUHg2XtyWH",
-            "text": "ZedViT9ZHg",
-            "type": "decimal",
+            "prefix": "U52eTaQCty",
+            "text": "PP1VzegFm3",
+            "type": "text",
             "enableWhen": [
                 {
-                    "question": "i1Sp2iPa0_",
-                    "operator": "<=",
-                    "answerDecimal": 275366815355
+                    "question": "Uh2ORCJs_I",
+                    "operator": "<",
+                    "answerDecimal": 387322739
                 }
             ],
-            "enableBehavior": "any",
+            "enableBehavior": "all",
             "required": true,
             "repeats": true,
             "readOnly": true

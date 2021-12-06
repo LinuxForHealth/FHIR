@@ -15,6 +15,7 @@ import java.util.Collection;
 import com.ibm.fhir.model.builder.Builder;
 import com.ibm.fhir.model.resource.AllergyIntolerance;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
@@ -24,6 +25,7 @@ import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.util.ModelSupport;
+import com.ibm.fhir.model.util.ModelSupport.ElementInfo;
 
 public class MinimalDataCreator extends DataCreatorBase {
 
@@ -98,6 +100,17 @@ public class MinimalDataCreator extends DataCreatorBase {
         return builder;
     }
 
+    @Override
+    protected int getMaxChoiceCount(Class<?> resourceOrElementClass, int maxChoiceCount, int levelsDeep) {
+        Collection<ElementInfo> elementsInfo = ModelSupport.getElementInfo(resourceOrElementClass);
+        for (ElementInfo elementInfo : elementsInfo) {
+            if (elementInfo.isRequired()) {
+                maxChoiceCount = super.getMaxChoiceCount(elementInfo.getType(), maxChoiceCount, levelsDeep+1);
+            }
+        }
+        return maxChoiceCount;
+    }
+
     private boolean isRequiredElement(Class<?> clazz, String name) {
         // Special case for AllergyIntolerance
         if (AllergyIntolerance.class.isAssignableFrom(clazz) && "clinicalStatus".equals(name)) {
@@ -105,15 +118,6 @@ public class MinimalDataCreator extends DataCreatorBase {
             return true;
         }
         return ModelSupport.isRequiredElement(clazz, name);
-    }
-
-    private String reverseJavaEncoding(String javaName) {
-        if (javaName.equals("clazz")) {
-            return "class";
-        } else if (javaName.startsWith("_")) {
-            return javaName.substring(1);
-        }
-        return javaName;
     }
 
     /**
