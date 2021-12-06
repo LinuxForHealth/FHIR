@@ -12,7 +12,6 @@ import com.ibm.fhir.model.resource.ChargeItemDefinition;
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CompartmentDefinition;
 import com.ibm.fhir.model.resource.ConceptMap;
-import com.ibm.fhir.model.resource.EffectEvidenceSynthesis;
 import com.ibm.fhir.model.resource.EventDefinition;
 import com.ibm.fhir.model.resource.Evidence;
 import com.ibm.fhir.model.resource.EvidenceVariable;
@@ -28,7 +27,6 @@ import com.ibm.fhir.model.resource.PlanDefinition;
 import com.ibm.fhir.model.resource.Questionnaire;
 import com.ibm.fhir.model.resource.ResearchDefinition;
 import com.ibm.fhir.model.resource.ResearchElementDefinition;
-import com.ibm.fhir.model.resource.RiskEvidenceSynthesis;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.resource.StructureDefinition;
 import com.ibm.fhir.model.resource.StructureMap;
@@ -101,13 +99,6 @@ public class DefinitionalResourceVisitor extends DefaultVisitor {
     public boolean visit(String elementName, int elementIndex, ConceptMap conceptMap) {
         url = getUrl(conceptMap.getUrl());
         version = getVersion(conceptMap.getVersion());
-        return false;
-    }
-    
-    @Override
-    public boolean visit(String elementName, int elementIndex, EffectEvidenceSynthesis effectiveEvidenceSynthesis) {
-        url = getUrl(effectiveEvidenceSynthesis.getUrl());
-        version = getVersion(effectiveEvidenceSynthesis.getVersion());
         return false;
     }
     
@@ -216,13 +207,6 @@ public class DefinitionalResourceVisitor extends DefaultVisitor {
     public boolean visit(String elementName, int elementIndex, ResearchElementDefinition researchElementDefinition) {
         url = getUrl(researchElementDefinition.getUrl());
         version = getVersion(researchElementDefinition.getVersion());
-        return false;
-    }
-    
-    @Override
-    public boolean visit(String elementName, int elementIndex, RiskEvidenceSynthesis riskEvidenceSynthesis) {
-        url = getUrl(riskEvidenceSynthesis.getUrl());
-        version = getVersion(riskEvidenceSynthesis.getVersion());
         return false;
     }
     
