@@ -5,7 +5,7 @@
 
     <groupId>com.ibm.fhir</groupId>
     <artifactId>fhir-parent</artifactId>
-    <version>4.11.0-SNAPSHOT</version>
+    <version>5.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>IBM FHIR Server</name>
 
@@ -48,8 +48,8 @@
         <fhir-persistence-jdbc.index>MINIMAL_JSON</fhir-persistence-jdbc.index>
         <fhir-server-test.index>MINIMAL_JSON</fhir-server-test.index>
         <java.version>11</java.version>
-        <fhir-examples.version>4.11.0-SNAPSHOT</fhir-examples.version>
-        <fhir-tools.version>4.11.0-SNAPSHOT</fhir-tools.version>
+        <fhir-examples.version>5.0.0-SNAPSHOT</fhir-examples.version>
+        <fhir-tools.version>5.0.0-SNAPSHOT</fhir-tools.version>
         <maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
         <!-- We use github depend-a-bot to keep dependencies up-to-date and that doesn't seem to work as well
              for dependencies with versions from variables, so prefer inlining over version vars -->
@@ -1069,7 +1069,7 @@
                                                     fhir-tools
                                                 </artifactId>
                                                 <versionRange>
-                                                    [4.11.0-SNAPSHOT,)
+                                                    [5.0.0-SNAPSHOT,)
                                                 </versionRange>
                                                 <goals>
                                                     <goal>condense-json</goal>
