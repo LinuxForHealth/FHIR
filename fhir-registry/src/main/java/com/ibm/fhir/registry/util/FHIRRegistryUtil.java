@@ -28,7 +28,6 @@ import com.ibm.fhir.model.resource.ChargeItemDefinition;
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CompartmentDefinition;
 import com.ibm.fhir.model.resource.ConceptMap;
-import com.ibm.fhir.model.resource.EffectEvidenceSynthesis;
 import com.ibm.fhir.model.resource.EventDefinition;
 import com.ibm.fhir.model.resource.Evidence;
 import com.ibm.fhir.model.resource.EvidenceVariable;
@@ -45,7 +44,6 @@ import com.ibm.fhir.model.resource.Questionnaire;
 import com.ibm.fhir.model.resource.ResearchDefinition;
 import com.ibm.fhir.model.resource.ResearchElementDefinition;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.model.resource.RiskEvidenceSynthesis;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.resource.StructureDefinition;
 import com.ibm.fhir.model.resource.StructureMap;
@@ -67,7 +65,6 @@ public final class FHIRRegistryUtil {
         CodeSystem.class,
         CompartmentDefinition.class,
         ConceptMap.class,
-        EffectEvidenceSynthesis.class,
         EventDefinition.class,
         Evidence.class,
         EvidenceVariable.class,
@@ -83,12 +80,12 @@ public final class FHIRRegistryUtil {
         Questionnaire.class,
         ResearchDefinition.class,
         ResearchElementDefinition.class,
-        RiskEvidenceSynthesis.class,
         SearchParameter.class,
         StructureDefinition.class,
         StructureMap.class,
         TerminologyCapabilities.class,
         TestScript.class,
+        // TODO: check for R4B resources to add
         ValueSet.class));
 
     private FHIRRegistryUtil() { }
