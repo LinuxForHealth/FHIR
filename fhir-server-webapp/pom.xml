@@ -15,6 +15,7 @@
     
     <properties>
         <fhir.server.war.name>fhir-server</fhir.server.war.name>
+        <liberty.var.DB_LOC>${project.basedir}/../derby/fhirDB</liberty.var.DB_LOC>
     </properties>
 
     <dependencies>

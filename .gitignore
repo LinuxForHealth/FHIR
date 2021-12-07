@@ -23,6 +23,11 @@ ibm-web-ext.xml
 target/
 test-output/
 
+# Test DB and schematool logs
+/derby/
+derby.log
+fhirschema.log
+
 # Integration tests
 /SIT/
 /pre-it-logs/
