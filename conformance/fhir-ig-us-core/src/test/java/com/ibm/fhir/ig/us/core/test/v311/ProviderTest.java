@@ -36,7 +36,7 @@ public class ProviderTest {
         FHIRRegistryResourceProvider provider = new USCore311ResourceProvider();
         for (FHIRRegistryResource registryResource : provider.getRegistryResources()) {
             if (StructureDefinition.class.equals(registryResource.getResourceType())) {
-                String url = registryResource.getUrl();
+                String url = registryResource.getUrl() + "|3.1.1";
                 System.out.println(url);
                 Class<?> type = ModelSupport.isResourceType(registryResource.getType()) ? ModelSupport.getResourceType(registryResource.getType()) : Extension.class;
                 for (Constraint constraint : ProfileSupport.getConstraints(url, type)) {
