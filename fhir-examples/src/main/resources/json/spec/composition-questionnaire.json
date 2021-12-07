@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for Composition.relatesTo.target[x]",
       "expansion": {
-        "identifier": "urn:uuid:e451024b-d142-4f0b-a9a4-c634ec73c706",
-        "timestamp": "2019-11-01T09:34:48+11:00",
+        "identifier": "urn:uuid:7396896f-d074-4fca-8481-73e0a6ab3e19",
+        "timestamp": "2021-12-06T19:02:45+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -31,9 +31,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-12-06T18:53:36+00:00",
   "publisher": "Health Level Seven International (Structured Documents)",
   "item": [
     {
@@ -221,9 +221,10 @@
             {
               "linkId": "Composition.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -440,9 +441,10 @@
             {
               "linkId": "Composition.status.value",
               "text": "status",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -488,9 +490,10 @@
             {
               "linkId": "Composition.type.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Composition.type.text",
@@ -535,9 +538,10 @@
             {
               "linkId": "Composition.category.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Composition.category.text",
@@ -838,9 +842,10 @@
             {
               "linkId": "Composition.confidentiality.value",
               "text": "confidentiality",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -1011,9 +1016,10 @@
                 {
                   "linkId": "Composition.attester.mode.value",
                   "text": "mode",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOrType"
                 }
               ]
             },
@@ -1335,9 +1341,10 @@
                 {
                   "linkId": "Composition.relatesTo.code.value",
                   "text": "code",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOrType"
                 }
               ]
             },
@@ -1379,9 +1386,10 @@
                 {
                   "linkId": "Composition.relatesTo.target[x]._type",
                   "text": "type",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
                   "repeats": false,
+                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs2",
                   "item": [
                     {
@@ -1611,9 +1619,10 @@
                 {
                   "linkId": "Composition.event.code.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "Composition.event.code.text",
@@ -1929,9 +1938,10 @@
                 {
                   "linkId": "Composition.section.code.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "Composition.section.code.text",
@@ -2114,9 +2124,10 @@
                 {
                   "linkId": "Composition.section.mode.value",
                   "text": "mode",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOrType"
                 }
               ]
             },
@@ -2158,9 +2169,10 @@
                 {
                   "linkId": "Composition.section.orderedBy.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "Composition.section.orderedBy.text",
@@ -2258,9 +2270,10 @@
                 {
                   "linkId": "Composition.section.emptyReason.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "Composition.section.emptyReason.text",

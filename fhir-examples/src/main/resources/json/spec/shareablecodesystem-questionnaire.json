@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for CodeSystem.concept.property.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:ddb82224-e1f7-4d57-a6f3-b334c71502eb",
-        "timestamp": "2019-11-01T09:32:14+11:00",
+        "identifier": "urn:uuid:3a76ebca-c99a-4829-8e6d-d4c244d77eac",
+        "timestamp": "2021-12-06T18:55:35+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -56,9 +56,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-01-16T20:06:13+00:00",
   "publisher": "HL7",
   "item": [
     {
@@ -252,9 +252,10 @@
             {
               "linkId": "CodeSystem.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -407,7 +408,7 @@
                   }
                 }
               ],
-              "text": "An absolute URI that is used to identify this code system when it is referenced in a specification, model, design or an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal address at which at which an authoritative instance of this code system is (or will be) published. This URL can be the target of a canonical reference. It SHALL remain the same when the code system is stored on different servers. This is used in [Coding](http://hl7.org/fhir/datatypes.html#Coding).system. Can be a urn:uuid: or a urn:oid: but real http: addresses are preferred.  Multiple instances may share the same URL if they have a distinct version.\n\nThe determination of when to create a new version of a resource (same url, new version) vs. defining a new artifact is up to the author.  Considerations for making this decision are found in [Technical and Business Versions](http://hl7.org/fhir/resource.html#versions). \n\nIn some cases, the resource can no longer be found at the stated url, but the url itself cannot change. Implementations can use the [meta.source](http://hl7.org/fhir/resource.html#meta) element to indicate where the current master source of the resource can be found.",
+              "text": "An absolute URI that is used to identify this code system when it is referenced in a specification, model, design or an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal address at which at which an authoritative instance of this code system is (or will be) published. This URL can be the target of a canonical reference. It SHALL remain the same when the code system is stored on different servers. This is used in [Coding](http://hl7.org/fhir/2021Mar/datatypes.html#Coding).system. Can be a urn:uuid: or a urn:oid: but real http: addresses are preferred.  Multiple instances may share the same URL if they have a distinct version.\n\nThe determination of when to create a new version of a resource (same url, new version) vs. defining a new artifact is up to the author.  Considerations for making this decision are found in [Technical and Business Versions](http://hl7.org/fhir/2021Mar/resource.html#versions). \n\nIn some cases, the resource can no longer be found at the stated url, but the url itself cannot change. Implementations can use the [meta.source](http://hl7.org/fhir/2021Mar/resource.html#meta) element to indicate where the current master source of the resource can be found.",
               "type": "display"
             },
             {
@@ -508,7 +509,7 @@
                   }
                 }
               ],
-              "text": "The identifier that is used to identify this version of the code system when it is referenced in a specification, model, design or instance. This is an arbitrary value managed by the code system author and is not expected to be globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available. There is also no expectation that versions can be placed in a lexicographical sequence. This is used in [Coding](http://hl7.org/fhir/datatypes.html#Coding).version. There may be different code system instances that have the same identifier but different versions.  The version can be appended to the url in a reference to allow a reference to a particular business version of the code system with the format [url]|[version].",
+              "text": "The identifier that is used to identify this version of the code system when it is referenced in a specification, model, design or instance. This is an arbitrary value managed by the code system author and is not expected to be globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available. There is also no expectation that versions can be placed in a lexicographical sequence. This is used in [Coding](http://hl7.org/fhir/2021Mar/datatypes.html#Coding).version. There may be different code system instances that have the same identifier but different versions.  The version can be appended to the url in a reference to allow a reference to a particular business version of the code system with the format [url]|[version].",
               "type": "display"
             },
             {
@@ -651,9 +652,10 @@
             {
               "linkId": "CodeSystem.status.value",
               "text": "status",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -937,9 +939,10 @@
             {
               "linkId": "CodeSystem.jurisdiction.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "CodeSystem.jurisdiction.text",
@@ -1159,9 +1162,10 @@
             {
               "linkId": "CodeSystem.hierarchyMeaning.value",
               "text": "hierarchy meaning",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -1292,9 +1296,10 @@
             {
               "linkId": "CodeSystem.content.value",
               "text": "content",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -1545,15 +1550,16 @@
                       }
                     }
                   ],
-                  "text": "The code that identifies this filter when it is used as a filter in [ValueSet](http://hl7.org/fhir/valueset.html#).compose.include.filter.",
+                  "text": "The code that identifies this filter when it is used as a filter in [ValueSet](http://hl7.org/fhir/2021Mar/valueset.html#).compose.include.filter.",
                   "type": "display"
                 },
                 {
                   "linkId": "CodeSystem.filter.code.value",
                   "text": "code",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 }
               ]
             },
@@ -1637,9 +1643,10 @@
                 {
                   "linkId": "CodeSystem.filter.operator.value",
                   "text": "operator",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOrType"
                 }
               ]
             },
@@ -1855,9 +1862,10 @@
                 {
                   "linkId": "CodeSystem.property.code.value",
                   "text": "code",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 }
               ]
             },
@@ -1988,9 +1996,10 @@
                 {
                   "linkId": "CodeSystem.property.type.value",
                   "text": "type",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOrType"
                 }
               ]
             }
@@ -2169,9 +2178,10 @@
                 {
                   "linkId": "CodeSystem.concept.code.value",
                   "text": "code",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 }
               ]
             },
@@ -2269,7 +2279,7 @@
               "repeats": true,
               "item": [
                 {
-                  "text": "Concepts have both a ```display``` and an array of ```designation```. The display is equivalent to a special designation with an implied ```designation.use``` of \"primary code\" and a language equal to the [Resource Language](http://hl7.org/fhir/resource.html#language).",
+                  "text": "Concepts have both a ```display``` and an array of ```designation```. The display is equivalent to a special designation with an implied ```designation.use``` of \"primary code\" and a language equal to the [Resource Language](http://hl7.org/fhir/2021Mar/resource.html#language).",
                   "type": "display"
                 },
                 {
@@ -2424,9 +2434,10 @@
                     {
                       "linkId": "CodeSystem.concept.designation.language.value",
                       "text": "language",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     }
                   ]
                 },
@@ -2467,9 +2478,10 @@
                     {
                       "linkId": "CodeSystem.concept.designation.use.value",
                       "text": "Details how this designation would be used",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     }
                   ]
                 },
@@ -2685,9 +2697,10 @@
                     {
                       "linkId": "CodeSystem.concept.property.code.value",
                       "text": "code",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     }
                   ]
                 },
@@ -2729,9 +2742,10 @@
                     {
                       "linkId": "CodeSystem.concept.property.value[x]._type",
                       "text": "type",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
                       "repeats": false,
+                      "answerConstraint": "optionsOnly",
                       "answerValueSet": "#vs2",
                       "item": [
                         {
@@ -2747,9 +2761,10 @@
                             {
                               "linkId": "CodeSystem.concept.property.value[x]._null.value",
                               "text": "value[x]",
-                              "type": "choice",
+                              "type": "coding",
                               "required": false,
-                              "repeats": false
+                              "repeats": false,
+                              "answerConstraint": "optionsOnly"
                             }
                           ]
                         },
@@ -2765,9 +2780,10 @@
                           "item": [
                             {
                               "linkId": "CodeSystem.concept.property.value[x]._null.value",
-                              "type": "open-choice",
+                              "type": "coding",
                               "required": false,
-                              "repeats": false
+                              "repeats": false,
+                              "answerConstraint": "optionsOnly"
                             }
                           ]
                         },

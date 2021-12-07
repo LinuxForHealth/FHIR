@@ -6,10 +6,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
-  "publisher": "Health Level Seven International (FHIR Infrastructure)",
+  "date": "2021-12-06T18:53:36+00:00",
+  "publisher": "Health Level Seven International (Vocabulary)",
   "item": [
     {
       "linkId": "NamingSystem",
@@ -192,9 +192,10 @@
             {
               "linkId": "NamingSystem.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -400,9 +401,10 @@
             {
               "linkId": "NamingSystem.status.value",
               "text": "status",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -447,9 +449,10 @@
             {
               "linkId": "NamingSystem.kind.value",
               "text": "kind",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -655,9 +658,10 @@
             {
               "linkId": "NamingSystem.type.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "NamingSystem.type.text",
@@ -776,9 +780,10 @@
             {
               "linkId": "NamingSystem.jurisdiction.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "NamingSystem.jurisdiction.text",
@@ -1005,9 +1010,10 @@
                 {
                   "linkId": "NamingSystem.uniqueId.type.value",
                   "text": "type",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOrType"
                 }
               ]
             },

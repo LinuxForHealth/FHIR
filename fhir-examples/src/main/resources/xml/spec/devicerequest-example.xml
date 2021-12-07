@@ -8,7 +8,7 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: example</p><p><b>status</b>: completed</p><p><b>intent</b>: original-order</p><p><b>code</b>: <a>Device/example</a></p><p><b>subject</b>: <a>Patient/example</a></p></div></text><status value="completed"/>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "example" </p></div><p><b>status</b>: completed</p><p><b>intent</b>: original-order</p><p><b>code</b>: <a>Device/example</a></p><p><b>subject</b>: <a>Patient/example</a> "Peter CHALMERS"</p></div></text><status value="completed"/>
   <intent value="original-order"/>
   <codeReference>
     <reference value="Device/example"/>

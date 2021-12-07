@@ -12,7 +12,7 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/observation-geneticsAllele",
-  "version": "4.0.1",
+  "version": "4.1.0",
   "name": "Allele",
   "status": "draft",
   "date": "2016-03-14",
@@ -28,7 +28,7 @@
     }
   ],
   "description": "Allele information.",
-  "fhirVersion": "4.0.1",
+  "fhirVersion": "4.1.0",
   "mapping": [
     {
       "identity": "v2",
@@ -73,9 +73,9 @@
           {
             "key": "ele-1",
             "severity": "error",
-            "human": "All FHIR elements must have a @value or children",
-            "expression": "hasValue() or (children().count() \u003e id.count())",
-            "xpath": "@value|f:*|h:div",
+            "human": "All FHIR elements must have a @value or children unless an empty Parameters resource",
+            "expression": "hasValue() or (children().count() \u003e id.count()) or $this is Parameters",
+            "xpath": "@value|f:*|h:div|self::f:Parameters",
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           },
           {
@@ -109,7 +109,7 @@
             "extension": [
               {
                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                "valueUrl": "string"
+                "valueUri": "string"
               }
             ],
             "code": "http://hl7.org/fhirpath/System.String"
@@ -188,7 +188,7 @@
         "path": "Extension.extension",
         "sliceName": "Name",
         "short": "Name of allele",
-        "definition": "An allele is one of a set of coexisting sequence variants of a gene ([SO:0001023](http://www.sequenceontology.org/browser/current_svn/term/SO:0001023)). This element is the common name for the allele. LOINC Code: ([48008-7](http://loinc.org/48008-7)).",
+        "definition": "The material on this page will be removed in a future release. This content is deprecated and SHOULD NOT be used. Implementers are instead directed to the ([Genomics Reporting Implementation Guide](http://hl7.org/fhir/uv/genomics-reporting/index.html)) for guidance. An allele is one of a set of coexisting sequence variants of a gene ([SO:0001023](http://www.sequenceontology.org/browser/current_svn/term/SO:0001023)). This element is the common name for the allele. LOINC Code: ([48008-7](http://loinc.org/48008-7)).",
         "min": 0,
         "max": "1",
         "base": {
@@ -252,7 +252,7 @@
             "extension": [
               {
                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                "valueUrl": "string"
+                "valueUri": "string"
               }
             ],
             "code": "http://hl7.org/fhirpath/System.String"
@@ -350,7 +350,7 @@
         "id": "Extension.extension:Name.value[x]",
         "path": "Extension.extension.value[x]",
         "short": "Value of extension",
-        "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](http://hl7.org/fhir/extensibility.html) for a list).",
+        "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](extensibility.html) for a list).",
         "min": 1,
         "max": "1",
         "base": {
@@ -378,12 +378,16 @@
         "binding": {
           "extension": [
             {
+              "url": "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "valueString": "EMBL-EBI database of AlleleName."
+            },
+            {
               "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
               "valueString": "EBI-AlleleName"
             }
           ],
           "strength": "preferred",
-          "description": "EMBL-EBI database of AlleleName.",
+          "description": "The nomenclature from European Bioinformatics Institute to name the genetic Allele",
           "valueSet": "http://hl7.org/fhir/ValueSet/allelename"
         },
         "mapping": [
@@ -452,7 +456,7 @@
             "extension": [
               {
                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                "valueUrl": "string"
+                "valueUri": "string"
               }
             ],
             "code": "http://hl7.org/fhirpath/System.String"
@@ -550,7 +554,7 @@
         "id": "Extension.extension:State.value[x]",
         "path": "Extension.extension.value[x]",
         "short": "Value of extension",
-        "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](http://hl7.org/fhir/extensibility.html) for a list).",
+        "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](extensibility.html) for a list).",
         "min": 1,
         "max": "1",
         "base": {
@@ -641,7 +645,7 @@
             "extension": [
               {
                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                "valueUrl": "string"
+                "valueUri": "string"
               }
             ],
             "code": "http://hl7.org/fhirpath/System.String"
@@ -739,7 +743,7 @@
         "id": "Extension.extension:Frequency.value[x]",
         "path": "Extension.extension.value[x]",
         "short": "Value of extension",
-        "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](http://hl7.org/fhir/extensibility.html) for a list).",
+        "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](extensibility.html) for a list).",
         "min": 1,
         "max": "1",
         "base": {
@@ -792,7 +796,7 @@
             "extension": [
               {
                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                "valueUrl": "uri"
+                "valueUri": "uri"
               }
             ],
             "code": "http://hl7.org/fhirpath/System.String"
@@ -812,7 +816,7 @@
         "id": "Extension.value[x]",
         "path": "Extension.value[x]",
         "short": "Value of extension",
-        "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](http://hl7.org/fhir/extensibility.html) for a list).",
+        "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](extensibility.html) for a list).",
         "min": 0,
         "max": "0",
         "base": {
@@ -1008,7 +1012,7 @@
         "path": "Extension.extension",
         "sliceName": "Name",
         "short": "Name of allele",
-        "definition": "An allele is one of a set of coexisting sequence variants of a gene ([SO:0001023](http://www.sequenceontology.org/browser/current_svn/term/SO:0001023)). This element is the common name for the allele. LOINC Code: ([48008-7](http://loinc.org/48008-7)).",
+        "definition": "The material on this page will be removed in a future release. This content is deprecated and SHOULD NOT be used. Implementers are instead directed to the ([Genomics Reporting Implementation Guide](http://hl7.org/fhir/uv/genomics-reporting/index.html)) for guidance. An allele is one of a set of coexisting sequence variants of a gene ([SO:0001023](http://www.sequenceontology.org/browser/current_svn/term/SO:0001023)). This element is the common name for the allele. LOINC Code: ([48008-7](http://loinc.org/48008-7)).",
         "min": 0,
         "max": "1",
         "type": [
@@ -1054,12 +1058,16 @@
         "binding": {
           "extension": [
             {
+              "url": "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "valueString": "EMBL-EBI database of AlleleName."
+            },
+            {
               "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
               "valueString": "EBI-AlleleName"
             }
           ],
           "strength": "preferred",
-          "description": "EMBL-EBI database of AlleleName.",
+          "description": "The nomenclature from European Bioinformatics Institute to name the genetic Allele",
           "valueSet": "http://hl7.org/fhir/ValueSet/allelename"
         }
       },

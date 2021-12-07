@@ -61,11 +61,11 @@
   "relatedArtifact": [
     {
       "type": "depends-on",
-      "resource": "Library/fhir-model-definition"
+      "resource": "http://example.org/fhir/Library/fhir-model-definition"
     },
     {
       "type": "depends-on",
-      "resource": "ValueSet/zika-affected-area"
+      "resource": "http://hl7.org/fhir/ValueSet/zika-affected-area"
     }
   ],
   "parameter": [

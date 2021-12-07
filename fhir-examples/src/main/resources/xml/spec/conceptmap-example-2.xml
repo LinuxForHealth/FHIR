@@ -7,56 +7,7 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text>
-    <status value="generated"/>
-    <div xmlns="http://www.w3.org/1999/xhtml">
-      <h2>FHIR-exanple-2 (http://hl7.org/fhir/ConceptMap/example2)</h2>
-      <p>Mapping from http://example.org/fhir/example1 to http://example.org/fhir/example2</p>
-      <p>DRAFT (not intended for production usage). Published on 13/06/2012 by HL7, Inc (FHIR project team (example): 
-        <a href="http://hl7.org/fhir">http://hl7.org/fhir</a>). 
-      </p>
-      <div>
-        <p>An example mapping</p>
-
-      </div>
-      <br/>
-      <table class="grid">
-        <tr>
-          <td colspan="2">
-            <b>Source Concept Details</b>
-          </td>
-          <td>
-            <b>Equivalence</b>
-          </td>
-          <td colspan="1">
-            <b>Destination Concept Details</b>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <b>Code</b> from http://example.org/fhir/example1
-          </td>
-          <td>
-            <b>Code</b> from http://example.org/fhir/example3
-          </td>
-          <td/>
-          <td>
-            <b>Code</b> from http://example.org/fhir/example2
-          </td>
-        </tr>
-        <tr>
-          <td>code</td>
-          <td>some-code</td>
-          <td>
-            <a href="codesystem-concept-map-equivalence.html#equivalent">equivalent</a>
-          </td>
-          <td>code2</td>
-        </tr>
-      </table>
-    </div>
-  </text>
   <url value="http://hl7.org/fhir/ConceptMap/example2"/>
-  <version value="4.0.1"/>
   <name value="FHIR-exanple-2"/>
   <title value="FHIR Example 2"/>
   <status value="draft"/>

@@ -2,15 +2,15 @@
   "resourceType": "ConceptMap",
   "id": "cm-contact-point-use-v2",
   "text": {
-    "status": "generated",
-    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003ch2\u003ev2.ContactPointUse (http://hl7.org/fhir/ConceptMap/cm-contact-point-use-v2)\u003c/h2\u003e\u003cp\u003eMapping from \u003ca href\u003d\"valueset-contact-point-use.html\"\u003ehttp://hl7.org/fhir/ValueSet/contact-point-use\u003c/a\u003e to \u003ca href\u003d\"v2/0201/index.html\"\u003ehttp://terminology.hl7.org/ValueSet/v2-0201\u003c/a\u003e\u003c/p\u003e\u003cp\u003eDRAFT. Published on 01/11/2019 9:29:23 AM by HL7 (FHIR Project) (\u003ca href\u003d\"http://hl7.org/fhir\"\u003ehttp://hl7.org/fhir\u003c/a\u003e, \u003ca href\u003d\"mailto:fhir@lists.hl7.org\"\u003efhir@lists.hl7.org\u003c/a\u003e). \u003c/p\u003e\u003cbr/\u003e\u003ctable class\u003d\"grid\"\u003e\u003ctr\u003e\u003ctd colspan\u003d\"1\"\u003e\u003cb\u003eSource Concept Details\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eEquivalence\u003c/b\u003e\u003c/td\u003e\u003ctd colspan\u003d\"1\"\u003e\u003cb\u003eDestination Concept Details\u003c/b\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003e\u003cb\u003eCode\u003c/b\u003e from \u003ca href\u003d\"codesystem-contact-point-use.html\" title\u003d\"http://hl7.org/fhir/contact-point-use\"\u003eContactPointUse\u003c/a\u003e\u003c/td\u003e\u003ctd/\u003e\u003ctd\u003e\u003cb\u003eCode\u003c/b\u003e from \u003ca href\u003d\"v2/0201/index.html\" title\u003d\"http://terminology.hl7.org/CodeSystem/v2-0201\"\u003ev2 Telecommunication Use Code\u003c/a\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"border-bottom-style: none\"\u003ehome (Home)\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#wider\"\u003ewider\u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePRN (Primary Residence Number)\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"border-top-style: none; border-bottom-style: none\"/\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#wider\"\u003ewider\u003c/a\u003e\u003c/td\u003e\u003ctd\u003eORN (Other Residence Number)\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"border-top-style: none\"/\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#wider\"\u003ewider\u003c/a\u003e\u003c/td\u003e\u003ctd\u003eVHN (Vacation Home Number)\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003ework (Work)\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eequivalent\u003c/a\u003e\u003c/td\u003e\u003ctd\u003eWPN (Work Number)\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003emobile (Mobile)\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eequivalent\u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePRS (Personal)\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/div\u003e"
+    "status": "extensions",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003ch2\u003ev2.ContactPointUse (http://hl7.org/fhir/ConceptMap/cm-contact-point-use-v2)\u003c/h2\u003e\u003cp\u003eMapping from \u003ca href\u003d\"valueset-contact-point-use.html\"\u003ehttp://hl7.org/fhir/ValueSet/contact-point-use\u003c/a\u003e to \u003ca href\u003d\"http://terminology.hl7.org/3.0.0/ValueSet-v2-0201.html\"\u003ehttp://terminology.hl7.org/ValueSet/v2-0201\u003c/a\u003e\u003c/p\u003e\u003cp\u003eDRAFT. Published on Dec 6, 2021 6:53:36 PM by HL7 (FHIR Project) (\u003ca href\u003d\"http://hl7.org/fhir\"\u003ehttp://hl7.org/fhir\u003c/a\u003e, \u003ca href\u003d\"mailto:fhir@lists.hl7.org\"\u003efhir@lists.hl7.org\u003c/a\u003e). \u003c/p\u003e\u003cbr/\u003e\u003ctable class\u003d\"grid\"\u003e\u003ctr\u003e\u003ctd colspan\u003d\"2\"\u003e\u003cb\u003eSource Concept Details\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eRelationship\u003c/b\u003e\u003c/td\u003e\u003ctd colspan\u003d\"2\"\u003e\u003cb\u003eDestination Concept Details\u003c/b\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd colspan\u003d\"2\"\u003e\u003cb\u003eCode\u003c/b\u003e from \u003ca href\u003d\"codesystem-contact-point-use.html\" title\u003d\"http://hl7.org/fhir/contact-point-use\"\u003eContactPointUse\u003c/a\u003e\u003c/td\u003e\u003ctd/\u003e\u003ctd colspan\u003d\"2\"\u003e\u003cb\u003eCode\u003c/b\u003e from \u003ca href\u003d\"http://terminology.hl7.org/3.0.0/CodeSystem-v2-0201.html\" title\u003d\"http://terminology.hl7.org/CodeSystem/v2-0201\"\u003etelecommunicationUse\u003c/a\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"border-right-width: 0px; border-bottom-style: none\"\u003ehome\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px; border-bottom-style: none\"\u003eHome\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#source-is-broader-than-target\"\u003eis broader than\u003c/a\u003e\u003c/td\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003ePRN\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003ePrimary Residence Number\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"border-right-width: 0px; border-top-style: none; border-bottom-style: none\"/\u003e\u003ctd style\u003d\"border-left-width: 0px; border-top-style: none; border-bottom-style: none\"/\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#source-is-broader-than-target\"\u003eis broader than\u003c/a\u003e\u003c/td\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003eORN\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003eOther Residence Number\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"border-right-width: 0px; border-top-style: none\"/\u003e\u003ctd style\u003d\"border-top-style: none; border-left-width: 0px\"/\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#source-is-broader-than-target\"\u003eis broader than\u003c/a\u003e\u003c/td\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003eVHN\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003eVacation Home Number\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003ework\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003eWork\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003eWPN\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003eWork Number\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003emobile\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003eMobile\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003ePRS\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003ePersonal\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/div\u003e"
   },
   "url": "http://hl7.org/fhir/ConceptMap/cm-contact-point-use-v2",
-  "version": "4.0.1",
+  "version": "4.1.0",
   "name": "v2.ContactPointUse",
   "title": "v2 map for ContactPointUse",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-12-06T18:53:36+00:00",
   "publisher": "HL7 (FHIR Project)",
   "contact": [
     {
@@ -38,15 +38,15 @@
           "target": [
             {
               "code": "PRN",
-              "equivalence": "wider"
+              "relationship": "source-is-broader-than-target"
             },
             {
               "code": "ORN",
-              "equivalence": "wider"
+              "relationship": "source-is-broader-than-target"
             },
             {
               "code": "VHN",
-              "equivalence": "wider"
+              "relationship": "source-is-broader-than-target"
             }
           ]
         },
@@ -55,7 +55,7 @@
           "target": [
             {
               "code": "WPN",
-              "equivalence": "equivalent"
+              "relationship": "equivalent"
             }
           ]
         },
@@ -64,7 +64,7 @@
           "target": [
             {
               "code": "PRS",
-              "equivalence": "equivalent"
+              "relationship": "equivalent"
             }
           ]
         }

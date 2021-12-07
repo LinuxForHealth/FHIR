@@ -6,9 +6,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-12-06T18:53:36+00:00",
   "publisher": "Health Level Seven International (Patient Administration)",
   "item": [
     {
@@ -192,9 +192,10 @@
             {
               "linkId": "InsurancePlan.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -403,9 +404,10 @@
             {
               "linkId": "InsurancePlan.status.value",
               "text": "status",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -443,9 +445,10 @@
             {
               "linkId": "InsurancePlan.type.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "InsurancePlan.type.text",
@@ -908,9 +911,10 @@
                 {
                   "linkId": "InsurancePlan.contact.purpose.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "InsurancePlan.contact.purpose.text",
@@ -1013,9 +1017,10 @@
                 {
                   "linkId": "InsurancePlan.contact.telecom.system",
                   "text": "type:",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "InsurancePlan.contact.telecom.value",
@@ -1027,9 +1032,10 @@
                 {
                   "linkId": "InsurancePlan.contact.telecom.use",
                   "text": "use:",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 }
               ]
             },
@@ -1113,9 +1119,10 @@
                 {
                   "linkId": "InsurancePlan.contact.address.use",
                   "text": "use:",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 }
               ]
             }
@@ -1383,9 +1390,10 @@
                 {
                   "linkId": "InsurancePlan.coverage.type.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "InsurancePlan.coverage.type.text",
@@ -1615,9 +1623,10 @@
                     {
                       "linkId": "InsurancePlan.coverage.benefit.type.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "InsurancePlan.coverage.benefit.type.text",
@@ -1831,9 +1840,10 @@
                         {
                           "linkId": "InsurancePlan.coverage.benefit.limit.value.comparator",
                           "text": "comp:",
-                          "type": "choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOnly"
                         },
                         {
                           "linkId": "InsurancePlan.coverage.benefit.limit.value.value",
@@ -1903,9 +1913,10 @@
                         {
                           "linkId": "InsurancePlan.coverage.benefit.limit.code.coding",
                           "text": "code:",
-                          "type": "open-choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOnly"
                         },
                         {
                           "linkId": "InsurancePlan.coverage.benefit.limit.code.text",
@@ -2136,9 +2147,10 @@
                 {
                   "linkId": "InsurancePlan.plan.type.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "InsurancePlan.plan.type.text",
@@ -2407,9 +2419,10 @@
                     {
                       "linkId": "InsurancePlan.plan.generalCost.type.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "InsurancePlan.plan.generalCost.type.text",
@@ -2501,9 +2514,10 @@
                     {
                       "linkId": "InsurancePlan.plan.generalCost.cost.comparator",
                       "text": "comp:",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "InsurancePlan.plan.generalCost.cost.value",
@@ -2744,9 +2758,10 @@
                     {
                       "linkId": "InsurancePlan.plan.specificCost.category.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "InsurancePlan.plan.specificCost.category.text",
@@ -2921,9 +2936,10 @@
                         {
                           "linkId": "InsurancePlan.plan.specificCost.benefit.type.coding",
                           "text": "code:",
-                          "type": "open-choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOnly"
                         },
                         {
                           "linkId": "InsurancePlan.plan.specificCost.benefit.type.text",
@@ -3098,9 +3114,10 @@
                             {
                               "linkId": "InsurancePlan.plan.specificCost.benefit.cost.type.coding",
                               "text": "code:",
-                              "type": "open-choice",
+                              "type": "coding",
                               "required": false,
-                              "repeats": false
+                              "repeats": false,
+                              "answerConstraint": "optionsOnly"
                             },
                             {
                               "linkId": "InsurancePlan.plan.specificCost.benefit.cost.type.text",
@@ -3149,9 +3166,10 @@
                             {
                               "linkId": "InsurancePlan.plan.specificCost.benefit.cost.applicability.coding",
                               "text": "code:",
-                              "type": "choice",
+                              "type": "coding",
                               "required": false,
-                              "repeats": false
+                              "repeats": false,
+                              "answerConstraint": "optionsOrType"
                             },
                             {
                               "linkId": "InsurancePlan.plan.specificCost.benefit.cost.applicability.text",
@@ -3196,9 +3214,10 @@
                             {
                               "linkId": "InsurancePlan.plan.specificCost.benefit.cost.qualifiers.coding",
                               "text": "code:",
-                              "type": "open-choice",
+                              "type": "coding",
                               "required": false,
-                              "repeats": false
+                              "repeats": false,
+                              "answerConstraint": "optionsOnly"
                             },
                             {
                               "linkId": "InsurancePlan.plan.specificCost.benefit.cost.qualifiers.text",
@@ -3247,9 +3266,10 @@
                             {
                               "linkId": "InsurancePlan.plan.specificCost.benefit.cost.value.comparator",
                               "text": "comp:",
-                              "type": "choice",
+                              "type": "coding",
                               "required": false,
-                              "repeats": false
+                              "repeats": false,
+                              "answerConstraint": "optionsOnly"
                             },
                             {
                               "linkId": "InsurancePlan.plan.specificCost.benefit.cost.value.value",

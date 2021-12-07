@@ -2,15 +2,15 @@
   "resourceType": "ConceptMap",
   "id": "cm-administrative-gender-v2",
   "text": {
-    "status": "generated",
-    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003ch2\u003ev2.AdministrativeGender (http://hl7.org/fhir/ConceptMap/cm-administrative-gender-v2)\u003c/h2\u003e\u003cp\u003eMapping from \u003ca href\u003d\"valueset-administrative-gender.html\"\u003ehttp://hl7.org/fhir/ValueSet/administrative-gender\u003c/a\u003e to \u003ca href\u003d\"v2/0001/index.html\"\u003ehttp://terminology.hl7.org/ValueSet/v2-0001\u003c/a\u003e\u003c/p\u003e\u003cp\u003eDRAFT. Published on 01/11/2019 9:29:23 AM by HL7 (FHIR Project). \u003c/p\u003e\u003cbr/\u003e\u003ctable class\u003d\"grid\"\u003e\u003ctr\u003e\u003ctd colspan\u003d\"1\"\u003e\u003cb\u003eSource Concept Details\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eEquivalence\u003c/b\u003e\u003c/td\u003e\u003ctd colspan\u003d\"1\"\u003e\u003cb\u003eDestination Concept Details\u003c/b\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003e\u003cb\u003eCode\u003c/b\u003e from \u003ca href\u003d\"codesystem-administrative-gender.html\" title\u003d\"http://hl7.org/fhir/administrative-gender\"\u003eAdministrativeGender\u003c/a\u003e\u003c/td\u003e\u003ctd/\u003e\u003ctd\u003e\u003cb\u003eCode\u003c/b\u003e from \u003ca href\u003d\"v2/0001/index.html\" title\u003d\"http://terminology.hl7.org/CodeSystem/v2-0001\"\u003ev2 SEX\u003c/a\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003emale (Male)\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equal\"\u003eequal\u003c/a\u003e\u003c/td\u003e\u003ctd\u003eM (Male)\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003efemale (Female)\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equal\"\u003eequal\u003c/a\u003e\u003c/td\u003e\u003ctd\u003eF (Female)\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"border-bottom-style: none\"\u003eother (Other)\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#wider\"\u003ewider\u003c/a\u003e\u003c/td\u003e\u003ctd\u003eA (Ambiguous)\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"border-top-style: none\"/\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#wider\"\u003ewider\u003c/a\u003e\u003c/td\u003e\u003ctd\u003eO (Other)\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eunknown (Unknown)\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equal\"\u003eequal\u003c/a\u003e\u003c/td\u003e\u003ctd\u003eU (Unknown)\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/div\u003e"
+    "status": "extensions",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003ch2\u003ev2.AdministrativeGender (http://hl7.org/fhir/ConceptMap/cm-administrative-gender-v2)\u003c/h2\u003e\u003cp\u003eMapping from \u003ca href\u003d\"valueset-administrative-gender.html\"\u003ehttp://hl7.org/fhir/ValueSet/administrative-gender\u003c/a\u003e to \u003ca href\u003d\"http://terminology.hl7.org/3.0.0/ValueSet-v2-0001.html\"\u003ehttp://terminology.hl7.org/ValueSet/v2-0001\u003c/a\u003e\u003c/p\u003e\u003cp\u003eDRAFT. Published on Dec 6, 2021 6:53:36 PM by HL7 (FHIR Project). \u003c/p\u003e\u003cbr/\u003e\u003ctable class\u003d\"grid\"\u003e\u003ctr\u003e\u003ctd colspan\u003d\"2\"\u003e\u003cb\u003eSource Concept Details\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eRelationship\u003c/b\u003e\u003c/td\u003e\u003ctd colspan\u003d\"2\"\u003e\u003cb\u003eDestination Concept Details\u003c/b\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd colspan\u003d\"2\"\u003e\u003cb\u003eCode\u003c/b\u003e from \u003ca href\u003d\"codesystem-administrative-gender.html\" title\u003d\"http://hl7.org/fhir/administrative-gender\"\u003eAdministrativeGender\u003c/a\u003e\u003c/td\u003e\u003ctd/\u003e\u003ctd colspan\u003d\"2\"\u003e\u003cb\u003eCode\u003c/b\u003e from \u003ca href\u003d\"http://terminology.hl7.org/3.0.0/CodeSystem-v2-0001.html\" title\u003d\"http://terminology.hl7.org/CodeSystem/v2-0001\"\u003eadministrativeSex\u003c/a\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003emale\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003eMale\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003eM\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003eMale\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003efemale\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003eFemale\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003eF\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003eFemale\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"border-right-width: 0px; border-bottom-style: none\"\u003eother\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px; border-bottom-style: none\"\u003eOther\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#source-is-broader-than-target\"\u003eis broader than\u003c/a\u003e\u003c/td\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003eA\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003eAmbiguous\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"border-right-width: 0px; border-top-style: none\"/\u003e\u003ctd style\u003d\"border-top-style: none; border-left-width: 0px\"/\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#source-is-broader-than-target\"\u003eis broader than\u003c/a\u003e\u003c/td\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003eO\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003eOther\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003eunknown\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003eUnknown\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003eU\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003eUnknown\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/div\u003e"
   },
   "url": "http://hl7.org/fhir/ConceptMap/cm-administrative-gender-v2",
-  "version": "4.0.1",
+  "version": "4.1.0",
   "name": "v2.AdministrativeGender",
   "title": "v2 map for AdministrativeGender",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-12-06T18:53:36+00:00",
   "publisher": "HL7 (FHIR Project)",
   "sourceCanonical": "http://hl7.org/fhir/ValueSet/administrative-gender",
   "targetCanonical": "http://terminology.hl7.org/ValueSet/v2-0001",
@@ -24,7 +24,7 @@
           "target": [
             {
               "code": "M",
-              "equivalence": "equal"
+              "relationship": "equivalent"
             }
           ]
         },
@@ -33,7 +33,7 @@
           "target": [
             {
               "code": "F",
-              "equivalence": "equal"
+              "relationship": "equivalent"
             }
           ]
         },
@@ -42,11 +42,11 @@
           "target": [
             {
               "code": "A",
-              "equivalence": "wider"
+              "relationship": "source-is-broader-than-target"
             },
             {
               "code": "O",
-              "equivalence": "wider"
+              "relationship": "source-is-broader-than-target"
             }
           ]
         },
@@ -55,7 +55,7 @@
           "target": [
             {
               "code": "U",
-              "equivalence": "equal"
+              "relationship": "equivalent"
             }
           ]
         }

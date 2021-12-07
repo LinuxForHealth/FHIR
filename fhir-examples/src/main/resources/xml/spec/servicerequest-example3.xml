@@ -8,7 +8,7 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: do-not-turn</p><p><b>identifier</b>: 20170201-0002</p><p><b>status</b>: active</p><p><b>intent</b>: order</p><p><b>priority</b>: stat</p><p><b>doNotPerform</b>: true</p><p><b>code</b>: Turning patient in bed (procedure) <span>(Details : {SNOMED CT code '359962006' = 'Turning patient in bed', given as 'Turning patient in bed (procedure)'})</span></p><p><b>subject</b>: <a>Patient/example</a></p><p><b>authoredOn</b>: 01/02/2017 5:23:07 PM</p><p><b>requester</b>: <a>Dr Adam Careful</a></p><p><b>reasonReference</b>: Patient has a spinal fracture</p></div></text><identifier>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "do-not-turn" </p></div><p><b>identifier</b>: id: 20170201-0002</p><p><b>status</b>: active</p><p><b>intent</b>: order</p><p><b>priority</b>: stat</p><p><b>doNotPerform</b>: true</p><p><b>code</b>: Turning patient in bed (procedure) <span> (<a>SNOMED CT</a>#359962006)</span></p><p><b>subject</b>: <a>Patient/example</a> "Peter CHALMERS"</p><p><b>authoredOn</b>: 2017-02-01T17:23:07Z</p><p><b>requester</b>: <a>Practitioner/example: Dr Adam Careful</a> "Adam CAREFUL"</p><p><b>reasonReference</b>: <span>: Patient has a spinal fracture</span></p></div></text><identifier>
 		<system value="http://goodhealth.org/placer-ids">
 		</system>
 		<value value="20170201-0002"/>

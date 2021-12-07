@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for ResearchElementDefinition.subject[x]",
       "expansion": {
-        "identifier": "urn:uuid:def7ebd5-bcf3-4586-8471-587edb4b112f",
-        "timestamp": "2019-11-01T09:36:50+11:00",
+        "identifier": "urn:uuid:33a8840b-a8d9-4d61-8d61-a3e840a872cf",
+        "timestamp": "2021-12-06T19:04:28+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -32,8 +32,8 @@
       "status": "active",
       "description": "Type options for ResearchElementDefinition.characteristic.definition[x]",
       "expansion": {
-        "identifier": "urn:uuid:0922d1f0-0cde-4764-b09e-0880aad48ada",
-        "timestamp": "2019-11-01T09:36:50+11:00",
+        "identifier": "urn:uuid:3f52143f-b6a9-4073-b3cd-78d9519edd01",
+        "timestamp": "2021-12-06T19:04:28+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -65,8 +65,8 @@
       "status": "active",
       "description": "Type options for DataRequirement.subject[x]",
       "expansion": {
-        "identifier": "urn:uuid:e6065ad7-c0d0-4d4f-be5e-665b399d793c",
-        "timestamp": "2019-11-01T09:36:50+11:00",
+        "identifier": "urn:uuid:8ab5af1b-90e0-4c09-b677-45d2cacece64",
+        "timestamp": "2021-12-06T19:04:28+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -88,8 +88,8 @@
       "status": "active",
       "description": "Type options for DataRequirement.dateFilter.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:91f775c1-dad9-4755-a0c8-11ec1f24b180",
-        "timestamp": "2019-11-01T09:36:50+11:00",
+        "identifier": "urn:uuid:60291cb4-318d-4471-984f-18c9b8d55738",
+        "timestamp": "2021-12-06T19:04:28+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -116,8 +116,8 @@
       "status": "active",
       "description": "Type options for ResearchElementDefinition.characteristic.studyEffective[x]",
       "expansion": {
-        "identifier": "urn:uuid:f62a5055-7fd8-451c-a150-def0d6b8551b",
-        "timestamp": "2019-11-01T09:36:50+11:00",
+        "identifier": "urn:uuid:ab715469-d86f-4951-a89c-7e56478f050f",
+        "timestamp": "2021-12-06T19:04:28+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -149,8 +149,8 @@
       "status": "active",
       "description": "Type options for ResearchElementDefinition.characteristic.participantEffective[x]",
       "expansion": {
-        "identifier": "urn:uuid:ef80234e-9c02-4aaf-b304-2a257f2290b6",
-        "timestamp": "2019-11-01T09:36:50+11:00",
+        "identifier": "urn:uuid:2cbe089a-5d0e-444d-988e-b152b70281d5",
+        "timestamp": "2021-12-06T19:04:28+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -181,9 +181,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-12-06T18:53:36+00:00",
   "publisher": "Health Level Seven International (Clinical Decision Support)",
   "item": [
     {
@@ -371,9 +371,10 @@
             {
               "linkId": "ResearchElementDefinition.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -844,9 +845,10 @@
             {
               "linkId": "ResearchElementDefinition.status.value",
               "text": "status",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -927,9 +929,10 @@
             {
               "linkId": "ResearchElementDefinition.subject[x]._type",
               "text": "type",
-              "type": "choice",
+              "type": "coding",
               "required": false,
               "repeats": false,
+              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs2",
               "item": [
                 {
@@ -945,9 +948,10 @@
                     {
                       "linkId": "ResearchElementDefinition.subject[x]._null.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "ResearchElementDefinition.subject[x]._null.text",
@@ -1254,9 +1258,10 @@
             {
               "linkId": "ResearchElementDefinition.jurisdiction.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "ResearchElementDefinition.jurisdiction.text",
@@ -1567,9 +1572,10 @@
             {
               "linkId": "ResearchElementDefinition.topic.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "ResearchElementDefinition.topic.text",
@@ -1799,9 +1805,10 @@
             {
               "linkId": "ResearchElementDefinition.type.value",
               "text": "type",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -1842,9 +1849,10 @@
             {
               "linkId": "ResearchElementDefinition.variableType.value",
               "text": "variable type",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -2018,9 +2026,10 @@
                 {
                   "linkId": "ResearchElementDefinition.characteristic.definition[x]._type",
                   "text": "type",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
                   "repeats": false,
+                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs3",
                   "item": [
                     {
@@ -2036,9 +2045,10 @@
                         {
                           "linkId": "ResearchElementDefinition.characteristic.definition[x]._null.coding",
                           "text": "code:",
-                          "type": "open-choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOnly"
                         },
                         {
                           "linkId": "ResearchElementDefinition.characteristic.definition[x]._null.text",
@@ -2289,9 +2299,10 @@
                             {
                               "linkId": "Expression.language.value",
                               "text": "language",
-                              "type": "choice",
+                              "type": "coding",
                               "required": false,
-                              "repeats": false
+                              "repeats": false,
+                              "answerConstraint": "optionsOnly"
                             }
                           ]
                         },
@@ -2519,9 +2530,10 @@
                             {
                               "linkId": "DataRequirement.type.value",
                               "text": "type",
-                              "type": "choice",
+                              "type": "coding",
                               "required": false,
-                              "repeats": false
+                              "repeats": false,
+                              "answerConstraint": "optionsOrType"
                             }
                           ]
                         },
@@ -2598,9 +2610,10 @@
                             {
                               "linkId": "DataRequirement.subject[x]._type",
                               "text": "type",
-                              "type": "choice",
+                              "type": "coding",
                               "required": false,
                               "repeats": false,
+                              "answerConstraint": "optionsOnly",
                               "answerValueSet": "#vs4",
                               "item": [
                                 {
@@ -2616,9 +2629,10 @@
                                     {
                                       "linkId": "DataRequirement.subject[x]._null.coding",
                                       "text": "code:",
-                                      "type": "open-choice",
+                                      "type": "coding",
                                       "required": false,
-                                      "repeats": false
+                                      "repeats": false,
+                                      "answerConstraint": "optionsOnly"
                                     },
                                     {
                                       "linkId": "DataRequirement.subject[x]._null.text",
@@ -2957,9 +2971,10 @@
                                 {
                                   "linkId": "DataRequirement.codeFilter.code.value",
                                   "text": "What code is expected",
-                                  "type": "open-choice",
+                                  "type": "coding",
                                   "required": false,
-                                  "repeats": false
+                                  "repeats": false,
+                                  "answerConstraint": "optionsOnly"
                                 }
                               ]
                             }
@@ -3180,9 +3195,10 @@
                                 {
                                   "linkId": "DataRequirement.dateFilter.value[x]._type",
                                   "text": "type",
-                                  "type": "choice",
+                                  "type": "coding",
                                   "required": false,
                                   "repeats": false,
+                                  "answerConstraint": "optionsOnly",
                                   "answerValueSet": "#vs5",
                                   "item": [
                                     {
@@ -3242,9 +3258,10 @@
                                         {
                                           "linkId": "DataRequirement.dateFilter.value[x]._null.comparator",
                                           "text": "comp:",
-                                          "type": "choice",
+                                          "type": "coding",
                                           "required": false,
-                                          "repeats": false
+                                          "repeats": false,
+                                          "answerConstraint": "optionsOnly"
                                         },
                                         {
                                           "linkId": "DataRequirement.dateFilter.value[x]._null.value",
@@ -3512,9 +3529,10 @@
                                 {
                                   "linkId": "DataRequirement.sort.direction.value",
                                   "text": "direction",
-                                  "type": "choice",
+                                  "type": "coding",
                                   "required": false,
-                                  "repeats": false
+                                  "repeats": false,
+                                  "answerConstraint": "optionsOrType"
                                 }
                               ]
                             }
@@ -3634,9 +3652,10 @@
                 {
                   "linkId": "ResearchElementDefinition.characteristic.unitOfMeasure.coding",
                   "text": "code:",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOrType"
                 },
                 {
                   "linkId": "ResearchElementDefinition.characteristic.unitOfMeasure.text",
@@ -3724,9 +3743,10 @@
                 {
                   "linkId": "ResearchElementDefinition.characteristic.studyEffective[x]._type",
                   "text": "type",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
                   "repeats": false,
+                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs6",
                   "item": [
                     {
@@ -3786,9 +3806,10 @@
                         {
                           "linkId": "ResearchElementDefinition.characteristic.studyEffective[x]._null.comparator",
                           "text": "comp:",
-                          "type": "choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOnly"
                         },
                         {
                           "linkId": "ResearchElementDefinition.characteristic.studyEffective[x]._null.value",
@@ -3909,9 +3930,10 @@
                 {
                   "linkId": "ResearchElementDefinition.characteristic.studyEffectiveTimeFromStart.comparator",
                   "text": "comp:",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "ResearchElementDefinition.characteristic.studyEffectiveTimeFromStart.value",
@@ -3980,9 +4002,10 @@
                 {
                   "linkId": "ResearchElementDefinition.characteristic.studyEffectiveGroupMeasure.value",
                   "text": "study effective group measure",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOrType"
                 }
               ]
             },
@@ -4063,9 +4086,10 @@
                 {
                   "linkId": "ResearchElementDefinition.characteristic.participantEffective[x]._type",
                   "text": "type",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
                   "repeats": false,
+                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs7",
                   "item": [
                     {
@@ -4125,9 +4149,10 @@
                         {
                           "linkId": "ResearchElementDefinition.characteristic.participantEffective[x]._null.comparator",
                           "text": "comp:",
-                          "type": "choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOnly"
                         },
                         {
                           "linkId": "ResearchElementDefinition.characteristic.participantEffective[x]._null.value",
@@ -4248,9 +4273,10 @@
                 {
                   "linkId": "ResearchElementDefinition.characteristic.participantEffectiveTimeFromStart.comparator",
                   "text": "comp:",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "ResearchElementDefinition.characteristic.participantEffectiveTimeFromStart.value",
@@ -4319,9 +4345,10 @@
                 {
                   "linkId": "ResearchElementDefinition.characteristic.participantEffectiveGroupMeasure.value",
                   "text": "participant effective group measure",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOrType"
                 }
               ]
             }

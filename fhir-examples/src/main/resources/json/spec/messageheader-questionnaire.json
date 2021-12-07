@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for MessageHeader.event[x]",
       "expansion": {
-        "identifier": "urn:uuid:04f5a58a-95e3-4f7a-a7cc-68fbf484d7e9",
-        "timestamp": "2019-11-01T09:36:07+11:00",
+        "identifier": "urn:uuid:6b8e5739-6e44-4cd9-82ed-c00049e2d090",
+        "timestamp": "2021-12-06T19:03:53+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -31,9 +31,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-12-06T18:53:36+00:00",
   "publisher": "Health Level Seven International (Infrastructure And Messaging)",
   "item": [
     {
@@ -217,9 +217,10 @@
             {
               "linkId": "MessageHeader.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -375,9 +376,10 @@
             {
               "linkId": "MessageHeader.event[x]._type",
               "text": "type",
-              "type": "choice",
+              "type": "coding",
               "required": false,
               "repeats": false,
+              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs2",
               "item": [
                 {
@@ -392,9 +394,10 @@
                   "item": [
                     {
                       "linkId": "MessageHeader.event[x]._null.value",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     }
                   ]
                 },
@@ -1202,9 +1205,10 @@
                 {
                   "linkId": "MessageHeader.source.contact.system",
                   "text": "type:",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "MessageHeader.source.contact.value",
@@ -1216,9 +1220,10 @@
                 {
                   "linkId": "MessageHeader.source.contact.use",
                   "text": "use:",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 }
               ]
             },
@@ -1362,9 +1367,10 @@
             {
               "linkId": "MessageHeader.reason.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "MessageHeader.reason.text",
@@ -1591,9 +1597,10 @@
                 {
                   "linkId": "MessageHeader.response.code.value",
                   "text": "code",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOrType"
                 }
               ]
             },

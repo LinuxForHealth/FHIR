@@ -1,0 +1,102 @@
+{
+  "resourceType": "CodeSystem",
+  "id": "focus-characteristic-code",
+  "meta": {
+    "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+    "profile": [
+      "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\n      \n      \u003cp\u003eThis code system http://terminology.hl7.org/CodeSystem/focus-characteristic-code defines the following codes:\u003c/p\u003e\n      \n      \u003ctable class\u003d\"codes\"\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003e\n            \n            \u003cb\u003eCode\u003c/b\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003e\n            \n            \u003cb\u003eDisplay\u003c/b\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003e\n            \n            \u003cb\u003eDefinition\u003c/b\u003e\n          \n          \u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003ecitation\n            \n            \u003ca name\u003d\"focus-characteristic-code-citation\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eCitation\u003c/td\u003e\n          \n          \u003ctd\u003eUsed to reference a specific article.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eclinical-outcomes-observed\n            \n            \u003ca name\u003d\"focus-characteristic-code-clinical-outcomes-observed\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eObserved outcomes are clinical outcomes\u003c/td\u003e\n          \n          \u003ctd\u003eUsed to denote a focus on clinical outcomes, ie evidence variable in role of outcome (measured variable) as observed is considered a \u0026quot;clinical outcome\u0026quot; (patient-important outcome such as mortality, symptoms, function or quality of life).\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003epopulation\n            \n            \u003ca name\u003d\"focus-characteristic-code-population\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003ePopulation\u003c/td\u003e\n          \n          \u003ctd\u003eThe population of interest.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eexposure\n            \n            \u003ca name\u003d\"focus-characteristic-code-exposure\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eExposure\u003c/td\u003e\n          \n          \u003ctd\u003eThe exposure of interest, such as an intervention.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003ecomparator\n            \n            \u003ca name\u003d\"focus-characteristic-code-comparator\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eComparator\u003c/td\u003e\n          \n          \u003ctd\u003eThe comparator (intervention or control state) of interest.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eoutcome\n            \n            \u003ca name\u003d\"focus-characteristic-code-outcome\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eOutcome\u003c/td\u003e\n          \n          \u003ctd\u003ethe outcome of interest.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003emedication-exposures\n            \n            \u003ca name\u003d\"focus-characteristic-code-medication-exposures\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eMedication exposures\u003c/td\u003e\n          \n          \u003ctd\u003eAny medication exposures. A subset of exposures or interventions that are medications.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003estudy-type\n            \n            \u003ca name\u003d\"focus-characteristic-code-study-type\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eStudy type\u003c/td\u003e\n          \n          \u003ctd\u003eType of research study, such as randomized trial or case-control study.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n      \n      \u003c/table\u003e\n    \n    \u003c/div\u003e"
+  },
+  "extension": [
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+      "valueCode": "cds"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+      "valueCode": "trial-use"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+      "valueInteger": 0
+    }
+  ],
+  "url": "http://terminology.hl7.org/CodeSystem/focus-characteristic-code",
+  "identifier": [
+    {
+      "system": "urn:ietf:rfc:3986",
+      "value": "urn:oid:2.16.840.1.113883.4.642.1.0"
+    }
+  ],
+  "version": "4.1.0",
+  "name": "FocusCharacteristicCode",
+  "title": "FocusCharacteristicCode",
+  "status": "draft",
+  "experimental": false,
+  "date": "2020-12-28T16:55:11+11:00",
+  "publisher": "HL7 (FHIR Project)",
+  "contact": [
+    {
+      "telecom": [
+        {
+          "system": "url",
+          "value": "http://hl7.org/fhir"
+        },
+        {
+          "system": "email",
+          "value": "fhir@lists.hl7.org"
+        }
+      ]
+    }
+  ],
+  "description": "Evidence focus characteristic code.",
+  "caseSensitive": true,
+  "valueSet": "http://hl7.org/fhir/ValueSet/focus-characteristic-code",
+  "content": "complete",
+  "concept": [
+    {
+      "code": "citation",
+      "display": "Citation",
+      "definition": "Used to reference a specific article."
+    },
+    {
+      "code": "clinical-outcomes-observed",
+      "display": "Observed outcomes are clinical outcomes",
+      "definition": "Used to denote a focus on clinical outcomes, ie evidence variable in role of outcome (measured variable) as observed is considered a \"clinical outcome\" (patient-important outcome such as mortality, symptoms, function or quality of life)."
+    },
+    {
+      "code": "population",
+      "display": "Population",
+      "definition": "The population of interest."
+    },
+    {
+      "code": "exposure",
+      "display": "Exposure",
+      "definition": "The exposure of interest, such as an intervention."
+    },
+    {
+      "code": "comparator",
+      "display": "Comparator",
+      "definition": "The comparator (intervention or control state) of interest."
+    },
+    {
+      "code": "outcome",
+      "display": "Outcome",
+      "definition": "the outcome of interest."
+    },
+    {
+      "code": "medication-exposures",
+      "display": "Medication exposures",
+      "definition": "Any medication exposures. A subset of exposures or interventions that are medications."
+    },
+    {
+      "code": "study-type",
+      "display": "Study type",
+      "definition": "Type of research study, such as randomized trial or case-control study."
+    }
+  ]
+}

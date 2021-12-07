@@ -7,7 +7,7 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: f205</p><p><b>clinicalStatus</b>: Active <span>(Details : {http://terminology.hl7.org/CodeSystem/condition-clinical code 'active' = 'Active)</span></p><p><b>verificationStatus</b>: Differential <span>(Details : {http://terminology.hl7.org/CodeSystem/condition-ver-status code 'differential' = 'Differential)</span></p><p><b>code</b>: Bacterial infectious disease <span>(Details : {SNOMED CT code '87628006' = 'Bacterial infectious disease', given as 'Bacterial infectious disease'})</span></p><p><b>subject</b>: <a>Roel</a></p><p><b>recordedDate</b>: 04/04/2013</p><p><b>asserter</b>: <a>Practitioner/f201</a></p></div></text><clinicalStatus>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "f205" </p></div><p><b>clinicalStatus</b>: Active <span> (<a>Condition Clinical Status Codes</a>#active)</span></p><p><b>verificationStatus</b>: Differential <span> (<a>ConditionVerificationStatus</a>#differential)</span></p><p><b>code</b>: Bacterial infectious disease <span> (<a>SNOMED CT</a>#87628006)</span></p><p><b>subject</b>: <a>Patient/f201: Roel</a> "Roel"</p><p><b>recordedDate</b>: 2013-04-04</p><p><b>asserter</b>: <a>Practitioner/f201</a> "Dokter Bronsig"</p></div></text><clinicalStatus>
     <coding>
       <system value="http://terminology.hl7.org/CodeSystem/condition-clinical"/>
       <code value="active"/>

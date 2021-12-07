@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for DetectedIssue.identified[x]",
       "expansion": {
-        "identifier": "urn:uuid:7557a2ab-a6ee-4bef-993d-84f93a154986",
-        "timestamp": "2019-11-01T09:34:58+11:00",
+        "identifier": "urn:uuid:08d63cd0-5fb4-4f74-a688-e0e771e24176",
+        "timestamp": "2021-12-06T19:02:56+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -31,9 +31,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-12-06T18:53:36+00:00",
   "publisher": "Health Level Seven International (Clinical Decision Support)",
   "item": [
     {
@@ -217,9 +217,10 @@
             {
               "linkId": "DetectedIssue.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -432,9 +433,10 @@
             {
               "linkId": "DetectedIssue.status.value",
               "text": "status",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -476,9 +478,10 @@
             {
               "linkId": "DetectedIssue.code.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "DetectedIssue.code.text",
@@ -526,9 +529,10 @@
             {
               "linkId": "DetectedIssue.severity.value",
               "text": "severity",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -619,9 +623,10 @@
             {
               "linkId": "DetectedIssue.identified[x]._type",
               "text": "type",
-              "type": "choice",
+              "type": "coding",
               "required": false,
               "repeats": false,
+              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs2",
               "item": [
                 {
@@ -930,9 +935,10 @@
                 {
                   "linkId": "DetectedIssue.evidence.code.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "DetectedIssue.evidence.code.text",
@@ -1244,9 +1250,10 @@
                 {
                   "linkId": "DetectedIssue.mitigation.action.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "DetectedIssue.mitigation.action.text",

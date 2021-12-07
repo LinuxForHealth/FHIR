@@ -7,12 +7,7 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text>
-    <status value="generated"/>
-    <div xmlns="http://www.w3.org/1999/xhtml">
-    </div>
-  </text>
-  <status value="draft"/>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "example" </p></div><p><b>status</b>: draft</p><p><b>purpose</b>: Monitor all admissions to Emergency</p></div></text><status value="draft"/>
   <purpose value="Monitor all admissions to Emergency"/>
   <trigger>
     <type value="named-event"/>

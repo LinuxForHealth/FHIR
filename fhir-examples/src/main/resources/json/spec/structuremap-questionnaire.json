@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for StructureMap.group.rule.source.defaultValue[x]",
       "expansion": {
-        "identifier": "urn:uuid:8ef6dfc9-00d5-412b-adbd-eb20e2f743db",
-        "timestamp": "2019-11-01T09:36:58+11:00",
+        "identifier": "urn:uuid:6c3a633e-8ec8-4c78-9b0c-1e553ee9b126",
+        "timestamp": "2021-12-06T19:04:36+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -262,8 +262,8 @@
       "status": "active",
       "description": "Type options for DataRequirement.subject[x]",
       "expansion": {
-        "identifier": "urn:uuid:75aaef28-954c-448c-bda0-ff80dec8735b",
-        "timestamp": "2019-11-01T09:36:58+11:00",
+        "identifier": "urn:uuid:2446f0a1-9d4d-4af4-b5b0-3536d06cc251",
+        "timestamp": "2021-12-06T19:04:36+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -285,8 +285,8 @@
       "status": "active",
       "description": "Type options for DataRequirement.dateFilter.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:78afb7ec-0359-44ca-9b56-0d6cd7345616",
-        "timestamp": "2019-11-01T09:36:58+11:00",
+        "identifier": "urn:uuid:8b16b8a0-c035-4b43-9ea0-4f9c237ebf07",
+        "timestamp": "2021-12-06T19:04:36+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -313,8 +313,8 @@
       "status": "active",
       "description": "Type options for TriggerDefinition.timing[x]",
       "expansion": {
-        "identifier": "urn:uuid:9a7a8fb2-941b-4fa6-b00f-e1672fbe1d9a",
-        "timestamp": "2019-11-01T09:36:58+11:00",
+        "identifier": "urn:uuid:2644f4a8-597f-49d1-a766-81bcb55c8335",
+        "timestamp": "2021-12-06T19:04:36+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -346,8 +346,8 @@
       "status": "active",
       "description": "Type options for UsageContext.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:6e56eddb-c110-4f0c-9731-01e1d1241227",
-        "timestamp": "2019-11-01T09:36:58+11:00",
+        "identifier": "urn:uuid:9428189e-4430-429f-927d-66af240ef0d6",
+        "timestamp": "2021-12-06T19:04:36+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -409,8 +409,8 @@
       "status": "active",
       "description": "Type options for Dosage.asNeeded[x]",
       "expansion": {
-        "identifier": "urn:uuid:30b6d601-b574-4cc3-9560-f7035f1c3dca",
-        "timestamp": "2019-11-01T09:36:58+11:00",
+        "identifier": "urn:uuid:9c0ae0ef-d0f1-4285-93d5-d68037151a77",
+        "timestamp": "2021-12-06T19:04:36+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -432,8 +432,8 @@
       "status": "active",
       "description": "Type options for Dosage.doseAndRate.dose[x]",
       "expansion": {
-        "identifier": "urn:uuid:084a4048-0fb8-410a-8f5b-94a5e8b97af5",
-        "timestamp": "2019-11-01T09:36:58+11:00",
+        "identifier": "urn:uuid:2e6d7f2a-e812-49e0-a0bc-e4e9dfa95627",
+        "timestamp": "2021-12-06T19:04:36+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -455,8 +455,8 @@
       "status": "active",
       "description": "Type options for Dosage.doseAndRate.rate[x]",
       "expansion": {
-        "identifier": "urn:uuid:301a1b54-974e-4865-aef0-0cd28e716b29",
-        "timestamp": "2019-11-01T09:36:58+11:00",
+        "identifier": "urn:uuid:d88451d3-3c5e-4d50-9618-d55036e108e9",
+        "timestamp": "2021-12-06T19:04:36+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -483,8 +483,8 @@
       "status": "active",
       "description": "Type options for StructureMap.group.rule.target.parameter.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:e2723c3f-e650-4dc7-ae8e-1f158e1f3bad",
-        "timestamp": "2019-11-01T09:36:58+11:00",
+        "identifier": "urn:uuid:d34e02d8-a056-4ba4-884f-6d6d96c915e2",
+        "timestamp": "2021-12-06T19:04:36+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -520,9 +520,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-12-06T18:53:36+00:00",
   "publisher": "Health Level Seven International (FHIR Infrastructure)",
   "item": [
     {
@@ -706,9 +706,10 @@
             {
               "linkId": "StructureMap.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -1101,9 +1102,10 @@
             {
               "linkId": "StructureMap.status.value",
               "text": "status",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -1375,9 +1377,10 @@
             {
               "linkId": "StructureMap.jurisdiction.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "StructureMap.jurisdiction.text",
@@ -1688,9 +1691,10 @@
                 {
                   "linkId": "StructureMap.structure.mode.value",
                   "text": "mode",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOrType"
                 }
               ]
             },
@@ -2080,9 +2084,10 @@
                 {
                   "linkId": "StructureMap.group.typeMode.value",
                   "text": "type mode",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOrType"
                 }
               ]
             },
@@ -2392,9 +2397,10 @@
                     {
                       "linkId": "StructureMap.group.input.mode.value",
                       "text": "mode",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOrType"
                     }
                   ]
                 },
@@ -2956,9 +2962,10 @@
                         {
                           "linkId": "StructureMap.group.rule.source.defaultValue[x]._type",
                           "text": "type",
-                          "type": "choice",
+                          "type": "coding",
                           "required": false,
                           "repeats": false,
+                          "answerConstraint": "optionsOnly",
                           "answerValueSet": "#vs2",
                           "item": [
                             {
@@ -3020,9 +3027,10 @@
                                 {
                                   "linkId": "StructureMap.group.rule.source.defaultValue[x]._null.value",
                                   "text": "default value[x]",
-                                  "type": "choice",
+                                  "type": "coding",
                                   "required": false,
-                                  "repeats": false
+                                  "repeats": false,
+                                  "answerConstraint": "optionsOnly"
                                 }
                               ]
                             },
@@ -3351,9 +3359,10 @@
                                 {
                                   "linkId": "StructureMap.group.rule.source.defaultValue[x]._null.use",
                                   "text": "use:",
-                                  "type": "choice",
+                                  "type": "coding",
                                   "required": false,
-                                  "repeats": false
+                                  "repeats": false,
+                                  "answerConstraint": "optionsOnly"
                                 }
                               ]
                             },
@@ -3370,9 +3379,10 @@
                                 {
                                   "linkId": "StructureMap.group.rule.source.defaultValue[x]._null.comparator",
                                   "text": "comp:",
-                                  "type": "choice",
+                                  "type": "coding",
                                   "required": false,
-                                  "repeats": false
+                                  "repeats": false,
+                                  "answerConstraint": "optionsOnly"
                                 },
                                 {
                                   "linkId": "StructureMap.group.rule.source.defaultValue[x]._null.value",
@@ -3437,9 +3447,10 @@
                                 {
                                   "linkId": "StructureMap.group.rule.source.defaultValue[x]._null.coding",
                                   "text": "code:",
-                                  "type": "open-choice",
+                                  "type": "coding",
                                   "required": false,
-                                  "repeats": false
+                                  "repeats": false,
+                                  "answerConstraint": "optionsOnly"
                                 },
                                 {
                                   "linkId": "StructureMap.group.rule.source.defaultValue[x]._null.text",
@@ -3462,9 +3473,10 @@
                               "item": [
                                 {
                                   "linkId": "StructureMap.group.rule.source.defaultValue[x]._null.value",
-                                  "type": "open-choice",
+                                  "type": "coding",
                                   "required": false,
-                                  "repeats": false
+                                  "repeats": false,
+                                  "answerConstraint": "optionsOnly"
                                 }
                               ]
                             },
@@ -3481,9 +3493,10 @@
                                 {
                                   "linkId": "StructureMap.group.rule.source.defaultValue[x]._null.system",
                                   "text": "type:",
-                                  "type": "choice",
+                                  "type": "coding",
                                   "required": false,
-                                  "repeats": false
+                                  "repeats": false,
+                                  "answerConstraint": "optionsOnly"
                                 },
                                 {
                                   "linkId": "StructureMap.group.rule.source.defaultValue[x]._null.value",
@@ -3495,9 +3508,10 @@
                                 {
                                   "linkId": "StructureMap.group.rule.source.defaultValue[x]._null.use",
                                   "text": "use:",
-                                  "type": "choice",
+                                  "type": "coding",
                                   "required": false,
-                                  "repeats": false
+                                  "repeats": false,
+                                  "answerConstraint": "optionsOnly"
                                 }
                               ]
                             },
@@ -3514,9 +3528,10 @@
                                 {
                                   "linkId": "StructureMap.group.rule.source.defaultValue[x]._null.comparator",
                                   "text": "comp:",
-                                  "type": "choice",
+                                  "type": "coding",
                                   "required": false,
-                                  "repeats": false
+                                  "repeats": false,
+                                  "answerConstraint": "optionsOnly"
                                 },
                                 {
                                   "linkId": "StructureMap.group.rule.source.defaultValue[x]._null.value",
@@ -3561,9 +3576,10 @@
                                 {
                                   "linkId": "StructureMap.group.rule.source.defaultValue[x]._null.comparator",
                                   "text": "comp:",
-                                  "type": "choice",
+                                  "type": "coding",
                                   "required": false,
-                                  "repeats": false
+                                  "repeats": false,
+                                  "answerConstraint": "optionsOnly"
                                 },
                                 {
                                   "linkId": "StructureMap.group.rule.source.defaultValue[x]._null.value",
@@ -3608,9 +3624,10 @@
                                 {
                                   "linkId": "StructureMap.group.rule.source.defaultValue[x]._null.comparator",
                                   "text": "comp:",
-                                  "type": "choice",
+                                  "type": "coding",
                                   "required": false,
-                                  "repeats": false
+                                  "repeats": false,
+                                  "answerConstraint": "optionsOnly"
                                 },
                                 {
                                   "linkId": "StructureMap.group.rule.source.defaultValue[x]._null.value",
@@ -3721,9 +3738,10 @@
                                 {
                                   "linkId": "StructureMap.group.rule.source.defaultValue[x]._null.comparator",
                                   "text": "comp:",
-                                  "type": "choice",
+                                  "type": "coding",
                                   "required": false,
-                                  "repeats": false
+                                  "repeats": false,
+                                  "answerConstraint": "optionsOnly"
                                 },
                                 {
                                   "linkId": "StructureMap.group.rule.source.defaultValue[x]._null.value",
@@ -3794,9 +3812,10 @@
                                 {
                                   "linkId": "StructureMap.group.rule.source.defaultValue[x]._null.comparator",
                                   "text": "comp:",
-                                  "type": "choice",
+                                  "type": "coding",
                                   "required": false,
-                                  "repeats": false
+                                  "repeats": false,
+                                  "answerConstraint": "optionsOnly"
                                 },
                                 {
                                   "linkId": "StructureMap.group.rule.source.defaultValue[x]._null.value",
@@ -4151,9 +4170,10 @@
                                     {
                                       "linkId": "ContactDetail.telecom.system",
                                       "text": "type:",
-                                      "type": "choice",
+                                      "type": "coding",
                                       "required": false,
-                                      "repeats": false
+                                      "repeats": false,
+                                      "answerConstraint": "optionsOnly"
                                     },
                                     {
                                       "linkId": "ContactDetail.telecom.value",
@@ -4165,9 +4185,10 @@
                                     {
                                       "linkId": "ContactDetail.telecom.use",
                                       "text": "use:",
-                                      "type": "choice",
+                                      "type": "coding",
                                       "required": false,
-                                      "repeats": false
+                                      "repeats": false,
+                                      "answerConstraint": "optionsOnly"
                                     }
                                   ]
                                 }
@@ -4309,9 +4330,10 @@
                                     {
                                       "linkId": "Contributor.type.value",
                                       "text": "type",
-                                      "type": "choice",
+                                      "type": "coding",
                                       "required": false,
-                                      "repeats": false
+                                      "repeats": false,
+                                      "answerConstraint": "optionsOrType"
                                     }
                                   ]
                                 },
@@ -4527,9 +4549,10 @@
                                     {
                                       "linkId": "DataRequirement.type.value",
                                       "text": "type",
-                                      "type": "choice",
+                                      "type": "coding",
                                       "required": false,
-                                      "repeats": false
+                                      "repeats": false,
+                                      "answerConstraint": "optionsOrType"
                                     }
                                   ]
                                 },
@@ -4606,9 +4629,10 @@
                                     {
                                       "linkId": "DataRequirement.subject[x]._type",
                                       "text": "type",
-                                      "type": "choice",
+                                      "type": "coding",
                                       "required": false,
                                       "repeats": false,
+                                      "answerConstraint": "optionsOnly",
                                       "answerValueSet": "#vs3",
                                       "item": [
                                         {
@@ -4624,9 +4648,10 @@
                                             {
                                               "linkId": "DataRequirement.subject[x]._null.coding",
                                               "text": "code:",
-                                              "type": "open-choice",
+                                              "type": "coding",
                                               "required": false,
-                                              "repeats": false
+                                              "repeats": false,
+                                              "answerConstraint": "optionsOnly"
                                             },
                                             {
                                               "linkId": "DataRequirement.subject[x]._null.text",
@@ -4965,9 +4990,10 @@
                                         {
                                           "linkId": "DataRequirement.codeFilter.code.value",
                                           "text": "What code is expected",
-                                          "type": "open-choice",
+                                          "type": "coding",
                                           "required": false,
-                                          "repeats": false
+                                          "repeats": false,
+                                          "answerConstraint": "optionsOnly"
                                         }
                                       ]
                                     }
@@ -5188,9 +5214,10 @@
                                         {
                                           "linkId": "DataRequirement.dateFilter.value[x]._type",
                                           "text": "type",
-                                          "type": "choice",
+                                          "type": "coding",
                                           "required": false,
                                           "repeats": false,
+                                          "answerConstraint": "optionsOnly",
                                           "answerValueSet": "#vs4",
                                           "item": [
                                             {
@@ -5250,9 +5277,10 @@
                                                 {
                                                   "linkId": "DataRequirement.dateFilter.value[x]._null.comparator",
                                                   "text": "comp:",
-                                                  "type": "choice",
+                                                  "type": "coding",
                                                   "required": false,
-                                                  "repeats": false
+                                                  "repeats": false,
+                                                  "answerConstraint": "optionsOnly"
                                                 },
                                                 {
                                                   "linkId": "DataRequirement.dateFilter.value[x]._null.value",
@@ -5520,9 +5548,10 @@
                                         {
                                           "linkId": "DataRequirement.sort.direction.value",
                                           "text": "direction",
-                                          "type": "choice",
+                                          "type": "coding",
                                           "required": false,
-                                          "repeats": false
+                                          "repeats": false,
+                                          "answerConstraint": "optionsOrType"
                                         }
                                       ]
                                     }
@@ -5752,9 +5781,10 @@
                                     {
                                       "linkId": "Expression.language.value",
                                       "text": "language",
-                                      "type": "choice",
+                                      "type": "coding",
                                       "required": false,
-                                      "repeats": false
+                                      "repeats": false,
+                                      "answerConstraint": "optionsOnly"
                                     }
                                   ]
                                 },
@@ -5978,9 +6008,10 @@
                                     {
                                       "linkId": "ParameterDefinition.name.value",
                                       "text": "name",
-                                      "type": "choice",
+                                      "type": "coding",
                                       "required": false,
-                                      "repeats": false
+                                      "repeats": false,
+                                      "answerConstraint": "optionsOnly"
                                     }
                                   ]
                                 },
@@ -6025,9 +6056,10 @@
                                     {
                                       "linkId": "ParameterDefinition.use.value",
                                       "text": "use",
-                                      "type": "choice",
+                                      "type": "coding",
                                       "required": false,
-                                      "repeats": false
+                                      "repeats": false,
+                                      "answerConstraint": "optionsOrType"
                                     }
                                   ]
                                 },
@@ -6201,9 +6233,10 @@
                                     {
                                       "linkId": "ParameterDefinition.type.value",
                                       "text": "type",
-                                      "type": "choice",
+                                      "type": "coding",
                                       "required": false,
-                                      "repeats": false
+                                      "repeats": false,
+                                      "answerConstraint": "optionsOrType"
                                     }
                                   ]
                                 },
@@ -6392,9 +6425,10 @@
                                     {
                                       "linkId": "RelatedArtifact.type.value",
                                       "text": "type",
-                                      "type": "choice",
+                                      "type": "coding",
                                       "required": false,
-                                      "repeats": false
+                                      "repeats": false,
+                                      "answerConstraint": "optionsOrType"
                                     }
                                   ]
                                 },
@@ -6792,9 +6826,10 @@
                                     {
                                       "linkId": "TriggerDefinition.type.value",
                                       "text": "type",
-                                      "type": "choice",
+                                      "type": "coding",
                                       "required": false,
-                                      "repeats": false
+                                      "repeats": false,
+                                      "answerConstraint": "optionsOrType"
                                     }
                                   ]
                                 },
@@ -6875,9 +6910,10 @@
                                     {
                                       "linkId": "TriggerDefinition.timing[x]._type",
                                       "text": "type",
-                                      "type": "choice",
+                                      "type": "coding",
                                       "required": false,
                                       "repeats": false,
+                                      "answerConstraint": "optionsOnly",
                                       "answerValueSet": "#vs5",
                                       "item": [
                                         {
@@ -7201,9 +7237,10 @@
                                     {
                                       "linkId": "UsageContext.code.value",
                                       "text": "Type of context being specified",
-                                      "type": "open-choice",
+                                      "type": "coding",
                                       "required": false,
-                                      "repeats": false
+                                      "repeats": false,
+                                      "answerConstraint": "optionsOnly"
                                     }
                                   ]
                                 },
@@ -7245,9 +7282,10 @@
                                     {
                                       "linkId": "UsageContext.value[x]._type",
                                       "text": "type",
-                                      "type": "choice",
+                                      "type": "coding",
                                       "required": false,
                                       "repeats": false,
+                                      "answerConstraint": "optionsOnly",
                                       "answerValueSet": "#vs6",
                                       "item": [
                                         {
@@ -7263,9 +7301,10 @@
                                             {
                                               "linkId": "UsageContext.value[x]._null.coding",
                                               "text": "code:",
-                                              "type": "open-choice",
+                                              "type": "coding",
                                               "required": false,
-                                              "repeats": false
+                                              "repeats": false,
+                                              "answerConstraint": "optionsOnly"
                                             },
                                             {
                                               "linkId": "UsageContext.value[x]._null.text",
@@ -7289,9 +7328,10 @@
                                             {
                                               "linkId": "UsageContext.value[x]._null.comparator",
                                               "text": "comp:",
-                                              "type": "choice",
+                                              "type": "coding",
                                               "required": false,
-                                              "repeats": false
+                                              "repeats": false,
+                                              "answerConstraint": "optionsOnly"
                                             },
                                             {
                                               "linkId": "UsageContext.value[x]._null.value",
@@ -7632,9 +7672,10 @@
                                     {
                                       "linkId": "Dosage.additionalInstruction.coding",
                                       "text": "code:",
-                                      "type": "open-choice",
+                                      "type": "coding",
                                       "required": false,
-                                      "repeats": false
+                                      "repeats": false,
+                                      "answerConstraint": "optionsOnly"
                                     },
                                     {
                                       "linkId": "Dosage.additionalInstruction.text",
@@ -7794,9 +7835,10 @@
                                     {
                                       "linkId": "Dosage.asNeeded[x]._type",
                                       "text": "type",
-                                      "type": "choice",
+                                      "type": "coding",
                                       "required": false,
                                       "repeats": false,
+                                      "answerConstraint": "optionsOnly",
                                       "answerValueSet": "#vs7",
                                       "item": [
                                         {
@@ -7830,9 +7872,10 @@
                                             {
                                               "linkId": "Dosage.asNeeded[x]._null.coding",
                                               "text": "code:",
-                                              "type": "open-choice",
+                                              "type": "coding",
                                               "required": false,
-                                              "repeats": false
+                                              "repeats": false,
+                                              "answerConstraint": "optionsOnly"
                                             },
                                             {
                                               "linkId": "Dosage.asNeeded[x]._null.text",
@@ -7885,9 +7928,10 @@
                                     {
                                       "linkId": "Dosage.site.coding",
                                       "text": "code:",
-                                      "type": "open-choice",
+                                      "type": "coding",
                                       "required": false,
-                                      "repeats": false
+                                      "repeats": false,
+                                      "answerConstraint": "optionsOnly"
                                     },
                                     {
                                       "linkId": "Dosage.site.text",
@@ -7936,9 +7980,10 @@
                                     {
                                       "linkId": "Dosage.route.coding",
                                       "text": "code:",
-                                      "type": "open-choice",
+                                      "type": "coding",
                                       "required": false,
-                                      "repeats": false
+                                      "repeats": false,
+                                      "answerConstraint": "optionsOnly"
                                     },
                                     {
                                       "linkId": "Dosage.route.text",
@@ -7987,9 +8032,10 @@
                                     {
                                       "linkId": "Dosage.method.coding",
                                       "text": "code:",
-                                      "type": "open-choice",
+                                      "type": "coding",
                                       "required": false,
-                                      "repeats": false
+                                      "repeats": false,
+                                      "answerConstraint": "optionsOnly"
                                     },
                                     {
                                       "linkId": "Dosage.method.text",
@@ -8133,9 +8179,10 @@
                                         {
                                           "linkId": "Dosage.doseAndRate.type.coding",
                                           "text": "code:",
-                                          "type": "open-choice",
+                                          "type": "coding",
                                           "required": false,
-                                          "repeats": false
+                                          "repeats": false,
+                                          "answerConstraint": "optionsOnly"
                                         },
                                         {
                                           "linkId": "Dosage.doseAndRate.type.text",
@@ -8180,9 +8227,10 @@
                                         {
                                           "linkId": "Dosage.doseAndRate.dose[x]._type",
                                           "text": "type",
-                                          "type": "choice",
+                                          "type": "coding",
                                           "required": false,
                                           "repeats": false,
+                                          "answerConstraint": "optionsOnly",
                                           "answerValueSet": "#vs8",
                                           "item": [
                                             {
@@ -8231,9 +8279,10 @@
                                                 {
                                                   "linkId": "Dosage.doseAndRate.dose[x]._null.comparator",
                                                   "text": "comp:",
-                                                  "type": "choice",
+                                                  "type": "coding",
                                                   "required": false,
-                                                  "repeats": false
+                                                  "repeats": false,
+                                                  "answerConstraint": "optionsOnly"
                                                 },
                                                 {
                                                   "linkId": "Dosage.doseAndRate.dose[x]._null.value",
@@ -8303,9 +8352,10 @@
                                         {
                                           "linkId": "Dosage.doseAndRate.rate[x]._type",
                                           "text": "type",
-                                          "type": "choice",
+                                          "type": "coding",
                                           "required": false,
                                           "repeats": false,
+                                          "answerConstraint": "optionsOnly",
                                           "answerValueSet": "#vs9",
                                           "item": [
                                             {
@@ -8387,9 +8437,10 @@
                                                 {
                                                   "linkId": "Dosage.doseAndRate.rate[x]._null.comparator",
                                                   "text": "comp:",
-                                                  "type": "choice",
+                                                  "type": "coding",
                                                   "required": false,
-                                                  "repeats": false
+                                                  "repeats": false,
+                                                  "answerConstraint": "optionsOnly"
                                                 },
                                                 {
                                                   "linkId": "Dosage.doseAndRate.rate[x]._null.value",
@@ -8523,9 +8574,10 @@
                                     {
                                       "linkId": "Dosage.maxDosePerAdministration.comparator",
                                       "text": "comp:",
-                                      "type": "choice",
+                                      "type": "coding",
                                       "required": false,
-                                      "repeats": false
+                                      "repeats": false,
+                                      "answerConstraint": "optionsOnly"
                                     },
                                     {
                                       "linkId": "Dosage.maxDosePerAdministration.value",
@@ -8595,9 +8647,10 @@
                                     {
                                       "linkId": "Dosage.maxDosePerLifetime.comparator",
                                       "text": "comp:",
-                                      "type": "choice",
+                                      "type": "coding",
                                       "required": false,
-                                      "repeats": false
+                                      "repeats": false,
+                                      "answerConstraint": "optionsOnly"
                                     },
                                     {
                                       "linkId": "Dosage.maxDosePerLifetime.value",
@@ -8719,9 +8772,10 @@
                         {
                           "linkId": "StructureMap.group.rule.source.listMode.value",
                           "text": "list mode",
-                          "type": "choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOrType"
                         }
                       ]
                     },
@@ -9101,9 +9155,10 @@
                         {
                           "linkId": "StructureMap.group.rule.target.contextType.value",
                           "text": "context type",
-                          "type": "choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOrType"
                         }
                       ]
                     },
@@ -9226,9 +9281,10 @@
                         {
                           "linkId": "StructureMap.group.rule.target.listMode.value",
                           "text": "list mode",
-                          "type": "choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOrType"
                         }
                       ]
                     },
@@ -9312,9 +9368,10 @@
                         {
                           "linkId": "StructureMap.group.rule.target.transform.value",
                           "text": "transform",
-                          "type": "choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOrType"
                         }
                       ]
                     },
@@ -9478,9 +9535,10 @@
                             {
                               "linkId": "StructureMap.group.rule.target.parameter.value[x]._type",
                               "text": "type",
-                              "type": "choice",
+                              "type": "coding",
                               "required": false,
                               "repeats": false,
+                              "answerConstraint": "optionsOnly",
                               "answerValueSet": "#vs10",
                               "item": [
                                 {

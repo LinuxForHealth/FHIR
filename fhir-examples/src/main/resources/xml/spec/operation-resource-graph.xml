@@ -3,10 +3,10 @@
 <OperationDefinition xmlns="http://hl7.org/fhir">
   <id value="Resource-graph"/>
   <text>
-    <status value="generated"/>
+    <status value="extensions"/>
     <div xmlns="http://www.w3.org/1999/xhtml">
-      <h2>Return a graph of resources</h2>
-      <p>OPERATION: Return a graph of resources</p>
+      <h2>graph</h2>
+      <p>OPERATION: graph</p>
       <p>The official URL for this operation definition is: </p>
       <pre>http://hl7.org/fhir/OperationDefinition/Resource-graph</pre>
       <div>
@@ -79,11 +79,12 @@
     <valueCode value="trial-use"/>
   </extension>
   <url value="http://hl7.org/fhir/OperationDefinition/Resource-graph"/>
-  <version value="4.0.1"/>
-  <name value="Return a graph of resources"/>
+  <version value="4.1.0"/>
+  <name value="graph"/>
+  <title value="Return a graph of resources"/>
   <status value="draft"/>
   <kind value="operation"/>
-  <date value="2019-11-01T09:29:23+11:00"/>
+  <date value="2021-12-06T18:53:36+00:00"/>
   <publisher value="HL7 (FHIR Project)"/>
   <contact>
     <telecom>
@@ -96,6 +97,7 @@
     </telecom>
   </contact>
   <description value="Return an entire graph of resources based on a [GraphDefinition](graphdefinition.html). The operation is invoked on a specific instance of a resource, and the graph definition tells the server what other resources to return in the same packaage"/>
+  <affectsState value="false"/>
   <code value="graph"/>
   <resource value="Resource"/>
   <system value="false"/>

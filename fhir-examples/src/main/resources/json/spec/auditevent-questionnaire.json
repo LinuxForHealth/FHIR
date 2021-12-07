@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for AuditEvent.entity.detail.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:ce02fd67-788f-444b-95d8-a29875b8e214",
-        "timestamp": "2019-11-01T09:34:31+11:00",
+        "identifier": "urn:uuid:cdd2a611-b681-4626-8632-314904e565a9",
+        "timestamp": "2021-12-06T19:02:25+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -31,9 +31,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-12-06T18:53:36+00:00",
   "publisher": "Health Level Seven International (Security)",
   "item": [
     {
@@ -221,9 +221,10 @@
             {
               "linkId": "AuditEvent.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -382,9 +383,10 @@
             {
               "linkId": "AuditEvent.type.value",
               "text": "Type/identifier of event",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -421,9 +423,10 @@
             {
               "linkId": "AuditEvent.subtype.value",
               "text": "More specific type/id for the event",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -464,9 +467,10 @@
             {
               "linkId": "AuditEvent.action.value",
               "text": "action",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -605,9 +609,10 @@
             {
               "linkId": "AuditEvent.outcome.value",
               "text": "outcome",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -688,9 +693,10 @@
             {
               "linkId": "AuditEvent.purposeOfEvent.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "AuditEvent.purposeOfEvent.text",
@@ -871,9 +877,10 @@
                 {
                   "linkId": "AuditEvent.agent.type.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "AuditEvent.agent.type.text",
@@ -918,9 +925,10 @@
                 {
                   "linkId": "AuditEvent.agent.role.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "AuditEvent.agent.role.text",
@@ -1246,9 +1254,10 @@
                 {
                   "linkId": "AuditEvent.agent.media.value",
                   "text": "Type of media",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 }
               ]
             },
@@ -1460,9 +1469,10 @@
                     {
                       "linkId": "AuditEvent.agent.network.type.value",
                       "text": "type",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOrType"
                     }
                   ]
                 }
@@ -1502,9 +1512,10 @@
                 {
                   "linkId": "AuditEvent.agent.purposeOfUse.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "AuditEvent.agent.purposeOfUse.text",
@@ -1786,9 +1797,10 @@
                 {
                   "linkId": "AuditEvent.source.type.value",
                   "text": "The type of source where event originated",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 }
               ]
             }
@@ -2010,9 +2022,10 @@
                 {
                   "linkId": "AuditEvent.entity.type.value",
                   "text": "Type of entity involved",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 }
               ]
             },
@@ -2053,9 +2066,10 @@
                 {
                   "linkId": "AuditEvent.entity.role.value",
                   "text": "What role the entity played",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 }
               ]
             },
@@ -2096,9 +2110,10 @@
                 {
                   "linkId": "AuditEvent.entity.lifecycle.value",
                   "text": "Life-cycle stage for the entity",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 }
               ]
             },
@@ -2135,9 +2150,10 @@
                 {
                   "linkId": "AuditEvent.entity.securityLabel.value",
                   "text": "Security labels on the entity",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 }
               ]
             },
@@ -2471,9 +2487,10 @@
                     {
                       "linkId": "AuditEvent.entity.detail.value[x]._type",
                       "text": "type",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
                       "repeats": false,
+                      "answerConstraint": "optionsOnly",
                       "answerValueSet": "#vs2",
                       "item": [
                         {
