@@ -63,7 +63,7 @@
     <applicationMonitor updateTrigger="mbean"/>
 
     <!-- This is the main IBM FHIR Server REST API war -->
-    <webApplication contextRoot="fhir-server/api/v4" id="fhir-server-webapp" location="fhir-server.war" name="fhir-server-webapp">
+    <webApplication id="fhir-server-webapp" contextRoot="fhir-server/api/v4" location="fhir-server.war" name="fhir-server-webapp">
         <classloader privateLibraryRef="fhirUserLib"/>
         <!-- Include id attributes to make it easier to override this via dropinConfig -->
         <application-bnd id="bind">

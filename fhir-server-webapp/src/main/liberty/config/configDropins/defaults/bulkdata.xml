@@ -1,6 +1,7 @@
 <server description="fhir-server">
     <!-- 
-        This configDropin work with the IBM Cloud hosted Db2 and securityMechanism 15 (apiKey)
+        By default, an in-memory store is used for the job repository; no configuration is needed.
+        If you need an alternative, check the disabled folder for your persistence datastore/provider.
     -->
     <featureManager>
         <feature>batch-1.0</feature>
@@ -24,7 +25,7 @@
     </authorization-roles>
 
     <webApplication id="fhir-bulkdata-webapp" location="fhir-bulkdata-webapp.war" name="fhir-bulkdata-webapp">
-        <classloader privateLibraryRef="configResources,fhirUserLib"/>
+        <classloader privateLibraryRef="fhirUserLib"/>
         <application-bnd>
             <security-role id="users" name="FHIRUsers">
                 <group id="bulkUsersGroup" name="FHIRUsers"/>
@@ -32,24 +33,8 @@
         </application-bnd>
     </webApplication>
 
-    <variable name="BATCH_DB_NAME" defaultValue="BLUDB"/>
-    <variable name="BATCH_DB_SCHEMA" defaultValue="FHIR_JBATCH"/>
-    <variable name="BATCH_DB_PORT" defaultValue="50001"/>
-
-    <dataSource id="fhirbatchDS" jndiName="jdbc/fhirbatchDB"  type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true">
-        <jdbcDriver javax.sql.XADataSource="com.ibm.db2.jcc.DB2XADataSource" libraryRef="sharedLibDb2"/>
-        <properties.db2.jcc
-            apiKey="${BATCH_DB_APIKEY}"
-            serverName="${BATCH_DB_HOSTNAME}"
-            currentSchema="${BATCH_DB_SCHEMA}"
-            databaseName="${BATCH_DB_NAME}"
-            driverType="4"
-            pluginName="IBMIAMauth"
-            portNumber="${BATCH_DB_PORT}"
-            securityMechanism="15"
-            sslConnection="true" />
-    </dataSource>
-
     <batchPersistence jobStoreRef="BatchDatabaseStore"/>
-    <databaseStore id="BatchDatabaseStore" dataSourceRef="fhirbatchDS" schema="${BATCH_DB_SCHEMA}" tablePrefix="" createTables="false"/>
+
+    <variable name="BATCH_DB_SCHEMA" defaultValue="FHIR_JBATCH"/>
+    <databaseStore dataSourceRef="fhirbatchDS" id="BatchDatabaseStore" schema="${BATCH_DB_SCHEMA}" tablePrefix="" createTables="false"/>
 </server>

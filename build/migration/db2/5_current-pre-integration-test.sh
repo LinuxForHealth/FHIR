@@ -25,7 +25,7 @@ config(){
     echo "Copying fhir configuration files..."
     rm -rf ${DIST}/config
     mkdir -p ${DIST}/config
-    cp -pr ${WORKSPACE}/fhir/fhir-server/liberty-config/config $DIST
+    cp -pr ${WORKSPACE}/fhir/fhir-server-webapp/src/main/liberty/config/config $DIST
     cp -pr ${WORKSPACE}/fhir/fhir-server/liberty-config-tenants/config/* $DIST/config
 
     echo "Copying test artifacts to install location..."
@@ -46,8 +46,8 @@ config(){
     echo "Remove the old overrides, and copy the current overrides for the datasource"
     rm -rf ${DIST}/overrides
     mkdir -p ${DIST}/overrides
-    cp -p ${WORKSPACE}/fhir/fhir-server/liberty-config/configDropins/disabled/datasource-db2.xml ${DIST}/overrides
-    cp -p ${WORKSPACE}/fhir/fhir-server/liberty-config/configDropins/disabled/datasource-derby.xml ${DIST}/overrides
+    cp -p ${WORKSPACE}/fhir/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/datasource-db2.xml ${DIST}/overrides
+    cp -p ${WORKSPACE}/fhir/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/datasource-derby.xml ${DIST}/overrides
 
     # Move over the test configurations
     echo "Copying over the fhir-server-config.json and updating publishing"

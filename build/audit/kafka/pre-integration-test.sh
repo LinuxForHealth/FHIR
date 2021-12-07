@@ -31,7 +31,7 @@ config(){
 
 
     echo "Copying fhir configuration files..."
-    cp -pr ${WORKSPACE}/fhir-server/liberty-config/config $DIST
+    cp -pr ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/config $DIST
     cp -pr ${WORKSPACE}/fhir-server/liberty-config-tenants/config/* $DIST/config
 
     echo "Copying test artifacts to install location..."

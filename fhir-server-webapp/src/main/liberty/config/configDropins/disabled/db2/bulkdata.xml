@@ -1,5 +1,5 @@
 <server description="fhir-server">
-    <!-- 
+    <!--
         This configDropin work with Db2 and user-password
     -->
     <featureManager>
@@ -53,6 +53,6 @@
             password="${BATCH_DB_PASS}"/>
     </dataSource>
 
-   <batchPersistence jobStoreRef="BatchDatabaseStore"/>
-   <databaseStore id="BatchDatabaseStore" dataSourceRef="fhirbatchDS" schema="${BATCH_DB_SCHEMA}" tablePrefix="" createTables="false"/>
+    <batchPersistence jobStoreRef="BatchDatabaseStore"/>
+    <databaseStore id="BatchDatabaseStore" dataSourceRef="fhirbatchDS" schema="${BATCH_DB_SCHEMA}" tablePrefix="" createTables="false"/>
 </server>

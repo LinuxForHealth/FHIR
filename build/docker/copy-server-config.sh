@@ -32,9 +32,9 @@ cp ${WORKSPACE}/fhir-server-test/src/test/resources/testdata/import-operation/te
 echo "test.bulkdata.path = ${BULKDATA}" >> ${WORKSPACE}/fhir-server-test/src/test/resources/test.properties
 
 echo "Copying the server config files..."
-cp -pr ${WORKSPACE}/fhir-server/liberty-config/config/* ${CONFIG}
+cp -pr ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/config/* ${CONFIG}
 cp -pr ${WORKSPACE}/fhir-server/liberty-config-tenants/config/* ${CONFIG}
-cp -pr ${WORKSPACE}/fhir-server/liberty-config/config/default/fhir-server-config-db2.json ${CONFIG}/default/fhir-server-config.json
+cp -pr ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/config/default/fhir-server-config-db2.json ${CONFIG}/default/fhir-server-config.json
 
 echo "Replacing datasource content in server configDropins..."
 OVERRIDES="${WORKSPACE}/build/docker/fhir-server/volumes/overrides"
@@ -43,9 +43,9 @@ mkdir -p ${OVERRIDES}
 # Just in case it already exists, let's wipe the datsource*.xml files
 rm -f ${OVERRIDES}/datasource*.xml
 
-# Copy over the db2 (default_default and fhirbatchDS) and derby (tenant1_*) datasource definitions
-cp -p ${WORKSPACE}/fhir-server/liberty-config/configDropins/disabled/datasource-db2.xml ${OVERRIDES}/
-cp -p ${WORKSPACE}/fhir-server/liberty-config/configDropins/disabled/db2/bulkdata.xml ${OVERRIDES}/
-cp -p ${WORKSPACE}/fhir-server/liberty-config/configDropins/disabled/datasource-derby.xml ${OVERRIDES}/
+# Copy over both the db2 (default_default) and derby (tenant1_*) datasource definitions
+cp -p ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/datasource-db2.xml ${OVERRIDES}/
+cp -p ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/db2/bulkdata.xml ${OVERRIDES}/
+cp -p ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/datasource-derby.xml ${OVERRIDES}/
 
 echo "Finished copying the server config."

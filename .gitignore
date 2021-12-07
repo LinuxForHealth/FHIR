@@ -13,12 +13,20 @@ ibm-web-ext.xml
 *.iml
 .idea/
 
+# VS Code
+.vscode/
+
 # Mac OS X
 .DS_Store
 
 # Output folders
 target/
 test-output/
+
+# Test DB and schematool logs
+/derby/
+derby.log
+fhirschema.log
 
 # Integration tests
 /SIT/

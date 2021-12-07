@@ -46,17 +46,17 @@ copy_server_config(){
     cp -p ${WORKSPACE}/fhir-install/target/fhir-server-distribution.zip $DIST
 
     echo "Copying fhir configuration files..."
-    cp -pr ${WORKSPACE}/fhir-server/liberty-config/config $DIST
+    cp -pr ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/config $DIST
     cp -pr ${WORKSPACE}/fhir-server/liberty-config-tenants/config/* $DIST/config
-    cp -pr ${WORKSPACE}/fhir-server/liberty-config/config/default/fhir-server-config-postgresql.json $DIST/config/default/fhir-server-config.json
+    cp -pr ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/config/default/fhir-server-config-postgresql.json $DIST/config/default/fhir-server-config.json
 
     # Note the overrides folder is specifically mounted to the docker image under configDropins/overrides
     echo "Creating an overrides folder in $DIST"
     mkdir -p $DIST/overrides
 
     # Copy over both the postgres (default_default) and derby (tenant1_*) datasource definitions
-    cp -p ${WORKSPACE}/fhir-server/liberty-config/configDropins/disabled/datasource-postgresql.xml $DIST/overrides/
-    cp -p ${WORKSPACE}/fhir-server/liberty-config/configDropins/disabled/datasource-derby.xml $DIST/overrides/
+    cp -p ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/datasource-postgresql.xml $DIST/overrides/
+    cp -p ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/datasource-derby.xml $DIST/overrides/
 
     USERLIB="${DIST}/userlib"
     mkdir -p $USERLIB
