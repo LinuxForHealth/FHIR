@@ -7,7 +7,7 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: f001</p><p><b>identifier</b>: 12345</p><p><b>status</b>: active</p></div></text><identifier>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "f001" </p></div><p><b>identifier</b>: id: 12345</p><p><b>status</b>: active</p></div></text><identifier>
 		<system value="http:/goodhealthhospital/identifier/devices"/>
 		<value value="12345"/>
 	</identifier>

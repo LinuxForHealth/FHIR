@@ -7,85 +7,10 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text>
-    <status value="generated"/>
-    <div xmlns="http://www.w3.org/1999/xhtml">
-      <h2>Terminology Service Capability Statement</h2>
-      <div>
-        <p>Basic capability statement for a Terminology Server. A server can support more fucntionality than defined here, but this is the minimum amount</p>
-
-      </div>
-      <table>
-        <tr>
-          <td>Mode</td>
-          <td>SERVER</td>
-        </tr>
-        <tr>
-          <td>Description</td>
-          <td>RESTful Terminology Server</td>
-        </tr>
-        <tr>
-          <td>Transaction</td>
-          <td/>
-        </tr>
-        <tr>
-          <td>System History</td>
-          <td/>
-        </tr>
-        <tr>
-          <td>System Search</td>
-          <td/>
-        </tr>
-      </table>
-      <table>
-        <tr>
-          <th>
-            <b>Resource Type</b>
-          </th>
-          <th>
-            <b>Profile</b>
-          </th>
-          <th>
-            <b title="GET a resource (read interaction)">Read</b>
-          </th>
-          <th>
-            <b title="GET all set of resources of the type (search interaction)">Search</b>
-          </th>
-          <th>
-            <b title="PUT a new resource version (update interaction)">Update</b>
-          </th>
-          <th>
-            <b title="POST a new resource (create interaction)">Create</b>
-          </th>
-        </tr>
-        <tr>
-          <td>ValueSet</td>
-          <td>
-            <a href="StructureDefinition/ValueSet">StructureDefinition/ValueSet</a>
-          </td>
-          <td>y</td>
-          <td>y</td>
-          <td/>
-          <td/>
-        </tr>
-        <tr>
-          <td>ConceptMap</td>
-          <td>
-            <a href="StructureDefinition/ConceptMap">StructureDefinition/ConceptMap</a>
-          </td>
-          <td>y</td>
-          <td>y</td>
-          <td/>
-          <td/>
-        </tr>
-      </table>
-    </div>
-  </text>
   <extension url="http://hl7.org/fhir/StructureDefinition/capabilitystatement-supported-system">
     <valueUri value="http://loinc.org"/>
   </extension>
   <url value="http://hl7.org/fhir/terminology-server"/>
-  <version value="4.0.1"/>
   <name value="Terminology Service Capability Statement"/>
   <status value="draft"/>
   <date value="2015-07-05"/>
@@ -102,7 +27,7 @@
   <software>
     <name value="ACME Terminology Server"/>
   </software>
-  <fhirVersion value="4.0.1"/>
+  <fhirVersion value="4.1.0"/>
   <format value="json"/>
   <format value="xml"/>
   <rest>
@@ -119,7 +44,7 @@
     </security>
     <resource>
       <type value="ValueSet"/>
-      <profile value="StructureDefinition/ValueSet"/>
+      <profile value="http://hl7.org/fhir/StructureDefinition/ValueSet"/>
       <interaction>
         <extension url="http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation">
           <valueCode value="SHALL"/>
@@ -147,7 +72,7 @@
       <searchParam>
         <name value="reference"/>
         <definition value="http://hl7.org/fhir/SearchParameter/ValueSet-reference"/>
-        <type value="token"/>
+        <type value="uri"/>
       </searchParam>
       <searchParam>
         <name value="status"/>
@@ -167,7 +92,7 @@
     </resource>
     <resource>
       <type value="ConceptMap"/>
-      <profile value="StructureDefinition/ConceptMap"/>
+      <profile value="http://hl7.org/fhir/StructureDefinition/ConceptMap"/>
       <interaction>
         <extension url="http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation">
           <valueCode value="SHALL"/>
@@ -200,12 +125,12 @@
       <searchParam>
         <name value="source"/>
         <definition value="http://hl7.org/fhir/SearchParameter/ConceptMap-source"/>
-        <type value="uri"/>
+        <type value="reference"/>
       </searchParam>
       <searchParam>
         <name value="target"/>
         <definition value="http://hl7.org/fhir/SearchParameter/ConceptMap-target"/>
-        <type value="uri"/>
+        <type value="reference"/>
       </searchParam>
       <searchParam>
         <name value="url"/>
@@ -223,35 +148,35 @@
         <valueCode value="SHALL"/>
       </extension>
       <name value="expand"/>
-      <definition value="OperationDefinition/ValueSet-expand"/>
+      <definition value="http://hl7.org/fhir/OperationDefinition/ValueSet-expand"/>
     </operation>
     <operation>
       <extension url="http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation">
         <valueCode value="SHALL"/>
       </extension>
       <name value="lookup"/>
-      <definition value="OperationDefinition/CodeSystem-lookup"/>
+      <definition value="http://hl7.org/fhir/OperationDefinition/CodeSystem-lookup"/>
     </operation>
     <operation>
       <extension url="http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation">
         <valueCode value="SHALL"/>
       </extension>
       <name value="validate-code"/>
-      <definition value="OperationDefinition/ValueSet-validate-code"/>
+      <definition value="http://hl7.org/fhir/OperationDefinition/ValueSet-validate-code"/>
     </operation>
     <operation>
       <extension url="http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation">
         <valueCode value="SHALL"/>
       </extension>
       <name value="translate"/>
-      <definition value="OperationDefinition/ConceptMap-translate"/>
+      <definition value="http://hl7.org/fhir/OperationDefinition/ConceptMap-translate"/>
     </operation>
     <operation>
       <extension url="http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation">
         <valueCode value="SHOULD"/>
       </extension>
       <name value="closure"/>
-      <definition value="OperationDefinition/ConceptMap-closure"/>
+      <definition value="http://hl7.org/fhir/OperationDefinition/ConceptMap-closure"/>
     </operation>
   </rest>
 </CapabilityStatement>

@@ -6,9 +6,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "active",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-12-06T18:53:36+00:00",
   "publisher": "Health Level Seven International (FHIR Infrastructure)",
   "item": [
     {
@@ -196,9 +196,10 @@
             {
               "linkId": "CapabilityStatement.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -529,9 +530,10 @@
             {
               "linkId": "CapabilityStatement.status.value",
               "text": "status",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -807,9 +809,10 @@
             {
               "linkId": "CapabilityStatement.jurisdiction.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "CapabilityStatement.jurisdiction.text",
@@ -947,9 +950,10 @@
             {
               "linkId": "CapabilityStatement.kind.value",
               "text": "kind",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -1608,9 +1612,10 @@
             {
               "linkId": "CapabilityStatement.fhirVersion.value",
               "text": "fhir version",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -1651,9 +1656,10 @@
             {
               "linkId": "CapabilityStatement.format.value",
               "text": "format",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -1690,9 +1696,10 @@
             {
               "linkId": "CapabilityStatement.patchFormat.value",
               "text": "patch format",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -1902,9 +1909,10 @@
                 {
                   "linkId": "CapabilityStatement.rest.mode.value",
                   "text": "mode",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOrType"
                 }
               ]
             },
@@ -2156,9 +2164,10 @@
                     {
                       "linkId": "CapabilityStatement.rest.security.service.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "CapabilityStatement.rest.security.service.text",
@@ -2381,9 +2390,10 @@
                     {
                       "linkId": "CapabilityStatement.rest.resource.type.value",
                       "text": "type",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOrType"
                     }
                   ]
                 },
@@ -2679,9 +2689,10 @@
                         {
                           "linkId": "CapabilityStatement.rest.resource.interaction.code.value",
                           "text": "code",
-                          "type": "choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOrType"
                         }
                       ]
                     },
@@ -2767,9 +2778,10 @@
                     {
                       "linkId": "CapabilityStatement.rest.resource.versioning.value",
                       "text": "versioning",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOrType"
                     }
                   ]
                 },
@@ -2939,9 +2951,10 @@
                     {
                       "linkId": "CapabilityStatement.rest.resource.conditionalRead.value",
                       "text": "conditional read",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOrType"
                     }
                   ]
                 },
@@ -3025,9 +3038,10 @@
                     {
                       "linkId": "CapabilityStatement.rest.resource.conditionalDelete.value",
                       "text": "conditional delete",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOrType"
                     }
                   ]
                 },
@@ -3064,9 +3078,10 @@
                     {
                       "linkId": "CapabilityStatement.rest.resource.referencePolicy.value",
                       "text": "reference policy",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOrType"
                     }
                   ]
                 },
@@ -3405,9 +3420,10 @@
                         {
                           "linkId": "CapabilityStatement.rest.resource.searchParam.type.value",
                           "text": "type",
-                          "type": "choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOrType"
                         }
                       ]
                     },
@@ -3886,9 +3902,10 @@
                     {
                       "linkId": "CapabilityStatement.rest.interaction.code.value",
                       "text": "code",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOrType"
                     }
                   ]
                 },
@@ -4329,9 +4346,10 @@
                     {
                       "linkId": "CapabilityStatement.messaging.endpoint.protocol.value",
                       "text": "http | ftp | mllp +",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     }
                   ]
                 },
@@ -4637,9 +4655,10 @@
                     {
                       "linkId": "CapabilityStatement.messaging.supportedMessage.mode.value",
                       "text": "mode",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOrType"
                     }
                   ]
                 },
@@ -4857,9 +4876,10 @@
                 {
                   "linkId": "CapabilityStatement.document.mode.value",
                   "text": "mode",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOrType"
                 }
               ]
             },

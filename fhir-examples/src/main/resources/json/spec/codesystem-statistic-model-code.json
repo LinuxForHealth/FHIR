@@ -1,0 +1,457 @@
+{
+  "resourceType": "CodeSystem",
+  "id": "statistic-model-code",
+  "meta": {
+    "lastUpdated": "2021-12-07T05:53:36+11:00",
+    "profile": [
+      "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\n      \u003cp\u003eThis code system http://terminology.hl7.org/CodeSystem/statistic-model-code defines the following codes:\u003c/p\u003e\n      \u003ctable class\u003d\"codes\"\u003e\n        \u003ctr\u003e\n          \u003ctd style\u003d\"white-space:nowrap\"\u003e\n            \u003cb\u003eCode\u003c/b\u003e\n          \u003c/td\u003e\n          \u003ctd\u003e\n            \u003cb\u003eDisplay\u003c/b\u003e\n          \u003c/td\u003e\n          \u003ctd\u003e\n            \u003cb\u003eDefinition\u003c/b\u003e\n          \u003c/td\u003e\n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eoneTailedTest\n            \n            \u003ca name\u003d\"statistic-model-code-oneTailedTest\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eone-tailed test (1 threshold)\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for one-tailed test (1 threshold), no additional elements needed\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003etwoTailedTest\n            \n            \u003ca name\u003d\"statistic-model-code-twoTailedTest\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003etwo-tailed test (2 thresholds)\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for two-tailed test (2 threshold), no additional elements needed\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003ezTest\n            \n            \u003ca name\u003d\"statistic-model-code-zTest\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003ez-test\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for z-test, no additional elements needed\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eoneSampleTTest\n            \n            \u003ca name\u003d\"statistic-model-code-oneSampleTTest\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003e1-sample t-test\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for 1-sample t-test, may be paired with \u0026quot;value\u0026quot; to express degrees of freedom\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003etwoSampleTTest\n            \n            \u003ca name\u003d\"statistic-model-code-twoSampleTTest\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003e2-sample t-test\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for 2-sample t-test, may be paired with \u0026quot;value\u0026quot; to express degrees of freedom\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003epairedTTest\n            \n            \u003ca name\u003d\"statistic-model-code-pairedTTest\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003epaired t-test\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for paired t-test, may be paired with \u0026quot;value\u0026quot; to express degrees of freedom\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003echiSquareTest\n            \n            \u003ca name\u003d\"statistic-model-code-chiSquareTest\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eChi-square test\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for Chi-square test, may be paired with \u0026quot;value\u0026quot; to express degrees of freedom\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003echiSquareTestTrend\n            \n            \u003ca name\u003d\"statistic-model-code-chiSquareTestTrend\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eChi-square test for trend\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for Chi-square test for trend, may be paired with \u0026quot;value\u0026quot; to express degrees of freedom\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003epearsonCorrelation\n            \n            \u003ca name\u003d\"statistic-model-code-pearsonCorrelation\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003ePearson correlation\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for Pearson correlation, no additional elements needed\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eanova\n            \n            \u003ca name\u003d\"statistic-model-code-anova\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eANOVA (ANalysis Of VAriance)\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for ANOVA method of analysis, may be paired with \u0026quot;value\u0026quot; to express degrees of freedom\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eanovaOneWay\n            \n            \u003ca name\u003d\"statistic-model-code-anovaOneWay\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eone-way ANOVA\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for one-way ANOVA method of analysis, may be paired with \u0026quot;value\u0026quot; to express degrees of freedom\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eanovaTwoWay\n            \n            \u003ca name\u003d\"statistic-model-code-anovaTwoWay\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003e2-way ANOVA without replication\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for 2-way ANOVA without replication method of analysis, may be paired with \u0026quot;value\u0026quot; to express degrees of freedom\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eanovaTwoWayReplication\n            \n            \u003ca name\u003d\"statistic-model-code-anovaTwoWayReplication\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003e2-way ANOVA with replication\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for 2-way ANOVA with replication method of analysis, may be paired with \u0026quot;value\u0026quot; to express degrees of freedom\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003emanova\n            \n            \u003ca name\u003d\"statistic-model-code-manova\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003emultivariate ANOVA (MANOVA)\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for multivariate ANOVA (MANOVA) method of analysis, may be paired with \u0026quot;value\u0026quot; to express degrees of freedom\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eanovaThreeWay\n            \n            \u003ca name\u003d\"statistic-model-code-anovaThreeWay\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003e3-way ANOVA\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for 3-way ANOVA method of analysis, may be paired with \u0026quot;value\u0026quot; to express degrees of freedom\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003esignTest\n            \n            \u003ca name\u003d\"statistic-model-code-signTest\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003esign test\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for sign test, no additional elements needed\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003ewilcoxonSignedRankTest\n            \n            \u003ca name\u003d\"statistic-model-code-wilcoxonSignedRankTest\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eWilcoxon signed-rank test\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for Wilcoxon signed-rank test, no additional elements needed\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003ewilcoxonRankSumTest\n            \n            \u003ca name\u003d\"statistic-model-code-wilcoxonRankSumTest\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eWilcoxon rank-sum test\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for Wilcoxon rank-sum test, no additional elements needed\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003emannWhitneyUTest\n            \n            \u003ca name\u003d\"statistic-model-code-mannWhitneyUTest\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eMann-Whitney U test\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for Mann-Whitney U test, no additional elements needed\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003efishersExactTest\n            \n            \u003ca name\u003d\"statistic-model-code-fishersExactTest\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eFisher’s exact test\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for Fisher\u0027s exact test, may be paired with \u0026quot;value\u0026quot; to express degrees of freedom\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003emcnemarsTest\n            \n            \u003ca name\u003d\"statistic-model-code-mcnemarsTest\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eMcNemar’s test\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for McNemar\u0027s test, no additional elements needed\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003ekruskalWallisTest\n            \n            \u003ca name\u003d\"statistic-model-code-kruskalWallisTest\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eKruskal Wallis test\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for Kruskal Wallis test, may be paired with \u0026quot;value\u0026quot; to express degrees of freedom\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003espearmanCorrelation\n            \n            \u003ca name\u003d\"statistic-model-code-spearmanCorrelation\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eSpearman correlation\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for Spearman correlation, no additional elements needed\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003ekendallCorrelation\n            \n            \u003ca name\u003d\"statistic-model-code-kendallCorrelation\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eKendall correlation\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for Kendall correlation, no additional elements needed\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003efriedmanTest\n            \n            \u003ca name\u003d\"statistic-model-code-friedmanTest\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eFriedman test\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for Friedman test, no additional elements needed\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003egoodmanKruskasGamma\n            \n            \u003ca name\u003d\"statistic-model-code-goodmanKruskasGamma\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eGoodman Kruska’s Gamma\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for Goodman Kruska’s Gamma, no additional elements needed\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eglm\n            \n            \u003ca name\u003d\"statistic-model-code-glm\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eGLM (Generalized Linear Model)\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for GLM (Generalized Linear Model), no additional elements needed\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eglmProbit\n            \n            \u003ca name\u003d\"statistic-model-code-glmProbit\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eGLM with probit link\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for GLM with probit link, no additional elements needed\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eglmLogit\n            \n            \u003ca name\u003d\"statistic-model-code-glmLogit\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eGLM with logit link\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for GLM with logit link, no additional elements needed\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eglmIdentity\n            \n            \u003ca name\u003d\"statistic-model-code-glmIdentity\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eGLM with identity link\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for GLM with identity link, no additional elements needed\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eglmLog\n            \n            \u003ca name\u003d\"statistic-model-code-glmLog\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eGLM with log link\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for GLM with log link, no additional elements needed\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eglmGeneralizedLogit\n            \n            \u003ca name\u003d\"statistic-model-code-glmGeneralizedLogit\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eGLM with generalized logit link\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for GLM with generalized logit link, no additional elements needed\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eglmm\n            \n            \u003ca name\u003d\"statistic-model-code-glmm\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eGeneralized linear mixed model (GLMM)\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for Generalized linear mixed model (GLMM), no additional elements needed\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eglmmProbit\n            \n            \u003ca name\u003d\"statistic-model-code-glmmProbit\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eGLMM with probit link\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for GLMM with probit link, no additional elements needed\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eglmmLogit\n            \n            \u003ca name\u003d\"statistic-model-code-glmmLogit\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eGLMM with logit link\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for GLMM with logit link, no additional elements needed\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eglmmIdentity\n            \n            \u003ca name\u003d\"statistic-model-code-glmmIdentity\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eGLMM with identity link\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for GLMM with identity link, no additional elements needed\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eglmmLog\n            \n            \u003ca name\u003d\"statistic-model-code-glmmLog\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eGLMM with log link\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for GLMM with log link, no additional elements needed\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eglmmGeneralizedLogit\n            \n            \u003ca name\u003d\"statistic-model-code-glmmGeneralizedLogit\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eGLMM with generalized logit link\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for GLMM with generalized logit link, no additional elements needed\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003elinearRegression\n            \n            \u003ca name\u003d\"statistic-model-code-linearRegression\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eLinear Regression\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for linear regression method of analysis, no additional elements needed\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003elogisticRegression\n            \n            \u003ca name\u003d\"statistic-model-code-logisticRegression\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eLogistic Regression\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for logistic regression method of analysis, no additional elements needed\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003epolynomialRegression\n            \n            \u003ca name\u003d\"statistic-model-code-polynomialRegression\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003ePolynomial Regression\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for Polynomial regression method of analysis, no additional elements needed\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003ecoxProportionalHazards\n            \n            \u003ca name\u003d\"statistic-model-code-coxProportionalHazards\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eCox Proportional Hazards\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for Cox proportional hazards method of analysis, no additional elements needed\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003ebinomialDistributionRegression\n            \n            \u003ca name\u003d\"statistic-model-code-binomialDistributionRegression\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eBinomial Distribution for Regression\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for Binomial Distribution for Regression, no additional elements needed\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003emultinomialDistributionRegression\n            \n            \u003ca name\u003d\"statistic-model-code-multinomialDistributionRegression\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eMultinomial Distribution for Regression\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for Multinomial Distribution for Regression, no additional elements needed\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003epoissonRegression\n            \n            \u003ca name\u003d\"statistic-model-code-poissonRegression\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003ePoisson Regression\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for Poisson Regression, no additional elements needed\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003enegativeBinomialRegression\n            \n            \u003ca name\u003d\"statistic-model-code-negativeBinomialRegression\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eNegative Binomial Regression\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for Negative Binomial Regression, no additional elements needed\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003ezeroCellConstant\n            \n            \u003ca name\u003d\"statistic-model-code-zeroCellConstant\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eZero-cell adjustment with constant\u003c/td\u003e\n          \n          \u003ctd\u003eZero-cell adjustment done by adding a constant to all cells of affected studies, paired with \u0026quot;value\u0026quot; to define the constant\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003ezeroCellContinuityCorrection\n            \n            \u003ca name\u003d\"statistic-model-code-zeroCellContinuityCorrection\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eZero-cell adjustment with continuity correction\u003c/td\u003e\n          \n          \u003ctd\u003eZero-cell adjustment done by treatment arm continuity correction, no additional elements needed\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eadjusted\n            \n            \u003ca name\u003d\"statistic-model-code-adjusted\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eAdjusted analysis\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for adjusted analysis, paired with variable element(s)\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003einteractionTerm\n            \n            \u003ca name\u003d\"statistic-model-code-interactionTerm\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eInteraction term\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for interaction term, paired with \u0026quot;value\u0026quot; and two or more variable elements\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003emanteHaenszelMethod\n            \n            \u003ca name\u003d\"statistic-model-code-manteHaenszelMethod\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eMantel-Haenszel method\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for Mantel-Haenszel method, no additional elements needed\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003emetaAnalysis\n            \n            \u003ca name\u003d\"statistic-model-code-metaAnalysis\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eMeta-analysis\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for meta-analysis, no additional elements needed\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003einverseVariance\n            \n            \u003ca name\u003d\"statistic-model-code-inverseVariance\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eInverse variance method\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for inverse variance method of meta-analysis, no additional elements needed\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003epetoMethod\n            \n            \u003ca name\u003d\"statistic-model-code-petoMethod\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003ePeto method\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for Peto method of meta-analysis, no additional elements needed\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003ehartungKnapp\n            \n            \u003ca name\u003d\"statistic-model-code-hartungKnapp\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eHartung-Knapp adjustment\u003c/td\u003e\n          \n          \u003ctd\u003eHartung-Knapp/Hartung-Knapp-Sidik-Jonkman adjustment used in meta-analysis, no additional elements needed\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003emodifiedHartungKnapp\n            \n            \u003ca name\u003d\"statistic-model-code-modifiedHartungKnapp\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eModified Hartung-Knapp adjustment\u003c/td\u003e\n          \n          \u003ctd\u003eModified Hartung-Knapp/Hartung-Knapp-Sidik-Jonkman adjustment used in meta-analysis, no additional elements needed\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eeffectsFixed\n            \n            \u003ca name\u003d\"statistic-model-code-effectsFixed\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eFixed-effects\u003c/td\u003e\n          \n          \u003ctd\u003eFrom a fixed-effects analysis, no additional elements needed\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eeffectsRandom\n            \n            \u003ca name\u003d\"statistic-model-code-effectsRandom\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eRandom-effects\u003c/td\u003e\n          \n          \u003ctd\u003eFrom a random-effects analysis, no additional elements needed\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003echiSquareTestHomogeneity\n            \n            \u003ca name\u003d\"statistic-model-code-chiSquareTestHomogeneity\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eChi-square test for homogeneity\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for Chi-square test for homogeneity, may be paired with \u0026quot;value\u0026quot; to express degrees of freedom\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003edersimonianLairdMethod\n            \n            \u003ca name\u003d\"statistic-model-code-dersimonianLairdMethod\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eDersimonian-Laird method\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for Dersimonian-Laird method of tau estimation, no additional elements needed\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003epauleMandelMethod\n            \n            \u003ca name\u003d\"statistic-model-code-pauleMandelMethod\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003ePaule-Mandel method\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for Paule-Mandel method of tau estimation, no additional elements needed\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003erestrictedLikelihood\n            \n            \u003ca name\u003d\"statistic-model-code-restrictedLikelihood\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eRestricted Maximum Likelihood method\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for Restricted Maximum Likelihood method of tau estimation, no additional elements needed\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003emaximumLikelihood\n            \n            \u003ca name\u003d\"statistic-model-code-maximumLikelihood\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eMaximum Likelihood method\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for Maximum Likelihood method of tau estimation, no additional elements needed\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eempiricalBayes\n            \n            \u003ca name\u003d\"statistic-model-code-empiricalBayes\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eEmpirical Bayes method\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for Empirical Bayes method of tau estimation, no additional elements needed\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003ehunterSchmidt\n            \n            \u003ca name\u003d\"statistic-model-code-hunterSchmidt\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eHunter-Schmidt method\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for Hunter-Schmidt method of tau estimation, no additional elements needed\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003esidikJonkman\n            \n            \u003ca name\u003d\"statistic-model-code-sidikJonkman\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eSidik-Jonkman method\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for Sidik-Jonkman method of tau estimation, no additional elements needed\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003ehedgesMethod\n            \n            \u003ca name\u003d\"statistic-model-code-hedgesMethod\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eHedges method\u003c/td\u003e\n          \n          \u003ctd\u003eUsed for Hedges method of tau estimation, no additional elements needed\u003c/td\u003e\n        \n        \u003c/tr\u003e\n      \n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003etauDersimonianLaird\n            \n            \u003ca name\u003d\"statistic-model-code-tauDersimonianLaird\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eDersimonian-Laird method\u003c/td\u003e\n          \n          \u003ctd\u003eDersimonian-Laird method for tau squared\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003etauPauleMandel\n            \n            \u003ca name\u003d\"statistic-model-code-tauPauleMandel\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003ePaule-Mandel method\u003c/td\u003e\n          \n          \u003ctd\u003ePaule-Mandel method for tau squared\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003etauRestrictedMaximumLikelihood\n            \n            \u003ca name\u003d\"statistic-model-code-tauRestrictedMaximumLikelihood\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eRestricted Maximum Likelihood method\u003c/td\u003e\n          \n          \u003ctd\u003eRestricted Maximum Likelihood method for tau squared\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003etauMaximumLikelihood\n            \n            \u003ca name\u003d\"statistic-model-code-tauMaximumLikelihood\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eMaximum Likelihood method\u003c/td\u003e\n          \n          \u003ctd\u003eMaximum Likelihood method for tau squared\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003etauEmpiricalBayes\n            \n            \u003ca name\u003d\"statistic-model-code-tauEmpiricalBayes\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eEmpirical Bayes method\u003c/td\u003e\n          \n          \u003ctd\u003eEmpirical Bayes method for tau squared\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003etauHunterSchmidt\n            \n            \u003ca name\u003d\"statistic-model-code-tauHunterSchmidt\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eHunter-Schmidt method\u003c/td\u003e\n          \n          \u003ctd\u003eHunter-Schmidt method for tau squared\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003etauSidikJonkman\n            \n            \u003ca name\u003d\"statistic-model-code-tauSidikJonkman\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eSidik-Jonkman method\u003c/td\u003e\n          \n          \u003ctd\u003eSidik-Jonkman method for tau squared\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003etauHedges\n            \n            \u003ca name\u003d\"statistic-model-code-tauHedges\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eHedges method\u003c/td\u003e\n          \n          \u003ctd\u003eHedges method for tau squared\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003epoolMantelHaenzsel\n            \n            \u003ca name\u003d\"statistic-model-code-poolMantelHaenzsel\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eMantel-Haenszel method\u003c/td\u003e\n          \n          \u003ctd\u003eMantel-Haenszel method for pooling in meta-analysis\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003epoolInverseVariance\n            \n            \u003ca name\u003d\"statistic-model-code-poolInverseVariance\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eInverse variance method\u003c/td\u003e\n          \n          \u003ctd\u003eInverse variance method for pooling in meta-analysis\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003epoolPeto\n            \n            \u003ca name\u003d\"statistic-model-code-poolPeto\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003ePeto method\u003c/td\u003e\n          \n          \u003ctd\u003ePeto method for pooling in meta-analysis\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003epoolGeneralizedLinearMixedModel\n            \n            \u003ca name\u003d\"statistic-model-code-poolGeneralizedLinearMixedModel\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eGeneralized linear mixed model (GLMM)\u003c/td\u003e\n          \n          \u003ctd\u003eGeneralized linear mixed model (GLMM) method for pooling in meta-analysis\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\t  \n      \u003c/table\u003e\n    \n    \u003c/div\u003e"
+  },
+  "extension": [
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+      "valueCode": "cds"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+      "valueCode": "trial-use"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+      "valueInteger": 1
+    }
+  ],
+  "url": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+  "identifier": [
+    {
+      "system": "urn:ietf:rfc:3986",
+      "value": "urn:oid:2.16.840.1.113883.4.642.3.1539"
+    }
+  ],
+  "version": "4.1.0",
+  "name": "StatisticModelCode",
+  "title": "StatisticModelCode",
+  "status": "draft",
+  "experimental": false,
+  "date": "2021-08-05T12:00:00+11:00",
+  "publisher": "HL7 (FHIR Project)",
+  "contact": [
+    {
+      "telecom": [
+        {
+          "system": "url",
+          "value": "http://hl7.org/fhir"
+        },
+        {
+          "system": "email",
+          "value": "fhir@lists.hl7.org"
+        }
+      ]
+    }
+  ],
+  "description": "The role that the assertion variable plays.",
+  "caseSensitive": true,
+  "valueSet": "http://hl7.org/fhir/ValueSet/statistic-model-code",
+  "content": "complete",
+  "concept": [
+    {
+      "code": "oneTailedTest",
+      "display": "one-tailed test (1 threshold)",
+      "definition": "Used for one-tailed test (1 threshold), no additional elements needed"
+    },
+    {
+      "code": "twoTailedTest",
+      "display": "two-tailed test (2 thresholds)",
+      "definition": "Used for two-tailed test (2 threshold), no additional elements needed"
+    },
+    {
+      "code": "zTest",
+      "display": "z-test",
+      "definition": "Used for z-test, no additional elements needed"
+    },
+    {
+      "code": "oneSampleTTest",
+      "display": "1-sample t-test",
+      "definition": "Used for 1-sample t-test, may be paired with \"value\" to express degrees of freedom"
+    },
+    {
+      "code": "twoSampleTTest",
+      "display": "2-sample t-test",
+      "definition": "Used for 2-sample t-test, may be paired with \"value\" to express degrees of freedom"
+    },
+    {
+      "code": "pairedTTest",
+      "display": "paired t-test",
+      "definition": "Used for paired t-test, may be paired with \"value\" to express degrees of freedom"
+    },
+    {
+      "code": "chiSquareTest",
+      "display": "Chi-square test",
+      "definition": "Used for Chi-square test, may be paired with \"value\" to express degrees of freedom"
+    },
+    {
+      "code": "chiSquareTestTrend",
+      "display": "Chi-square test for trend",
+      "definition": "Used for Chi-square test for trend, may be paired with \"value\" to express degrees of freedom"
+    },
+    {
+      "code": "pearsonCorrelation",
+      "display": "Pearson correlation",
+      "definition": "Used for Pearson correlation, no additional elements needed"
+    },
+    {
+      "code": "anova",
+      "display": "ANOVA (ANalysis Of VAriance)",
+      "definition": "Used for ANOVA method of analysis, may be paired with \"value\" to express degrees of freedom"
+    },
+    {
+      "code": "anovaOneWay",
+      "display": "one-way ANOVA",
+      "definition": "Used for one-way ANOVA method of analysis, may be paired with \"value\" to express degrees of freedom"
+    },
+    {
+      "code": "anovaTwoWay",
+      "display": "2-way ANOVA without replication",
+      "definition": "Used for 2-way ANOVA without replication method of analysis, may be paired with \"value\" to express degrees of freedom"
+    },
+    {
+      "code": "anovaTwoWayReplication",
+      "display": "2-way ANOVA with replication",
+      "definition": "Used for 2-way ANOVA with replication method of analysis, may be paired with \"value\" to express degrees of freedom"
+    },
+    {
+      "code": "manova",
+      "display": "multivariate ANOVA (MANOVA)",
+      "definition": "Used for multivariate ANOVA (MANOVA) method of analysis, may be paired with \"value\" to express degrees of freedom"
+    },
+    {
+      "code": "anovaThreeWay",
+      "display": "3-way ANOVA",
+      "definition": "Used for 3-way ANOVA method of analysis, may be paired with \"value\" to express degrees of freedom"
+    },
+    {
+      "code": "signTest",
+      "display": "sign test",
+      "definition": "Used for sign test, no additional elements needed"
+    },
+    {
+      "code": "wilcoxonSignedRankTest",
+      "display": "Wilcoxon signed-rank test",
+      "definition": "Used for Wilcoxon signed-rank test, no additional elements needed"
+    },
+    {
+      "code": "wilcoxonRankSumTest",
+      "display": "Wilcoxon rank-sum test",
+      "definition": "Used for Wilcoxon rank-sum test, no additional elements needed"
+    },
+    {
+      "code": "mannWhitneyUTest",
+      "display": "Mann-Whitney U test",
+      "definition": "Used for Mann-Whitney U test, no additional elements needed"
+    },
+    {
+      "code": "fishersExactTest",
+      "display": "Fisher’s exact test",
+      "definition": "Used for Fisher\u0027s exact test, may be paired with \"value\" to express degrees of freedom"
+    },
+    {
+      "code": "mcnemarsTest",
+      "display": "McNemar’s test",
+      "definition": "Used for McNemar\u0027s test, no additional elements needed"
+    },
+    {
+      "code": "kruskalWallisTest",
+      "display": "Kruskal Wallis test",
+      "definition": "Used for Kruskal Wallis test, may be paired with \"value\" to express degrees of freedom"
+    },
+    {
+      "code": "spearmanCorrelation",
+      "display": "Spearman correlation",
+      "definition": "Used for Spearman correlation, no additional elements needed"
+    },
+    {
+      "code": "kendallCorrelation",
+      "display": "Kendall correlation",
+      "definition": "Used for Kendall correlation, no additional elements needed"
+    },
+    {
+      "code": "friedmanTest",
+      "display": "Friedman test",
+      "definition": "Used for Friedman test, no additional elements needed"
+    },
+    {
+      "code": "goodmanKruskasGamma",
+      "display": "Goodman Kruska’s Gamma",
+      "definition": "Used for Goodman Kruska’s Gamma, no additional elements needed"
+    },
+    {
+      "code": "glm",
+      "display": "GLM (Generalized Linear Model)",
+      "definition": "Used for GLM (Generalized Linear Model), no additional elements needed"
+    },
+    {
+      "code": "glmProbit",
+      "display": "GLM with probit link",
+      "definition": "Used for GLM with probit link, no additional elements needed"
+    },
+    {
+      "code": "glmLogit",
+      "display": "GLM with logit link",
+      "definition": "Used for GLM with logit link, no additional elements needed"
+    },
+    {
+      "code": "glmIdentity",
+      "display": "GLM with identity link",
+      "definition": "Used for GLM with identity link, no additional elements needed"
+    },
+    {
+      "code": "glmLog",
+      "display": "GLM with log link",
+      "definition": "Used for GLM with log link, no additional elements needed"
+    },
+    {
+      "code": "glmGeneralizedLogit",
+      "display": "GLM with generalized logit link",
+      "definition": "Used for GLM with generalized logit link, no additional elements needed"
+    },
+    {
+      "code": "glmm",
+      "display": "Generalized linear mixed model (GLMM)",
+      "definition": "Used for Generalized linear mixed model (GLMM), no additional elements needed"
+    },
+    {
+      "code": "glmmProbit",
+      "display": "GLMM with probit link",
+      "definition": "Used for GLMM with probit link, no additional elements needed"
+    },
+    {
+      "code": "glmmLogit",
+      "display": "GLMM with logit link",
+      "definition": "Used for GLMM with logit link, no additional elements needed"
+    },
+    {
+      "code": "glmmIdentity",
+      "display": "GLMM with identity link",
+      "definition": "Used for GLMM with identity link, no additional elements needed"
+    },
+    {
+      "code": "glmmLog",
+      "display": "GLMM with log link",
+      "definition": "Used for GLMM with log link, no additional elements needed"
+    },
+    {
+      "code": "glmmGeneralizedLogit",
+      "display": "GLMM with generalized logit link",
+      "definition": "Used for GLMM with generalized logit link, no additional elements needed"
+    },
+    {
+      "code": "linearRegression",
+      "display": "Linear Regression",
+      "definition": "Used for linear regression method of analysis, no additional elements needed"
+    },
+    {
+      "code": "logisticRegression",
+      "display": "Logistic Regression",
+      "definition": "Used for logistic regression method of analysis, no additional elements needed"
+    },
+    {
+      "code": "polynomialRegression",
+      "display": "Polynomial Regression",
+      "definition": "Used for Polynomial regression method of analysis, no additional elements needed"
+    },
+    {
+      "code": "coxProportionalHazards",
+      "display": "Cox Proportional Hazards",
+      "definition": "Used for Cox proportional hazards method of analysis, no additional elements needed"
+    },
+    {
+      "code": "binomialDistributionRegression",
+      "display": "Binomial Distribution for Regression",
+      "definition": "Used for Binomial Distribution for Regression, no additional elements needed"
+    },
+    {
+      "code": "multinomialDistributionRegression",
+      "display": "Multinomial Distribution for Regression",
+      "definition": "Used for Multinomial Distribution for Regression, no additional elements needed"
+    },
+    {
+      "code": "poissonRegression",
+      "display": "Poisson Regression",
+      "definition": "Used for Poisson Regression, no additional elements needed"
+    },
+    {
+      "code": "negativeBinomialRegression",
+      "display": "Negative Binomial Regression",
+      "definition": "Used for Negative Binomial Regression, no additional elements needed"
+    },
+    {
+      "code": "zeroCellConstant",
+      "display": "Zero-cell adjustment with constant",
+      "definition": "Zero-cell adjustment done by adding a constant to all cells of affected studies, paired with \"value\" to define the constant"
+    },
+    {
+      "code": "zeroCellContinuityCorrection",
+      "display": "Zero-cell adjustment with continuity correction",
+      "definition": "Zero-cell adjustment done by treatment arm continuity correction, no additional elements needed"
+    },
+    {
+      "code": "adjusted",
+      "display": "Adjusted analysis",
+      "definition": "Used for adjusted analysis, paired with variable element(s)"
+    },
+    {
+      "code": "interactionTerm",
+      "display": "Interaction term",
+      "definition": "Used for interaction term, paired with \"value\" and two or more variable elements"
+    },
+    {
+      "code": "manteHaenszelMethod",
+      "display": "Mantel-Haenszel method",
+      "definition": "Used for Mantel-Haenszel method, no additional elements needed"
+    },
+    {
+      "code": "metaAnalysis",
+      "display": "Meta-analysis",
+      "definition": "Used for meta-analysis, no additional elements needed"
+    },
+    {
+      "code": "inverseVariance",
+      "display": "Inverse variance method",
+      "definition": "Used for inverse variance method of meta-analysis, no additional elements needed"
+    },
+    {
+      "code": "petoMethod",
+      "display": "Peto method",
+      "definition": "Used for Peto method of meta-analysis, no additional elements needed"
+    },
+    {
+      "code": "hartungKnapp",
+      "display": "Hartung-Knapp adjustment",
+      "definition": "Hartung-Knapp/Hartung-Knapp-Sidik-Jonkman adjustment used in meta-analysis, no additional elements needed"
+    },
+    {
+      "code": "modifiedHartungKnapp",
+      "display": "Modified Hartung-Knapp adjustment",
+      "definition": "Modified Hartung-Knapp/Hartung-Knapp-Sidik-Jonkman adjustment used in meta-analysis, no additional elements needed"
+    },
+    {
+      "code": "effectsFixed",
+      "display": "Fixed-effects",
+      "definition": "From a fixed-effects analysis, no additional elements needed"
+    },
+    {
+      "code": "effectsRandom",
+      "display": "Random-effects",
+      "definition": "From a random-effects analysis, no additional elements needed"
+    },
+    {
+      "code": "chiSquareTestHomogeneity",
+      "display": "Chi-square test for homogeneity",
+      "definition": "Used for Chi-square test for homogeneity, may be paired with \"value\" to express degrees of freedom"
+    },
+    {
+      "code": "dersimonianLairdMethod",
+      "display": "Dersimonian-Laird method",
+      "definition": "Used for Dersimonian-Laird method of tau estimation, no additional elements needed"
+    },
+    {
+      "code": "pauleMandelMethod",
+      "display": "Paule-Mandel method",
+      "definition": "Used for Paule-Mandel method of tau estimation, no additional elements needed"
+    },
+    {
+      "code": "restrictedLikelihood",
+      "display": "Restricted Maximum Likelihood method",
+      "definition": "Used for Restricted Maximum Likelihood method of tau estimation, no additional elements needed"
+    },
+    {
+      "code": "maximumLikelihood",
+      "display": "Maximum Likelihood method",
+      "definition": "Used for Maximum Likelihood method of tau estimation, no additional elements needed"
+    },
+    {
+      "code": "empiricalBayes",
+      "display": "Empirical Bayes method",
+      "definition": "Used for Empirical Bayes method of tau estimation, no additional elements needed"
+    },
+    {
+      "code": "hunterSchmidt",
+      "display": "Hunter-Schmidt method",
+      "definition": "Used for Hunter-Schmidt method of tau estimation, no additional elements needed"
+    },
+    {
+      "code": "sidikJonkman",
+      "display": "Sidik-Jonkman method",
+      "definition": "Used for Sidik-Jonkman method of tau estimation, no additional elements needed"
+    },
+    {
+      "code": "hedgesMethod",
+      "display": "Hedges method",
+      "definition": "Used for Hedges method of tau estimation, no additional elements needed"
+    },
+    {
+      "code": "tauDersimonianLaird",
+      "display": "Dersimonian-Laird method",
+      "definition": "Dersimonian-Laird method for tau squared"
+    },
+    {
+      "code": "tauPauleMandel",
+      "display": "Paule-Mandel method",
+      "definition": "Paule-Mandel method for tau squared"
+    },
+    {
+      "code": "tauRestrictedMaximumLikelihood",
+      "display": "Restricted Maximum Likelihood method",
+      "definition": "Restricted Maximum Likelihood method for tau squared"
+    },
+    {
+      "code": "tauMaximumLikelihood",
+      "display": "Maximum Likelihood method",
+      "definition": "Maximum Likelihood method for tau squared"
+    },
+    {
+      "code": "tauEmpiricalBayes",
+      "display": "Empirical Bayes method",
+      "definition": "Empirical Bayes method for tau squared"
+    },
+    {
+      "code": "tauHunterSchmidt",
+      "display": "Hunter-Schmidt method",
+      "definition": "Hunter-Schmidt method for tau squared"
+    },
+    {
+      "code": "tauSidikJonkman",
+      "display": "Sidik-Jonkman method",
+      "definition": "Sidik-Jonkman method for tau squared"
+    },
+    {
+      "code": "tauHedges",
+      "display": "Hedges method",
+      "definition": "Hedges method for tau squared"
+    },
+    {
+      "code": "poolMantelHaenzsel",
+      "display": "Mantel-Haenszel method",
+      "definition": "Mantel-Haenszel method for pooling in meta-analysis"
+    },
+    {
+      "code": "poolInverseVariance",
+      "display": "Inverse variance method",
+      "definition": "Inverse variance method for pooling in meta-analysis"
+    },
+    {
+      "code": "poolPeto",
+      "display": "Peto method",
+      "definition": "Peto method for pooling in meta-analysis"
+    },
+    {
+      "code": "poolGeneralizedLinearMixedModel",
+      "display": "Generalized linear mixed model (GLMM)",
+      "definition": "Generalized linear mixed model (GLMM) method for pooling in meta-analysis"
+    }
+  ]
+}

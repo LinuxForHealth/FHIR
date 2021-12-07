@@ -1,0 +1,82 @@
+{
+  "resourceType": "MedicinalProductDefinition",
+  "id": "equilidem-basics",
+  "text": {
+    "status": "generated",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\n\t\t\t\u003cp\u003e\n\t\t\t\t\u003cb\u003e\n\t\t\t\t\tGenerated Narrative\n\t\t\t\t\u003c/b\u003e\n\t\t\t\u003c/p\u003e\n\t\t\t\u003cp\u003e\n\t\t\t\t\u003cb\u003e\n\t\t\t\t\tId\n\t\t\t\t\u003c/b\u003e\n\t\t\t\t: equilidem-basics\n\t\t\t\u003c/p\u003e\n\t\t\t\u003cp\u003e\n\t\t\t\t\u003cb\u003e\n\t\t\t\t\tIdentifier\n\t\t\t\t\u003c/b\u003e\n\t\t\t\t: Equilidem25\n\t\t\t\u003c/p\u003e\n\t\t\t\u003cp\u003e\n\t\t\t\t\u003cb\u003e\n\t\t\t\t\tCombined Pharmaceutical Dose Form\n\t\t\t\t\u003c/b\u003e\n\t\t\t\t:\n\t\t\t\t\u003cspan title\u003d\"Codes: {http://example.org.uk/fhir/dosefom tablet}\"\u003e\n\t\t\t\t\ttablet\n\t\t\t\t\u003c/span\u003e\n\t\t\t\u003c/p\u003e\n\t\t\t\u003cp\u003e\n\t\t\t\t\u003cb\u003e\n\t\t\t\t\tIndication\n\t\t\t\t\u003c/b\u003e\n\t\t\t\t: Prevention of venous thromboembolic events (VTE) in adult patients who have undergone elective hip or knee replacement surgery. Prevention of stroke and systemic embolism in adult patients with non-valvular atrial fibrillation (NVAF), with one or more risk factors, such as prior stroke or transient ischaemic attack (TIA); age ≥ 75 years; hypertension; diabetes mellitus; symptomatic heart failure (NYHA Class \u0026gt;\u003d II). Treatment of deep vein thrombosis (DVT) and pulmonary embolism (PE), and prevention of recurrent DVT and PE in adults.\n\t\t\t\u003c/p\u003e\n\t\t\t\u003cp\u003e\n\t\t\t\t\u003cb\u003e\n\t\t\t\t\tLegal Status Of Supply\n\t\t\t\t\u003c/b\u003e\n\t\t\t\t:\n\t\t\t\t\u003cspan title\u003d\"Codes: {http://example.org.uk/fhir/legalstatusofsupply POM}\"\u003e\n\t\t\t\t\tPrescription only medicine\n\t\t\t\t\u003c/span\u003e\n\t\t\t\u003c/p\u003e\n\t\t\t\u003cp\u003e\n\t\t\t\t\u003cb\u003e\n\t\t\t\t\tClassification\n\t\t\t\t\u003c/b\u003e\n\t\t\t\t:\n\t\t\t\t\u003cspan title\u003d\"Codes: {http://www.whocc.no/atc/example B01A}\"\u003e\n\t\t\t\t\tATC: B01A\n\t\t\t\t\u003c/span\u003e\n\t\t\t\u003c/p\u003e\n\t\t\t\u003cp\u003e\n\t\t\t\t\u003cb\u003e\n\t\t\t\t\tIngredient\n\t\t\t\t\u003c/b\u003e\n\t\t\t\t:\n\t\t\t\u003c/p\u003e\n\t\t\t\u003cul\u003e\n\t\t\t\t\u003cli\u003e\n\t\t\t\t\t\u003cspan\u003e\n\t\t\t\t\t\tEquilidonium Phosphate\n\t\t\t\t\t\u003c/span\u003e\n\t\t\t\t\u003c/li\u003e\n\t\t\t\t\u003cli\u003e\n\t\t\t\t\t\u003cspan\u003e\n\t\t\t\t\t\tCalcium Carbonate\n\t\t\t\t\t\u003c/span\u003e\n\t\t\t\t\u003c/li\u003e\n\t\t\t\u003c/ul\u003e\n\t\t\t\u003ch3\u003e\n\t\t\t\tNames\n\t\t\t\u003c/h3\u003e\n\t\t\t\u003ctable class\u003d\"grid\"\u003e\n\t\t\t\t\u003ctr\u003e\n\t\t\t\t\t\u003ctd\u003e\n\t\t\t\t\t\t-\n\t\t\t\t\t\u003c/td\u003e\n\t\t\t\t\t\u003ctd\u003e\n\t\t\t\t\t\t\u003cb\u003e\n\t\t\t\t\t\t\tProduct Name\n\t\t\t\t\t\t\u003c/b\u003e\n\t\t\t\t\t\u003c/td\u003e\n\t\t\t\t\u003c/tr\u003e\n\t\t\t\t\u003ctr\u003e\n\t\t\t\t\t\u003ctd\u003e\n\t\t\t\t\t\t*\n\t\t\t\t\t\u003c/td\u003e\n\t\t\t\t\t\u003ctd\u003e\n\t\t\t\t\t\tEquilidem 2.5 mg film-coated tablets\n\t\t\t\t\t\u003c/td\u003e\n\t\t\t\t\u003c/tr\u003e\n\t\t\t\u003c/table\u003e\n\t\t\t\u003ch3\u003e\n\t\t\t\tCross References\n\t\t\t\u003c/h3\u003e\n\t\t\t\u003ctable class\u003d\"grid\"\u003e\n\t\t\t\t\u003ctr\u003e\n\t\t\t\t\t\u003ctd\u003e\n\t\t\t\t\t\t-\n\t\t\t\t\t\u003c/td\u003e\n\t\t\t\t\t\u003ctd\u003e\n\t\t\t\t\t\t\u003cb\u003e\n\t\t\t\t\t\t\tProduct\n\t\t\t\t\t\t\u003c/b\u003e\n\t\t\t\t\t\u003c/td\u003e\n\t\t\t\t\u003c/tr\u003e\n\t\t\t\t\u003ctr\u003e\n\t\t\t\t\t\u003ctd\u003e\n\t\t\t\t\t\t*\n\t\t\t\t\t\u003c/td\u003e\n\t\t\t\t\t\u003ctd\u003e\n\t\t\t\t\t\tLink to generic equivalent\n\t\t\t\t\t\u003c/td\u003e\n\t\t\t\t\u003c/tr\u003e\n\t\t\t\u003c/table\u003e\n\t\t\t\u003ch3\u003e\n\t\t\t\tManufacturing/Business Operations\n\t\t\t\u003c/h3\u003e\n\t\t\t\u003ctable class\u003d\"grid\"\u003e\n\t\t\t\t\u003ctr\u003e\n\t\t\t\t\t\u003ctd\u003e\n\t\t\t\t\t\t-\n\t\t\t\t\t\u003c/td\u003e\n\t\t\t\t\t\u003ctd\u003e\n\t\t\t\t\t\t\u003cb\u003e\n\t\t\t\t\t\t\tManufacturer\n\t\t\t\t\t\t\u003c/b\u003e\n\t\t\t\t\t\u003c/td\u003e\n\t\t\t\t\u003c/tr\u003e\n\t\t\t\t\u003ctr\u003e\n\t\t\t\t\t\u003ctd\u003e\n\t\t\t\t\t\t*\n\t\t\t\t\t\u003c/td\u003e\n\t\t\t\t\t\u003ctd\u003e\n\t\t\t\t\t\t\u003cspan\u003e\n\t\t\t\t\t\t\tEquiliDrugCo Inc.\n\t\t\t\t\t\t\u003c/span\u003e\n\t\t\t\t\t\u003c/td\u003e\n\t\t\t\t\u003c/tr\u003e\n\t\t\t\u003c/table\u003e\n\t\t\u003c/div\u003e"
+  },
+  "identifier": [
+    {
+      "system": "http://example.org.uk/fhir/product",
+      "value": "Equilidem25"
+    }
+  ],
+  "combinedPharmaceuticalDoseForm": {
+    "coding": [
+      {
+        "system": "http://example.org.uk/fhir/dosefom",
+        "code": "tablet"
+      }
+    ]
+  },
+  "indication": "Prevention of venous thromboembolic events (VTE) in adult patients who have undergone elective hip or knee replacement surgery. Prevention of stroke and systemic embolism in adult patients with non-valvular atrial fibrillation (NVAF), with one or more risk factors, such as prior stroke or transient ischaemic attack (TIA); age ≥ 75 years; hypertension; diabetes mellitus; symptomatic heart failure (NYHA Class \u003e\u003d II). Treatment of deep vein thrombosis (DVT) and pulmonary embolism (PE), and prevention of recurrent DVT and PE in adults.",
+  "legalStatusOfSupply": {
+    "coding": [
+      {
+        "system": "http://example.org.uk/fhir/legalstatusofsupply",
+        "code": "POM",
+        "display": "Prescription only medicine"
+      }
+    ]
+  },
+  "classification": [
+    {
+      "coding": [
+        {
+          "system": "http://www.whocc.no/atc/example",
+          "code": "B01A"
+        }
+      ]
+    }
+  ],
+  "ingredient": [
+    {
+      "text": "Equilidonium Phosphate"
+    },
+    {
+      "text": "Calcium Carbonate"
+    }
+  ],
+  "name": [
+    {
+      "productName": "Equilidem 2.5 mg film-coated tablets"
+    }
+  ],
+  "crossReference": [
+    {
+      "product": {
+        "reference": {
+          "reference": "MedicinalProductDefinition/genericEquilidonium"
+        }
+      }
+    }
+  ],
+  "operation": [
+    {
+      "organization": [
+        {
+          "display": "EquiliDrugCo Inc."
+        }
+      ]
+    }
+  ],
+  "meta": {
+    "tag": [
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+        "code": "HTEST",
+        "display": "test health data"
+      }
+    ]
+  }
+}

@@ -8,7 +8,7 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: example-genetics-brcapat</p><p><b>status</b>: final</p><p><b>code</b>: BRCA1+BRCA2 gene mutations tested for in Blood or Tissue by Molecular genetics method Nominal <span>(Details : {LOINC code '59041-4' = 'BRCA1+BRCA2 gene mutations tested for in Blood or Tissue by Molecular genetics method Nominal', given as 'BRCA1+BRCA2 gene mutations tested for in Blood or Tissue by Molecular genetics method Nominal'})</span></p><p><b>subject</b>: <a>Patient1 with Breast Cancer FamilyHistory</a></p></div></text><extension url="http://hl7.org/fhir/StructureDefinition/observation-geneticsGene">
+  <text><status value="extensions"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "example-genetics-brcapat" </p></div><p><b>Gene</b>: BRCA <span> (nuccore#KX470182.1)</span></p><p><b>status</b>: final</p><p><b>code</b>: The material on this page will be removed in a future release. This content is deprecated and SHOULD NOT be used. Implementers are instead directed to the ([Genomics Reporting Implementation Guide](http://hl7.org/fhir/uv/genomics-reporting/index.html)) for guidance. BRCA1+BRCA2 gene mutations tested for in Blood or Tissue by Molecular genetics method Nominal <span> (<a>LOINC</a>#59041-4)</span></p><p><b>subject</b>: <a>Patient/brcapat: Patient1 with Breast Cancer FamilyHistory</a></p></div></text><extension url="http://hl7.org/fhir/StructureDefinition/observation-geneticsGene">
     <valueCodeableConcept>
       <coding>
         <system value="https://www.ncbi.nlm.nih.gov/nuccore"/>
@@ -34,7 +34,7 @@
     <coding>
       <system value="http://loinc.org"/>
       <code value="59041-4"/>
-      <display value="BRCA1+BRCA2 gene mutations tested for in Blood or Tissue by Molecular genetics method Nominal"/>
+      <display value="The material on this page will be removed in a future release. This content is deprecated and SHOULD NOT be used. Implementers are instead directed to the ([Genomics Reporting Implementation Guide](http://hl7.org/fhir/uv/genomics-reporting/index.html)) for guidance. BRCA1+BRCA2 gene mutations tested for in Blood or Tissue by Molecular genetics method Nominal"/>
     </coding>
   </code>
   

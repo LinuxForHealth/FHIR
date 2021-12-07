@@ -13,10 +13,10 @@
     <valueCode value="4.0.0"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/date"/>
-  <version value="4.0.1"/>
+  <version value="4.1.0"/>
   <name value="date"/>
   <status value="active"/>
-  <date value="2019-11-01T09:29:23+11:00"/>
+  <date value="2021-12-06T18:53:36+00:00"/>
   <publisher value="HL7 FHIR Standard"/>
   <contact>
     <telecom>
@@ -25,11 +25,11 @@
     </telecom>
   </contact>
   <description value="Base StructureDefinition for date Type: A date or partial date (e.g. just year or year + month). There is no time zone. The format is a union of the schema types gYear, gYearMonth and date.  Dates SHALL be valid dates."/>
-  <fhirVersion value="4.0.1"/>
+  <fhirVersion value="4.1.0"/>
   <kind value="primitive-type"/>
   <abstract value="false"/>
   <type value="date"/>
-  <baseDefinition value="http://hl7.org/fhir/StructureDefinition/Element"/>
+  <baseDefinition value="http://hl7.org/fhir/StructureDefinition/PrimitiveType"/>
   <derivation value="specialization"/>
   <snapshot>
     <element id="date">
@@ -46,9 +46,9 @@
       <constraint>
         <key value="ele-1"/>
         <severity value="error"/>
-        <human value="All FHIR elements must have a @value or children"/>
-        <expression value="hasValue() or (children().count() &gt; id.count())"/>
-        <xpath value="@value|f:*|h:div"/>
+        <human value="All FHIR elements must have a @value or children unless an empty Parameters resource"/>
+        <expression value="hasValue() or (children().count() &gt; id.count()) or $this is Parameters"/>
+        <xpath value="@value|f:*|h:div|self::f:Parameters"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
       <isModifier value="false"/>
@@ -68,7 +68,7 @@
       </base>
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
-          <valueUrl value="string"/>
+          <valueUri value="string"/>
         </extension>
         <code value="http://hl7.org/fhirpath/System.String"/>
       </type>
@@ -126,7 +126,7 @@
     <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (c) -->
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
-          <valueUrl value="date"/>
+          <valueUri value="date"/>
         </extension>
         <extension url="http://hl7.org/fhir/StructureDefinition/regex">
           <valueString value="([0-9]([0-9]([0-9][1-9]|[1-9]0)|[1-9]00)|[1-9]000)(-(0[1-9]|1[0-2])(-(0[1-9]|[1-2][0-9]|3[0-1]))?)?"/>
@@ -156,7 +156,7 @@
     <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (b) -->
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
-          <valueUrl value="date"/>
+          <valueUri value="date"/>
         </extension>
         <extension url="http://hl7.org/fhir/StructureDefinition/regex">
           <valueString value="([0-9]([0-9]([0-9][1-9]|[1-9]0)|[1-9]00)|[1-9]000)(-(0[1-9]|1[0-2])(-(0[1-9]|[1-2][0-9]|3[0-1]))?)?"/>

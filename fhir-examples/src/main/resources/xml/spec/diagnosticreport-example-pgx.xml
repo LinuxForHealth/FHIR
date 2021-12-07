@@ -7,7 +7,7 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: example-pgx</p><p><b>basedOn</b>: <a>ServiceRequest/example-pgx</a></p><p><b>status</b>: final</p><p><b>code</b>: Pharmacogenetics Report <span>(Details : {https://system/PGxReport code 'PGxReport' = 'PGxReport', given as 'Pharmacogenetics Report'})</span></p><p><b>subject</b>: <a>Bob Smith</a></p><p><b>effective</b>: 15/10/2016 12:34:56 PM</p><p><b>issued</b>: 20/10/2016 2:00:05 PM</p><p><b>performer</b>: <a>Organization/4829</a></p><p><b>result</b>: <a>Observation/example-phenotype</a></p><p><b>presentedForm</b>: </p></div></text><basedOn>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><h2><span>Pharmacogenetics Report</span> </h2><table><tr><td>Subject</td><td>Unable to get Patient Details</td></tr><tr><td>When For</td><td>2016-10-15T12:34:56+11:00</td></tr><tr><td>Reported</td><td>2016-10-20T14:00:05+11:00</td></tr></table><p><b>Report Details</b></p><table><tr><td><b>Code</b></td><td><b>Value</b></td><td><b>Reported</b></td></tr><tr><td><a><span>The material on this page will be removed in a future release. This content is deprecated and SHOULD NOT be used. Implementers are instead directed to the ([Genomics Reporting Implementation Guide](http://hl7.org/fhir/uv/genomics-reporting/index.html)) for guidance. CYP2C9 gene product metabolic activity interpretation</span></a></td><td><span>Normal metabolizer</span></td><td>2013-04-03T15:30:10+01:00</td></tr></table></div></text><basedOn>
 		<reference value="ServiceRequest/example-pgx"/>
 	</basedOn>
 	<status value="final"/>

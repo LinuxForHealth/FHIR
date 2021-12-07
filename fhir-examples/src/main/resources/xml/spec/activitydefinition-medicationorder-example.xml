@@ -7,7 +7,7 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: citalopramPrescription</p><p><b>contained</b>: , </p><p><b>url</b>: <b>http://motivemi.com/artifacts/ActivityDefinition/citalopramPrescription</b></p><p><b>identifier</b>: citalopramPrescription (OFFICIAL)</p><p><b>version</b>: 1.0.0</p><p><b>name</b>: CitalopramPrescription</p><p><b>title</b>: Citalopram Prescription</p><p><b>status</b>: active</p><p><b>experimental</b>: true</p><p><b>date</b>: 15/08/2015</p><p><b>publisher</b>: Motive Medical Intelligence</p><p><b>contact</b>: </p><p><b>description</b>: Citalopram 20 mg tablet 1 tablet oral 1 time daily now (30 table; 3 refills</p><p><b>useContext</b>: , , , , , , </p><p><b>jurisdiction</b>: United States of America <span>(Details : {urn:iso:std:iso:3166 code 'US' = 'United States of America)</span></p><p><b>purpose</b>: Defines a guideline supported prescription for the treatment of depressive disorders</p><p><b>usage</b>: This activity definition is used as part of various suicide risk order sets</p><p><b>copyright</b>: © Copyright 2016 Motive Medical Intelligence. All rights reserved.</p><p><b>approvalDate</b>: 12/03/2016</p><p><b>lastReviewDate</b>: 15/08/2016</p><p><b>effectivePeriod</b>: 01/01/2016 --&gt; 31/12/2017</p><p><b>topic</b>: Mental Health Treatment <span>(Details )</span></p><p><b>author</b>: </p><p><b>relatedArtifact</b>: , </p><p><b>kind</b>: MedicationRequest</p><p><b>product</b>: id: citalopramMedication; citalopram <span>(Details : {RxNorm code '200371' = 'citalopram 20 MG Oral Tablet)</span>; Tablet dose form <span>(Details : {SNOMED CT code '385055001' = 'Tablet', given as 'Tablet dose form'})</span></p><p><b>dosage</b>: </p><blockquote><p><b>dynamicValue</b></p><p><b>path</b>: dispenseRequest.numberOfRepeatsAllowed</p><p><b>expression</b>: </p></blockquote><blockquote><p><b>dynamicValue</b></p><p><b>path</b>: dispenseRequest.quantity</p><p><b>expression</b>: </p></blockquote></div></text><contained>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "citalopramPrescription" </p></div><p><b>url</b>: <code>http://motivemi.com/artifacts/ActivityDefinition/citalopramPrescription</code></p><p><b>identifier</b>: id: citalopramPrescription (OFFICIAL)</p><p><b>version</b>: 1.0.0</p><p><b>name</b>: CitalopramPrescription</p><p><b>title</b>: Citalopram Prescription</p><p><b>status</b>: active</p><p><b>experimental</b>: true</p><p><b>date</b>: 2015-08-15</p><p><b>publisher</b>: Motive Medical Intelligence</p><p><b>contact</b>: ph: 415-362-4007(WORK),<a>info@motivemi.com</a></p><p><b>description</b>: Citalopram 20 mg tablet 1 tablet oral 1 time daily now (30 table; 3 refills</p><p><b>jurisdiction</b>: United States of America <span> (unknown#US)</span></p><p><b>purpose</b>: Defines a guideline supported prescription for the treatment of depressive disorders</p><p><b>usage</b>: This activity definition is used as part of various suicide risk order sets</p><p><b>copyright</b>: © Copyright 2016 Motive Medical Intelligence. All rights reserved.</p><p><b>approvalDate</b>: 2016-03-12</p><p><b>lastReviewDate</b>: 2016-08-15</p><p><b>effectivePeriod</b>: 2016-01-01 --&gt; 2017-12-31</p><p><b>topic</b>: Mental Health Treatment <span> ()</span></p><p><b>author</b>: Motive Medical Intelligence: ph: 415-362-4007(WORK),<a>info@motivemi.com</a></p><p><b>kind</b>: MedicationRequest</p><p><b>product</b>: <a> </a></p><blockquote><div><p>Resource "citalopramMedication" </p></div><p><b>code</b>: citalopram <span> (<a>RxNorm</a>#200371)</span></p><p><b>form</b>: Tablet dose form <span> (<a>SNOMED CT</a>#385055001)</span></p><h3>Ingredients</h3><table><tr><td>-</td><td><b>Item[x]</b></td></tr><tr><td>*</td><td><a>#citalopramSubstance</a></td></tr></table></blockquote><blockquote><p><b>dynamicValue</b></p><p><b>path</b>: dispenseRequest.numberOfRepeatsAllowed</p></blockquote><blockquote><p><b>dynamicValue</b></p><p><b>path</b>: dispenseRequest.quantity</p></blockquote></div></text><contained>
     <Medication>
       <id value="citalopramMedication"/>
       <code>
@@ -29,7 +29,7 @@
           <itemReference>
             <reference value="#citalopramSubstance"/>
           </itemReference>
-          <strength>
+          <strengthRatio>
             <numerator>
               <value value="20"/>
               <unit value="mg"/>
@@ -38,7 +38,7 @@
               <value value="1"/>
               <unit value="{tbl}"/>
             </denominator>
-          </strength>
+          </strengthRatio>
         </ingredient>
     </Medication>
   </contained>
@@ -46,11 +46,11 @@
     <Substance>
       <id value="citalopramSubstance"/>
       <code>
-        <coding>
-          <system value="http://www.nlm.nih.gov/research/umls/rxnorm"/>
-          <code value="2556"/>
-        </coding>
-        <text value="citalopram"/>
+          <coding>
+            <system value="http://www.nlm.nih.gov/research/umls/rxnorm"/>
+            <code value="2556"/>
+          </coding>
+          <text value="citalopram"/>
       </code>
     </Substance>
   </contained>

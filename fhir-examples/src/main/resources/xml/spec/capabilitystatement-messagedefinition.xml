@@ -7,16 +7,6 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text>
-    <status value="generated"/>
-    <div xmlns="http://www.w3.org/1999/xhtml">
-      <h2/>
-      <div>
-        <p>Sample capability statement showing new MessageDefinition structure</p>
-
-      </div>
-    </div>
-  </text>
   <status value="draft"/>
   <experimental value="true"/>
   <date value="2012-01-04"/>
@@ -37,7 +27,7 @@
     <description value="Acme Message endpoint"/>
     <url value="http://acem.com/fhir/message-drop"/>
   </implementation>
-  <fhirVersion value="4.0.1"/>
+  <fhirVersion value="4.1.0"/>
   <format value="xml"/>
   <format value="json"/>
   <messaging>
@@ -52,7 +42,7 @@
     <documentation value="ADT A08 equivalent for external system notifications"/>
     <supportedMessage>
       <mode value="receiver"/>
-      <definition value="MessageDefinition/example"/>
+      <definition value="http://hl7.org/fhir/MessageDefinition/example"/>
     </supportedMessage>
   </messaging>
 </CapabilityStatement>

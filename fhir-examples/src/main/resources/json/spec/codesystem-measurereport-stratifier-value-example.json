@@ -1,0 +1,59 @@
+{
+  "resourceType": "CodeSystem",
+  "id": "measurereport-stratifier-value-example",
+  "meta": {
+    "lastUpdated": "2021-12-06T18:53:36.888+00:00",
+    "profile": [
+      "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cp\u003eThis code system http://terminology.hl7.org/CodeSystem/measurereport-stratifier-value-example defines the following codes:\u003c/p\u003e\u003ctable class\u003d\"codes\"\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e\u003cb\u003eCode\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eDisplay\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eDefinition\u003c/b\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003enorthwest\u003ca name\u003d\"measurereport-stratifier-value-example-northwest\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eNorthwest\u003c/td\u003e\u003ctd\u003eNorthwest region stratification.\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003enortheast\u003ca name\u003d\"measurereport-stratifier-value-example-northeast\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eNortheast\u003c/td\u003e\u003ctd\u003eNortheast region stratification.\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003esouthwest\u003ca name\u003d\"measurereport-stratifier-value-example-southwest\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSoutwest\u003c/td\u003e\u003ctd\u003eSoutwest region stratification.\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003esoutheast\u003ca name\u003d\"measurereport-stratifier-value-example-southeast\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSoutheast\u003c/td\u003e\u003ctd\u003eSoutheast region stratification.\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/div\u003e"
+  },
+  "extension": [
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+      "valueCode": "cqi"
+    }
+  ],
+  "url": "http://terminology.hl7.org/CodeSystem/measurereport-stratifier-value-example",
+  "identifier": [
+    {
+      "system": "urn:ietf:rfc:3986",
+      "value": "urn:oid:2.16.840.1.113883.4.642.1.0"
+    }
+  ],
+  "version": "4.1.0",
+  "name": "MeasureReportStratifierValueExample",
+  "title": "MeasureReportStratifierValueExample",
+  "status": "draft",
+  "experimental": false,
+  "publisher": "Clinical Quality Information Workgroup",
+  "description": "Example Region Value Measure Groups for the Measure Resource.",
+  "caseSensitive": true,
+  "valueSet": "http://hl7.org/fhir/ValueSet/measurereport-stratifier-value-example",
+  "content": "complete",
+  "concept": [
+    {
+      "code": "northwest",
+      "display": "Northwest",
+      "definition": "Northwest region stratification."
+    },
+    {
+      "code": "northeast",
+      "display": "Northeast",
+      "definition": "Northeast region stratification."
+    },
+    {
+      "code": "southwest",
+      "display": "Soutwest",
+      "definition": "Soutwest region stratification."
+    },
+    {
+      "code": "southeast",
+      "display": "Southeast",
+      "definition": "Southeast region stratification."
+    }
+  ]
+}

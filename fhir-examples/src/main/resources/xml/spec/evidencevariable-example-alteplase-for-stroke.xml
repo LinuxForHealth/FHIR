@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?><EvidenceVariable xmlns="http://hl7.org/fhir">
+  <id value="example-alteplase-for-stroke"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <p>
+        "Alteplase for Stroke" is an exposure concept with a detailed dosing instruction that may be used in expressing what an Evidence is about.
+      </p>
+	</div>
+  </text>
+  <title value="Alteplase for Stroke"/>
+  <status value="draft"/>
+  <useContext>
+    <code>
+      <system value="http://terminology.hl7.org/CodeSystem/usage-context-type"/>
+      <code value="focus"/>
+    </code>
+    <valueCodeableConcept>
+      <text value="Stroke"/>
+    </valueCodeableConcept>
+  </useContext>
+  <actual value="true"/>
+  <characteristic>
+    <description value="IV alteplase 0.9 mg/kg (maximum 90 mg) as 10% of dose over 1 minute and 90% over 1 hour"/>
+    <definitionCanonical value="http://example.org/fhir/ActivityDefinition/example-alteplase-dosing"/>
+  </characteristic>
+</EvidenceVariable>

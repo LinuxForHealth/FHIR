@@ -131,16 +131,6 @@
         {
           "itemReference": {
             "reference": "#citalopramSubstance"
-          },
-          "strength": {
-            "numerator": {
-              "value": 20,
-              "unit": "mg"
-            },
-            "denominator": {
-              "value": 1,
-              "unit": "{tbl}"
-            }
           }
         }
       ]
@@ -347,15 +337,15 @@
     },
     {
       "type": "composed-of",
-      "resource": "ActivityDefinition/referralPrimaryCareMentalHealth"
+      "resource": "http://example.org/fhir/ActivityDefinition/referralPrimaryCareMentalHealth"
     },
     {
       "type": "composed-of",
-      "resource": "ActivityDefinition/citalopramPrescription"
+      "resource": "http://example.org/fhir/ActivityDefinition/citalopramPrescription"
     }
   ],
   "library": [
-    "Library/suiciderisk-orderset-logic"
+    "http://example.org/fhir/Library/suiciderisk-orderset-logic"
   ],
   "action": [
     {

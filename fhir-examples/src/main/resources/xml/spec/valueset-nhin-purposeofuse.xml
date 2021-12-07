@@ -7,24 +7,6 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text>
-    <status value="generated"/>
-    <div xmlns="http://www.w3.org/1999/xhtml">
-      <h2>NHIN PurposeOfUse</h2>
-      <div>
-        <p>This value set is suitable for use with the provenance resource. It is derived from, but not compatible with, the HL7 v3 Purpose of use Code system.</p>
-
-      </div>
-      <p>This value set includes codes from the following code systems:</p>
-      <ul>
-        <li>Include all codes defined in 
-          <a href="codesystem-nhin-purposeofuse.html">
-            <code>http://healthit.gov/nhin/purposeofuse</code>
-          </a>
-        </li>
-      </ul>
-    </div>
-  </text>
   <contained>
     <ConceptMap>
       <id value="map"/>
@@ -124,14 +106,14 @@
           <code value="JUDICIAL"/>
           <target>
             <code value="HLEGAL"/>
-            <equivalence value="equivalent"/>
+            <equivalence value="wider"/>
           </target>
         </element>
         <element>
           <code value="LAW"/>
           <target>
             <code value="HLEGAL"/>
-            <equivalence value="equivalent"/>
+            <equivalence value="wider"/>
           </target>
         </element>
         <element>
@@ -184,7 +166,7 @@
     <valueCanonical value="#map"/>
   </extension>
   <url value="http://hl7.org/fhir/ValueSet/nhin-purposeofuse"/>
-  <version value="4.0.1"/>
+  <version value="2.0"/>
   <name value="NHIN PurposeOfUse"/>
   <status value="active"/>
   <experimental value="false"/>

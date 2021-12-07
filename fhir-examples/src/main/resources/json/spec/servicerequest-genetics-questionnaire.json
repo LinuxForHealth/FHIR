@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for ServiceRequest.quantity[x]",
       "expansion": {
-        "identifier": "urn:uuid:bf1e9699-a47c-4544-aab0-337a5d5d2937",
-        "timestamp": "2019-11-01T09:36:55+11:00",
+        "identifier": "urn:uuid:c3ce73ba-0539-43e2-a2ae-3b6206c0d74f",
+        "timestamp": "2021-12-06T19:04:32+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -37,8 +37,8 @@
       "status": "active",
       "description": "Type options for ServiceRequest.occurrence[x]",
       "expansion": {
-        "identifier": "urn:uuid:37673678-6313-44c2-99cb-62c8e1310428",
-        "timestamp": "2019-11-01T09:36:55+11:00",
+        "identifier": "urn:uuid:b192baa4-58d1-4016-848c-9f645c3abf97",
+        "timestamp": "2021-12-06T19:04:32+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -65,8 +65,8 @@
       "status": "active",
       "description": "Type options for ServiceRequest.asNeeded[x]",
       "expansion": {
-        "identifier": "urn:uuid:f4fd50f2-ead9-45be-bee3-9fd99f10c7c9",
-        "timestamp": "2019-11-01T09:36:55+11:00",
+        "identifier": "urn:uuid:be10cdf0-f01a-43c3-8a77-e1eb6d8e58ce",
+        "timestamp": "2021-12-06T19:04:32+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -87,9 +87,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "draft",
-  "date": "2015-10-20T00:00:00+11:00",
+  "date": "2015-10-20T00:00:00+00:00",
   "publisher": "Health Level Seven International (Clinical Genomics)",
   "item": [
     {
@@ -273,9 +273,10 @@
             {
               "linkId": "ServiceRequest.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -474,7 +475,7 @@
                   }
                 }
               ],
-              "text": "The URL pointing to a FHIR-defined protocol, guideline, orderset or other definition that is adhered to in whole or in part by this ServiceRequest. Note: This is a business identifier, not a resource identifier (see [discussion](http://hl7.org/fhir/resource.html#identifiers)).  It is best practice for the identifier to only appear on a single resource instance, however business practices may occasionally dictate that multiple resource instances with the same identifier can exist - possibly even with different resource types.  For example, multiple Patient and a Person resource instance might share the same social insurance number.",
+              "text": "The URL pointing to a FHIR-defined protocol, guideline, orderset or other definition that is adhered to in whole or in part by this ServiceRequest. Note: This is a business identifier, not a resource identifier (see [discussion](http://hl7.org/fhir/2021Mar/resource.html#identifiers)).  It is best practice for the identifier to only appear on a single resource instance, however business practices may occasionally dictate that multiple resource instances with the same identifier can exist - possibly even with different resource types.  For example, multiple Patient and a Person resource instance might share the same social insurance number.",
               "type": "display"
             },
             {
@@ -716,15 +717,16 @@
                   }
                 }
               ],
-              "text": "The status of the order. The status is generally fully in the control of the requester - they determine whether the order is draft or active and, after it has been activated, competed, cancelled or suspended. States relating to the activities of the performer are reflected on either the corresponding event (see [Event Pattern](http://hl7.org/fhir/event.html) for general discussion) or using the [Task](http://hl7.org/fhir/task.html) resource.",
+              "text": "The status of the order. The status is generally fully in the control of the requester - they determine whether the order is draft or active and, after it has been activated, competed, cancelled or suspended. States relating to the activities of the performer are reflected on either the corresponding event (see [Event Pattern](http://hl7.org/fhir/event.html) for general discussion) or using the [Task](http://hl7.org/fhir/2021Mar/task.html) resource.",
               "type": "display"
             },
             {
               "linkId": "ServiceRequest.status.value",
               "text": "status",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -769,9 +771,10 @@
             {
               "linkId": "ServiceRequest.intent.value",
               "text": "intent",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -809,9 +812,10 @@
             {
               "linkId": "ServiceRequest.category.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "ServiceRequest.category.text",
@@ -859,9 +863,10 @@
             {
               "linkId": "ServiceRequest.priority.value",
               "text": "priority",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -946,9 +951,10 @@
             {
               "linkId": "ServiceRequest.code.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "ServiceRequest.code.text",
@@ -993,9 +999,10 @@
             {
               "linkId": "ServiceRequest.orderDetail.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "ServiceRequest.orderDetail.text",
@@ -1040,9 +1047,10 @@
             {
               "linkId": "ServiceRequest.quantity[x]._type",
               "text": "type",
-              "type": "choice",
+              "type": "coding",
               "required": false,
               "repeats": false,
+              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs2",
               "item": [
                 {
@@ -1058,9 +1066,10 @@
                     {
                       "linkId": "ServiceRequest.quantity[x]._null.comparator",
                       "text": "comp:",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "ServiceRequest.quantity[x]._null.value",
@@ -1306,9 +1315,10 @@
             {
               "linkId": "ServiceRequest.occurrence[x]._type",
               "text": "type",
-              "type": "choice",
+              "type": "coding",
               "required": false,
               "repeats": false,
+              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs3",
               "item": [
                 {
@@ -1440,9 +1450,10 @@
             {
               "linkId": "ServiceRequest.asNeeded[x]._type",
               "text": "type",
-              "type": "choice",
+              "type": "coding",
               "required": false,
               "repeats": false,
+              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs4",
               "item": [
                 {
@@ -1476,9 +1487,10 @@
                     {
                       "linkId": "ServiceRequest.asNeeded[x]._null.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "ServiceRequest.asNeeded[x]._null.text",
@@ -1627,9 +1639,10 @@
             {
               "linkId": "ServiceRequest.performerType.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "ServiceRequest.performerType.text",
@@ -1667,7 +1680,7 @@
                   }
                 }
               ],
-              "text": "The desired performer for doing the requested service.  For example, the surgeon, dermatopathologist, endoscopist, etc. If multiple performers are present, it is interpreted as a list of *alternative* performers without any preference regardless of order.  If order of preference is needed use the [request-performerOrder extension](http://hl7.org/fhir/extension-request-performerorder.html).  Use CareTeam to represent a group of performers (for example, Practitioner A *and* Practitioner B).",
+              "text": "The desired performer for doing the requested service.  For example, the surgeon, dermatopathologist, endoscopist, etc. If multiple performers are present, it is interpreted as a list of *alternative* performers without any preference regardless of order.  If order of preference is needed use the [request-performerOrder extension](http://hl7.org/fhir/2021Mar/extension-request-performerorder.html).  Use CareTeam to represent a group of performers (for example, Practitioner A *and* Practitioner B).",
               "type": "display"
             },
             {
@@ -1723,9 +1736,10 @@
             {
               "linkId": "ServiceRequest.locationCode.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "ServiceRequest.locationCode.text",
@@ -1819,9 +1833,10 @@
             {
               "linkId": "ServiceRequest.reasonCode.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "ServiceRequest.reasonCode.text",
@@ -2006,7 +2021,7 @@
                   }
                 }
               ],
-              "text": "One or more specimens that the laboratory procedure will use. Many diagnostic procedures need a specimen, but the request itself is not actually about the specimen. This element is for when the diagnostic is requested on already existing specimens and the request points to the specimen it applies to.    Conversely, if the request is entered first with an unknown specimen, then the [Specimen](http://hl7.org/fhir/specimen.html) resource points to the ServiceRequest.",
+              "text": "One or more specimens that the laboratory procedure will use. Many diagnostic procedures need a specimen, but the request itself is not actually about the specimen. This element is for when the diagnostic is requested on already existing specimens and the request points to the specimen it applies to.    Conversely, if the request is entered first with an unknown specimen, then the [Specimen](http://hl7.org/fhir/2021Mar/specimen.html) resource points to the ServiceRequest.",
               "type": "display"
             },
             {
@@ -2056,15 +2071,16 @@
                   }
                 }
               ],
-              "text": "Anatomic location where the procedure should be performed. This is the target site. Only used if not implicit in the code found in ServiceRequest.code.  If the use case requires BodySite to be handled as a separate resource instead of an inline coded element (e.g. to identify and track separately)  then use the standard extension [procedure-targetBodyStructure](http://hl7.org/fhir/extension-procedure-targetbodystructure.html).",
+              "text": "Anatomic location where the procedure should be performed. This is the target site. Only used if not implicit in the code found in ServiceRequest.code.  If the use case requires BodySite to be handled as a separate resource instead of an inline coded element (e.g. to identify and track separately)  then use the standard extension [procedure-targetBodyStructure](http://hl7.org/fhir/2021Mar/extension-procedure-targetbodystructure.html).",
               "type": "display"
             },
             {
               "linkId": "ServiceRequest.bodySite.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "ServiceRequest.bodySite.text",

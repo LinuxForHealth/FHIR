@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for AllergyIntolerance.onset[x]",
       "expansion": {
-        "identifier": "urn:uuid:b2cd2d03-3793-46d2-a912-58d6ed5c5770",
-        "timestamp": "2019-11-01T09:34:29+11:00",
+        "identifier": "urn:uuid:294d9308-ff5e-4e53-8509-03ccffa476de",
+        "timestamp": "2021-12-06T19:02:23+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -46,9 +46,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-12-06T18:53:36+00:00",
   "publisher": "Health Level Seven International (Patient Care)",
   "item": [
     {
@@ -236,9 +236,10 @@
             {
               "linkId": "AllergyIntolerance.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -448,9 +449,10 @@
             {
               "linkId": "AllergyIntolerance.clinicalStatus.coding",
               "text": "code:",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             },
             {
               "linkId": "AllergyIntolerance.clinicalStatus.text",
@@ -499,9 +501,10 @@
             {
               "linkId": "AllergyIntolerance.verificationStatus.coding",
               "text": "code:",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             },
             {
               "linkId": "AllergyIntolerance.verificationStatus.text",
@@ -549,9 +552,10 @@
             {
               "linkId": "AllergyIntolerance.type.value",
               "text": "type",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -588,9 +592,10 @@
             {
               "linkId": "AllergyIntolerance.category.value",
               "text": "category",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -631,9 +636,10 @@
             {
               "linkId": "AllergyIntolerance.criticality.value",
               "text": "criticality",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -675,9 +681,10 @@
             {
               "linkId": "AllergyIntolerance.code.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "AllergyIntolerance.code.text",
@@ -832,9 +839,10 @@
             {
               "linkId": "AllergyIntolerance.onset[x]._type",
               "text": "type",
-              "type": "choice",
+              "type": "coding",
               "required": false,
               "repeats": false,
+              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs2",
               "item": [
                 {
@@ -868,9 +876,10 @@
                     {
                       "linkId": "AllergyIntolerance.onset[x]._null.comparator",
                       "text": "comp:",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "AllergyIntolerance.onset[x]._null.value",
@@ -1368,9 +1377,10 @@
                 {
                   "linkId": "AllergyIntolerance.reaction.substance.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "AllergyIntolerance.reaction.substance.text",
@@ -1419,9 +1429,10 @@
                 {
                   "linkId": "AllergyIntolerance.reaction.manifestation.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "AllergyIntolerance.reaction.manifestation.text",
@@ -1555,9 +1566,10 @@
                 {
                   "linkId": "AllergyIntolerance.reaction.severity.value",
                   "text": "severity",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOrType"
                 }
               ]
             },
@@ -1599,9 +1611,10 @@
                 {
                   "linkId": "AllergyIntolerance.reaction.exposureRoute.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "AllergyIntolerance.reaction.exposureRoute.text",

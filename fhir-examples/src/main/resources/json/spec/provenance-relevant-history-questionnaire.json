@@ -6,9 +6,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "draft",
-  "date": "2013-12-03T00:00:00+11:00",
+  "date": "2013-12-03T00:00:00+00:00",
   "publisher": "Health Level Seven International",
   "item": [
     {
@@ -196,9 +196,10 @@
             {
               "linkId": "Provenance.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -589,9 +590,10 @@
             {
               "linkId": "Provenance.reason.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Provenance.reason.text",
@@ -644,9 +646,10 @@
             {
               "linkId": "Provenance.activity.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Provenance.activity.text",
@@ -831,9 +834,10 @@
                 {
                   "linkId": "Provenance.agent.type.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "Provenance.agent.type.text",
@@ -878,9 +882,10 @@
                 {
                   "linkId": "Provenance.agent.role.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "Provenance.agent.role.text",
@@ -1177,9 +1182,10 @@
                 {
                   "linkId": "Provenance.agent.type.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "Provenance.agent.type.text",
@@ -1224,9 +1230,10 @@
                 {
                   "linkId": "Provenance.agent.role.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "Provenance.agent.role.text",
@@ -1512,9 +1519,10 @@
                 {
                   "linkId": "Provenance.entity.role.value",
                   "text": "role",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOrType"
                 }
               ]
             },

@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for ResearchDefinition.subject[x]",
       "expansion": {
-        "identifier": "urn:uuid:2adf5dbd-2b92-4225-9e78-c73878be1b17",
-        "timestamp": "2019-11-01T09:36:49+11:00",
+        "identifier": "urn:uuid:6d921b6d-687e-4fe4-a8ed-56b17dfe9e70",
+        "timestamp": "2021-12-06T19:04:28+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -31,9 +31,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-12-06T18:53:36+00:00",
   "publisher": "Health Level Seven International (Clinical Decision Support)",
   "item": [
     {
@@ -217,9 +217,10 @@
             {
               "linkId": "ResearchDefinition.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -690,9 +691,10 @@
             {
               "linkId": "ResearchDefinition.status.value",
               "text": "status",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -773,9 +775,10 @@
             {
               "linkId": "ResearchDefinition.subject[x]._type",
               "text": "type",
-              "type": "choice",
+              "type": "coding",
               "required": false,
               "repeats": false,
+              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs2",
               "item": [
                 {
@@ -791,9 +794,10 @@
                     {
                       "linkId": "ResearchDefinition.subject[x]._null.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "ResearchDefinition.subject[x]._null.text",
@@ -1100,9 +1104,10 @@
             {
               "linkId": "ResearchDefinition.jurisdiction.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "ResearchDefinition.jurisdiction.text",
@@ -1413,9 +1418,10 @@
             {
               "linkId": "ResearchDefinition.topic.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "ResearchDefinition.topic.text",

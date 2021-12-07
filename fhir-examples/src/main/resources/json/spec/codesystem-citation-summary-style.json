@@ -1,0 +1,132 @@
+{
+  "resourceType": "CodeSystem",
+  "id": "citation-summary-style",
+  "meta": {
+    "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+    "profile": [
+      "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\n      \n      \u003cp\u003eThis code system http://terminology.hl7.org/CodeSystem/citation-summary-style defines the following codes:\u003c/p\u003e\n      \n      \u003ctable class\u003d\"codes\"\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003e\n            \n            \u003cb\u003eCode\u003c/b\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003e\n            \n            \u003cb\u003eDisplay\u003c/b\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003e\n            \n            \u003cb\u003eDefinition\u003c/b\u003e\n          \n          \u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003evancouver\n            \n            \u003ca name\u003d\"citation-summary-style-vancouver\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eVancouver style\u003c/td\u003e\n          \n          \u003ctd\u003eCitation style used by International Committee of Medical Journal Editors and maintained by US National Library of Medicine.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eama11\n            \n            \u003ca name\u003d\"citation-summary-style-ama11\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eAmerican Medical Association 11th edition\u003c/td\u003e\n          \n          \u003ctd\u003eMedicine.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eapa7\n            \n            \u003ca name\u003d\"citation-summary-style-apa7\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eAmerican Psychological Association 7th edition\u003c/td\u003e\n          \n          \u003ctd\u003eAPA 7th edition (October 2019) used by Education, Psychology and Sciences.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eapa6\n            \n            \u003ca name\u003d\"citation-summary-style-apa6\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eAmerican Psychological Association 6th edition\u003c/td\u003e\n          \n          \u003ctd\u003eAPA 6th edition used by Education, Psychology and Sciences.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003easa6\n            \n            \u003ca name\u003d\"citation-summary-style-asa6\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eAmerican Sociological Association 6th edition\u003c/td\u003e\n          \n          \u003ctd\u003eSociology.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003emla8\n            \n            \u003ca name\u003d\"citation-summary-style-mla8\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eModern Language Association 8th edition\u003c/td\u003e\n          \n          \u003ctd\u003eMLA 8th edition used by the Humanities.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003ecochrane\n            \n            \u003ca name\u003d\"citation-summary-style-cochrane\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eCochrane Style\u003c/td\u003e\n          \n          \u003ctd\u003eUsed by Cochrane reviews, example: Huang, M, Tang T, Pang, P, Li, M, Ma R, Lu, J, et al. Treating COVID-19 with Chloroquine. J Mol Cell Biol 2020; 12(4):322–5.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eelsevier-harvard\n            \n            \u003ca name\u003d\"citation-summary-style-elsevier-harvard\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eElsevier-Harvard Style\u003c/td\u003e\n          \n          \u003ctd\u003eBiology ecology.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003enature\n            \n            \u003ca name\u003d\"citation-summary-style-nature\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eNature Referencing style\u003c/td\u003e\n          \n          \u003ctd\u003eBiology.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eacs\n            \n            \u003ca name\u003d\"citation-summary-style-acs\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eAmerican Chemical Society\u003c/td\u003e\n          \n          \u003ctd\u003eChemistry.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003echicago-a-17\n            \n            \u003ca name\u003d\"citation-summary-style-chicago-a-17\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eChicago Style Version 17\nAuthor Date\u003c/td\u003e\n          \n          \u003ctd\u003eUsed by Business, History and the Fine Arts.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003echicago-b-17\n            \n            \u003ca name\u003d\"citation-summary-style-chicago-b-17\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eChicago Style Version 17 Full note\u003c/td\u003e\n          \n          \u003ctd\u003eUsed by Business, History and the Fine Arts.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eieee\n            \n            \u003ca name\u003d\"citation-summary-style-ieee\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eInstitute of Electrical and Electronics Engineers\u003c/td\u003e\n          \n          \u003ctd\u003eIT, Engineering.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003ecomppub\n            \n            \u003ca name\u003d\"citation-summary-style-comppub\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eComputable Publishing\u003c/td\u003e\n          \n          \u003ctd\u003eCitation style to report human-readable and/or machine-readable access paths, example: Alper BS, Dehnbostel J, Shahin K. 14-day mortality remdesivir vs placebo meta-analysis (ACTT-1, Wang et al, WHO SOLIDARITY).  Fast Evidence Interoperability Resources (FEvIR) Platform, entry 55, version 4. Created 2020 Dec 17. Revised 2020 Dec 21. Accessed 2021 Mar 13. Computable resource at: https://fevir.net/resources/Evidence/55.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n      \n      \u003c/table\u003e\n    \n    \u003c/div\u003e"
+  },
+  "extension": [
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+      "valueCode": "cds"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+      "valueCode": "trial-use"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+      "valueInteger": 0
+    }
+  ],
+  "url": "http://terminology.hl7.org/CodeSystem/citation-summary-style",
+  "identifier": [
+    {
+      "system": "urn:ietf:rfc:3986",
+      "value": "urn:oid:2.16.840.1.113883.4.642.1.0"
+    }
+  ],
+  "version": "4.1.0",
+  "name": "CitationSummaryStyle",
+  "title": "CitationSummaryStyle",
+  "status": "draft",
+  "experimental": false,
+  "date": "2020-12-28T16:55:11+11:00",
+  "publisher": "HL7 (FHIR Project)",
+  "contact": [
+    {
+      "telecom": [
+        {
+          "system": "url",
+          "value": "http://hl7.org/fhir"
+        },
+        {
+          "system": "email",
+          "value": "fhir@lists.hl7.org"
+        }
+      ]
+    }
+  ],
+  "description": "The format for display of the citation.",
+  "caseSensitive": true,
+  "valueSet": "http://hl7.org/fhir/ValueSet/citation-summary-style",
+  "content": "complete",
+  "concept": [
+    {
+      "code": "vancouver",
+      "display": "Vancouver style",
+      "definition": "Citation style used by International Committee of Medical Journal Editors and maintained by US National Library of Medicine."
+    },
+    {
+      "code": "ama11",
+      "display": "American Medical Association 11th edition",
+      "definition": "Medicine."
+    },
+    {
+      "code": "apa7",
+      "display": "American Psychological Association 7th edition",
+      "definition": "APA 7th edition (October 2019) used by Education, Psychology and Sciences."
+    },
+    {
+      "code": "apa6",
+      "display": "American Psychological Association 6th edition",
+      "definition": "APA 6th edition used by Education, Psychology and Sciences."
+    },
+    {
+      "code": "asa6",
+      "display": "American Sociological Association 6th edition",
+      "definition": "Sociology."
+    },
+    {
+      "code": "mla8",
+      "display": "Modern Language Association 8th edition",
+      "definition": "MLA 8th edition used by the Humanities."
+    },
+    {
+      "code": "cochrane",
+      "display": "Cochrane Style",
+      "definition": "Used by Cochrane reviews, example: Huang, M, Tang T, Pang, P, Li, M, Ma R, Lu, J, et al. Treating COVID-19 with Chloroquine. J Mol Cell Biol 2020; 12(4):322–5."
+    },
+    {
+      "code": "elsevier-harvard",
+      "display": "Elsevier-Harvard Style",
+      "definition": "Biology ecology."
+    },
+    {
+      "code": "nature",
+      "display": "Nature Referencing style",
+      "definition": "Biology."
+    },
+    {
+      "code": "acs",
+      "display": "American Chemical Society",
+      "definition": "Chemistry."
+    },
+    {
+      "code": "chicago-a-17",
+      "display": "Chicago Style Version 17 Author Date",
+      "definition": "Used by Business, History and the Fine Arts."
+    },
+    {
+      "code": "chicago-b-17",
+      "display": "Chicago Style Version 17 Full note",
+      "definition": "Used by Business, History and the Fine Arts."
+    },
+    {
+      "code": "ieee",
+      "display": "Institute of Electrical and Electronics Engineers",
+      "definition": "IT, Engineering."
+    },
+    {
+      "code": "comppub",
+      "display": "Computable Publishing",
+      "definition": "Citation style to report human-readable and/or machine-readable access paths, example: Alper BS, Dehnbostel J, Shahin K. 14-day mortality remdesivir vs placebo meta-analysis (ACTT-1, Wang et al, WHO SOLIDARITY).  Fast Evidence Interoperability Resources (FEvIR) Platform, entry 55, version 4. Created 2020 Dec 17. Revised 2020 Dec 21. Accessed 2021 Mar 13. Computable resource at: https://fevir.net/resources/Evidence/55."
+    }
+  ]
+}
