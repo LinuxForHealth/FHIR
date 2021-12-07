@@ -7,7 +7,7 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: example007</p><p><b>contained</b>: </p><p><b>status</b>: active</p><p><b>medication</b>: id: med0315; Mometasone Furoate 0.05mg/Actuat <span>(Details : {RxNorm code '358793' = 'mometasone furoate 0.05 MG/ACTUAT', given as 'Mometasone Furoate 0.05mg/Actuat'})</span>; Nasal Spray <span>(Details : {SNOMED CT code '385157007' = 'Nasal spray', given as 'Nasal Spray'})</span></p><p><b>subject</b>: <a>Donald Duck</a></p><p><b>informationSource</b>: <a>Donald Duck</a></p><p><b>note</b>: patient plans to start using for seasonal allergies in the Spring when pollen is in the air</p></div></text><contained>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "example007" </p></div><p><b>status</b>: active</p><p><b>medication</b>: <a> </a></p><blockquote><div><p>Resource "med0315" </p></div><p><b>code</b>: Mometasone Furoate 0.05mg/Actuat <span> (<a>RxNorm</a>#358793)</span></p><p><b>form</b>: Nasal Spray <span> (<a>SNOMED CT</a>#385157007)</span></p></blockquote><p><b>subject</b>: <a>Patient/pat1: Donald Duck</a> "Duck DONALD"</p><p><b>informationSource</b>: <a>Patient/pat1: Donald Duck</a> "Duck DONALD"</p><p><b>note</b>: patient plans to start using for seasonal allergies in the Spring when pollen is in the air</p></div></text><contained>
     <Medication>
       <id value="med0315"/>
       <code>

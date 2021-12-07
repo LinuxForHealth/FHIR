@@ -7,31 +7,7 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text>
-    <status value="generated"/>
-    <div xmlns="http://www.w3.org/1999/xhtml">
-      <h2>All CPT codes</h2>
-      <div>
-        <p>A value set that includes all CPT codes</p>
-
-      </div>
-      <p>
-        <b>Copyright Statement:</b>
-      </p>
-      <div>
-        <p>CPT Copyright © 2014 American Medical Association. All rights reserved.</p>
-
-      </div>
-      <p>This value set includes codes from the following code systems:</p>
-      <ul>
-        <li>Include all codes defined in 
-          <code>http://www.ama-assn.org/go/cpt</code>
-        </li>
-      </ul>
-    </div>
-  </text>
   <url value="http://hl7.org/fhir/ValueSet/cpt-all"/>
-  <version value="4.0.1"/>
   <name value="All CPT codes"/>
   <status value="active"/>
   <date value="2015-03-12"/>

@@ -6,9 +6,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-12-06T18:53:36+00:00",
   "publisher": "Health Level Seven International (Patient Care)",
   "item": [
     {
@@ -192,9 +192,10 @@
             {
               "linkId": "AdverseEvent.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -411,9 +412,10 @@
             {
               "linkId": "AdverseEvent.actuality.value",
               "text": "actuality",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -451,9 +453,10 @@
             {
               "linkId": "AdverseEvent.category.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "AdverseEvent.category.text",
@@ -502,9 +505,10 @@
             {
               "linkId": "AdverseEvent.event.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "AdverseEvent.event.text",
@@ -894,9 +898,10 @@
             {
               "linkId": "AdverseEvent.seriousness.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "AdverseEvent.seriousness.text",
@@ -945,9 +950,10 @@
             {
               "linkId": "AdverseEvent.severity.coding",
               "text": "code:",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             },
             {
               "linkId": "AdverseEvent.severity.text",
@@ -996,9 +1002,10 @@
             {
               "linkId": "AdverseEvent.outcome.coding",
               "text": "code:",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             },
             {
               "linkId": "AdverseEvent.outcome.text",
@@ -1450,9 +1457,10 @@
                     {
                       "linkId": "AdverseEvent.suspectEntity.causality.assessment.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "AdverseEvent.suspectEntity.causality.assessment.text",
@@ -1597,9 +1605,10 @@
                     {
                       "linkId": "AdverseEvent.suspectEntity.causality.method.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "AdverseEvent.suspectEntity.causality.method.text",

@@ -1,0 +1,92 @@
+{
+  "resourceType": "CodeSystem",
+  "id": "cited-medium",
+  "meta": {
+    "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+    "profile": [
+      "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\n      \n      \u003cp\u003eThis code system http://terminology.hl7.org/CodeSystem/cited-medium defines the following codes:\u003c/p\u003e\n      \n      \u003ctable class\u003d\"codes\"\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003e\n            \n            \u003cb\u003eCode\u003c/b\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003e\n            \n            \u003cb\u003eDisplay\u003c/b\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003e\n            \n            \u003cb\u003eDefinition\u003c/b\u003e\n          \n          \u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003einternet\n            \n            \u003ca name\u003d\"cited-medium-internet\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eInternet\u003c/td\u003e\n          \n          \u003ctd\u003eOnline publication in a periodic release. Used to match NLM JournalIssue CitedMedium code for online version.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eprint\n            \n            \u003ca name\u003d\"cited-medium-print\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003ePrint\u003c/td\u003e\n          \n          \u003ctd\u003ePrint publication in a periodic release. Used to match NLM JournalIssue CitedMedium code for print version.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eoffline-digital-storage\n            \n            \u003ca name\u003d\"cited-medium-offline-digital-storage\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eOffline Digital Storage\u003c/td\u003e\n          \n          \u003ctd\u003ePublication in a physical device for electronic data storage, organized in issues for periodic release.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003einternet-without-issue\n            \n            \u003ca name\u003d\"cited-medium-internet-without-issue\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eInternet without issue\u003c/td\u003e\n          \n          \u003ctd\u003eOnline publication without any periodic release. Used for article specific publication date which could be the same as or different from journal issue publication date.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eprint-without-issue\n            \n            \u003ca name\u003d\"cited-medium-print-without-issue\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003ePrint without issue\u003c/td\u003e\n          \n          \u003ctd\u003ePrint publication without any periodic release.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eoffline-digital-storage-without-issue\n            \n            \u003ca name\u003d\"cited-medium-offline-digital-storage-without-issue\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eOffline Digital Storage without issue\u003c/td\u003e\n          \n          \u003ctd\u003ePublication in a physical device for electronic data storage, without any periodic release.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n      \u003c/table\u003e\n    \n    \u003c/div\u003e"
+  },
+  "extension": [
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+      "valueCode": "cds"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+      "valueCode": "trial-use"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+      "valueInteger": 0
+    }
+  ],
+  "url": "http://terminology.hl7.org/CodeSystem/cited-medium",
+  "identifier": [
+    {
+      "system": "urn:ietf:rfc:3986",
+      "value": "urn:oid:2.16.840.1.113883.4.642.1.1489"
+    }
+  ],
+  "version": "4.1.0",
+  "name": "CitedMedium",
+  "title": "CitedMedium",
+  "status": "draft",
+  "experimental": false,
+  "date": "2020-12-28T16:55:11+11:00",
+  "publisher": "HL7 (FHIR Project)",
+  "contact": [
+    {
+      "telecom": [
+        {
+          "system": "url",
+          "value": "http://hl7.org/fhir"
+        },
+        {
+          "system": "email",
+          "value": "fhir@lists.hl7.org"
+        }
+      ]
+    }
+  ],
+  "description": "NLM codes Internet or Print.",
+  "caseSensitive": true,
+  "valueSet": "http://hl7.org/fhir/ValueSet/cited-medium",
+  "content": "complete",
+  "concept": [
+    {
+      "code": "internet",
+      "display": "Internet",
+      "definition": "Online publication in a periodic release. Used to match NLM JournalIssue CitedMedium code for online version."
+    },
+    {
+      "code": "print",
+      "display": "Print",
+      "definition": "Print publication in a periodic release. Used to match NLM JournalIssue CitedMedium code for print version."
+    },
+    {
+      "code": "offline-digital-storage",
+      "display": "Offline Digital Storage",
+      "definition": "Publication in a physical device for electronic data storage, organized in issues for periodic release."
+    },
+    {
+      "code": "internet-without-issue",
+      "display": "Internet without issue",
+      "definition": "Online publication without any periodic release. Used for article specific publication date which could be the same as or different from journal issue publication date."
+    },
+    {
+      "code": "print-without-issue",
+      "display": "Print without issue",
+      "definition": "Print publication without any periodic release."
+    },
+    {
+      "code": "offline-digital-storage-without-issue",
+      "display": "Offline Digital Storage without issue",
+      "definition": "Publication in a physical device for electronic data storage, without any periodic release."
+    }
+  ]
+}

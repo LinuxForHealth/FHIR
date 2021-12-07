@@ -3,14 +3,14 @@
 <ConceptMap xmlns="http://hl7.org/fhir">
   <id value="sc-account-status"/>
   <text>
-    <status value="generated"/>
+    <status value="extensions"/>
     <div xmlns="http://www.w3.org/1999/xhtml">
       <h2>AccountStatusCanonicalMap (http://hl7.org/fhir/ConceptMap/sc-account-status)</h2>
       <p>Mapping from 
         <a href="valueset-account-status.html">http://hl7.org/fhir/ValueSet/account-status</a> to 
         <a href="valueset-resource-status.html">http://hl7.org/fhir/ValueSet/resource-status</a>
       </p>
-      <p>DRAFT. Published on 01/11/2019 9:29:23 AM by HL7 (FHIR Project) (
+      <p>DRAFT. Published on Jan 16, 2021 8:06:13 PM by HL7 (FHIR Project) (
         <a href="http://hl7.org/fhir">http://hl7.org/fhir</a>, 
         <a href="mailto:fhir@lists.hl7.org">fhir@lists.hl7.org</a>). 
       </p>
@@ -25,7 +25,7 @@
             <b>Source Code</b>
           </td>
           <td>
-            <b>Equivalence</b>
+            <b>Relationship</b>
           </td>
           <td>
             <b>Destination Code</b>
@@ -33,38 +33,48 @@
         </tr>
         <tr>
           <td>entered-in-error</td>
-          <td>equivalent</td>
+          <td>
+            <a href="codesystem-concept-map-equivalence.html#equivalent">is equivalent to</a>
+          </td>
           <td>error</td>
         </tr>
         <tr>
           <td>active</td>
-          <td>equivalent</td>
+          <td>
+            <a href="codesystem-concept-map-equivalence.html#equivalent">is equivalent to</a>
+          </td>
           <td>active</td>
         </tr>
         <tr>
           <td>on-hold</td>
-          <td>equivalent</td>
+          <td>
+            <a href="codesystem-concept-map-equivalence.html#equivalent">is equivalent to</a>
+          </td>
           <td>suspended</td>
         </tr>
         <tr>
           <td>inactive</td>
-          <td>equivalent</td>
+          <td>
+            <a href="codesystem-concept-map-equivalence.html#equivalent">is equivalent to</a>
+          </td>
           <td>inactive</td>
         </tr>
         <tr>
           <td>unknown</td>
-          <td>equivalent</td>
+          <td>
+            <a href="codesystem-concept-map-equivalence.html#equivalent">is equivalent to</a>
+          </td>
           <td>unknown</td>
         </tr>
       </table>
     </div>
   </text>
   <url value="http://hl7.org/fhir/ConceptMap/sc-account-status"/>
-  <version value="4.0.1"/>
+  <version value="4.1.0"/>
   <name value="AccountStatusCanonicalMap"/>
   <title value="Canonical Mapping for &quot;AccountStatus&quot;"/>
   <status value="draft"/>
-  <date value="2019-11-01T09:29:23+11:00"/>
+  <date value="2021-01-16T20:06:13+00:00"/>
   <publisher value="HL7 (FHIR Project)"/>
   <contact>
     <telecom>
@@ -86,35 +96,35 @@
       <code value="entered-in-error"/>
       <target>
         <code value="error"/>
-        <equivalence value="equivalent"/>
+        <relationship value="equivalent"/>
       </target>
     </element>
     <element>
       <code value="active"/>
       <target>
         <code value="active"/>
-        <equivalence value="equivalent"/>
+        <relationship value="equivalent"/>
       </target>
     </element>
     <element>
       <code value="on-hold"/>
       <target>
         <code value="suspended"/>
-        <equivalence value="equivalent"/>
+        <relationship value="equivalent"/>
       </target>
     </element>
     <element>
       <code value="inactive"/>
       <target>
         <code value="inactive"/>
-        <equivalence value="equivalent"/>
+        <relationship value="equivalent"/>
       </target>
     </element>
     <element>
       <code value="unknown"/>
       <target>
         <code value="unknown"/>
-        <equivalence value="equivalent"/>
+        <relationship value="equivalent"/>
       </target>
     </element>
   </group>

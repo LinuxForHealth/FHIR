@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for Observation.effective[x]",
       "expansion": {
-        "identifier": "urn:uuid:44389d7c-e2b8-4392-8883-8785efd1cac9",
-        "timestamp": "2019-11-01T09:36:13+11:00",
+        "identifier": "urn:uuid:0ab61557-6436-46f7-bab4-a140f06da74a",
+        "timestamp": "2021-12-06T19:03:58+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -42,8 +42,8 @@
       "status": "active",
       "description": "Type options for Observation.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:f07e68bc-434c-46db-a2b0-ea025b68d810",
-        "timestamp": "2019-11-01T09:36:13+11:00",
+        "identifier": "urn:uuid:5e3c9ee1-d248-45cc-b7da-7c071d5169a0",
+        "timestamp": "2021-12-06T19:03:58+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -110,8 +110,8 @@
       "status": "active",
       "description": "Type options for Observation.component.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:465f1399-61fb-449f-b6ac-0ef72e9b9f9b",
-        "timestamp": "2019-11-01T09:36:13+11:00",
+        "identifier": "urn:uuid:40cdb3c2-1c4e-497e-9978-cd2aa38aa254",
+        "timestamp": "2021-12-06T19:03:58+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -177,9 +177,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "active",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-12-06T18:53:36+00:00",
   "publisher": "Health Level Seven International (Orders and Observations)",
   "item": [
     {
@@ -367,9 +367,10 @@
             {
               "linkId": "Observation.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -680,9 +681,10 @@
             {
               "linkId": "Observation.status.value",
               "text": "status",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -720,9 +722,10 @@
             {
               "linkId": "Observation.category.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Observation.category.text",
@@ -775,9 +778,10 @@
             {
               "linkId": "Observation.code.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Observation.code.text",
@@ -826,7 +830,7 @@
               "extension": [
                 {
                   "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-allowedResource",
-                  "valueCode": "Patient, Group, Device, Location"
+                  "valueCode": "Patient, Group, Device, Location, Organization, Procedure, Practitioner, Medication, Substance"
                 },
                 {
                   "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-referenceFilter",
@@ -977,9 +981,10 @@
             {
               "linkId": "Observation.effective[x]._type",
               "text": "type",
-              "type": "choice",
+              "type": "coding",
               "required": false,
               "repeats": false,
+              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs2",
               "item": [
                 {
@@ -1221,9 +1226,10 @@
             {
               "linkId": "Observation.value[x]._type",
               "text": "type",
-              "type": "choice",
+              "type": "coding",
               "required": false,
               "repeats": false,
+              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs3",
               "item": [
                 {
@@ -1239,9 +1245,10 @@
                     {
                       "linkId": "Observation.value[x]._null.comparator",
                       "text": "comp:",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "Observation.value[x]._null.value",
@@ -1286,9 +1293,10 @@
                     {
                       "linkId": "Observation.value[x]._null.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "Observation.value[x]._null.text",
@@ -1533,9 +1541,10 @@
             {
               "linkId": "Observation.dataAbsentReason.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Observation.dataAbsentReason.text",
@@ -1580,9 +1589,10 @@
             {
               "linkId": "Observation.interpretation.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Observation.interpretation.text",
@@ -1664,9 +1674,10 @@
             {
               "linkId": "Observation.bodySite.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Observation.bodySite.text",
@@ -1715,9 +1726,10 @@
             {
               "linkId": "Observation.method.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Observation.method.text",
@@ -1998,9 +2010,10 @@
                 {
                   "linkId": "Observation.referenceRange.low.comparator",
                   "text": "comp:",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "Observation.referenceRange.low.value",
@@ -2070,9 +2083,10 @@
                 {
                   "linkId": "Observation.referenceRange.high.comparator",
                   "text": "comp:",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "Observation.referenceRange.high.value",
@@ -2142,9 +2156,10 @@
                 {
                   "linkId": "Observation.referenceRange.type.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "Observation.referenceRange.type.text",
@@ -2189,9 +2204,10 @@
                 {
                   "linkId": "Observation.referenceRange.appliesTo.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "Observation.referenceRange.appliesTo.text",
@@ -2571,9 +2587,10 @@
                 {
                   "linkId": "Observation.component.code.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "Observation.component.code.text",
@@ -2618,9 +2635,10 @@
                 {
                   "linkId": "Observation.component.value[x]._type",
                   "text": "type",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
                   "repeats": false,
+                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs4",
                   "item": [
                     {
@@ -2636,9 +2654,10 @@
                         {
                           "linkId": "Observation.component.value[x]._null.comparator",
                           "text": "comp:",
-                          "type": "choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOnly"
                         },
                         {
                           "linkId": "Observation.component.value[x]._null.value",
@@ -2683,9 +2702,10 @@
                         {
                           "linkId": "Observation.component.value[x]._null.coding",
                           "text": "code:",
-                          "type": "open-choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOnly"
                         },
                         {
                           "linkId": "Observation.component.value[x]._null.text",
@@ -2930,9 +2950,10 @@
                 {
                   "linkId": "Observation.component.dataAbsentReason.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "Observation.component.dataAbsentReason.text",
@@ -2977,9 +2998,10 @@
                 {
                   "linkId": "Observation.component.interpretation.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "Observation.component.interpretation.text",

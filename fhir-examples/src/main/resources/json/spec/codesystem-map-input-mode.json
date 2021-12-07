@@ -2,11 +2,14 @@
   "resourceType": "CodeSystem",
   "id": "map-input-mode",
   "meta": {
-    "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+    "profile": [
+      "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+    ]
   },
   "text": {
     "status": "generated",
-    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003ch2\u003eStructureMapInputMode\u003c/h2\u003e\u003cdiv\u003e\u003cp\u003eMode for this instance of data.\u003c/p\u003e\n\u003c/div\u003e\u003cp\u003eThis code system http://hl7.org/fhir/map-input-mode defines the following codes:\u003c/p\u003e\u003ctable class\u003d\"codes\"\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e\u003cb\u003eCode\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eDisplay\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eDefinition\u003c/b\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003esource\u003ca name\u003d\"map-input-mode-source\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSource Instance\u003c/td\u003e\u003ctd\u003eNames an input instance used a source for mapping.\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003etarget\u003ca name\u003d\"map-input-mode-target\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eTarget Instance\u003c/td\u003e\u003ctd\u003eNames an instance that is being populated.\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/div\u003e"
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\n      \n      \u003ch2\u003eStructureMapInputMode\u003c/h2\u003e\n      \n      \u003cdiv\u003e\n        \n        \u003cp\u003eMode for this instance of data.\u003c/p\u003e\n\n      \n      \u003c/div\u003e\n      \n      \u003cp\u003eThis code system http://hl7.org/fhir/map-input-mode defines the following codes:\u003c/p\u003e\n      \n      \u003ctable class\u003d\"codes\"\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003e\n            \n            \u003cb\u003eCode\u003c/b\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003e\n            \n            \u003cb\u003eDisplay\u003c/b\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003e\n            \n            \u003cb\u003eDefinition\u003c/b\u003e\n          \n          \u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003esource\n            \n            \u003ca name\u003d\"map-input-mode-source\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eSource Instance\u003c/td\u003e\n          \n          \u003ctd\u003eNames an input instance used a source for mapping.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003etarget\n            \n            \u003ca name\u003d\"map-input-mode-target\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eTarget Instance\u003c/td\u003e\n          \n          \u003ctd\u003eNames an instance that is being populated.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n      \n      \u003c/table\u003e\n    \n    \u003c/div\u003e"
   },
   "extension": [
     {
@@ -29,12 +32,12 @@
       "value": "urn:oid:2.16.840.1.113883.4.642.4.678"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "name": "StructureMapInputMode",
   "title": "StructureMapInputMode",
   "status": "draft",
   "experimental": false,
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-01-17T07:06:13+11:00",
   "publisher": "HL7 (FHIR Project)",
   "contact": [
     {

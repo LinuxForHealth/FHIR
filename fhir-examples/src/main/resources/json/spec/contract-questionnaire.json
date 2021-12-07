@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for Contract.topic[x]",
       "expansion": {
-        "identifier": "urn:uuid:c0530c5b-5207-4d5a-a48d-8bcf78709025",
-        "timestamp": "2019-11-01T09:34:54+11:00",
+        "identifier": "urn:uuid:8fd67445-013a-4058-8e17-1973e013b817",
+        "timestamp": "2021-12-06T19:02:51+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -32,8 +32,8 @@
       "status": "active",
       "description": "Type options for Contract.term.topic[x]",
       "expansion": {
-        "identifier": "urn:uuid:5525c273-e441-4385-8753-72a874bcdb1b",
-        "timestamp": "2019-11-01T09:34:54+11:00",
+        "identifier": "urn:uuid:6d69182d-8c2e-4d11-8db6-fc4d42e73eaf",
+        "timestamp": "2021-12-06T19:02:51+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -55,8 +55,8 @@
       "status": "active",
       "description": "Type options for Contract.term.offer.answer.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:54ebd0a5-0c2f-4634-943c-f6bdc90abdaa",
-        "timestamp": "2019-11-01T09:34:54+11:00",
+        "identifier": "urn:uuid:3bc5031f-ee6e-4cbc-a5ce-a7b9bacdcfed",
+        "timestamp": "2021-12-06T19:02:51+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -128,8 +128,8 @@
       "status": "active",
       "description": "Type options for Contract.term.asset.valuedItem.entity[x]",
       "expansion": {
-        "identifier": "urn:uuid:e8f9008e-9943-4ef0-81b4-88ccaeed9f19",
-        "timestamp": "2019-11-01T09:34:54+11:00",
+        "identifier": "urn:uuid:e9503451-dc85-4062-a9b8-e5a1ad9d815e",
+        "timestamp": "2021-12-06T19:02:51+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -151,8 +151,8 @@
       "status": "active",
       "description": "Type options for Contract.term.action.occurrence[x]",
       "expansion": {
-        "identifier": "urn:uuid:a346201d-e907-41bd-a1f8-033924b0702a",
-        "timestamp": "2019-11-01T09:34:54+11:00",
+        "identifier": "urn:uuid:b32430e5-f680-401e-8beb-038e4841744b",
+        "timestamp": "2021-12-06T19:02:51+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -179,8 +179,8 @@
       "status": "active",
       "description": "Type options for Contract.friendly.content[x]",
       "expansion": {
-        "identifier": "urn:uuid:47502332-3d19-4992-a314-29300a34fb45",
-        "timestamp": "2019-11-01T09:34:54+11:00",
+        "identifier": "urn:uuid:8702a1b3-0360-4887-b55d-430d59746aa4",
+        "timestamp": "2021-12-06T19:02:51+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -212,8 +212,8 @@
       "status": "active",
       "description": "Type options for Contract.legal.content[x]",
       "expansion": {
-        "identifier": "urn:uuid:ae48ce65-57b7-4a1b-aa7c-4f595285d4b2",
-        "timestamp": "2019-11-01T09:34:54+11:00",
+        "identifier": "urn:uuid:bf57a602-7dc3-4063-b456-0ee634338ecd",
+        "timestamp": "2021-12-06T19:02:51+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -245,8 +245,8 @@
       "status": "active",
       "description": "Type options for Contract.rule.content[x]",
       "expansion": {
-        "identifier": "urn:uuid:713907d6-fb83-4acd-9fa6-548dbbf59f55",
-        "timestamp": "2019-11-01T09:34:54+11:00",
+        "identifier": "urn:uuid:a94bbd54-7e49-4db1-9dc0-de6bb8e9a5bf",
+        "timestamp": "2021-12-06T19:02:51+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -268,8 +268,8 @@
       "status": "active",
       "description": "Type options for Contract.legallyBinding[x]",
       "expansion": {
-        "identifier": "urn:uuid:1c523d50-e779-4b91-936f-a08352a560ca",
-        "timestamp": "2019-11-01T09:34:54+11:00",
+        "identifier": "urn:uuid:31c2c4b0-73df-49f9-94bc-aae6d5c9b425",
+        "timestamp": "2021-12-06T19:02:51+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -305,9 +305,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-12-06T18:53:36+00:00",
   "publisher": "Health Level Seven International (Financial Management)",
   "item": [
     {
@@ -491,9 +491,10 @@
             {
               "linkId": "Contract.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -788,9 +789,10 @@
             {
               "linkId": "Contract.status.value",
               "text": "status",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -832,9 +834,10 @@
             {
               "linkId": "Contract.legalState.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Contract.legalState.text",
@@ -979,9 +982,10 @@
             {
               "linkId": "Contract.contentDerivative.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Contract.contentDerivative.text",
@@ -1124,9 +1128,10 @@
             {
               "linkId": "Contract.expirationType.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Contract.expirationType.text",
@@ -1592,9 +1597,10 @@
             {
               "linkId": "Contract.scope.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Contract.scope.text",
@@ -1639,9 +1645,10 @@
             {
               "linkId": "Contract.topic[x]._type",
               "text": "type",
-              "type": "choice",
+              "type": "coding",
               "required": false,
               "repeats": false,
+              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs2",
               "item": [
                 {
@@ -1657,9 +1664,10 @@
                     {
                       "linkId": "Contract.topic[x]._null.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "Contract.topic[x]._null.text",
@@ -1740,9 +1748,10 @@
             {
               "linkId": "Contract.type.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Contract.type.text",
@@ -1787,9 +1796,10 @@
             {
               "linkId": "Contract.subType.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Contract.subType.text",
@@ -1970,9 +1980,10 @@
                 {
                   "linkId": "Contract.contentDefinition.type.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "Contract.contentDefinition.type.text",
@@ -2021,9 +2032,10 @@
                 {
                   "linkId": "Contract.contentDefinition.subType.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "Contract.contentDefinition.subType.text",
@@ -2171,9 +2183,10 @@
                 {
                   "linkId": "Contract.contentDefinition.publicationStatus.value",
                   "text": "publication status",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOrType"
                 }
               ]
             },
@@ -2530,9 +2543,10 @@
                 {
                   "linkId": "Contract.term.topic[x]._type",
                   "text": "type",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
                   "repeats": false,
+                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs3",
                   "item": [
                     {
@@ -2548,9 +2562,10 @@
                         {
                           "linkId": "Contract.term.topic[x]._null.coding",
                           "text": "code:",
-                          "type": "open-choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOnly"
                         },
                         {
                           "linkId": "Contract.term.topic[x]._null.text",
@@ -2631,9 +2646,10 @@
                 {
                   "linkId": "Contract.term.type.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "Contract.term.type.text",
@@ -2682,9 +2698,10 @@
                 {
                   "linkId": "Contract.term.subType.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "Contract.term.subType.text",
@@ -2940,9 +2957,10 @@
                     {
                       "linkId": "Contract.term.securityLabel.classification.value",
                       "text": "Confidentiality Protection",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     }
                   ]
                 },
@@ -2979,9 +2997,10 @@
                     {
                       "linkId": "Contract.term.securityLabel.category.value",
                       "text": "Applicable Policy",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     }
                   ]
                 },
@@ -3018,9 +3037,10 @@
                     {
                       "linkId": "Contract.term.securityLabel.control.value",
                       "text": "Handling Instructions",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     }
                   ]
                 }
@@ -3429,9 +3449,10 @@
                         {
                           "linkId": "Contract.term.offer.party.role.coding",
                           "text": "code:",
-                          "type": "open-choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOnly"
                         },
                         {
                           "linkId": "Contract.term.offer.party.role.text",
@@ -3535,9 +3556,10 @@
                     {
                       "linkId": "Contract.term.offer.type.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "Contract.term.offer.type.text",
@@ -3586,9 +3608,10 @@
                     {
                       "linkId": "Contract.term.offer.decision.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "Contract.term.offer.decision.text",
@@ -3633,9 +3656,10 @@
                     {
                       "linkId": "Contract.term.offer.decisionMode.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "Contract.term.offer.decisionMode.text",
@@ -3806,9 +3830,10 @@
                         {
                           "linkId": "Contract.term.offer.answer.value[x]._type",
                           "text": "type",
-                          "type": "choice",
+                          "type": "coding",
                           "required": false,
                           "repeats": false,
+                          "answerConstraint": "optionsOnly",
                           "answerValueSet": "#vs4",
                           "item": [
                             {
@@ -3977,9 +4002,10 @@
                               "item": [
                                 {
                                   "linkId": "Contract.term.offer.answer.value[x]._null.value",
-                                  "type": "open-choice",
+                                  "type": "coding",
                                   "required": false,
-                                  "repeats": false
+                                  "repeats": false,
+                                  "answerConstraint": "optionsOnly"
                                 }
                               ]
                             },
@@ -3996,9 +4022,10 @@
                                 {
                                   "linkId": "Contract.term.offer.answer.value[x]._null.comparator",
                                   "text": "comp:",
-                                  "type": "choice",
+                                  "type": "coding",
                                   "required": false,
-                                  "repeats": false
+                                  "repeats": false,
+                                  "answerConstraint": "optionsOnly"
                                 },
                                 {
                                   "linkId": "Contract.term.offer.answer.value[x]._null.value",
@@ -4347,9 +4374,10 @@
                     {
                       "linkId": "Contract.term.asset.scope.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "Contract.term.asset.scope.text",
@@ -4394,9 +4422,10 @@
                     {
                       "linkId": "Contract.term.asset.type.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "Contract.term.asset.type.text",
@@ -4490,9 +4519,10 @@
                     {
                       "linkId": "Contract.term.asset.subtype.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "Contract.term.asset.subtype.text",
@@ -4540,9 +4570,10 @@
                     {
                       "linkId": "Contract.term.asset.relationship.value",
                       "text": "Kinship of the asset",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     }
                   ]
                 },
@@ -4755,9 +4786,10 @@
                         {
                           "linkId": "Contract.term.asset.context.code.coding",
                           "text": "code:",
-                          "type": "open-choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOnly"
                         },
                         {
                           "linkId": "Contract.term.asset.context.code.text",
@@ -4890,9 +4922,10 @@
                     {
                       "linkId": "Contract.term.asset.periodType.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "Contract.term.asset.periodType.text",
@@ -5301,9 +5334,10 @@
                         {
                           "linkId": "Contract.term.asset.valuedItem.entity[x]._type",
                           "text": "type",
-                          "type": "choice",
+                          "type": "coding",
                           "required": false,
                           "repeats": false,
+                          "answerConstraint": "optionsOnly",
                           "answerValueSet": "#vs5",
                           "item": [
                             {
@@ -5319,9 +5353,10 @@
                                 {
                                   "linkId": "Contract.term.asset.valuedItem.entity[x]._null.coding",
                                   "text": "code:",
-                                  "type": "open-choice",
+                                  "type": "coding",
                                   "required": false,
-                                  "repeats": false
+                                  "repeats": false,
+                                  "answerConstraint": "optionsOnly"
                                 },
                                 {
                                   "linkId": "Contract.term.asset.valuedItem.entity[x]._null.text",
@@ -5503,9 +5538,10 @@
                         {
                           "linkId": "Contract.term.asset.valuedItem.quantity.comparator",
                           "text": "comp:",
-                          "type": "choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOnly"
                         },
                         {
                           "linkId": "Contract.term.asset.valuedItem.quantity.value",
@@ -5575,9 +5611,10 @@
                         {
                           "linkId": "Contract.term.asset.valuedItem.unitPrice.comparator",
                           "text": "comp:",
-                          "type": "choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOnly"
                         },
                         {
                           "linkId": "Contract.term.asset.valuedItem.unitPrice.value",
@@ -5733,9 +5770,10 @@
                         {
                           "linkId": "Contract.term.asset.valuedItem.net.comparator",
                           "text": "comp:",
-                          "type": "choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOnly"
                         },
                         {
                           "linkId": "Contract.term.asset.valuedItem.net.value",
@@ -6252,9 +6290,10 @@
                     {
                       "linkId": "Contract.term.action.type.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "Contract.term.action.type.text",
@@ -6478,9 +6517,10 @@
                         {
                           "linkId": "Contract.term.action.subject.role.coding",
                           "text": "code:",
-                          "type": "open-choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOnly"
                         },
                         {
                           "linkId": "Contract.term.action.subject.role.text",
@@ -6535,9 +6575,10 @@
                     {
                       "linkId": "Contract.term.action.intent.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "Contract.term.action.intent.text",
@@ -6629,9 +6670,10 @@
                     {
                       "linkId": "Contract.term.action.status.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "Contract.term.action.status.text",
@@ -6768,9 +6810,10 @@
                     {
                       "linkId": "Contract.term.action.occurrence[x]._type",
                       "text": "type",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
                       "repeats": false,
+                      "answerConstraint": "optionsOnly",
                       "answerValueSet": "#vs6",
                       "item": [
                         {
@@ -6990,9 +7033,10 @@
                     {
                       "linkId": "Contract.term.action.performerType.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "Contract.term.action.performerType.text",
@@ -7041,9 +7085,10 @@
                     {
                       "linkId": "Contract.term.action.performerRole.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "Contract.term.action.performerRole.text",
@@ -7180,9 +7225,10 @@
                     {
                       "linkId": "Contract.term.action.reasonCode.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "Contract.term.action.reasonCode.text",
@@ -7688,9 +7734,10 @@
                 {
                   "linkId": "Contract.signer.type.value",
                   "text": "Contract Signatory Role",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 }
               ]
             },
@@ -7946,9 +7993,10 @@
                 {
                   "linkId": "Contract.friendly.content[x]._type",
                   "text": "type",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
                   "repeats": false,
+                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs7",
                   "item": [
                     {
@@ -8155,9 +8203,10 @@
                 {
                   "linkId": "Contract.legal.content[x]._type",
                   "text": "type",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
                   "repeats": false,
+                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs8",
                   "item": [
                     {
@@ -8364,9 +8413,10 @@
                 {
                   "linkId": "Contract.rule.content[x]._type",
                   "text": "type",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
                   "repeats": false,
+                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs9",
                   "item": [
                     {
@@ -8447,9 +8497,10 @@
             {
               "linkId": "Contract.legallyBinding[x]._type",
               "text": "type",
-              "type": "choice",
+              "type": "coding",
               "required": false,
               "repeats": false,
+              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs10",
               "item": [
                 {

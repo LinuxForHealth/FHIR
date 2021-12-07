@@ -1,0 +1,75 @@
+{
+  "resourceType": "EvidenceVariable",
+  "id": "example-dead-or-dependent-90day",
+  "text": {
+    "status": "generated",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\n      \u003cp\u003e\n        \u0026quot;Dead or functionally dependent at 90 days\u0026quot; is an outcome used in expressing what an Evidence is about.\n      \u003c/p\u003e\n\t\u003c/div\u003e"
+  },
+  "title": "Dead or functionally dependent at 90 days",
+  "status": "draft",
+  "useContext": [
+    {
+      "code": {
+        "system": "http://terminology.hl7.org/CodeSystem/usage-context-type",
+        "code": "focus"
+      },
+      "valueCodeableConcept": {
+        "text": "Stroke"
+      }
+    }
+  ],
+  "actual": false,
+  "characteristicCombination": "union",
+  "characteristic": [
+    {
+      "description": "functionally dependent at 90 days",
+      "definitionCodeableConcept": {
+        "coding": [
+          {
+            "system": "http://snomed.info/sct",
+            "code": "718705001",
+            "display": "Functionally dependent (finding)"
+          }
+        ]
+      },
+      "timeFromStart": {
+        "quantity": {
+          "value": 90,
+          "unit": "day",
+          "system": "http://unitsofmeasure.org",
+          "code": "d"
+        }
+      }
+    },
+    {
+      "description": "dead at 90 days",
+      "definitionCodeableConcept": {
+        "coding": [
+          {
+            "system": "http://snomed.info/sct",
+            "code": "419099009",
+            "display": "Dead (finding)"
+          }
+        ]
+      },
+      "timeFromStart": {
+        "quantity": {
+          "value": 90,
+          "unit": "day",
+          "system": "http://unitsofmeasure.org",
+          "code": "d"
+        }
+      }
+    }
+  ],
+  "handling": "dichotomous",
+  "meta": {
+    "tag": [
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+        "code": "HTEST",
+        "display": "test health data"
+      }
+    ]
+  }
+}

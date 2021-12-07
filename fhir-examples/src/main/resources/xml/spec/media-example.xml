@@ -7,7 +7,7 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: example</p><p><b>status</b>: completed</p><p><b>type</b>: Image <span>(Details : {http://terminology.hl7.org/CodeSystem/media-type code 'image' = 'Image', given as 'Image'})</span></p><p><b>modality</b>: Diagram <span>(Details : {http://terminology.hl7.org/CodeSystem/media-modality code 'diagram' = 'Diagram)</span></p><p><b>subject</b>: <a>Patient/xcda</a></p><p><b>created</b>: 17/12/2017</p><p><b>issued</b>: 17/12/2017 2:56:18 PM</p><p><b>operator</b>: <a>Practitioner/xcda-author</a></p><p><b>device</b>: Acme Camera</p><p><b>height</b>: 145</p><p><b>width</b>: 126</p><p><b>frames</b>: 1</p><p><b>content</b>: </p></div></text><status value="completed"/>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "example" </p></div><p><b>status</b>: completed</p><p><b>type</b>: Image <span> (<a>Digital Media Type</a>#image)</span></p><p><b>modality</b>: Diagram <span> (<a>Media SubType</a>#diagram)</span></p><p><b>subject</b>: <a>Patient/xcda</a> "Henry LEVIN"</p><p><b>created</b>: 2017-12-17</p><p><b>issued</b>: Dec 17, 2017 2:56:18 PM</p><p><b>operator</b>: <a>Practitioner/xcda-author</a> "Harold HIPPOCRATES"</p><p><b>device</b>: <span>: Acme Camera</span></p><p><b>height</b>: 145</p><p><b>width</b>: 126</p><p><b>frames</b>: 1</p></div></text><status value="completed"/>
 	<type>
 		<coding>
 			<system value="http://terminology.hl7.org/CodeSystem/media-type"/>

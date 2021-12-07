@@ -7,7 +7,7 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: example-cardiology-os</p><p><b>contained</b>: , , , , , , , , , , , , </p><p><b>url</b>: <b>http://va.gov/kas/orderset/B5-Cardiology-ChestPainCAD-OS</b></p><p><b>identifier</b>: bb7ccea6-9744-4743-854a-bcffd87191f6 (OFFICIAL), CLIN0004AG, KP-914</p><p><b>version</b>: 0.1</p><p><b>name</b>: ChestPainCoronaryArteryDiseaseOrderSetKNART</p><p><b>title</b>: Chest Pain (CP) - Coronary Artery Disease (CAD) Order Set KNART</p><p><b>type</b>: Order Set <span>(Details : {http://terminology.hl7.org/CodeSystem/plan-definition-type code 'order-set' = 'Order Set', given as 'Order Set'})</span></p><p><b>status</b>: active</p><p><b>date</b>: 29/08/2017</p><p><b>publisher</b>: Department of Veterans Affairs</p><p><b>description</b>: The Cardiology chest pain (CP) and coronary artery disease (CAD) group of KNARTs are     intended to assist primary care providers in the management of adult patients with stable     chest pain (with or without known CAD); aid in determining when a cardiology consultation is     appropriate; provide guidance for initial noninvasive diagnostic orders (stress testing) and     provide a structured documentation template for the process. Stable patients with cardiac     chest pain require risk stratification, office-based workup, initiation of disease-specific     medications, and subspecialty referral to a cardiologist.</p><p><b>useContext</b>: </p><p><b>usage</b>: The Cardiology chest pain (CP) and coronary artery disease (CAD) group of KNARTs are intended to assist primary care providers in the management of adult patients with stable chest pain (with or without known CAD); aid in determining when a cardiology consultation is appropriate; provide guidance for initial noninvasive diagnostic orders (stress testing) and provide a structured documentation template for the process. Stable patients with cardiac chest pain require risk stratification, office-based workup, initiation of disease-specific medications, and subspecialty referral to a cardiologist. This context excludes emergent patients (new/ongoing/unstable pattern CP). Included are those patients with stable CP with or without known CAD, to be considered for evaluation by cardiology.</p><p><b>copyright</b>: © Copyright Cognitive Medical Systems, Inc. 9444 Waples Street Suite 300 San Diego, CA 92121</p><p><b>author</b>: , , </p><p><b>relatedArtifact</b>: , , , , , , , , , , , </p><p><b>library</b>: <a>#cardiology-chestPain-logic</a></p><blockquote><p><b>action</b></p><h3>Actions</h3><table><tr><td>-</td></tr><tr><td>*</td></tr><tr><td>*</td></tr></table></blockquote></div></text><contained>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "example-cardiology-os" </p></div><p><b>url</b>: <code>http://va.gov/kas/orderset/B5-Cardiology-ChestPainCAD-OS</code></p><p><b>identifier</b>: id: bb7ccea6-9744-4743-854a-bcffd87191f6 (OFFICIAL), id: CLIN0004AG, id: KP-914</p><p><b>version</b>: 0.1</p><p><b>name</b>: ChestPainCoronaryArteryDiseaseOrderSetKNART</p><p><b>title</b>: Chest Pain (CP) - Coronary Artery Disease (CAD) Order Set KNART</p><p><b>type</b>: Order Set <span> (<a>PlanDefinitionType</a>#order-set)</span></p><p><b>status</b>: active</p><p><b>date</b>: 2017-08-29</p><p><b>publisher</b>: Department of Veterans Affairs</p><p><b>description</b>: The Cardiology chest pain (CP) and coronary artery disease (CAD) group of KNARTs are     intended to assist primary care providers in the management of adult patients with stable     chest pain (with or without known CAD); aid in determining when a cardiology consultation is     appropriate; provide guidance for initial noninvasive diagnostic orders (stress testing) and     provide a structured documentation template for the process. Stable patients with cardiac     chest pain require risk stratification, office-based workup, initiation of disease-specific     medications, and subspecialty referral to a cardiologist.</p><p><b>usage</b>: The Cardiology chest pain (CP) and coronary artery disease (CAD) group of KNARTs are intended to assist primary care providers in the management of adult patients with stable chest pain (with or without known CAD); aid in determining when a cardiology consultation is appropriate; provide guidance for initial noninvasive diagnostic orders (stress testing) and provide a structured documentation template for the process. Stable patients with cardiac chest pain require risk stratification, office-based workup, initiation of disease-specific medications, and subspecialty referral to a cardiologist. This context excludes emergent patients (new/ongoing/unstable pattern CP). Included are those patients with stable CP with or without known CAD, to be considered for evaluation by cardiology.</p><p><b>copyright</b>: © Copyright Cognitive Medical Systems, Inc. 9444 Waples Street Suite 300 San Diego, CA 92121</p><p><b>author</b>: Bruce Bray MD: , Scott Wall MD: , Aiden Abidov MD, PhD: </p><p><b>library</b>: <code>#cardiology-chestPain-logic</code></p><blockquote><p><b>action</b></p></blockquote></div></text><contained>
     <Library>
       <id value="cardiology-chestPain-logic"/>
       <status value="active"/>
@@ -120,7 +120,7 @@
         <itemReference>
           <reference value="#metoprololTartrate25Substance"/>
         </itemReference>
-        <strength>
+        <strengthRatio>
           <numerator>
             <value value="25"/>
             <unit value="mg"/>
@@ -129,7 +129,7 @@
             <value value="1"/>
             <unit value="{tbl}"/>
           </denominator>
-        </strength>
+        </strengthRatio>
       </ingredient>
     </Medication>
   </contained>
@@ -137,11 +137,9 @@
     <Substance>
       <id value="metoprololTartrate25Substance"/>
       <code>
-        <coding>
-          <system value="http://www.nlm.nih.gov/research/umls/rxnorm"/>
-          <code value="6918"/>
-        </coding>
-        <text value="Metoprolol"/>
+            <system value="http://www.nlm.nih.gov/research/umls/rxnorm"/>
+            <code value="6918"/>
+          <text value="Metoprolol"/>
       </code>
     </Substance>
   </contained>
@@ -214,7 +212,7 @@
         <itemReference>
           <reference value="#metoprololTartrate50Substance"/>
         </itemReference>
-        <strength>
+        <strengthRatio>
           <numerator>
             <value value="50"/>
             <unit value="mg"/>
@@ -223,7 +221,7 @@
             <value value="1"/>
             <unit value="{tbl}"/>
           </denominator>
-        </strength>
+        </strengthRatio>
       </ingredient>
     </Medication>
   </contained>
@@ -231,11 +229,11 @@
     <Substance>
       <id value="metoprololTartrate50Substance"/>
       <code>
-        <coding>
-          <system value="http://www.nlm.nih.gov/research/umls/rxnorm"/>
-          <code value="6918"/>
-        </coding>
-        <text value="Metoprolol"/>
+          <coding>
+            <system value="http://www.nlm.nih.gov/research/umls/rxnorm"/>
+            <code value="6918"/>
+          </coding>
+          <text value="Metoprolol"/>
       </code>
     </Substance>
   </contained>
@@ -320,7 +318,8 @@
   </contained>
   <contained>
     <Substance>
-      <id value="amlodipineSubstance" />
+ 		<instance value="false"/>
+     <id value="amlodipineSubstance" />
       <code>
         <coding>
           <system value="http://www.nlm.nih.gov/research/umls/rxnorm" />
@@ -403,7 +402,7 @@
         <itemReference>
           <reference value="#nitroglycerinSubstance"/>
         </itemReference>
-        <strength>
+        <strengthRatio>
           <numerator>
             <value value="0.4"/>
             <unit value="mg"/>
@@ -412,7 +411,7 @@
             <value value="1"/>
             <unit value="{tbl}"/>
           </denominator>
-        </strength>
+        </strengthRatio>
       </ingredient>
     </Medication>
   </contained>
@@ -420,11 +419,11 @@
     <Substance>
       <id value="nitroglycerinSubstance"/>
       <code>
-        <coding>
-          <system value="http://www.nlm.nih.gov/research/umls/rxnorm"/>
-          <code value="4917"/>
-        </coding>
-        <text value="Nitroglycerin"/>
+          <coding>
+            <system value="http://www.nlm.nih.gov/research/umls/rxnorm"/>
+            <code value="4917"/>
+          </coding>
+          <text value="Nitroglycerin"/>
       </code>
     </Substance>
   </contained>

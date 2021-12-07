@@ -1,0 +1,77 @@
+{
+  "resourceType": "CodeSystem",
+  "id": "citation-classification-type",
+  "meta": {
+    "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+    "profile": [
+      "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\n      \n      \n      \u003cp\u003eThis code system http://terminology.hl7.org/CodeSystem/citation-classification-type defines the following codes:\u003c/p\u003e\n      \n      \n      \u003ctable class\u003d\"codes\"\u003e\n        \n        \n        \u003ctr\u003e\n          \n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003e\n            \n            \n            \u003cb\u003eCode\u003c/b\u003e\n          \n          \n          \u003c/td\u003e\n          \n          \n          \u003ctd\u003e\n            \n            \n            \u003cb\u003eDisplay\u003c/b\u003e\n          \n          \n          \u003c/td\u003e\n          \n          \n          \u003ctd\u003e\n            \n            \n            \u003cb\u003eDefinition\u003c/b\u003e\n          \n          \n          \u003c/td\u003e\n        \n        \n        \u003c/tr\u003e\n        \n        \n        \u003ctr\u003e\n          \n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003ecitation-source\n            \n            \n            \u003ca name\u003d\"citation-classification-type-citation-source\"\u003e \u003c/a\u003e\n          \n          \n          \u003c/td\u003e\n          \n          \n          \u003ctd\u003eCitation Source\u003c/td\u003e\n          \n          \n          \u003ctd\u003eCitation repository where this citation was created or copied from\u003c/td\u003e\n        \n        \n        \u003c/tr\u003e\n\t\t\n        \u003ctr\u003e\n          \n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003emedline-owner\n            \n            \n            \u003ca name\u003d\"citation-classification-type-medline-owner\"\u003e \u003c/a\u003e\n          \n          \n          \u003c/td\u003e\n          \n          \n          \u003ctd\u003eMEDLINE Citation Owner\u003c/td\u003e\n          \n          \n          \u003ctd\u003eThe party responsible for creating and validating the MEDLINE citation\u003c/td\u003e\n        \n        \n        \u003c/tr\u003e\n\t\t\n        \u003ctr\u003e\n          \n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003efevir-platform-use\n            \n            \n            \u003ca name\u003d\"citation-classification-type-fevir-platform-use\"\u003e \u003c/a\u003e\n          \n          \n          \u003c/td\u003e\n          \n          \n          \u003ctd\u003eFEvIR Platform Use\u003c/td\u003e\n          \n          \n          \u003ctd\u003eUsed for Citation sharing on the Fast Evidence Interoperability Resources (FEvIR) Platform\u003c/td\u003e\n        \n        \n        \u003c/tr\u003e\n      \n      \n      \u003c/table\u003e\n    \n    \n    \u003c/div\u003e"
+  },
+  "extension": [
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+      "valueCode": "cds"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+      "valueCode": "trial-use"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+      "valueInteger": 0
+    }
+  ],
+  "url": "http://terminology.hl7.org/CodeSystem/citation-classification-type",
+  "identifier": [
+    {
+      "system": "urn:ietf:rfc:3986",
+      "value": "urn:oid:2.16.840.1.113883.4.642.1.0"
+    }
+  ],
+  "version": "4.1.0",
+  "name": "CitationClassificationType",
+  "title": "CitationClassificationType",
+  "status": "draft",
+  "experimental": false,
+  "date": "2021-03-11T10:55:11.085+11:00",
+  "publisher": "HL7 (FHIR Project)",
+  "contact": [
+    {
+      "telecom": [
+        {
+          "system": "url",
+          "value": "http://hl7.org/fhir"
+        },
+        {
+          "system": "email",
+          "value": "fhir@lists.hl7.org"
+        }
+      ]
+    }
+  ],
+  "description": "Citation classification type",
+  "caseSensitive": true,
+  "valueSet": "http://hl7.org/fhir/ValueSet/citation-classification-type",
+  "content": "complete",
+  "concept": [
+    {
+      "code": "citation-source",
+      "display": "Citation Source",
+      "definition": "Citation repository where this citation was created or copied from"
+    },
+    {
+      "code": "medline-owner",
+      "display": "MEDLINE Citation Owner",
+      "definition": "The party responsible for creating and validating the MEDLINE citation"
+    },
+    {
+      "code": "fevir-platform-use",
+      "display": "FEvIR Platform Use",
+      "definition": "Used for Citation sharing on the Fast Evidence Interoperability Resources (FEvIR) Platform"
+    }
+  ]
+}
