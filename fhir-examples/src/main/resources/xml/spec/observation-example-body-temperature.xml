@@ -9,7 +9,7 @@
       <display value="test health data"/>
     </security>
   </meta>
-	<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: body-temperature</p><p><b>meta</b>: </p><p><b>status</b>: final</p><p><b>category</b>: Vital Signs <span>(Details : {http://terminology.hl7.org/CodeSystem/observation-category code 'vital-signs' = 'Vital Signs', given as 'Vital Signs'})</span></p><p><b>code</b>: Body temperature <span>(Details : {LOINC code '8310-5' = 'Body temperature', given as 'Body temperature'})</span></p><p><b>subject</b>: <a>Patient/example</a></p><p><b>effective</b>: 02/07/1999</p><p><b>value</b>: 36.5 C<span> (Details: UCUM code Cel = 'Cel')</span></p></div></text><status value="final"/>
+	<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "body-temperature" </p><p>Profile: <a>Vital Signs Profile</a></p></div><p><b>status</b>: final</p><p><b>category</b>: Vital Signs <span> (<a>Observation Category Codes</a>#vital-signs)</span></p><p><b>code</b>: Body temperature <span> (<a>LOINC</a>#8310-5)</span></p><p><b>subject</b>: <a>Patient/example</a> "Peter CHALMERS"</p><p><b>effective</b>: 1999-07-02</p><p><b>value</b>: 36.5 C<span> (Details: UCUM code Cel = 'Cel')</span></p></div></text><status value="final"/>
 	<category>
 		<coding>
 			<system value="http://terminology.hl7.org/CodeSystem/observation-category"/>

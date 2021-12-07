@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for DiagnosticReport.effective[x]",
       "expansion": {
-        "identifier": "urn:uuid:e6336575-2ad0-4fff-8c10-fb84441ff656",
-        "timestamp": "2019-11-01T09:35:01+11:00",
+        "identifier": "urn:uuid:eb98afcd-5380-4b34-8a57-c2f0983b50d0",
+        "timestamp": "2021-12-06T19:02:59+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -31,9 +31,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-12-06T18:53:36+00:00",
   "publisher": "Health Level Seven International (Orders and Observations)",
   "item": [
     {
@@ -221,9 +221,10 @@
             {
               "linkId": "DiagnosticReport.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -485,9 +486,10 @@
             {
               "linkId": "DiagnosticReport.status.value",
               "text": "status",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -525,9 +527,10 @@
             {
               "linkId": "DiagnosticReport.category.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "DiagnosticReport.category.text",
@@ -580,9 +583,10 @@
             {
               "linkId": "DiagnosticReport.code.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "DiagnosticReport.code.text",
@@ -631,7 +635,7 @@
               "extension": [
                 {
                   "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-allowedResource",
-                  "valueCode": "Patient, Group, Device, Location"
+                  "valueCode": "Patient, Group, Device, Location, Organization, Procedure, Practitioner, Medication, Substance"
                 },
                 {
                   "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-referenceFilter",
@@ -733,9 +737,10 @@
             {
               "linkId": "DiagnosticReport.effective[x]._type",
               "text": "type",
-              "type": "choice",
+              "type": "coding",
               "required": false,
               "repeats": false,
+              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs2",
               "item": [
                 {
@@ -1375,9 +1380,10 @@
             {
               "linkId": "DiagnosticReport.conclusionCode.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "DiagnosticReport.conclusionCode.text",

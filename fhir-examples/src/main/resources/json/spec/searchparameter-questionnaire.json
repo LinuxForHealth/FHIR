@@ -6,9 +6,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-12-06T18:53:36+00:00",
   "publisher": "Health Level Seven International (FHIR Infrastructure)",
   "item": [
     {
@@ -196,9 +196,10 @@
             {
               "linkId": "SearchParameter.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -537,9 +538,10 @@
             {
               "linkId": "SearchParameter.status.value",
               "text": "status",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -815,9 +817,10 @@
             {
               "linkId": "SearchParameter.jurisdiction.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "SearchParameter.jurisdiction.text",
@@ -912,9 +915,10 @@
             {
               "linkId": "SearchParameter.code.value",
               "text": "code",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -955,9 +959,10 @@
             {
               "linkId": "SearchParameter.base.value",
               "text": "base",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -1002,9 +1007,10 @@
             {
               "linkId": "SearchParameter.type.value",
               "text": "type",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -1131,9 +1137,10 @@
             {
               "linkId": "SearchParameter.xpathUsage.value",
               "text": "xpath usage",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -1170,9 +1177,10 @@
             {
               "linkId": "SearchParameter.target.value",
               "text": "target",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -1295,9 +1303,10 @@
             {
               "linkId": "SearchParameter.comparator.value",
               "text": "comparator",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -1334,9 +1343,10 @@
             {
               "linkId": "SearchParameter.modifier.value",
               "text": "modifier",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },

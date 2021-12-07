@@ -6,9 +6,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-12-06T18:53:36+00:00",
   "publisher": "Health Level Seven International (FHIR Infrastructure)",
   "item": [
     {
@@ -192,9 +192,10 @@
             {
               "linkId": "TestScript.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -591,9 +592,10 @@
             {
               "linkId": "TestScript.status.value",
               "text": "status",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -865,9 +867,10 @@
             {
               "linkId": "TestScript.jurisdiction.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "TestScript.jurisdiction.text",
@@ -1178,9 +1181,10 @@
                 {
                   "linkId": "TestScript.origin.profile.value",
                   "text": "FHIR-Client | FHIR-SDC-FormFiller",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 }
               ]
             }
@@ -1400,9 +1404,10 @@
                 {
                   "linkId": "TestScript.destination.profile.value",
                   "text": "FHIR-Server | FHIR-SDC-FormManager | FHIR-SDC-FormReceiver | FHIR-SDC-FormProcessor",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 }
               ]
             }
@@ -3412,9 +3417,10 @@
                         {
                           "linkId": "TestScript.setup.action.operation.type.value",
                           "text": "The operation code type that will be executed",
-                          "type": "open-choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOnly"
                         }
                       ]
                     },
@@ -3455,9 +3461,10 @@
                         {
                           "linkId": "TestScript.setup.action.operation.resource.value",
                           "text": "resource",
-                          "type": "choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOrType"
                         }
                       ]
                     },
@@ -3584,9 +3591,10 @@
                         {
                           "linkId": "TestScript.setup.action.operation.accept.value",
                           "text": "accept",
-                          "type": "choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOrType"
                         }
                       ]
                     },
@@ -3627,9 +3635,10 @@
                         {
                           "linkId": "TestScript.setup.action.operation.contentType.value",
                           "text": "content type",
-                          "type": "choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOrType"
                         }
                       ]
                     },
@@ -3760,9 +3769,10 @@
                         {
                           "linkId": "TestScript.setup.action.operation.method.value",
                           "text": "method",
-                          "type": "choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOrType"
                         }
                       ]
                     },
@@ -4546,9 +4556,10 @@
                         {
                           "linkId": "TestScript.setup.action.assert.direction.value",
                           "text": "direction",
-                          "type": "choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOrType"
                         }
                       ]
                     },
@@ -4718,9 +4729,10 @@
                         {
                           "linkId": "TestScript.setup.action.assert.contentType.value",
                           "text": "content type",
-                          "type": "choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOrType"
                         }
                       ]
                     },
@@ -4933,9 +4945,10 @@
                         {
                           "linkId": "TestScript.setup.action.assert.operator.value",
                           "text": "operator",
-                          "type": "choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOrType"
                         }
                       ]
                     },
@@ -5019,9 +5032,10 @@
                         {
                           "linkId": "TestScript.setup.action.assert.requestMethod.value",
                           "text": "request method",
-                          "type": "choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOrType"
                         }
                       ]
                     },
@@ -5105,9 +5119,10 @@
                         {
                           "linkId": "TestScript.setup.action.assert.resource.value",
                           "text": "resource",
-                          "type": "choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOrType"
                         }
                       ]
                     },
@@ -5148,9 +5163,10 @@
                         {
                           "linkId": "TestScript.setup.action.assert.response.value",
                           "text": "response",
-                          "type": "choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOrType"
                         }
                       ]
                     },

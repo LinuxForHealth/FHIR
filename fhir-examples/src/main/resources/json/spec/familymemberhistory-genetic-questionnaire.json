@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for FamilyMemberHistory.born[x]",
       "expansion": {
-        "identifier": "urn:uuid:00ccd281-9c21-4dd4-a8db-0ae4bda374f6",
-        "timestamp": "2019-11-01T09:35:19+11:00",
+        "identifier": "urn:uuid:5918a4f4-d145-47c2-a07a-18d58661d02f",
+        "timestamp": "2021-12-06T19:03:19+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -37,8 +37,8 @@
       "status": "active",
       "description": "Type options for FamilyMemberHistory.age[x]",
       "expansion": {
-        "identifier": "urn:uuid:b0c916dc-f6f6-4b51-a5aa-48918bcf9bc8",
-        "timestamp": "2019-11-01T09:35:19+11:00",
+        "identifier": "urn:uuid:8aab4c1a-6049-4e80-906a-bcb62425a830",
+        "timestamp": "2021-12-06T19:03:19+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -65,8 +65,8 @@
       "status": "active",
       "description": "Type options for FamilyMemberHistory.deceased[x]",
       "expansion": {
-        "identifier": "urn:uuid:3f891603-4296-49c6-a9c8-bb21c0766f67",
-        "timestamp": "2019-11-01T09:35:19+11:00",
+        "identifier": "urn:uuid:1814bbb3-214a-417b-afeb-1ca58889d214",
+        "timestamp": "2021-12-06T19:03:19+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -103,8 +103,8 @@
       "status": "active",
       "description": "Type options for FamilyMemberHistory.condition.onset[x]",
       "expansion": {
-        "identifier": "urn:uuid:ce4d9a6c-eac6-4295-83af-7f1e59bae33e",
-        "timestamp": "2019-11-01T09:35:19+11:00",
+        "identifier": "urn:uuid:a42e448e-b09f-4937-be12-3fae47c95aa8",
+        "timestamp": "2021-12-06T19:03:19+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -135,9 +135,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "draft",
-  "date": "2013-10-02T00:00:00+10:00",
+  "date": "2013-10-02T00:00:00+00:00",
   "publisher": "Health Level Seven International (Clinical Genomics)",
   "item": [
     {
@@ -321,9 +321,10 @@
             {
               "linkId": "FamilyMemberHistory.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -469,7 +470,7 @@
                   }
                 }
               ],
-              "text": "Business identifiers assigned to this family member history by the performer or other systems which remain constant as the resource is updated and propagates from server to server. This is a business identifier, not a resource identifier (see [discussion](http://hl7.org/fhir/resource.html#identifiers)).  It is best practice for the identifier to only appear on a single resource instance, however business practices may occasionally dictate that multiple resource instances with the same identifier can exist - possibly even with different resource types.  For example, multiple Patient and a Person resource instance might share the same social insurance number.",
+              "text": "Business identifiers assigned to this family member history by the performer or other systems which remain constant as the resource is updated and propagates from server to server. This is a business identifier, not a resource identifier (see [discussion](http://hl7.org/fhir/2021Mar/resource.html#identifiers)).  It is best practice for the identifier to only appear on a single resource instance, however business practices may occasionally dictate that multiple resource instances with the same identifier can exist - possibly even with different resource types.  For example, multiple Patient and a Person resource instance might share the same social insurance number.",
               "type": "display"
             },
             {
@@ -614,9 +615,10 @@
             {
               "linkId": "FamilyMemberHistory.status.value",
               "text": "status",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -658,9 +660,10 @@
             {
               "linkId": "FamilyMemberHistory.dataAbsentReason.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "FamilyMemberHistory.dataAbsentReason.text",
@@ -856,9 +859,10 @@
             {
               "linkId": "FamilyMemberHistory.relationship.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "FamilyMemberHistory.relationship.text",
@@ -907,9 +911,10 @@
             {
               "linkId": "FamilyMemberHistory.sex.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "FamilyMemberHistory.sex.text",
@@ -954,9 +959,10 @@
             {
               "linkId": "FamilyMemberHistory.born[x]._type",
               "text": "type",
-              "type": "choice",
+              "type": "coding",
               "required": false,
               "repeats": false,
+              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs2",
               "item": [
                 {
@@ -1059,9 +1065,10 @@
             {
               "linkId": "FamilyMemberHistory.age[x]._type",
               "text": "type",
-              "type": "choice",
+              "type": "coding",
               "required": false,
               "repeats": false,
+              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs3",
               "item": [
                 {
@@ -1077,9 +1084,10 @@
                     {
                       "linkId": "FamilyMemberHistory.age[x]._null.comparator",
                       "text": "comp:",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "FamilyMemberHistory.age[x]._null.value",
@@ -1243,9 +1251,10 @@
             {
               "linkId": "FamilyMemberHistory.deceased[x]._type",
               "text": "type",
-              "type": "choice",
+              "type": "coding",
               "required": false,
               "repeats": false,
+              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs4",
               "item": [
                 {
@@ -1279,9 +1288,10 @@
                     {
                       "linkId": "FamilyMemberHistory.deceased[x]._null.comparator",
                       "text": "comp:",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "FamilyMemberHistory.deceased[x]._null.value",
@@ -1420,9 +1430,10 @@
             {
               "linkId": "FamilyMemberHistory.reasonCode.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "FamilyMemberHistory.reasonCode.text",
@@ -1679,9 +1690,10 @@
                 {
                   "linkId": "FamilyMemberHistory.condition.code.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "FamilyMemberHistory.condition.code.text",
@@ -1730,9 +1742,10 @@
                 {
                   "linkId": "FamilyMemberHistory.condition.outcome.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "FamilyMemberHistory.condition.outcome.text",
@@ -1820,9 +1833,10 @@
                 {
                   "linkId": "FamilyMemberHistory.condition.onset[x]._type",
                   "text": "type",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
                   "repeats": false,
+                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs5",
                   "item": [
                     {
@@ -1838,9 +1852,10 @@
                         {
                           "linkId": "FamilyMemberHistory.condition.onset[x]._null.comparator",
                           "text": "comp:",
-                          "type": "choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOnly"
                         },
                         {
                           "linkId": "FamilyMemberHistory.condition.onset[x]._null.value",

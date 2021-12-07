@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for RiskAssessment.occurrence[x]",
       "expansion": {
-        "identifier": "urn:uuid:165479fd-646c-42a4-97a0-e54295d7b5ff",
-        "timestamp": "2019-11-01T09:36:51+11:00",
+        "identifier": "urn:uuid:3eae2680-b9ac-4b2d-b931-0518f26028d4",
+        "timestamp": "2021-12-06T19:04:30+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -32,8 +32,8 @@
       "status": "active",
       "description": "Type options for RiskAssessment.prediction.probability[x]",
       "expansion": {
-        "identifier": "urn:uuid:97b57625-6897-47b6-aa71-4855179546f4",
-        "timestamp": "2019-11-01T09:36:51+11:00",
+        "identifier": "urn:uuid:30343ea1-e209-483a-8fc8-4473ab11fcb2",
+        "timestamp": "2021-12-06T19:04:30+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -55,8 +55,8 @@
       "status": "active",
       "description": "Type options for RiskAssessment.prediction.when[x]",
       "expansion": {
-        "identifier": "urn:uuid:0b3ed1ee-6f20-4d73-9a1b-bda08176103a",
-        "timestamp": "2019-11-01T09:36:51+11:00",
+        "identifier": "urn:uuid:609dc762-804f-4e07-8a5c-60643da4ce59",
+        "timestamp": "2021-12-06T19:04:30+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -77,9 +77,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-12-06T18:53:36+00:00",
   "publisher": "Health Level Seven International (Clinical Decision Support)",
   "item": [
     {
@@ -263,9 +263,10 @@
             {
               "linkId": "RiskAssessment.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -584,9 +585,10 @@
             {
               "linkId": "RiskAssessment.status.value",
               "text": "status",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -628,9 +630,10 @@
             {
               "linkId": "RiskAssessment.method.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "RiskAssessment.method.text",
@@ -679,9 +682,10 @@
             {
               "linkId": "RiskAssessment.code.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "RiskAssessment.code.text",
@@ -836,9 +840,10 @@
             {
               "linkId": "RiskAssessment.occurrence[x]._type",
               "text": "type",
-              "type": "choice",
+              "type": "coding",
               "required": false,
               "repeats": false,
+              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs2",
               "item": [
                 {
@@ -1029,9 +1034,10 @@
             {
               "linkId": "RiskAssessment.reasonCode.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "RiskAssessment.reasonCode.text",
@@ -1304,9 +1310,10 @@
                 {
                   "linkId": "RiskAssessment.prediction.outcome.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "RiskAssessment.prediction.outcome.text",
@@ -1351,9 +1358,10 @@
                 {
                   "linkId": "RiskAssessment.prediction.probability[x]._type",
                   "text": "type",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
                   "repeats": false,
+                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs3",
                   "item": [
                     {
@@ -1449,9 +1457,10 @@
                 {
                   "linkId": "RiskAssessment.prediction.qualitativeRisk.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "RiskAssessment.prediction.qualitativeRisk.text",
@@ -1539,9 +1548,10 @@
                 {
                   "linkId": "RiskAssessment.prediction.when[x]._type",
                   "text": "type",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
                   "repeats": false,
+                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs4",
                   "item": [
                     {

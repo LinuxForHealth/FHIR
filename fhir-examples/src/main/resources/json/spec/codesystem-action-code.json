@@ -1,0 +1,107 @@
+{
+  "resourceType": "CodeSystem",
+  "id": "action-code",
+  "meta": {
+    "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+    "profile": [
+      "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\n      \n      \u003cp\u003eThis code system http://terminology.hl7.org/CodeSystem/action-code defines the following codes:\u003c/p\u003e\n      \n      \u003ctable class\u003d\"codes\"\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003e\n            \n            \u003cb\u003eCode\u003c/b\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003e\n            \n            \u003cb\u003eDisplay\u003c/b\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003e\n            \n            \u003cb\u003eDefinition\u003c/b\u003e\n          \n          \u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003esend-message\n            \n            \u003ca name\u003d\"action-code-send-message\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eSend a message\u003c/td\u003e\n          \n          \u003ctd\u003eThe action indicates that a particular message should be sent to a participant in the process.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003ecollect-information\n            \n            \u003ca name\u003d\"action-code-collect-information\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eCollect information\u003c/td\u003e\n          \n          \u003ctd\u003eThe action indicates that information should be collected from a participant in the process.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eprescribe-medication\n            \n            \u003ca name\u003d\"action-code-prescribe-medication\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003ePrescribe a medication\u003c/td\u003e\n          \n          \u003ctd\u003eThe action indicates that a particular medication should be prescribed to the patient.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003erecommend-immunization\n            \n            \u003ca name\u003d\"action-code-recommend-immunization\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eRecommend an immunization\u003c/td\u003e\n          \n          \u003ctd\u003eThe action indicates that a particular immunization should be performed.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eorder-service\n            \n            \u003ca name\u003d\"action-code-order-service\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eOrder a service\u003c/td\u003e\n          \n          \u003ctd\u003eThe action indicates that a particular service should be provided.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003epropose-diagnosis\n            \n            \u003ca name\u003d\"action-code-propose-diagnosis\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003ePropose a diagnosis\u003c/td\u003e\n          \n          \u003ctd\u003eThe action indicates that a particular diagnosis should be proposed.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003erecord-detected-issue\n            \n            \u003ca name\u003d\"action-code-record-detected-issue\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eRecord a detected issue\u003c/td\u003e\n          \n          \u003ctd\u003eThe action indicates that a particular detected issue should be recorded.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003erecord-inference\n            \n            \u003ca name\u003d\"action-code-record-inference\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eRecord an inference\u003c/td\u003e\n          \n          \u003ctd\u003eThe action indicates that a particular inference should be recorded.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003ereport-flag\n            \n            \u003ca name\u003d\"action-code-report-flag\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eReport a flag\u003c/td\u003e\n          \n          \u003ctd\u003eThe action indicates that a particular flag should be reported.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n      \n      \u003c/table\u003e\n    \n    \u003c/div\u003e"
+  },
+  "extension": [
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+      "valueCode": "cds"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+      "valueCode": "draft"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+      "valueInteger": 1
+    }
+  ],
+  "url": "http://terminology.hl7.org/CodeSystem/action-code",
+  "identifier": [
+    {
+      "system": "urn:ietf:rfc:3986",
+      "value": "urn:oid:2.16.840.1.113883.4.642.1.0"
+    }
+  ],
+  "version": "4.1.0",
+  "name": "ActionCode",
+  "title": "ActionCode",
+  "status": "draft",
+  "experimental": false,
+  "date": "2020-12-28T16:55:11+11:00",
+  "publisher": "HL7 (FHIR Project)",
+  "contact": [
+    {
+      "telecom": [
+        {
+          "system": "url",
+          "value": "http://hl7.org/fhir"
+        },
+        {
+          "system": "email",
+          "value": "fhir@lists.hl7.org"
+        }
+      ]
+    }
+  ],
+  "description": "Provides examples of actions to be performed.",
+  "caseSensitive": true,
+  "valueSet": "http://hl7.org/fhir/ValueSet/action-code",
+  "content": "complete",
+  "concept": [
+    {
+      "code": "send-message",
+      "display": "Send a message",
+      "definition": "The action indicates that a particular message should be sent to a participant in the process."
+    },
+    {
+      "code": "collect-information",
+      "display": "Collect information",
+      "definition": "The action indicates that information should be collected from a participant in the process."
+    },
+    {
+      "code": "prescribe-medication",
+      "display": "Prescribe a medication",
+      "definition": "The action indicates that a particular medication should be prescribed to the patient."
+    },
+    {
+      "code": "recommend-immunization",
+      "display": "Recommend an immunization",
+      "definition": "The action indicates that a particular immunization should be performed."
+    },
+    {
+      "code": "order-service",
+      "display": "Order a service",
+      "definition": "The action indicates that a particular service should be provided."
+    },
+    {
+      "code": "propose-diagnosis",
+      "display": "Propose a diagnosis",
+      "definition": "The action indicates that a particular diagnosis should be proposed."
+    },
+    {
+      "code": "record-detected-issue",
+      "display": "Record a detected issue",
+      "definition": "The action indicates that a particular detected issue should be recorded."
+    },
+    {
+      "code": "record-inference",
+      "display": "Record an inference",
+      "definition": "The action indicates that a particular inference should be recorded."
+    },
+    {
+      "code": "report-flag",
+      "display": "Report a flag",
+      "definition": "The action indicates that a particular flag should be reported."
+    }
+  ]
+}

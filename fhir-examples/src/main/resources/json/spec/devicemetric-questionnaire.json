@@ -6,9 +6,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-12-06T18:53:36+00:00",
   "publisher": "Health Level Seven International (Health Care Devices)",
   "item": [
     {
@@ -196,9 +196,10 @@
             {
               "linkId": "DeviceMetric.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -412,9 +413,10 @@
             {
               "linkId": "DeviceMetric.type.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "DeviceMetric.type.text",
@@ -463,9 +465,10 @@
             {
               "linkId": "DeviceMetric.unit.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "DeviceMetric.unit.text",
@@ -619,9 +622,10 @@
             {
               "linkId": "DeviceMetric.operationalStatus.value",
               "text": "operational status",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -662,9 +666,10 @@
             {
               "linkId": "DeviceMetric.color.value",
               "text": "color",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -709,9 +714,10 @@
             {
               "linkId": "DeviceMetric.category.value",
               "text": "category",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -946,9 +952,10 @@
                 {
                   "linkId": "DeviceMetric.calibration.type.value",
                   "text": "type",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOrType"
                 }
               ]
             },
@@ -989,9 +996,10 @@
                 {
                   "linkId": "DeviceMetric.calibration.state.value",
                   "text": "state",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOrType"
                 }
               ]
             },

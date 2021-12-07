@@ -1,0 +1,72 @@
+{
+  "resourceType": "CodeSystem",
+  "id": "subscriptiontopic-cr-behavior",
+  "meta": {
+    "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+    "profile": [
+      "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\n      \n      \u003cp\u003eThis code system http://hl7.org/fhir/subscriptiontopic-cr-behavior defines the following codes:\u003c/p\u003e\n      \n      \u003ctable class\u003d\"codes\"\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003e\n            \n            \u003cb\u003eCode\u003c/b\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003e\n            \n            \u003cb\u003eDisplay\u003c/b\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003e\n            \n            \u003cb\u003eDefinition\u003c/b\u003e\n          \n          \u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003etest-passes\n            \n            \u003ca name\u003d\"subscriptiontopic-cr-behavior-test-passes\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003etest passes\u003c/td\u003e\n          \n          \u003ctd\u003eThe requested conditional statement will pass if a matching state does not exist (e.g., previous state during create).\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003etest-fails\n            \n            \u003ca name\u003d\"subscriptiontopic-cr-behavior-test-fails\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003etest fails\u003c/td\u003e\n          \n          \u003ctd\u003eThe requested conditional statement will fail if a matching state does not exist (e.g., previous state during create).\u003c/td\u003e\n        \n        \u003c/tr\u003e\n      \n      \u003c/table\u003e\n    \n    \u003c/div\u003e"
+  },
+  "extension": [
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+      "valueCode": "fhir"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+      "valueCode": "trial-use"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+      "valueInteger": 0
+    }
+  ],
+  "url": "http://hl7.org/fhir/subscriptiontopic-cr-behavior",
+  "identifier": [
+    {
+      "system": "urn:ietf:rfc:3986",
+      "value": "urn:oid:2.16.840.1.113883.4.642.1.0"
+    }
+  ],
+  "version": "4.1.0",
+  "name": "CriteriaNotExistsBehavior",
+  "title": "CriteriaNotExistsBehavior",
+  "status": "draft",
+  "experimental": false,
+  "date": "2021-01-05T10:01:24+11:00",
+  "publisher": "HL7 (FHIR Project)",
+  "contact": [
+    {
+      "telecom": [
+        {
+          "system": "url",
+          "value": "http://hl7.org/fhir"
+        },
+        {
+          "system": "email",
+          "value": "fhir@lists.hl7.org"
+        }
+      ]
+    }
+  ],
+  "description": "Behavior a server can exhibit when a criteria state does not exist (e.g., state prior to a create or after a delete).",
+  "caseSensitive": true,
+  "valueSet": "http://hl7.org/fhir/ValueSet/subscriptiontopic-cr-behavior",
+  "content": "complete",
+  "concept": [
+    {
+      "code": "test-passes",
+      "display": "test passes",
+      "definition": "The requested conditional statement will pass if a matching state does not exist (e.g., previous state during create)."
+    },
+    {
+      "code": "test-fails",
+      "display": "test fails",
+      "definition": "The requested conditional statement will fail if a matching state does not exist (e.g., previous state during create)."
+    }
+  ]
+}

@@ -75,7 +75,7 @@
 	</implementation>
 	<!--   while the FHIR infrastructure is turning over prior to development, a version is 
     required.    -->
-	<fhirVersion value="4.0.1"/>
+	<fhirVersion value="4.1.0"/>
 	<!--   this system can do either xml or json. (Listing both implies full support for either, with interconversion)   -->
 	<format value="xml"/>
 	<format value="json"/>
@@ -182,7 +182,7 @@
 		<documentation value="ADT A08 equivalent for external system notifications"/>
     <supportedMessage>
       <mode value="receiver"/>
-      <definition value="MessageDefinition/example"/>
+      <definition value="http://hl7.org/fhir/MessageDefinition/example"/>
     </supportedMessage>
 	</messaging>
 	<!--   a document capability statement   -->

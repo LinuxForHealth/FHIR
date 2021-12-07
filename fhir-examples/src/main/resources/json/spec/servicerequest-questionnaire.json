@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for ServiceRequest.quantity[x]",
       "expansion": {
-        "identifier": "urn:uuid:b2eec6c5-9f17-475c-a680-fbeb038e55e6",
-        "timestamp": "2019-11-01T09:36:54+11:00",
+        "identifier": "urn:uuid:62ff3534-5756-4438-bd83-fde1dd295d99",
+        "timestamp": "2021-12-06T19:04:32+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -37,8 +37,8 @@
       "status": "active",
       "description": "Type options for ServiceRequest.occurrence[x]",
       "expansion": {
-        "identifier": "urn:uuid:b1d85786-c749-437c-af6b-789d893dd9a2",
-        "timestamp": "2019-11-01T09:36:54+11:00",
+        "identifier": "urn:uuid:dfdd0fb3-a442-424d-929b-7d3b8143cd6a",
+        "timestamp": "2021-12-06T19:04:32+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -65,8 +65,8 @@
       "status": "active",
       "description": "Type options for ServiceRequest.asNeeded[x]",
       "expansion": {
-        "identifier": "urn:uuid:45c36fd6-a9a5-4e7f-9985-6c52438c6397",
-        "timestamp": "2019-11-01T09:36:54+11:00",
+        "identifier": "urn:uuid:6ca9bba6-806a-44a4-b838-bc9b0dbd4072",
+        "timestamp": "2021-12-06T19:04:32+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -87,9 +87,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-12-06T18:53:36+00:00",
   "publisher": "Health Level Seven International (Orders and Observations)",
   "item": [
     {
@@ -273,9 +273,10 @@
             {
               "linkId": "ServiceRequest.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -722,9 +723,10 @@
             {
               "linkId": "ServiceRequest.status.value",
               "text": "status",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -769,9 +771,10 @@
             {
               "linkId": "ServiceRequest.intent.value",
               "text": "intent",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -809,9 +812,10 @@
             {
               "linkId": "ServiceRequest.category.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "ServiceRequest.category.text",
@@ -859,9 +863,10 @@
             {
               "linkId": "ServiceRequest.priority.value",
               "text": "priority",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -946,9 +951,10 @@
             {
               "linkId": "ServiceRequest.code.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "ServiceRequest.code.text",
@@ -993,9 +999,10 @@
             {
               "linkId": "ServiceRequest.orderDetail.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "ServiceRequest.orderDetail.text",
@@ -1040,9 +1047,10 @@
             {
               "linkId": "ServiceRequest.quantity[x]._type",
               "text": "type",
-              "type": "choice",
+              "type": "coding",
               "required": false,
               "repeats": false,
+              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs2",
               "item": [
                 {
@@ -1058,9 +1066,10 @@
                     {
                       "linkId": "ServiceRequest.quantity[x]._null.comparator",
                       "text": "comp:",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "ServiceRequest.quantity[x]._null.value",
@@ -1306,9 +1315,10 @@
             {
               "linkId": "ServiceRequest.occurrence[x]._type",
               "text": "type",
-              "type": "choice",
+              "type": "coding",
               "required": false,
               "repeats": false,
+              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs3",
               "item": [
                 {
@@ -1440,9 +1450,10 @@
             {
               "linkId": "ServiceRequest.asNeeded[x]._type",
               "text": "type",
-              "type": "choice",
+              "type": "coding",
               "required": false,
               "repeats": false,
+              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs4",
               "item": [
                 {
@@ -1476,9 +1487,10 @@
                     {
                       "linkId": "ServiceRequest.asNeeded[x]._null.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "ServiceRequest.asNeeded[x]._null.text",
@@ -1627,9 +1639,10 @@
             {
               "linkId": "ServiceRequest.performerType.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "ServiceRequest.performerType.text",
@@ -1723,9 +1736,10 @@
             {
               "linkId": "ServiceRequest.locationCode.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "ServiceRequest.locationCode.text",
@@ -1819,9 +1833,10 @@
             {
               "linkId": "ServiceRequest.reasonCode.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "ServiceRequest.reasonCode.text",
@@ -2062,9 +2077,10 @@
             {
               "linkId": "ServiceRequest.bodySite.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "ServiceRequest.bodySite.text",

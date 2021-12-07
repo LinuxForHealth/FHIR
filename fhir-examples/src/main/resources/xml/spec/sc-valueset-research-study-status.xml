@@ -3,14 +3,14 @@
 <ConceptMap xmlns="http://hl7.org/fhir">
   <id value="sc-research-study-status"/>
   <text>
-    <status value="generated"/>
+    <status value="extensions"/>
     <div xmlns="http://www.w3.org/1999/xhtml">
       <h2>ResearchStudyStatusCanonicalMap (http://hl7.org/fhir/ConceptMap/sc-research-study-status)</h2>
       <p>Mapping from 
         <a href="valueset-research-study-status.html">http://hl7.org/fhir/ValueSet/research-study-status</a> to 
         <a href="valueset-resource-status.html">http://hl7.org/fhir/ValueSet/resource-status</a>
       </p>
-      <p>DRAFT. Published on 01/11/2019 9:29:23 AM by HL7 (FHIR Project) (
+      <p>DRAFT. Published on Jan 16, 2021 8:06:13 PM by HL7 (FHIR Project) (
         <a href="http://hl7.org/fhir">http://hl7.org/fhir</a>, 
         <a href="mailto:fhir@lists.hl7.org">fhir@lists.hl7.org</a>). 
       </p>
@@ -25,7 +25,7 @@
             <b>Source Code</b>
           </td>
           <td>
-            <b>Equivalence</b>
+            <b>Relationship</b>
           </td>
           <td>
             <b>Destination Code</b>
@@ -33,48 +33,62 @@
         </tr>
         <tr>
           <td>in-review</td>
-          <td>equivalent</td>
+          <td>
+            <a href="codesystem-concept-map-equivalence.html#equivalent">is equivalent to</a>
+          </td>
           <td>draft</td>
         </tr>
         <tr>
           <td>disapproved</td>
-          <td>equivalent</td>
+          <td>
+            <a href="codesystem-concept-map-equivalence.html#equivalent">is equivalent to</a>
+          </td>
           <td>declined</td>
         </tr>
         <tr>
           <td>approved</td>
-          <td>equivalent</td>
+          <td>
+            <a href="codesystem-concept-map-equivalence.html#equivalent">is equivalent to</a>
+          </td>
           <td>accepted</td>
         </tr>
         <tr>
           <td>active, closed-to-accrual, closed-to-accrual-and-intervention</td>
-          <td>equivalent</td>
+          <td>
+            <a href="codesystem-concept-map-equivalence.html#equivalent">is equivalent to</a>
+          </td>
           <td>active</td>
         </tr>
         <tr>
           <td>temporarily-closed-to-accrual, temporarily-closed-to-accrual-and-intervention</td>
-          <td>equivalent</td>
+          <td>
+            <a href="codesystem-concept-map-equivalence.html#equivalent">is equivalent to</a>
+          </td>
           <td>suspended</td>
         </tr>
         <tr>
           <td>completed, administratively-completed</td>
-          <td>equivalent</td>
+          <td>
+            <a href="codesystem-concept-map-equivalence.html#equivalent">is equivalent to</a>
+          </td>
           <td>complete</td>
         </tr>
         <tr>
           <td>withdrawn</td>
-          <td>equivalent</td>
+          <td>
+            <a href="codesystem-concept-map-equivalence.html#equivalent">is equivalent to</a>
+          </td>
           <td>abandoned</td>
         </tr>
       </table>
     </div>
   </text>
   <url value="http://hl7.org/fhir/ConceptMap/sc-research-study-status"/>
-  <version value="4.0.1"/>
+  <version value="4.1.0"/>
   <name value="ResearchStudyStatusCanonicalMap"/>
   <title value="Canonical Mapping for &quot;ResearchStudyStatus&quot;"/>
   <status value="draft"/>
-  <date value="2019-11-01T09:29:23+11:00"/>
+  <date value="2021-01-16T20:06:13+00:00"/>
   <publisher value="HL7 (FHIR Project)"/>
   <contact>
     <telecom>
@@ -96,49 +110,49 @@
       <code value="in-review"/>
       <target>
         <code value="draft"/>
-        <equivalence value="equivalent"/>
+        <relationship value="equivalent"/>
       </target>
     </element>
     <element>
       <code value="disapproved"/>
       <target>
         <code value="declined"/>
-        <equivalence value="equivalent"/>
+        <relationship value="equivalent"/>
       </target>
     </element>
     <element>
       <code value="approved"/>
       <target>
         <code value="accepted"/>
-        <equivalence value="equivalent"/>
+        <relationship value="equivalent"/>
       </target>
     </element>
     <element>
       <code value="active, closed-to-accrual, closed-to-accrual-and-intervention"/>
       <target>
         <code value="active"/>
-        <equivalence value="equivalent"/>
+        <relationship value="equivalent"/>
       </target>
     </element>
     <element>
       <code value="temporarily-closed-to-accrual, temporarily-closed-to-accrual-and-intervention"/>
       <target>
         <code value="suspended"/>
-        <equivalence value="equivalent"/>
+        <relationship value="equivalent"/>
       </target>
     </element>
     <element>
       <code value="completed, administratively-completed"/>
       <target>
         <code value="complete"/>
-        <equivalence value="equivalent"/>
+        <relationship value="equivalent"/>
       </target>
     </element>
     <element>
       <code value="withdrawn"/>
       <target>
         <code value="abandoned"/>
-        <equivalence value="equivalent"/>
+        <relationship value="equivalent"/>
       </target>
     </element>
   </group>

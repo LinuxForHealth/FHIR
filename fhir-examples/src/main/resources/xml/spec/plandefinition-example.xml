@@ -750,7 +750,7 @@
           <itemReference>
             <reference value="#citalopramSubstance"/>
           </itemReference>
-          <strength>
+          <strengthRatio>
             <numerator>
               <value value="20"/>
               <unit value="mg"/>
@@ -759,7 +759,7 @@
               <value value="1"/>
               <unit value="{tbl}"/>
             </denominator>
-          </strength>
+          </strengthRatio>
         </ingredient>
     </Medication>
   </contained>
@@ -767,11 +767,11 @@
     <Substance>
       <id value="citalopramSubstance"/>
       <code>
-        <coding>
-          <system value="http://www.nlm.nih.gov/research/umls/rxnorm"/>
-          <code value="2556"/>
-        </coding>
-        <text value="citalopram"/>
+          <coding>
+            <system value="http://www.nlm.nih.gov/research/umls/rxnorm"/>
+            <code value="2556"/>
+          </coding>
+          <text value="citalopram"/>
       </code>
     </Substance>
   </contained>
@@ -930,13 +930,13 @@
   </relatedArtifact>
   <relatedArtifact>
     <type value="composed-of"/>
-    <resource value="ActivityDefinition/referralPrimaryCareMentalHealth"/>
+    <resource value="http://example.org/fhir/ActivityDefinition/referralPrimaryCareMentalHealth"/>
   </relatedArtifact>
   <relatedArtifact>
     <type value="composed-of"/>
-    <resource value="ActivityDefinition/citalopramPrescription"/>
+    <resource value="http://example.org/fhir/ActivityDefinition/citalopramPrescription"/>
   </relatedArtifact>
-  <library value="Library/suiciderisk-orderset-logic"/>
+  <library value="http://example.org/fhir/Library/suiciderisk-orderset-logic"/>
   <!--  Actions  -->
   <action>
     <title value="Suicide Risk Assessment and Outpatient Management"/>

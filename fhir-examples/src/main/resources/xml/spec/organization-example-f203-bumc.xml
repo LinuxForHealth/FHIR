@@ -7,7 +7,7 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: f203</p><p><b>identifier</b>: Zorginstelling naam = Blijdorp MC (OFFICIAL)</p><p><b>active</b>: true</p><p><b>type</b>: Academic Medical Center <span>(Details : {SNOMED CT code '405608006' = 'Academic medical centre', given as 'Academic Medical Center'}; {http://terminology.hl7.org/CodeSystem/organization-type code 'prov' = 'Healthcare Provider)</span></p><p><b>name</b>: Blijdorp Medisch Centrum (BUMC)</p><p><b>telecom</b>: ph: +31107040704(WORK)</p><p><b>address</b>: apenrots 230 Blijdorp 3056BE NLD (WORK)</p></div></text><identifier>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "f203" </p></div><p><b>identifier</b>: Zorginstelling naam: Blijdorp MC (OFFICIAL)</p><p><b>active</b>: true</p><p><b>type</b>: Academic Medical Center <span> (<a>SNOMED CT</a>#405608006; <a>OrganizationType</a>#prov)</span></p><p><b>name</b>: Blijdorp Medisch Centrum (BUMC)</p><p><b>telecom</b>: <a>+31107040704</a></p><p><b>address</b>: apenrots 230 Blijdorp 3056BE NLD (WORK)</p></div></text><identifier>
   <!--   Identifier for the BMC   -->
     <use value="official"/>
     <type>

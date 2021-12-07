@@ -1,0 +1,182 @@
+{
+  "resourceType": "CodeSystem",
+  "id": "artifact-relationship-type",
+  "meta": {
+    "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+    "profile": [
+      "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\n      \n      \n      \u003cp\u003eThis code system http://terminology.hl7.org/CodeSystem/artifact-relationship-type defines the following codes:\u003c/p\u003e\n      \n      \n      \u003ctable class\u003d\"codes\"\u003e\n        \n        \u003ctr\u003e\n          \n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003e\n            \n            \n            \u003cb\u003eCode\u003c/b\u003e\n          \n          \n          \u003c/td\u003e\n          \n          \n          \u003ctd\u003e\n            \n            \n            \u003cb\u003eDisplay\u003c/b\u003e\n          \n          \n          \u003c/td\u003e\n          \n          \n          \u003ctd\u003e\n            \n            \n            \u003cb\u003eDefinition\u003c/b\u003e\n          \n          \n          \u003c/td\u003e\n        \n        \n        \u003c/tr\u003e\n        \n                \u003ctr\u003e\n\n          \u003ctd style\u003d\"white-space:nowrap\"\u003ereplaces\n\n            \u003ca name\u003d\"artifact-relationship-type-replaces\"\u003e \u003c/a\u003e\n\n          \u003c/td\u003e\n\n          \u003ctd\u003eReplaces\u003c/td\u003e\n\n          \u003ctd\u003eReplaces\u003c/td\u003e\n\n        \u003c/tr\u003e\n\n        \u003ctr\u003e\n\n          \u003ctd style\u003d\"white-space:nowrap\"\u003eamends\n\n            \u003ca name\u003d\"artifact-relationship-type-amends\"\u003e \u003c/a\u003e\n\n          \u003c/td\u003e\n\n          \u003ctd\u003eAmends\u003c/td\u003e\n\n          \u003ctd\u003eAmends\u003c/td\u003e\n\n        \u003c/tr\u003e\n\n        \u003ctr\u003e\n\n          \u003ctd style\u003d\"white-space:nowrap\"\u003eappends\n\n            \u003ca name\u003d\"artifact-relationship-type-appends\"\u003e \u003c/a\u003e\n\n          \u003c/td\u003e\n\n          \u003ctd\u003eAppends\u003c/td\u003e\n\n          \u003ctd\u003eAppends\u003c/td\u003e\n\n        \u003c/tr\u003e\n\n        \u003ctr\u003e\n\n          \u003ctd style\u003d\"white-space:nowrap\"\u003etransforms\n\n            \u003ca name\u003d\"artifact-relationship-type-transforms\"\u003e \u003c/a\u003e\n\n          \u003c/td\u003e\n\n          \u003ctd\u003eTransforms\u003c/td\u003e\n\n          \u003ctd\u003eTransforms\u003c/td\u003e\n\n        \u003c/tr\u003e\n\n        \u003ctr\u003e\n\n          \u003ctd style\u003d\"white-space:nowrap\"\u003ereplaced-with\n\n            \u003ca name\u003d\"artifact-relationship-type-replaced-with\"\u003e \u003c/a\u003e\n\n          \u003c/td\u003e\n\n          \u003ctd\u003eReplaced with\u003c/td\u003e\n\n          \u003ctd\u003eReplaced with\u003c/td\u003e\n\n        \u003c/tr\u003e\n\n        \u003ctr\u003e\n\n          \u003ctd style\u003d\"white-space:nowrap\"\u003eamended-with\n\n            \u003ca name\u003d\"artifact-relationship-type-amended-with\"\u003e \u003c/a\u003e\n\n          \u003c/td\u003e\n\n          \u003ctd\u003eAmended with\u003c/td\u003e\n\n          \u003ctd\u003eAmended with\u003c/td\u003e\n\n        \u003c/tr\u003e\n\n        \u003ctr\u003e\n\n          \u003ctd style\u003d\"white-space:nowrap\"\u003eappended-with\n\n            \u003ca name\u003d\"artifact-relationship-type-appended-with\"\u003e \u003c/a\u003e\n\n          \u003c/td\u003e\n\n          \u003ctd\u003eAppended with\u003c/td\u003e\n\n          \u003ctd\u003eAppended with\u003c/td\u003e\n\n        \u003c/tr\u003e\n\n        \u003ctr\u003e\n\n          \u003ctd style\u003d\"white-space:nowrap\"\u003etransformed-with\n\n            \u003ca name\u003d\"artifact-relationship-type-transformed-with\"\u003e \u003c/a\u003e\n\n          \u003c/td\u003e\n\n          \u003ctd\u003eTransformed with\u003c/td\u003e\n\n          \u003ctd\u003eTransformed with\u003c/td\u003e\n\n        \u003c/tr\u003e\n\n        \u003ctr\u003e\n\n          \u003ctd style\u003d\"white-space:nowrap\"\u003ederived-from\n\n            \u003ca name\u003d\"artifact-relationship-type-derived-from\"\u003e \u003c/a\u003e\n\n          \u003c/td\u003e\n\n          \u003ctd\u003eDerived from\u003c/td\u003e\n\n          \u003ctd\u003eDerived from\u003c/td\u003e\n\n        \u003c/tr\u003e\n\n        \u003ctr\u003e\n\n          \u003ctd style\u003d\"white-space:nowrap\"\u003etransformed-into\n\n            \u003ca name\u003d\"artifact-relationship-type-transformed-into\"\u003e \u003c/a\u003e\n\n          \u003c/td\u003e\n\n          \u003ctd\u003eTransformed into\u003c/td\u003e\n\n          \u003ctd\u003eTransformed into\u003c/td\u003e\n\n        \u003c/tr\u003e\n\n        \u003ctr\u003e\n\n          \u003ctd style\u003d\"white-space:nowrap\"\u003ecomposed-of\n\n            \u003ca name\u003d\"artifact-relationship-type-composed-of\"\u003e \u003c/a\u003e\n\n          \u003c/td\u003e\n\n          \u003ctd\u003eComposed of\u003c/td\u003e\n\n          \u003ctd\u003eComposed of\u003c/td\u003e\n\n        \u003c/tr\u003e\n\n        \u003ctr\u003e\n\n          \u003ctd style\u003d\"white-space:nowrap\"\u003epart-of\n\n            \u003ca name\u003d\"artifact-relationship-type-part-of\"\u003e \u003c/a\u003e\n\n          \u003c/td\u003e\n\n          \u003ctd\u003ePart of\u003c/td\u003e\n\n          \u003ctd\u003ePart of\u003c/td\u003e\n\n        \u003c/tr\u003e\n\n        \u003ctr\u003e\n\n          \u003ctd style\u003d\"white-space:nowrap\"\u003esupports\n\n            \u003ca name\u003d\"artifact-relationship-type-supports\"\u003e \u003c/a\u003e\n\n          \u003c/td\u003e\n\n          \u003ctd\u003eSupports\u003c/td\u003e\n\n          \u003ctd\u003eSupports\u003c/td\u003e\n\n        \u003c/tr\u003e\n\n        \u003ctr\u003e\n\n          \u003ctd style\u003d\"white-space:nowrap\"\u003esupported-with\n\n            \u003ca name\u003d\"artifact-relationship-type-supported-with\"\u003e \u003c/a\u003e\n\n          \u003c/td\u003e\n\n          \u003ctd\u003eSupported with\u003c/td\u003e\n\n          \u003ctd\u003eSupported with\u003c/td\u003e\n\n        \u003c/tr\u003e\n\n        \u003ctr\u003e\n\n          \u003ctd style\u003d\"white-space:nowrap\"\u003edepends-on\n\n            \u003ca name\u003d\"artifact-relationship-type-depends-on\"\u003e \u003c/a\u003e\n\n          \u003c/td\u003e\n\n          \u003ctd\u003eDepends on\u003c/td\u003e\n\n          \u003ctd\u003eDepends on\u003c/td\u003e\n\n        \u003c/tr\u003e\n\n        \u003ctr\u003e\n\n          \u003ctd style\u003d\"white-space:nowrap\"\u003esimilar-to\n\n            \u003ca name\u003d\"artifact-relationship-type-similar-to\"\u003e \u003c/a\u003e\n\n          \u003c/td\u003e\n\n          \u003ctd\u003eSimilar to\u003c/td\u003e\n\n          \u003ctd\u003eSimilar to\u003c/td\u003e\n\n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003ecites\n            \n            \u003ca name\u003d\"artifact-relationship-type-cites\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eCites\u003c/td\u003e\n          \n          \u003ctd\u003eCites\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003ecited-by\n            \n            \u003ca name\u003d\"artifact-relationship-type-cited-by\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eCited by\u003c/td\u003e\n          \n          \u003ctd\u003eCited by\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eretracts\n            \n            \u003ca name\u003d\"artifact-relationship-type-retracts\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eRetracts\u003c/td\u003e\n          \n          \u003ctd\u003eRetracts\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eretracted-by\n            \n            \u003ca name\u003d\"artifact-relationship-type-retracted-by\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eRetracted by\u003c/td\u003e\n          \n          \u003ctd\u003eRetracted by\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003ecomments-on\n            \n            \u003ca name\u003d\"artifact-relationship-type-comments-on\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eComments On\u003c/td\u003e\n          \n          \u003ctd\u003eComments On\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\t\t\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003ecomment-in\n            \n            \u003ca name\u003d\"artifact-relationship-type-comment-in\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eComment In\u003c/td\u003e\n          \n          \u003ctd\u003eComment In\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003ecorrection-in\n            \n            \u003ca name\u003d\"artifact-relationship-type-correction-in\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eCorrection In\u003c/td\u003e\n          \n          \u003ctd\u003eCorrection In\u003c/td\u003e\n        \n        \u003c/tr\u003e\n      \n      \u003c/table\u003e\n    \n    \n    \u003c/div\u003e"
+  },
+  "extension": [
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+      "valueCode": "cds"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-classification",
+      "valueCode": "trial-use"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+      "valueInteger": 0
+    }
+  ],
+  "url": "http://terminology.hl7.org/CodeSystem/artifact-relationship-type",
+  "identifier": [
+    {
+      "system": "urn:ietf:rfc:3986",
+      "value": "urn:oid:2.16.840.1.113883.4.642.1.0"
+    }
+  ],
+  "version": "4.1.0",
+  "name": "ArtifactRelationshipType",
+  "title": "ArtifactRelationshipType",
+  "status": "draft",
+  "experimental": false,
+  "date": "2021-03-11T10:55:11.085+11:00",
+  "publisher": "HL7 (FHIR Project)",
+  "contact": [
+    {
+      "telecom": [
+        {
+          "system": "url",
+          "value": "http://hl7.org/fhir"
+        },
+        {
+          "system": "email",
+          "value": "fhir@lists.hl7.org"
+        }
+      ]
+    }
+  ],
+  "description": "Artifact Relationship Type",
+  "caseSensitive": true,
+  "valueSet": "http://hl7.org/fhir/ValueSet/artifact-relationship-type",
+  "content": "complete",
+  "concept": [
+    {
+      "code": "replaces",
+      "display": "Replaces",
+      "definition": "Replaces"
+    },
+    {
+      "code": "amends",
+      "display": "Amends",
+      "definition": "Amends"
+    },
+    {
+      "code": "appends",
+      "display": "Appends",
+      "definition": "Appends"
+    },
+    {
+      "code": "transforms",
+      "display": "Transforms",
+      "definition": "Transforms"
+    },
+    {
+      "code": "replaced-with",
+      "display": "Replaced with",
+      "definition": "Replaced with"
+    },
+    {
+      "code": "amended-with",
+      "display": "Amended with",
+      "definition": "Amended with"
+    },
+    {
+      "code": "appended-with",
+      "display": "Appended with",
+      "definition": "Appended with"
+    },
+    {
+      "code": "transformed-with",
+      "display": "Transformed with",
+      "definition": "Transformed with"
+    },
+    {
+      "code": "derived-from",
+      "display": "Derived from",
+      "definition": "Derived from"
+    },
+    {
+      "code": "transformed-into",
+      "display": "Transformed into",
+      "definition": "Transformed into"
+    },
+    {
+      "code": "composed-of",
+      "display": "Composed of",
+      "definition": "Composed of"
+    },
+    {
+      "code": "part-of",
+      "display": "Part of",
+      "definition": "Part of"
+    },
+    {
+      "code": "supports",
+      "display": "Supports",
+      "definition": "Supports"
+    },
+    {
+      "code": "supported-with",
+      "display": "Supported with",
+      "definition": "Supported with"
+    },
+    {
+      "code": "depends-on",
+      "display": "Depends on",
+      "definition": "Depends on"
+    },
+    {
+      "code": "similar-to",
+      "display": "Similar to",
+      "definition": "Similar to"
+    },
+    {
+      "code": "cites",
+      "display": "Cites",
+      "definition": "Cites"
+    },
+    {
+      "code": "cited-by",
+      "display": "Cited by",
+      "definition": "Cited by"
+    },
+    {
+      "code": "retracts",
+      "display": "Retracts",
+      "definition": "Retracts"
+    },
+    {
+      "code": "retracted-by",
+      "display": "Retracted by",
+      "definition": "Retracted by"
+    },
+    {
+      "code": "comments-on",
+      "display": "Comments On",
+      "definition": "Comments On"
+    },
+    {
+      "code": "comment-in",
+      "display": "Comment In",
+      "definition": "Comment In"
+    },
+    {
+      "code": "corrects",
+      "display": "Corrects",
+      "definition": "Corrects"
+    },
+    {
+      "code": "correction-in",
+      "display": "Correction In",
+      "definition": "Correction In"
+    }
+  ]
+}

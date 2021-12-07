@@ -6,9 +6,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-12-06T18:53:36+00:00",
   "publisher": "Health Level Seven International (FHIR Infrastructure)",
   "item": [
     {
@@ -192,9 +192,10 @@
             {
               "linkId": "GraphDefinition.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -486,9 +487,10 @@
             {
               "linkId": "GraphDefinition.status.value",
               "text": "status",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -760,9 +762,10 @@
             {
               "linkId": "GraphDefinition.jurisdiction.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "GraphDefinition.jurisdiction.text",
@@ -857,9 +860,10 @@
             {
               "linkId": "GraphDefinition.start.value",
               "text": "start",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -1406,9 +1410,10 @@
                     {
                       "linkId": "GraphDefinition.link.target.type.value",
                       "text": "type",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOrType"
                     }
                   ]
                 },
@@ -1661,9 +1666,10 @@
                         {
                           "linkId": "GraphDefinition.link.target.compartment.use.value",
                           "text": "use",
-                          "type": "choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOrType"
                         }
                       ]
                     },
@@ -1708,9 +1714,10 @@
                         {
                           "linkId": "GraphDefinition.link.target.compartment.code.value",
                           "text": "code",
-                          "type": "choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOrType"
                         }
                       ]
                     },
@@ -1755,9 +1762,10 @@
                         {
                           "linkId": "GraphDefinition.link.target.compartment.rule.value",
                           "text": "rule",
-                          "type": "choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOrType"
                         }
                       ]
                     },

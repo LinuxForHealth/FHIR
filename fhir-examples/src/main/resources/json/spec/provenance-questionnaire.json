@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for Provenance.occurred[x]",
       "expansion": {
-        "identifier": "urn:uuid:b471dbc7-5602-41f7-bca4-69546372f0e9",
-        "timestamp": "2019-11-01T09:36:40+11:00",
+        "identifier": "urn:uuid:bd901d8f-29b4-4a53-9c96-3545e243d80d",
+        "timestamp": "2021-12-06T19:04:21+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -31,9 +31,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-12-06T18:53:36+00:00",
   "publisher": "Health Level Seven International (Security)",
   "item": [
     {
@@ -221,9 +221,10 @@
             {
               "linkId": "Provenance.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -428,9 +429,10 @@
             {
               "linkId": "Provenance.occurred[x]._type",
               "text": "type",
-              "type": "choice",
+              "type": "coding",
               "required": false,
               "repeats": false,
+              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs2",
               "item": [
                 {
@@ -654,9 +656,10 @@
             {
               "linkId": "Provenance.reason.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Provenance.reason.text",
@@ -705,9 +708,10 @@
             {
               "linkId": "Provenance.activity.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Provenance.activity.text",
@@ -888,9 +892,10 @@
                 {
                   "linkId": "Provenance.agent.type.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "Provenance.agent.type.text",
@@ -935,9 +940,10 @@
                 {
                   "linkId": "Provenance.agent.role.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "Provenance.agent.role.text",
@@ -1223,9 +1229,10 @@
                 {
                   "linkId": "Provenance.entity.role.value",
                   "text": "role",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOrType"
                 }
               ]
             },

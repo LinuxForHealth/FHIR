@@ -16,10 +16,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/oid",
-  "version": "4.0.1",
+  "version": "4.1.0",
   "name": "oid",
   "status": "active",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-12-06T18:53:36+00:00",
   "publisher": "HL7 FHIR Standard",
   "contact": [
     {
@@ -32,7 +32,7 @@
     }
   ],
   "description": "Base StructureDefinition for oid type: An OID represented as a URI",
-  "fhirVersion": "4.0.1",
+  "fhirVersion": "4.1.0",
   "kind": "primitive-type",
   "abstract": false,
   "type": "oid",
@@ -57,9 +57,9 @@
           {
             "key": "ele-1",
             "severity": "error",
-            "human": "All FHIR elements must have a @value or children",
-            "expression": "hasValue() or (children().count() \u003e id.count())",
-            "xpath": "@value|f:*|h:div",
+            "human": "All FHIR elements must have a @value or children unless an empty Parameters resource",
+            "expression": "hasValue() or (children().count() \u003e id.count()) or $this is Parameters",
+            "xpath": "@value|f:*|h:div|self::f:Parameters",
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
@@ -86,7 +86,7 @@
             "extension": [
               {
                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                "valueUrl": "string"
+                "valueUri": "string"
               }
             ],
             "code": "http://hl7.org/fhirpath/System.String"
@@ -158,7 +158,7 @@
             "extension": [
               {
                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                "valueUrl": "string"
+                "valueUri": "string"
               },
               {
                 "url": "http://hl7.org/fhir/StructureDefinition/regex",
@@ -199,7 +199,7 @@
             "extension": [
               {
                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                "valueUrl": "oid"
+                "valueUri": "oid"
               },
               {
                 "url": "http://hl7.org/fhir/StructureDefinition/regex",

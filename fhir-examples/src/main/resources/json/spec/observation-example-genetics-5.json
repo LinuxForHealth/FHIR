@@ -2,8 +2,8 @@
   "resourceType": "Observation",
   "id": "example-genetics-5",
   "text": {
-    "status": "generated",
-    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cp\u003e\u003cb\u003eGenerated Narrative with Details\u003c/b\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003eid\u003c/b\u003e: example-genetics-5\u003c/p\u003e\u003cp\u003e\u003cb\u003estatus\u003c/b\u003e: final\u003c/p\u003e\u003cp\u003e\u003cb\u003ecode\u003c/b\u003e: PCR validation \u003cspan\u003e(Details )\u003c/span\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003esubject\u003c/b\u003e: \u003ca\u003eMolecular Lab Patient ID: HOSP-23456\u003c/a\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003eissued\u003c/b\u003e: 03/04/2013 3:30:10 PM\u003c/p\u003e\u003cp\u003e\u003cb\u003eperformer\u003c/b\u003e: \u003ca\u003eSequence Analysis Laboratory\u003c/a\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003evalue\u003c/b\u003e: Negative \u003cspan\u003e(Details : {SNOMED CT code \u0027260385009\u0027 \u003d \u0027Negative\u0027, given as \u0027Negative\u0027})\u003c/span\u003e\u003c/p\u003e\u003c/div\u003e"
+    "status": "extensions",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cp\u003e\u003cb\u003eGenerated Narrative\u003c/b\u003e\u003c/p\u003e\u003cdiv\u003e\u003cp\u003eResource \u0026quot;example-genetics-5\u0026quot; \u003c/p\u003e\u003c/div\u003e\u003cp\u003e\u003cb\u003eSequel To\u003c/b\u003e: \u003ca\u003eObservation/example-genetics-1: ObservationForGenetics profile example 1\u003c/a\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003estatus\u003c/b\u003e: final\u003c/p\u003e\u003cp\u003e\u003cb\u003ecode\u003c/b\u003e: The material on this page will be removed in a future release. This content is deprecated and SHOULD NOT be used. Implementers are instead directed to the ([Genomics Reporting Implementation Guide](http://hl7.org/fhir/uv/genomics-reporting/index.html)) for guidance. PCR validation \u003cspan\u003e ()\u003c/span\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003esubject\u003c/b\u003e: \u003ca\u003ePatient/example: Molecular Lab Patient ID: HOSP-23456\u003c/a\u003e \u0026quot;Peter CHALMERS\u0026quot;\u003c/p\u003e\u003cp\u003e\u003cb\u003eissued\u003c/b\u003e: Apr 3, 2013 2:30:10 PM\u003c/p\u003e\u003cp\u003e\u003cb\u003eperformer\u003c/b\u003e: \u003ca\u003ePractitioner/example: Sequence Analysis Laboratory\u003c/a\u003e \u0026quot;Adam CAREFUL\u0026quot;\u003c/p\u003e\u003cp\u003e\u003cb\u003evalue\u003c/b\u003e: Negative \u003cspan\u003e (\u003ca\u003eSNOMED CT\u003c/a\u003e#260385009)\u003c/span\u003e\u003c/p\u003e\u003c/div\u003e"
   },
   "extension": [
     {
@@ -16,7 +16,7 @@
   ],
   "status": "final",
   "code": {
-    "text": "PCR validation"
+    "text": "The material on this page will be removed in a future release. This content is deprecated and SHOULD NOT be used. Implementers are instead directed to the ([Genomics Reporting Implementation Guide](http://hl7.org/fhir/uv/genomics-reporting/index.html)) for guidance. PCR validation"
   },
   "subject": {
     "reference": "Patient/example",

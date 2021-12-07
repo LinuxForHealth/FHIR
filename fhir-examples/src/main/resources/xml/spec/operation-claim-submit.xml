@@ -3,10 +3,10 @@
 <OperationDefinition xmlns="http://hl7.org/fhir">
   <id value="Claim-submit"/>
   <text>
-    <status value="generated"/>
+    <status value="extensions"/>
     <div xmlns="http://www.w3.org/1999/xhtml">
-      <h2>Submit a Claim resource for adjudication</h2>
-      <p>OPERATION: Submit a Claim resource for adjudication</p>
+      <h2>submit</h2>
+      <p>OPERATION: submit</p>
       <p>The official URL for this operation definition is: </p>
       <pre>http://hl7.org/fhir/OperationDefinition/Claim-submit</pre>
       <div>
@@ -77,11 +77,12 @@
     <valueCode value="trial-use"/>
   </extension>
   <url value="http://hl7.org/fhir/OperationDefinition/Claim-submit"/>
-  <version value="4.0.1"/>
-  <name value="Submit a Claim resource for adjudication"/>
+  <version value="4.1.0"/>
+  <name value="submit"/>
+  <title value="Submit a Claim resource for adjudication"/>
   <status value="draft"/>
   <kind value="operation"/>
-  <date value="2019-11-01T09:29:23+11:00"/>
+  <date value="2021-12-06T18:53:36+00:00"/>
   <publisher value="HL7 (FHIR Project)"/>
   <contact>
     <telecom>
@@ -94,6 +95,7 @@
     </telecom>
   </contact>
   <description value="This operation is used to submit a Claim, Pre-Authorization or Pre-Determination (all instances of Claim resources) for adjudication either as a single Claim resource instance or as a Bundle containing the Claim and other referenced resources, or Bundle containing a batch of Claim resources, either as single Claims resources or Bundle resources, for processing. The only input parameter is the single Claim or Bundle resource and the only output is a single ClaimResponse, Bundle of ClaimResponses or an OperationOutcome resource."/>
+  <affectsState value="true"/>
   <code value="submit"/>
   <resource value="Claim"/>
   <system value="false"/>

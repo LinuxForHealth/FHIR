@@ -7,11 +7,11 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: meddisp0321</p><p><b>status</b>: in-progress</p><p><b>medication</b>: Vicodin 5mg Hydrocodone, 500mg Acetaminophen tablet  <span>(Details : {http://hl7.org/fhir/sid/ndc code '49999-051-30' = 'n/a', given as 'Vicodin 5mg Hydrocodone, 500mg Acetaminophen tablet '})</span></p><p><b>subject</b>: <a>Donald Duck</a></p><h3>Performers</h3><table><tr><td>-</td><td><b>Actor</b></td></tr><tr><td>*</td><td><a>Practitioner/f006</a></td></tr></table><p><b>authorizingPrescription</b>: <a>MedicationRequest/medrx0321</a></p><p><b>type</b>: Refill - Part Fill <span>(Details : {http://terminology.hl7.org/CodeSystem/v3-ActCode code 'RFP' = 'Refill - Part Fill', given as 'Refill - Part Fill'})</span></p><p><b>quantity</b>: 30 TAB<span> (Details: http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm code TAB = 'Tablet')</span></p><p><b>daysSupply</b>: 10 Day<span> (Details: UCUM code d = 'd')</span></p><p><b>whenPrepared</b>: 15/01/2015 10:20:00 AM</p><p><b>dosageInstruction</b>: </p></div></text><status value="in-progress"/>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "meddisp0321" </p></div><p><b>status</b>: in-progress</p><p><b>medication</b>: Vicodin 5mg Hydrocodone, 500mg Acetaminophen tablet  <span> (<a>National drug codes</a>#0074-3043-13)</span></p><p><b>subject</b>: <a>Patient/pat1: Donald Duck</a> "Duck DONALD"</p><h3>Performers</h3><table><tr><td>-</td><td><b>Actor</b></td></tr><tr><td>*</td><td><a>Practitioner/f006</a> "Rob VAN DEN BERK"</td></tr></table><p><b>authorizingPrescription</b>: <a>MedicationRequest/medrx0321</a></p><p><b>type</b>: Refill - Part Fill <span> (<a>ActCode</a>#RFP)</span></p><p><b>quantity</b>: 30 TAB<span> (Details: http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm code TAB = 'Tablet')</span></p><p><b>daysSupply</b>: 10 Day<span> (Details: UCUM code d = 'd')</span></p><p><b>whenPrepared</b>: 2015-01-15T10:20:00Z</p></div></text><status value="in-progress"/>
     <medicationCodeableConcept>
         <coding>
             <system value="http://hl7.org/fhir/sid/ndc"/>
-            <code value="49999-051-30"/>
+            <code value="0074-3043-13"/>
             <display value="Vicodin 5mg Hydrocodone, 500mg Acetaminophen tablet "/>
         </coding>
     </medicationCodeableConcept>

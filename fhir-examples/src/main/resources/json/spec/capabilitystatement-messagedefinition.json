@@ -1,10 +1,6 @@
 {
   "resourceType": "CapabilityStatement",
   "id": "messagedefinition",
-  "text": {
-    "status": "generated",
-    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\n      \u003ch2/\u003e\n      \u003cdiv\u003e\n        \u003cp\u003eSample capability statement showing new MessageDefinition structure\u003c/p\u003e\n\n      \u003c/div\u003e\n    \u003c/div\u003e"
-  },
   "status": "draft",
   "experimental": true,
   "date": "2012-01-04",
@@ -29,7 +25,7 @@
     "description": "Acme Message endpoint",
     "url": "http://acem.com/fhir/message-drop"
   },
-  "fhirVersion": "4.0.1",
+  "fhirVersion": "4.1.0",
   "format": [
     "xml",
     "json"
@@ -50,7 +46,7 @@
       "supportedMessage": [
         {
           "mode": "receiver",
-          "definition": "MessageDefinition/example"
+          "definition": "http://hl7.org/fhir/MessageDefinition/example"
         }
       ]
     }

@@ -7,26 +7,7 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text>
-    <status value="generated"/>
-    <div xmlns="http://www.w3.org/1999/xhtml">
-      <h2>ACME Codes for Cholesterol: Plasma only</h2>
-      <div>
-        <p>ACME Codes for Cholesterol: Plasma only - demonstrating the use of a filter defined in a CodeSystem</p>
-
-      </div>
-      <p>This value set includes codes from the following code systems:</p>
-      <ul>
-        <li>Include codes from 
-          <a href="codesystem-example.html">
-            <code>http://hl7.org/fhir/CodeSystem/example</code>
-          </a> where acme-plasma  =  true
-        </li>
-      </ul>
-    </div>
-  </text>
   <url value="http://hl7.org/fhir/ValueSet/example-filter"/>
-  <version value="4.0.1"/>
   <name value="ACMECholCodesPlasma"/>
   <title value="ACME Codes for Cholesterol: Plasma only"/>
   <status value="draft"/>

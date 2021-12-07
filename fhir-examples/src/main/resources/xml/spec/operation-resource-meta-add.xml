@@ -3,10 +3,10 @@
 <OperationDefinition xmlns="http://hl7.org/fhir">
   <id value="Resource-meta-add"/>
   <text>
-    <status value="generated"/>
+    <status value="extensions"/>
     <div xmlns="http://www.w3.org/1999/xhtml">
-      <h2>Add profiles, tags, and security labels to a resource</h2>
-      <p>OPERATION: Add profiles, tags, and security labels to a resource</p>
+      <h2>meta-add</h2>
+      <p>OPERATION: meta-add</p>
       <p>The official URL for this operation definition is: </p>
       <pre>http://hl7.org/fhir/OperationDefinition/Resource-meta-add</pre>
       <div>
@@ -77,11 +77,12 @@
     <valueCode value="trial-use"/>
   </extension>
   <url value="http://hl7.org/fhir/OperationDefinition/Resource-meta-add"/>
-  <version value="4.0.1"/>
-  <name value="Add profiles, tags, and security labels to a resource"/>
+  <version value="4.1.0"/>
+  <name value="meta-add"/>
+  <title value="Add profiles, tags, and security labels to a resource"/>
   <status value="draft"/>
   <kind value="operation"/>
-  <date value="2019-11-01T09:29:23+11:00"/>
+  <date value="2021-12-06T18:53:36+00:00"/>
   <publisher value="HL7 (FHIR Project)"/>
   <contact>
     <telecom>
@@ -94,6 +95,7 @@
     </telecom>
   </contact>
   <description value="This operation takes a meta, and adds the profiles, tags, and security labels found in it to the nominated resource"/>
+  <affectsState value="true"/>
   <code value="meta-add"/>
   <resource value="Resource"/>
   <system value="false"/>

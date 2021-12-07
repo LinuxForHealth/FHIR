@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for BiologicallyDerivedProduct.collection.collected[x]",
       "expansion": {
-        "identifier": "urn:uuid:639b359b-b826-4bca-a5e5-0a1752d97974",
-        "timestamp": "2019-11-01T09:34:33+11:00",
+        "identifier": "urn:uuid:890a42ff-4e80-4c54-8d40-09f944ab8b4e",
+        "timestamp": "2021-12-06T19:02:27+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -32,8 +32,8 @@
       "status": "active",
       "description": "Type options for BiologicallyDerivedProduct.processing.time[x]",
       "expansion": {
-        "identifier": "urn:uuid:141bf312-a218-4cca-b316-13d473c717ee",
-        "timestamp": "2019-11-01T09:34:33+11:00",
+        "identifier": "urn:uuid:fc3f4451-a10d-48cc-bc48-2e2078ccae6e",
+        "timestamp": "2021-12-06T19:02:27+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -55,8 +55,8 @@
       "status": "active",
       "description": "Type options for BiologicallyDerivedProduct.manipulation.time[x]",
       "expansion": {
-        "identifier": "urn:uuid:bd7c9edc-ee6a-49cf-9fdb-e00b11e159ba",
-        "timestamp": "2019-11-01T09:34:33+11:00",
+        "identifier": "urn:uuid:9b8af498-dbaa-4d69-b6f8-6644198c5852",
+        "timestamp": "2021-12-06T19:02:27+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -77,9 +77,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-12-06T18:53:36+00:00",
   "publisher": "Health Level Seven International (Orders and Observations)",
   "item": [
     {
@@ -267,9 +267,10 @@
             {
               "linkId": "BiologicallyDerivedProduct.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -478,9 +479,10 @@
             {
               "linkId": "BiologicallyDerivedProduct.productCategory.value",
               "text": "product category",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -522,9 +524,10 @@
             {
               "linkId": "BiologicallyDerivedProduct.productCode.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "BiologicallyDerivedProduct.productCode.text",
@@ -572,9 +575,10 @@
             {
               "linkId": "BiologicallyDerivedProduct.status.value",
               "text": "status",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -987,9 +991,10 @@
                 {
                   "linkId": "BiologicallyDerivedProduct.collection.collected[x]._type",
                   "text": "type",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
                   "repeats": false,
+                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs2",
                   "item": [
                     {
@@ -1245,9 +1250,10 @@
                 {
                   "linkId": "BiologicallyDerivedProduct.processing.procedure.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "BiologicallyDerivedProduct.processing.procedure.text",
@@ -1345,9 +1351,10 @@
                 {
                   "linkId": "BiologicallyDerivedProduct.processing.time[x]._type",
                   "text": "type",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
                   "repeats": false,
+                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs3",
                   "item": [
                     {
@@ -1605,9 +1612,10 @@
                 {
                   "linkId": "BiologicallyDerivedProduct.manipulation.time[x]._type",
                   "text": "type",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
                   "repeats": false,
+                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs4",
                   "item": [
                     {
@@ -1905,9 +1913,10 @@
                 {
                   "linkId": "BiologicallyDerivedProduct.storage.scale.value",
                   "text": "scale",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOrType"
                 }
               ]
             },

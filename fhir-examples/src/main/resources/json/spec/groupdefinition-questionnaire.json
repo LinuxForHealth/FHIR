@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for Group.characteristic.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:fc9afe92-ee07-406b-b3f9-92044869c8c0",
-        "timestamp": "2019-11-01T09:35:22+11:00",
+        "identifier": "urn:uuid:916a9598-d0de-4473-b3b1-7b36f8b0c551",
+        "timestamp": "2021-12-06T19:03:21+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -41,9 +41,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-01-16T20:06:13+00:00",
   "publisher": "HL7",
   "item": [
     {
@@ -241,9 +241,10 @@
             {
               "linkId": "Group.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -499,9 +500,10 @@
             {
               "linkId": "Group.type.value",
               "text": "type",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -590,9 +592,10 @@
             {
               "linkId": "Group.code.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Group.code.text",
@@ -910,9 +913,10 @@
                 {
                   "linkId": "Group.characteristic.code.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "Group.characteristic.code.text",
@@ -961,9 +965,10 @@
                 {
                   "linkId": "Group.characteristic.value[x]._type",
                   "text": "type",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
                   "repeats": false,
+                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs2",
                   "item": [
                     {
@@ -979,9 +984,10 @@
                         {
                           "linkId": "Group.characteristic.value[x]._null.coding",
                           "text": "code:",
-                          "type": "open-choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOnly"
                         },
                         {
                           "linkId": "Group.characteristic.value[x]._null.text",
@@ -1023,9 +1029,10 @@
                         {
                           "linkId": "Group.characteristic.value[x]._null.comparator",
                           "text": "comp:",
-                          "type": "choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOnly"
                         },
                         {
                           "linkId": "Group.characteristic.value[x]._null.value",
@@ -1388,7 +1395,7 @@
                   "extension": [
                     {
                       "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-allowedResource",
-                      "valueCode": "Patient, Practitioner, PractitionerRole, Device, Medication, Substance, Group"
+                      "valueCode": "Patient, RelatedPerson, Practitioner, PractitionerRole, Device, Medication, Substance, Group"
                     },
                     {
                       "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-referenceFilter",

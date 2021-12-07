@@ -8,7 +8,7 @@
   "extension": [
     {
       "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
-      "valueInteger": 2
+      "valueInteger": 3
     },
     {
       "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
@@ -20,14 +20,14 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/shareableactivitydefinition",
-  "version": "4.0.1",
+  "version": "4.1.0",
   "name": "Shareable ActivityDefinition",
   "status": "draft",
   "experimental": false,
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2020-12-28T16:55:11+11:00",
   "publisher": "HL7",
   "description": "Enforces the minimum information set for the activity definition metadata required by HL7 and other organizations that share and publish activity definitions",
-  "fhirVersion": "4.0.1",
+  "fhirVersion": "4.1.0",
   "mapping": [
     {
       "identity": "rim",
@@ -71,7 +71,7 @@
         },
         "constraint": [
           {
-            "key": "adf-0",
+            "key": "cnl-0",
             "severity": "warning",
             "human": "Name should be usable as an identifier for the module by machine processing applications such as code generation",
             "expression": "name.matches(\u0027[A-Z]([A-Za-z0-9_]){0,254}\u0027)",
@@ -90,8 +90,8 @@
             "key": "dom-3",
             "severity": "error",
             "human": "If the resource is contained in another resource, it SHALL be referred to from elsewhere in the resource or SHALL refer to the containing resource",
-            "expression": "contained.where(((\u0027#\u0027+id in (%resource.descendants().reference | %resource.descendants().as(canonical) | %resource.descendants().as(uri) | %resource.descendants().as(url))) or descendants().where(reference \u003d \u0027#\u0027).exists() or descendants().where(as(canonical) \u003d \u0027#\u0027).exists() or descendants().where(as(canonical) \u003d \u0027#\u0027).exists()).not()).trace(\u0027unmatched\u0027, id).empty()",
-            "xpath": "not(exists(for $id in f:contained/*/f:id/@value return $contained[not(parent::*/descendant::f:reference/@value\u003dconcat(\u0027#\u0027, $contained/*/id/@value) or descendant::f:reference[@value\u003d\u0027#\u0027])]))",
+            "expression": "contained.where(((id.exists() and (\u0027#\u0027+id in (%resource.descendants().reference | %resource.descendants().as(canonical) | %resource.descendants().as(uri) | %resource.descendants().as(url)))) or descendants().where(reference \u003d \u0027#\u0027).exists() or descendants().where(as(canonical) \u003d \u0027#\u0027).exists() or descendants().where(as(uri) \u003d \u0027#\u0027).exists()).not()).trace(\u0027unmatched\u0027, id).empty()",
+            "xpath": "not(exists(for $resource in . return (for $contained in $resource/f:contained return $contained[not(descendant::f:*/@value\u003d\u0027#\u0027 or (exists(f:id) and $resource//f:*/@*\u003dconcat(\u0027#\u0027, $contained/*/f:id/@value)))])))",
             "source": "http://hl7.org/fhir/StructureDefinition/DomainResource"
           },
           {
@@ -129,6 +129,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/DomainResource"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -143,6 +144,10 @@
           {
             "identity": "rim",
             "map": "Act[classCode\u003dACT; moodCode\u003dDEFN]"
+          },
+          {
+            "identity": "w5",
+            "map": "clinical.general"
           }
         ]
       },
@@ -164,12 +169,13 @@
             "extension": [
               {
                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                "valueUrl": "string"
+                "valueUri": "id"
               }
             ],
             "code": "http://hl7.org/fhirpath/System.String"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true
       },
@@ -200,6 +206,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true
       },
@@ -231,6 +238,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": true,
         "isModifierReason": "This element is labeled as a modifier because the implicit rules may provide additional knowledge about the resource that modifies it\u0027s meaning or interpretation",
         "isSummary": true
@@ -263,6 +271,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "binding": {
@@ -281,7 +290,7 @@
             }
           ],
           "strength": "preferred",
-          "description": "A human language.",
+          "description": "IETF language tag",
           "valueSet": "http://hl7.org/fhir/ValueSet/languages"
         }
       },
@@ -319,6 +328,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -351,6 +361,7 @@
             "code": "Resource"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -400,6 +411,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Extension"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -415,7 +427,7 @@
         "short": "Extensions that cannot be ignored",
         "definition": "May be used to represent additional information that is not part of the basic definition of the resource and that modifies the understanding of the element that contains it and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself).",
         "comment": "There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
-        "requirements": "Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](http://hl7.org/fhir/extensibility.html#modifierExtension).",
+        "requirements": "Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](http://hl7.org/fhir/2021Mar/extensibility.html#modifierExtension).",
         "alias": [
           "extensions",
           "user content"
@@ -450,6 +462,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Extension"
           }
         ],
+        "mustSupport": false,
         "isModifier": true,
         "isModifierReason": "Modifier extensions are expected to modify the meaning or interpretation of the resource that contains them",
         "isSummary": false,
@@ -465,7 +478,7 @@
         "path": "ActivityDefinition.url",
         "short": "Canonical identifier for this activity definition, represented as a URI (globally unique)",
         "definition": "An absolute URI that is used to identify this activity definition when it is referenced in a specification, model, design or an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal address at which at which an authoritative instance of this activity definition is (or will be) published. This URL can be the target of a canonical reference. It SHALL remain the same when the activity definition is stored on different servers.",
-        "comment": "Can be a urn:uuid: or a urn:oid: but real http: addresses are preferred.  Multiple instances may share the same URL if they have a distinct version.\n\nThe determination of when to create a new version of a resource (same url, new version) vs. defining a new artifact is up to the author.  Considerations for making this decision are found in [Technical and Business Versions](http://hl7.org/fhir/resource.html#versions). \n\nIn some cases, the resource can no longer be found at the stated url, but the url itself cannot change. Implementations can use the [meta.source](http://hl7.org/fhir/resource.html#meta) element to indicate where the current master source of the resource can be found.",
+        "comment": "Can be a urn:uuid: or a urn:oid: but real http: addresses are preferred.  Multiple instances may share the same URL if they have a distinct version.\n\nThe determination of when to create a new version of a resource (same url, new version) vs. defining a new artifact is up to the author.  Considerations for making this decision are found in [Technical and Business Versions](http://hl7.org/fhir/2021Mar/resource.html#versions). \n\nIn some cases, the resource can no longer be found at the stated url, but the url itself cannot change. Implementations can use the [meta.source](http://hl7.org/fhir/2021Mar/resource.html#meta) element to indicate where the current master source of the resource can be found.",
         "requirements": "Allows the activity definition to be referenced by a single globally unique identifier.",
         "min": 1,
         "max": "1",
@@ -489,6 +502,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true,
         "mapping": [
@@ -585,6 +599,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true,
         "mapping": [
@@ -622,7 +637,7 @@
           }
         ],
         "condition": [
-          "inv-0"
+          "cnl-0"
         ],
         "constraint": [
           {
@@ -634,6 +649,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true,
         "mapping": [
@@ -712,8 +728,15 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
-        "isSummary": false
+        "isSummary": false,
+        "mapping": [
+          {
+            "identity": "rim",
+            "map": "N/A (to add?)"
+          }
+        ]
       },
       {
         "id": "ActivityDefinition.status",
@@ -743,6 +766,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": true,
         "isModifierReason": "This is labeled as \"Is Modifier\" because applications should not use a retired {{title}} without due consideration",
         "isSummary": true,
@@ -759,7 +783,7 @@
           ],
           "strength": "required",
           "description": "The lifecycle status of an artifact.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
+          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.1.0"
         },
         "mapping": [
           {
@@ -805,6 +829,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true,
         "mapping": [
@@ -826,7 +851,7 @@
         "id": "ActivityDefinition.subject[x]",
         "path": "ActivityDefinition.subject[x]",
         "short": "Type of individual the activity definition is intended for",
-        "definition": "A code or group definition that describes the intended subject of the activity being defined.",
+        "definition": "A code, group definition, or canonical reference that describes  or identifies the intended subject of the activity being defined.  Canonical references are allowed to support the definition of protocols for drug and substance quality specifications, and is allowed to reference a MedicinalProductDefinition, SubstanceDefinition, AdministrableProductDefinition, ManufacturedItemDefinition, or PackagedProductDefinition resource.",
         "min": 0,
         "max": "1",
         "base": {
@@ -843,6 +868,9 @@
             "targetProfile": [
               "http://hl7.org/fhir/StructureDefinition/Group"
             ]
+          },
+          {
+            "code": "canonical"
           }
         ],
         "meaningWhenMissing": "Patient",
@@ -856,6 +884,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "binding": {
@@ -873,6 +902,10 @@
           {
             "identity": "workflow",
             "map": "Definition.subject"
+          },
+          {
+            "identity": "rim",
+            "map": "N/A (to add?) { only applies for subject Patient? }"
           }
         ]
       },
@@ -957,6 +990,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true,
         "mapping": [
@@ -1047,6 +1081,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true,
         "mapping": [
@@ -1192,6 +1227,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -1240,6 +1276,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -1281,6 +1318,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -1326,6 +1364,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -1372,6 +1411,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -1418,6 +1458,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true,
         "mapping": [
@@ -1463,6 +1504,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "binding": {
@@ -1510,6 +1552,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -1546,8 +1589,15 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
-        "isSummary": false
+        "isSummary": false,
+        "mapping": [
+          {
+            "identity": "rim",
+            "map": ".participation[typeCode\u003dAUT] { not a great match, but there does not appear to be an editor concept in V3 participation }"
+          }
+        ]
       },
       {
         "id": "ActivityDefinition.reviewer",
@@ -1576,6 +1626,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -1612,6 +1663,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -1650,6 +1702,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -1689,6 +1742,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -1726,6 +1780,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true,
         "binding": {
@@ -1733,11 +1788,15 @@
             {
               "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
               "valueString": "ActivityDefinitionKind"
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-isCommonBinding",
+              "valueBoolean": true
             }
           ],
           "strength": "required",
           "description": "The kind of activity the definition is describing.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/request-resource-types|4.0.1"
+          "valueSet": "http://hl7.org/fhir/ValueSet/request-resource-types|4.1.0"
         },
         "mapping": [
           {
@@ -1777,8 +1836,15 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
-        "isSummary": false
+        "isSummary": false,
+        "mapping": [
+          {
+            "identity": "rim",
+            "map": ".templateId"
+          }
+        ]
       },
       {
         "id": "ActivityDefinition.code",
@@ -1809,6 +1875,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true,
         "binding": {
@@ -1856,6 +1923,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "binding": {
@@ -1867,8 +1935,14 @@
           ],
           "strength": "required",
           "description": "Codes indicating the degree of authority/intentionality associated with a request.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/request-intent|4.0.1"
-        }
+          "valueSet": "http://hl7.org/fhir/ValueSet/request-intent|4.1.0"
+        },
+        "mapping": [
+          {
+            "identity": "rim",
+            "map": ".moodCode { of the realized Activity }"
+          }
+        ]
       },
       {
         "id": "ActivityDefinition.priority",
@@ -1897,6 +1971,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "binding": {
@@ -1908,8 +1983,14 @@
           ],
           "strength": "required",
           "description": "Identifies the level of importance to be assigned to actioning the request.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/request-priority|4.0.1"
-        }
+          "valueSet": "http://hl7.org/fhir/ValueSet/request-priority|4.1.0"
+        },
+        "mapping": [
+          {
+            "identity": "rim",
+            "map": ".priority { of the realized activity }"
+          }
+        ]
       },
       {
         "id": "ActivityDefinition.doNotPerform",
@@ -1939,9 +2020,16 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": true,
         "isModifierReason": "If true this element negates the specified action. For Example,  instead of a request for a procedure, it is a request for the procedure to not occur.",
-        "isSummary": true
+        "isSummary": true,
+        "mapping": [
+          {
+            "identity": "rim",
+            "map": ".negationInd { of the realized activity }"
+          }
+        ]
       },
       {
         "id": "ActivityDefinition.timing[x]",
@@ -1986,6 +2074,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -2030,6 +2119,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -2060,12 +2150,13 @@
           {
             "key": "ele-1",
             "severity": "error",
-            "human": "All FHIR elements must have a @value or children",
-            "expression": "hasValue() or (children().count() \u003e id.count())",
-            "xpath": "@value|f:*|h:div",
+            "human": "All FHIR elements must have a @value or children unless an empty Parameters resource",
+            "expression": "hasValue() or (children().count() \u003e id.count()) or $this is Parameters",
+            "xpath": "@value|f:*|h:div|self::f:Parameters",
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -2095,7 +2186,7 @@
             "extension": [
               {
                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                "valueUrl": "string"
+                "valueUri": "id"
               }
             ],
             "code": "http://hl7.org/fhirpath/System.String"
@@ -2165,7 +2256,7 @@
         "short": "Extensions that cannot be ignored even if unrecognized",
         "definition": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself).",
         "comment": "There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
-        "requirements": "Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](http://hl7.org/fhir/extensibility.html#modifierExtension).",
+        "requirements": "Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](http://hl7.org/fhir/2021Mar/extensibility.html#modifierExtension).",
         "alias": [
           "extensions",
           "user content",
@@ -2238,6 +2329,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "binding": {
@@ -2249,7 +2341,7 @@
           ],
           "strength": "required",
           "description": "The type of participant in the activity.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/action-participant-type|4.0.1"
+          "valueSet": "http://hl7.org/fhir/ValueSet/action-participant-type|4.1.0"
         },
         "mapping": [
           {
@@ -2285,6 +2377,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "binding": {
@@ -2296,7 +2389,7 @@
           ],
           "strength": "example",
           "description": "Defines roles played by participants for the action.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/action-participant-role"
+          "valueSet": "http://terminology.hl7.org/ValueSet/action-participant-role"
         },
         "mapping": [
           {
@@ -2322,7 +2415,8 @@
             "code": "Reference",
             "targetProfile": [
               "http://hl7.org/fhir/StructureDefinition/Medication",
-              "http://hl7.org/fhir/StructureDefinition/Substance"
+              "http://hl7.org/fhir/StructureDefinition/Substance",
+              "http://hl7.org/fhir/StructureDefinition/Ingredient"
             ]
           },
           {
@@ -2339,6 +2433,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "binding": {
@@ -2392,6 +2487,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -2429,6 +2525,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -2467,6 +2564,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "binding": {
@@ -2518,8 +2616,15 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
-        "isSummary": false
+        "isSummary": false,
+        "mapping": [
+          {
+            "identity": "rim",
+            "map": "N/A"
+          }
+        ]
       },
       {
         "id": "ActivityDefinition.observationRequirement",
@@ -2552,8 +2657,15 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
-        "isSummary": false
+        "isSummary": false,
+        "mapping": [
+          {
+            "identity": "rim",
+            "map": "N/A"
+          }
+        ]
       },
       {
         "id": "ActivityDefinition.observationResultRequirement",
@@ -2585,8 +2697,15 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
-        "isSummary": false
+        "isSummary": false,
+        "mapping": [
+          {
+            "identity": "rim",
+            "map": "N/A"
+          }
+        ]
       },
       {
         "id": "ActivityDefinition.transform",
@@ -2619,6 +2738,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -2650,12 +2770,13 @@
           {
             "key": "ele-1",
             "severity": "error",
-            "human": "All FHIR elements must have a @value or children",
-            "expression": "hasValue() or (children().count() \u003e id.count())",
-            "xpath": "@value|f:*|h:div",
+            "human": "All FHIR elements must have a @value or children unless an empty Parameters resource",
+            "expression": "hasValue() or (children().count() \u003e id.count()) or $this is Parameters",
+            "xpath": "@value|f:*|h:div|self::f:Parameters",
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -2685,7 +2806,7 @@
             "extension": [
               {
                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                "valueUrl": "string"
+                "valueUri": "id"
               }
             ],
             "code": "http://hl7.org/fhirpath/System.String"
@@ -2755,7 +2876,7 @@
         "short": "Extensions that cannot be ignored even if unrecognized",
         "definition": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself).",
         "comment": "There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
-        "requirements": "Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](http://hl7.org/fhir/extensibility.html#modifierExtension).",
+        "requirements": "Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](http://hl7.org/fhir/2021Mar/extensibility.html#modifierExtension).",
         "alias": [
           "extensions",
           "user content",
@@ -2805,8 +2926,8 @@
         "id": "ActivityDefinition.dynamicValue.path",
         "path": "ActivityDefinition.dynamicValue.path",
         "short": "The path to the element to be set dynamically",
-        "definition": "The path to the element to be customized. This is the path on the resource that will hold the result of the calculation defined by the expression. The specified path SHALL be a FHIRPath resolveable on the specified target type of the ActivityDefinition, and SHALL consist only of identifiers, constant indexers, and a restricted subset of functions. The path is allowed to contain qualifiers (.) to traverse sub-elements, as well as indexers ([x]) to traverse multiple-cardinality sub-elements (see the [Simple FHIRPath Profile](http://hl7.org/fhir/fhirpath.html#simple) for full details).",
-        "comment": "The path attribute contains a [Simple FHIRPath Subset](http://hl7.org/fhir/fhirpath.html#simple) that allows path traversal, but not calculation.",
+        "definition": "The path to the element to be customized. This is the path on the resource that will hold the result of the calculation defined by the expression. The specified path SHALL be a FHIRPath resolveable on the specified target type of the ActivityDefinition, and SHALL consist only of identifiers, constant indexers, and a restricted subset of functions. The path is allowed to contain qualifiers (.) to traverse sub-elements, as well as indexers ([x]) to traverse multiple-cardinality sub-elements (see the [Simple FHIRPath Profile](http://hl7.org/fhir/2021Mar/fhirpath.html#simple) for full details).",
+        "comment": "The path attribute contains a [Simple FHIRPath Subset](http://hl7.org/fhir/2021Mar/fhirpath.html#simple) that allows path traversal, but not calculation.",
         "min": 1,
         "max": "1",
         "base": {
@@ -2829,6 +2950,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -2866,6 +2988,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [

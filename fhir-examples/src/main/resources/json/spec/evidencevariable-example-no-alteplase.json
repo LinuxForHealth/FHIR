@@ -1,0 +1,46 @@
+{
+  "resourceType": "EvidenceVariable",
+  "id": "example-no-alteplase",
+  "text": {
+    "status": "generated",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\n      \u003cp\u003e\n        \u0026quot;No alteplase\u0026quot; is an intended exposure concept that may be used in expressing what an Evidence is about.\n      \u003c/p\u003e\n\t\u003c/div\u003e"
+  },
+  "title": "no alteplase",
+  "status": "draft",
+  "useContext": [
+    {
+      "code": {
+        "system": "http://terminology.hl7.org/CodeSystem/usage-context-type",
+        "code": "focus"
+      },
+      "valueCodeableConcept": {
+        "text": "Stroke"
+      }
+    }
+  ],
+  "actual": false,
+  "characteristic": [
+    {
+      "description": "no alteplase",
+      "definitionCodeableConcept": {
+        "coding": [
+          {
+            "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+            "code": "8410",
+            "display": "alteplase"
+          }
+        ]
+      },
+      "exclude": true
+    }
+  ],
+  "meta": {
+    "tag": [
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+        "code": "HTEST",
+        "display": "test health data"
+      }
+    ]
+  }
+}

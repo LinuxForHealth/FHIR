@@ -19,7 +19,7 @@
     <valueCode value="trial-use"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/vitalsigns"/>
-  <version value="4.0.1"/>
+  <version value="4.1.0"/>
   <name value="observation-vitalsigns"/>
   <title value="Vital Signs Profile"/>
   <status value="draft"/>
@@ -33,7 +33,7 @@
     </telecom>
   </contact>
   <description value="FHIR Vital Signs Profile"/>
-  <fhirVersion value="4.0.1"/>
+  <fhirVersion value="4.1.0"/>
   <mapping>
     <identity value="workflow"/>
     <uri value="http://hl7.org/fhir/workflow"/>
@@ -98,8 +98,8 @@
         <key value="dom-3"/>
         <severity value="error"/>
         <human value="If the resource is contained in another resource, it SHALL be referred to from elsewhere in the resource or SHALL refer to the containing resource"/>
-        <expression value="contained.where(((&#39;#&#39;+id in (%resource.descendants().reference | %resource.descendants().as(canonical) | %resource.descendants().as(uri) | %resource.descendants().as(url))) or descendants().where(reference = &#39;#&#39;).exists() or descendants().where(as(canonical) = &#39;#&#39;).exists() or descendants().where(as(canonical) = &#39;#&#39;).exists()).not()).trace(&#39;unmatched&#39;, id).empty()"/>
-        <xpath value="not(exists(for $id in f:contained/*/f:id/@value return $contained[not(parent::*/descendant::f:reference/@value=concat(&#39;#&#39;, $contained/*/id/@value) or descendant::f:reference[@value=&#39;#&#39;])]))"/>
+        <expression value="contained.where(((id.exists() and (&#39;#&#39;+id in (%resource.descendants().reference | %resource.descendants().as(canonical) | %resource.descendants().as(uri) | %resource.descendants().as(url)))) or descendants().where(reference = &#39;#&#39;).exists() or descendants().where(as(canonical) = &#39;#&#39;).exists() or descendants().where(as(uri) = &#39;#&#39;).exists()).not()).trace(&#39;unmatched&#39;, id).empty()"/>
+        <xpath value="not(exists(for $resource in . return (for $contained in $resource/f:contained return $contained[not(descendant::f:*/@value=&#39;#&#39; or (exists(f:id) and $resource//f:*/@*=concat(&#39;#&#39;, $contained/*/f:id/@value)))])))"/>
         <source value="http://hl7.org/fhir/StructureDefinition/DomainResource"/>
       </constraint>
       <constraint>
@@ -155,6 +155,7 @@
         <expression value="(component.empty() and hasMember.empty()) implies (dataAbsentReason.exists() or value.exists())"/>
         <xpath value="f:component or f:memberOF or f:*[starts-with(local-name(.), &#39;value&#39;)] or f:dataAbsentReason"/>
       </constraint>
+      <mustSupport value="false"/>
       <isModifier value="false"/>
       <isSummary value="false"/>
       <mapping>
@@ -177,6 +178,10 @@
         <identity value="rim"/>
         <map value="Observation[classCode=OBS, moodCode=EVN]"/>
       </mapping>
+      <mapping>
+        <identity value="w5"/>
+        <map value="clinical.diagnostics"/>
+      </mapping>
     </element>
     <element id="Observation.id">
       <path value="Observation.id"/>
@@ -192,10 +197,11 @@
       </base>
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
-          <valueUrl value="string"/>
+          <valueUri value="id"/>
         </extension>
         <code value="http://hl7.org/fhirpath/System.String"/>
       </type>
+      <mustSupport value="false"/>
       <isModifier value="false"/>
       <isSummary value="true"/>
     </element>
@@ -221,6 +227,7 @@
         <xpath value="@value|f:*|h:div"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
+      <mustSupport value="false"/>
       <isModifier value="false"/>
       <isSummary value="true"/>
     </element>
@@ -247,6 +254,7 @@
         <xpath value="@value|f:*|h:div"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
+      <mustSupport value="false"/>
       <isModifier value="true"/>
       <isModifierReason value="This element is labeled as a modifier because the implicit rules may provide additional knowledge about the resource that modifies it&#39;s meaning or interpretation"/>
       <isSummary value="true"/>
@@ -274,6 +282,7 @@
         <xpath value="@value|f:*|h:div"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
+      <mustSupport value="false"/>
       <isModifier value="false"/>
       <isSummary value="false"/>
       <binding>
@@ -287,7 +296,7 @@
           <valueBoolean value="true"/>
         </extension>
         <strength value="preferred"/>
-        <description value="A human language."/>
+        <description value="IETF language tag"/>
         <valueSet value="http://hl7.org/fhir/ValueSet/languages"/>
       </binding>
     </element>
@@ -318,6 +327,7 @@
         <xpath value="@value|f:*|h:div"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
+      <mustSupport value="false"/>
       <isModifier value="false"/>
       <isSummary value="false"/>
       <mapping>
@@ -343,6 +353,7 @@
       <type>
         <code value="Resource"/>
       </type>
+      <mustSupport value="false"/>
       <isModifier value="false"/>
       <isSummary value="false"/>
       <mapping>
@@ -383,6 +394,7 @@
         <xpath value="exists(f:extension)!=exists(f:*[starts-with(local-name(.), &quot;value&quot;)])"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Extension"/>
       </constraint>
+      <mustSupport value="false"/>
       <isModifier value="false"/>
       <isSummary value="false"/>
       <mapping>
@@ -395,7 +407,7 @@
       <short value="Extensions that cannot be ignored"/>
       <definition value="May be used to represent additional information that is not part of the basic definition of the resource and that modifies the understanding of the element that contains it and/or the understanding of the containing element&#39;s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.&#xA;&#xA;Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself)."/>
       <comment value="There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone."/>
-      <requirements value="Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](http://hl7.org/fhir/extensibility.html#modifierExtension)."/>
+      <requirements value="Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](http://hl7.org/fhir/2021Mar/extensibility.html#modifierExtension)."/>
       <alias value="extensions"/>
       <alias value="user content"/>
       <min value="0"/>
@@ -424,6 +436,7 @@
         <xpath value="exists(f:extension)!=exists(f:*[starts-with(local-name(.), &quot;value&quot;)])"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Extension"/>
       </constraint>
+      <mustSupport value="false"/>
       <isModifier value="true"/>
       <isModifierReason value="Modifier extensions are expected to modify the meaning or interpretation of the resource that contains them"/>
       <isSummary value="false"/>
@@ -455,6 +468,7 @@
         <xpath value="@value|f:*|h:div"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
+      <mustSupport value="false"/>
       <isModifier value="false"/>
       <isSummary value="true"/>
       <mapping>
@@ -504,6 +518,7 @@
         <xpath value="@value|f:*|h:div"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
+      <mustSupport value="false"/>
       <isModifier value="false"/>
       <isSummary value="true"/>
       <mapping>
@@ -523,7 +538,7 @@
       <path value="Observation.partOf"/>
       <short value="Part of referenced event"/>
       <definition value="A larger event of which this particular Observation is a component or step.  For example,  an observation as part of a procedure."/>
-      <comment value="To link an Observation to an Encounter use `encounter`.  See the  [Notes](http://hl7.org/fhir/observation.html#obsgrouping) below for guidance on referencing another Observation."/>
+      <comment value="To link an Observation to an Encounter use `encounter`.  See the  [Notes](http://hl7.org/fhir/2021Mar/observation.html#obsgrouping) below for guidance on referencing another Observation."/>
       <alias value="Container"/>
       <min value="0"/>
       <max value="*"/>
@@ -549,6 +564,7 @@
         <xpath value="@value|f:*|h:div"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
+      <mustSupport value="false"/>
       <isModifier value="false"/>
       <isSummary value="true"/>
       <mapping>
@@ -600,7 +616,7 @@
           <valueString value="Status"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/observation-status|4.0.1"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/observation-status"/>
       </binding>
       <mapping>
         <identity value="workflow"/>
@@ -639,7 +655,7 @@
       </slicing>
       <short value="Classification of  type of observation"/>
       <definition value="A code that classifies the general type of observation being made."/>
-      <comment value="In addition to the required category valueset, this element allows various categorization schemes based on the owner&#x2019;s definition of the category and effectively multiple categories can be used at once.  The level of granularity is defined by the category concepts in the value set."/>
+      <comment value="In addition to the required category valueset, this element allows various categorization schemes based on the owner’s definition of the category and effectively multiple categories can be used at once.  The level of granularity is defined by the category concepts in the value set."/>
       <requirements value="Used for filtering what observations are retrieved and displayed."/>
       <min value="1"/>
       <max value="*"/>
@@ -684,7 +700,7 @@
       <sliceName value="VSCat"/>
       <short value="Classification of  type of observation"/>
       <definition value="A code that classifies the general type of observation being made."/>
-      <comment value="In addition to the required category valueset, this element allows various categorization schemes based on the owner&#x2019;s definition of the category and effectively multiple categories can be used at once.  The level of granularity is defined by the category concepts in the value set."/>
+      <comment value="In addition to the required category valueset, this element allows various categorization schemes based on the owner’s definition of the category and effectively multiple categories can be used at once.  The level of granularity is defined by the category concepts in the value set."/>
       <requirements value="Used for filtering what observations are retrieved and displayed."/>
       <min value="1"/>
       <max value="1"/>
@@ -738,7 +754,7 @@
       </base>
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
-          <valueUrl value="string"/>
+          <valueUri value="string"/>
         </extension>
         <code value="http://hl7.org/fhirpath/System.String"/>
       </type>
@@ -851,7 +867,7 @@
       </base>
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
-          <valueUrl value="string"/>
+          <valueUri value="string"/>
         </extension>
         <code value="http://hl7.org/fhirpath/System.String"/>
       </type>
@@ -990,6 +1006,9 @@
       </mapping>
     </element>
     <element id="Observation.category:VSCat.coding.code">
+      <extension url="http://hl7.org/fhir/build/StructureDefinition/no-binding">
+        <valueBoolean value="true"/>
+      </extension>
       <path value="Observation.category.coding.code"/>
       <short value="Symbol in syntax defined by the system"/>
       <definition value="A symbol in syntax defined by the system. The symbol may be a predefined code or an expression in a syntax defined by the coding system (e.g. post-coordination)."/>
@@ -1030,6 +1049,9 @@
       </mapping>
     </element>
     <element id="Observation.category:VSCat.coding.display">
+      <extension url="http://hl7.org/fhir/StructureDefinition/elementdefinition-translatable">
+        <valueBoolean value="true"/>
+      </extension>
       <extension url="http://hl7.org/fhir/StructureDefinition/elementdefinition-translatable">
         <valueBoolean value="true"/>
       </extension>
@@ -1113,6 +1135,9 @@
       <extension url="http://hl7.org/fhir/StructureDefinition/elementdefinition-translatable">
         <valueBoolean value="true"/>
       </extension>
+      <extension url="http://hl7.org/fhir/StructureDefinition/elementdefinition-translatable">
+        <valueBoolean value="true"/>
+      </extension>
       <path value="Observation.category.text"/>
       <short value="Plain text representation of the concept"/>
       <definition value="A human language representation of the concept as seen/selected/uttered by the user who entered the data and/or which represents the intended meaning of the user."/>
@@ -1180,11 +1205,14 @@
       <isModifier value="false"/>
       <isSummary value="true"/>
       <binding>
+        <extension url="http://hl7.org/fhir/build/StructureDefinition/definition">
+          <valueString value="This identifies the vital sign result type."/>
+        </extension>
         <extension url="http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName">
           <valueString value="VitalSigns"/>
         </extension>
         <strength value="extensible"/>
-        <description value="This identifies the vital sign result type."/>
+        <description value="This identifies the vital sign result type. Original source C-CDA R1.1 ,  HITSP Vital Sign Result Type."/>
         <valueSet value="http://hl7.org/fhir/ValueSet/observation-vitalsignresult"/>
       </binding>
       <mapping>
@@ -1254,7 +1282,7 @@
       </mapping>
       <mapping>
         <identity value="rim"/>
-        <map value="participation[typeCode=RTGT] "/>
+        <map value="participation[typeCode=RTGT]"/>
       </mapping>
       <mapping>
         <identity value="w5"/>
@@ -1268,7 +1296,7 @@
       <path value="Observation.focus"/>
       <short value="What the observation is about, when it is not about the subject of record"/>
       <definition value="The actual focus of an observation when it is not the patient of record representing something or someone associated with the patient such as a spouse, parent, fetus, or donor. For example, fetus observations in a mother&#39;s record.  The focus of an observation could also be an existing condition,  an intervention, the subject&#39;s diet,  another observation of the subject,  or a body structure such as tumor or implanted device.   An example use case would be using the Observation resource to capture whether the mother is trained to change her child&#39;s tracheostomy tube. In this example, the child is the patient of record and the mother is the focus."/>
-      <comment value="Typically, an observation is made about the subject - a patient, or group of patients, location, or device - and the distinction between the subject and what is directly measured for an observation is specified in the observation code itself ( e.g., &quot;Blood Glucose&quot;) and does not need to be represented separately using this element.  Use `specimen` if a reference to a specimen is required.  If a code is required instead of a resource use either  `bodysite` for bodysites or the standard extension [focusCode](http://hl7.org/fhir/extension-observation-focuscode.html)."/>
+      <comment value="Typically, an observation is made about the subject - a patient, or group of patients, location, or device - and the distinction between the subject and what is directly measured for an observation is specified in the observation code itself ( e.g., &quot;Blood Glucose&quot;) and does not need to be represented separately using this element.  Use `specimen` if a reference to a specimen is required.  If a code is required instead of a resource use either  `bodysite` for bodysites or the standard extension [focusCode](http://hl7.org/fhir/2021Mar/extension-observation-focuscode.html)."/>
       <min value="0"/>
       <max value="*"/>
       <base>
@@ -1288,6 +1316,7 @@
         <xpath value="@value|f:*|h:div"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
+      <mustSupport value="false"/>
       <isModifier value="false"/>
       <isSummary value="true"/>
       <mapping>
@@ -1333,6 +1362,7 @@
         <xpath value="@value|f:*|h:div"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
+      <mustSupport value="false"/>
       <isModifier value="false"/>
       <isSummary value="true"/>
       <mapping>
@@ -1356,7 +1386,7 @@
       <path value="Observation.effective[x]"/>
       <short value="Often just a dateTime for Vital Signs"/>
       <definition value="Often just a dateTime for Vital Signs."/>
-      <comment value="At least a date should be present unless this observation is a historical report.  For recording imprecise or &quot;fuzzy&quot; times (For example, a blood glucose measurement taken &quot;after breakfast&quot;) use the [Timing](http://hl7.org/fhir/datatypes.html#timing) datatype which allow the measurement to be tied to regular life events."/>
+      <comment value="At least a date should be present unless this observation is a historical report.  For recording imprecise or &quot;fuzzy&quot; times (For example, a blood glucose measurement taken &quot;after breakfast&quot;) use the [Timing](http://hl7.org/fhir/2021Mar/datatypes.html#timing) datatype which allow the measurement to be tied to regular life events."/>
       <requirements value="Knowing when an observation was deemed true is important to its relevance as well as determining trends."/>
       <alias value="Occurrence"/>
       <min value="1"/>
@@ -1412,7 +1442,7 @@
       <path value="Observation.issued"/>
       <short value="Date/Time this version was made available"/>
       <definition value="The date and time this version of the observation was made available to providers, typically after the results have been reviewed and verified."/>
-      <comment value="For Observations that don&#x2019;t require review and verification, it may be the same as the [`lastUpdated` ](http://hl7.org/fhir/resource-definitions.html#Meta.lastUpdated) time of the resource itself.  For Observations that do require review and verification for certain updates, it might not be the same as the `lastUpdated` time of the resource itself due to a non-clinically significant update that doesn&#x2019;t require the new version to be reviewed and verified again."/>
+      <comment value="For Observations that don’t require review and verification, it may be the same as the [`lastUpdated` ](http://hl7.org/fhir/2021Mar/resource-definitions.html#Meta.lastUpdated) time of the resource itself.  For Observations that do require review and verification for certain updates, it might not be the same as the `lastUpdated` time of the resource itself due to a non-clinically significant update that doesn’t require the new version to be reviewed and verified again."/>
       <min value="0"/>
       <max value="1"/>
       <base>
@@ -1431,6 +1461,7 @@
         <xpath value="@value|f:*|h:div"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
+      <mustSupport value="false"/>
       <isModifier value="false"/>
       <isSummary value="true"/>
       <mapping>
@@ -1475,6 +1506,7 @@
         <xpath value="@value|f:*|h:div"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
+      <mustSupport value="false"/>
       <isModifier value="false"/>
       <isSummary value="true"/>
       <mapping>
@@ -1498,7 +1530,7 @@
       <path value="Observation.value[x]"/>
       <short value="Vital Signs value are recorded using the Quantity data type. For supporting observations such as Cuff size could use other datatypes such as CodeableConcept."/>
       <definition value="Vital Signs value are recorded using the Quantity data type. For supporting observations such as Cuff size could use other datatypes such as CodeableConcept."/>
-      <comment value="An observation may have; 1)  a single value here, 2)  both a value and a set of related or component values,  or 3)  only a set of related or component values. If a value is present, the datatype for this element should be determined by Observation.code.  A CodeableConcept with just a text would be used instead of a string if the field was usually coded, or if the type associated with the Observation.code defines a coded value.  For additional guidance, see the [Notes section](http://hl7.org/fhir/observation.html#notes) below."/>
+      <comment value="An observation may have; 1)  a single value here, 2)  both a value and a set of related or component values,  or 3)  only a set of related or component values. If a value is present, the datatype for this element should be determined by Observation.code.  A CodeableConcept with just a text would be used instead of a string if the field was usually coded, or if the type associated with the Observation.code defines a coded value.  For additional guidance, see the [Notes section](http://hl7.org/fhir/2021Mar/observation.html#notes) below."/>
       <requirements value="9. SHALL contain exactly one [1..1] value with @xsi:type=&quot;PQ&quot; (CONF:7305)."/>
       <min value="0"/>
       <max value="1"/>
@@ -1603,6 +1635,9 @@
         <extension url="http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName">
           <valueString value="ObservationValueAbsentReason"/>
         </extension>
+        <extension url="http://hl7.org/fhir/StructureDefinition/elementdefinition-isCommonBinding">
+          <valueBoolean value="true"/>
+        </extension>
         <strength value="extensible"/>
         <description value="Codes specifying why the result (`Observation.value[x]`) is missing."/>
         <valueSet value="http://hl7.org/fhir/ValueSet/data-absent-reason"/>
@@ -1641,6 +1676,7 @@
         <xpath value="@value|f:*|h:div"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
+      <mustSupport value="false"/>
       <isModifier value="false"/>
       <isSummary value="false"/>
       <binding>
@@ -1692,6 +1728,7 @@
         <xpath value="@value|f:*|h:div"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
+      <mustSupport value="false"/>
       <isModifier value="false"/>
       <isSummary value="false"/>
       <mapping>
@@ -1707,7 +1744,7 @@
       <path value="Observation.bodySite"/>
       <short value="Observed body part"/>
       <definition value="Indicates the site on the subject&#39;s body where the observation was made (i.e. the target site)."/>
-      <comment value="Only used if not implicit in code found in Observation.code.  In many systems, this may be represented as a related observation instead of an inline component.   &#xA;&#xA;If the use case requires BodySite to be handled as a separate resource (e.g. to identify and track separately) then use the standard extension[ bodySite](http://hl7.org/fhir/extension-bodysite.html)."/>
+      <comment value="Only used if not implicit in code found in Observation.code.  In many systems, this may be represented as a related observation instead of an inline component.   &#xA;&#xA;If the use case requires BodySite to be handled as a separate resource (e.g. to identify and track separately) then use the standard extension[ bodySite](http://hl7.org/fhir/2021Mar/extension-bodysite.html)."/>
       <min value="0"/>
       <max value="1"/>
       <base>
@@ -1726,6 +1763,7 @@
         <xpath value="@value|f:*|h:div"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
+      <mustSupport value="false"/>
       <isModifier value="false"/>
       <isSummary value="false"/>
       <binding>
@@ -1733,7 +1771,7 @@
           <valueString value="BodySite"/>
         </extension>
         <strength value="example"/>
-        <description value="Codes describing anatomical locations. May include laterality."/>
+        <description value="SNOMED CT Body site concepts"/>
         <valueSet value="http://hl7.org/fhir/ValueSet/body-site"/>
       </binding>
       <mapping>
@@ -1777,6 +1815,7 @@
         <xpath value="@value|f:*|h:div"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
+      <mustSupport value="false"/>
       <isModifier value="false"/>
       <isSummary value="false"/>
       <binding>
@@ -1820,6 +1859,7 @@
         <xpath value="@value|f:*|h:div"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
+      <mustSupport value="false"/>
       <isModifier value="false"/>
       <isSummary value="false"/>
       <mapping>
@@ -1864,6 +1904,7 @@
         <xpath value="@value|f:*|h:div"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
+      <mustSupport value="false"/>
       <isModifier value="false"/>
       <isSummary value="false"/>
       <mapping>
@@ -1902,9 +1943,9 @@
       <constraint>
         <key value="ele-1"/>
         <severity value="error"/>
-        <human value="All FHIR elements must have a @value or children"/>
-        <expression value="hasValue() or (children().count() &gt; id.count())"/>
-        <xpath value="@value|f:*|h:div"/>
+        <human value="All FHIR elements must have a @value or children unless an empty Parameters resource"/>
+        <expression value="hasValue() or (children().count() &gt; id.count()) or $this is Parameters"/>
+        <xpath value="@value|f:*|h:div|self::f:Parameters"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
       <constraint>
@@ -1913,7 +1954,9 @@
         <human value="Must have at least a low or a high or text"/>
         <expression value="low.exists() or high.exists() or text.exists()"/>
         <xpath value="(exists(f:low) or exists(f:high)or exists(f:text))"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Observation"/>
       </constraint>
+      <mustSupport value="false"/>
       <isModifier value="false"/>
       <isSummary value="false"/>
       <mapping>
@@ -1939,7 +1982,7 @@
       </base>
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
-          <valueUrl value="string"/>
+          <valueUri value="id"/>
         </extension>
         <code value="http://hl7.org/fhirpath/System.String"/>
       </type>
@@ -1995,7 +2038,7 @@
       <short value="Extensions that cannot be ignored even if unrecognized"/>
       <definition value="May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element&#39;s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.&#xA;&#xA;Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself)."/>
       <comment value="There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone."/>
-      <requirements value="Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](http://hl7.org/fhir/extensibility.html#modifierExtension)."/>
+      <requirements value="Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](http://hl7.org/fhir/2021Mar/extensibility.html#modifierExtension)."/>
       <alias value="extensions"/>
       <alias value="user content"/>
       <alias value="modifiers"/>
@@ -2057,6 +2100,7 @@
         <xpath value="@value|f:*|h:div"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
+      <mustSupport value="false"/>
       <isModifier value="false"/>
       <isSummary value="false"/>
       <mapping>
@@ -2092,6 +2136,7 @@
         <xpath value="@value|f:*|h:div"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
+      <mustSupport value="false"/>
       <isModifier value="false"/>
       <isSummary value="false"/>
       <mapping>
@@ -2127,6 +2172,7 @@
         <xpath value="@value|f:*|h:div"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
+      <mustSupport value="false"/>
       <isModifier value="false"/>
       <isSummary value="false"/>
       <binding>
@@ -2174,6 +2220,7 @@
         <xpath value="@value|f:*|h:div"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
+      <mustSupport value="false"/>
       <isModifier value="false"/>
       <isSummary value="false"/>
       <binding>
@@ -2220,6 +2267,7 @@
         <xpath value="@value|f:*|h:div"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
+      <mustSupport value="false"/>
       <isModifier value="false"/>
       <isSummary value="false"/>
       <mapping>
@@ -2249,6 +2297,7 @@
         <xpath value="@value|f:*|h:div"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
+      <mustSupport value="false"/>
       <isModifier value="false"/>
       <isSummary value="false"/>
       <mapping>
@@ -2264,7 +2313,7 @@
       <path value="Observation.hasMember"/>
       <short value="Used when reporting vital signs panel components"/>
       <definition value="Used when reporting vital signs panel components."/>
-      <comment value="When using this element, an observation will typically have either a value or a set of related resources, although both may be present in some cases.  For a discussion on the ways Observations can assembled in groups together, see [Notes](http://hl7.org/fhir/observation.html#obsgrouping) below.  Note that a system may calculate results from [QuestionnaireResponse](http://hl7.org/fhir/questionnaireresponse.html)  into a final score and represent the score as an Observation."/>
+      <comment value="When using this element, an observation will typically have either a value or a set of related resources, although both may be present in some cases.  For a discussion on the ways Observations can assembled in groups together, see [Notes](http://hl7.org/fhir/2021Mar/observation.html#obsgrouping) below.  Note that a system may calculate results from [QuestionnaireResponse](http://hl7.org/fhir/2021Mar/questionnaireresponse.html)  into a final score and represent the score as an Observation."/>
       <min value="0"/>
       <max value="*"/>
       <base>
@@ -2286,6 +2335,7 @@
         <xpath value="@value|f:*|h:div"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
+      <mustSupport value="false"/>
       <isModifier value="false"/>
       <isSummary value="true"/>
       <mapping>
@@ -2301,7 +2351,7 @@
       <path value="Observation.derivedFrom"/>
       <short value="Related measurements the observation is made from"/>
       <definition value="The target resource that represents a measurement from which this observation value is derived. For example, a calculated anion gap or a fetal measurement based on an ultrasound image."/>
-      <comment value="All the reference choices that are listed in this element can represent clinical observations and other measurements that may be the source for a derived value.  The most common reference will be another Observation.  For a discussion on the ways Observations can assembled in groups together, see [Notes](http://hl7.org/fhir/observation.html#obsgrouping) below."/>
+      <comment value="All the reference choices that are listed in this element can represent clinical observations and other measurements that may be the source for a derived value.  The most common reference will be another Observation.  For a discussion on the ways Observations can assembled in groups together, see [Notes](http://hl7.org/fhir/2021Mar/observation.html#obsgrouping) below."/>
       <min value="0"/>
       <max value="*"/>
       <base>
@@ -2326,6 +2376,7 @@
         <xpath value="@value|f:*|h:div"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
+      <mustSupport value="false"/>
       <isModifier value="false"/>
       <isSummary value="true"/>
       <mapping>
@@ -2341,7 +2392,7 @@
       <path value="Observation.component"/>
       <short value="Used when reporting systolic and diastolic blood pressure."/>
       <definition value="Used when reporting systolic and diastolic blood pressure."/>
-      <comment value="For a discussion on the ways Observations can be assembled in groups together see [Notes](http://hl7.org/fhir/observation.html#notes) below."/>
+      <comment value="For a discussion on the ways Observations can be assembled in groups together see [Notes](http://hl7.org/fhir/2021Mar/observation.html#notes) below."/>
       <requirements value="Component observations share the same attributes in the Observation resource as the primary observation and are always treated a part of a single observation (they are not separable).   However, the reference range for the primary observation value is not inherited by the component values and is required when appropriate for each component observation."/>
       <min value="0"/>
       <max value="*"/>
@@ -2356,9 +2407,9 @@
       <constraint>
         <key value="ele-1"/>
         <severity value="error"/>
-        <human value="All FHIR elements must have a @value or children"/>
-        <expression value="hasValue() or (children().count() &gt; id.count())"/>
-        <xpath value="@value|f:*|h:div"/>
+        <human value="All FHIR elements must have a @value or children unless an empty Parameters resource"/>
+        <expression value="hasValue() or (children().count() &gt; id.count()) or $this is Parameters"/>
+        <xpath value="@value|f:*|h:div|self::f:Parameters"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
       <constraint>
@@ -2394,7 +2445,7 @@
       </base>
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
-          <valueUrl value="string"/>
+          <valueUri value="id"/>
         </extension>
         <code value="http://hl7.org/fhirpath/System.String"/>
       </type>
@@ -2450,7 +2501,7 @@
       <short value="Extensions that cannot be ignored even if unrecognized"/>
       <definition value="May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element&#39;s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.&#xA;&#xA;Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself)."/>
       <comment value="There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone."/>
-      <requirements value="Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](http://hl7.org/fhir/extensibility.html#modifierExtension)."/>
+      <requirements value="Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](http://hl7.org/fhir/2021Mar/extensibility.html#modifierExtension)."/>
       <alias value="extensions"/>
       <alias value="user content"/>
       <alias value="modifiers"/>
@@ -2516,11 +2567,14 @@
       <isModifier value="false"/>
       <isSummary value="true"/>
       <binding>
+        <extension url="http://hl7.org/fhir/build/StructureDefinition/definition">
+          <valueString value="This identifies the vital sign result type."/>
+        </extension>
         <extension url="http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName">
           <valueString value="VitalSigns"/>
         </extension>
         <strength value="extensible"/>
-        <description value="This identifies the vital sign result type."/>
+        <description value="This identifies the vital sign result type. Original source C-CDA R1.1 ,  HITSP Vital Sign Result Type."/>
         <valueSet value="http://hl7.org/fhir/ValueSet/observation-vitalsignresult"/>
       </binding>
       <mapping>
@@ -2544,7 +2598,7 @@
       <path value="Observation.component.value[x]"/>
       <short value="Vital Sign Value recorded with UCUM"/>
       <definition value="Vital Sign Value recorded with UCUM."/>
-      <comment value="Used when observation has a set of component observations. An observation may have both a value (e.g. an  Apgar score)  and component observations (the observations from which the Apgar score was derived). If a value is present, the datatype for this element should be determined by Observation.code. A CodeableConcept with just a text would be used instead of a string if the field was usually coded, or if the type associated with the Observation.code defines a coded value.  For additional guidance, see the [Notes section](http://hl7.org/fhir/observation.html#notes) below."/>
+      <comment value="Used when observation has a set of component observations. An observation may have both a value (e.g. an  Apgar score)  and component observations (the observations from which the Apgar score was derived). If a value is present, the datatype for this element should be determined by Observation.code. A CodeableConcept with just a text would be used instead of a string if the field was usually coded, or if the type associated with the Observation.code defines a coded value.  For additional guidance, see the [Notes section](http://hl7.org/fhir/2021Mar/observation.html#notes) below."/>
       <requirements value="9. SHALL contain exactly one [1..1] value with @xsi:type=&quot;PQ&quot; (CONF:7305)."/>
       <min value="0"/>
       <max value="1"/>
@@ -2599,12 +2653,15 @@
       <isModifier value="false"/>
       <isSummary value="true"/>
       <binding>
+        <extension url="http://hl7.org/fhir/build/StructureDefinition/definition">
+          <valueString value="Common UCUM units for recording Vital Signs."/>
+        </extension>
         <extension url="http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName">
           <valueString value="VitalSignsUnits"/>
         </extension>
         <strength value="required"/>
-        <description value="Common UCUM units for recording Vital Signs."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/ucum-vitals-common|4.0.1"/>
+        <description value="Commonly encountered UCUM units for recording Vital Signs."/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/ucum-vitals-common"/>
       </binding>
       <mapping>
         <identity value="sct-concept"/>
@@ -2656,6 +2713,9 @@
         <extension url="http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName">
           <valueString value="ObservationValueAbsentReason"/>
         </extension>
+        <extension url="http://hl7.org/fhir/StructureDefinition/elementdefinition-isCommonBinding">
+          <valueBoolean value="true"/>
+        </extension>
         <strength value="extensible"/>
         <description value="Codes specifying why the result (`Observation.value[x]`) is missing."/>
         <valueSet value="http://hl7.org/fhir/ValueSet/data-absent-reason"/>
@@ -2694,6 +2754,7 @@
         <xpath value="@value|f:*|h:div"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
+      <mustSupport value="false"/>
       <isModifier value="false"/>
       <isSummary value="false"/>
       <binding>
@@ -2734,7 +2795,7 @@
         <min value="0"/>
         <max value="*"/>
       </base>
-      <contentReference value="#Observation.referenceRange"/>
+      <contentReference value="http://hl7.org/fhir/StructureDefinition/Observation#Observation.referenceRange"/>
       <constraint>
         <key value="ele-1"/>
         <severity value="error"/>
@@ -2743,6 +2804,7 @@
         <xpath value="@value|f:*|h:div"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
+      <mustSupport value="false"/>
       <isModifier value="false"/>
       <isSummary value="false"/>
       <mapping>
@@ -2787,7 +2849,7 @@
           <valueString value="Status"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/observation-status|4.0.1"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/observation-status"/>
       </binding>
     </element>
     <element id="Observation.category">
@@ -2862,11 +2924,14 @@
       </type>
       <mustSupport value="true"/>
       <binding>
+        <extension url="http://hl7.org/fhir/build/StructureDefinition/definition">
+          <valueString value="This identifies the vital sign result type."/>
+        </extension>
         <extension url="http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName">
           <valueString value="VitalSigns"/>
         </extension>
         <strength value="extensible"/>
-        <description value="This identifies the vital sign result type."/>
+        <description value="This identifies the vital sign result type. Original source C-CDA R1.1 ,  HITSP Vital Sign Result Type."/>
         <valueSet value="http://hl7.org/fhir/ValueSet/observation-vitalsignresult"/>
       </binding>
     </element>
@@ -2967,11 +3032,14 @@
       </type>
       <mustSupport value="true"/>
       <binding>
+        <extension url="http://hl7.org/fhir/build/StructureDefinition/definition">
+          <valueString value="This identifies the vital sign result type."/>
+        </extension>
         <extension url="http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName">
           <valueString value="VitalSigns"/>
         </extension>
         <strength value="extensible"/>
-        <description value="This identifies the vital sign result type."/>
+        <description value="This identifies the vital sign result type. Original source C-CDA R1.1 ,  HITSP Vital Sign Result Type."/>
         <valueSet value="http://hl7.org/fhir/ValueSet/observation-vitalsignresult"/>
       </binding>
     </element>
@@ -2985,12 +3053,15 @@
       <condition value="vs-3"/>
       <mustSupport value="true"/>
       <binding>
+        <extension url="http://hl7.org/fhir/build/StructureDefinition/definition">
+          <valueString value="Common UCUM units for recording Vital Signs."/>
+        </extension>
         <extension url="http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName">
           <valueString value="VitalSignsUnits"/>
         </extension>
         <strength value="required"/>
-        <description value="Common UCUM units for recording Vital Signs."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/ucum-vitals-common|4.0.1"/>
+        <description value="Commonly encountered UCUM units for recording Vital Signs."/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/ucum-vitals-common"/>
       </binding>
     </element>
     <element id="Observation.component.dataAbsentReason">

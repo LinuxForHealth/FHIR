@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for Observation.effective[x]",
       "expansion": {
-        "identifier": "urn:uuid:b11fc471-4f0b-49e5-8f70-b758e6456e04",
-        "timestamp": "2019-11-01T09:36:18+11:00",
+        "identifier": "urn:uuid:bb4299c0-856a-457f-bbb6-f468dd5cb598",
+        "timestamp": "2021-12-06T19:04:02+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -32,8 +32,8 @@
       "status": "active",
       "description": "Type options for Observation.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:fcfd852e-9f8b-421e-b7c3-1db1d0ad7c73",
-        "timestamp": "2019-11-01T09:36:18+11:00",
+        "identifier": "urn:uuid:166e35a1-3d5b-4bce-af87-6119ff71fe2d",
+        "timestamp": "2021-12-06T19:04:02+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -100,8 +100,8 @@
       "status": "active",
       "description": "Type options for Observation.component.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:ba0fa036-4e40-4ef7-92f8-9442f167efcc",
-        "timestamp": "2019-11-01T09:36:18+11:00",
+        "identifier": "urn:uuid:49f70918-e84a-461e-bb55-322767cd24e5",
+        "timestamp": "2021-12-06T19:04:02+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -167,9 +167,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "draft",
-  "date": "2018-08-11T00:00:00+10:00",
+  "date": "2018-08-11T00:00:00+00:00",
   "publisher": "Health Level Seven International (Orders and Observations Workgroup)",
   "item": [
     {
@@ -357,9 +357,10 @@
             {
               "linkId": "Observation.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -607,7 +608,7 @@
                   }
                 }
               ],
-              "text": "A larger event of which this particular Observation is a component or step.  For example,  an observation as part of a procedure. To link an Observation to an Encounter use `encounter`.  See the  [Notes](http://hl7.org/fhir/observation.html#obsgrouping) below for guidance on referencing another Observation.",
+              "text": "A larger event of which this particular Observation is a component or step.  For example,  an observation as part of a procedure. To link an Observation to an Encounter use `encounter`.  See the  [Notes](http://hl7.org/fhir/2021Mar/observation.html#obsgrouping) below for guidance on referencing another Observation.",
               "type": "display"
             },
             {
@@ -670,9 +671,10 @@
             {
               "linkId": "Observation.status.value",
               "text": "status",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -714,9 +716,10 @@
             {
               "linkId": "Observation.category.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Observation.category.text",
@@ -769,9 +772,10 @@
             {
               "linkId": "Observation.category.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Observation.category.text",
@@ -824,9 +828,10 @@
             {
               "linkId": "Observation.code.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Observation.code.text",
@@ -921,7 +926,7 @@
                   }
                 }
               ],
-              "text": "The actual focus of an observation when it is not the patient of record representing something or someone associated with the patient such as a spouse, parent, fetus, or donor. For example, fetus observations in a mother\u0027s record.  The focus of an observation could also be an existing condition,  an intervention, the subject\u0027s diet,  another observation of the subject,  or a body structure such as tumor or implanted device.   An example use case would be using the Observation resource to capture whether the mother is trained to change her child\u0027s tracheostomy tube. In this example, the child is the patient of record and the mother is the focus. Typically, an observation is made about the subject - a patient, or group of patients, location, or device - and the distinction between the subject and what is directly measured for an observation is specified in the observation code itself ( e.g., \"Blood Glucose\") and does not need to be represented separately using this element.  Use `specimen` if a reference to a specimen is required.  If a code is required instead of a resource use either  `bodysite` for bodysites or the standard extension [focusCode](http://hl7.org/fhir/extension-observation-focuscode.html).",
+              "text": "The actual focus of an observation when it is not the patient of record representing something or someone associated with the patient such as a spouse, parent, fetus, or donor. For example, fetus observations in a mother\u0027s record.  The focus of an observation could also be an existing condition,  an intervention, the subject\u0027s diet,  another observation of the subject,  or a body structure such as tumor or implanted device.   An example use case would be using the Observation resource to capture whether the mother is trained to change her child\u0027s tracheostomy tube. In this example, the child is the patient of record and the mother is the focus. Typically, an observation is made about the subject - a patient, or group of patients, location, or device - and the distinction between the subject and what is directly measured for an observation is specified in the observation code itself ( e.g., \"Blood Glucose\") and does not need to be represented separately using this element.  Use `specimen` if a reference to a specimen is required.  If a code is required instead of a resource use either  `bodysite` for bodysites or the standard extension [focusCode](http://hl7.org/fhir/2021Mar/extension-observation-focuscode.html).",
               "type": "display"
             },
             {
@@ -1028,15 +1033,16 @@
                   }
                 }
               ],
-              "text": "Often just a dateTime for Vital Signs. At least a date should be present unless this observation is a historical report.  For recording imprecise or \"fuzzy\" times (For example, a blood glucose measurement taken \"after breakfast\") use the [Timing](http://hl7.org/fhir/datatypes.html#timing) datatype which allow the measurement to be tied to regular life events.",
+              "text": "Often just a dateTime for Vital Signs. At least a date should be present unless this observation is a historical report.  For recording imprecise or \"fuzzy\" times (For example, a blood glucose measurement taken \"after breakfast\") use the [Timing](http://hl7.org/fhir/2021Mar/datatypes.html#timing) datatype which allow the measurement to be tied to regular life events.",
               "type": "display"
             },
             {
               "linkId": "Observation.effective[x]._type",
               "text": "type",
-              "type": "choice",
+              "type": "coding",
               "required": false,
               "repeats": false,
+              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs2",
               "item": [
                 {
@@ -1118,7 +1124,7 @@
                   }
                 }
               ],
-              "text": "The date and time this version of the observation was made available to providers, typically after the results have been reviewed and verified. For Observations that don’t require review and verification, it may be the same as the [`lastUpdated` ](http://hl7.org/fhir/resource-definitions.html#Meta.lastUpdated) time of the resource itself.  For Observations that do require review and verification for certain updates, it might not be the same as the `lastUpdated` time of the resource itself due to a non-clinically significant update that doesn’t require the new version to be reviewed and verified again.",
+              "text": "The date and time this version of the observation was made available to providers, typically after the results have been reviewed and verified. For Observations that don’t require review and verification, it may be the same as the [`lastUpdated` ](http://hl7.org/fhir/2021Mar/resource-definitions.html#Meta.lastUpdated) time of the resource itself.  For Observations that do require review and verification for certain updates, it might not be the same as the `lastUpdated` time of the resource itself due to a non-clinically significant update that doesn’t require the new version to be reviewed and verified again.",
               "type": "display"
             },
             {
@@ -1207,15 +1213,16 @@
                   }
                 }
               ],
-              "text": "Vital Signs value are recorded using the Quantity data type. For supporting observations such as Cuff size could use other datatypes such as CodeableConcept. An observation may have; 1)  a single value here, 2)  both a value and a set of related or component values,  or 3)  only a set of related or component values. If a value is present, the datatype for this element should be determined by Observation.code.  A CodeableConcept with just a text would be used instead of a string if the field was usually coded, or if the type associated with the Observation.code defines a coded value.  For additional guidance, see the [Notes section](http://hl7.org/fhir/observation.html#notes) below.",
+              "text": "Vital Signs value are recorded using the Quantity data type. For supporting observations such as Cuff size could use other datatypes such as CodeableConcept. An observation may have; 1)  a single value here, 2)  both a value and a set of related or component values,  or 3)  only a set of related or component values. If a value is present, the datatype for this element should be determined by Observation.code.  A CodeableConcept with just a text would be used instead of a string if the field was usually coded, or if the type associated with the Observation.code defines a coded value.  For additional guidance, see the [Notes section](http://hl7.org/fhir/2021Mar/observation.html#notes) below.",
               "type": "display"
             },
             {
               "linkId": "Observation.value[x]._type",
               "text": "type",
-              "type": "choice",
+              "type": "coding",
               "required": false,
               "repeats": false,
+              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs3",
               "item": [
                 {
@@ -1231,9 +1238,10 @@
                     {
                       "linkId": "Observation.value[x]._null.comparator",
                       "text": "comp:",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "Observation.value[x]._null.value",
@@ -1278,9 +1286,10 @@
                     {
                       "linkId": "Observation.value[x]._null.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "Observation.value[x]._null.text",
@@ -1525,9 +1534,10 @@
             {
               "linkId": "Observation.dataAbsentReason.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Observation.dataAbsentReason.text",
@@ -1572,9 +1582,10 @@
             {
               "linkId": "Observation.interpretation.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Observation.interpretation.text",
@@ -1650,15 +1661,16 @@
                   }
                 }
               ],
-              "text": "Indicates the site on the subject\u0027s body where the observation was made (i.e. the target site). Only used if not implicit in code found in Observation.code.  In many systems, this may be represented as a related observation instead of an inline component.   \n\nIf the use case requires BodySite to be handled as a separate resource (e.g. to identify and track separately) then use the standard extension[ bodySite](http://hl7.org/fhir/extension-bodysite.html).",
+              "text": "Indicates the site on the subject\u0027s body where the observation was made (i.e. the target site). Only used if not implicit in code found in Observation.code.  In many systems, this may be represented as a related observation instead of an inline component.   \n\nIf the use case requires BodySite to be handled as a separate resource (e.g. to identify and track separately) then use the standard extension[ bodySite](http://hl7.org/fhir/2021Mar/extension-bodysite.html).",
               "type": "display"
             },
             {
               "linkId": "Observation.bodySite.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Observation.bodySite.text",
@@ -1707,9 +1719,10 @@
             {
               "linkId": "Observation.method.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Observation.method.text",
@@ -1990,9 +2003,10 @@
                 {
                   "linkId": "Observation.referenceRange.low.comparator",
                   "text": "comp:",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "Observation.referenceRange.low.value",
@@ -2062,9 +2076,10 @@
                 {
                   "linkId": "Observation.referenceRange.high.comparator",
                   "text": "comp:",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "Observation.referenceRange.high.value",
@@ -2134,9 +2149,10 @@
                 {
                   "linkId": "Observation.referenceRange.type.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "Observation.referenceRange.type.text",
@@ -2181,9 +2197,10 @@
                 {
                   "linkId": "Observation.referenceRange.appliesTo.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "Observation.referenceRange.appliesTo.text",
@@ -2328,7 +2345,7 @@
                   }
                 }
               ],
-              "text": "Used when reporting vital signs panel components. When using this element, an observation will typically have either a value or a set of related resources, although both may be present in some cases.  For a discussion on the ways Observations can assembled in groups together, see [Notes](http://hl7.org/fhir/observation.html#obsgrouping) below.  Note that a system may calculate results from [QuestionnaireResponse](http://hl7.org/fhir/questionnaireresponse.html)  into a final score and represent the score as an Observation.",
+              "text": "Used when reporting vital signs panel components. When using this element, an observation will typically have either a value or a set of related resources, although both may be present in some cases.  For a discussion on the ways Observations can assembled in groups together, see [Notes](http://hl7.org/fhir/2021Mar/observation.html#obsgrouping) below.  Note that a system may calculate results from [QuestionnaireResponse](http://hl7.org/fhir/2021Mar/questionnaireresponse.html)  into a final score and represent the score as an Observation.",
               "type": "display"
             },
             {
@@ -2377,7 +2394,7 @@
                   }
                 }
               ],
-              "text": "The target resource that represents a measurement from which this observation value is derived. For example, a calculated anion gap or a fetal measurement based on an ultrasound image. All the reference choices that are listed in this element can represent clinical observations and other measurements that may be the source for a derived value.  The most common reference will be another Observation.  For a discussion on the ways Observations can assembled in groups together, see [Notes](http://hl7.org/fhir/observation.html#obsgrouping) below.",
+              "text": "The target resource that represents a measurement from which this observation value is derived. For example, a calculated anion gap or a fetal measurement based on an ultrasound image. All the reference choices that are listed in this element can represent clinical observations and other measurements that may be the source for a derived value.  The most common reference will be another Observation.  For a discussion on the ways Observations can assembled in groups together, see [Notes](http://hl7.org/fhir/2021Mar/observation.html#obsgrouping) below.",
               "type": "display"
             },
             {
@@ -2407,7 +2424,7 @@
           "repeats": true,
           "item": [
             {
-              "text": "For a discussion on the ways Observations can be assembled in groups together see [Notes](http://hl7.org/fhir/observation.html#notes) below.",
+              "text": "For a discussion on the ways Observations can be assembled in groups together see [Notes](http://hl7.org/fhir/2021Mar/observation.html#notes) below.",
               "type": "display"
             },
             {
@@ -2567,9 +2584,10 @@
                 {
                   "linkId": "Observation.component.code.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "Observation.component.code.text",
@@ -2608,15 +2626,16 @@
                       }
                     }
                   ],
-                  "text": "Vital Sign Value recorded with UCUM. Used when observation has a set of component observations. An observation may have both a value (e.g. an  Apgar score)  and component observations (the observations from which the Apgar score was derived). If a value is present, the datatype for this element should be determined by Observation.code. A CodeableConcept with just a text would be used instead of a string if the field was usually coded, or if the type associated with the Observation.code defines a coded value.  For additional guidance, see the [Notes section](http://hl7.org/fhir/observation.html#notes) below.",
+                  "text": "Vital Sign Value recorded with UCUM. Used when observation has a set of component observations. An observation may have both a value (e.g. an  Apgar score)  and component observations (the observations from which the Apgar score was derived). If a value is present, the datatype for this element should be determined by Observation.code. A CodeableConcept with just a text would be used instead of a string if the field was usually coded, or if the type associated with the Observation.code defines a coded value.  For additional guidance, see the [Notes section](http://hl7.org/fhir/2021Mar/observation.html#notes) below.",
                   "type": "display"
                 },
                 {
                   "linkId": "Observation.component.value[x]._type",
                   "text": "type",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
                   "repeats": false,
+                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs4",
                   "item": [
                     {
@@ -2632,9 +2651,10 @@
                         {
                           "linkId": "Observation.component.value[x]._null.comparator",
                           "text": "comp:",
-                          "type": "choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOnly"
                         },
                         {
                           "linkId": "Observation.component.value[x]._null.value",
@@ -2679,9 +2699,10 @@
                         {
                           "linkId": "Observation.component.value[x]._null.coding",
                           "text": "code:",
-                          "type": "choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOrType"
                         },
                         {
                           "linkId": "Observation.component.value[x]._null.text",
@@ -2926,9 +2947,10 @@
                 {
                   "linkId": "Observation.component.dataAbsentReason.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "Observation.component.dataAbsentReason.text",
@@ -2973,9 +2995,10 @@
                 {
                   "linkId": "Observation.component.interpretation.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "Observation.component.interpretation.text",

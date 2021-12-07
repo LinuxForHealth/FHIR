@@ -6,9 +6,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-12-06T18:53:36+00:00",
   "publisher": "Health Level Seven International (Patient Administration)",
   "item": [
     {
@@ -192,9 +192,10 @@
             {
               "linkId": "Organization.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -443,9 +444,10 @@
             {
               "linkId": "Organization.type.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Organization.type.text",
@@ -572,9 +574,10 @@
             {
               "linkId": "Organization.telecom.system",
               "text": "type:",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Organization.telecom.value",
@@ -586,9 +589,10 @@
             {
               "linkId": "Organization.telecom.use",
               "text": "use:",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -668,9 +672,10 @@
             {
               "linkId": "Organization.address.use",
               "text": "use:",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -891,9 +896,10 @@
                 {
                   "linkId": "Organization.contact.purpose.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "Organization.contact.purpose.text",
@@ -996,9 +1002,10 @@
                 {
                   "linkId": "Organization.contact.telecom.system",
                   "text": "type:",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "Organization.contact.telecom.value",
@@ -1010,9 +1017,10 @@
                 {
                   "linkId": "Organization.contact.telecom.use",
                   "text": "use:",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 }
               ]
             },
@@ -1096,9 +1104,10 @@
                 {
                   "linkId": "Organization.contact.address.use",
                   "text": "use:",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 }
               ]
             }

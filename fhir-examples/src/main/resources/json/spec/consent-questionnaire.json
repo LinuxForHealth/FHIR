@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for Consent.source[x]",
       "expansion": {
-        "identifier": "urn:uuid:e74c3075-ef37-484c-91da-2eb3471b1bd7",
-        "timestamp": "2019-11-01T09:34:52+11:00",
+        "identifier": "urn:uuid:44e05356-1f83-4590-865f-b9be341f8166",
+        "timestamp": "2021-12-06T19:02:50+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -46,9 +46,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-12-06T18:53:36+00:00",
   "publisher": "Health Level Seven International (Community Based Collaborative Care)",
   "item": [
     {
@@ -236,9 +236,10 @@
             {
               "linkId": "Consent.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -451,9 +452,10 @@
             {
               "linkId": "Consent.status.value",
               "text": "status",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -499,9 +501,10 @@
             {
               "linkId": "Consent.scope.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Consent.scope.text",
@@ -550,9 +553,10 @@
             {
               "linkId": "Consent.category.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Consent.category.text",
@@ -791,9 +795,10 @@
             {
               "linkId": "Consent.source[x]._type",
               "text": "type",
-              "type": "choice",
+              "type": "coding",
               "required": false,
               "repeats": false,
+              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs2",
               "item": [
                 {
@@ -1086,9 +1091,10 @@
             {
               "linkId": "Consent.policyRule.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Consent.policyRule.text",
@@ -1531,9 +1537,10 @@
                 {
                   "linkId": "Consent.provision.type.value",
                   "text": "type",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOrType"
                 }
               ]
             },
@@ -1752,9 +1759,10 @@
                     {
                       "linkId": "Consent.provision.actor.role.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "Consent.provision.actor.role.text",
@@ -1858,9 +1866,10 @@
                 {
                   "linkId": "Consent.provision.action.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "Consent.provision.action.text",
@@ -1904,9 +1913,10 @@
                 {
                   "linkId": "Consent.provision.securityLabel.value",
                   "text": "Security Labels that define affected resources",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 }
               ]
             },
@@ -1943,9 +1953,10 @@
                 {
                   "linkId": "Consent.provision.purpose.value",
                   "text": "Context of activities covered by this rule",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 }
               ]
             },
@@ -1982,9 +1993,10 @@
                 {
                   "linkId": "Consent.provision.class.value",
                   "text": "e.g. Resource Type, Profile, CDA, etc.",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 }
               ]
             },
@@ -2022,9 +2034,10 @@
                 {
                   "linkId": "Consent.provision.code.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "Consent.provision.code.text",
@@ -2249,9 +2262,10 @@
                     {
                       "linkId": "Consent.provision.data.meaning.value",
                       "text": "meaning",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOrType"
                     }
                   ]
                 },
