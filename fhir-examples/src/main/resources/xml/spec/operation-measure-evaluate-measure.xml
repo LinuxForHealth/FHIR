@@ -3,10 +3,10 @@
 <OperationDefinition xmlns="http://hl7.org/fhir">
   <id value="Measure-evaluate-measure"/>
   <text>
-    <status value="generated"/>
+    <status value="extensions"/>
     <div xmlns="http://www.w3.org/1999/xhtml">
-      <h2>Evaluate Measure</h2>
-      <p>OPERATION: Evaluate Measure</p>
+      <h2>evaluate-measure</h2>
+      <p>OPERATION: evaluate-measure</p>
       <p>The official URL for this operation definition is: </p>
       <pre>http://hl7.org/fhir/OperationDefinition/Measure-evaluate-measure</pre>
       <div>
@@ -171,17 +171,18 @@
     </div>
   </text>
   <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm">
-    <valueInteger value="2"/>
+    <valueInteger value="3"/>
   </extension>
   <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
     <valueCode value="trial-use"/>
   </extension>
   <url value="http://hl7.org/fhir/OperationDefinition/Measure-evaluate-measure"/>
-  <version value="4.0.1"/>
-  <name value="Evaluate Measure"/>
+  <version value="4.1.0"/>
+  <name value="evaluate-measure"/>
+  <title value="Evaluate Measure"/>
   <status value="draft"/>
   <kind value="operation"/>
-  <date value="2019-11-01T09:29:23+11:00"/>
+  <date value="2021-12-06T18:53:36+00:00"/>
   <publisher value="HL7 (FHIR Project)"/>
   <contact>
     <telecom>
@@ -194,6 +195,7 @@
     </telecom>
   </contact>
   <description value="The evaluate-measure operation is used to calculate an eMeasure and obtain the results"/>
+  <affectsState value="false"/>
   <code value="evaluate-measure"/>
   <comment value="The effect of invoking this operation is to calculate the measure for the given subject, or all subjects if no subject is supplied, and return the results as a MeasureReport resource of the appropriate type. Note that whether or not this operation affects the state of the server depends on whether the server persists the generated MeasureReport. If the MeasureReport is not persisted, this operation can be invoked with GET"/>
   <resource value="Measure"/>

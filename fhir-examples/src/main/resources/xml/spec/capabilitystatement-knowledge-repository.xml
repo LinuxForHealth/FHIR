@@ -91,7 +91,7 @@
   <software>
     <name value="ACME Knowledge Repository Service"/>
   </software>
-  <fhirVersion value="4.0.1"/>
+  <fhirVersion value="4.1.0"/>
   <format value="json"/>
   <format value="xml"/>
   <rest>
@@ -108,7 +108,7 @@
     </security>
     <resource>
       <type value="Library"/>
-      <profile value="StructureDefinition/Library"/>
+      <profile value="http://hl7.org/fhir/StructureDefinition/Library"/>
       <interaction>
         <code value="read"/>
         <documentation value="Read allows clients to get the logical definitions of the libraries"/>
@@ -145,7 +145,7 @@
       <searchParam>
         <name value="version"/>
         <definition value="http://hl7.org/fhir/SearchParameter/Library-version"/>
-        <type value="string"/>
+        <type value="token"/>
       </searchParam>
       <searchParam>
         <name value="composed-of"/>
@@ -175,7 +175,7 @@
     </resource>
 	<resource>
       <type value="PlanDefinition"/>
-      <profile value="StructureDefinition/PlanDefinition"/>
+      <profile value="http://hl7.org/fhir/StructureDefinition/PlanDefinition"/>
       <interaction>
         <code value="read"/>
         <documentation value="Read allows clients to get the logical definitions of the plan definitions"/>
@@ -212,7 +212,7 @@
       <searchParam>
         <name value="version"/>
         <definition value="http://hl7.org/fhir/SearchParameter/PlanDefinition-version"/>
-        <type value="string"/>
+        <type value="token"/>
       </searchParam>
       <searchParam>
         <name value="composed-of"/>
@@ -242,7 +242,7 @@
     </resource>
 	<resource>
       <type value="ActivityDefinition"/>
-      <profile value="StructureDefinition/ActivityDefinition"/>
+      <profile value="http://hl7.org/fhir/StructureDefinition/ActivityDefinition"/>
       <interaction>
         <code value="read"/>
         <documentation value="Read allows clients to get the logical definitions of the activity definitions"/>
@@ -279,7 +279,7 @@
       <searchParam>
         <name value="version"/>
         <definition value="http://hl7.org/fhir/SearchParameter/ActivityDefinition-version"/>
-        <type value="string"/>
+        <type value="token"/>
       </searchParam>
       <searchParam>
         <name value="composed-of"/>
@@ -309,7 +309,7 @@
     </resource>
 	<resource>
       <type value="Measure"/>
-      <profile value="StructureDefinition/Measure"/>
+      <profile value="http://hl7.org/fhir/StructureDefinition/Measure"/>
       <interaction>
         <code value="read"/>
         <documentation value="Read allows clients to get the logical definitions of the measures"/>
@@ -346,7 +346,7 @@
       <searchParam>
         <name value="version"/>
         <definition value="http://hl7.org/fhir/SearchParameter/Measure-version"/>
-        <type value="string"/>
+        <type value="token"/>
       </searchParam>
       <searchParam>
         <name value="composed-of"/>
@@ -376,7 +376,7 @@
     </resource>
 	<resource>
 		<type value="Questionnaire"/>
-		<profile value="StructureDefinition/Questionnaire"/>
+		<profile value="http://hl7.org/fhir/StructureDefinition/Questionnaire"/>
 	  <interaction>
 		<code value="read"/>
 		<documentation value="Read allows clients to get the logical definitions of the measures"/>
@@ -423,12 +423,12 @@
       <searchParam>
         <name value="version"/>
         <definition value="http://hl7.org/fhir/SearchParameter/Questionnaire-version"/>
-        <type value="string"/>
+        <type value="token"/>
       </searchParam>
 	</resource>
     <operation>
 		<name value="data-requirements"/>
-		<definition value="OperationDefinition/Library-data-requirements"/>
+		<definition value="http://hl7.org/fhir/OperationDefinition/Library-data-requirements"/>
 	</operation>
   </rest>
 </CapabilityStatement>

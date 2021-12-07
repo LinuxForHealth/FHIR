@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for ValueSet.expansion.parameter.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:0f8ae79f-3b41-4759-acaa-fcf2342a2a40",
-        "timestamp": "2019-11-01T09:32:41+11:00",
+        "identifier": "urn:uuid:de43870b-cbbe-4f53-91ef-0376a1d970e1",
+        "timestamp": "2021-12-06T18:56:35+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -56,9 +56,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "active",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-12-06T18:53:36+00:00",
   "publisher": "Health Level Seven International (Vocabulary)",
   "item": [
     {
@@ -242,9 +242,10 @@
             {
               "linkId": "ValueSet.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -629,9 +630,10 @@
             {
               "linkId": "ValueSet.status.value",
               "text": "status",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -903,9 +905,10 @@
             {
               "linkId": "ValueSet.jurisdiction.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "ValueSet.jurisdiction.text",
@@ -1644,9 +1647,10 @@
                         {
                           "linkId": "ValueSet.compose.include.concept.code.value",
                           "text": "code",
-                          "type": "choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOnly"
                         }
                       ]
                     },
@@ -1856,9 +1860,10 @@
                             {
                               "linkId": "ValueSet.compose.include.concept.designation.language.value",
                               "text": "language",
-                              "type": "choice",
+                              "type": "coding",
                               "required": false,
-                              "repeats": false
+                              "repeats": false,
+                              "answerConstraint": "optionsOnly"
                             }
                           ]
                         },
@@ -1899,9 +1904,10 @@
                             {
                               "linkId": "ValueSet.compose.include.concept.designation.use.value",
                               "text": "Types of uses of designations",
-                              "type": "open-choice",
+                              "type": "coding",
                               "required": false,
-                              "repeats": false
+                              "repeats": false,
+                              "answerConstraint": "optionsOnly"
                             }
                           ]
                         },
@@ -2123,9 +2129,10 @@
                         {
                           "linkId": "ValueSet.compose.include.filter.property.value",
                           "text": "property",
-                          "type": "choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOnly"
                         }
                       ]
                     },
@@ -2170,9 +2177,10 @@
                         {
                           "linkId": "ValueSet.compose.include.filter.op.value",
                           "text": "op",
-                          "type": "choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOrType"
                         }
                       ]
                     },
@@ -2814,9 +2822,10 @@
                     {
                       "linkId": "ValueSet.expansion.parameter.value[x]._type",
                       "text": "type",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
                       "repeats": false,
+                      "answerConstraint": "optionsOnly",
                       "answerValueSet": "#vs2",
                       "item": [
                         {
@@ -2922,9 +2931,10 @@
                             {
                               "linkId": "ValueSet.expansion.parameter.value[x]._null.value",
                               "text": "value[x]",
-                              "type": "choice",
+                              "type": "coding",
                               "required": false,
-                              "repeats": false
+                              "repeats": false,
+                              "answerConstraint": "optionsOnly"
                             }
                           ]
                         },
@@ -3283,9 +3293,10 @@
                     {
                       "linkId": "ValueSet.expansion.contains.code.value",
                       "text": "code",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     }
                   ]
                 },

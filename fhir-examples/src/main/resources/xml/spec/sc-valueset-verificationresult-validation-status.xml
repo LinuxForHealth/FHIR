@@ -3,14 +3,14 @@
 <ConceptMap xmlns="http://hl7.org/fhir">
   <id value="sc-verificationresult-validation-status"/>
   <text>
-    <status value="generated"/>
+    <status value="extensions"/>
     <div xmlns="http://www.w3.org/1999/xhtml">
       <h2>validation-statusCanonicalMap (http://hl7.org/fhir/ConceptMap/sc-verificationresult-validation-status)</h2>
       <p>Mapping from 
         <a href="valueset-verificationresult-validation-status.html">http://hl7.org/fhir/ValueSet/verificationresult-validation-status</a> to 
         <a href="valueset-resource-status.html">http://hl7.org/fhir/ValueSet/resource-status</a>
       </p>
-      <p>DRAFT. Published on 06/06/2018 12:06:02 AM by HL7 (FHIR Project) (
+      <p>DRAFT. Published on Jun 5, 2018 2:06:02 PM by HL7 (FHIR Project) (
         <a href="http://hl7.org/fhir">http://hl7.org/fhir</a>, 
         <a href="mailto:fhir@lists.hl7.org">fhir@lists.hl7.org</a>). 
       </p>
@@ -25,7 +25,7 @@
             <b>Source Code</b>
           </td>
           <td>
-            <b>Equivalence</b>
+            <b>Relationship</b>
           </td>
           <td>
             <b>Destination Code</b>
@@ -33,28 +33,34 @@
         </tr>
         <tr>
           <td>successful</td>
-          <td>equivalent</td>
+          <td>
+            <a href="codesystem-concept-map-equivalence.html#equivalent">is equivalent to</a>
+          </td>
           <td>active</td>
         </tr>
         <tr>
           <td>failed</td>
-          <td>equivalent</td>
+          <td>
+            <a href="codesystem-concept-map-equivalence.html#equivalent">is equivalent to</a>
+          </td>
           <td>failed</td>
         </tr>
         <tr>
           <td>unknown</td>
-          <td>equivalent</td>
+          <td>
+            <a href="codesystem-concept-map-equivalence.html#equivalent">is equivalent to</a>
+          </td>
           <td>unknown</td>
         </tr>
       </table>
     </div>
   </text>
   <url value="http://hl7.org/fhir/ConceptMap/sc-verificationresult-validation-status"/>
-  <version value="4.0.1"/>
+  <version value="4.1.0"/>
   <name value="validation-statusCanonicalMap"/>
-  <title value="Canonical Mapping for &quot;Validation-status&quot;"/>
+  <title value="Canonical Mapping for &quot;validation-status&quot;"/>
   <status value="draft"/>
-  <date value="2018-06-06T00:06:02+10:00"/>
+  <date value="2018-06-05T14:06:02+00:00"/>
   <publisher value="HL7 (FHIR Project)"/>
   <contact>
     <telecom>
@@ -76,21 +82,21 @@
       <code value="successful"/>
       <target>
         <code value="active"/>
-        <equivalence value="equivalent"/>
+        <relationship value="equivalent"/>
       </target>
     </element>
     <element>
       <code value="failed"/>
       <target>
         <code value="failed"/>
-        <equivalence value="equivalent"/>
+        <relationship value="equivalent"/>
       </target>
     </element>
     <element>
       <code value="unknown"/>
       <target>
         <code value="unknown"/>
-        <equivalence value="equivalent"/>
+        <relationship value="equivalent"/>
       </target>
     </element>
   </group>

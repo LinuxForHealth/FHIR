@@ -3,10 +3,10 @@
 <OperationDefinition xmlns="http://hl7.org/fhir">
   <id value="StructureDefinition-snapshot"/>
   <text>
-    <status value="generated"/>
+    <status value="extensions"/>
     <div xmlns="http://www.w3.org/1999/xhtml">
-      <h2>Generate Snapshot</h2>
-      <p>OPERATION: Generate Snapshot</p>
+      <h2>snapshot</h2>
+      <p>OPERATION: snapshot</p>
       <p>The official URL for this operation definition is: </p>
       <pre>http://hl7.org/fhir/OperationDefinition/StructureDefinition-snapshot</pre>
       <div>
@@ -105,11 +105,12 @@
     <valueCode value="trial-use"/>
   </extension>
   <url value="http://hl7.org/fhir/OperationDefinition/StructureDefinition-snapshot"/>
-  <version value="4.0.1"/>
-  <name value="Generate Snapshot"/>
+  <version value="4.1.0"/>
+  <name value="snapshot"/>
+  <title value="Generate Snapshot"/>
   <status value="draft"/>
   <kind value="operation"/>
-  <date value="2019-11-01T09:29:23+11:00"/>
+  <date value="2021-12-06T18:53:36+00:00"/>
   <publisher value="HL7 (FHIR Project)"/>
   <contact>
     <telecom>
@@ -122,6 +123,7 @@
     </telecom>
   </contact>
   <description value="Generates a [StructureDefinition](structuredefinition.html) instance  with  a snapshot, based on a differential in a specified [StructureDefinition](structuredefinition.html).   &#xA;&#xA;If the operation is not called at the instance level, either *definition* or *url* &#39;in&#39; parameters must be provided. If more than one is specified, servers may raise an error or may resolve with the parameter of their choice. If called at the instance level, these parameters will be ignored."/>
+  <affectsState value="true"/>
   <code value="snapshot"/>
   <resource value="StructureDefinition"/>
   <system value="false"/>

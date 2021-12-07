@@ -1,0 +1,3536 @@
+{
+  "name": "fhir",
+  "documentation": "All definitions associated with the base FHIR Specification",
+  "packages": [
+    {
+      "name": "core",
+      "definitions": [
+        {
+          "name": "",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "attributes": [],
+          "associations": []
+        },
+        {
+          "name": "*",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "attributes": [],
+          "associations": []
+        },
+        {
+          "name": "Address",
+          "documentation": "An address expressed using postal conventions (as opposed to GPS or other location definition formats).  This data type may be used to convey addresses for use in delivering mail as well as for visiting locations which might not be valid for mail delivery.  There are a variety of postal address formats defined around the world.",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "Type",
+          "attributes": [
+            {
+              "name": "use",
+              "min": "0",
+              "max": "1",
+              "type": "code"
+            },
+            {
+              "name": "type",
+              "min": "0",
+              "max": "1",
+              "type": "code"
+            },
+            {
+              "name": "text",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "line",
+              "min": "0",
+              "max": "2147483647",
+              "type": "string"
+            },
+            {
+              "name": "city",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "district",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "state",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "postalCode",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "country",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "period",
+              "min": "0",
+              "max": "1",
+              "type": "Period"
+            }
+          ],
+          "associations": [
+            {
+              "name": "use",
+              "min": "0",
+              "max": "1",
+              "type": "code"
+            },
+            {
+              "name": "type",
+              "min": "0",
+              "max": "1",
+              "type": "code"
+            },
+            {
+              "name": "text",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "line",
+              "min": "0",
+              "max": "2147483647",
+              "type": "string"
+            },
+            {
+              "name": "city",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "district",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "state",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "postalCode",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "country",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "period",
+              "min": "0",
+              "max": "1",
+              "type": "Period"
+            }
+          ]
+        },
+        {
+          "name": "Age",
+          "documentation": "A duration of time during which an organism (or a process) has existed.",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "Quantity",
+          "attributes": [],
+          "associations": []
+        },
+        {
+          "name": "Annotation",
+          "documentation": "A  text note which also  contains information about who made the statement and when.",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "Type",
+          "attributes": [
+            {
+              "name": "author[x]",
+              "min": "0",
+              "max": "1",
+              "type": "Reference(Practitioner|Patient|RelatedPerson|Organization)|string"
+            },
+            {
+              "name": "time",
+              "min": "0",
+              "max": "1",
+              "type": "dateTime"
+            },
+            {
+              "name": "text",
+              "min": "1",
+              "max": "1",
+              "type": "markdown"
+            }
+          ],
+          "associations": [
+            {
+              "name": "author[x]",
+              "min": "0",
+              "max": "1",
+              "type": "Reference(Practitioner|Patient|RelatedPerson|Organization)|string"
+            },
+            {
+              "name": "time",
+              "min": "0",
+              "max": "1",
+              "type": "dateTime"
+            },
+            {
+              "name": "text",
+              "min": "1",
+              "max": "1",
+              "type": "markdown"
+            }
+          ]
+        },
+        {
+          "name": "Attachment",
+          "documentation": "For referring to data content defined in other formats.",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "Type",
+          "attributes": [
+            {
+              "name": "contentType",
+              "min": "0",
+              "max": "1",
+              "type": "code"
+            },
+            {
+              "name": "language",
+              "min": "0",
+              "max": "1",
+              "type": "code"
+            },
+            {
+              "name": "data",
+              "min": "0",
+              "max": "1",
+              "type": "base64Binary"
+            },
+            {
+              "name": "url",
+              "min": "0",
+              "max": "1",
+              "type": "url"
+            },
+            {
+              "name": "size",
+              "min": "0",
+              "max": "1",
+              "type": "unsignedInt"
+            },
+            {
+              "name": "hash",
+              "min": "0",
+              "max": "1",
+              "type": "base64Binary"
+            },
+            {
+              "name": "title",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "creation",
+              "min": "0",
+              "max": "1",
+              "type": "dateTime"
+            }
+          ],
+          "associations": [
+            {
+              "name": "contentType",
+              "min": "0",
+              "max": "1",
+              "type": "code"
+            },
+            {
+              "name": "language",
+              "min": "0",
+              "max": "1",
+              "type": "code"
+            },
+            {
+              "name": "data",
+              "min": "0",
+              "max": "1",
+              "type": "base64Binary"
+            },
+            {
+              "name": "url",
+              "min": "0",
+              "max": "1",
+              "type": "url"
+            },
+            {
+              "name": "size",
+              "min": "0",
+              "max": "1",
+              "type": "unsignedInt"
+            },
+            {
+              "name": "hash",
+              "min": "0",
+              "max": "1",
+              "type": "base64Binary"
+            },
+            {
+              "name": "title",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "creation",
+              "min": "0",
+              "max": "1",
+              "type": "dateTime"
+            }
+          ]
+        },
+        {
+          "name": "BackboneElement",
+          "documentation": "Base definition for all elements that are defined inside a resource - but not those in a data type.",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "Element",
+          "attributes": [
+            {
+              "name": "modifierExtension",
+              "min": "0",
+              "max": "2147483647",
+              "type": "Extension"
+            }
+          ],
+          "associations": [
+            {
+              "name": "modifierExtension",
+              "min": "0",
+              "max": "2147483647",
+              "type": "Extension"
+            }
+          ]
+        },
+        {
+          "name": "Base",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "attributes": [],
+          "associations": []
+        },
+        {
+          "name": "CodeableConcept",
+          "documentation": "A concept that may be defined by a formal reference to a terminology or ontology or may be provided by text.",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "Type",
+          "attributes": [
+            {
+              "name": "coding",
+              "min": "0",
+              "max": "2147483647",
+              "type": "Coding"
+            },
+            {
+              "name": "text",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            }
+          ],
+          "associations": [
+            {
+              "name": "coding",
+              "min": "0",
+              "max": "2147483647",
+              "type": "Coding"
+            },
+            {
+              "name": "text",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "name": "CodeableConcept|Quantity|Range|Reference(PlanDefinition|ResearchStudy|InsurancePlan|HealthcareService|Group|Location|Organization)",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "attributes": [],
+          "associations": []
+        },
+        {
+          "name": "CodeableConcept|Reference(Group)",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "attributes": [],
+          "associations": []
+        },
+        {
+          "name": "CodeableReference",
+          "documentation": "A reference to a resource (by instance), or instead, a reference to a cencept defined in a terminology or ontology (by class).",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "DataType",
+          "attributes": [
+            {
+              "name": "concept",
+              "min": "0",
+              "max": "1",
+              "type": "CodeableConcept"
+            },
+            {
+              "name": "reference",
+              "min": "0",
+              "max": "1",
+              "type": "Reference"
+            }
+          ],
+          "associations": [
+            {
+              "name": "concept",
+              "min": "0",
+              "max": "1",
+              "type": "CodeableConcept"
+            },
+            {
+              "name": "reference",
+              "min": "0",
+              "max": "1",
+              "type": "Reference"
+            }
+          ]
+        },
+        {
+          "name": "Coding",
+          "documentation": "A reference to a code defined by a terminology system.",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "Type",
+          "attributes": [
+            {
+              "name": "system",
+              "min": "0",
+              "max": "1",
+              "type": "uri"
+            },
+            {
+              "name": "version",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "code",
+              "min": "0",
+              "max": "1",
+              "type": "code"
+            },
+            {
+              "name": "display",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "userSelected",
+              "min": "0",
+              "max": "1",
+              "type": "boolean"
+            }
+          ],
+          "associations": [
+            {
+              "name": "system",
+              "min": "0",
+              "max": "1",
+              "type": "uri"
+            },
+            {
+              "name": "version",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "code",
+              "min": "0",
+              "max": "1",
+              "type": "code"
+            },
+            {
+              "name": "display",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "userSelected",
+              "min": "0",
+              "max": "1",
+              "type": "boolean"
+            }
+          ]
+        },
+        {
+          "name": "ContactDetail",
+          "documentation": "Specifies contact information for a person or organization.",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "Type",
+          "attributes": [
+            {
+              "name": "name",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "telecom",
+              "min": "0",
+              "max": "2147483647",
+              "type": "ContactPoint"
+            }
+          ],
+          "associations": [
+            {
+              "name": "name",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "telecom",
+              "min": "0",
+              "max": "2147483647",
+              "type": "ContactPoint"
+            }
+          ]
+        },
+        {
+          "name": "ContactPoint",
+          "documentation": "Details for all kinds of technology mediated contact points for a person or organization, including telephone, email, etc.",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "Type",
+          "attributes": [
+            {
+              "name": "system",
+              "min": "0",
+              "max": "1",
+              "type": "code"
+            },
+            {
+              "name": "value",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "use",
+              "min": "0",
+              "max": "1",
+              "type": "code"
+            },
+            {
+              "name": "rank",
+              "min": "0",
+              "max": "1",
+              "type": "positiveInt"
+            },
+            {
+              "name": "period",
+              "min": "0",
+              "max": "1",
+              "type": "Period"
+            }
+          ],
+          "associations": [
+            {
+              "name": "system",
+              "min": "0",
+              "max": "1",
+              "type": "code"
+            },
+            {
+              "name": "value",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "use",
+              "min": "0",
+              "max": "1",
+              "type": "code"
+            },
+            {
+              "name": "rank",
+              "min": "0",
+              "max": "1",
+              "type": "positiveInt"
+            },
+            {
+              "name": "period",
+              "min": "0",
+              "max": "1",
+              "type": "Period"
+            }
+          ]
+        },
+        {
+          "name": "Contributor",
+          "documentation": "A contributor to the content of a knowledge asset, including authors, editors, reviewers, and endorsers.",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "Type",
+          "attributes": [
+            {
+              "name": "type",
+              "min": "1",
+              "max": "1",
+              "type": "code"
+            },
+            {
+              "name": "name",
+              "min": "1",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "contact",
+              "min": "0",
+              "max": "2147483647",
+              "type": "ContactDetail"
+            }
+          ],
+          "associations": [
+            {
+              "name": "type",
+              "min": "1",
+              "max": "1",
+              "type": "code"
+            },
+            {
+              "name": "name",
+              "min": "1",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "contact",
+              "min": "0",
+              "max": "2147483647",
+              "type": "ContactDetail"
+            }
+          ]
+        },
+        {
+          "name": "Count",
+          "documentation": "A measured amount (or an amount that can potentially be measured). Note that measured amounts include amounts that are not precisely quantified, including amounts involving arbitrary units and floating currencies.",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "Quantity",
+          "attributes": [],
+          "associations": []
+        },
+        {
+          "name": "DataRequirement",
+          "documentation": "Describes a required data item for evaluation in terms of the type of data, and optional code or date-based filters of the data.",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "Type",
+          "attributes": [
+            {
+              "name": "type",
+              "min": "1",
+              "max": "1",
+              "type": "code"
+            },
+            {
+              "name": "profile",
+              "min": "0",
+              "max": "2147483647",
+              "type": "canonical(StructureDefinition)"
+            },
+            {
+              "name": "subject[x]",
+              "min": "0",
+              "max": "1",
+              "type": "CodeableConcept|Reference(Group)"
+            },
+            {
+              "name": "mustSupport",
+              "min": "0",
+              "max": "2147483647",
+              "type": "string"
+            },
+            {
+              "name": "codeFilter",
+              "min": "0",
+              "max": "2147483647",
+              "type": ""
+            },
+            {
+              "name": "dateFilter",
+              "min": "0",
+              "max": "2147483647",
+              "type": ""
+            },
+            {
+              "name": "limit",
+              "min": "0",
+              "max": "1",
+              "type": "positiveInt"
+            },
+            {
+              "name": "sort",
+              "min": "0",
+              "max": "2147483647",
+              "type": ""
+            }
+          ],
+          "associations": [
+            {
+              "name": "type",
+              "min": "1",
+              "max": "1",
+              "type": "code"
+            },
+            {
+              "name": "profile",
+              "min": "0",
+              "max": "2147483647",
+              "type": "canonical(StructureDefinition)"
+            },
+            {
+              "name": "subject[x]",
+              "min": "0",
+              "max": "1",
+              "type": "CodeableConcept|Reference(Group)"
+            },
+            {
+              "name": "mustSupport",
+              "min": "0",
+              "max": "2147483647",
+              "type": "string"
+            },
+            {
+              "name": "codeFilter",
+              "min": "0",
+              "max": "2147483647",
+              "type": ""
+            },
+            {
+              "name": "dateFilter",
+              "min": "0",
+              "max": "2147483647",
+              "type": ""
+            },
+            {
+              "name": "limit",
+              "min": "0",
+              "max": "1",
+              "type": "positiveInt"
+            },
+            {
+              "name": "sort",
+              "min": "0",
+              "max": "2147483647",
+              "type": ""
+            }
+          ]
+        },
+        {
+          "name": "DataType",
+          "documentation": "The base class for all re-useable types defined as part of the FHIR Specification.",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "Element",
+          "attributes": [],
+          "associations": []
+        },
+        {
+          "name": "Distance",
+          "documentation": "A length - a value with a unit that is a physical distance.",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "Quantity",
+          "attributes": [],
+          "associations": []
+        },
+        {
+          "name": "Dosage",
+          "documentation": "Indicates how the medication is/was taken or should be taken by the patient.",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "BackboneElement",
+          "attributes": [
+            {
+              "name": "sequence",
+              "min": "0",
+              "max": "1",
+              "type": "integer"
+            },
+            {
+              "name": "text",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "additionalInstruction",
+              "min": "0",
+              "max": "2147483647",
+              "type": "CodeableConcept"
+            },
+            {
+              "name": "patientInstruction",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "timing",
+              "min": "0",
+              "max": "1",
+              "type": "Timing"
+            },
+            {
+              "name": "asNeeded[x]",
+              "min": "0",
+              "max": "1",
+              "type": "boolean|CodeableConcept"
+            },
+            {
+              "name": "site",
+              "min": "0",
+              "max": "1",
+              "type": "CodeableConcept"
+            },
+            {
+              "name": "route",
+              "min": "0",
+              "max": "1",
+              "type": "CodeableConcept"
+            },
+            {
+              "name": "method",
+              "min": "0",
+              "max": "1",
+              "type": "CodeableConcept"
+            },
+            {
+              "name": "doseAndRate",
+              "min": "0",
+              "max": "2147483647",
+              "type": ""
+            },
+            {
+              "name": "maxDosePerPeriod",
+              "min": "0",
+              "max": "1",
+              "type": "Ratio"
+            },
+            {
+              "name": "maxDosePerAdministration",
+              "min": "0",
+              "max": "1",
+              "type": "SimpleQuantity"
+            },
+            {
+              "name": "maxDosePerLifetime",
+              "min": "0",
+              "max": "1",
+              "type": "SimpleQuantity"
+            }
+          ],
+          "associations": [
+            {
+              "name": "sequence",
+              "min": "0",
+              "max": "1",
+              "type": "integer"
+            },
+            {
+              "name": "text",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "additionalInstruction",
+              "min": "0",
+              "max": "2147483647",
+              "type": "CodeableConcept"
+            },
+            {
+              "name": "patientInstruction",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "timing",
+              "min": "0",
+              "max": "1",
+              "type": "Timing"
+            },
+            {
+              "name": "asNeeded[x]",
+              "min": "0",
+              "max": "1",
+              "type": "boolean|CodeableConcept"
+            },
+            {
+              "name": "site",
+              "min": "0",
+              "max": "1",
+              "type": "CodeableConcept"
+            },
+            {
+              "name": "route",
+              "min": "0",
+              "max": "1",
+              "type": "CodeableConcept"
+            },
+            {
+              "name": "method",
+              "min": "0",
+              "max": "1",
+              "type": "CodeableConcept"
+            },
+            {
+              "name": "doseAndRate",
+              "min": "0",
+              "max": "2147483647",
+              "type": ""
+            },
+            {
+              "name": "maxDosePerPeriod",
+              "min": "0",
+              "max": "1",
+              "type": "Ratio"
+            },
+            {
+              "name": "maxDosePerAdministration",
+              "min": "0",
+              "max": "1",
+              "type": "SimpleQuantity"
+            },
+            {
+              "name": "maxDosePerLifetime",
+              "min": "0",
+              "max": "1",
+              "type": "SimpleQuantity"
+            }
+          ]
+        },
+        {
+          "name": "Duration",
+          "documentation": "A length of time.",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "Quantity",
+          "attributes": [],
+          "associations": []
+        },
+        {
+          "name": "Duration|string",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "attributes": [],
+          "associations": []
+        },
+        {
+          "name": "Element",
+          "documentation": "Base definition for all elements in a resource.",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "attributes": [
+            {
+              "name": "id",
+              "min": "0",
+              "max": "1",
+              "type": "Base"
+            },
+            {
+              "name": "extension",
+              "min": "0",
+              "max": "2147483647",
+              "type": "Base"
+            }
+          ],
+          "associations": [
+            {
+              "name": "id",
+              "min": "0",
+              "max": "1",
+              "type": "Base"
+            },
+            {
+              "name": "extension",
+              "min": "0",
+              "max": "2147483647",
+              "type": "Base"
+            }
+          ]
+        },
+        {
+          "name": "ElementDefinition",
+          "documentation": "Captures constraints on each element within the resource, profile, or extension.",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "BackboneElement",
+          "attributes": [
+            {
+              "name": "path",
+              "min": "1",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "representation",
+              "min": "0",
+              "max": "2147483647",
+              "type": "code"
+            },
+            {
+              "name": "sliceName",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "sliceIsConstraining",
+              "min": "0",
+              "max": "1",
+              "type": "boolean"
+            },
+            {
+              "name": "label",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "code",
+              "min": "0",
+              "max": "2147483647",
+              "type": "Coding"
+            },
+            {
+              "name": "slicing",
+              "min": "0",
+              "max": "1",
+              "type": ""
+            },
+            {
+              "name": "short",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "definition",
+              "min": "0",
+              "max": "1",
+              "type": "markdown"
+            },
+            {
+              "name": "comment",
+              "min": "0",
+              "max": "1",
+              "type": "markdown"
+            },
+            {
+              "name": "requirements",
+              "min": "0",
+              "max": "1",
+              "type": "markdown"
+            },
+            {
+              "name": "alias",
+              "min": "0",
+              "max": "2147483647",
+              "type": "string"
+            },
+            {
+              "name": "min",
+              "min": "0",
+              "max": "1",
+              "type": "unsignedInt"
+            },
+            {
+              "name": "max",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "base",
+              "min": "0",
+              "max": "1",
+              "type": ""
+            },
+            {
+              "name": "contentReference",
+              "min": "0",
+              "max": "1",
+              "type": "uri"
+            },
+            {
+              "name": "type",
+              "min": "0",
+              "max": "2147483647",
+              "type": ""
+            },
+            {
+              "name": "defaultValue[x]",
+              "min": "0",
+              "max": "1",
+              "type": "*"
+            },
+            {
+              "name": "meaningWhenMissing",
+              "min": "0",
+              "max": "1",
+              "type": "markdown"
+            },
+            {
+              "name": "orderMeaning",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "fixed[x]",
+              "min": "0",
+              "max": "1",
+              "type": "*"
+            },
+            {
+              "name": "pattern[x]",
+              "min": "0",
+              "max": "1",
+              "type": "*"
+            },
+            {
+              "name": "example",
+              "min": "0",
+              "max": "2147483647",
+              "type": ""
+            },
+            {
+              "name": "minValue[x]",
+              "min": "0",
+              "max": "1",
+              "type": "date|dateTime|instant|time|decimal|integer|positiveInt|unsignedInt|Quantity"
+            },
+            {
+              "name": "maxValue[x]",
+              "min": "0",
+              "max": "1",
+              "type": "date|dateTime|instant|time|decimal|integer|positiveInt|unsignedInt|Quantity"
+            },
+            {
+              "name": "maxLength",
+              "min": "0",
+              "max": "1",
+              "type": "integer"
+            },
+            {
+              "name": "condition",
+              "min": "0",
+              "max": "2147483647",
+              "type": "id"
+            },
+            {
+              "name": "constraint",
+              "min": "0",
+              "max": "2147483647",
+              "type": ""
+            },
+            {
+              "name": "mustSupport",
+              "min": "0",
+              "max": "1",
+              "type": "boolean"
+            },
+            {
+              "name": "isModifier",
+              "min": "0",
+              "max": "1",
+              "type": "boolean"
+            },
+            {
+              "name": "isModifierReason",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "isSummary",
+              "min": "0",
+              "max": "1",
+              "type": "boolean"
+            },
+            {
+              "name": "binding",
+              "min": "0",
+              "max": "1",
+              "type": ""
+            },
+            {
+              "name": "mapping",
+              "min": "0",
+              "max": "2147483647",
+              "type": ""
+            }
+          ],
+          "associations": [
+            {
+              "name": "path",
+              "min": "1",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "representation",
+              "min": "0",
+              "max": "2147483647",
+              "type": "code"
+            },
+            {
+              "name": "sliceName",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "sliceIsConstraining",
+              "min": "0",
+              "max": "1",
+              "type": "boolean"
+            },
+            {
+              "name": "label",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "code",
+              "min": "0",
+              "max": "2147483647",
+              "type": "Coding"
+            },
+            {
+              "name": "slicing",
+              "min": "0",
+              "max": "1",
+              "type": ""
+            },
+            {
+              "name": "short",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "definition",
+              "min": "0",
+              "max": "1",
+              "type": "markdown"
+            },
+            {
+              "name": "comment",
+              "min": "0",
+              "max": "1",
+              "type": "markdown"
+            },
+            {
+              "name": "requirements",
+              "min": "0",
+              "max": "1",
+              "type": "markdown"
+            },
+            {
+              "name": "alias",
+              "min": "0",
+              "max": "2147483647",
+              "type": "string"
+            },
+            {
+              "name": "min",
+              "min": "0",
+              "max": "1",
+              "type": "unsignedInt"
+            },
+            {
+              "name": "max",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "base",
+              "min": "0",
+              "max": "1",
+              "type": ""
+            },
+            {
+              "name": "contentReference",
+              "min": "0",
+              "max": "1",
+              "type": "uri"
+            },
+            {
+              "name": "type",
+              "min": "0",
+              "max": "2147483647",
+              "type": ""
+            },
+            {
+              "name": "defaultValue[x]",
+              "min": "0",
+              "max": "1",
+              "type": "*"
+            },
+            {
+              "name": "meaningWhenMissing",
+              "min": "0",
+              "max": "1",
+              "type": "markdown"
+            },
+            {
+              "name": "orderMeaning",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "fixed[x]",
+              "min": "0",
+              "max": "1",
+              "type": "*"
+            },
+            {
+              "name": "pattern[x]",
+              "min": "0",
+              "max": "1",
+              "type": "*"
+            },
+            {
+              "name": "example",
+              "min": "0",
+              "max": "2147483647",
+              "type": ""
+            },
+            {
+              "name": "minValue[x]",
+              "min": "0",
+              "max": "1",
+              "type": "date|dateTime|instant|time|decimal|integer|positiveInt|unsignedInt|Quantity"
+            },
+            {
+              "name": "maxValue[x]",
+              "min": "0",
+              "max": "1",
+              "type": "date|dateTime|instant|time|decimal|integer|positiveInt|unsignedInt|Quantity"
+            },
+            {
+              "name": "maxLength",
+              "min": "0",
+              "max": "1",
+              "type": "integer"
+            },
+            {
+              "name": "condition",
+              "min": "0",
+              "max": "2147483647",
+              "type": "id"
+            },
+            {
+              "name": "constraint",
+              "min": "0",
+              "max": "2147483647",
+              "type": ""
+            },
+            {
+              "name": "mustSupport",
+              "min": "0",
+              "max": "1",
+              "type": "boolean"
+            },
+            {
+              "name": "isModifier",
+              "min": "0",
+              "max": "1",
+              "type": "boolean"
+            },
+            {
+              "name": "isModifierReason",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "isSummary",
+              "min": "0",
+              "max": "1",
+              "type": "boolean"
+            },
+            {
+              "name": "binding",
+              "min": "0",
+              "max": "1",
+              "type": ""
+            },
+            {
+              "name": "mapping",
+              "min": "0",
+              "max": "2147483647",
+              "type": ""
+            }
+          ]
+        },
+        {
+          "name": "Expression",
+          "documentation": "A expression that is evaluated in a specified context and returns a value. The context of use of the expression must specify the context in which the expression is evaluated, and how the result of the expression is used.",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "Element",
+          "attributes": [
+            {
+              "name": "description",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "name",
+              "min": "0",
+              "max": "1",
+              "type": "id"
+            },
+            {
+              "name": "language",
+              "min": "1",
+              "max": "1",
+              "type": "code"
+            },
+            {
+              "name": "expression",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "reference",
+              "min": "0",
+              "max": "1",
+              "type": "uri"
+            }
+          ],
+          "associations": [
+            {
+              "name": "description",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "name",
+              "min": "0",
+              "max": "1",
+              "type": "id"
+            },
+            {
+              "name": "language",
+              "min": "1",
+              "max": "1",
+              "type": "code"
+            },
+            {
+              "name": "expression",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "reference",
+              "min": "0",
+              "max": "1",
+              "type": "uri"
+            }
+          ]
+        },
+        {
+          "name": "Extension",
+          "documentation": "Optional Extension Element - found in all resources.",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "Type",
+          "attributes": [
+            {
+              "name": "url",
+              "min": "1",
+              "max": "1",
+              "type": "uri"
+            },
+            {
+              "name": "value[x]",
+              "min": "0",
+              "max": "1",
+              "type": "*"
+            }
+          ],
+          "associations": [
+            {
+              "name": "url",
+              "min": "1",
+              "max": "1",
+              "type": "uri"
+            },
+            {
+              "name": "value[x]",
+              "min": "0",
+              "max": "1",
+              "type": "*"
+            }
+          ]
+        },
+        {
+          "name": "HumanName",
+          "documentation": "A human\u0027s name with the ability to identify parts and usage.",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "Type",
+          "attributes": [
+            {
+              "name": "use",
+              "min": "0",
+              "max": "1",
+              "type": "code"
+            },
+            {
+              "name": "text",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "family",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "given",
+              "min": "0",
+              "max": "2147483647",
+              "type": "string"
+            },
+            {
+              "name": "prefix",
+              "min": "0",
+              "max": "2147483647",
+              "type": "string"
+            },
+            {
+              "name": "suffix",
+              "min": "0",
+              "max": "2147483647",
+              "type": "string"
+            },
+            {
+              "name": "period",
+              "min": "0",
+              "max": "1",
+              "type": "Period"
+            }
+          ],
+          "associations": [
+            {
+              "name": "use",
+              "min": "0",
+              "max": "1",
+              "type": "code"
+            },
+            {
+              "name": "text",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "family",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "given",
+              "min": "0",
+              "max": "2147483647",
+              "type": "string"
+            },
+            {
+              "name": "prefix",
+              "min": "0",
+              "max": "2147483647",
+              "type": "string"
+            },
+            {
+              "name": "suffix",
+              "min": "0",
+              "max": "2147483647",
+              "type": "string"
+            },
+            {
+              "name": "period",
+              "min": "0",
+              "max": "1",
+              "type": "Period"
+            }
+          ]
+        },
+        {
+          "name": "Identifier",
+          "documentation": "An identifier - identifies some entity uniquely and unambiguously. Typically this is used for business identifiers.",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "Type",
+          "attributes": [
+            {
+              "name": "use",
+              "min": "0",
+              "max": "1",
+              "type": "code"
+            },
+            {
+              "name": "type",
+              "min": "0",
+              "max": "1",
+              "type": "CodeableConcept"
+            },
+            {
+              "name": "system",
+              "min": "0",
+              "max": "1",
+              "type": "uri"
+            },
+            {
+              "name": "value",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "period",
+              "min": "0",
+              "max": "1",
+              "type": "Period"
+            },
+            {
+              "name": "assigner",
+              "min": "0",
+              "max": "1",
+              "type": "Reference(Organization)"
+            }
+          ],
+          "associations": [
+            {
+              "name": "use",
+              "min": "0",
+              "max": "1",
+              "type": "code"
+            },
+            {
+              "name": "type",
+              "min": "0",
+              "max": "1",
+              "type": "CodeableConcept"
+            },
+            {
+              "name": "system",
+              "min": "0",
+              "max": "1",
+              "type": "uri"
+            },
+            {
+              "name": "value",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "period",
+              "min": "0",
+              "max": "1",
+              "type": "Period"
+            },
+            {
+              "name": "assigner",
+              "min": "0",
+              "max": "1",
+              "type": "Reference(Organization)"
+            }
+          ]
+        },
+        {
+          "name": "MarketingStatus",
+          "documentation": "The marketing status describes the date when a medicinal product is actually put on the market or the date as of which it is no longer available.",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "BackboneElement",
+          "attributes": [
+            {
+              "name": "country",
+              "min": "0",
+              "max": "1",
+              "type": "CodeableConcept"
+            },
+            {
+              "name": "jurisdiction",
+              "min": "0",
+              "max": "1",
+              "type": "CodeableConcept"
+            },
+            {
+              "name": "status",
+              "min": "1",
+              "max": "1",
+              "type": "CodeableConcept"
+            },
+            {
+              "name": "dateRange",
+              "min": "0",
+              "max": "1",
+              "type": "Period"
+            },
+            {
+              "name": "restoreDate",
+              "min": "0",
+              "max": "1",
+              "type": "dateTime"
+            }
+          ],
+          "associations": [
+            {
+              "name": "country",
+              "min": "0",
+              "max": "1",
+              "type": "CodeableConcept"
+            },
+            {
+              "name": "jurisdiction",
+              "min": "0",
+              "max": "1",
+              "type": "CodeableConcept"
+            },
+            {
+              "name": "status",
+              "min": "1",
+              "max": "1",
+              "type": "CodeableConcept"
+            },
+            {
+              "name": "dateRange",
+              "min": "0",
+              "max": "1",
+              "type": "Period"
+            },
+            {
+              "name": "restoreDate",
+              "min": "0",
+              "max": "1",
+              "type": "dateTime"
+            }
+          ]
+        },
+        {
+          "name": "Meta",
+          "documentation": "The metadata about a resource. This is content in the resource that is maintained by the infrastructure. Changes to the content might not always be associated with version changes to the resource.",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "Element",
+          "attributes": [
+            {
+              "name": "versionId",
+              "min": "0",
+              "max": "1",
+              "type": "id"
+            },
+            {
+              "name": "lastUpdated",
+              "min": "0",
+              "max": "1",
+              "type": "instant"
+            },
+            {
+              "name": "source",
+              "min": "0",
+              "max": "1",
+              "type": "uri"
+            },
+            {
+              "name": "profile",
+              "min": "0",
+              "max": "2147483647",
+              "type": "canonical(StructureDefinition)"
+            },
+            {
+              "name": "security",
+              "min": "0",
+              "max": "2147483647",
+              "type": "Coding"
+            },
+            {
+              "name": "tag",
+              "min": "0",
+              "max": "2147483647",
+              "type": "Coding"
+            }
+          ],
+          "associations": [
+            {
+              "name": "versionId",
+              "min": "0",
+              "max": "1",
+              "type": "id"
+            },
+            {
+              "name": "lastUpdated",
+              "min": "0",
+              "max": "1",
+              "type": "instant"
+            },
+            {
+              "name": "source",
+              "min": "0",
+              "max": "1",
+              "type": "uri"
+            },
+            {
+              "name": "profile",
+              "min": "0",
+              "max": "2147483647",
+              "type": "canonical(StructureDefinition)"
+            },
+            {
+              "name": "security",
+              "min": "0",
+              "max": "2147483647",
+              "type": "Coding"
+            },
+            {
+              "name": "tag",
+              "min": "0",
+              "max": "2147483647",
+              "type": "Coding"
+            }
+          ]
+        },
+        {
+          "name": "Money",
+          "documentation": "An amount of economic utility in some recognized currency.",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "Type",
+          "attributes": [
+            {
+              "name": "value",
+              "min": "0",
+              "max": "1",
+              "type": "decimal"
+            },
+            {
+              "name": "currency",
+              "min": "0",
+              "max": "1",
+              "type": "code"
+            }
+          ],
+          "associations": [
+            {
+              "name": "value",
+              "min": "0",
+              "max": "1",
+              "type": "decimal"
+            },
+            {
+              "name": "currency",
+              "min": "0",
+              "max": "1",
+              "type": "code"
+            }
+          ]
+        },
+        {
+          "name": "Narrative",
+          "documentation": "A human-readable summary of the resource conveying the essential clinical and business information for the resource.",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "Type",
+          "attributes": [
+            {
+              "name": "status",
+              "min": "1",
+              "max": "1",
+              "type": "code"
+            },
+            {
+              "name": "div",
+              "min": "1",
+              "max": "1",
+              "type": "xhtml"
+            }
+          ],
+          "associations": [
+            {
+              "name": "status",
+              "min": "1",
+              "max": "1",
+              "type": "code"
+            },
+            {
+              "name": "div",
+              "min": "1",
+              "max": "1",
+              "type": "xhtml"
+            }
+          ]
+        },
+        {
+          "name": "ParameterDefinition",
+          "documentation": "The parameters to the module. This collection specifies both the input and output parameters. Input parameters are provided by the caller as part of the $evaluate operation. Output parameters are included in the GuidanceResponse.",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "Type",
+          "attributes": [
+            {
+              "name": "name",
+              "min": "0",
+              "max": "1",
+              "type": "code"
+            },
+            {
+              "name": "use",
+              "min": "1",
+              "max": "1",
+              "type": "code"
+            },
+            {
+              "name": "min",
+              "min": "0",
+              "max": "1",
+              "type": "integer"
+            },
+            {
+              "name": "max",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "documentation",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "type",
+              "min": "1",
+              "max": "1",
+              "type": "code"
+            },
+            {
+              "name": "profile",
+              "min": "0",
+              "max": "1",
+              "type": "canonical(StructureDefinition)"
+            }
+          ],
+          "associations": [
+            {
+              "name": "name",
+              "min": "0",
+              "max": "1",
+              "type": "code"
+            },
+            {
+              "name": "use",
+              "min": "1",
+              "max": "1",
+              "type": "code"
+            },
+            {
+              "name": "min",
+              "min": "0",
+              "max": "1",
+              "type": "integer"
+            },
+            {
+              "name": "max",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "documentation",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "type",
+              "min": "1",
+              "max": "1",
+              "type": "code"
+            },
+            {
+              "name": "profile",
+              "min": "0",
+              "max": "1",
+              "type": "canonical(StructureDefinition)"
+            }
+          ]
+        },
+        {
+          "name": "Period",
+          "documentation": "A time period defined by a start and end date and optionally time.",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "Type",
+          "attributes": [
+            {
+              "name": "start",
+              "min": "0",
+              "max": "1",
+              "type": "dateTime"
+            },
+            {
+              "name": "end",
+              "min": "0",
+              "max": "1",
+              "type": "dateTime"
+            }
+          ],
+          "associations": [
+            {
+              "name": "start",
+              "min": "0",
+              "max": "1",
+              "type": "dateTime"
+            },
+            {
+              "name": "end",
+              "min": "0",
+              "max": "1",
+              "type": "dateTime"
+            }
+          ]
+        },
+        {
+          "name": "Population",
+          "documentation": "A populatioof people with some set of grouping criteria.",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "BackboneElement",
+          "attributes": [
+            {
+              "name": "age[x]",
+              "min": "0",
+              "max": "1",
+              "type": "Range|CodeableConcept"
+            },
+            {
+              "name": "gender",
+              "min": "0",
+              "max": "1",
+              "type": "CodeableConcept"
+            },
+            {
+              "name": "race",
+              "min": "0",
+              "max": "1",
+              "type": "CodeableConcept"
+            },
+            {
+              "name": "physiologicalCondition",
+              "min": "0",
+              "max": "1",
+              "type": "CodeableConcept"
+            }
+          ],
+          "associations": [
+            {
+              "name": "age[x]",
+              "min": "0",
+              "max": "1",
+              "type": "Range|CodeableConcept"
+            },
+            {
+              "name": "gender",
+              "min": "0",
+              "max": "1",
+              "type": "CodeableConcept"
+            },
+            {
+              "name": "race",
+              "min": "0",
+              "max": "1",
+              "type": "CodeableConcept"
+            },
+            {
+              "name": "physiologicalCondition",
+              "min": "0",
+              "max": "1",
+              "type": "CodeableConcept"
+            }
+          ]
+        },
+        {
+          "name": "PrimitiveType",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "attributes": [],
+          "associations": []
+        },
+        {
+          "name": "ProdCharacteristic",
+          "documentation": "The marketing status describes the date when a medicinal product is actually put on the market or the date as of which it is no longer available.",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "BackboneElement",
+          "attributes": [
+            {
+              "name": "height",
+              "min": "0",
+              "max": "1",
+              "type": "Quantity"
+            },
+            {
+              "name": "width",
+              "min": "0",
+              "max": "1",
+              "type": "Quantity"
+            },
+            {
+              "name": "depth",
+              "min": "0",
+              "max": "1",
+              "type": "Quantity"
+            },
+            {
+              "name": "weight",
+              "min": "0",
+              "max": "1",
+              "type": "Quantity"
+            },
+            {
+              "name": "nominalVolume",
+              "min": "0",
+              "max": "1",
+              "type": "Quantity"
+            },
+            {
+              "name": "externalDiameter",
+              "min": "0",
+              "max": "1",
+              "type": "Quantity"
+            },
+            {
+              "name": "shape",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "color",
+              "min": "0",
+              "max": "2147483647",
+              "type": "string"
+            },
+            {
+              "name": "imprint",
+              "min": "0",
+              "max": "2147483647",
+              "type": "string"
+            },
+            {
+              "name": "image",
+              "min": "0",
+              "max": "2147483647",
+              "type": "Attachment"
+            },
+            {
+              "name": "scoring",
+              "min": "0",
+              "max": "1",
+              "type": "CodeableConcept"
+            }
+          ],
+          "associations": [
+            {
+              "name": "height",
+              "min": "0",
+              "max": "1",
+              "type": "Quantity"
+            },
+            {
+              "name": "width",
+              "min": "0",
+              "max": "1",
+              "type": "Quantity"
+            },
+            {
+              "name": "depth",
+              "min": "0",
+              "max": "1",
+              "type": "Quantity"
+            },
+            {
+              "name": "weight",
+              "min": "0",
+              "max": "1",
+              "type": "Quantity"
+            },
+            {
+              "name": "nominalVolume",
+              "min": "0",
+              "max": "1",
+              "type": "Quantity"
+            },
+            {
+              "name": "externalDiameter",
+              "min": "0",
+              "max": "1",
+              "type": "Quantity"
+            },
+            {
+              "name": "shape",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "color",
+              "min": "0",
+              "max": "2147483647",
+              "type": "string"
+            },
+            {
+              "name": "imprint",
+              "min": "0",
+              "max": "2147483647",
+              "type": "string"
+            },
+            {
+              "name": "image",
+              "min": "0",
+              "max": "2147483647",
+              "type": "Attachment"
+            },
+            {
+              "name": "scoring",
+              "min": "0",
+              "max": "1",
+              "type": "CodeableConcept"
+            }
+          ]
+        },
+        {
+          "name": "ProductShelfLife",
+          "documentation": "The shelf-life and storage information for a medicinal product item or container can be described using this class.",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "BackboneElement",
+          "attributes": [
+            {
+              "name": "type",
+              "min": "0",
+              "max": "1",
+              "type": "CodeableConcept"
+            },
+            {
+              "name": "period[x]",
+              "min": "0",
+              "max": "1",
+              "type": "Duration|string"
+            },
+            {
+              "name": "specialPrecautionsForStorage",
+              "min": "0",
+              "max": "2147483647",
+              "type": "CodeableConcept"
+            }
+          ],
+          "associations": [
+            {
+              "name": "type",
+              "min": "0",
+              "max": "1",
+              "type": "CodeableConcept"
+            },
+            {
+              "name": "period[x]",
+              "min": "0",
+              "max": "1",
+              "type": "Duration|string"
+            },
+            {
+              "name": "specialPrecautionsForStorage",
+              "min": "0",
+              "max": "2147483647",
+              "type": "CodeableConcept"
+            }
+          ]
+        },
+        {
+          "name": "Quantity",
+          "documentation": "A measured amount (or an amount that can potentially be measured). Note that measured amounts include amounts that are not precisely quantified, including amounts involving arbitrary units and floating currencies.",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "Type",
+          "attributes": [
+            {
+              "name": "value",
+              "min": "0",
+              "max": "1",
+              "type": "decimal"
+            },
+            {
+              "name": "comparator",
+              "min": "0",
+              "max": "1",
+              "type": "code"
+            },
+            {
+              "name": "unit",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "system",
+              "min": "0",
+              "max": "1",
+              "type": "uri"
+            },
+            {
+              "name": "code",
+              "min": "0",
+              "max": "1",
+              "type": "code"
+            }
+          ],
+          "associations": [
+            {
+              "name": "value",
+              "min": "0",
+              "max": "1",
+              "type": "decimal"
+            },
+            {
+              "name": "comparator",
+              "min": "0",
+              "max": "1",
+              "type": "code"
+            },
+            {
+              "name": "unit",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "system",
+              "min": "0",
+              "max": "1",
+              "type": "uri"
+            },
+            {
+              "name": "code",
+              "min": "0",
+              "max": "1",
+              "type": "code"
+            }
+          ]
+        },
+        {
+          "name": "Range",
+          "documentation": "A set of ordered Quantities defined by a low and high limit.",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "Type",
+          "attributes": [
+            {
+              "name": "low",
+              "min": "0",
+              "max": "1",
+              "type": "SimpleQuantity"
+            },
+            {
+              "name": "high",
+              "min": "0",
+              "max": "1",
+              "type": "SimpleQuantity"
+            }
+          ],
+          "associations": [
+            {
+              "name": "low",
+              "min": "0",
+              "max": "1",
+              "type": "SimpleQuantity"
+            },
+            {
+              "name": "high",
+              "min": "0",
+              "max": "1",
+              "type": "SimpleQuantity"
+            }
+          ]
+        },
+        {
+          "name": "Range|CodeableConcept",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "attributes": [],
+          "associations": []
+        },
+        {
+          "name": "Ratio",
+          "documentation": "A relationship of two Quantity values - expressed as a numerator and a denominator.",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "Type",
+          "attributes": [
+            {
+              "name": "numerator",
+              "min": "0",
+              "max": "1",
+              "type": "Quantity"
+            },
+            {
+              "name": "denominator",
+              "min": "0",
+              "max": "1",
+              "type": "Quantity"
+            }
+          ],
+          "associations": [
+            {
+              "name": "numerator",
+              "min": "0",
+              "max": "1",
+              "type": "Quantity"
+            },
+            {
+              "name": "denominator",
+              "min": "0",
+              "max": "1",
+              "type": "Quantity"
+            }
+          ]
+        },
+        {
+          "name": "RatioRange",
+          "documentation": "A range of ratios expressed as a low and high numerator and a denominator.",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "DataType",
+          "attributes": [
+            {
+              "name": "lowNumerator",
+              "min": "0",
+              "max": "1",
+              "type": "SimpleQuantity"
+            },
+            {
+              "name": "highNumerator",
+              "min": "0",
+              "max": "1",
+              "type": "SimpleQuantity"
+            },
+            {
+              "name": "denominator",
+              "min": "0",
+              "max": "1",
+              "type": "SimpleQuantity"
+            }
+          ],
+          "associations": [
+            {
+              "name": "lowNumerator",
+              "min": "0",
+              "max": "1",
+              "type": "SimpleQuantity"
+            },
+            {
+              "name": "highNumerator",
+              "min": "0",
+              "max": "1",
+              "type": "SimpleQuantity"
+            },
+            {
+              "name": "denominator",
+              "min": "0",
+              "max": "1",
+              "type": "SimpleQuantity"
+            }
+          ]
+        },
+        {
+          "name": "Reference",
+          "documentation": "A reference from one resource to another.",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "Type",
+          "attributes": [
+            {
+              "name": "reference",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "type",
+              "min": "0",
+              "max": "1",
+              "type": "uri"
+            },
+            {
+              "name": "identifier",
+              "min": "0",
+              "max": "1",
+              "type": "Identifier"
+            },
+            {
+              "name": "display",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            }
+          ],
+          "associations": [
+            {
+              "name": "reference",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "type",
+              "min": "0",
+              "max": "1",
+              "type": "uri"
+            },
+            {
+              "name": "identifier",
+              "min": "0",
+              "max": "1",
+              "type": "Identifier"
+            },
+            {
+              "name": "display",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "name": "Reference(Organization)",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "attributes": [],
+          "associations": []
+        },
+        {
+          "name": "Reference(Practitioner|Patient|RelatedPerson|Organization)|string",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "attributes": [],
+          "associations": []
+        },
+        {
+          "name": "Reference(Practitioner|PractitionerRole|RelatedPerson|Patient|Device|Organization)",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "attributes": [],
+          "associations": []
+        },
+        {
+          "name": "RelatedArtifact",
+          "documentation": "Related artifacts such as additional documentation, justification, or bibliographic references.",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "Type",
+          "attributes": [
+            {
+              "name": "type",
+              "min": "1",
+              "max": "1",
+              "type": "code"
+            },
+            {
+              "name": "label",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "display",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "citation",
+              "min": "0",
+              "max": "1",
+              "type": "markdown"
+            },
+            {
+              "name": "url",
+              "min": "0",
+              "max": "1",
+              "type": "url"
+            },
+            {
+              "name": "document",
+              "min": "0",
+              "max": "1",
+              "type": "Attachment"
+            },
+            {
+              "name": "resource",
+              "min": "0",
+              "max": "1",
+              "type": "canonical(Any)"
+            }
+          ],
+          "associations": [
+            {
+              "name": "type",
+              "min": "1",
+              "max": "1",
+              "type": "code"
+            },
+            {
+              "name": "label",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "display",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "citation",
+              "min": "0",
+              "max": "1",
+              "type": "markdown"
+            },
+            {
+              "name": "url",
+              "min": "0",
+              "max": "1",
+              "type": "url"
+            },
+            {
+              "name": "document",
+              "min": "0",
+              "max": "1",
+              "type": "Attachment"
+            },
+            {
+              "name": "resource",
+              "min": "0",
+              "max": "1",
+              "type": "canonical(Any)"
+            }
+          ]
+        },
+        {
+          "name": "SampledData",
+          "documentation": "A series of measurements taken by a device, with upper and lower limits. There may be more than one dimension in the data.",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "Type",
+          "attributes": [
+            {
+              "name": "origin",
+              "min": "1",
+              "max": "1",
+              "type": "SimpleQuantity"
+            },
+            {
+              "name": "period",
+              "min": "1",
+              "max": "1",
+              "type": "decimal"
+            },
+            {
+              "name": "factor",
+              "min": "0",
+              "max": "1",
+              "type": "decimal"
+            },
+            {
+              "name": "lowerLimit",
+              "min": "0",
+              "max": "1",
+              "type": "decimal"
+            },
+            {
+              "name": "upperLimit",
+              "min": "0",
+              "max": "1",
+              "type": "decimal"
+            },
+            {
+              "name": "dimensions",
+              "min": "1",
+              "max": "1",
+              "type": "positiveInt"
+            },
+            {
+              "name": "data",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            }
+          ],
+          "associations": [
+            {
+              "name": "origin",
+              "min": "1",
+              "max": "1",
+              "type": "SimpleQuantity"
+            },
+            {
+              "name": "period",
+              "min": "1",
+              "max": "1",
+              "type": "decimal"
+            },
+            {
+              "name": "factor",
+              "min": "0",
+              "max": "1",
+              "type": "decimal"
+            },
+            {
+              "name": "lowerLimit",
+              "min": "0",
+              "max": "1",
+              "type": "decimal"
+            },
+            {
+              "name": "upperLimit",
+              "min": "0",
+              "max": "1",
+              "type": "decimal"
+            },
+            {
+              "name": "dimensions",
+              "min": "1",
+              "max": "1",
+              "type": "positiveInt"
+            },
+            {
+              "name": "data",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "name": "Signature",
+          "documentation": "A signature along with supporting context. The signature may be a digital signature that is cryptographic in nature, or some other signature acceptable to the domain. This other signature may be as simple as a graphical image representing a hand-written signature, or a signature ceremony Different signature approaches have different utilities.",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "Type",
+          "attributes": [
+            {
+              "name": "type",
+              "min": "1",
+              "max": "2147483647",
+              "type": "Coding"
+            },
+            {
+              "name": "when",
+              "min": "1",
+              "max": "1",
+              "type": "instant"
+            },
+            {
+              "name": "who",
+              "min": "1",
+              "max": "1",
+              "type": "Reference(Practitioner|PractitionerRole|RelatedPerson|Patient|Device|Organization)"
+            },
+            {
+              "name": "onBehalfOf",
+              "min": "0",
+              "max": "1",
+              "type": "Reference(Practitioner|PractitionerRole|RelatedPerson|Patient|Device|Organization)"
+            },
+            {
+              "name": "targetFormat",
+              "min": "0",
+              "max": "1",
+              "type": "code"
+            },
+            {
+              "name": "sigFormat",
+              "min": "0",
+              "max": "1",
+              "type": "code"
+            },
+            {
+              "name": "data",
+              "min": "0",
+              "max": "1",
+              "type": "base64Binary"
+            }
+          ],
+          "associations": [
+            {
+              "name": "type",
+              "min": "1",
+              "max": "2147483647",
+              "type": "Coding"
+            },
+            {
+              "name": "when",
+              "min": "1",
+              "max": "1",
+              "type": "instant"
+            },
+            {
+              "name": "who",
+              "min": "1",
+              "max": "1",
+              "type": "Reference(Practitioner|PractitionerRole|RelatedPerson|Patient|Device|Organization)"
+            },
+            {
+              "name": "onBehalfOf",
+              "min": "0",
+              "max": "1",
+              "type": "Reference(Practitioner|PractitionerRole|RelatedPerson|Patient|Device|Organization)"
+            },
+            {
+              "name": "targetFormat",
+              "min": "0",
+              "max": "1",
+              "type": "code"
+            },
+            {
+              "name": "sigFormat",
+              "min": "0",
+              "max": "1",
+              "type": "code"
+            },
+            {
+              "name": "data",
+              "min": "0",
+              "max": "1",
+              "type": "base64Binary"
+            }
+          ]
+        },
+        {
+          "name": "SimpleQuantity",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "attributes": [],
+          "associations": []
+        },
+        {
+          "name": "Timing",
+          "documentation": "Specifies an event that may occur multiple times. Timing schedules are used to record when things are planned, expected or requested to occur. The most common usage is in dosage instructions for medications. They are also used when planning care of various kinds, and may be used for reporting the schedule to which past regular activities were carried out.",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "BackboneElement",
+          "attributes": [
+            {
+              "name": "event",
+              "min": "0",
+              "max": "2147483647",
+              "type": "dateTime"
+            },
+            {
+              "name": "repeat",
+              "min": "0",
+              "max": "1",
+              "type": ""
+            },
+            {
+              "name": "code",
+              "min": "0",
+              "max": "1",
+              "type": "CodeableConcept"
+            }
+          ],
+          "associations": [
+            {
+              "name": "event",
+              "min": "0",
+              "max": "2147483647",
+              "type": "dateTime"
+            },
+            {
+              "name": "repeat",
+              "min": "0",
+              "max": "1",
+              "type": ""
+            },
+            {
+              "name": "code",
+              "min": "0",
+              "max": "1",
+              "type": "CodeableConcept"
+            }
+          ]
+        },
+        {
+          "name": "Timing|Reference(Schedule)|date|dateTime",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "attributes": [],
+          "associations": []
+        },
+        {
+          "name": "TriggerDefinition",
+          "documentation": "A description of a triggering event. Triggering events can be named events, data events, or periodic, as determined by the type element.",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "Type",
+          "attributes": [
+            {
+              "name": "type",
+              "min": "1",
+              "max": "1",
+              "type": "code"
+            },
+            {
+              "name": "name",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "timing[x]",
+              "min": "0",
+              "max": "1",
+              "type": "Timing|Reference(Schedule)|date|dateTime"
+            },
+            {
+              "name": "data",
+              "min": "0",
+              "max": "2147483647",
+              "type": "DataRequirement"
+            },
+            {
+              "name": "condition",
+              "min": "0",
+              "max": "1",
+              "type": "Expression"
+            }
+          ],
+          "associations": [
+            {
+              "name": "type",
+              "min": "1",
+              "max": "1",
+              "type": "code"
+            },
+            {
+              "name": "name",
+              "min": "0",
+              "max": "1",
+              "type": "string"
+            },
+            {
+              "name": "timing[x]",
+              "min": "0",
+              "max": "1",
+              "type": "Timing|Reference(Schedule)|date|dateTime"
+            },
+            {
+              "name": "data",
+              "min": "0",
+              "max": "2147483647",
+              "type": "DataRequirement"
+            },
+            {
+              "name": "condition",
+              "min": "0",
+              "max": "1",
+              "type": "Expression"
+            }
+          ]
+        },
+        {
+          "name": "Type",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "attributes": [],
+          "associations": []
+        },
+        {
+          "name": "UsageContext",
+          "documentation": "Specifies clinical/business/etc. metadata that can be used to retrieve, index and/or categorize an artifact. This metadata can either be specific to the applicable population (e.g., age category, DRG) or the specific context of care (e.g., venue, care setting, provider of care).",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "Type",
+          "attributes": [
+            {
+              "name": "code",
+              "min": "1",
+              "max": "1",
+              "type": "Coding"
+            },
+            {
+              "name": "value[x]",
+              "min": "1",
+              "max": "1",
+              "type": "CodeableConcept|Quantity|Range|Reference(PlanDefinition|ResearchStudy|InsurancePlan|HealthcareService|Group|Location|Organization)"
+            }
+          ],
+          "associations": [
+            {
+              "name": "code",
+              "min": "1",
+              "max": "1",
+              "type": "Coding"
+            },
+            {
+              "name": "value[x]",
+              "min": "1",
+              "max": "1",
+              "type": "CodeableConcept|Quantity|Range|Reference(PlanDefinition|ResearchStudy|InsurancePlan|HealthcareService|Group|Location|Organization)"
+            }
+          ]
+        },
+        {
+          "name": "base64Binary",
+          "documentation": "A stream of bytes",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "PrimitiveType",
+          "attributes": [
+            {
+              "name": "value",
+              "min": "0",
+              "max": "1",
+              "type": "xs:base64Binary"
+            }
+          ],
+          "associations": [
+            {
+              "name": "value",
+              "min": "0",
+              "max": "1",
+              "type": "xs:base64Binary"
+            }
+          ]
+        },
+        {
+          "name": "boolean",
+          "documentation": "Value of \"true\" or \"false\"",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "PrimitiveType",
+          "attributes": [
+            {
+              "name": "value",
+              "min": "0",
+              "max": "1",
+              "type": "xs:boolean"
+            }
+          ],
+          "associations": [
+            {
+              "name": "value",
+              "min": "0",
+              "max": "1",
+              "type": "xs:boolean"
+            }
+          ]
+        },
+        {
+          "name": "boolean|CodeableConcept",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "attributes": [],
+          "associations": []
+        },
+        {
+          "name": "canonical",
+          "documentation": "A URI that is a reference to a canonical URL on a FHIR resource",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "uri",
+          "attributes": [],
+          "associations": []
+        },
+        {
+          "name": "canonical(Any)",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "attributes": [],
+          "associations": []
+        },
+        {
+          "name": "canonical(StructureDefinition)",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "attributes": [],
+          "associations": []
+        },
+        {
+          "name": "code",
+          "documentation": "A string which has at least one character and no leading or trailing whitespace and where there is no whitespace other than single spaces in the contents",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "string",
+          "attributes": [],
+          "associations": []
+        },
+        {
+          "name": "date",
+          "documentation": "A date or partial date (e.g. just year or year + month). There is no time zone. The format is a union of the schema types gYear, gYearMonth and date.  Dates SHALL be valid dates.",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "PrimitiveType",
+          "attributes": [
+            {
+              "name": "value",
+              "min": "0",
+              "max": "1",
+              "type": "xs:gYear, xs:gYearMonth, xs:date"
+            }
+          ],
+          "associations": [
+            {
+              "name": "value",
+              "min": "0",
+              "max": "1",
+              "type": "xs:gYear, xs:gYearMonth, xs:date"
+            }
+          ]
+        },
+        {
+          "name": "dateTime",
+          "documentation": "A date, date-time or partial date (e.g. just year or year + month).  If hours and minutes are specified, a time zone SHALL be populated. The format is a union of the schema types gYear, gYearMonth, date and dateTime. Seconds must be provided due to schema type constraints but may be zero-filled and may be ignored.                 Dates SHALL be valid dates.",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "PrimitiveType",
+          "attributes": [
+            {
+              "name": "value",
+              "min": "0",
+              "max": "1",
+              "type": "xs:gYear, xs:gYearMonth, xs:date, xs:dateTime"
+            }
+          ],
+          "associations": [
+            {
+              "name": "value",
+              "min": "0",
+              "max": "1",
+              "type": "xs:gYear, xs:gYearMonth, xs:date, xs:dateTime"
+            }
+          ]
+        },
+        {
+          "name": "date|dateTime|instant|time|decimal|integer|positiveInt|unsignedInt|Quantity",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "attributes": [],
+          "associations": []
+        },
+        {
+          "name": "decimal",
+          "documentation": "A rational number with implicit precision",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "PrimitiveType",
+          "attributes": [
+            {
+              "name": "value",
+              "min": "0",
+              "max": "1",
+              "type": "xs:decimal, xs:double"
+            }
+          ],
+          "associations": [
+            {
+              "name": "value",
+              "min": "0",
+              "max": "1",
+              "type": "xs:decimal, xs:double"
+            }
+          ]
+        },
+        {
+          "name": "html:div",
+          "class": "Primitive"
+        },
+        {
+          "name": "id",
+          "documentation": "Any combination of letters, numerals, \"-\" and \".\", with a length limit of 64 characters.  (This might be an integer, an unprefixed OID, UUID or any other identifier pattern that meets these constraints.)  Ids are case-insensitive.",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "string",
+          "attributes": [],
+          "associations": []
+        },
+        {
+          "name": "instant",
+          "documentation": "An instant in time - known at least to the second",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "PrimitiveType",
+          "attributes": [
+            {
+              "name": "value",
+              "min": "0",
+              "max": "1",
+              "type": "xs:dateTime"
+            }
+          ],
+          "associations": [
+            {
+              "name": "value",
+              "min": "0",
+              "max": "1",
+              "type": "xs:dateTime"
+            }
+          ]
+        },
+        {
+          "name": "integer",
+          "documentation": "A whole number",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "PrimitiveType",
+          "attributes": [
+            {
+              "name": "value",
+              "min": "0",
+              "max": "1",
+              "type": "xs:int"
+            }
+          ],
+          "associations": [
+            {
+              "name": "value",
+              "min": "0",
+              "max": "1",
+              "type": "xs:int"
+            }
+          ]
+        },
+        {
+          "name": "markdown",
+          "documentation": "A string that may contain Github Flavored Markdown syntax for optional processing by a mark down presentation engine",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "string",
+          "attributes": [],
+          "associations": []
+        },
+        {
+          "name": "oid",
+          "documentation": "An OID represented as a URI",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "uri",
+          "attributes": [],
+          "associations": []
+        },
+        {
+          "name": "positiveInt",
+          "documentation": "An integer with a value that is positive (e.g. \u003e0)",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "integer",
+          "attributes": [],
+          "associations": []
+        },
+        {
+          "name": "string",
+          "documentation": "A sequence of Unicode characters",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "PrimitiveType",
+          "attributes": [
+            {
+              "name": "value",
+              "min": "0",
+              "max": "1",
+              "type": "xs:string"
+            }
+          ],
+          "associations": [
+            {
+              "name": "value",
+              "min": "0",
+              "max": "1",
+              "type": "xs:string"
+            }
+          ]
+        },
+        {
+          "name": "time",
+          "documentation": "A time during the day, with no date specified",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "PrimitiveType",
+          "attributes": [
+            {
+              "name": "value",
+              "min": "0",
+              "max": "1",
+              "type": "xs:time"
+            }
+          ],
+          "associations": [
+            {
+              "name": "value",
+              "min": "0",
+              "max": "1",
+              "type": "xs:time"
+            }
+          ]
+        },
+        {
+          "name": "unsignedInt",
+          "documentation": "An integer with a value that is not negative (e.g. \u003e\u003d 0)",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "integer",
+          "attributes": [],
+          "associations": []
+        },
+        {
+          "name": "uri",
+          "documentation": "String of characters used to identify a name or a resource",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "PrimitiveType",
+          "attributes": [
+            {
+              "name": "value",
+              "min": "0",
+              "max": "1",
+              "type": "xs:anyURI"
+            }
+          ],
+          "associations": [
+            {
+              "name": "value",
+              "min": "0",
+              "max": "1",
+              "type": "xs:anyURI"
+            }
+          ]
+        },
+        {
+          "name": "url",
+          "documentation": "A URI that is a literal reference",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "uri",
+          "attributes": [],
+          "associations": []
+        },
+        {
+          "name": "uuid",
+          "documentation": "A UUID, represented as a URI",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "specializes": "uri",
+          "attributes": [],
+          "associations": []
+        },
+        {
+          "name": "xhtml",
+          "class": "Class",
+          "type": "Class",
+          "abstract": false,
+          "attributes": [],
+          "associations": []
+        },
+        {
+          "name": "xs:anyURI",
+          "class": "Primitive"
+        },
+        {
+          "name": "xs:base64Binary",
+          "class": "Primitive"
+        },
+        {
+          "name": "xs:boolean",
+          "class": "Primitive"
+        },
+        {
+          "name": "xs:dateTime",
+          "class": "Primitive"
+        },
+        {
+          "name": "xs:decimal, xs:double",
+          "class": "Primitive"
+        },
+        {
+          "name": "xs:gYear, xs:gYearMonth, xs:date",
+          "class": "Primitive"
+        },
+        {
+          "name": "xs:gYear, xs:gYearMonth, xs:date, xs:dateTime",
+          "class": "Primitive"
+        },
+        {
+          "name": "xs:int",
+          "class": "Primitive"
+        },
+        {
+          "name": "xs:string",
+          "class": "Primitive"
+        },
+        {
+          "name": "xs:time",
+          "class": "Primitive"
+        }
+      ],
+      "diagrams": []
+    }
+  ],
+  "meta": {
+    "tag": [
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+        "code": "HTEST",
+        "display": "test health data"
+      }
+    ]
+  }
+}

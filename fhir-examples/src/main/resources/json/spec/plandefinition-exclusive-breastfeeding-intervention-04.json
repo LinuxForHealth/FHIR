@@ -24,11 +24,11 @@
   "relatedArtifact": [
     {
       "type": "derived-from",
-      "resource": "Measure/measure-exclusive-breastfeeding"
+      "resource": "http://example.org/fhir/Measure/measure-exclusive-breastfeeding"
     }
   ],
   "library": [
-    "Library/library-exclusive-breastfeeding-cds-logic"
+    "http://example.org/fhir/Library/library-exclusive-breastfeeding-cds-logic"
   ],
   "action": [
     {

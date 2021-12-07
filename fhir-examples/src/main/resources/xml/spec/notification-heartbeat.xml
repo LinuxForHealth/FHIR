@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?><Bundle xmlns="http://hl7.org/fhir">
+  <id value="3d20ea4b-90dc-4d0d-b15a-c7a893389401"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <type value="history"/>
+  <timestamp value="2020-04-17T10:24:13.1882432-05:00"/>
+  <entry>
+    <fullUrl value="urn:uuid:a5b053d4-2603-446f-ae86-f5853ac09334"/>
+    <resource>
+      <SubscriptionStatus>
+        <id value="a5b053d4-2603-446f-ae86-f5853ac09334"/>
+        <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "a5b053d4-2603-446f-ae86-f5853ac09334" </p></div><p><b>status</b>: active</p><p><b>type</b>: heartbeat</p><p><b>eventsSinceSubscriptionStart</b>: 310</p><p><b>eventsInNotification</b>: 0</p><p><b>subscription</b>: <a>http://example.org/FHIR/R4/Subscription/123</a></p><p><b>topic</b>: <a>http://example.org/FHIR/R4/SubscriptionTopic/admission</a></p></div></text><status value="active"/>
+        <type value="heartbeat"/>
+        <eventsSinceSubscriptionStart value="310"/>
+        <eventsInNotification value="0"/>
+        <subscription>
+          <reference value="http://example.org/FHIR/R4/Subscription/123"/>
+        </subscription>
+        <topic value="http://example.org/FHIR/R4/SubscriptionTopic/admission"/>
+      </SubscriptionStatus>
+    </resource>
+    <request>
+      <method value="GET"/>
+      <url value="Subscription/123/$status"/>
+    </request>
+    <response>
+      <status value="200"/>
+    </response>
+  </entry>
+</Bundle>

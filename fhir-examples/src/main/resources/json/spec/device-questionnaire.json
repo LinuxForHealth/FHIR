@@ -6,9 +6,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-12-06T18:53:36+00:00",
   "publisher": "Health Level Seven International (Orders and Observations)",
   "item": [
     {
@@ -192,9 +192,10 @@
             {
               "linkId": "Device.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -791,9 +792,10 @@
                 {
                   "linkId": "Device.udiCarrier.entryType.value",
                   "text": "entry type",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOrType"
                 }
               ]
             }
@@ -836,9 +838,10 @@
             {
               "linkId": "Device.status.value",
               "text": "status",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -876,9 +879,10 @@
             {
               "linkId": "Device.statusReason.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Device.statusReason.text",
@@ -1304,12 +1308,12 @@
                       }
                     }
                   ],
-                  "text": "The name of the device.",
+                  "text": "The name that identifies the device.",
                   "type": "display"
                 },
                 {
                   "linkId": "Device.deviceName.name.value",
-                  "text": "The name of the device",
+                  "text": "The name that identifies the device",
                   "type": "string",
                   "required": false,
                   "repeats": false
@@ -1357,9 +1361,10 @@
                 {
                   "linkId": "Device.deviceName.type.value",
                   "text": "type",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOrType"
                 }
               ]
             }
@@ -1396,12 +1401,12 @@
                   }
                 }
               ],
-              "text": "The model number for the device.",
+              "text": "The manufacturer\u0027s model number for the device.",
               "type": "display"
             },
             {
               "linkId": "Device.modelNumber.value",
-              "text": "The model number for the device",
+              "text": "The manufacturer\u0027s model number for the device",
               "type": "string",
               "required": false,
               "repeats": false
@@ -1439,12 +1444,12 @@
                   }
                 }
               ],
-              "text": "The part number of the device. Alphanumeric Maximum 20.",
+              "text": "The part number or catalog number of the device. Alphanumeric Maximum 20.",
               "type": "display"
             },
             {
               "linkId": "Device.partNumber.value",
-              "text": "The part number of the device",
+              "text": "The part number or catalog number of the device",
               "type": "string",
               "required": false,
               "repeats": false
@@ -1489,9 +1494,10 @@
             {
               "linkId": "Device.type.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Device.type.text",
@@ -1666,9 +1672,10 @@
                 {
                   "linkId": "Device.specialization.systemType.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "Device.specialization.systemType.text",
@@ -1858,7 +1865,7 @@
                 }
               ],
               "linkId": "Device.version.type",
-              "text": "The type of the device version",
+              "text": "The type of the device version, e.g. manufacturer, approved, internal",
               "type": "group",
               "required": false,
               "repeats": true,
@@ -1878,15 +1885,16 @@
                       }
                     }
                   ],
-                  "text": "The type of the device version.",
+                  "text": "The type of the device version, e.g. manufacturer, approved, internal.",
                   "type": "display"
                 },
                 {
                   "linkId": "Device.version.type.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "Device.version.type.text",
@@ -2168,9 +2176,10 @@
                 {
                   "linkId": "Device.property.type.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "Device.property.type.text",
@@ -2215,9 +2224,10 @@
                 {
                   "linkId": "Device.property.valueQuantity.comparator",
                   "text": "comp:",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "Device.property.valueQuantity.value",
@@ -2283,9 +2293,10 @@
                 {
                   "linkId": "Device.property.valueCode.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "Device.property.valueCode.text",
@@ -2438,9 +2449,10 @@
             {
               "linkId": "Device.contact.system",
               "text": "type:",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Device.contact.value",
@@ -2452,9 +2464,10 @@
             {
               "linkId": "Device.contact.use",
               "text": "use:",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -2621,9 +2634,10 @@
             {
               "linkId": "Device.safety.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Device.safety.text",
@@ -2665,7 +2679,7 @@
                   }
                 }
               ],
-              "text": "The parent device.",
+              "text": "The device that this device is attached to or is part of.",
               "type": "display"
             },
             {
@@ -2680,7 +2694,7 @@
                 }
               ],
               "linkId": "Device.parent.value",
-              "text": "The parent device",
+              "text": "The device that this device is attached to or is part of",
               "type": "reference",
               "required": false,
               "repeats": false

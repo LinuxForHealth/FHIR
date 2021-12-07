@@ -1,0 +1,142 @@
+{
+  "resourceType": "CodeSystem",
+  "id": "article-url-type",
+  "meta": {
+    "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+    "profile": [
+      "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\n      \n      \u003cp\u003eThis code system http://terminology.hl7.org/CodeSystem/article-url-type defines the following codes:\u003c/p\u003e\n      \n      \u003ctable class\u003d\"codes\"\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003e\n            \n            \u003cb\u003eCode\u003c/b\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003e\n            \n            \u003cb\u003eDisplay\u003c/b\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003e\n            \n            \u003cb\u003eDefinition\u003c/b\u003e\n          \n          \u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eabstract\n            \n            \u003ca name\u003d\"article-url-type-abstract\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eAbstract\u003c/td\u003e\n          \n          \u003ctd\u003eURL to reach the abstract for the article.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eabstract-version\n            \n            \u003ca name\u003d\"article-url-type-abstract-version\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eAbstract Version\u003c/td\u003e\n          \n          \u003ctd\u003eURL to reach a specific version of the abstract for the article.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003edoi-based\n            \n            \u003ca name\u003d\"article-url-type-doi-based\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eDOI Based\u003c/td\u003e\n          \n          \u003ctd\u003eURL derived from DOI.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003efull-text\n            \n            \u003ca name\u003d\"article-url-type-full-text\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eFull-Text\u003c/td\u003e\n          \n          \u003ctd\u003eURL to reach the full-text of the article.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003efull-text-version\n            \n            \u003ca name\u003d\"article-url-type-full-text-version\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eFull-Text Version\u003c/td\u003e\n          \n          \u003ctd\u003eURL to reach a specific version of the full-text of the article.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003epdf\n            \n            \u003ca name\u003d\"article-url-type-pdf\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003ePDF\u003c/td\u003e\n          \n          \u003ctd\u003eURL to reach the full-text of the article in PDF form.\u003c/td\u003e\n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003epdf-version\n            \n            \u003ca name\u003d\"article-url-type-pdf-version\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003ePDF Version\u003c/td\u003e\n          \n          \u003ctd\u003eURL to reach a specific version of the full-text of the article in PDF form.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003ewebpage\n            \n            \u003ca name\u003d\"article-url-type-webpage\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eWebpage\u003c/td\u003e\n          \n          \u003ctd\u003eUsed when URL type is a webpage, but other codes do not apply.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003enot-specified\n            \n            \u003ca name\u003d\"article-url-type-not-specified\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eNot Specified\u003c/td\u003e\n          \n          \u003ctd\u003eUsed when URL type is not specified, commonly when only a single URL is provided.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003ejson\n            \n            \u003ca name\u003d\"article-url-type-json\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eJSON\u003c/td\u003e\n          \n          \u003ctd\u003eURL to reach the computable content in JSON format.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003ejson-version\n            \n            \u003ca name\u003d\"article-url-type-json-version\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eJSON Version\u003c/td\u003e\n          \n          \u003ctd\u003eURL to reach a specific version of computable content in JSON format.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003exml\n            \n            \u003ca name\u003d\"article-url-type-xml\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eXML\u003c/td\u003e\n          \n          \u003ctd\u003eURL to reach the computable content in XML format.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003exml-version\n            \n            \u003ca name\u003d\"article-url-typexml-version\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eJSON Version\u003c/td\u003e\n          \n          \u003ctd\u003eURL to reach a specific version of computable content in XML format.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\t\t\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003esupplement\n            \n            \u003ca name\u003d\"article-url-type-supplement\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eSupplement\u003c/td\u003e\n          \n          \u003ctd\u003eSupplement\u003c/td\u003e\n        \n        \u003c/tr\u003e   \n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003esupplementary-file-directory\n            \n            \u003ca name\u003d\"article-url-type-supplementary-file-directory\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eSupplementary File Directory\u003c/td\u003e\n          \n          \u003ctd\u003eSupplementary File Directory\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003ecompressed-file\n            \n            \u003ca name\u003d\"article-url-type-compressed-file\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eCompressed file\u003c/td\u003e\n          \n          \u003ctd\u003eCompressed archive file (e.g. a zip file) that contains multiple files\u003c/td\u003e\n        \n        \u003c/tr\u003e\n      \n      \u003c/table\u003e\n    \n    \u003c/div\u003e"
+  },
+  "extension": [
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+      "valueCode": "cds"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+      "valueCode": "trial-use"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+      "valueInteger": 0
+    }
+  ],
+  "url": "http://terminology.hl7.org/CodeSystem/article-url-type",
+  "identifier": [
+    {
+      "system": "urn:ietf:rfc:3986",
+      "value": "urn:oid:2.16.840.1.113883.4.642.1.1491"
+    }
+  ],
+  "version": "4.1.0",
+  "name": "ArticleUrlType",
+  "title": "ArticleUrlType",
+  "status": "draft",
+  "experimental": false,
+  "date": "2020-12-28T16:55:11+11:00",
+  "publisher": "HL7 (FHIR Project)",
+  "contact": [
+    {
+      "telecom": [
+        {
+          "system": "url",
+          "value": "http://hl7.org/fhir"
+        },
+        {
+          "system": "email",
+          "value": "fhir@lists.hl7.org"
+        }
+      ]
+    }
+  ],
+  "description": "Code the reason for different URLs, eg abstract and full-text.",
+  "caseSensitive": true,
+  "valueSet": "http://hl7.org/fhir/ValueSet/article-url-type",
+  "content": "complete",
+  "concept": [
+    {
+      "code": "abstract",
+      "display": "Abstract",
+      "definition": "URL to reach the abstract for the article."
+    },
+    {
+      "code": "abstract-version",
+      "display": "Abstract Version",
+      "definition": "URL to reach a specific version of the abstract for the article."
+    },
+    {
+      "code": "doi-based",
+      "display": "DOI Based",
+      "definition": "URL derived from DOI."
+    },
+    {
+      "code": "full-text",
+      "display": "Full-Text",
+      "definition": "URL to reach the full-text of the article."
+    },
+    {
+      "code": "full-text-version",
+      "display": "Full-Text Version",
+      "definition": "URL to reach a specific version of the full-text of the article."
+    },
+    {
+      "code": "pdf",
+      "display": "PDF",
+      "definition": "URL to reach the full-text of the article in PDF form."
+    },
+    {
+      "code": "pdf-version",
+      "display": "PDF Version",
+      "definition": "URL to reach a specific version of the full-text of the article in PDF form."
+    },
+    {
+      "code": "webpage",
+      "display": "Webpage",
+      "definition": "Used when URL type is a webpage, but other codes do not apply."
+    },
+    {
+      "code": "not-specified",
+      "display": "Not Specified",
+      "definition": "Used when URL type is not specified, commonly when only a single URL is provided."
+    },
+    {
+      "code": "json",
+      "display": "JSON",
+      "definition": "URL to reach computable content in JSON format."
+    },
+    {
+      "code": "json-version",
+      "display": "JSON Version",
+      "definition": "URL to reach a specific version of computable content in JSON format."
+    },
+    {
+      "code": "xml",
+      "display": "XML",
+      "definition": "URL to reach computable content in XML format."
+    },
+    {
+      "code": "xml-version",
+      "display": "XML",
+      "definition": "URL to reach a specific version of computable content in XML format."
+    },
+    {
+      "code": "supplement",
+      "display": "Supplement",
+      "definition": "Supplement"
+    },
+    {
+      "code": "supplementary-file-directory",
+      "display": "Supplementary file directory",
+      "definition": "Supplementary file directory"
+    },
+    {
+      "code": "compressed-file",
+      "display": "Compressed file",
+      "definition": "Compressed archive file (e.g. a zip file) that contains multiple files"
+    }
+  ]
+}

@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for Invoice.lineItem.chargeItem[x]",
       "expansion": {
-        "identifier": "urn:uuid:a6cc5ce2-54e6-488e-bb31-4e3549527a80",
-        "timestamp": "2019-11-01T09:35:30+11:00",
+        "identifier": "urn:uuid:6a7a3937-0e5b-47f0-a7ed-05af309c7b32",
+        "timestamp": "2021-12-06T19:03:29+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/resource-types",
@@ -31,9 +31,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-12-06T18:53:36+00:00",
   "publisher": "Health Level Seven International (Financial Management)",
   "item": [
     {
@@ -217,9 +217,10 @@
             {
               "linkId": "Invoice.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -432,9 +433,10 @@
             {
               "linkId": "Invoice.status.value",
               "text": "status",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -519,9 +521,10 @@
             {
               "linkId": "Invoice.type.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Invoice.type.text",
@@ -841,9 +844,10 @@
                 {
                   "linkId": "Invoice.participant.role.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "Invoice.participant.role.text",
@@ -1222,9 +1226,10 @@
                 {
                   "linkId": "Invoice.lineItem.chargeItem[x]._type",
                   "text": "type",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
                   "repeats": false,
+                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs2",
                   "item": [
                     {
@@ -1268,9 +1273,10 @@
                         {
                           "linkId": "Invoice.lineItem.chargeItem[x]._null.coding",
                           "text": "code:",
-                          "type": "open-choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOnly"
                         },
                         {
                           "linkId": "Invoice.lineItem.chargeItem[x]._null.text",
@@ -1448,9 +1454,10 @@
                     {
                       "linkId": "Invoice.lineItem.priceComponent.type.value",
                       "text": "type",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOrType"
                     }
                   ]
                 },
@@ -1492,9 +1499,10 @@
                     {
                       "linkId": "Invoice.lineItem.priceComponent.code.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "Invoice.lineItem.priceComponent.code.text",
@@ -1586,9 +1594,10 @@
                     {
                       "linkId": "Invoice.lineItem.priceComponent.amount.comparator",
                       "text": "comp:",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "Invoice.lineItem.priceComponent.amount.value",
@@ -1689,9 +1698,10 @@
             {
               "linkId": "Invoice.totalNet.comparator",
               "text": "comp:",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Invoice.totalNet.value",
@@ -1761,9 +1771,10 @@
             {
               "linkId": "Invoice.totalGross.comparator",
               "text": "comp:",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Invoice.totalGross.value",

@@ -12,7 +12,7 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/observation-geneticsVariant",
-  "version": "4.0.1",
+  "version": "4.1.0",
   "name": "Variant",
   "status": "draft",
   "date": "2016-03-14",
@@ -28,7 +28,7 @@
     }
   ],
   "description": "Variant information.",
-  "fhirVersion": "4.0.1",
+  "fhirVersion": "4.1.0",
   "mapping": [
     {
       "identity": "v2",
@@ -73,9 +73,9 @@
           {
             "key": "ele-1",
             "severity": "error",
-            "human": "All FHIR elements must have a @value or children",
-            "expression": "hasValue() or (children().count() \u003e id.count())",
-            "xpath": "@value|f:*|h:div",
+            "human": "All FHIR elements must have a @value or children unless an empty Parameters resource",
+            "expression": "hasValue() or (children().count() \u003e id.count()) or $this is Parameters",
+            "xpath": "@value|f:*|h:div|self::f:Parameters",
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           },
           {
@@ -109,7 +109,7 @@
             "extension": [
               {
                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                "valueUrl": "string"
+                "valueUri": "string"
               }
             ],
             "code": "http://hl7.org/fhirpath/System.String"
@@ -188,7 +188,7 @@
         "path": "Extension.extension",
         "sliceName": "Name",
         "short": "HGVS nomenclature for observed DNA sequence variant",
-        "definition": "Human Genome Variation Society (HGVS) nomenclature for a single or set of DNA Sequence Variation(s) identified in testing.  The use of the nomenclature is also used to describe non-variations (aka. wild types). LOINC Code: ([48004-6](http://loinc.org/48004-6)).",
+        "definition": "The material on this page will be removed in a future release. This content is deprecated and SHOULD NOT be used. Implementers are instead directed to the ([Genomics Reporting Implementation Guide](http://hl7.org/fhir/uv/genomics-reporting/index.html)) for guidance. Human Genome Variation Society (HGVS) nomenclature for a single or set of DNA Sequence Variation(s) identified in testing.  The use of the nomenclature is also used to describe non-variations (aka. wild types). LOINC Code: ([48004-6](http://loinc.org/48004-6)).",
         "min": 0,
         "max": "1",
         "base": {
@@ -242,7 +242,7 @@
             "extension": [
               {
                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                "valueUrl": "string"
+                "valueUri": "string"
               }
             ],
             "code": "http://hl7.org/fhirpath/System.String"
@@ -340,7 +340,7 @@
         "id": "Extension.extension:Name.value[x]",
         "path": "Extension.extension.value[x]",
         "short": "Value of extension",
-        "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](http://hl7.org/fhir/extensibility.html) for a list).",
+        "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](extensibility.html) for a list).",
         "min": 1,
         "max": "1",
         "base": {
@@ -368,12 +368,16 @@
         "binding": {
           "extension": [
             {
+              "url": "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "valueString": "NCBI central repository of potentially clinically relevant variants."
+            },
+            {
               "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
               "valueString": "ClinVar-variant-database"
             }
           ],
           "strength": "preferred",
-          "description": "NCBI central repository of potentially clinically relevant variants.",
+          "description": "NCBI central repository for curating pathogenicity of potentially clinically relevant variants",
           "valueSet": "http://hl7.org/fhir/ValueSet/clinvar"
         },
         "mapping": [
@@ -442,7 +446,7 @@
             "extension": [
               {
                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                "valueUrl": "string"
+                "valueUri": "string"
               }
             ],
             "code": "http://hl7.org/fhirpath/System.String"
@@ -540,7 +544,7 @@
         "id": "Extension.extension:Id.value[x]",
         "path": "Extension.extension.value[x]",
         "short": "Value of extension",
-        "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](http://hl7.org/fhir/extensibility.html) for a list).",
+        "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](extensibility.html) for a list).",
         "min": 1,
         "max": "1",
         "base": {
@@ -641,7 +645,7 @@
             "extension": [
               {
                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                "valueUrl": "string"
+                "valueUri": "string"
               }
             ],
             "code": "http://hl7.org/fhirpath/System.String"
@@ -739,7 +743,7 @@
         "id": "Extension.extension:Type.value[x]",
         "path": "Extension.extension.value[x]",
         "short": "Value of extension",
-        "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](http://hl7.org/fhir/extensibility.html) for a list).",
+        "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](extensibility.html) for a list).",
         "min": 1,
         "max": "1",
         "base": {
@@ -792,7 +796,7 @@
             "extension": [
               {
                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                "valueUrl": "uri"
+                "valueUri": "uri"
               }
             ],
             "code": "http://hl7.org/fhirpath/System.String"
@@ -812,7 +816,7 @@
         "id": "Extension.value[x]",
         "path": "Extension.value[x]",
         "short": "Value of extension",
-        "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](http://hl7.org/fhir/extensibility.html) for a list).",
+        "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](extensibility.html) for a list).",
         "min": 0,
         "max": "0",
         "base": {
@@ -1008,7 +1012,7 @@
         "path": "Extension.extension",
         "sliceName": "Name",
         "short": "HGVS nomenclature for observed DNA sequence variant",
-        "definition": "Human Genome Variation Society (HGVS) nomenclature for a single or set of DNA Sequence Variation(s) identified in testing.  The use of the nomenclature is also used to describe non-variations (aka. wild types). LOINC Code: ([48004-6](http://loinc.org/48004-6)).",
+        "definition": "The material on this page will be removed in a future release. This content is deprecated and SHOULD NOT be used. Implementers are instead directed to the ([Genomics Reporting Implementation Guide](http://hl7.org/fhir/uv/genomics-reporting/index.html)) for guidance. Human Genome Variation Society (HGVS) nomenclature for a single or set of DNA Sequence Variation(s) identified in testing.  The use of the nomenclature is also used to describe non-variations (aka. wild types). LOINC Code: ([48004-6](http://loinc.org/48004-6)).",
         "min": 0,
         "max": "1",
         "type": [
@@ -1044,12 +1048,16 @@
         "binding": {
           "extension": [
             {
+              "url": "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "valueString": "NCBI central repository of potentially clinically relevant variants."
+            },
+            {
               "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
               "valueString": "ClinVar-variant-database"
             }
           ],
           "strength": "preferred",
-          "description": "NCBI central repository of potentially clinically relevant variants.",
+          "description": "NCBI central repository for curating pathogenicity of potentially clinically relevant variants",
           "valueSet": "http://hl7.org/fhir/ValueSet/clinvar"
         }
       },

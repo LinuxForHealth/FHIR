@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for ImplementationGuide.definition.resource.example[x]",
       "expansion": {
-        "identifier": "urn:uuid:12fc9263-b0b8-4d22-bce7-35191ca5d117",
-        "timestamp": "2019-11-01T09:35:27+11:00",
+        "identifier": "urn:uuid:663f00da-eb80-4cc3-bd75-b95cec7166f7",
+        "timestamp": "2021-12-06T19:03:26+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -32,8 +32,8 @@
       "status": "active",
       "description": "Type options for ImplementationGuide.definition.page.name[x]",
       "expansion": {
-        "identifier": "urn:uuid:762f4298-f5ca-483b-8a7b-8f5057c17bb0",
-        "timestamp": "2019-11-01T09:35:27+11:00",
+        "identifier": "urn:uuid:726f4464-3084-4343-9d3f-dc5500227d77",
+        "timestamp": "2021-12-06T19:03:26+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -55,8 +55,8 @@
       "status": "active",
       "description": "Type options for ImplementationGuide.manifest.resource.example[x]",
       "expansion": {
-        "identifier": "urn:uuid:5e5cf923-2727-415a-9a73-3e3d9e5977ec",
-        "timestamp": "2019-11-01T09:35:27+11:00",
+        "identifier": "urn:uuid:c56d8dda-9aa5-4345-9259-6ef6fbd74a80",
+        "timestamp": "2021-12-06T19:03:26+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -77,9 +77,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-12-06T18:53:36+00:00",
   "publisher": "Health Level Seven International (FHIR Infrastructure)",
   "item": [
     {
@@ -263,9 +263,10 @@
             {
               "linkId": "ImplementationGuide.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -604,9 +605,10 @@
             {
               "linkId": "ImplementationGuide.status.value",
               "text": "status",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -878,9 +880,10 @@
             {
               "linkId": "ImplementationGuide.jurisdiction.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "ImplementationGuide.jurisdiction.text",
@@ -1018,9 +1021,10 @@
             {
               "linkId": "ImplementationGuide.license.value",
               "text": "license",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -1055,15 +1059,16 @@
                   }
                 }
               ],
-              "text": "The version(s) of the FHIR specification that this ImplementationGuide targets - e.g. describes how to use. The value of this element is the formal version of the specification, without the revision number, e.g. [publication].[major].[minor], which is 4.0.1. for this version. Most implementation guides target a single version - e.g. they describe how to use a particular version, and the profiles and examples etc are valid for that version. But some implementation guides describe how to use multiple different versions of FHIR to solve the same problem, or in concert with each other. Typically, the requirement to support multiple versions arises as implementation matures and different implementation communities are stuck at different versions by regulation or market dynamics.",
+              "text": "The version(s) of the FHIR specification that this ImplementationGuide targets - e.g. describes how to use. The value of this element is the formal version of the specification, without the revision number, e.g. [publication].[major].[minor], which is 4.1.0. for this version. Most implementation guides target a single version - e.g. they describe how to use a particular version, and the profiles and examples etc are valid for that version. But some implementation guides describe how to use multiple different versions of FHIR to solve the same problem, or in concert with each other. Typically, the requirement to support multiple versions arises as implementation matures and different implementation communities are stuck at different versions by regulation or market dynamics.",
               "type": "display"
             },
             {
               "linkId": "ImplementationGuide.fhirVersion.value",
               "text": "fhir version",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -1491,9 +1496,10 @@
                 {
                   "linkId": "ImplementationGuide.global.type.value",
                   "text": "type",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOrType"
                 }
               ]
             },
@@ -2114,9 +2120,10 @@
                     {
                       "linkId": "ImplementationGuide.definition.resource.fhirVersion.value",
                       "text": "fhir version",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOrType"
                     }
                   ]
                 },
@@ -2240,9 +2247,10 @@
                     {
                       "linkId": "ImplementationGuide.definition.resource.example[x]._type",
                       "text": "type",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
                       "repeats": false,
+                      "answerConstraint": "optionsOnly",
                       "answerValueSet": "#vs2",
                       "item": [
                         {
@@ -2500,9 +2508,10 @@
                     {
                       "linkId": "ImplementationGuide.definition.page.name[x]._type",
                       "text": "type",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
                       "repeats": false,
+                      "answerConstraint": "optionsOnly",
                       "answerValueSet": "#vs3",
                       "item": [
                         {
@@ -2643,9 +2652,10 @@
                     {
                       "linkId": "ImplementationGuide.definition.page.generation.value",
                       "text": "generation",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOrType"
                     }
                   ]
                 },
@@ -2845,9 +2855,10 @@
                     {
                       "linkId": "ImplementationGuide.definition.parameter.code.value",
                       "text": "code",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOrType"
                     }
                   ]
                 },
@@ -3063,9 +3074,10 @@
                     {
                       "linkId": "ImplementationGuide.definition.template.code.value",
                       "text": "code",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     }
                   ]
                 },
@@ -3553,9 +3565,10 @@
                     {
                       "linkId": "ImplementationGuide.manifest.resource.example[x]._type",
                       "text": "type",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
                       "repeats": false,
+                      "answerConstraint": "optionsOnly",
                       "answerValueSet": "#vs4",
                       "item": [
                         {

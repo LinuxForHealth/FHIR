@@ -2,8 +2,8 @@
   "resourceType": "Observation",
   "id": "example-phenotype",
   "text": {
-    "status": "generated",
-    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cp\u003e\u003cb\u003eGenerated Narrative with Details\u003c/b\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003eid\u003c/b\u003e: example-phenotype\u003c/p\u003e\u003cp\u003e\u003cb\u003estatus\u003c/b\u003e: final\u003c/p\u003e\u003cp\u003e\u003cb\u003ecode\u003c/b\u003e: CYP2C9 gene product metabolic activity interpretation \u003cspan\u003e(Details : {LOINC code \u002779716-7\u0027 \u003d \u0027CYP2C9 gene product metabolic activity interpretation in Blood or Tissue Qualitative by CPIC\u0027, given as \u0027CYP2C9 gene product metabolic activity interpretation\u0027})\u003c/span\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003esubject\u003c/b\u003e: \u003ca\u003eJ*********** C***********\u003c/a\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003eissued\u003c/b\u003e: 03/04/2013 3:30:10 PM\u003c/p\u003e\u003cp\u003e\u003cb\u003evalue\u003c/b\u003e: Normal metabolizer \u003cspan\u003e(Details : {LOINC code \u0027LA25391-6\u0027 \u003d \u0027Normal metabolizer\u0027, given as \u0027Normal metabolizer\u0027})\u003c/span\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003especimen\u003c/b\u003e: \u003ca\u003eMolecular Specimen ID: MLD45-Z4-1234\u003c/a\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003ederivedFrom\u003c/b\u003e: \u003ca\u003eObservation/example-diplotype1\u003c/a\u003e\u003c/p\u003e\u003c/div\u003e"
+    "status": "extensions",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cp\u003e\u003cb\u003eGenerated Narrative\u003c/b\u003e\u003c/p\u003e\u003cdiv\u003e\u003cp\u003eResource \u0026quot;example-phenotype\u0026quot; \u003c/p\u003e\u003c/div\u003e\u003cp\u003e\u003cb\u003eGene\u003c/b\u003e: CYP2C9 \u003cspan\u003e (\u003ca\u003eHUGO Gene Nomenclature\u003c/a\u003e#2623)\u003c/span\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003estatus\u003c/b\u003e: final\u003c/p\u003e\u003cp\u003e\u003cb\u003ecode\u003c/b\u003e: The material on this page will be removed in a future release. This content is deprecated and SHOULD NOT be used. Implementers are instead directed to the ([Genomics Reporting Implementation Guide](http://hl7.org/fhir/uv/genomics-reporting/index.html)) for guidance. CYP2C9 gene product metabolic activity interpretation \u003cspan\u003e (\u003ca\u003eLOINC\u003c/a\u003e#79716-7)\u003c/span\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003esubject\u003c/b\u003e: \u003ca\u003ePatient/727127: J*********** C***********\u003c/a\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003eissued\u003c/b\u003e: Apr 3, 2013 2:30:10 PM\u003c/p\u003e\u003cp\u003e\u003cb\u003evalue\u003c/b\u003e: Normal metabolizer \u003cspan\u003e (\u003ca\u003eLOINC\u003c/a\u003e#LA25391-6)\u003c/span\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003especimen\u003c/b\u003e: \u003ca\u003eSpecimen/genetics-example1-somatic: Molecular Specimen ID: MLD45-Z4-1234\u003c/a\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003ederivedFrom\u003c/b\u003e: \u003ca\u003eObservation/example-diplotype1\u003c/a\u003e\u003c/p\u003e\u003c/div\u003e"
   },
   "extension": [
     {
@@ -25,7 +25,7 @@
       {
         "system": "http://loinc.org",
         "code": "79716-7",
-        "display": "CYP2C9 gene product metabolic activity interpretation"
+        "display": "The material on this page will be removed in a future release. This content is deprecated and SHOULD NOT be used. Implementers are instead directed to the ([Genomics Reporting Implementation Guide](http://hl7.org/fhir/uv/genomics-reporting/index.html)) for guidance. CYP2C9 gene product metabolic activity interpretation"
       }
     ]
   },

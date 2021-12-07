@@ -3,10 +3,10 @@
 <OperationDefinition xmlns="http://hl7.org/fhir">
   <id value="ConceptMap-closure"/>
   <text>
-    <status value="generated"/>
+    <status value="extensions"/>
     <div xmlns="http://www.w3.org/1999/xhtml">
-      <h2>Closure Table Maintenance</h2>
-      <p>OPERATION: Closure Table Maintenance</p>
+      <h2>closure</h2>
+      <p>OPERATION: closure</p>
       <p>The official URL for this operation definition is: </p>
       <pre>http://hl7.org/fhir/OperationDefinition/ConceptMap-closure</pre>
       <div>
@@ -110,11 +110,12 @@
     <valueCode value="trial-use"/>
   </extension>
   <url value="http://hl7.org/fhir/OperationDefinition/ConceptMap-closure"/>
-  <version value="4.0.1"/>
-  <name value="Closure Table Maintenance"/>
+  <version value="4.1.0"/>
+  <name value="closure"/>
+  <title value="Closure Table Maintenance"/>
   <status value="draft"/>
   <kind value="operation"/>
-  <date value="2019-11-01T09:29:23+11:00"/>
+  <date value="2021-12-06T18:53:36+00:00"/>
   <publisher value="HL7 (FHIR Project)"/>
   <contact>
     <telecom>
@@ -127,6 +128,7 @@
     </telecom>
   </contact>
   <description value="This operation provides support for ongoing maintenance of a client-side [transitive closure table](https://en.wikipedia.org/wiki/Transitive_closure#In_graph_theory) based on server-side terminological logic. For details of how this is used, see [Maintaining a Closure Table](terminology-service.html#closure)"/>
+  <affectsState value="true"/>
   <code value="closure"/>
   <resource value="ConceptMap"/>
   <system value="true"/>

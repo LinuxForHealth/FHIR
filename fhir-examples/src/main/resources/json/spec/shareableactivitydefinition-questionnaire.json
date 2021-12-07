@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for ActivityDefinition.subject[x]",
       "expansion": {
-        "identifier": "urn:uuid:5fe1bde5-0675-475c-ad83-87ca772a7566",
-        "timestamp": "2019-11-01T09:34:28+11:00",
+        "identifier": "urn:uuid:faded300-8a9c-4a9d-93c4-0cdbfc902e5d",
+        "timestamp": "2021-12-06T19:02:20+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -32,8 +32,8 @@
       "status": "active",
       "description": "Type options for ActivityDefinition.timing[x]",
       "expansion": {
-        "identifier": "urn:uuid:184a2e51-4bc0-4987-87ef-abda10699938",
-        "timestamp": "2019-11-01T09:34:28+11:00",
+        "identifier": "urn:uuid:1fd25a80-6942-40da-9182-e977bef714f3",
+        "timestamp": "2021-12-06T19:02:20+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -75,8 +75,8 @@
       "status": "active",
       "description": "Type options for ActivityDefinition.product[x]",
       "expansion": {
-        "identifier": "urn:uuid:0df16c2e-e505-4168-90ae-4f417c134e70",
-        "timestamp": "2019-11-01T09:34:28+11:00",
+        "identifier": "urn:uuid:a457f844-901a-4570-8f5b-002d21deb39d",
+        "timestamp": "2021-12-06T19:02:20+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/resource-types",
@@ -87,6 +87,11 @@
             "system": "http://hl7.org/fhir/resource-types",
             "code": "Substance",
             "display": "Substance"
+          },
+          {
+            "system": "http://hl7.org/fhir/resource-types",
+            "code": "Ingredient",
+            "display": "Ingredient"
           },
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -102,9 +107,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2020-12-28T05:55:11+00:00",
   "publisher": "HL7",
   "item": [
     {
@@ -298,9 +303,10 @@
             {
               "linkId": "ActivityDefinition.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -453,7 +459,7 @@
                   }
                 }
               ],
-              "text": "An absolute URI that is used to identify this activity definition when it is referenced in a specification, model, design or an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal address at which at which an authoritative instance of this activity definition is (or will be) published. This URL can be the target of a canonical reference. It SHALL remain the same when the activity definition is stored on different servers. Can be a urn:uuid: or a urn:oid: but real http: addresses are preferred.  Multiple instances may share the same URL if they have a distinct version.\n\nThe determination of when to create a new version of a resource (same url, new version) vs. defining a new artifact is up to the author.  Considerations for making this decision are found in [Technical and Business Versions](http://hl7.org/fhir/resource.html#versions). \n\nIn some cases, the resource can no longer be found at the stated url, but the url itself cannot change. Implementations can use the [meta.source](http://hl7.org/fhir/resource.html#meta) element to indicate where the current master source of the resource can be found.",
+              "text": "An absolute URI that is used to identify this activity definition when it is referenced in a specification, model, design or an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal address at which at which an authoritative instance of this activity definition is (or will be) published. This URL can be the target of a canonical reference. It SHALL remain the same when the activity definition is stored on different servers. Can be a urn:uuid: or a urn:oid: but real http: addresses are preferred.  Multiple instances may share the same URL if they have a distinct version.\n\nThe determination of when to create a new version of a resource (same url, new version) vs. defining a new artifact is up to the author.  Considerations for making this decision are found in [Technical and Business Versions](http://hl7.org/fhir/2021Mar/resource.html#versions). \n\nIn some cases, the resource can no longer be found at the stated url, but the url itself cannot change. Implementations can use the [meta.source](http://hl7.org/fhir/2021Mar/resource.html#meta) element to indicate where the current master source of the resource can be found.",
               "type": "display"
             },
             {
@@ -740,9 +746,10 @@
             {
               "linkId": "ActivityDefinition.status.value",
               "text": "status",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -821,15 +828,16 @@
                   }
                 }
               ],
-              "text": "A code or group definition that describes the intended subject of the activity being defined.",
+              "text": "A code, group definition, or canonical reference that describes  or identifies the intended subject of the activity being defined.  Canonical references are allowed to support the definition of protocols for drug and substance quality specifications, and is allowed to reference a MedicinalProductDefinition, SubstanceDefinition, AdministrableProductDefinition, ManufacturedItemDefinition, or PackagedProductDefinition resource.",
               "type": "display"
             },
             {
               "linkId": "ActivityDefinition.subject[x]._type",
               "text": "type",
-              "type": "choice",
+              "type": "coding",
               "required": false,
               "repeats": false,
+              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs2",
               "item": [
                 {
@@ -845,9 +853,10 @@
                     {
                       "linkId": "ActivityDefinition.subject[x]._null.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "ActivityDefinition.subject[x]._null.text",
@@ -881,6 +890,24 @@
                       ],
                       "linkId": "ActivityDefinition.subject[x]._null.value",
                       "type": "reference",
+                      "required": false,
+                      "repeats": false
+                    }
+                  ]
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                      "valueString": "uri"
+                    }
+                  ],
+                  "linkId": "ActivityDefinition.subject[x]._null",
+                  "type": "group",
+                  "item": [
+                    {
+                      "linkId": "ActivityDefinition.subject[x]._null.value",
+                      "type": "string",
                       "required": false,
                       "repeats": false
                     }
@@ -1123,9 +1150,10 @@
             {
               "linkId": "ActivityDefinition.jurisdiction.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "ActivityDefinition.jurisdiction.text",
@@ -1436,9 +1464,10 @@
             {
               "linkId": "ActivityDefinition.topic.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "ActivityDefinition.topic.text",
@@ -1664,9 +1693,10 @@
             {
               "linkId": "ActivityDefinition.kind.value",
               "text": "kind",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -1751,9 +1781,10 @@
             {
               "linkId": "ActivityDefinition.code.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "ActivityDefinition.code.text",
@@ -1801,9 +1832,10 @@
             {
               "linkId": "ActivityDefinition.intent.value",
               "text": "intent",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -1844,9 +1876,10 @@
             {
               "linkId": "ActivityDefinition.priority.value",
               "text": "priority",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -1927,9 +1960,10 @@
             {
               "linkId": "ActivityDefinition.timing[x]._type",
               "text": "type",
-              "type": "choice",
+              "type": "coding",
               "required": false,
               "repeats": false,
+              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs3",
               "item": [
                 {
@@ -2010,9 +2044,10 @@
                     {
                       "linkId": "ActivityDefinition.timing[x]._null.comparator",
                       "text": "comp:",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "ActivityDefinition.timing[x]._null.value",
@@ -2116,9 +2151,10 @@
                     {
                       "linkId": "ActivityDefinition.timing[x]._null.comparator",
                       "text": "comp:",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "ActivityDefinition.timing[x]._null.value",
@@ -2370,9 +2406,10 @@
                 {
                   "linkId": "ActivityDefinition.participant.type.value",
                   "text": "type",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOrType"
                 }
               ]
             },
@@ -2414,9 +2451,10 @@
                 {
                   "linkId": "ActivityDefinition.participant.role.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "ActivityDefinition.participant.role.text",
@@ -2463,9 +2501,10 @@
             {
               "linkId": "ActivityDefinition.product[x]._type",
               "text": "type",
-              "type": "choice",
+              "type": "coding",
               "required": false,
               "repeats": false,
+              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs4",
               "item": [
                 {
@@ -2482,7 +2521,7 @@
                       "extension": [
                         {
                           "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-allowedResource",
-                          "valueCode": "Medication, Substance"
+                          "valueCode": "Medication, Substance, Ingredient"
                         },
                         {
                           "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-referenceFilter",
@@ -2509,9 +2548,10 @@
                     {
                       "linkId": "ActivityDefinition.product[x]._null.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "ActivityDefinition.product[x]._null.text",
@@ -2564,9 +2604,10 @@
             {
               "linkId": "ActivityDefinition.quantity.comparator",
               "text": "comp:",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "ActivityDefinition.quantity.value",
@@ -2663,9 +2704,10 @@
             {
               "linkId": "ActivityDefinition.bodySite.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "ActivityDefinition.bodySite.text",
@@ -3027,7 +3069,7 @@
                       }
                     }
                   ],
-                  "text": "The path to the element to be customized. This is the path on the resource that will hold the result of the calculation defined by the expression. The specified path SHALL be a FHIRPath resolveable on the specified target type of the ActivityDefinition, and SHALL consist only of identifiers, constant indexers, and a restricted subset of functions. The path is allowed to contain qualifiers (.) to traverse sub-elements, as well as indexers ([x]) to traverse multiple-cardinality sub-elements (see the [Simple FHIRPath Profile](http://hl7.org/fhir/fhirpath.html#simple) for full details). The path attribute contains a [Simple FHIRPath Subset](http://hl7.org/fhir/fhirpath.html#simple) that allows path traversal, but not calculation.",
+                  "text": "The path to the element to be customized. This is the path on the resource that will hold the result of the calculation defined by the expression. The specified path SHALL be a FHIRPath resolveable on the specified target type of the ActivityDefinition, and SHALL consist only of identifiers, constant indexers, and a restricted subset of functions. The path is allowed to contain qualifiers (.) to traverse sub-elements, as well as indexers ([x]) to traverse multiple-cardinality sub-elements (see the [Simple FHIRPath Profile](http://hl7.org/fhir/2021Mar/fhirpath.html#simple) for full details). The path attribute contains a [Simple FHIRPath Subset](http://hl7.org/fhir/2021Mar/fhirpath.html#simple) that allows path traversal, but not calculation.",
                   "type": "display"
                 },
                 {

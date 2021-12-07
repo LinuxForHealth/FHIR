@@ -6,9 +6,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-12-06T18:53:36+00:00",
   "publisher": "Health Level Seven International (Patient Administration)",
   "item": [
     {
@@ -192,9 +192,10 @@
             {
               "linkId": "HealthcareService.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -496,9 +497,10 @@
             {
               "linkId": "HealthcareService.category.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "HealthcareService.category.text",
@@ -543,9 +545,10 @@
             {
               "linkId": "HealthcareService.type.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "HealthcareService.type.text",
@@ -590,9 +593,10 @@
             {
               "linkId": "HealthcareService.specialty.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "HealthcareService.specialty.text",
@@ -852,9 +856,10 @@
             {
               "linkId": "HealthcareService.telecom.system",
               "text": "type:",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "HealthcareService.telecom.value",
@@ -866,9 +871,10 @@
             {
               "linkId": "HealthcareService.telecom.use",
               "text": "use:",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -955,9 +961,10 @@
             {
               "linkId": "HealthcareService.serviceProvisionCode.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "HealthcareService.serviceProvisionCode.text",
@@ -1128,9 +1135,10 @@
                 {
                   "linkId": "HealthcareService.eligibility.code.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "HealthcareService.eligibility.code.text",
@@ -1220,9 +1228,10 @@
             {
               "linkId": "HealthcareService.program.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "HealthcareService.program.text",
@@ -1267,9 +1276,10 @@
             {
               "linkId": "HealthcareService.characteristic.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "HealthcareService.characteristic.text",
@@ -1314,9 +1324,10 @@
             {
               "linkId": "HealthcareService.communication.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "HealthcareService.communication.text",
@@ -1361,9 +1372,10 @@
             {
               "linkId": "HealthcareService.referralMethod.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "HealthcareService.referralMethod.text",
@@ -1576,9 +1588,10 @@
                 {
                   "linkId": "HealthcareService.availableTime.daysOfWeek.value",
                   "text": "days of week",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOrType"
                 }
               ]
             },
