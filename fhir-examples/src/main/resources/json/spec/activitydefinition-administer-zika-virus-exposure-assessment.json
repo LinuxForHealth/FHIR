@@ -29,11 +29,11 @@
     },
     {
       "type": "depends-on",
-      "resource": "Questionnaire/zika-virus-exposure-assessment"
+      "resource": "http://hl7.org/fhir/Questionnaire/zika-virus-exposure-assessment"
     }
   ],
   "library": [
-    "Library/zika-virus-intervention-logic"
+    "http://example.org/fhir/Library/zika-virus-intervention-logic"
   ],
   "kind": "ServiceRequest",
   "code": {

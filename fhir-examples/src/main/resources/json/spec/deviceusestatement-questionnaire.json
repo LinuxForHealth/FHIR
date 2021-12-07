@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for DeviceUseStatement.timing[x]",
       "expansion": {
-        "identifier": "urn:uuid:f28ce678-24ab-431c-b4a3-9b6126e12f8b",
-        "timestamp": "2019-11-01T09:35:01+11:00",
+        "identifier": "urn:uuid:2bf12f20-5b78-4fbf-96ee-65d2e1cd06dc",
+        "timestamp": "2021-12-06T19:02:59+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -36,9 +36,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-12-06T18:53:36+00:00",
   "publisher": "Health Level Seven International (Orders and Observations)",
   "item": [
     {
@@ -222,9 +222,10 @@
             {
               "linkId": "DeviceUseStatement.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -486,9 +487,10 @@
             {
               "linkId": "DeviceUseStatement.status.value",
               "text": "status",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -632,9 +634,10 @@
             {
               "linkId": "DeviceUseStatement.timing[x]._type",
               "text": "type",
-              "type": "choice",
+              "type": "coding",
               "required": false,
               "repeats": false,
+              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs2",
               "item": [
                 {
@@ -919,9 +922,10 @@
             {
               "linkId": "DeviceUseStatement.reasonCode.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "DeviceUseStatement.reasonCode.text",
@@ -1019,9 +1023,10 @@
             {
               "linkId": "DeviceUseStatement.bodySite.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "DeviceUseStatement.bodySite.text",

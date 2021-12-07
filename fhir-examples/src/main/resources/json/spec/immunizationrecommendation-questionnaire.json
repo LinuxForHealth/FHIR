@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for ImmunizationRecommendation.recommendation.doseNumber[x]",
       "expansion": {
-        "identifier": "urn:uuid:33065ce0-ea83-40c7-acb5-1ff60a4ffd2c",
-        "timestamp": "2019-11-01T09:35:26+11:00",
+        "identifier": "urn:uuid:2bf0ff9a-3865-4dbf-9efd-fe2247389ba5",
+        "timestamp": "2021-12-06T19:03:25+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -32,8 +32,8 @@
       "status": "active",
       "description": "Type options for ImmunizationRecommendation.recommendation.seriesDoses[x]",
       "expansion": {
-        "identifier": "urn:uuid:0da710f6-2989-425b-b6f8-18c16676b9a4",
-        "timestamp": "2019-11-01T09:35:26+11:00",
+        "identifier": "urn:uuid:c8840295-1dac-4a47-97a6-46cbd03cd697",
+        "timestamp": "2021-12-06T19:03:25+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -54,9 +54,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-12-06T18:53:36+00:00",
   "publisher": "Health Level Seven International (Public Health and Emergency Response)",
   "item": [
     {
@@ -240,9 +240,10 @@
             {
               "linkId": "ImmunizationRecommendation.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -733,9 +734,10 @@
                 {
                   "linkId": "ImmunizationRecommendation.recommendation.vaccineCode.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "ImmunizationRecommendation.recommendation.vaccineCode.text",
@@ -784,9 +786,10 @@
                 {
                   "linkId": "ImmunizationRecommendation.recommendation.targetDisease.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "ImmunizationRecommendation.recommendation.targetDisease.text",
@@ -831,9 +834,10 @@
                 {
                   "linkId": "ImmunizationRecommendation.recommendation.contraindicatedVaccineCode.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "ImmunizationRecommendation.recommendation.contraindicatedVaccineCode.text",
@@ -886,9 +890,10 @@
                 {
                   "linkId": "ImmunizationRecommendation.recommendation.forecastStatus.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "ImmunizationRecommendation.recommendation.forecastStatus.text",
@@ -933,9 +938,10 @@
                 {
                   "linkId": "ImmunizationRecommendation.recommendation.forecastReason.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "ImmunizationRecommendation.recommendation.forecastReason.text",
@@ -1110,9 +1116,10 @@
                     {
                       "linkId": "ImmunizationRecommendation.recommendation.dateCriterion.code.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "ImmunizationRecommendation.recommendation.dateCriterion.code.text",
@@ -1292,9 +1299,10 @@
                 {
                   "linkId": "ImmunizationRecommendation.recommendation.doseNumber[x]._type",
                   "text": "type",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
                   "repeats": false,
+                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs2",
                   "item": [
                     {
@@ -1371,9 +1379,10 @@
                 {
                   "linkId": "ImmunizationRecommendation.recommendation.seriesDoses[x]._type",
                   "text": "type",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
                   "repeats": false,
+                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs3",
                   "item": [
                     {

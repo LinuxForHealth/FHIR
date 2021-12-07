@@ -6,9 +6,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-12-06T18:53:36+00:00",
   "publisher": "Health Level Seven International (Structured Documents)",
   "item": [
     {
@@ -196,9 +196,10 @@
             {
               "linkId": "DocumentReference.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -469,9 +470,10 @@
             {
               "linkId": "DocumentReference.status.value",
               "text": "status",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -512,9 +514,10 @@
             {
               "linkId": "DocumentReference.docStatus.value",
               "text": "doc status",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -556,9 +559,10 @@
             {
               "linkId": "DocumentReference.type.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "DocumentReference.type.text",
@@ -603,9 +607,10 @@
             {
               "linkId": "DocumentReference.category.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "DocumentReference.category.text",
@@ -1034,9 +1039,10 @@
                 {
                   "linkId": "DocumentReference.relatesTo.code.value",
                   "text": "code",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOrType"
                 }
               ]
             },
@@ -1176,9 +1182,10 @@
             {
               "linkId": "DocumentReference.securityLabel.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "DocumentReference.securityLabel.text",
@@ -1395,9 +1402,10 @@
                 {
                   "linkId": "DocumentReference.content.format.value",
                   "text": "Format/content rules for the document",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 }
               ]
             }
@@ -1618,9 +1626,10 @@
                 {
                   "linkId": "DocumentReference.context.event.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "DocumentReference.context.event.text",
@@ -1720,9 +1729,10 @@
                 {
                   "linkId": "DocumentReference.context.facilityType.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "DocumentReference.context.facilityType.text",
@@ -1771,9 +1781,10 @@
                 {
                   "linkId": "DocumentReference.context.practiceSetting.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "DocumentReference.context.practiceSetting.text",

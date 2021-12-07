@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for Medication.ingredient.item[x]",
       "expansion": {
-        "identifier": "urn:uuid:ee286487-593e-4a63-8374-bfb4fce271b9",
-        "timestamp": "2019-11-01T09:35:47+11:00",
+        "identifier": "urn:uuid:89f41661-8689-4222-965a-e4ff813c4e71",
+        "timestamp": "2021-12-06T19:03:42+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -36,9 +36,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-12-06T18:53:36+00:00",
   "publisher": "Health Level Seven International (Pharmacy)",
   "item": [
     {
@@ -222,9 +222,10 @@
             {
               "linkId": "Medication.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -434,9 +435,10 @@
             {
               "linkId": "Medication.code.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Medication.code.text",
@@ -484,9 +486,10 @@
             {
               "linkId": "Medication.status.value",
               "text": "status",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -581,9 +584,10 @@
             {
               "linkId": "Medication.form.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Medication.form.text",
@@ -816,9 +820,10 @@
                 {
                   "linkId": "Medication.ingredient.item[x]._type",
                   "text": "type",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
                   "repeats": false,
+                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs2",
                   "item": [
                     {
@@ -834,9 +839,10 @@
                         {
                           "linkId": "Medication.ingredient.item[x]._null.coding",
                           "text": "code:",
-                          "type": "open-choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOnly"
                         },
                         {
                           "linkId": "Medication.ingredient.item[x]._null.text",

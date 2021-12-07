@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for Coverage.costToBeneficiary.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:cd8c0c36-3403-4733-b33d-137527d27bcd",
-        "timestamp": "2019-11-01T09:34:55+11:00",
+        "identifier": "urn:uuid:6b81dbad-931e-4b12-89df-ac644a1cdcb6",
+        "timestamp": "2021-12-06T19:02:53+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/resource-types",
@@ -31,9 +31,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-12-06T18:53:36+00:00",
   "publisher": "Health Level Seven International (Financial Management)",
   "item": [
     {
@@ -221,9 +221,10 @@
             {
               "linkId": "Coverage.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -436,9 +437,10 @@
             {
               "linkId": "Coverage.status.value",
               "text": "status",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -480,9 +482,10 @@
             {
               "linkId": "Coverage.type.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Coverage.type.text",
@@ -780,9 +783,10 @@
             {
               "linkId": "Coverage.relationship.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Coverage.relationship.text",
@@ -1065,9 +1069,10 @@
                 {
                   "linkId": "Coverage.class.type.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "Coverage.class.type.text",
@@ -1420,9 +1425,10 @@
                 {
                   "linkId": "Coverage.costToBeneficiary.type.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "Coverage.costToBeneficiary.type.text",
@@ -1471,9 +1477,10 @@
                 {
                   "linkId": "Coverage.costToBeneficiary.value[x]._type",
                   "text": "type",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
                   "repeats": false,
+                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs2",
                   "item": [
                     {
@@ -1489,9 +1496,10 @@
                         {
                           "linkId": "Coverage.costToBeneficiary.value[x]._null.comparator",
                           "text": "comp:",
-                          "type": "choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOnly"
                         },
                         {
                           "linkId": "Coverage.costToBeneficiary.value[x]._null.value",
@@ -1536,9 +1544,10 @@
                         {
                           "linkId": "Coverage.costToBeneficiary.value[x]._null.comparator",
                           "text": "comp:",
-                          "type": "choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOnly"
                         },
                         {
                           "linkId": "Coverage.costToBeneficiary.value[x]._null.value",
@@ -1738,9 +1747,10 @@
                     {
                       "linkId": "Coverage.costToBeneficiary.exception.type.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "Coverage.costToBeneficiary.exception.type.text",

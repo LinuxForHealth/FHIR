@@ -2,11 +2,14 @@
   "resourceType": "CodeSystem",
   "id": "audit-event-outcome",
   "meta": {
-    "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+    "profile": [
+      "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+    ]
   },
   "text": {
     "status": "generated",
-    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003ch2\u003eAuditEventOutcome\u003c/h2\u003e\u003cdiv\u003e\u003cp\u003eIndicates whether the event succeeded or failed.\u003c/p\u003e\n\u003c/div\u003e\u003cp\u003eThis code system http://hl7.org/fhir/audit-event-outcome defines the following codes:\u003c/p\u003e\u003ctable class\u003d\"codes\"\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e\u003cb\u003eCode\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eDisplay\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eDefinition\u003c/b\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e0\u003ca name\u003d\"audit-event-outcome-0\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSuccess\u003c/td\u003e\u003ctd\u003eThe operation completed successfully (whether with warnings or not).\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e4\u003ca name\u003d\"audit-event-outcome-4\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMinor failure\u003c/td\u003e\u003ctd\u003eThe action was not successful due to some kind of minor failure (often equivalent to an HTTP 400 response).\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e8\u003ca name\u003d\"audit-event-outcome-8\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSerious failure\u003c/td\u003e\u003ctd\u003eThe action was not successful due to some kind of unexpected error (often equivalent to an HTTP 500 response).\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e12\u003ca name\u003d\"audit-event-outcome-12\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMajor failure\u003c/td\u003e\u003ctd\u003eAn error of such magnitude occurred that the system is no longer available for use (i.e. the system died).\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/div\u003e"
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\n      \n      \u003ch2\u003eAuditEventOutcome\u003c/h2\u003e\n      \n      \u003cdiv\u003e\n        \n        \u003cp\u003eIndicates whether the event succeeded or failed.\u003c/p\u003e\n\n      \n      \u003c/div\u003e\n      \n      \u003cp\u003eThis code system http://hl7.org/fhir/audit-event-outcome defines the following codes:\u003c/p\u003e\n      \n      \u003ctable class\u003d\"codes\"\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003e\n            \n            \u003cb\u003eCode\u003c/b\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003e\n            \n            \u003cb\u003eDisplay\u003c/b\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003e\n            \n            \u003cb\u003eDefinition\u003c/b\u003e\n          \n          \u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003e0\n            \n            \u003ca name\u003d\"audit-event-outcome-0\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eSuccess\u003c/td\u003e\n          \n          \u003ctd\u003eThe operation completed successfully (whether with warnings or not).\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003e4\n            \n            \u003ca name\u003d\"audit-event-outcome-4\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eMinor failure\u003c/td\u003e\n          \n          \u003ctd\u003eThe action was not successful due to some kind of minor failure (often equivalent to an HTTP 400 response).\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003e8\n            \n            \u003ca name\u003d\"audit-event-outcome-8\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eSerious failure\u003c/td\u003e\n          \n          \u003ctd\u003eThe action was not successful due to some kind of unexpected error (often equivalent to an HTTP 500 response).\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003e12\n            \n            \u003ca name\u003d\"audit-event-outcome-12\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eMajor failure\u003c/td\u003e\n          \n          \u003ctd\u003eAn error of such magnitude occurred that the system is no longer available for use (i.e. the system died).\u003c/td\u003e\n        \n        \u003c/tr\u003e\n      \n      \u003c/table\u003e\n    \n    \u003c/div\u003e"
   },
   "extension": [
     {
@@ -29,12 +32,12 @@
       "value": "urn:oid:2.16.840.1.113883.4.642.4.455"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "name": "AuditEventOutcome",
   "title": "AuditEventOutcome",
   "status": "draft",
   "experimental": false,
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-01-17T07:06:13+11:00",
   "publisher": "HL7 (FHIR Project)",
   "contact": [
     {

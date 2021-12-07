@@ -20,7 +20,7 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/catalog",
-  "version": "4.0.1",
+  "version": "4.1.0",
   "name": "Profile for Catalog",
   "status": "draft",
   "experimental": false,
@@ -37,7 +37,7 @@
     }
   ],
   "description": "A set of resources composed into a single coherent clinical statement with clinical attestation",
-  "fhirVersion": "4.0.1",
+  "fhirVersion": "4.1.0",
   "mapping": [
     {
       "identity": "workflow",
@@ -98,8 +98,8 @@
             "key": "dom-3",
             "severity": "error",
             "human": "If the resource is contained in another resource, it SHALL be referred to from elsewhere in the resource or SHALL refer to the containing resource",
-            "expression": "contained.where(((\u0027#\u0027+id in (%resource.descendants().reference | %resource.descendants().as(canonical) | %resource.descendants().as(uri) | %resource.descendants().as(url))) or descendants().where(reference \u003d \u0027#\u0027).exists() or descendants().where(as(canonical) \u003d \u0027#\u0027).exists() or descendants().where(as(canonical) \u003d \u0027#\u0027).exists()).not()).trace(\u0027unmatched\u0027, id).empty()",
-            "xpath": "not(exists(for $id in f:contained/*/f:id/@value return $contained[not(parent::*/descendant::f:reference/@value\u003dconcat(\u0027#\u0027, $contained/*/id/@value) or descendant::f:reference[@value\u003d\u0027#\u0027])]))",
+            "expression": "contained.where(((id.exists() and (\u0027#\u0027+id in (%resource.descendants().reference | %resource.descendants().as(canonical) | %resource.descendants().as(uri) | %resource.descendants().as(url)))) or descendants().where(reference \u003d \u0027#\u0027).exists() or descendants().where(as(canonical) \u003d \u0027#\u0027).exists() or descendants().where(as(uri) \u003d \u0027#\u0027).exists()).not()).trace(\u0027unmatched\u0027, id).empty()",
+            "xpath": "not(exists(for $resource in . return (for $contained in $resource/f:contained return $contained[not(descendant::f:*/@value\u003d\u0027#\u0027 or (exists(f:id) and $resource//f:*/@*\u003dconcat(\u0027#\u0027, $contained/*/f:id/@value)))])))",
             "source": "http://hl7.org/fhir/StructureDefinition/DomainResource"
           },
           {
@@ -137,6 +137,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/DomainResource"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -159,6 +160,10 @@
           {
             "identity": "fhirdocumentreference",
             "map": "when described by DocumentReference"
+          },
+          {
+            "identity": "w5",
+            "map": "infrastructure.documents"
           }
         ]
       },
@@ -180,12 +185,13 @@
             "extension": [
               {
                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                "valueUrl": "string"
+                "valueUri": "id"
               }
             ],
             "code": "http://hl7.org/fhirpath/System.String"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true
       },
@@ -216,6 +222,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true
       },
@@ -247,6 +254,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": true,
         "isModifierReason": "This element is labeled as a modifier because the implicit rules may provide additional knowledge about the resource that modifies it\u0027s meaning or interpretation",
         "isSummary": true
@@ -279,6 +287,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "binding": {
@@ -297,7 +306,7 @@
             }
           ],
           "strength": "preferred",
-          "description": "A human language.",
+          "description": "IETF language tag",
           "valueSet": "http://hl7.org/fhir/ValueSet/languages"
         }
       },
@@ -335,6 +344,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -367,6 +377,7 @@
             "code": "Resource"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -421,6 +432,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Extension"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false
       },
@@ -452,9 +464,9 @@
           {
             "key": "ele-1",
             "severity": "error",
-            "human": "All FHIR elements must have a @value or children",
-            "expression": "hasValue() or (children().count() \u003e id.count())",
-            "xpath": "@value|f:*|h:div",
+            "human": "All FHIR elements must have a @value or children unless an empty Parameters resource",
+            "expression": "hasValue() or (children().count() \u003e id.count()) or $this is Parameters",
+            "xpath": "@value|f:*|h:div|self::f:Parameters",
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           },
           {
@@ -466,6 +478,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Extension"
           }
         ],
+        "mustSupport": false,
         "isModifier": false
       },
       {
@@ -474,7 +487,7 @@
         "short": "Extensions that cannot be ignored",
         "definition": "May be used to represent additional information that is not part of the basic definition of the resource and that modifies the understanding of the element that contains it and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself).",
         "comment": "There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
-        "requirements": "Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](http://hl7.org/fhir/extensibility.html#modifierExtension).",
+        "requirements": "Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](http://hl7.org/fhir/2021Mar/extensibility.html#modifierExtension).",
         "alias": [
           "extensions",
           "user content"
@@ -509,6 +522,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Extension"
           }
         ],
+        "mustSupport": false,
         "isModifier": true,
         "isModifierReason": "Modifier extensions are expected to modify the meaning or interpretation of the resource that contains them",
         "isSummary": false,
@@ -547,6 +561,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true,
         "mapping": [
@@ -601,6 +616,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": true,
         "isModifierReason": "This element is labelled as a modifier because it is a status element that contains status entered-in-error which means that the resource should not be treated as valid",
         "isSummary": true,
@@ -613,7 +629,7 @@
           ],
           "strength": "required",
           "description": "The workflow/clinical status of the composition.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/composition-status|4.0.1"
+          "valueSet": "http://hl7.org/fhir/ValueSet/composition-status|4.1.0"
         },
         "mapping": [
           {
@@ -670,6 +686,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true,
         "binding": {
@@ -735,10 +752,15 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true,
         "binding": {
           "extension": [
+            {
+              "url": "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "valueString": "The type of catalog."
+            },
             {
               "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
               "valueString": "CatalogType"
@@ -803,6 +825,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true,
         "mapping": [
@@ -859,6 +882,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true,
         "mapping": [
@@ -891,7 +915,7 @@
         "short": "When the Catalog was created",
         "definition": "When the Catalog was created.",
         "comment": "The Last Modified Date on the composition may be after the date of the document was attested without being changed.",
-        "requirements": "dateTime is used for tracking, organizing versions and searching. Note that this is the time of *authoring*. When packaged in a document, [Bundle.timestamp](http://hl7.org/fhir/bundle-definitions.html#Bundle.timestamp) is the date of packaging.",
+        "requirements": "dateTime is used for tracking, organizing versions and searching. Note that this is the time of *authoring*. When packaged in a document, [Bundle.timestamp](http://hl7.org/fhir/2021Mar/bundle-definitions.html#Bundle.timestamp) is the date of packaging.",
         "alias": [
           "IssueDate"
         ],
@@ -917,6 +941,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true,
         "mapping": [
@@ -978,6 +1003,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true,
         "mapping": [
@@ -1031,6 +1057,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true,
         "mapping": [
@@ -1076,6 +1103,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true,
         "binding": {
@@ -1087,7 +1115,7 @@
           ],
           "strength": "required",
           "description": "Codes specifying the level of confidentiality of the composition.",
-          "valueSet": "http://terminology.hl7.org/ValueSet/v3-ConfidentialityClassification|2014-03-26"
+          "valueSet": "http://terminology.hl7.org/ValueSet/v3-Confidentiality|2.0.0|2.0.0"
         },
         "mapping": [
           {
@@ -1127,12 +1155,13 @@
           {
             "key": "ele-1",
             "severity": "error",
-            "human": "All FHIR elements must have a @value or children",
-            "expression": "hasValue() or (children().count() \u003e id.count())",
-            "xpath": "@value|f:*|h:div",
+            "human": "All FHIR elements must have a @value or children unless an empty Parameters resource",
+            "expression": "hasValue() or (children().count() \u003e id.count()) or $this is Parameters",
+            "xpath": "@value|f:*|h:div|self::f:Parameters",
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -1170,7 +1199,7 @@
             "extension": [
               {
                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                "valueUrl": "string"
+                "valueUri": "id"
               }
             ],
             "code": "http://hl7.org/fhirpath/System.String"
@@ -1240,7 +1269,7 @@
         "short": "Extensions that cannot be ignored even if unrecognized",
         "definition": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself).",
         "comment": "There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
-        "requirements": "Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](http://hl7.org/fhir/extensibility.html#modifierExtension).",
+        "requirements": "Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](http://hl7.org/fhir/2021Mar/extensibility.html#modifierExtension).",
         "alias": [
           "extensions",
           "user content",
@@ -1314,6 +1343,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "binding": {
@@ -1325,7 +1355,7 @@
           ],
           "strength": "required",
           "description": "The way in which a person authenticated a composition.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/composition-attestation-mode|4.0.1"
+          "valueSet": "http://hl7.org/fhir/ValueSet/composition-attestation-mode|4.1.0"
         },
         "mapping": [
           {
@@ -1366,6 +1396,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -1414,6 +1445,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -1463,6 +1495,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true,
         "mapping": [
@@ -1502,12 +1535,13 @@
           {
             "key": "ele-1",
             "severity": "error",
-            "human": "All FHIR elements must have a @value or children",
-            "expression": "hasValue() or (children().count() \u003e id.count())",
-            "xpath": "@value|f:*|h:div",
+            "human": "All FHIR elements must have a @value or children unless an empty Parameters resource",
+            "expression": "hasValue() or (children().count() \u003e id.count()) or $this is Parameters",
+            "xpath": "@value|f:*|h:div|self::f:Parameters",
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -1545,7 +1579,7 @@
             "extension": [
               {
                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                "valueUrl": "string"
+                "valueUri": "id"
               }
             ],
             "code": "http://hl7.org/fhirpath/System.String"
@@ -1615,7 +1649,7 @@
         "short": "Extensions that cannot be ignored even if unrecognized",
         "definition": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself).",
         "comment": "There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
-        "requirements": "Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](http://hl7.org/fhir/extensibility.html#modifierExtension).",
+        "requirements": "Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](http://hl7.org/fhir/2021Mar/extensibility.html#modifierExtension).",
         "alias": [
           "extensions",
           "user content",
@@ -1689,6 +1723,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "binding": {
@@ -1700,7 +1735,7 @@
           ],
           "strength": "required",
           "description": "The type of relationship between documents.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/document-relationship-type|4.0.1"
+          "valueSet": "http://hl7.org/fhir/ValueSet/document-relationship-type|4.1.0"
         },
         "mapping": [
           {
@@ -1750,6 +1785,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -1790,12 +1826,13 @@
           {
             "key": "ele-1",
             "severity": "error",
-            "human": "All FHIR elements must have a @value or children",
-            "expression": "hasValue() or (children().count() \u003e id.count())",
-            "xpath": "@value|f:*|h:div",
+            "human": "All FHIR elements must have a @value or children unless an empty Parameters resource",
+            "expression": "hasValue() or (children().count() \u003e id.count()) or $this is Parameters",
+            "xpath": "@value|f:*|h:div|self::f:Parameters",
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true,
         "mapping": [
@@ -1833,7 +1870,7 @@
             "extension": [
               {
                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                "valueUrl": "string"
+                "valueUri": "id"
               }
             ],
             "code": "http://hl7.org/fhirpath/System.String"
@@ -1903,7 +1940,7 @@
         "short": "Extensions that cannot be ignored even if unrecognized",
         "definition": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself).",
         "comment": "There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
-        "requirements": "Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](http://hl7.org/fhir/extensibility.html#modifierExtension).",
+        "requirements": "Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](http://hl7.org/fhir/2021Mar/extensibility.html#modifierExtension).",
         "alias": [
           "extensions",
           "user content",
@@ -1977,6 +2014,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true,
         "binding": {
@@ -2032,6 +2070,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true,
         "mapping": [
@@ -2079,6 +2118,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true,
         "mapping": [
@@ -2135,12 +2175,13 @@
           {
             "key": "ele-1",
             "severity": "error",
-            "human": "All FHIR elements must have a @value or children",
-            "expression": "hasValue() or (children().count() \u003e id.count())",
-            "xpath": "@value|f:*|h:div",
+            "human": "All FHIR elements must have a @value or children unless an empty Parameters resource",
+            "expression": "hasValue() or (children().count() \u003e id.count()) or $this is Parameters",
+            "xpath": "@value|f:*|h:div|self::f:Parameters",
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -2174,7 +2215,7 @@
             "extension": [
               {
                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                "valueUrl": "string"
+                "valueUri": "id"
               }
             ],
             "code": "http://hl7.org/fhirpath/System.String"
@@ -2244,7 +2285,7 @@
         "short": "Extensions that cannot be ignored even if unrecognized",
         "definition": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself).",
         "comment": "There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
-        "requirements": "Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](http://hl7.org/fhir/extensibility.html#modifierExtension).",
+        "requirements": "Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](http://hl7.org/fhir/2021Mar/extensibility.html#modifierExtension).",
         "alias": [
           "extensions",
           "user content",
@@ -2324,6 +2365,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -2366,6 +2408,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "binding": {
@@ -2426,6 +2469,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -2474,6 +2518,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -2514,6 +2559,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -2556,6 +2602,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "binding": {
@@ -2567,7 +2614,7 @@
           ],
           "strength": "required",
           "description": "The processing mode that applies to this section.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/list-mode|4.0.1"
+          "valueSet": "http://hl7.org/fhir/ValueSet/list-mode|4.1.0"
         },
         "mapping": [
           {
@@ -2613,6 +2660,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "binding": {
@@ -2671,6 +2719,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -2716,6 +2765,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "binding": {
@@ -2753,7 +2803,7 @@
           "min": 0,
           "max": "*"
         },
-        "contentReference": "#Composition.section",
+        "contentReference": "http://hl7.org/fhir/StructureDefinition/Composition#Composition.section",
         "condition": [
           "cmp-1"
         ],
@@ -2767,6 +2817,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -2839,6 +2890,10 @@
         ],
         "binding": {
           "extension": [
+            {
+              "url": "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "valueString": "The type of catalog."
+            },
             {
               "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
               "valueString": "CatalogType"

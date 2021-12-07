@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for Measure.subject[x]",
       "expansion": {
-        "identifier": "urn:uuid:b6a47d8c-52d0-4535-abf8-ef24056dc413",
-        "timestamp": "2019-11-01T09:35:43+11:00",
+        "identifier": "urn:uuid:2435c16e-6726-4b6d-911e-aa03151b1eff",
+        "timestamp": "2021-12-06T19:03:39+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -31,9 +31,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2020-12-28T05:55:11+00:00",
   "publisher": "HL7",
   "item": [
     {
@@ -227,9 +227,10 @@
             {
               "linkId": "Measure.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -382,7 +383,7 @@
                   }
                 }
               ],
-              "text": "An absolute URI that is used to identify this measure when it is referenced in a specification, model, design or an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal address at which at which an authoritative instance of this measure is (or will be) published. This URL can be the target of a canonical reference. It SHALL remain the same when the measure is stored on different servers. Can be a urn:uuid: or a urn:oid: but real http: addresses are preferred.  Multiple instances may share the same URL if they have a distinct version.\n\nThe determination of when to create a new version of a resource (same url, new version) vs. defining a new artifact is up to the author.  Considerations for making this decision are found in [Technical and Business Versions](http://hl7.org/fhir/resource.html#versions). \n\nIn some cases, the resource can no longer be found at the stated url, but the url itself cannot change. Implementations can use the [meta.source](http://hl7.org/fhir/resource.html#meta) element to indicate where the current master source of the resource can be found.",
+              "text": "An absolute URI that is used to identify this measure when it is referenced in a specification, model, design or an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal address at which at which an authoritative instance of this measure is (or will be) published. This URL can be the target of a canonical reference. It SHALL remain the same when the measure is stored on different servers. Can be a urn:uuid: or a urn:oid: but real http: addresses are preferred.  Multiple instances may share the same URL if they have a distinct version.\n\nThe determination of when to create a new version of a resource (same url, new version) vs. defining a new artifact is up to the author.  Considerations for making this decision are found in [Technical and Business Versions](http://hl7.org/fhir/2021Mar/resource.html#versions). \n\nIn some cases, the resource can no longer be found at the stated url, but the url itself cannot change. Implementations can use the [meta.source](http://hl7.org/fhir/2021Mar/resource.html#meta) element to indicate where the current master source of the resource can be found.",
               "type": "display"
             },
             {
@@ -669,9 +670,10 @@
             {
               "linkId": "Measure.status.value",
               "text": "status",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -756,9 +758,10 @@
             {
               "linkId": "Measure.subject[x]._type",
               "text": "type",
-              "type": "choice",
+              "type": "coding",
               "required": false,
               "repeats": false,
+              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs2",
               "item": [
                 {
@@ -774,9 +777,10 @@
                     {
                       "linkId": "Measure.subject[x]._null.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "Measure.subject[x]._null.text",
@@ -1052,9 +1056,10 @@
             {
               "linkId": "Measure.jurisdiction.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Measure.jurisdiction.text",
@@ -1365,9 +1370,10 @@
             {
               "linkId": "Measure.topic.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Measure.topic.text",
@@ -1637,9 +1643,10 @@
             {
               "linkId": "Measure.scoring.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Measure.scoring.text",
@@ -1688,9 +1695,10 @@
             {
               "linkId": "Measure.compositeScoring.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Measure.compositeScoring.text",
@@ -1735,9 +1743,10 @@
             {
               "linkId": "Measure.type.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Measure.type.text",
@@ -1958,9 +1967,10 @@
             {
               "linkId": "Measure.improvementNotation.coding",
               "text": "code:",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             },
             {
               "linkId": "Measure.improvementNotation.text",
@@ -2213,9 +2223,10 @@
                 {
                   "linkId": "Measure.group.code.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "Measure.group.code.text",
@@ -2429,9 +2440,10 @@
                     {
                       "linkId": "Measure.group.population.code.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "Measure.group.population.code.text",
@@ -2688,9 +2700,10 @@
                     {
                       "linkId": "Measure.group.stratifier.code.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "Measure.group.stratifier.code.text",
@@ -2941,9 +2954,10 @@
                         {
                           "linkId": "Measure.group.stratifier.component.code.coding",
                           "text": "code:",
-                          "type": "open-choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOnly"
                         },
                         {
                           "linkId": "Measure.group.stratifier.component.code.text",
@@ -3204,9 +3218,10 @@
                 {
                   "linkId": "Measure.supplementalData.code.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "Measure.supplementalData.code.text",
@@ -3251,9 +3266,10 @@
                 {
                   "linkId": "Measure.supplementalData.usage.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "Measure.supplementalData.usage.text",

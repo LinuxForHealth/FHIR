@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for ActivityDefinition.subject[x]",
       "expansion": {
-        "identifier": "urn:uuid:3fc9fbe1-fad9-40f5-9be7-f26d2571a4ee",
-        "timestamp": "2019-11-01T09:34:27+11:00",
+        "identifier": "urn:uuid:568c0ee8-992c-432d-b953-cd646d1e1081",
+        "timestamp": "2021-12-06T19:02:20+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -32,8 +32,8 @@
       "status": "active",
       "description": "Type options for ActivityDefinition.timing[x]",
       "expansion": {
-        "identifier": "urn:uuid:547ebd30-bfb9-4316-83a8-ea03e3ea2b4f",
-        "timestamp": "2019-11-01T09:34:27+11:00",
+        "identifier": "urn:uuid:337da47b-9f0e-4867-8d82-a029903694c5",
+        "timestamp": "2021-12-06T19:02:20+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -75,8 +75,8 @@
       "status": "active",
       "description": "Type options for ActivityDefinition.product[x]",
       "expansion": {
-        "identifier": "urn:uuid:ceb8aab8-25c4-49cc-9e74-5b34b3fd7999",
-        "timestamp": "2019-11-01T09:34:27+11:00",
+        "identifier": "urn:uuid:97a4d884-8ce1-4a14-87a4-71dea893e418",
+        "timestamp": "2021-12-06T19:02:20+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/resource-types",
@@ -87,6 +87,11 @@
             "system": "http://hl7.org/fhir/resource-types",
             "code": "Substance",
             "display": "Substance"
+          },
+          {
+            "system": "http://hl7.org/fhir/resource-types",
+            "code": "Ingredient",
+            "display": "Ingredient"
           },
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -102,9 +107,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-12-06T18:53:36+00:00",
   "publisher": "Health Level Seven International (Clinical Decision Support)",
   "item": [
     {
@@ -288,9 +293,10 @@
             {
               "linkId": "ActivityDefinition.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -718,9 +724,10 @@
             {
               "linkId": "ActivityDefinition.status.value",
               "text": "status",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -795,15 +802,16 @@
                   }
                 }
               ],
-              "text": "A code or group definition that describes the intended subject of the activity being defined.",
+              "text": "A code, group definition, or canonical reference that describes  or identifies the intended subject of the activity being defined.  Canonical references are allowed to support the definition of protocols for drug and substance quality specifications, and is allowed to reference a MedicinalProductDefinition, SubstanceDefinition, AdministrableProductDefinition, ManufacturedItemDefinition, or PackagedProductDefinition resource.",
               "type": "display"
             },
             {
               "linkId": "ActivityDefinition.subject[x]._type",
               "text": "type",
-              "type": "choice",
+              "type": "coding",
               "required": false,
               "repeats": false,
+              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs2",
               "item": [
                 {
@@ -819,9 +827,10 @@
                     {
                       "linkId": "ActivityDefinition.subject[x]._null.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "ActivityDefinition.subject[x]._null.text",
@@ -855,6 +864,24 @@
                       ],
                       "linkId": "ActivityDefinition.subject[x]._null.value",
                       "type": "reference",
+                      "required": false,
+                      "repeats": false
+                    }
+                  ]
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                      "valueString": "uri"
+                    }
+                  ],
+                  "linkId": "ActivityDefinition.subject[x]._null",
+                  "type": "group",
+                  "item": [
+                    {
+                      "linkId": "ActivityDefinition.subject[x]._null.value",
+                      "type": "string",
                       "required": false,
                       "repeats": false
                     }
@@ -1089,9 +1116,10 @@
             {
               "linkId": "ActivityDefinition.jurisdiction.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "ActivityDefinition.jurisdiction.text",
@@ -1402,9 +1430,10 @@
             {
               "linkId": "ActivityDefinition.topic.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "ActivityDefinition.topic.text",
@@ -1630,9 +1659,10 @@
             {
               "linkId": "ActivityDefinition.kind.value",
               "text": "kind",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -1717,9 +1747,10 @@
             {
               "linkId": "ActivityDefinition.code.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "ActivityDefinition.code.text",
@@ -1767,9 +1798,10 @@
             {
               "linkId": "ActivityDefinition.intent.value",
               "text": "intent",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -1810,9 +1842,10 @@
             {
               "linkId": "ActivityDefinition.priority.value",
               "text": "priority",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -1893,9 +1926,10 @@
             {
               "linkId": "ActivityDefinition.timing[x]._type",
               "text": "type",
-              "type": "choice",
+              "type": "coding",
               "required": false,
               "repeats": false,
+              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs3",
               "item": [
                 {
@@ -1976,9 +2010,10 @@
                     {
                       "linkId": "ActivityDefinition.timing[x]._null.comparator",
                       "text": "comp:",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "ActivityDefinition.timing[x]._null.value",
@@ -2082,9 +2117,10 @@
                     {
                       "linkId": "ActivityDefinition.timing[x]._null.comparator",
                       "text": "comp:",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "ActivityDefinition.timing[x]._null.value",
@@ -2336,9 +2372,10 @@
                 {
                   "linkId": "ActivityDefinition.participant.type.value",
                   "text": "type",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOrType"
                 }
               ]
             },
@@ -2380,9 +2417,10 @@
                 {
                   "linkId": "ActivityDefinition.participant.role.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "ActivityDefinition.participant.role.text",
@@ -2429,9 +2467,10 @@
             {
               "linkId": "ActivityDefinition.product[x]._type",
               "text": "type",
-              "type": "choice",
+              "type": "coding",
               "required": false,
               "repeats": false,
+              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs4",
               "item": [
                 {
@@ -2448,7 +2487,7 @@
                       "extension": [
                         {
                           "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-allowedResource",
-                          "valueCode": "Medication, Substance"
+                          "valueCode": "Medication, Substance, Ingredient"
                         },
                         {
                           "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-referenceFilter",
@@ -2475,9 +2514,10 @@
                     {
                       "linkId": "ActivityDefinition.product[x]._null.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "ActivityDefinition.product[x]._null.text",
@@ -2530,9 +2570,10 @@
             {
               "linkId": "ActivityDefinition.quantity.comparator",
               "text": "comp:",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "ActivityDefinition.quantity.value",
@@ -2629,9 +2670,10 @@
             {
               "linkId": "ActivityDefinition.bodySite.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "ActivityDefinition.bodySite.text",

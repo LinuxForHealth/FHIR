@@ -11,7 +11,7 @@ simple newborn example
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: newborn</p><p><b>gender</b>: male</p><p><b>birthDate</b>: 05/09/2017</p><p><b>multipleBirth</b>: 2</p></div></text><extension url="http://hl7.org/fhir/StructureDefinition/patient-mothersMaidenName">
+  <text><status value="extensions"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "newborn" </p></div><p><b>Mother's Maiden Name</b>: Everywoman</p><p><b>gender</b>: male</p><p><b>birthDate</b>: 2017-09-05</p><p><b>multipleBirth</b>: 2</p></div></text><extension url="http://hl7.org/fhir/StructureDefinition/patient-mothersMaidenName">
 		<valueString value="Everywoman"/>
 	</extension>
 	<gender value="male"/>

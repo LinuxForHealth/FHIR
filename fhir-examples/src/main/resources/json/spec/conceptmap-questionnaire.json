@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for ConceptMap.source[x]",
       "expansion": {
-        "identifier": "urn:uuid:b3329dbd-c19b-4357-b95d-e1116893bfb3",
-        "timestamp": "2019-11-01T09:34:49+11:00",
+        "identifier": "urn:uuid:7140e7c0-0e96-4118-bbc5-6106949c6597",
+        "timestamp": "2021-12-06T19:02:47+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -32,8 +32,8 @@
       "status": "active",
       "description": "Type options for ConceptMap.target[x]",
       "expansion": {
-        "identifier": "urn:uuid:bb3994dd-6bee-4e79-9ede-20607f7e6e6b",
-        "timestamp": "2019-11-01T09:34:49+11:00",
+        "identifier": "urn:uuid:fdd72a76-1c22-47ea-a79d-2ba86ba42573",
+        "timestamp": "2021-12-06T19:02:47+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -54,9 +54,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-12-06T18:53:36+00:00",
   "publisher": "Health Level Seven International (Vocabulary)",
   "item": [
     {
@@ -240,9 +240,10 @@
             {
               "linkId": "ConceptMap.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -631,9 +632,10 @@
             {
               "linkId": "ConceptMap.status.value",
               "text": "status",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -905,9 +907,10 @@
             {
               "linkId": "ConceptMap.jurisdiction.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "ConceptMap.jurisdiction.text",
@@ -1038,9 +1041,10 @@
             {
               "linkId": "ConceptMap.source[x]._type",
               "text": "type",
-              "type": "choice",
+              "type": "coding",
               "required": false,
               "repeats": false,
+              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs2",
               "item": [
                 {
@@ -1117,9 +1121,10 @@
             {
               "linkId": "ConceptMap.target[x]._type",
               "text": "type",
-              "type": "choice",
+              "type": "coding",
               "required": false,
               "repeats": false,
+              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs3",
               "item": [
                 {
@@ -1625,9 +1630,10 @@
                     {
                       "linkId": "ConceptMap.group.element.code.value",
                       "text": "code",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     }
                   ]
                 },
@@ -1837,9 +1843,10 @@
                         {
                           "linkId": "ConceptMap.group.element.target.code.value",
                           "text": "code",
-                          "type": "choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOnly"
                         }
                       ]
                     },
@@ -1927,9 +1934,10 @@
                         {
                           "linkId": "ConceptMap.group.element.target.equivalence.value",
                           "text": "equivalence",
-                          "type": "choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOrType"
                         }
                       ]
                     },
@@ -2484,9 +2492,10 @@
                     {
                       "linkId": "ConceptMap.group.unmapped.mode.value",
                       "text": "mode",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOrType"
                     }
                   ]
                 },
@@ -2527,9 +2536,10 @@
                     {
                       "linkId": "ConceptMap.group.unmapped.code.value",
                       "text": "code",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     }
                   ]
                 },

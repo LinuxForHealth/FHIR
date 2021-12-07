@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?><RegulatedAuthorization xmlns="http://hl7.org/fhir">
+	<id value="basic-drug-auth"/>
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "basic-drug-auth" </p></div><p><b>subject</b>: <a>MedicinalProductDefinition/equilidem</a></p><p><b>type</b>: Regulatory Drug Marketing Approval <span> ()</span></p><p><b>status</b>: active <span> ([not stated]#active)</span></p><p><b>statusDate</b>: 2016-01-01</p><p><b>holder</b>: <a>Organization/EqlidrugCo: EquiliDrugCo Holdings Inc.</a></p><p><b>regulator</b>: <a>Organization/FDA: FDA</a></p></div></text><subject>
+		<reference value="MedicinalProductDefinition/equilidem"/>
+	</subject>
+	<type>
+		<text value="Regulatory Drug Marketing Approval"/>
+	</type>
+	<status>
+		<coding>
+			<code value="active"/>
+		</coding>
+	</status>
+	<statusDate value="2016-01-01"/>
+	<holder>
+		<reference value="Organization/EqlidrugCo"/>
+		<display value="EquiliDrugCo Holdings Inc."/>
+	</holder>
+	<regulator>
+		<reference value="Organization/FDA"/>
+		<display value="FDA"/>
+	</regulator>
+</RegulatedAuthorization>

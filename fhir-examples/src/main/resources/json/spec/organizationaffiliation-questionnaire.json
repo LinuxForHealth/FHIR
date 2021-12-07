@@ -6,9 +6,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-12-06T18:53:36+00:00",
   "publisher": "Health Level Seven International (Patient Administration)",
   "item": [
     {
@@ -192,9 +192,10 @@
             {
               "linkId": "OrganizationAffiliation.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -649,9 +650,10 @@
             {
               "linkId": "OrganizationAffiliation.code.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "OrganizationAffiliation.code.text",
@@ -696,9 +698,10 @@
             {
               "linkId": "OrganizationAffiliation.specialty.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "OrganizationAffiliation.specialty.text",
@@ -841,9 +844,10 @@
             {
               "linkId": "OrganizationAffiliation.telecom.system",
               "text": "type:",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "OrganizationAffiliation.telecom.value",
@@ -855,9 +859,10 @@
             {
               "linkId": "OrganizationAffiliation.telecom.use",
               "text": "use:",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },

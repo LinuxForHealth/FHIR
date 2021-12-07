@@ -473,6 +473,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -482,6 +485,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray subjectArray = getJsonArray(jsonObject, "subject");
         if (subjectArray != null) {
             for (int i = 0; i < subjectArray.size(); i++) {
+                if (subjectArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + subjectArray.get(i).getValueType() + " for element: subject");
+                }
                 builder.subject(parseReference("subject", subjectArray.getJsonObject(i), i));
             }
         }
@@ -489,6 +495,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray coverageArray = getJsonArray(jsonObject, "coverage");
         if (coverageArray != null) {
             for (int i = 0; i < coverageArray.size(); i++) {
+                if (coverageArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + coverageArray.get(i).getValueType() + " for element: coverage");
+                }
                 builder.coverage(parseAccountCoverage("coverage", coverageArray.getJsonObject(i), i));
             }
         }
@@ -497,6 +506,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray guarantorArray = getJsonArray(jsonObject, "guarantor");
         if (guarantorArray != null) {
             for (int i = 0; i < guarantorArray.size(); i++) {
+                if (guarantorArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + guarantorArray.get(i).getValueType() + " for element: guarantor");
+                }
                 builder.guarantor(parseAccountGuarantor("guarantor", guarantorArray.getJsonObject(i), i));
             }
         }
@@ -555,6 +567,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -570,6 +585,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray contactArray = getJsonArray(jsonObject, "contact");
         if (contactArray != null) {
             for (int i = 0; i < contactArray.size(); i++) {
+                if (contactArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contactArray.get(i).getValueType() + " for element: contact");
+                }
                 builder.contact(parseContactDetail("contact", contactArray.getJsonObject(i), i));
             }
         }
@@ -577,12 +595,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray useContextArray = getJsonArray(jsonObject, "useContext");
         if (useContextArray != null) {
             for (int i = 0; i < useContextArray.size(); i++) {
+                if (useContextArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + useContextArray.get(i).getValueType() + " for element: useContext");
+                }
                 builder.useContext(parseUsageContext("useContext", useContextArray.getJsonObject(i), i));
             }
         }
         JsonArray jurisdictionArray = getJsonArray(jsonObject, "jurisdiction");
         if (jurisdictionArray != null) {
             for (int i = 0; i < jurisdictionArray.size(); i++) {
+                if (jurisdictionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + jurisdictionArray.get(i).getValueType() + " for element: jurisdiction");
+                }
                 builder.jurisdiction(parseCodeableConcept("jurisdiction", jurisdictionArray.getJsonObject(i), i));
             }
         }
@@ -595,36 +619,54 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray topicArray = getJsonArray(jsonObject, "topic");
         if (topicArray != null) {
             for (int i = 0; i < topicArray.size(); i++) {
+                if (topicArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + topicArray.get(i).getValueType() + " for element: topic");
+                }
                 builder.topic(parseCodeableConcept("topic", topicArray.getJsonObject(i), i));
             }
         }
         JsonArray authorArray = getJsonArray(jsonObject, "author");
         if (authorArray != null) {
             for (int i = 0; i < authorArray.size(); i++) {
+                if (authorArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + authorArray.get(i).getValueType() + " for element: author");
+                }
                 builder.author(parseContactDetail("author", authorArray.getJsonObject(i), i));
             }
         }
         JsonArray editorArray = getJsonArray(jsonObject, "editor");
         if (editorArray != null) {
             for (int i = 0; i < editorArray.size(); i++) {
+                if (editorArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + editorArray.get(i).getValueType() + " for element: editor");
+                }
                 builder.editor(parseContactDetail("editor", editorArray.getJsonObject(i), i));
             }
         }
         JsonArray reviewerArray = getJsonArray(jsonObject, "reviewer");
         if (reviewerArray != null) {
             for (int i = 0; i < reviewerArray.size(); i++) {
+                if (reviewerArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reviewerArray.get(i).getValueType() + " for element: reviewer");
+                }
                 builder.reviewer(parseContactDetail("reviewer", reviewerArray.getJsonObject(i), i));
             }
         }
         JsonArray endorserArray = getJsonArray(jsonObject, "endorser");
         if (endorserArray != null) {
             for (int i = 0; i < endorserArray.size(); i++) {
+                if (endorserArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + endorserArray.get(i).getValueType() + " for element: endorser");
+                }
                 builder.endorser(parseContactDetail("endorser", endorserArray.getJsonObject(i), i));
             }
         }
         JsonArray relatedArtifactArray = getJsonArray(jsonObject, "relatedArtifact");
         if (relatedArtifactArray != null) {
             for (int i = 0; i < relatedArtifactArray.size(); i++) {
+                if (relatedArtifactArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + relatedArtifactArray.get(i).getValueType() + " for element: relatedArtifact");
+                }
                 builder.relatedArtifact(parseRelatedArtifact("relatedArtifact", relatedArtifactArray.getJsonObject(i), i));
             }
         }
@@ -646,6 +688,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray participantArray = getJsonArray(jsonObject, "participant");
         if (participantArray != null) {
             for (int i = 0; i < participantArray.size(); i++) {
+                if (participantArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + participantArray.get(i).getValueType() + " for element: participant");
+                }
                 builder.participant(parseActivityDefinitionParticipant("participant", participantArray.getJsonObject(i), i));
             }
         }
@@ -654,30 +699,45 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray dosageArray = getJsonArray(jsonObject, "dosage");
         if (dosageArray != null) {
             for (int i = 0; i < dosageArray.size(); i++) {
+                if (dosageArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + dosageArray.get(i).getValueType() + " for element: dosage");
+                }
                 builder.dosage(parseDosage("dosage", dosageArray.getJsonObject(i), i));
             }
         }
         JsonArray bodySiteArray = getJsonArray(jsonObject, "bodySite");
         if (bodySiteArray != null) {
             for (int i = 0; i < bodySiteArray.size(); i++) {
+                if (bodySiteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + bodySiteArray.get(i).getValueType() + " for element: bodySite");
+                }
                 builder.bodySite(parseCodeableConcept("bodySite", bodySiteArray.getJsonObject(i), i));
             }
         }
         JsonArray specimenRequirementArray = getJsonArray(jsonObject, "specimenRequirement");
         if (specimenRequirementArray != null) {
             for (int i = 0; i < specimenRequirementArray.size(); i++) {
+                if (specimenRequirementArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + specimenRequirementArray.get(i).getValueType() + " for element: specimenRequirement");
+                }
                 builder.specimenRequirement(parseReference("specimenRequirement", specimenRequirementArray.getJsonObject(i), i));
             }
         }
         JsonArray observationRequirementArray = getJsonArray(jsonObject, "observationRequirement");
         if (observationRequirementArray != null) {
             for (int i = 0; i < observationRequirementArray.size(); i++) {
+                if (observationRequirementArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + observationRequirementArray.get(i).getValueType() + " for element: observationRequirement");
+                }
                 builder.observationRequirement(parseReference("observationRequirement", observationRequirementArray.getJsonObject(i), i));
             }
         }
         JsonArray observationResultRequirementArray = getJsonArray(jsonObject, "observationResultRequirement");
         if (observationResultRequirementArray != null) {
             for (int i = 0; i < observationResultRequirementArray.size(); i++) {
+                if (observationResultRequirementArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + observationResultRequirementArray.get(i).getValueType() + " for element: observationResultRequirement");
+                }
                 builder.observationResultRequirement(parseReference("observationResultRequirement", observationResultRequirementArray.getJsonObject(i), i));
             }
         }
@@ -685,6 +745,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray dynamicValueArray = getJsonArray(jsonObject, "dynamicValue");
         if (dynamicValueArray != null) {
             for (int i = 0; i < dynamicValueArray.size(); i++) {
+                if (dynamicValueArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + dynamicValueArray.get(i).getValueType() + " for element: dynamicValue");
+                }
                 builder.dynamicValue(parseActivityDefinitionDynamicValue("dynamicValue", dynamicValueArray.getJsonObject(i), i));
             }
         }
@@ -771,6 +834,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -778,6 +844,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray formOfArray = getJsonArray(jsonObject, "formOf");
         if (formOfArray != null) {
             for (int i = 0; i < formOfArray.size(); i++) {
+                if (formOfArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + formOfArray.get(i).getValueType() + " for element: formOf");
+                }
                 builder.formOf(parseReference("formOf", formOfArray.getJsonObject(i), i));
             }
         }
@@ -786,12 +855,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray producedFromArray = getJsonArray(jsonObject, "producedFrom");
         if (producedFromArray != null) {
             for (int i = 0; i < producedFromArray.size(); i++) {
+                if (producedFromArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + producedFromArray.get(i).getValueType() + " for element: producedFrom");
+                }
                 builder.producedFrom(parseReference("producedFrom", producedFromArray.getJsonObject(i), i));
             }
         }
         JsonArray ingredientArray = getJsonArray(jsonObject, "ingredient");
         if (ingredientArray != null) {
             for (int i = 0; i < ingredientArray.size(); i++) {
+                if (ingredientArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + ingredientArray.get(i).getValueType() + " for element: ingredient");
+                }
                 builder.ingredient(parseCodeableConcept("ingredient", ingredientArray.getJsonObject(i), i));
             }
         }
@@ -799,12 +874,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray propertyArray = getJsonArray(jsonObject, "property");
         if (propertyArray != null) {
             for (int i = 0; i < propertyArray.size(); i++) {
+                if (propertyArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + propertyArray.get(i).getValueType() + " for element: property");
+                }
                 builder.property(parseAdministrableProductDefinitionProperty("property", propertyArray.getJsonObject(i), i));
             }
         }
         JsonArray routeOfAdministrationArray = getJsonArray(jsonObject, "routeOfAdministration");
         if (routeOfAdministrationArray != null) {
             for (int i = 0; i < routeOfAdministrationArray.size(); i++) {
+                if (routeOfAdministrationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + routeOfAdministrationArray.get(i).getValueType() + " for element: routeOfAdministration");
+                }
                 builder.routeOfAdministration(parseAdministrableProductDefinitionRouteOfAdministration("routeOfAdministration", routeOfAdministrationArray.getJsonObject(i), i));
             }
         }
@@ -850,6 +931,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray targetSpeciesArray = getJsonArray(jsonObject, "targetSpecies");
         if (targetSpeciesArray != null) {
             for (int i = 0; i < targetSpeciesArray.size(); i++) {
+                if (targetSpeciesArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + targetSpeciesArray.get(i).getValueType() + " for element: targetSpecies");
+                }
                 builder.targetSpecies(parseAdministrableProductDefinitionRouteOfAdministrationTargetSpecies("targetSpecies", targetSpeciesArray.getJsonObject(i), i));
             }
         }
@@ -872,6 +956,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray withdrawalPeriodArray = getJsonArray(jsonObject, "withdrawalPeriod");
         if (withdrawalPeriodArray != null) {
             for (int i = 0; i < withdrawalPeriodArray.size(); i++) {
+                if (withdrawalPeriodArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + withdrawalPeriodArray.get(i).getValueType() + " for element: withdrawalPeriod");
+                }
                 builder.withdrawalPeriod(parseAdministrableProductDefinitionRouteOfAdministrationTargetSpeciesWithdrawalPeriod("withdrawalPeriod", withdrawalPeriodArray.getJsonObject(i), i));
             }
         }
@@ -913,6 +1000,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray categoryArray = getJsonArray(jsonObject, "category");
         if (categoryArray != null) {
             for (int i = 0; i < categoryArray.size(); i++) {
+                if (categoryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + categoryArray.get(i).getValueType() + " for element: category");
+                }
                 builder.category(parseCodeableConcept("category", categoryArray.getJsonObject(i), i));
             }
         }
@@ -925,6 +1015,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray resultingConditionArray = getJsonArray(jsonObject, "resultingCondition");
         if (resultingConditionArray != null) {
             for (int i = 0; i < resultingConditionArray.size(); i++) {
+                if (resultingConditionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + resultingConditionArray.get(i).getValueType() + " for element: resultingCondition");
+                }
                 builder.resultingCondition(parseReference("resultingCondition", resultingConditionArray.getJsonObject(i), i));
             }
         }
@@ -936,30 +1029,45 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray contributorArray = getJsonArray(jsonObject, "contributor");
         if (contributorArray != null) {
             for (int i = 0; i < contributorArray.size(); i++) {
+                if (contributorArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contributorArray.get(i).getValueType() + " for element: contributor");
+                }
                 builder.contributor(parseReference("contributor", contributorArray.getJsonObject(i), i));
             }
         }
         JsonArray suspectEntityArray = getJsonArray(jsonObject, "suspectEntity");
         if (suspectEntityArray != null) {
             for (int i = 0; i < suspectEntityArray.size(); i++) {
+                if (suspectEntityArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + suspectEntityArray.get(i).getValueType() + " for element: suspectEntity");
+                }
                 builder.suspectEntity(parseAdverseEventSuspectEntity("suspectEntity", suspectEntityArray.getJsonObject(i), i));
             }
         }
         JsonArray subjectMedicalHistoryArray = getJsonArray(jsonObject, "subjectMedicalHistory");
         if (subjectMedicalHistoryArray != null) {
             for (int i = 0; i < subjectMedicalHistoryArray.size(); i++) {
+                if (subjectMedicalHistoryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + subjectMedicalHistoryArray.get(i).getValueType() + " for element: subjectMedicalHistory");
+                }
                 builder.subjectMedicalHistory(parseReference("subjectMedicalHistory", subjectMedicalHistoryArray.getJsonObject(i), i));
             }
         }
         JsonArray referenceDocumentArray = getJsonArray(jsonObject, "referenceDocument");
         if (referenceDocumentArray != null) {
             for (int i = 0; i < referenceDocumentArray.size(); i++) {
+                if (referenceDocumentArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + referenceDocumentArray.get(i).getValueType() + " for element: referenceDocument");
+                }
                 builder.referenceDocument(parseReference("referenceDocument", referenceDocumentArray.getJsonObject(i), i));
             }
         }
         JsonArray studyArray = getJsonArray(jsonObject, "study");
         if (studyArray != null) {
             for (int i = 0; i < studyArray.size(); i++) {
+                if (studyArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + studyArray.get(i).getValueType() + " for element: study");
+                }
                 builder.study(parseReference("study", studyArray.getJsonObject(i), i));
             }
         }
@@ -982,6 +1090,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray causalityArray = getJsonArray(jsonObject, "causality");
         if (causalityArray != null) {
             for (int i = 0; i < causalityArray.size(); i++) {
+                if (causalityArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + causalityArray.get(i).getValueType() + " for element: causality");
+                }
                 builder.causality(parseAdverseEventSuspectEntityCausality("causality", causalityArray.getJsonObject(i), i));
             }
         }
@@ -1022,6 +1133,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -1032,6 +1146,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (categoryArray != null) {
             JsonArray _categoryArray = jsonObject.getJsonArray("_category");
             for (int i = 0; i < categoryArray.size(); i++) {
+                if (categoryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + categoryArray.get(i).getValueType() + " for element: category");
+                }
                 builder.category((AllergyIntoleranceCategory) parseString(AllergyIntoleranceCategory.builder(), "category", categoryArray.get(i), getJsonValue(_categoryArray, i), i));
             }
         }
@@ -1047,12 +1164,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
         JsonArray reactionArray = getJsonArray(jsonObject, "reaction");
         if (reactionArray != null) {
             for (int i = 0; i < reactionArray.size(); i++) {
+                if (reactionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reactionArray.get(i).getValueType() + " for element: reaction");
+                }
                 builder.reaction(parseAllergyIntoleranceReaction("reaction", reactionArray.getJsonObject(i), i));
             }
         }
@@ -1075,6 +1198,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray manifestationArray = getJsonArray(jsonObject, "manifestation");
         if (manifestationArray != null) {
             for (int i = 0; i < manifestationArray.size(); i++) {
+                if (manifestationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + manifestationArray.get(i).getValueType() + " for element: manifestation");
+                }
                 builder.manifestation(parseCodeableConcept("manifestation", manifestationArray.getJsonObject(i), i));
             }
         }
@@ -1085,6 +1211,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
@@ -1124,6 +1253,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -1132,18 +1264,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray serviceCategoryArray = getJsonArray(jsonObject, "serviceCategory");
         if (serviceCategoryArray != null) {
             for (int i = 0; i < serviceCategoryArray.size(); i++) {
+                if (serviceCategoryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + serviceCategoryArray.get(i).getValueType() + " for element: serviceCategory");
+                }
                 builder.serviceCategory(parseCodeableConcept("serviceCategory", serviceCategoryArray.getJsonObject(i), i));
             }
         }
         JsonArray serviceTypeArray = getJsonArray(jsonObject, "serviceType");
         if (serviceTypeArray != null) {
             for (int i = 0; i < serviceTypeArray.size(); i++) {
+                if (serviceTypeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + serviceTypeArray.get(i).getValueType() + " for element: serviceType");
+                }
                 builder.serviceType(parseCodeableConcept("serviceType", serviceTypeArray.getJsonObject(i), i));
             }
         }
         JsonArray specialtyArray = getJsonArray(jsonObject, "specialty");
         if (specialtyArray != null) {
             for (int i = 0; i < specialtyArray.size(); i++) {
+                if (specialtyArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + specialtyArray.get(i).getValueType() + " for element: specialty");
+                }
                 builder.specialty(parseCodeableConcept("specialty", specialtyArray.getJsonObject(i), i));
             }
         }
@@ -1151,12 +1292,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray reasonCodeArray = getJsonArray(jsonObject, "reasonCode");
         if (reasonCodeArray != null) {
             for (int i = 0; i < reasonCodeArray.size(); i++) {
+                if (reasonCodeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reasonCodeArray.get(i).getValueType() + " for element: reasonCode");
+                }
                 builder.reasonCode(parseCodeableConcept("reasonCode", reasonCodeArray.getJsonObject(i), i));
             }
         }
         JsonArray reasonReferenceArray = getJsonArray(jsonObject, "reasonReference");
         if (reasonReferenceArray != null) {
             for (int i = 0; i < reasonReferenceArray.size(); i++) {
+                if (reasonReferenceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reasonReferenceArray.get(i).getValueType() + " for element: reasonReference");
+                }
                 builder.reasonReference(parseReference("reasonReference", reasonReferenceArray.getJsonObject(i), i));
             }
         }
@@ -1165,6 +1312,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray supportingInformationArray = getJsonArray(jsonObject, "supportingInformation");
         if (supportingInformationArray != null) {
             for (int i = 0; i < supportingInformationArray.size(); i++) {
+                if (supportingInformationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + supportingInformationArray.get(i).getValueType() + " for element: supportingInformation");
+                }
                 builder.supportingInformation(parseReference("supportingInformation", supportingInformationArray.getJsonObject(i), i));
             }
         }
@@ -1174,6 +1324,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray slotArray = getJsonArray(jsonObject, "slot");
         if (slotArray != null) {
             for (int i = 0; i < slotArray.size(); i++) {
+                if (slotArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + slotArray.get(i).getValueType() + " for element: slot");
+                }
                 builder.slot(parseReference("slot", slotArray.getJsonObject(i), i));
             }
         }
@@ -1183,18 +1336,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray basedOnArray = getJsonArray(jsonObject, "basedOn");
         if (basedOnArray != null) {
             for (int i = 0; i < basedOnArray.size(); i++) {
+                if (basedOnArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + basedOnArray.get(i).getValueType() + " for element: basedOn");
+                }
                 builder.basedOn(parseReference("basedOn", basedOnArray.getJsonObject(i), i));
             }
         }
         JsonArray participantArray = getJsonArray(jsonObject, "participant");
         if (participantArray != null) {
             for (int i = 0; i < participantArray.size(); i++) {
+                if (participantArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + participantArray.get(i).getValueType() + " for element: participant");
+                }
                 builder.participant(parseAppointmentParticipant("participant", participantArray.getJsonObject(i), i));
             }
         }
         JsonArray requestedPeriodArray = getJsonArray(jsonObject, "requestedPeriod");
         if (requestedPeriodArray != null) {
             for (int i = 0; i < requestedPeriodArray.size(); i++) {
+                if (requestedPeriodArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + requestedPeriodArray.get(i).getValueType() + " for element: requestedPeriod");
+                }
                 builder.requestedPeriod(parsePeriod("requestedPeriod", requestedPeriodArray.getJsonObject(i), i));
             }
         }
@@ -1216,6 +1378,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray typeArray = getJsonArray(jsonObject, "type");
         if (typeArray != null) {
             for (int i = 0; i < typeArray.size(); i++) {
+                if (typeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + typeArray.get(i).getValueType() + " for element: type");
+                }
                 builder.type(parseCodeableConcept("type", typeArray.getJsonObject(i), i));
             }
         }
@@ -1241,6 +1406,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -1250,6 +1418,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray participantTypeArray = getJsonArray(jsonObject, "participantType");
         if (participantTypeArray != null) {
             for (int i = 0; i < participantTypeArray.size(); i++) {
+                if (participantTypeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + participantTypeArray.get(i).getValueType() + " for element: participantType");
+                }
                 builder.participantType(parseCodeableConcept("participantType", participantTypeArray.getJsonObject(i), i));
             }
         }
@@ -1298,6 +1469,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray subtypeArray = getJsonArray(jsonObject, "subtype");
         if (subtypeArray != null) {
             for (int i = 0; i < subtypeArray.size(); i++) {
+                if (subtypeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + subtypeArray.get(i).getValueType() + " for element: subtype");
+                }
                 builder.subtype(parseCoding("subtype", subtypeArray.getJsonObject(i), i));
             }
         }
@@ -1309,12 +1483,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray purposeOfEventArray = getJsonArray(jsonObject, "purposeOfEvent");
         if (purposeOfEventArray != null) {
             for (int i = 0; i < purposeOfEventArray.size(); i++) {
+                if (purposeOfEventArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + purposeOfEventArray.get(i).getValueType() + " for element: purposeOfEvent");
+                }
                 builder.purposeOfEvent(parseCodeableConcept("purposeOfEvent", purposeOfEventArray.getJsonObject(i), i));
             }
         }
         JsonArray agentArray = getJsonArray(jsonObject, "agent");
         if (agentArray != null) {
             for (int i = 0; i < agentArray.size(); i++) {
+                if (agentArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + agentArray.get(i).getValueType() + " for element: agent");
+                }
                 builder.agent(parseAuditEventAgent("agent", agentArray.getJsonObject(i), i));
             }
         }
@@ -1322,6 +1502,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray entityArray = getJsonArray(jsonObject, "entity");
         if (entityArray != null) {
             for (int i = 0; i < entityArray.size(); i++) {
+                if (entityArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + entityArray.get(i).getValueType() + " for element: entity");
+                }
                 builder.entity(parseAuditEventEntity("entity", entityArray.getJsonObject(i), i));
             }
         }
@@ -1344,6 +1527,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray roleArray = getJsonArray(jsonObject, "role");
         if (roleArray != null) {
             for (int i = 0; i < roleArray.size(); i++) {
+                if (roleArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + roleArray.get(i).getValueType() + " for element: role");
+                }
                 builder.role(parseCodeableConcept("role", roleArray.getJsonObject(i), i));
             }
         }
@@ -1364,6 +1550,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray purposeOfUseArray = getJsonArray(jsonObject, "purposeOfUse");
         if (purposeOfUseArray != null) {
             for (int i = 0; i < purposeOfUseArray.size(); i++) {
+                if (purposeOfUseArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + purposeOfUseArray.get(i).getValueType() + " for element: purposeOfUse");
+                }
                 builder.purposeOfUse(parseCodeableConcept("purposeOfUse", purposeOfUseArray.getJsonObject(i), i));
             }
         }
@@ -1406,6 +1595,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray securityLabelArray = getJsonArray(jsonObject, "securityLabel");
         if (securityLabelArray != null) {
             for (int i = 0; i < securityLabelArray.size(); i++) {
+                if (securityLabelArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + securityLabelArray.get(i).getValueType() + " for element: securityLabel");
+                }
                 builder.securityLabel(parseCoding("securityLabel", securityLabelArray.getJsonObject(i), i));
             }
         }
@@ -1415,6 +1607,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray detailArray = getJsonArray(jsonObject, "detail");
         if (detailArray != null) {
             for (int i = 0; i < detailArray.size(); i++) {
+                if (detailArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + detailArray.get(i).getValueType() + " for element: detail");
+                }
                 builder.detail(parseAuditEventEntityDetail("detail", detailArray.getJsonObject(i), i));
             }
         }
@@ -1455,6 +1650,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray typeArray = getJsonArray(jsonObject, "type");
         if (typeArray != null) {
             for (int i = 0; i < typeArray.size(); i++) {
+                if (typeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + typeArray.get(i).getValueType() + " for element: type");
+                }
                 builder.type(parseCoding("type", typeArray.getJsonObject(i), i));
             }
         }
@@ -1468,6 +1666,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray modifierExtensionArray = getJsonArray(jsonObject, "modifierExtension");
         if (modifierExtensionArray != null) {
             for (int i = 0; i < modifierExtensionArray.size(); i++) {
+                if (modifierExtensionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + modifierExtensionArray.get(i).getValueType() + " for element: modifierExtension");
+                }
                 builder.modifierExtension(parseExtension("modifierExtension", modifierExtensionArray.getJsonObject(i), i));
             }
         }
@@ -1513,6 +1714,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -1556,6 +1760,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -1565,6 +1772,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray requestArray = getJsonArray(jsonObject, "request");
         if (requestArray != null) {
             for (int i = 0; i < requestArray.size(); i++) {
+                if (requestArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + requestArray.get(i).getValueType() + " for element: request");
+                }
                 builder.request(parseReference("request", requestArray.getJsonObject(i), i));
             }
         }
@@ -1572,6 +1782,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray parentArray = getJsonArray(jsonObject, "parent");
         if (parentArray != null) {
             for (int i = 0; i < parentArray.size(); i++) {
+                if (parentArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + parentArray.get(i).getValueType() + " for element: parent");
+                }
                 builder.parent(parseReference("parent", parentArray.getJsonObject(i), i));
             }
         }
@@ -1579,6 +1792,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray processingArray = getJsonArray(jsonObject, "processing");
         if (processingArray != null) {
             for (int i = 0; i < processingArray.size(); i++) {
+                if (processingArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + processingArray.get(i).getValueType() + " for element: processing");
+                }
                 builder.processing(parseBiologicallyDerivedProductProcessing("processing", processingArray.getJsonObject(i), i));
             }
         }
@@ -1586,6 +1802,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray storageArray = getJsonArray(jsonObject, "storage");
         if (storageArray != null) {
             for (int i = 0; i < storageArray.size(); i++) {
+                if (storageArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + storageArray.get(i).getValueType() + " for element: storage");
+                }
                 builder.storage(parseBiologicallyDerivedProductStorage("storage", storageArray.getJsonObject(i), i));
             }
         }
@@ -1680,6 +1899,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -1689,6 +1911,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray locationQualifierArray = getJsonArray(jsonObject, "locationQualifier");
         if (locationQualifierArray != null) {
             for (int i = 0; i < locationQualifierArray.size(); i++) {
+                if (locationQualifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + locationQualifierArray.get(i).getValueType() + " for element: locationQualifier");
+                }
                 builder.locationQualifier(parseCodeableConcept("locationQualifier", locationQualifierArray.getJsonObject(i), i));
             }
         }
@@ -1696,6 +1921,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray imageArray = getJsonArray(jsonObject, "image");
         if (imageArray != null) {
             for (int i = 0; i < imageArray.size(); i++) {
+                if (imageArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + imageArray.get(i).getValueType() + " for element: image");
+                }
                 builder.image(parseAttachment("image", imageArray.getJsonObject(i), i));
             }
         }
@@ -1747,12 +1975,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray linkArray = getJsonArray(jsonObject, "link");
         if (linkArray != null) {
             for (int i = 0; i < linkArray.size(); i++) {
+                if (linkArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + linkArray.get(i).getValueType() + " for element: link");
+                }
                 builder.link(parseBundleLink("link", linkArray.getJsonObject(i), i));
             }
         }
         JsonArray entryArray = getJsonArray(jsonObject, "entry");
         if (entryArray != null) {
             for (int i = 0; i < entryArray.size(); i++) {
+                if (entryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + entryArray.get(i).getValueType() + " for element: entry");
+                }
                 builder.entry(parseBundleEntry("entry", entryArray.getJsonObject(i), i));
             }
         }
@@ -1775,6 +2009,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray linkArray = getJsonArray(jsonObject, "link");
         if (linkArray != null) {
             for (int i = 0; i < linkArray.size(); i++) {
+                if (linkArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + linkArray.get(i).getValueType() + " for element: link");
+                }
                 builder.link(parseBundleLink("link", linkArray.getJsonObject(i), i));
             }
         }
@@ -1884,6 +2121,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray contactArray = getJsonArray(jsonObject, "contact");
         if (contactArray != null) {
             for (int i = 0; i < contactArray.size(); i++) {
+                if (contactArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contactArray.get(i).getValueType() + " for element: contact");
+                }
                 builder.contact(parseContactDetail("contact", contactArray.getJsonObject(i), i));
             }
         }
@@ -1891,12 +2131,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray useContextArray = getJsonArray(jsonObject, "useContext");
         if (useContextArray != null) {
             for (int i = 0; i < useContextArray.size(); i++) {
+                if (useContextArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + useContextArray.get(i).getValueType() + " for element: useContext");
+                }
                 builder.useContext(parseUsageContext("useContext", useContextArray.getJsonObject(i), i));
             }
         }
         JsonArray jurisdictionArray = getJsonArray(jsonObject, "jurisdiction");
         if (jurisdictionArray != null) {
             for (int i = 0; i < jurisdictionArray.size(); i++) {
+                if (jurisdictionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + jurisdictionArray.get(i).getValueType() + " for element: jurisdiction");
+                }
                 builder.jurisdiction(parseCodeableConcept("jurisdiction", jurisdictionArray.getJsonObject(i), i));
             }
         }
@@ -1944,18 +2190,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray restArray = getJsonArray(jsonObject, "rest");
         if (restArray != null) {
             for (int i = 0; i < restArray.size(); i++) {
+                if (restArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + restArray.get(i).getValueType() + " for element: rest");
+                }
                 builder.rest(parseCapabilityStatementRest("rest", restArray.getJsonObject(i), i));
             }
         }
         JsonArray messagingArray = getJsonArray(jsonObject, "messaging");
         if (messagingArray != null) {
             for (int i = 0; i < messagingArray.size(); i++) {
+                if (messagingArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + messagingArray.get(i).getValueType() + " for element: messaging");
+                }
                 builder.messaging(parseCapabilityStatementMessaging("messaging", messagingArray.getJsonObject(i), i));
             }
         }
         JsonArray documentArray = getJsonArray(jsonObject, "document");
         if (documentArray != null) {
             for (int i = 0; i < documentArray.size(); i++) {
+                if (documentArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + documentArray.get(i).getValueType() + " for element: document");
+                }
                 builder.document(parseCapabilityStatementDocument("document", documentArray.getJsonObject(i), i));
             }
         }
@@ -2013,6 +2268,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray endpointArray = getJsonArray(jsonObject, "endpoint");
         if (endpointArray != null) {
             for (int i = 0; i < endpointArray.size(); i++) {
+                if (endpointArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + endpointArray.get(i).getValueType() + " for element: endpoint");
+                }
                 builder.endpoint(parseCapabilityStatementMessagingEndpoint("endpoint", endpointArray.getJsonObject(i), i));
             }
         }
@@ -2021,6 +2279,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray supportedMessageArray = getJsonArray(jsonObject, "supportedMessage");
         if (supportedMessageArray != null) {
             for (int i = 0; i < supportedMessageArray.size(); i++) {
+                if (supportedMessageArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + supportedMessageArray.get(i).getValueType() + " for element: supportedMessage");
+                }
                 builder.supportedMessage(parseCapabilityStatementMessagingSupportedMessage("supportedMessage", supportedMessageArray.getJsonObject(i), i));
             }
         }
@@ -2079,24 +2340,36 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray resourceArray = getJsonArray(jsonObject, "resource");
         if (resourceArray != null) {
             for (int i = 0; i < resourceArray.size(); i++) {
+                if (resourceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + resourceArray.get(i).getValueType() + " for element: resource");
+                }
                 builder.resource(parseCapabilityStatementRestResource("resource", resourceArray.getJsonObject(i), i));
             }
         }
         JsonArray interactionArray = getJsonArray(jsonObject, "interaction");
         if (interactionArray != null) {
             for (int i = 0; i < interactionArray.size(); i++) {
+                if (interactionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + interactionArray.get(i).getValueType() + " for element: interaction");
+                }
                 builder.interaction(parseCapabilityStatementRestInteraction("interaction", interactionArray.getJsonObject(i), i));
             }
         }
         JsonArray searchParamArray = getJsonArray(jsonObject, "searchParam");
         if (searchParamArray != null) {
             for (int i = 0; i < searchParamArray.size(); i++) {
+                if (searchParamArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + searchParamArray.get(i).getValueType() + " for element: searchParam");
+                }
                 builder.searchParam(parseCapabilityStatementRestResourceSearchParam("searchParam", searchParamArray.getJsonObject(i), i));
             }
         }
         JsonArray operationArray = getJsonArray(jsonObject, "operation");
         if (operationArray != null) {
             for (int i = 0; i < operationArray.size(); i++) {
+                if (operationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + operationArray.get(i).getValueType() + " for element: operation");
+                }
                 builder.operation(parseCapabilityStatementRestResourceOperation("operation", operationArray.getJsonObject(i), i));
             }
         }
@@ -2152,6 +2425,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray interactionArray = getJsonArray(jsonObject, "interaction");
         if (interactionArray != null) {
             for (int i = 0; i < interactionArray.size(); i++) {
+                if (interactionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + interactionArray.get(i).getValueType() + " for element: interaction");
+                }
                 builder.interaction(parseCapabilityStatementRestResourceInteraction("interaction", interactionArray.getJsonObject(i), i));
             }
         }
@@ -2166,6 +2442,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (referencePolicyArray != null) {
             JsonArray _referencePolicyArray = jsonObject.getJsonArray("_referencePolicy");
             for (int i = 0; i < referencePolicyArray.size(); i++) {
+                if (referencePolicyArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + referencePolicyArray.get(i).getValueType() + " for element: referencePolicy");
+                }
                 builder.referencePolicy((ReferenceHandlingPolicy) parseString(ReferenceHandlingPolicy.builder(), "referencePolicy", referencePolicyArray.get(i), getJsonValue(_referencePolicyArray, i), i));
             }
         }
@@ -2186,12 +2465,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray searchParamArray = getJsonArray(jsonObject, "searchParam");
         if (searchParamArray != null) {
             for (int i = 0; i < searchParamArray.size(); i++) {
+                if (searchParamArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + searchParamArray.get(i).getValueType() + " for element: searchParam");
+                }
                 builder.searchParam(parseCapabilityStatementRestResourceSearchParam("searchParam", searchParamArray.getJsonObject(i), i));
             }
         }
         JsonArray operationArray = getJsonArray(jsonObject, "operation");
         if (operationArray != null) {
             for (int i = 0; i < operationArray.size(); i++) {
+                if (operationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + operationArray.get(i).getValueType() + " for element: operation");
+                }
                 builder.operation(parseCapabilityStatementRestResourceOperation("operation", operationArray.getJsonObject(i), i));
             }
         }
@@ -2268,6 +2553,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray serviceArray = getJsonArray(jsonObject, "service");
         if (serviceArray != null) {
             for (int i = 0; i < serviceArray.size(); i++) {
+                if (serviceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + serviceArray.get(i).getValueType() + " for element: service");
+                }
                 builder.service(parseCodeableConcept("service", serviceArray.getJsonObject(i), i));
             }
         }
@@ -2308,6 +2596,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -2328,18 +2619,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray basedOnArray = getJsonArray(jsonObject, "basedOn");
         if (basedOnArray != null) {
             for (int i = 0; i < basedOnArray.size(); i++) {
+                if (basedOnArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + basedOnArray.get(i).getValueType() + " for element: basedOn");
+                }
                 builder.basedOn(parseReference("basedOn", basedOnArray.getJsonObject(i), i));
             }
         }
         JsonArray replacesArray = getJsonArray(jsonObject, "replaces");
         if (replacesArray != null) {
             for (int i = 0; i < replacesArray.size(); i++) {
+                if (replacesArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + replacesArray.get(i).getValueType() + " for element: replaces");
+                }
                 builder.replaces(parseReference("replaces", replacesArray.getJsonObject(i), i));
             }
         }
         JsonArray partOfArray = getJsonArray(jsonObject, "partOf");
         if (partOfArray != null) {
             for (int i = 0; i < partOfArray.size(); i++) {
+                if (partOfArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + partOfArray.get(i).getValueType() + " for element: partOf");
+                }
                 builder.partOf(parseReference("partOf", partOfArray.getJsonObject(i), i));
             }
         }
@@ -2348,6 +2648,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray categoryArray = getJsonArray(jsonObject, "category");
         if (categoryArray != null) {
             for (int i = 0; i < categoryArray.size(); i++) {
+                if (categoryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + categoryArray.get(i).getValueType() + " for element: category");
+                }
                 builder.category(parseCodeableConcept("category", categoryArray.getJsonObject(i), i));
             }
         }
@@ -2361,42 +2664,63 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray contributorArray = getJsonArray(jsonObject, "contributor");
         if (contributorArray != null) {
             for (int i = 0; i < contributorArray.size(); i++) {
+                if (contributorArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contributorArray.get(i).getValueType() + " for element: contributor");
+                }
                 builder.contributor(parseReference("contributor", contributorArray.getJsonObject(i), i));
             }
         }
         JsonArray careTeamArray = getJsonArray(jsonObject, "careTeam");
         if (careTeamArray != null) {
             for (int i = 0; i < careTeamArray.size(); i++) {
+                if (careTeamArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + careTeamArray.get(i).getValueType() + " for element: careTeam");
+                }
                 builder.careTeam(parseReference("careTeam", careTeamArray.getJsonObject(i), i));
             }
         }
         JsonArray addressesArray = getJsonArray(jsonObject, "addresses");
         if (addressesArray != null) {
             for (int i = 0; i < addressesArray.size(); i++) {
+                if (addressesArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + addressesArray.get(i).getValueType() + " for element: addresses");
+                }
                 builder.addresses(parseReference("addresses", addressesArray.getJsonObject(i), i));
             }
         }
         JsonArray supportingInfoArray = getJsonArray(jsonObject, "supportingInfo");
         if (supportingInfoArray != null) {
             for (int i = 0; i < supportingInfoArray.size(); i++) {
+                if (supportingInfoArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + supportingInfoArray.get(i).getValueType() + " for element: supportingInfo");
+                }
                 builder.supportingInfo(parseReference("supportingInfo", supportingInfoArray.getJsonObject(i), i));
             }
         }
         JsonArray goalArray = getJsonArray(jsonObject, "goal");
         if (goalArray != null) {
             for (int i = 0; i < goalArray.size(); i++) {
+                if (goalArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + goalArray.get(i).getValueType() + " for element: goal");
+                }
                 builder.goal(parseReference("goal", goalArray.getJsonObject(i), i));
             }
         }
         JsonArray activityArray = getJsonArray(jsonObject, "activity");
         if (activityArray != null) {
             for (int i = 0; i < activityArray.size(); i++) {
+                if (activityArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + activityArray.get(i).getValueType() + " for element: activity");
+                }
                 builder.activity(parseCarePlanActivity("activity", activityArray.getJsonObject(i), i));
             }
         }
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
@@ -2418,18 +2742,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray outcomeCodeableConceptArray = getJsonArray(jsonObject, "outcomeCodeableConcept");
         if (outcomeCodeableConceptArray != null) {
             for (int i = 0; i < outcomeCodeableConceptArray.size(); i++) {
+                if (outcomeCodeableConceptArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + outcomeCodeableConceptArray.get(i).getValueType() + " for element: outcomeCodeableConcept");
+                }
                 builder.outcomeCodeableConcept(parseCodeableConcept("outcomeCodeableConcept", outcomeCodeableConceptArray.getJsonObject(i), i));
             }
         }
         JsonArray outcomeReferenceArray = getJsonArray(jsonObject, "outcomeReference");
         if (outcomeReferenceArray != null) {
             for (int i = 0; i < outcomeReferenceArray.size(); i++) {
+                if (outcomeReferenceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + outcomeReferenceArray.get(i).getValueType() + " for element: outcomeReference");
+                }
                 builder.outcomeReference(parseReference("outcomeReference", outcomeReferenceArray.getJsonObject(i), i));
             }
         }
         JsonArray progressArray = getJsonArray(jsonObject, "progress");
         if (progressArray != null) {
             for (int i = 0; i < progressArray.size(); i++) {
+                if (progressArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + progressArray.get(i).getValueType() + " for element: progress");
+                }
                 builder.progress(parseAnnotation("progress", progressArray.getJsonObject(i), i));
             }
         }
@@ -2469,18 +2802,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray reasonCodeArray = getJsonArray(jsonObject, "reasonCode");
         if (reasonCodeArray != null) {
             for (int i = 0; i < reasonCodeArray.size(); i++) {
+                if (reasonCodeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reasonCodeArray.get(i).getValueType() + " for element: reasonCode");
+                }
                 builder.reasonCode(parseCodeableConcept("reasonCode", reasonCodeArray.getJsonObject(i), i));
             }
         }
         JsonArray reasonReferenceArray = getJsonArray(jsonObject, "reasonReference");
         if (reasonReferenceArray != null) {
             for (int i = 0; i < reasonReferenceArray.size(); i++) {
+                if (reasonReferenceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reasonReferenceArray.get(i).getValueType() + " for element: reasonReference");
+                }
                 builder.reasonReference(parseReference("reasonReference", reasonReferenceArray.getJsonObject(i), i));
             }
         }
         JsonArray goalArray = getJsonArray(jsonObject, "goal");
         if (goalArray != null) {
             for (int i = 0; i < goalArray.size(); i++) {
+                if (goalArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + goalArray.get(i).getValueType() + " for element: goal");
+                }
                 builder.goal(parseReference("goal", goalArray.getJsonObject(i), i));
             }
         }
@@ -2492,6 +2834,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray performerArray = getJsonArray(jsonObject, "performer");
         if (performerArray != null) {
             for (int i = 0; i < performerArray.size(); i++) {
+                if (performerArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + performerArray.get(i).getValueType() + " for element: performer");
+                }
                 builder.performer(parseReference("performer", performerArray.getJsonObject(i), i));
             }
         }
@@ -2517,6 +2862,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -2524,6 +2872,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray categoryArray = getJsonArray(jsonObject, "category");
         if (categoryArray != null) {
             for (int i = 0; i < categoryArray.size(); i++) {
+                if (categoryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + categoryArray.get(i).getValueType() + " for element: category");
+                }
                 builder.category(parseCodeableConcept("category", categoryArray.getJsonObject(i), i));
             }
         }
@@ -2534,36 +2885,54 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray participantArray = getJsonArray(jsonObject, "participant");
         if (participantArray != null) {
             for (int i = 0; i < participantArray.size(); i++) {
+                if (participantArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + participantArray.get(i).getValueType() + " for element: participant");
+                }
                 builder.participant(parseCareTeamParticipant("participant", participantArray.getJsonObject(i), i));
             }
         }
         JsonArray reasonCodeArray = getJsonArray(jsonObject, "reasonCode");
         if (reasonCodeArray != null) {
             for (int i = 0; i < reasonCodeArray.size(); i++) {
+                if (reasonCodeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reasonCodeArray.get(i).getValueType() + " for element: reasonCode");
+                }
                 builder.reasonCode(parseCodeableConcept("reasonCode", reasonCodeArray.getJsonObject(i), i));
             }
         }
         JsonArray reasonReferenceArray = getJsonArray(jsonObject, "reasonReference");
         if (reasonReferenceArray != null) {
             for (int i = 0; i < reasonReferenceArray.size(); i++) {
+                if (reasonReferenceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reasonReferenceArray.get(i).getValueType() + " for element: reasonReference");
+                }
                 builder.reasonReference(parseReference("reasonReference", reasonReferenceArray.getJsonObject(i), i));
             }
         }
         JsonArray managingOrganizationArray = getJsonArray(jsonObject, "managingOrganization");
         if (managingOrganizationArray != null) {
             for (int i = 0; i < managingOrganizationArray.size(); i++) {
+                if (managingOrganizationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + managingOrganizationArray.get(i).getValueType() + " for element: managingOrganization");
+                }
                 builder.managingOrganization(parseReference("managingOrganization", managingOrganizationArray.getJsonObject(i), i));
             }
         }
         JsonArray telecomArray = getJsonArray(jsonObject, "telecom");
         if (telecomArray != null) {
             for (int i = 0; i < telecomArray.size(); i++) {
+                if (telecomArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + telecomArray.get(i).getValueType() + " for element: telecom");
+                }
                 builder.telecom(parseContactPoint("telecom", telecomArray.getJsonObject(i), i));
             }
         }
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
@@ -2585,6 +2954,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray roleArray = getJsonArray(jsonObject, "role");
         if (roleArray != null) {
             for (int i = 0; i < roleArray.size(); i++) {
+                if (roleArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + roleArray.get(i).getValueType() + " for element: role");
+                }
                 builder.role(parseCodeableConcept("role", roleArray.getJsonObject(i), i));
             }
         }
@@ -2609,6 +2981,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -2618,12 +2993,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray additionalIdentifierArray = getJsonArray(jsonObject, "additionalIdentifier");
         if (additionalIdentifierArray != null) {
             for (int i = 0; i < additionalIdentifierArray.size(); i++) {
+                if (additionalIdentifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + additionalIdentifierArray.get(i).getValueType() + " for element: additionalIdentifier");
+                }
                 builder.additionalIdentifier(parseIdentifier("additionalIdentifier", additionalIdentifierArray.getJsonObject(i), i));
             }
         }
         JsonArray classificationArray = getJsonArray(jsonObject, "classification");
         if (classificationArray != null) {
             for (int i = 0; i < classificationArray.size(); i++) {
+                if (classificationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + classificationArray.get(i).getValueType() + " for element: classification");
+                }
                 builder.classification(parseCodeableConcept("classification", classificationArray.getJsonObject(i), i));
             }
         }
@@ -2634,18 +3015,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray additionalCharacteristicArray = getJsonArray(jsonObject, "additionalCharacteristic");
         if (additionalCharacteristicArray != null) {
             for (int i = 0; i < additionalCharacteristicArray.size(); i++) {
+                if (additionalCharacteristicArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + additionalCharacteristicArray.get(i).getValueType() + " for element: additionalCharacteristic");
+                }
                 builder.additionalCharacteristic(parseCodeableConcept("additionalCharacteristic", additionalCharacteristicArray.getJsonObject(i), i));
             }
         }
         JsonArray additionalClassificationArray = getJsonArray(jsonObject, "additionalClassification");
         if (additionalClassificationArray != null) {
             for (int i = 0; i < additionalClassificationArray.size(); i++) {
+                if (additionalClassificationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + additionalClassificationArray.get(i).getValueType() + " for element: additionalClassification");
+                }
                 builder.additionalClassification(parseCodeableConcept("additionalClassification", additionalClassificationArray.getJsonObject(i), i));
             }
         }
         JsonArray relatedEntryArray = getJsonArray(jsonObject, "relatedEntry");
         if (relatedEntryArray != null) {
             for (int i = 0; i < relatedEntryArray.size(); i++) {
+                if (relatedEntryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + relatedEntryArray.get(i).getValueType() + " for element: relatedEntry");
+                }
                 builder.relatedEntry(parseCatalogEntryRelatedEntry("relatedEntry", relatedEntryArray.getJsonObject(i), i));
             }
         }
@@ -2684,6 +3074,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -2705,6 +3098,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray partOfArray = getJsonArray(jsonObject, "partOf");
         if (partOfArray != null) {
             for (int i = 0; i < partOfArray.size(); i++) {
+                if (partOfArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + partOfArray.get(i).getValueType() + " for element: partOf");
+                }
                 builder.partOf(parseReference("partOf", partOfArray.getJsonObject(i), i));
             }
         }
@@ -2715,6 +3111,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray performerArray = getJsonArray(jsonObject, "performer");
         if (performerArray != null) {
             for (int i = 0; i < performerArray.size(); i++) {
+                if (performerArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + performerArray.get(i).getValueType() + " for element: performer");
+                }
                 builder.performer(parseChargeItemPerformer("performer", performerArray.getJsonObject(i), i));
             }
         }
@@ -2725,6 +3124,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray bodysiteArray = getJsonArray(jsonObject, "bodysite");
         if (bodysiteArray != null) {
             for (int i = 0; i < bodysiteArray.size(); i++) {
+                if (bodysiteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + bodysiteArray.get(i).getValueType() + " for element: bodysite");
+                }
                 builder.bodysite(parseCodeableConcept("bodysite", bodysiteArray.getJsonObject(i), i));
             }
         }
@@ -2736,12 +3138,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray reasonArray = getJsonArray(jsonObject, "reason");
         if (reasonArray != null) {
             for (int i = 0; i < reasonArray.size(); i++) {
+                if (reasonArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reasonArray.get(i).getValueType() + " for element: reason");
+                }
                 builder.reason(parseCodeableConcept("reason", reasonArray.getJsonObject(i), i));
             }
         }
         JsonArray serviceArray = getJsonArray(jsonObject, "service");
         if (serviceArray != null) {
             for (int i = 0; i < serviceArray.size(); i++) {
+                if (serviceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + serviceArray.get(i).getValueType() + " for element: service");
+                }
                 builder.service(parseReference("service", serviceArray.getJsonObject(i), i));
             }
         }
@@ -2749,18 +3157,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray accountArray = getJsonArray(jsonObject, "account");
         if (accountArray != null) {
             for (int i = 0; i < accountArray.size(); i++) {
+                if (accountArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + accountArray.get(i).getValueType() + " for element: account");
+                }
                 builder.account(parseReference("account", accountArray.getJsonObject(i), i));
             }
         }
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
         JsonArray supportingInformationArray = getJsonArray(jsonObject, "supportingInformation");
         if (supportingInformationArray != null) {
             for (int i = 0; i < supportingInformationArray.size(); i++) {
+                if (supportingInformationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + supportingInformationArray.get(i).getValueType() + " for element: supportingInformation");
+                }
                 builder.supportingInformation(parseReference("supportingInformation", supportingInformationArray.getJsonObject(i), i));
             }
         }
@@ -2800,6 +3217,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -2833,6 +3253,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray contactArray = getJsonArray(jsonObject, "contact");
         if (contactArray != null) {
             for (int i = 0; i < contactArray.size(); i++) {
+                if (contactArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contactArray.get(i).getValueType() + " for element: contact");
+                }
                 builder.contact(parseContactDetail("contact", contactArray.getJsonObject(i), i));
             }
         }
@@ -2840,12 +3263,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray useContextArray = getJsonArray(jsonObject, "useContext");
         if (useContextArray != null) {
             for (int i = 0; i < useContextArray.size(); i++) {
+                if (useContextArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + useContextArray.get(i).getValueType() + " for element: useContext");
+                }
                 builder.useContext(parseUsageContext("useContext", useContextArray.getJsonObject(i), i));
             }
         }
         JsonArray jurisdictionArray = getJsonArray(jsonObject, "jurisdiction");
         if (jurisdictionArray != null) {
             for (int i = 0; i < jurisdictionArray.size(); i++) {
+                if (jurisdictionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + jurisdictionArray.get(i).getValueType() + " for element: jurisdiction");
+                }
                 builder.jurisdiction(parseCodeableConcept("jurisdiction", jurisdictionArray.getJsonObject(i), i));
             }
         }
@@ -2857,18 +3286,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray instanceArray = getJsonArray(jsonObject, "instance");
         if (instanceArray != null) {
             for (int i = 0; i < instanceArray.size(); i++) {
+                if (instanceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + instanceArray.get(i).getValueType() + " for element: instance");
+                }
                 builder.instance(parseReference("instance", instanceArray.getJsonObject(i), i));
             }
         }
         JsonArray applicabilityArray = getJsonArray(jsonObject, "applicability");
         if (applicabilityArray != null) {
             for (int i = 0; i < applicabilityArray.size(); i++) {
+                if (applicabilityArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + applicabilityArray.get(i).getValueType() + " for element: applicability");
+                }
                 builder.applicability(parseChargeItemDefinitionApplicability("applicability", applicabilityArray.getJsonObject(i), i));
             }
         }
         JsonArray propertyGroupArray = getJsonArray(jsonObject, "propertyGroup");
         if (propertyGroupArray != null) {
             for (int i = 0; i < propertyGroupArray.size(); i++) {
+                if (propertyGroupArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + propertyGroupArray.get(i).getValueType() + " for element: propertyGroup");
+                }
                 builder.propertyGroup(parseChargeItemDefinitionPropertyGroup("propertyGroup", propertyGroupArray.getJsonObject(i), i));
             }
         }
@@ -2908,12 +3346,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray applicabilityArray = getJsonArray(jsonObject, "applicability");
         if (applicabilityArray != null) {
             for (int i = 0; i < applicabilityArray.size(); i++) {
+                if (applicabilityArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + applicabilityArray.get(i).getValueType() + " for element: applicability");
+                }
                 builder.applicability(parseChargeItemDefinitionApplicability("applicability", applicabilityArray.getJsonObject(i), i));
             }
         }
         JsonArray priceComponentArray = getJsonArray(jsonObject, "priceComponent");
         if (priceComponentArray != null) {
             for (int i = 0; i < priceComponentArray.size(); i++) {
+                if (priceComponentArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + priceComponentArray.get(i).getValueType() + " for element: priceComponent");
+                }
                 builder.priceComponent(parseChargeItemDefinitionPropertyGroupPriceComponent("priceComponent", priceComponentArray.getJsonObject(i), i));
             }
         }
@@ -2955,6 +3399,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -2968,6 +3415,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray contactArray = getJsonArray(jsonObject, "contact");
         if (contactArray != null) {
             for (int i = 0; i < contactArray.size(); i++) {
+                if (contactArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contactArray.get(i).getValueType() + " for element: contact");
+                }
                 builder.contact(parseContactDetail("contact", contactArray.getJsonObject(i), i));
             }
         }
@@ -2975,12 +3425,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray useContextArray = getJsonArray(jsonObject, "useContext");
         if (useContextArray != null) {
             for (int i = 0; i < useContextArray.size(); i++) {
+                if (useContextArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + useContextArray.get(i).getValueType() + " for element: useContext");
+                }
                 builder.useContext(parseUsageContext("useContext", useContextArray.getJsonObject(i), i));
             }
         }
         JsonArray jurisdictionArray = getJsonArray(jsonObject, "jurisdiction");
         if (jurisdictionArray != null) {
             for (int i = 0; i < jurisdictionArray.size(); i++) {
+                if (jurisdictionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + jurisdictionArray.get(i).getValueType() + " for element: jurisdiction");
+                }
                 builder.jurisdiction(parseCodeableConcept("jurisdiction", jurisdictionArray.getJsonObject(i), i));
             }
         }
@@ -2992,60 +3448,90 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray authorArray = getJsonArray(jsonObject, "author");
         if (authorArray != null) {
             for (int i = 0; i < authorArray.size(); i++) {
+                if (authorArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + authorArray.get(i).getValueType() + " for element: author");
+                }
                 builder.author(parseContactDetail("author", authorArray.getJsonObject(i), i));
             }
         }
         JsonArray editorArray = getJsonArray(jsonObject, "editor");
         if (editorArray != null) {
             for (int i = 0; i < editorArray.size(); i++) {
+                if (editorArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + editorArray.get(i).getValueType() + " for element: editor");
+                }
                 builder.editor(parseContactDetail("editor", editorArray.getJsonObject(i), i));
             }
         }
         JsonArray reviewerArray = getJsonArray(jsonObject, "reviewer");
         if (reviewerArray != null) {
             for (int i = 0; i < reviewerArray.size(); i++) {
+                if (reviewerArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reviewerArray.get(i).getValueType() + " for element: reviewer");
+                }
                 builder.reviewer(parseContactDetail("reviewer", reviewerArray.getJsonObject(i), i));
             }
         }
         JsonArray endorserArray = getJsonArray(jsonObject, "endorser");
         if (endorserArray != null) {
             for (int i = 0; i < endorserArray.size(); i++) {
+                if (endorserArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + endorserArray.get(i).getValueType() + " for element: endorser");
+                }
                 builder.endorser(parseContactDetail("endorser", endorserArray.getJsonObject(i), i));
             }
         }
         JsonArray summaryArray = getJsonArray(jsonObject, "summary");
         if (summaryArray != null) {
             for (int i = 0; i < summaryArray.size(); i++) {
+                if (summaryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + summaryArray.get(i).getValueType() + " for element: summary");
+                }
                 builder.summary(parseContactDetail("summary", summaryArray.getJsonObject(i), i));
             }
         }
         JsonArray classificationArray = getJsonArray(jsonObject, "classification");
         if (classificationArray != null) {
             for (int i = 0; i < classificationArray.size(); i++) {
+                if (classificationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + classificationArray.get(i).getValueType() + " for element: classification");
+                }
                 builder.classification(parseCitationClassification("classification", classificationArray.getJsonObject(i), i));
             }
         }
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
         JsonArray currentStateArray = getJsonArray(jsonObject, "currentState");
         if (currentStateArray != null) {
             for (int i = 0; i < currentStateArray.size(); i++) {
+                if (currentStateArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + currentStateArray.get(i).getValueType() + " for element: currentState");
+                }
                 builder.currentState(parseCodeableConcept("currentState", currentStateArray.getJsonObject(i), i));
             }
         }
         JsonArray statusDateArray = getJsonArray(jsonObject, "statusDate");
         if (statusDateArray != null) {
             for (int i = 0; i < statusDateArray.size(); i++) {
+                if (statusDateArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + statusDateArray.get(i).getValueType() + " for element: statusDate");
+                }
                 builder.statusDate(parseCitationStatusDate("statusDate", statusDateArray.getJsonObject(i), i));
             }
         }
         JsonArray relatesToArray = getJsonArray(jsonObject, "relatesTo");
         if (relatesToArray != null) {
             for (int i = 0; i < relatesToArray.size(); i++) {
+                if (relatesToArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + relatesToArray.get(i).getValueType() + " for element: relatesTo");
+                }
                 builder.relatesTo(parseCitationRelatesTo("relatesTo", relatesToArray.getJsonObject(i), i));
             }
         }
@@ -3068,12 +3554,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
         JsonArray relatedIdentifierArray = getJsonArray(jsonObject, "relatedIdentifier");
         if (relatedIdentifierArray != null) {
             for (int i = 0; i < relatedIdentifierArray.size(); i++) {
+                if (relatedIdentifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + relatedIdentifierArray.get(i).getValueType() + " for element: relatedIdentifier");
+                }
                 builder.relatedIdentifier(parseIdentifier("relatedIdentifier", relatedIdentifierArray.getJsonObject(i), i));
             }
         }
@@ -3082,24 +3574,36 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray currentStateArray = getJsonArray(jsonObject, "currentState");
         if (currentStateArray != null) {
             for (int i = 0; i < currentStateArray.size(); i++) {
+                if (currentStateArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + currentStateArray.get(i).getValueType() + " for element: currentState");
+                }
                 builder.currentState(parseCodeableConcept("currentState", currentStateArray.getJsonObject(i), i));
             }
         }
         JsonArray statusDateArray = getJsonArray(jsonObject, "statusDate");
         if (statusDateArray != null) {
             for (int i = 0; i < statusDateArray.size(); i++) {
+                if (statusDateArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + statusDateArray.get(i).getValueType() + " for element: statusDate");
+                }
                 builder.statusDate(parseCitationCitedArtifactStatusDate("statusDate", statusDateArray.getJsonObject(i), i));
             }
         }
         JsonArray titleArray = getJsonArray(jsonObject, "title");
         if (titleArray != null) {
             for (int i = 0; i < titleArray.size(); i++) {
+                if (titleArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + titleArray.get(i).getValueType() + " for element: title");
+                }
                 builder.title(parseCitationCitedArtifactTitle("title", titleArray.getJsonObject(i), i));
             }
         }
         JsonArray abstractArray = getJsonArray(jsonObject, "abstract");
         if (abstractArray != null) {
             for (int i = 0; i < abstractArray.size(); i++) {
+                if (abstractArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + abstractArray.get(i).getValueType() + " for element: abstract");
+                }
                 builder._abstract(parseCitationCitedArtifactAbstract("abstract", abstractArray.getJsonObject(i), i));
             }
         }
@@ -3107,24 +3611,36 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray relatesToArray = getJsonArray(jsonObject, "relatesTo");
         if (relatesToArray != null) {
             for (int i = 0; i < relatesToArray.size(); i++) {
+                if (relatesToArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + relatesToArray.get(i).getValueType() + " for element: relatesTo");
+                }
                 builder.relatesTo(parseCitationCitedArtifactRelatesTo("relatesTo", relatesToArray.getJsonObject(i), i));
             }
         }
         JsonArray publicationFormArray = getJsonArray(jsonObject, "publicationForm");
         if (publicationFormArray != null) {
             for (int i = 0; i < publicationFormArray.size(); i++) {
+                if (publicationFormArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + publicationFormArray.get(i).getValueType() + " for element: publicationForm");
+                }
                 builder.publicationForm(parseCitationCitedArtifactPublicationForm("publicationForm", publicationFormArray.getJsonObject(i), i));
             }
         }
         JsonArray webLocationArray = getJsonArray(jsonObject, "webLocation");
         if (webLocationArray != null) {
             for (int i = 0; i < webLocationArray.size(); i++) {
+                if (webLocationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + webLocationArray.get(i).getValueType() + " for element: webLocation");
+                }
                 builder.webLocation(parseCitationCitedArtifactWebLocation("webLocation", webLocationArray.getJsonObject(i), i));
             }
         }
         JsonArray classificationArray = getJsonArray(jsonObject, "classification");
         if (classificationArray != null) {
             for (int i = 0; i < classificationArray.size(); i++) {
+                if (classificationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + classificationArray.get(i).getValueType() + " for element: classification");
+                }
                 builder.classification(parseCitationCitedArtifactClassification("classification", classificationArray.getJsonObject(i), i));
             }
         }
@@ -3132,6 +3648,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
@@ -3173,6 +3692,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray classifierArray = getJsonArray(jsonObject, "classifier");
         if (classifierArray != null) {
             for (int i = 0; i < classifierArray.size(); i++) {
+                if (classifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + classifierArray.get(i).getValueType() + " for element: classifier");
+                }
                 builder.classifier(parseCodeableConcept("classifier", classifierArray.getJsonObject(i), i));
             }
         }
@@ -3216,12 +3738,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray entryArray = getJsonArray(jsonObject, "entry");
         if (entryArray != null) {
             for (int i = 0; i < entryArray.size(); i++) {
+                if (entryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + entryArray.get(i).getValueType() + " for element: entry");
+                }
                 builder.entry(parseCitationCitedArtifactContributorshipEntry("entry", entryArray.getJsonObject(i), i));
             }
         }
         JsonArray summaryArray = getJsonArray(jsonObject, "summary");
         if (summaryArray != null) {
             for (int i = 0; i < summaryArray.size(); i++) {
+                if (summaryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + summaryArray.get(i).getValueType() + " for element: summary");
+                }
                 builder.summary(parseCitationCitedArtifactContributorshipSummary("summary", summaryArray.getJsonObject(i), i));
             }
         }
@@ -3246,30 +3774,45 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
         JsonArray affiliationInfoArray = getJsonArray(jsonObject, "affiliationInfo");
         if (affiliationInfoArray != null) {
             for (int i = 0; i < affiliationInfoArray.size(); i++) {
+                if (affiliationInfoArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + affiliationInfoArray.get(i).getValueType() + " for element: affiliationInfo");
+                }
                 builder.affiliationInfo(parseCitationCitedArtifactContributorshipEntryAffiliationInfo("affiliationInfo", affiliationInfoArray.getJsonObject(i), i));
             }
         }
         JsonArray addressArray = getJsonArray(jsonObject, "address");
         if (addressArray != null) {
             for (int i = 0; i < addressArray.size(); i++) {
+                if (addressArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + addressArray.get(i).getValueType() + " for element: address");
+                }
                 builder.address(parseAddress("address", addressArray.getJsonObject(i), i));
             }
         }
         JsonArray telecomArray = getJsonArray(jsonObject, "telecom");
         if (telecomArray != null) {
             for (int i = 0; i < telecomArray.size(); i++) {
+                if (telecomArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + telecomArray.get(i).getValueType() + " for element: telecom");
+                }
                 builder.telecom(parseContactPoint("telecom", telecomArray.getJsonObject(i), i));
             }
         }
         JsonArray contributionTypeArray = getJsonArray(jsonObject, "contributionType");
         if (contributionTypeArray != null) {
             for (int i = 0; i < contributionTypeArray.size(); i++) {
+                if (contributionTypeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contributionTypeArray.get(i).getValueType() + " for element: contributionType");
+                }
                 builder.contributionType(parseCodeableConcept("contributionType", contributionTypeArray.getJsonObject(i), i));
             }
         }
@@ -3277,6 +3820,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray contributionInstanceArray = getJsonArray(jsonObject, "contributionInstance");
         if (contributionInstanceArray != null) {
             for (int i = 0; i < contributionInstanceArray.size(); i++) {
+                if (contributionInstanceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contributionInstanceArray.get(i).getValueType() + " for element: contributionInstance");
+                }
                 builder.contributionInstance(parseCitationCitedArtifactContributorshipEntryContributionInstance("contributionInstance", contributionInstanceArray.getJsonObject(i), i));
             }
         }
@@ -3302,6 +3848,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -3381,6 +3930,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray languageArray = getJsonArray(jsonObject, "language");
         if (languageArray != null) {
             for (int i = 0; i < languageArray.size(); i++) {
+                if (languageArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + languageArray.get(i).getValueType() + " for element: language");
+                }
                 builder.language(parseCodeableConcept("language", languageArray.getJsonObject(i), i));
             }
         }
@@ -3449,6 +4001,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -3474,6 +4029,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray targetClassifierArray = getJsonArray(jsonObject, "targetClassifier");
         if (targetClassifierArray != null) {
             for (int i = 0; i < targetClassifierArray.size(); i++) {
+                if (targetClassifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + targetClassifierArray.get(i).getValueType() + " for element: targetClassifier");
+                }
                 builder.targetClassifier(parseCodeableConcept("targetClassifier", targetClassifierArray.getJsonObject(i), i));
             }
         }
@@ -3514,6 +4072,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray typeArray = getJsonArray(jsonObject, "type");
         if (typeArray != null) {
             for (int i = 0; i < typeArray.size(); i++) {
+                if (typeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + typeArray.get(i).getValueType() + " for element: type");
+                }
                 builder.type(parseCodeableConcept("type", typeArray.getJsonObject(i), i));
             }
         }
@@ -3572,6 +4133,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray classifierArray = getJsonArray(jsonObject, "classifier");
         if (classifierArray != null) {
             for (int i = 0; i < classifierArray.size(); i++) {
+                if (classifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + classifierArray.get(i).getValueType() + " for element: classifier");
+                }
                 builder.classifier(parseCodeableConcept("classifier", classifierArray.getJsonObject(i), i));
             }
         }
@@ -3594,6 +4158,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray targetClassifierArray = getJsonArray(jsonObject, "targetClassifier");
         if (targetClassifierArray != null) {
             for (int i = 0; i < targetClassifierArray.size(); i++) {
+                if (targetClassifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + targetClassifierArray.get(i).getValueType() + " for element: targetClassifier");
+                }
                 builder.targetClassifier(parseCodeableConcept("targetClassifier", targetClassifierArray.getJsonObject(i), i));
             }
         }
@@ -3634,6 +4201,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -3652,6 +4222,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray relatedArray = getJsonArray(jsonObject, "related");
         if (relatedArray != null) {
             for (int i = 0; i < relatedArray.size(); i++) {
+                if (relatedArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + relatedArray.get(i).getValueType() + " for element: related");
+                }
                 builder.related(parseClaimRelated("related", relatedArray.getJsonObject(i), i));
             }
         }
@@ -3663,30 +4236,45 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray careTeamArray = getJsonArray(jsonObject, "careTeam");
         if (careTeamArray != null) {
             for (int i = 0; i < careTeamArray.size(); i++) {
+                if (careTeamArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + careTeamArray.get(i).getValueType() + " for element: careTeam");
+                }
                 builder.careTeam(parseClaimCareTeam("careTeam", careTeamArray.getJsonObject(i), i));
             }
         }
         JsonArray supportingInfoArray = getJsonArray(jsonObject, "supportingInfo");
         if (supportingInfoArray != null) {
             for (int i = 0; i < supportingInfoArray.size(); i++) {
+                if (supportingInfoArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + supportingInfoArray.get(i).getValueType() + " for element: supportingInfo");
+                }
                 builder.supportingInfo(parseClaimSupportingInfo("supportingInfo", supportingInfoArray.getJsonObject(i), i));
             }
         }
         JsonArray diagnosisArray = getJsonArray(jsonObject, "diagnosis");
         if (diagnosisArray != null) {
             for (int i = 0; i < diagnosisArray.size(); i++) {
+                if (diagnosisArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + diagnosisArray.get(i).getValueType() + " for element: diagnosis");
+                }
                 builder.diagnosis(parseClaimDiagnosis("diagnosis", diagnosisArray.getJsonObject(i), i));
             }
         }
         JsonArray procedureArray = getJsonArray(jsonObject, "procedure");
         if (procedureArray != null) {
             for (int i = 0; i < procedureArray.size(); i++) {
+                if (procedureArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + procedureArray.get(i).getValueType() + " for element: procedure");
+                }
                 builder.procedure(parseClaimProcedure("procedure", procedureArray.getJsonObject(i), i));
             }
         }
         JsonArray insuranceArray = getJsonArray(jsonObject, "insurance");
         if (insuranceArray != null) {
             for (int i = 0; i < insuranceArray.size(); i++) {
+                if (insuranceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + insuranceArray.get(i).getValueType() + " for element: insurance");
+                }
                 builder.insurance(parseClaimInsurance("insurance", insuranceArray.getJsonObject(i), i));
             }
         }
@@ -3694,6 +4282,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray itemArray = getJsonArray(jsonObject, "item");
         if (itemArray != null) {
             for (int i = 0; i < itemArray.size(); i++) {
+                if (itemArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + itemArray.get(i).getValueType() + " for element: item");
+                }
                 builder.item(parseClaimItem("item", itemArray.getJsonObject(i), i));
             }
         }
@@ -3756,6 +4347,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray typeArray = getJsonArray(jsonObject, "type");
         if (typeArray != null) {
             for (int i = 0; i < typeArray.size(); i++) {
+                if (typeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + typeArray.get(i).getValueType() + " for element: type");
+                }
                 builder.type(parseCodeableConcept("type", typeArray.getJsonObject(i), i));
             }
         }
@@ -3839,12 +4433,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray modifierArray = getJsonArray(jsonObject, "modifier");
         if (modifierArray != null) {
             for (int i = 0; i < modifierArray.size(); i++) {
+                if (modifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + modifierArray.get(i).getValueType() + " for element: modifier");
+                }
                 builder.modifier(parseCodeableConcept("modifier", modifierArray.getJsonObject(i), i));
             }
         }
         JsonArray programCodeArray = getJsonArray(jsonObject, "programCode");
         if (programCodeArray != null) {
             for (int i = 0; i < programCodeArray.size(); i++) {
+                if (programCodeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + programCodeArray.get(i).getValueType() + " for element: programCode");
+                }
                 builder.programCode(parseCodeableConcept("programCode", programCodeArray.getJsonObject(i), i));
             }
         }
@@ -3857,6 +4457,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray udiArray = getJsonArray(jsonObject, "udi");
         if (udiArray != null) {
             for (int i = 0; i < udiArray.size(); i++) {
+                if (udiArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + udiArray.get(i).getValueType() + " for element: udi");
+                }
                 builder.udi(parseReference("udi", udiArray.getJsonObject(i), i));
             }
         }
@@ -3864,18 +4467,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray subSiteArray = getJsonArray(jsonObject, "subSite");
         if (subSiteArray != null) {
             for (int i = 0; i < subSiteArray.size(); i++) {
+                if (subSiteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + subSiteArray.get(i).getValueType() + " for element: subSite");
+                }
                 builder.subSite(parseCodeableConcept("subSite", subSiteArray.getJsonObject(i), i));
             }
         }
         JsonArray encounterArray = getJsonArray(jsonObject, "encounter");
         if (encounterArray != null) {
             for (int i = 0; i < encounterArray.size(); i++) {
+                if (encounterArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + encounterArray.get(i).getValueType() + " for element: encounter");
+                }
                 builder.encounter(parseReference("encounter", encounterArray.getJsonObject(i), i));
             }
         }
         JsonArray detailArray = getJsonArray(jsonObject, "detail");
         if (detailArray != null) {
             for (int i = 0; i < detailArray.size(); i++) {
+                if (detailArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + detailArray.get(i).getValueType() + " for element: detail");
+                }
                 builder.detail(parseClaimItemDetail("detail", detailArray.getJsonObject(i), i));
             }
         }
@@ -3901,12 +4513,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray modifierArray = getJsonArray(jsonObject, "modifier");
         if (modifierArray != null) {
             for (int i = 0; i < modifierArray.size(); i++) {
+                if (modifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + modifierArray.get(i).getValueType() + " for element: modifier");
+                }
                 builder.modifier(parseCodeableConcept("modifier", modifierArray.getJsonObject(i), i));
             }
         }
         JsonArray programCodeArray = getJsonArray(jsonObject, "programCode");
         if (programCodeArray != null) {
             for (int i = 0; i < programCodeArray.size(); i++) {
+                if (programCodeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + programCodeArray.get(i).getValueType() + " for element: programCode");
+                }
                 builder.programCode(parseCodeableConcept("programCode", programCodeArray.getJsonObject(i), i));
             }
         }
@@ -3917,12 +4535,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray udiArray = getJsonArray(jsonObject, "udi");
         if (udiArray != null) {
             for (int i = 0; i < udiArray.size(); i++) {
+                if (udiArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + udiArray.get(i).getValueType() + " for element: udi");
+                }
                 builder.udi(parseReference("udi", udiArray.getJsonObject(i), i));
             }
         }
         JsonArray subDetailArray = getJsonArray(jsonObject, "subDetail");
         if (subDetailArray != null) {
             for (int i = 0; i < subDetailArray.size(); i++) {
+                if (subDetailArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + subDetailArray.get(i).getValueType() + " for element: subDetail");
+                }
                 builder.subDetail(parseClaimItemDetailSubDetail("subDetail", subDetailArray.getJsonObject(i), i));
             }
         }
@@ -3948,12 +4572,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray modifierArray = getJsonArray(jsonObject, "modifier");
         if (modifierArray != null) {
             for (int i = 0; i < modifierArray.size(); i++) {
+                if (modifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + modifierArray.get(i).getValueType() + " for element: modifier");
+                }
                 builder.modifier(parseCodeableConcept("modifier", modifierArray.getJsonObject(i), i));
             }
         }
         JsonArray programCodeArray = getJsonArray(jsonObject, "programCode");
         if (programCodeArray != null) {
             for (int i = 0; i < programCodeArray.size(); i++) {
+                if (programCodeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + programCodeArray.get(i).getValueType() + " for element: programCode");
+                }
                 builder.programCode(parseCodeableConcept("programCode", programCodeArray.getJsonObject(i), i));
             }
         }
@@ -3964,6 +4594,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray udiArray = getJsonArray(jsonObject, "udi");
         if (udiArray != null) {
             for (int i = 0; i < udiArray.size(); i++) {
+                if (udiArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + udiArray.get(i).getValueType() + " for element: udi");
+                }
                 builder.udi(parseReference("udi", udiArray.getJsonObject(i), i));
             }
         }
@@ -4003,6 +4636,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray typeArray = getJsonArray(jsonObject, "type");
         if (typeArray != null) {
             for (int i = 0; i < typeArray.size(); i++) {
+                if (typeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + typeArray.get(i).getValueType() + " for element: type");
+                }
                 builder.type(parseCodeableConcept("type", typeArray.getJsonObject(i), i));
             }
         }
@@ -4011,6 +4647,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray udiArray = getJsonArray(jsonObject, "udi");
         if (udiArray != null) {
             for (int i = 0; i < udiArray.size(); i++) {
+                if (udiArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + udiArray.get(i).getValueType() + " for element: udi");
+                }
                 builder.udi(parseReference("udi", udiArray.getJsonObject(i), i));
             }
         }
@@ -4071,6 +4710,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -4091,24 +4733,36 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray itemArray = getJsonArray(jsonObject, "item");
         if (itemArray != null) {
             for (int i = 0; i < itemArray.size(); i++) {
+                if (itemArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + itemArray.get(i).getValueType() + " for element: item");
+                }
                 builder.item(parseClaimResponseItem("item", itemArray.getJsonObject(i), i));
             }
         }
         JsonArray addItemArray = getJsonArray(jsonObject, "addItem");
         if (addItemArray != null) {
             for (int i = 0; i < addItemArray.size(); i++) {
+                if (addItemArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + addItemArray.get(i).getValueType() + " for element: addItem");
+                }
                 builder.addItem(parseClaimResponseAddItem("addItem", addItemArray.getJsonObject(i), i));
             }
         }
         JsonArray adjudicationArray = getJsonArray(jsonObject, "adjudication");
         if (adjudicationArray != null) {
             for (int i = 0; i < adjudicationArray.size(); i++) {
+                if (adjudicationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + adjudicationArray.get(i).getValueType() + " for element: adjudication");
+                }
                 builder.adjudication(parseClaimResponseItemAdjudication("adjudication", adjudicationArray.getJsonObject(i), i));
             }
         }
         JsonArray totalArray = getJsonArray(jsonObject, "total");
         if (totalArray != null) {
             for (int i = 0; i < totalArray.size(); i++) {
+                if (totalArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + totalArray.get(i).getValueType() + " for element: total");
+                }
                 builder.total(parseClaimResponseTotal("total", totalArray.getJsonObject(i), i));
             }
         }
@@ -4119,24 +4773,36 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray processNoteArray = getJsonArray(jsonObject, "processNote");
         if (processNoteArray != null) {
             for (int i = 0; i < processNoteArray.size(); i++) {
+                if (processNoteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + processNoteArray.get(i).getValueType() + " for element: processNote");
+                }
                 builder.processNote(parseClaimResponseProcessNote("processNote", processNoteArray.getJsonObject(i), i));
             }
         }
         JsonArray communicationRequestArray = getJsonArray(jsonObject, "communicationRequest");
         if (communicationRequestArray != null) {
             for (int i = 0; i < communicationRequestArray.size(); i++) {
+                if (communicationRequestArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + communicationRequestArray.get(i).getValueType() + " for element: communicationRequest");
+                }
                 builder.communicationRequest(parseReference("communicationRequest", communicationRequestArray.getJsonObject(i), i));
             }
         }
         JsonArray insuranceArray = getJsonArray(jsonObject, "insurance");
         if (insuranceArray != null) {
             for (int i = 0; i < insuranceArray.size(); i++) {
+                if (insuranceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + insuranceArray.get(i).getValueType() + " for element: insurance");
+                }
                 builder.insurance(parseClaimResponseInsurance("insurance", insuranceArray.getJsonObject(i), i));
             }
         }
         JsonArray errorArray = getJsonArray(jsonObject, "error");
         if (errorArray != null) {
             for (int i = 0; i < errorArray.size(); i++) {
+                if (errorArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + errorArray.get(i).getValueType() + " for element: error");
+                }
                 builder.error(parseClaimResponseError("error", errorArray.getJsonObject(i), i));
             }
         }
@@ -4179,6 +4845,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray providerArray = getJsonArray(jsonObject, "provider");
         if (providerArray != null) {
             for (int i = 0; i < providerArray.size(); i++) {
+                if (providerArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + providerArray.get(i).getValueType() + " for element: provider");
+                }
                 builder.provider(parseReference("provider", providerArray.getJsonObject(i), i));
             }
         }
@@ -4186,12 +4855,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray modifierArray = getJsonArray(jsonObject, "modifier");
         if (modifierArray != null) {
             for (int i = 0; i < modifierArray.size(); i++) {
+                if (modifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + modifierArray.get(i).getValueType() + " for element: modifier");
+                }
                 builder.modifier(parseCodeableConcept("modifier", modifierArray.getJsonObject(i), i));
             }
         }
         JsonArray programCodeArray = getJsonArray(jsonObject, "programCode");
         if (programCodeArray != null) {
             for (int i = 0; i < programCodeArray.size(); i++) {
+                if (programCodeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + programCodeArray.get(i).getValueType() + " for element: programCode");
+                }
                 builder.programCode(parseCodeableConcept("programCode", programCodeArray.getJsonObject(i), i));
             }
         }
@@ -4205,6 +4880,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray subSiteArray = getJsonArray(jsonObject, "subSite");
         if (subSiteArray != null) {
             for (int i = 0; i < subSiteArray.size(); i++) {
+                if (subSiteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + subSiteArray.get(i).getValueType() + " for element: subSite");
+                }
                 builder.subSite(parseCodeableConcept("subSite", subSiteArray.getJsonObject(i), i));
             }
         }
@@ -4218,12 +4896,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray adjudicationArray = getJsonArray(jsonObject, "adjudication");
         if (adjudicationArray != null) {
             for (int i = 0; i < adjudicationArray.size(); i++) {
+                if (adjudicationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + adjudicationArray.get(i).getValueType() + " for element: adjudication");
+                }
                 builder.adjudication(parseClaimResponseItemAdjudication("adjudication", adjudicationArray.getJsonObject(i), i));
             }
         }
         JsonArray detailArray = getJsonArray(jsonObject, "detail");
         if (detailArray != null) {
             for (int i = 0; i < detailArray.size(); i++) {
+                if (detailArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + detailArray.get(i).getValueType() + " for element: detail");
+                }
                 builder.detail(parseClaimResponseAddItemDetail("detail", detailArray.getJsonObject(i), i));
             }
         }
@@ -4246,6 +4930,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray modifierArray = getJsonArray(jsonObject, "modifier");
         if (modifierArray != null) {
             for (int i = 0; i < modifierArray.size(); i++) {
+                if (modifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + modifierArray.get(i).getValueType() + " for element: modifier");
+                }
                 builder.modifier(parseCodeableConcept("modifier", modifierArray.getJsonObject(i), i));
             }
         }
@@ -4263,12 +4950,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray adjudicationArray = getJsonArray(jsonObject, "adjudication");
         if (adjudicationArray != null) {
             for (int i = 0; i < adjudicationArray.size(); i++) {
+                if (adjudicationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + adjudicationArray.get(i).getValueType() + " for element: adjudication");
+                }
                 builder.adjudication(parseClaimResponseItemAdjudication("adjudication", adjudicationArray.getJsonObject(i), i));
             }
         }
         JsonArray subDetailArray = getJsonArray(jsonObject, "subDetail");
         if (subDetailArray != null) {
             for (int i = 0; i < subDetailArray.size(); i++) {
+                if (subDetailArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + subDetailArray.get(i).getValueType() + " for element: subDetail");
+                }
                 builder.subDetail(parseClaimResponseAddItemDetailSubDetail("subDetail", subDetailArray.getJsonObject(i), i));
             }
         }
@@ -4291,6 +4984,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray modifierArray = getJsonArray(jsonObject, "modifier");
         if (modifierArray != null) {
             for (int i = 0; i < modifierArray.size(); i++) {
+                if (modifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + modifierArray.get(i).getValueType() + " for element: modifier");
+                }
                 builder.modifier(parseCodeableConcept("modifier", modifierArray.getJsonObject(i), i));
             }
         }
@@ -4308,6 +5004,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray adjudicationArray = getJsonArray(jsonObject, "adjudication");
         if (adjudicationArray != null) {
             for (int i = 0; i < adjudicationArray.size(); i++) {
+                if (adjudicationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + adjudicationArray.get(i).getValueType() + " for element: adjudication");
+                }
                 builder.adjudication(parseClaimResponseItemAdjudication("adjudication", adjudicationArray.getJsonObject(i), i));
             }
         }
@@ -4376,12 +5075,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray adjudicationArray = getJsonArray(jsonObject, "adjudication");
         if (adjudicationArray != null) {
             for (int i = 0; i < adjudicationArray.size(); i++) {
+                if (adjudicationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + adjudicationArray.get(i).getValueType() + " for element: adjudication");
+                }
                 builder.adjudication(parseClaimResponseItemAdjudication("adjudication", adjudicationArray.getJsonObject(i), i));
             }
         }
         JsonArray detailArray = getJsonArray(jsonObject, "detail");
         if (detailArray != null) {
             for (int i = 0; i < detailArray.size(); i++) {
+                if (detailArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + detailArray.get(i).getValueType() + " for element: detail");
+                }
                 builder.detail(parseClaimResponseItemDetail("detail", detailArray.getJsonObject(i), i));
             }
         }
@@ -4430,12 +5135,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray adjudicationArray = getJsonArray(jsonObject, "adjudication");
         if (adjudicationArray != null) {
             for (int i = 0; i < adjudicationArray.size(); i++) {
+                if (adjudicationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + adjudicationArray.get(i).getValueType() + " for element: adjudication");
+                }
                 builder.adjudication(parseClaimResponseItemAdjudication("adjudication", adjudicationArray.getJsonObject(i), i));
             }
         }
         JsonArray subDetailArray = getJsonArray(jsonObject, "subDetail");
         if (subDetailArray != null) {
             for (int i = 0; i < subDetailArray.size(); i++) {
+                if (subDetailArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + subDetailArray.get(i).getValueType() + " for element: subDetail");
+                }
                 builder.subDetail(parseClaimResponseItemDetailSubDetail("subDetail", subDetailArray.getJsonObject(i), i));
             }
         }
@@ -4465,6 +5176,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray adjudicationArray = getJsonArray(jsonObject, "adjudication");
         if (adjudicationArray != null) {
             for (int i = 0; i < adjudicationArray.size(); i++) {
+                if (adjudicationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + adjudicationArray.get(i).getValueType() + " for element: adjudication");
+                }
                 builder.adjudication(parseClaimResponseItemAdjudication("adjudication", adjudicationArray.getJsonObject(i), i));
             }
         }
@@ -4543,6 +5257,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -4559,12 +5276,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray problemArray = getJsonArray(jsonObject, "problem");
         if (problemArray != null) {
             for (int i = 0; i < problemArray.size(); i++) {
+                if (problemArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + problemArray.get(i).getValueType() + " for element: problem");
+                }
                 builder.problem(parseReference("problem", problemArray.getJsonObject(i), i));
             }
         }
         JsonArray investigationArray = getJsonArray(jsonObject, "investigation");
         if (investigationArray != null) {
             for (int i = 0; i < investigationArray.size(); i++) {
+                if (investigationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + investigationArray.get(i).getValueType() + " for element: investigation");
+                }
                 builder.investigation(parseClinicalImpressionInvestigation("investigation", investigationArray.getJsonObject(i), i));
             }
         }
@@ -4579,30 +5302,45 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray findingArray = getJsonArray(jsonObject, "finding");
         if (findingArray != null) {
             for (int i = 0; i < findingArray.size(); i++) {
+                if (findingArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + findingArray.get(i).getValueType() + " for element: finding");
+                }
                 builder.finding(parseClinicalImpressionFinding("finding", findingArray.getJsonObject(i), i));
             }
         }
         JsonArray prognosisCodeableConceptArray = getJsonArray(jsonObject, "prognosisCodeableConcept");
         if (prognosisCodeableConceptArray != null) {
             for (int i = 0; i < prognosisCodeableConceptArray.size(); i++) {
+                if (prognosisCodeableConceptArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + prognosisCodeableConceptArray.get(i).getValueType() + " for element: prognosisCodeableConcept");
+                }
                 builder.prognosisCodeableConcept(parseCodeableConcept("prognosisCodeableConcept", prognosisCodeableConceptArray.getJsonObject(i), i));
             }
         }
         JsonArray prognosisReferenceArray = getJsonArray(jsonObject, "prognosisReference");
         if (prognosisReferenceArray != null) {
             for (int i = 0; i < prognosisReferenceArray.size(); i++) {
+                if (prognosisReferenceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + prognosisReferenceArray.get(i).getValueType() + " for element: prognosisReference");
+                }
                 builder.prognosisReference(parseReference("prognosisReference", prognosisReferenceArray.getJsonObject(i), i));
             }
         }
         JsonArray supportingInfoArray = getJsonArray(jsonObject, "supportingInfo");
         if (supportingInfoArray != null) {
             for (int i = 0; i < supportingInfoArray.size(); i++) {
+                if (supportingInfoArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + supportingInfoArray.get(i).getValueType() + " for element: supportingInfo");
+                }
                 builder.supportingInfo(parseReference("supportingInfo", supportingInfoArray.getJsonObject(i), i));
             }
         }
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
@@ -4643,6 +5381,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray itemArray = getJsonArray(jsonObject, "item");
         if (itemArray != null) {
             for (int i = 0; i < itemArray.size(); i++) {
+                if (itemArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + itemArray.get(i).getValueType() + " for element: item");
+                }
                 builder.item(parseReference("item", itemArray.getJsonObject(i), i));
             }
         }
@@ -4664,6 +5405,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -4671,12 +5415,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray categoryArray = getJsonArray(jsonObject, "category");
         if (categoryArray != null) {
             for (int i = 0; i < categoryArray.size(); i++) {
+                if (categoryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + categoryArray.get(i).getValueType() + " for element: category");
+                }
                 builder.category(parseCodeableConcept("category", categoryArray.getJsonObject(i), i));
             }
         }
         JsonArray subjectArray = getJsonArray(jsonObject, "subject");
         if (subjectArray != null) {
             for (int i = 0; i < subjectArray.size(); i++) {
+                if (subjectArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + subjectArray.get(i).getValueType() + " for element: subject");
+                }
                 builder.subject(parseReference("subject", subjectArray.getJsonObject(i), i));
             }
         }
@@ -4687,6 +5437,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray populationArray = getJsonArray(jsonObject, "population");
         if (populationArray != null) {
             for (int i = 0; i < populationArray.size(); i++) {
+                if (populationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + populationArray.get(i).getValueType() + " for element: population");
+                }
                 builder.population(parseReference("population", populationArray.getJsonObject(i), i));
             }
         }
@@ -4712,18 +5465,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray comorbidityArray = getJsonArray(jsonObject, "comorbidity");
         if (comorbidityArray != null) {
             for (int i = 0; i < comorbidityArray.size(); i++) {
+                if (comorbidityArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + comorbidityArray.get(i).getValueType() + " for element: comorbidity");
+                }
                 builder.comorbidity(parseCodeableReference("comorbidity", comorbidityArray.getJsonObject(i), i));
             }
         }
         JsonArray indicationArray = getJsonArray(jsonObject, "indication");
         if (indicationArray != null) {
             for (int i = 0; i < indicationArray.size(); i++) {
+                if (indicationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + indicationArray.get(i).getValueType() + " for element: indication");
+                }
                 builder.indication(parseReference("indication", indicationArray.getJsonObject(i), i));
             }
         }
         JsonArray otherTherapyArray = getJsonArray(jsonObject, "otherTherapy");
         if (otherTherapyArray != null) {
             for (int i = 0; i < otherTherapyArray.size(); i++) {
+                if (otherTherapyArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + otherTherapyArray.get(i).getValueType() + " for element: otherTherapy");
+                }
                 builder.otherTherapy(parseClinicalUseDefinitionContraindicationOtherTherapy("otherTherapy", otherTherapyArray.getJsonObject(i), i));
             }
         }
@@ -4764,6 +5526,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray comorbidityArray = getJsonArray(jsonObject, "comorbidity");
         if (comorbidityArray != null) {
             for (int i = 0; i < comorbidityArray.size(); i++) {
+                if (comorbidityArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + comorbidityArray.get(i).getValueType() + " for element: comorbidity");
+                }
                 builder.comorbidity(parseCodeableReference("comorbidity", comorbidityArray.getJsonObject(i), i));
             }
         }
@@ -4772,12 +5537,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray undesirableEffectArray = getJsonArray(jsonObject, "undesirableEffect");
         if (undesirableEffectArray != null) {
             for (int i = 0; i < undesirableEffectArray.size(); i++) {
+                if (undesirableEffectArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + undesirableEffectArray.get(i).getValueType() + " for element: undesirableEffect");
+                }
                 builder.undesirableEffect(parseReference("undesirableEffect", undesirableEffectArray.getJsonObject(i), i));
             }
         }
         JsonArray otherTherapyArray = getJsonArray(jsonObject, "otherTherapy");
         if (otherTherapyArray != null) {
             for (int i = 0; i < otherTherapyArray.size(); i++) {
+                if (otherTherapyArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + otherTherapyArray.get(i).getValueType() + " for element: otherTherapy");
+                }
                 builder.otherTherapy(parseClinicalUseDefinitionContraindicationOtherTherapy("otherTherapy", otherTherapyArray.getJsonObject(i), i));
             }
         }
@@ -4799,6 +5570,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray interactantArray = getJsonArray(jsonObject, "interactant");
         if (interactantArray != null) {
             for (int i = 0; i < interactantArray.size(); i++) {
+                if (interactantArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + interactantArray.get(i).getValueType() + " for element: interactant");
+                }
                 builder.interactant(parseClinicalUseDefinitionInteractionInteractant("interactant", interactantArray.getJsonObject(i), i));
             }
         }
@@ -4808,6 +5582,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray managementArray = getJsonArray(jsonObject, "management");
         if (managementArray != null) {
             for (int i = 0; i < managementArray.size(); i++) {
+                if (managementArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + managementArray.get(i).getValueType() + " for element: management");
+                }
                 builder.management(parseCodeableConcept("management", managementArray.getJsonObject(i), i));
             }
         }
@@ -4880,6 +5657,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -4887,12 +5667,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray categoryArray = getJsonArray(jsonObject, "category");
         if (categoryArray != null) {
             for (int i = 0; i < categoryArray.size(); i++) {
+                if (categoryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + categoryArray.get(i).getValueType() + " for element: category");
+                }
                 builder.category(parseCodeableConcept("category", categoryArray.getJsonObject(i), i));
             }
         }
         JsonArray subjectArray = getJsonArray(jsonObject, "subject");
         if (subjectArray != null) {
             for (int i = 0; i < subjectArray.size(); i++) {
+                if (subjectArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + subjectArray.get(i).getValueType() + " for element: subject");
+                }
                 builder.subject(parseReference("subject", subjectArray.getJsonObject(i), i));
             }
         }
@@ -4904,6 +5690,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray populationArray = getJsonArray(jsonObject, "population");
         if (populationArray != null) {
             for (int i = 0; i < populationArray.size(); i++) {
+                if (populationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + populationArray.get(i).getValueType() + " for element: population");
+                }
                 builder.population(parsePopulation("population", populationArray.getJsonObject(i), i));
             }
         }
@@ -4928,18 +5717,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray comorbidityArray = getJsonArray(jsonObject, "comorbidity");
         if (comorbidityArray != null) {
             for (int i = 0; i < comorbidityArray.size(); i++) {
+                if (comorbidityArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + comorbidityArray.get(i).getValueType() + " for element: comorbidity");
+                }
                 builder.comorbidity(parseCodeableReference("comorbidity", comorbidityArray.getJsonObject(i), i));
             }
         }
         JsonArray indicationArray = getJsonArray(jsonObject, "indication");
         if (indicationArray != null) {
             for (int i = 0; i < indicationArray.size(); i++) {
+                if (indicationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + indicationArray.get(i).getValueType() + " for element: indication");
+                }
                 builder.indication(parseReference("indication", indicationArray.getJsonObject(i), i));
             }
         }
         JsonArray otherTherapyArray = getJsonArray(jsonObject, "otherTherapy");
         if (otherTherapyArray != null) {
             for (int i = 0; i < otherTherapyArray.size(); i++) {
+                if (otherTherapyArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + otherTherapyArray.get(i).getValueType() + " for element: otherTherapy");
+                }
                 builder.otherTherapy(parseClinicalUseIssueContraindicationOtherTherapy("otherTherapy", otherTherapyArray.getJsonObject(i), i));
             }
         }
@@ -4980,6 +5778,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray comorbidityArray = getJsonArray(jsonObject, "comorbidity");
         if (comorbidityArray != null) {
             for (int i = 0; i < comorbidityArray.size(); i++) {
+                if (comorbidityArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + comorbidityArray.get(i).getValueType() + " for element: comorbidity");
+                }
                 builder.comorbidity(parseCodeableReference("comorbidity", comorbidityArray.getJsonObject(i), i));
             }
         }
@@ -4988,12 +5789,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray undesirableEffectArray = getJsonArray(jsonObject, "undesirableEffect");
         if (undesirableEffectArray != null) {
             for (int i = 0; i < undesirableEffectArray.size(); i++) {
+                if (undesirableEffectArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + undesirableEffectArray.get(i).getValueType() + " for element: undesirableEffect");
+                }
                 builder.undesirableEffect(parseReference("undesirableEffect", undesirableEffectArray.getJsonObject(i), i));
             }
         }
         JsonArray otherTherapyArray = getJsonArray(jsonObject, "otherTherapy");
         if (otherTherapyArray != null) {
             for (int i = 0; i < otherTherapyArray.size(); i++) {
+                if (otherTherapyArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + otherTherapyArray.get(i).getValueType() + " for element: otherTherapy");
+                }
                 builder.otherTherapy(parseClinicalUseIssueContraindicationOtherTherapy("otherTherapy", otherTherapyArray.getJsonObject(i), i));
             }
         }
@@ -5015,6 +5822,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray interactantArray = getJsonArray(jsonObject, "interactant");
         if (interactantArray != null) {
             for (int i = 0; i < interactantArray.size(); i++) {
+                if (interactantArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + interactantArray.get(i).getValueType() + " for element: interactant");
+                }
                 builder.interactant(parseClinicalUseIssueInteractionInteractant("interactant", interactantArray.getJsonObject(i), i));
             }
         }
@@ -5024,6 +5834,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray managementArray = getJsonArray(jsonObject, "management");
         if (managementArray != null) {
             for (int i = 0; i < managementArray.size(); i++) {
+                if (managementArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + managementArray.get(i).getValueType() + " for element: management");
+                }
                 builder.management(parseCodeableConcept("management", managementArray.getJsonObject(i), i));
             }
         }
@@ -5080,6 +5893,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -5093,6 +5909,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray contactArray = getJsonArray(jsonObject, "contact");
         if (contactArray != null) {
             for (int i = 0; i < contactArray.size(); i++) {
+                if (contactArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contactArray.get(i).getValueType() + " for element: contact");
+                }
                 builder.contact(parseContactDetail("contact", contactArray.getJsonObject(i), i));
             }
         }
@@ -5100,12 +5919,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray useContextArray = getJsonArray(jsonObject, "useContext");
         if (useContextArray != null) {
             for (int i = 0; i < useContextArray.size(); i++) {
+                if (useContextArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + useContextArray.get(i).getValueType() + " for element: useContext");
+                }
                 builder.useContext(parseUsageContext("useContext", useContextArray.getJsonObject(i), i));
             }
         }
         JsonArray jurisdictionArray = getJsonArray(jsonObject, "jurisdiction");
         if (jurisdictionArray != null) {
             for (int i = 0; i < jurisdictionArray.size(); i++) {
+                if (jurisdictionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + jurisdictionArray.get(i).getValueType() + " for element: jurisdiction");
+                }
                 builder.jurisdiction(parseCodeableConcept("jurisdiction", jurisdictionArray.getJsonObject(i), i));
             }
         }
@@ -5122,18 +5947,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray filterArray = getJsonArray(jsonObject, "filter");
         if (filterArray != null) {
             for (int i = 0; i < filterArray.size(); i++) {
+                if (filterArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + filterArray.get(i).getValueType() + " for element: filter");
+                }
                 builder.filter(parseCodeSystemFilter("filter", filterArray.getJsonObject(i), i));
             }
         }
         JsonArray propertyArray = getJsonArray(jsonObject, "property");
         if (propertyArray != null) {
             for (int i = 0; i < propertyArray.size(); i++) {
+                if (propertyArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + propertyArray.get(i).getValueType() + " for element: property");
+                }
                 builder.property(parseCodeSystemProperty("property", propertyArray.getJsonObject(i), i));
             }
         }
         JsonArray conceptArray = getJsonArray(jsonObject, "concept");
         if (conceptArray != null) {
             for (int i = 0; i < conceptArray.size(); i++) {
+                if (conceptArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + conceptArray.get(i).getValueType() + " for element: concept");
+                }
                 builder.concept(parseCodeSystemConcept("concept", conceptArray.getJsonObject(i), i));
             }
         }
@@ -5158,18 +5992,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray designationArray = getJsonArray(jsonObject, "designation");
         if (designationArray != null) {
             for (int i = 0; i < designationArray.size(); i++) {
+                if (designationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + designationArray.get(i).getValueType() + " for element: designation");
+                }
                 builder.designation(parseCodeSystemConceptDesignation("designation", designationArray.getJsonObject(i), i));
             }
         }
         JsonArray propertyArray = getJsonArray(jsonObject, "property");
         if (propertyArray != null) {
             for (int i = 0; i < propertyArray.size(); i++) {
+                if (propertyArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + propertyArray.get(i).getValueType() + " for element: property");
+                }
                 builder.property(parseCodeSystemConceptProperty("property", propertyArray.getJsonObject(i), i));
             }
         }
         JsonArray conceptArray = getJsonArray(jsonObject, "concept");
         if (conceptArray != null) {
             for (int i = 0; i < conceptArray.size(); i++) {
+                if (conceptArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + conceptArray.get(i).getValueType() + " for element: concept");
+                }
                 builder.concept(parseCodeSystemConcept("concept", conceptArray.getJsonObject(i), i));
             }
         }
@@ -5229,6 +6072,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (operatorArray != null) {
             JsonArray _operatorArray = jsonObject.getJsonArray("_operator");
             for (int i = 0; i < operatorArray.size(); i++) {
+                if (operatorArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + operatorArray.get(i).getValueType() + " for element: operator");
+                }
                 builder.operator((FilterOperator) parseString(FilterOperator.builder(), "operator", operatorArray.get(i), getJsonValue(_operatorArray, i), i));
             }
         }
@@ -5270,6 +6116,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray codingArray = getJsonArray(jsonObject, "coding");
         if (codingArray != null) {
             for (int i = 0; i < codingArray.size(); i++) {
+                if (codingArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + codingArray.get(i).getValueType() + " for element: coding");
+                }
                 builder.coding(parseCoding("coding", codingArray.getJsonObject(i), i));
             }
         }
@@ -5329,6 +6178,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -5349,18 +6201,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray basedOnArray = getJsonArray(jsonObject, "basedOn");
         if (basedOnArray != null) {
             for (int i = 0; i < basedOnArray.size(); i++) {
+                if (basedOnArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + basedOnArray.get(i).getValueType() + " for element: basedOn");
+                }
                 builder.basedOn(parseReference("basedOn", basedOnArray.getJsonObject(i), i));
             }
         }
         JsonArray partOfArray = getJsonArray(jsonObject, "partOf");
         if (partOfArray != null) {
             for (int i = 0; i < partOfArray.size(); i++) {
+                if (partOfArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + partOfArray.get(i).getValueType() + " for element: partOf");
+                }
                 builder.partOf(parseReference("partOf", partOfArray.getJsonObject(i), i));
             }
         }
         JsonArray inResponseToArray = getJsonArray(jsonObject, "inResponseTo");
         if (inResponseToArray != null) {
             for (int i = 0; i < inResponseToArray.size(); i++) {
+                if (inResponseToArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + inResponseToArray.get(i).getValueType() + " for element: inResponseTo");
+                }
                 builder.inResponseTo(parseReference("inResponseTo", inResponseToArray.getJsonObject(i), i));
             }
         }
@@ -5369,6 +6230,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray categoryArray = getJsonArray(jsonObject, "category");
         if (categoryArray != null) {
             for (int i = 0; i < categoryArray.size(); i++) {
+                if (categoryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + categoryArray.get(i).getValueType() + " for element: category");
+                }
                 builder.category(parseCodeableConcept("category", categoryArray.getJsonObject(i), i));
             }
         }
@@ -5376,6 +6240,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray mediumArray = getJsonArray(jsonObject, "medium");
         if (mediumArray != null) {
             for (int i = 0; i < mediumArray.size(); i++) {
+                if (mediumArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + mediumArray.get(i).getValueType() + " for element: medium");
+                }
                 builder.medium(parseCodeableConcept("medium", mediumArray.getJsonObject(i), i));
             }
         }
@@ -5384,6 +6251,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray aboutArray = getJsonArray(jsonObject, "about");
         if (aboutArray != null) {
             for (int i = 0; i < aboutArray.size(); i++) {
+                if (aboutArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + aboutArray.get(i).getValueType() + " for element: about");
+                }
                 builder.about(parseReference("about", aboutArray.getJsonObject(i), i));
             }
         }
@@ -5393,6 +6263,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray recipientArray = getJsonArray(jsonObject, "recipient");
         if (recipientArray != null) {
             for (int i = 0; i < recipientArray.size(); i++) {
+                if (recipientArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + recipientArray.get(i).getValueType() + " for element: recipient");
+                }
                 builder.recipient(parseReference("recipient", recipientArray.getJsonObject(i), i));
             }
         }
@@ -5400,24 +6273,36 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray reasonCodeArray = getJsonArray(jsonObject, "reasonCode");
         if (reasonCodeArray != null) {
             for (int i = 0; i < reasonCodeArray.size(); i++) {
+                if (reasonCodeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reasonCodeArray.get(i).getValueType() + " for element: reasonCode");
+                }
                 builder.reasonCode(parseCodeableConcept("reasonCode", reasonCodeArray.getJsonObject(i), i));
             }
         }
         JsonArray reasonReferenceArray = getJsonArray(jsonObject, "reasonReference");
         if (reasonReferenceArray != null) {
             for (int i = 0; i < reasonReferenceArray.size(); i++) {
+                if (reasonReferenceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reasonReferenceArray.get(i).getValueType() + " for element: reasonReference");
+                }
                 builder.reasonReference(parseReference("reasonReference", reasonReferenceArray.getJsonObject(i), i));
             }
         }
         JsonArray payloadArray = getJsonArray(jsonObject, "payload");
         if (payloadArray != null) {
             for (int i = 0; i < payloadArray.size(); i++) {
+                if (payloadArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + payloadArray.get(i).getValueType() + " for element: payload");
+                }
                 builder.payload(parseCommunicationPayload("payload", payloadArray.getJsonObject(i), i));
             }
         }
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
@@ -5455,18 +6340,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
         JsonArray basedOnArray = getJsonArray(jsonObject, "basedOn");
         if (basedOnArray != null) {
             for (int i = 0; i < basedOnArray.size(); i++) {
+                if (basedOnArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + basedOnArray.get(i).getValueType() + " for element: basedOn");
+                }
                 builder.basedOn(parseReference("basedOn", basedOnArray.getJsonObject(i), i));
             }
         }
         JsonArray replacesArray = getJsonArray(jsonObject, "replaces");
         if (replacesArray != null) {
             for (int i = 0; i < replacesArray.size(); i++) {
+                if (replacesArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + replacesArray.get(i).getValueType() + " for element: replaces");
+                }
                 builder.replaces(parseReference("replaces", replacesArray.getJsonObject(i), i));
             }
         }
@@ -5476,6 +6370,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray categoryArray = getJsonArray(jsonObject, "category");
         if (categoryArray != null) {
             for (int i = 0; i < categoryArray.size(); i++) {
+                if (categoryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + categoryArray.get(i).getValueType() + " for element: category");
+                }
                 builder.category(parseCodeableConcept("category", categoryArray.getJsonObject(i), i));
             }
         }
@@ -5484,6 +6381,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray mediumArray = getJsonArray(jsonObject, "medium");
         if (mediumArray != null) {
             for (int i = 0; i < mediumArray.size(); i++) {
+                if (mediumArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + mediumArray.get(i).getValueType() + " for element: medium");
+                }
                 builder.medium(parseCodeableConcept("medium", mediumArray.getJsonObject(i), i));
             }
         }
@@ -5491,6 +6391,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray aboutArray = getJsonArray(jsonObject, "about");
         if (aboutArray != null) {
             for (int i = 0; i < aboutArray.size(); i++) {
+                if (aboutArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + aboutArray.get(i).getValueType() + " for element: about");
+                }
                 builder.about(parseReference("about", aboutArray.getJsonObject(i), i));
             }
         }
@@ -5498,6 +6401,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray payloadArray = getJsonArray(jsonObject, "payload");
         if (payloadArray != null) {
             for (int i = 0; i < payloadArray.size(); i++) {
+                if (payloadArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + payloadArray.get(i).getValueType() + " for element: payload");
+                }
                 builder.payload(parseCommunicationRequestPayload("payload", payloadArray.getJsonObject(i), i));
             }
         }
@@ -5507,6 +6413,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray recipientArray = getJsonArray(jsonObject, "recipient");
         if (recipientArray != null) {
             for (int i = 0; i < recipientArray.size(); i++) {
+                if (recipientArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + recipientArray.get(i).getValueType() + " for element: recipient");
+                }
                 builder.recipient(parseReference("recipient", recipientArray.getJsonObject(i), i));
             }
         }
@@ -5514,18 +6423,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray reasonCodeArray = getJsonArray(jsonObject, "reasonCode");
         if (reasonCodeArray != null) {
             for (int i = 0; i < reasonCodeArray.size(); i++) {
+                if (reasonCodeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reasonCodeArray.get(i).getValueType() + " for element: reasonCode");
+                }
                 builder.reasonCode(parseCodeableConcept("reasonCode", reasonCodeArray.getJsonObject(i), i));
             }
         }
         JsonArray reasonReferenceArray = getJsonArray(jsonObject, "reasonReference");
         if (reasonReferenceArray != null) {
             for (int i = 0; i < reasonReferenceArray.size(); i++) {
+                if (reasonReferenceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reasonReferenceArray.get(i).getValueType() + " for element: reasonReference");
+                }
                 builder.reasonReference(parseReference("reasonReference", reasonReferenceArray.getJsonObject(i), i));
             }
         }
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
@@ -5570,6 +6488,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray contactArray = getJsonArray(jsonObject, "contact");
         if (contactArray != null) {
             for (int i = 0; i < contactArray.size(); i++) {
+                if (contactArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contactArray.get(i).getValueType() + " for element: contact");
+                }
                 builder.contact(parseContactDetail("contact", contactArray.getJsonObject(i), i));
             }
         }
@@ -5577,6 +6498,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray useContextArray = getJsonArray(jsonObject, "useContext");
         if (useContextArray != null) {
             for (int i = 0; i < useContextArray.size(); i++) {
+                if (useContextArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + useContextArray.get(i).getValueType() + " for element: useContext");
+                }
                 builder.useContext(parseUsageContext("useContext", useContextArray.getJsonObject(i), i));
             }
         }
@@ -5586,6 +6510,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray resourceArray = getJsonArray(jsonObject, "resource");
         if (resourceArray != null) {
             for (int i = 0; i < resourceArray.size(); i++) {
+                if (resourceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + resourceArray.get(i).getValueType() + " for element: resource");
+                }
                 builder.resource(parseCompartmentDefinitionResource("resource", resourceArray.getJsonObject(i), i));
             }
         }
@@ -5634,6 +6561,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray categoryArray = getJsonArray(jsonObject, "category");
         if (categoryArray != null) {
             for (int i = 0; i < categoryArray.size(); i++) {
+                if (categoryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + categoryArray.get(i).getValueType() + " for element: category");
+                }
                 builder.category(parseCodeableConcept("category", categoryArray.getJsonObject(i), i));
             }
         }
@@ -5643,6 +6573,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray authorArray = getJsonArray(jsonObject, "author");
         if (authorArray != null) {
             for (int i = 0; i < authorArray.size(); i++) {
+                if (authorArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + authorArray.get(i).getValueType() + " for element: author");
+                }
                 builder.author(parseReference("author", authorArray.getJsonObject(i), i));
             }
         }
@@ -5651,6 +6584,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray attesterArray = getJsonArray(jsonObject, "attester");
         if (attesterArray != null) {
             for (int i = 0; i < attesterArray.size(); i++) {
+                if (attesterArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + attesterArray.get(i).getValueType() + " for element: attester");
+                }
                 builder.attester(parseCompositionAttester("attester", attesterArray.getJsonObject(i), i));
             }
         }
@@ -5658,18 +6594,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray relatesToArray = getJsonArray(jsonObject, "relatesTo");
         if (relatesToArray != null) {
             for (int i = 0; i < relatesToArray.size(); i++) {
+                if (relatesToArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + relatesToArray.get(i).getValueType() + " for element: relatesTo");
+                }
                 builder.relatesTo(parseCompositionRelatesTo("relatesTo", relatesToArray.getJsonObject(i), i));
             }
         }
         JsonArray eventArray = getJsonArray(jsonObject, "event");
         if (eventArray != null) {
             for (int i = 0; i < eventArray.size(); i++) {
+                if (eventArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + eventArray.get(i).getValueType() + " for element: event");
+                }
                 builder.event(parseCompositionEvent("event", eventArray.getJsonObject(i), i));
             }
         }
         JsonArray sectionArray = getJsonArray(jsonObject, "section");
         if (sectionArray != null) {
             for (int i = 0; i < sectionArray.size(); i++) {
+                if (sectionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + sectionArray.get(i).getValueType() + " for element: section");
+                }
                 builder.section(parseCompositionSection("section", sectionArray.getJsonObject(i), i));
             }
         }
@@ -5709,6 +6654,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray codeArray = getJsonArray(jsonObject, "code");
         if (codeArray != null) {
             for (int i = 0; i < codeArray.size(); i++) {
+                if (codeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + codeArray.get(i).getValueType() + " for element: code");
+                }
                 builder.code(parseCodeableConcept("code", codeArray.getJsonObject(i), i));
             }
         }
@@ -5716,6 +6664,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray detailArray = getJsonArray(jsonObject, "detail");
         if (detailArray != null) {
             for (int i = 0; i < detailArray.size(); i++) {
+                if (detailArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + detailArray.get(i).getValueType() + " for element: detail");
+                }
                 builder.detail(parseReference("detail", detailArray.getJsonObject(i), i));
             }
         }
@@ -5756,6 +6707,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray authorArray = getJsonArray(jsonObject, "author");
         if (authorArray != null) {
             for (int i = 0; i < authorArray.size(); i++) {
+                if (authorArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + authorArray.get(i).getValueType() + " for element: author");
+                }
                 builder.author(parseReference("author", authorArray.getJsonObject(i), i));
             }
         }
@@ -5766,6 +6720,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray entryArray = getJsonArray(jsonObject, "entry");
         if (entryArray != null) {
             for (int i = 0; i < entryArray.size(); i++) {
+                if (entryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + entryArray.get(i).getValueType() + " for element: entry");
+                }
                 builder.entry(parseReference("entry", entryArray.getJsonObject(i), i));
             }
         }
@@ -5773,6 +6730,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray sectionArray = getJsonArray(jsonObject, "section");
         if (sectionArray != null) {
             for (int i = 0; i < sectionArray.size(); i++) {
+                if (sectionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + sectionArray.get(i).getValueType() + " for element: section");
+                }
                 builder.section(parseCompositionSection("section", sectionArray.getJsonObject(i), i));
             }
         }
@@ -5803,6 +6763,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray contactArray = getJsonArray(jsonObject, "contact");
         if (contactArray != null) {
             for (int i = 0; i < contactArray.size(); i++) {
+                if (contactArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contactArray.get(i).getValueType() + " for element: contact");
+                }
                 builder.contact(parseContactDetail("contact", contactArray.getJsonObject(i), i));
             }
         }
@@ -5810,12 +6773,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray useContextArray = getJsonArray(jsonObject, "useContext");
         if (useContextArray != null) {
             for (int i = 0; i < useContextArray.size(); i++) {
+                if (useContextArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + useContextArray.get(i).getValueType() + " for element: useContext");
+                }
                 builder.useContext(parseUsageContext("useContext", useContextArray.getJsonObject(i), i));
             }
         }
         JsonArray jurisdictionArray = getJsonArray(jsonObject, "jurisdiction");
         if (jurisdictionArray != null) {
             for (int i = 0; i < jurisdictionArray.size(); i++) {
+                if (jurisdictionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + jurisdictionArray.get(i).getValueType() + " for element: jurisdiction");
+                }
                 builder.jurisdiction(parseCodeableConcept("jurisdiction", jurisdictionArray.getJsonObject(i), i));
             }
         }
@@ -5826,6 +6795,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray groupArray = getJsonArray(jsonObject, "group");
         if (groupArray != null) {
             for (int i = 0; i < groupArray.size(); i++) {
+                if (groupArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + groupArray.get(i).getValueType() + " for element: group");
+                }
                 builder.group(parseConceptMapGroup("group", groupArray.getJsonObject(i), i));
             }
         }
@@ -5851,6 +6823,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray elementArray = getJsonArray(jsonObject, "element");
         if (elementArray != null) {
             for (int i = 0; i < elementArray.size(); i++) {
+                if (elementArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + elementArray.get(i).getValueType() + " for element: element");
+                }
                 builder.element(parseConceptMapGroupElement("element", elementArray.getJsonObject(i), i));
             }
         }
@@ -5875,6 +6850,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray targetArray = getJsonArray(jsonObject, "target");
         if (targetArray != null) {
             for (int i = 0; i < targetArray.size(); i++) {
+                if (targetArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + targetArray.get(i).getValueType() + " for element: target");
+                }
                 builder.target(parseConceptMapGroupElementTarget("target", targetArray.getJsonObject(i), i));
             }
         }
@@ -5900,12 +6878,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray dependsOnArray = getJsonArray(jsonObject, "dependsOn");
         if (dependsOnArray != null) {
             for (int i = 0; i < dependsOnArray.size(); i++) {
+                if (dependsOnArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + dependsOnArray.get(i).getValueType() + " for element: dependsOn");
+                }
                 builder.dependsOn(parseConceptMapGroupElementTargetDependsOn("dependsOn", dependsOnArray.getJsonObject(i), i));
             }
         }
         JsonArray productArray = getJsonArray(jsonObject, "product");
         if (productArray != null) {
             for (int i = 0; i < productArray.size(); i++) {
+                if (productArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + productArray.get(i).getValueType() + " for element: product");
+                }
                 builder.product(parseConceptMapGroupElementTargetDependsOn("product", productArray.getJsonObject(i), i));
             }
         }
@@ -5965,6 +6949,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -5973,6 +6960,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray categoryArray = getJsonArray(jsonObject, "category");
         if (categoryArray != null) {
             for (int i = 0; i < categoryArray.size(); i++) {
+                if (categoryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + categoryArray.get(i).getValueType() + " for element: category");
+                }
                 builder.category(parseCodeableConcept("category", categoryArray.getJsonObject(i), i));
             }
         }
@@ -5981,6 +6971,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray bodySiteArray = getJsonArray(jsonObject, "bodySite");
         if (bodySiteArray != null) {
             for (int i = 0; i < bodySiteArray.size(); i++) {
+                if (bodySiteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + bodySiteArray.get(i).getValueType() + " for element: bodySite");
+                }
                 builder.bodySite(parseCodeableConcept("bodySite", bodySiteArray.getJsonObject(i), i));
             }
         }
@@ -5994,18 +6987,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray stageArray = getJsonArray(jsonObject, "stage");
         if (stageArray != null) {
             for (int i = 0; i < stageArray.size(); i++) {
+                if (stageArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + stageArray.get(i).getValueType() + " for element: stage");
+                }
                 builder.stage(parseConditionStage("stage", stageArray.getJsonObject(i), i));
             }
         }
         JsonArray evidenceArray = getJsonArray(jsonObject, "evidence");
         if (evidenceArray != null) {
             for (int i = 0; i < evidenceArray.size(); i++) {
+                if (evidenceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + evidenceArray.get(i).getValueType() + " for element: evidence");
+                }
                 builder.evidence(parseConditionEvidence("evidence", evidenceArray.getJsonObject(i), i));
             }
         }
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
@@ -6027,12 +7029,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray codeArray = getJsonArray(jsonObject, "code");
         if (codeArray != null) {
             for (int i = 0; i < codeArray.size(); i++) {
+                if (codeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + codeArray.get(i).getValueType() + " for element: code");
+                }
                 builder.code(parseCodeableConcept("code", codeArray.getJsonObject(i), i));
             }
         }
         JsonArray detailArray = getJsonArray(jsonObject, "detail");
         if (detailArray != null) {
             for (int i = 0; i < detailArray.size(); i++) {
+                if (detailArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + detailArray.get(i).getValueType() + " for element: detail");
+                }
                 builder.detail(parseReference("detail", detailArray.getJsonObject(i), i));
             }
         }
@@ -6055,6 +7063,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray assessmentArray = getJsonArray(jsonObject, "assessment");
         if (assessmentArray != null) {
             for (int i = 0; i < assessmentArray.size(); i++) {
+                if (assessmentArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + assessmentArray.get(i).getValueType() + " for element: assessment");
+                }
                 builder.assessment(parseReference("assessment", assessmentArray.getJsonObject(i), i));
             }
         }
@@ -6077,6 +7088,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -6085,6 +7099,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray categoryArray = getJsonArray(jsonObject, "category");
         if (categoryArray != null) {
             for (int i = 0; i < categoryArray.size(); i++) {
+                if (categoryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + categoryArray.get(i).getValueType() + " for element: category");
+                }
                 builder.category(parseCodeableConcept("category", categoryArray.getJsonObject(i), i));
             }
         }
@@ -6093,12 +7110,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray performerArray = getJsonArray(jsonObject, "performer");
         if (performerArray != null) {
             for (int i = 0; i < performerArray.size(); i++) {
+                if (performerArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + performerArray.get(i).getValueType() + " for element: performer");
+                }
                 builder.performer(parseReference("performer", performerArray.getJsonObject(i), i));
             }
         }
         JsonArray organizationArray = getJsonArray(jsonObject, "organization");
         if (organizationArray != null) {
             for (int i = 0; i < organizationArray.size(); i++) {
+                if (organizationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + organizationArray.get(i).getValueType() + " for element: organization");
+                }
                 builder.organization(parseReference("organization", organizationArray.getJsonObject(i), i));
             }
         }
@@ -6106,6 +7129,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray policyArray = getJsonArray(jsonObject, "policy");
         if (policyArray != null) {
             for (int i = 0; i < policyArray.size(); i++) {
+                if (policyArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + policyArray.get(i).getValueType() + " for element: policy");
+                }
                 builder.policy(parseConsentPolicy("policy", policyArray.getJsonObject(i), i));
             }
         }
@@ -6113,6 +7139,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray verificationArray = getJsonArray(jsonObject, "verification");
         if (verificationArray != null) {
             for (int i = 0; i < verificationArray.size(); i++) {
+                if (verificationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + verificationArray.get(i).getValueType() + " for element: verification");
+                }
                 builder.verification(parseConsentVerification("verification", verificationArray.getJsonObject(i), i));
             }
         }
@@ -6154,36 +7183,54 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray actorArray = getJsonArray(jsonObject, "actor");
         if (actorArray != null) {
             for (int i = 0; i < actorArray.size(); i++) {
+                if (actorArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + actorArray.get(i).getValueType() + " for element: actor");
+                }
                 builder.actor(parseConsentProvisionActor("actor", actorArray.getJsonObject(i), i));
             }
         }
         JsonArray actionArray = getJsonArray(jsonObject, "action");
         if (actionArray != null) {
             for (int i = 0; i < actionArray.size(); i++) {
+                if (actionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + actionArray.get(i).getValueType() + " for element: action");
+                }
                 builder.action(parseCodeableConcept("action", actionArray.getJsonObject(i), i));
             }
         }
         JsonArray securityLabelArray = getJsonArray(jsonObject, "securityLabel");
         if (securityLabelArray != null) {
             for (int i = 0; i < securityLabelArray.size(); i++) {
+                if (securityLabelArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + securityLabelArray.get(i).getValueType() + " for element: securityLabel");
+                }
                 builder.securityLabel(parseCoding("securityLabel", securityLabelArray.getJsonObject(i), i));
             }
         }
         JsonArray purposeArray = getJsonArray(jsonObject, "purpose");
         if (purposeArray != null) {
             for (int i = 0; i < purposeArray.size(); i++) {
+                if (purposeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + purposeArray.get(i).getValueType() + " for element: purpose");
+                }
                 builder.purpose(parseCoding("purpose", purposeArray.getJsonObject(i), i));
             }
         }
         JsonArray classArray = getJsonArray(jsonObject, "class");
         if (classArray != null) {
             for (int i = 0; i < classArray.size(); i++) {
+                if (classArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + classArray.get(i).getValueType() + " for element: class");
+                }
                 builder.clazz(parseCoding("class", classArray.getJsonObject(i), i));
             }
         }
         JsonArray codeArray = getJsonArray(jsonObject, "code");
         if (codeArray != null) {
             for (int i = 0; i < codeArray.size(); i++) {
+                if (codeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + codeArray.get(i).getValueType() + " for element: code");
+                }
                 builder.code(parseCodeableConcept("code", codeArray.getJsonObject(i), i));
             }
         }
@@ -6191,12 +7238,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray dataArray = getJsonArray(jsonObject, "data");
         if (dataArray != null) {
             for (int i = 0; i < dataArray.size(); i++) {
+                if (dataArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + dataArray.get(i).getValueType() + " for element: data");
+                }
                 builder.data(parseConsentProvisionData("data", dataArray.getJsonObject(i), i));
             }
         }
         JsonArray provisionArray = getJsonArray(jsonObject, "provision");
         if (provisionArray != null) {
             for (int i = 0; i < provisionArray.size(); i++) {
+                if (provisionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + provisionArray.get(i).getValueType() + " for element: provision");
+                }
                 builder.provision(parseConsentProvision("provision", provisionArray.getJsonObject(i), i));
             }
         }
@@ -6271,6 +7324,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray telecomArray = getJsonArray(jsonObject, "telecom");
         if (telecomArray != null) {
             for (int i = 0; i < telecomArray.size(); i++) {
+                if (telecomArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + telecomArray.get(i).getValueType() + " for element: telecom");
+                }
                 builder.telecom(parseContactPoint("telecom", telecomArray.getJsonObject(i), i));
             }
         }
@@ -6312,6 +7368,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -6328,24 +7387,36 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray subjectArray = getJsonArray(jsonObject, "subject");
         if (subjectArray != null) {
             for (int i = 0; i < subjectArray.size(); i++) {
+                if (subjectArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + subjectArray.get(i).getValueType() + " for element: subject");
+                }
                 builder.subject(parseReference("subject", subjectArray.getJsonObject(i), i));
             }
         }
         JsonArray authorityArray = getJsonArray(jsonObject, "authority");
         if (authorityArray != null) {
             for (int i = 0; i < authorityArray.size(); i++) {
+                if (authorityArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + authorityArray.get(i).getValueType() + " for element: authority");
+                }
                 builder.authority(parseReference("authority", authorityArray.getJsonObject(i), i));
             }
         }
         JsonArray domainArray = getJsonArray(jsonObject, "domain");
         if (domainArray != null) {
             for (int i = 0; i < domainArray.size(); i++) {
+                if (domainArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + domainArray.get(i).getValueType() + " for element: domain");
+                }
                 builder.domain(parseReference("domain", domainArray.getJsonObject(i), i));
             }
         }
         JsonArray siteArray = getJsonArray(jsonObject, "site");
         if (siteArray != null) {
             for (int i = 0; i < siteArray.size(); i++) {
+                if (siteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + siteArray.get(i).getValueType() + " for element: site");
+                }
                 builder.site(parseReference("site", siteArray.getJsonObject(i), i));
             }
         }
@@ -6366,6 +7437,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray subTypeArray = getJsonArray(jsonObject, "subType");
         if (subTypeArray != null) {
             for (int i = 0; i < subTypeArray.size(); i++) {
+                if (subTypeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + subTypeArray.get(i).getValueType() + " for element: subType");
+                }
                 builder.subType(parseCodeableConcept("subType", subTypeArray.getJsonObject(i), i));
             }
         }
@@ -6373,42 +7447,63 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray termArray = getJsonArray(jsonObject, "term");
         if (termArray != null) {
             for (int i = 0; i < termArray.size(); i++) {
+                if (termArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + termArray.get(i).getValueType() + " for element: term");
+                }
                 builder.term(parseContractTerm("term", termArray.getJsonObject(i), i));
             }
         }
         JsonArray supportingInfoArray = getJsonArray(jsonObject, "supportingInfo");
         if (supportingInfoArray != null) {
             for (int i = 0; i < supportingInfoArray.size(); i++) {
+                if (supportingInfoArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + supportingInfoArray.get(i).getValueType() + " for element: supportingInfo");
+                }
                 builder.supportingInfo(parseReference("supportingInfo", supportingInfoArray.getJsonObject(i), i));
             }
         }
         JsonArray relevantHistoryArray = getJsonArray(jsonObject, "relevantHistory");
         if (relevantHistoryArray != null) {
             for (int i = 0; i < relevantHistoryArray.size(); i++) {
+                if (relevantHistoryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + relevantHistoryArray.get(i).getValueType() + " for element: relevantHistory");
+                }
                 builder.relevantHistory(parseReference("relevantHistory", relevantHistoryArray.getJsonObject(i), i));
             }
         }
         JsonArray signerArray = getJsonArray(jsonObject, "signer");
         if (signerArray != null) {
             for (int i = 0; i < signerArray.size(); i++) {
+                if (signerArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + signerArray.get(i).getValueType() + " for element: signer");
+                }
                 builder.signer(parseContractSigner("signer", signerArray.getJsonObject(i), i));
             }
         }
         JsonArray friendlyArray = getJsonArray(jsonObject, "friendly");
         if (friendlyArray != null) {
             for (int i = 0; i < friendlyArray.size(); i++) {
+                if (friendlyArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + friendlyArray.get(i).getValueType() + " for element: friendly");
+                }
                 builder.friendly(parseContractFriendly("friendly", friendlyArray.getJsonObject(i), i));
             }
         }
         JsonArray legalArray = getJsonArray(jsonObject, "legal");
         if (legalArray != null) {
             for (int i = 0; i < legalArray.size(); i++) {
+                if (legalArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + legalArray.get(i).getValueType() + " for element: legal");
+                }
                 builder.legal(parseContractLegal("legal", legalArray.getJsonObject(i), i));
             }
         }
         JsonArray ruleArray = getJsonArray(jsonObject, "rule");
         if (ruleArray != null) {
             for (int i = 0; i < ruleArray.size(); i++) {
+                if (ruleArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + ruleArray.get(i).getValueType() + " for element: rule");
+                }
                 builder.rule(parseContractRule("rule", ruleArray.getJsonObject(i), i));
             }
         }
@@ -6502,6 +7597,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray signatureArray = getJsonArray(jsonObject, "signature");
         if (signatureArray != null) {
             for (int i = 0; i < signatureArray.size(); i++) {
+                if (signatureArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + signatureArray.get(i).getValueType() + " for element: signature");
+                }
                 builder.signature(parseSignature("signature", signatureArray.getJsonObject(i), i));
             }
         }
@@ -6530,6 +7628,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray securityLabelArray = getJsonArray(jsonObject, "securityLabel");
         if (securityLabelArray != null) {
             for (int i = 0; i < securityLabelArray.size(); i++) {
+                if (securityLabelArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + securityLabelArray.get(i).getValueType() + " for element: securityLabel");
+                }
                 builder.securityLabel(parseContractTermSecurityLabel("securityLabel", securityLabelArray.getJsonObject(i), i));
             }
         }
@@ -6537,18 +7638,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray assetArray = getJsonArray(jsonObject, "asset");
         if (assetArray != null) {
             for (int i = 0; i < assetArray.size(); i++) {
+                if (assetArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + assetArray.get(i).getValueType() + " for element: asset");
+                }
                 builder.asset(parseContractTermAsset("asset", assetArray.getJsonObject(i), i));
             }
         }
         JsonArray actionArray = getJsonArray(jsonObject, "action");
         if (actionArray != null) {
             for (int i = 0; i < actionArray.size(); i++) {
+                if (actionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + actionArray.get(i).getValueType() + " for element: action");
+                }
                 builder.action(parseContractTermAction("action", actionArray.getJsonObject(i), i));
             }
         }
         JsonArray groupArray = getJsonArray(jsonObject, "group");
         if (groupArray != null) {
             for (int i = 0; i < groupArray.size(); i++) {
+                if (groupArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + groupArray.get(i).getValueType() + " for element: group");
+                }
                 builder.group(parseContractTerm("group", groupArray.getJsonObject(i), i));
             }
         }
@@ -6572,6 +7682,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray subjectArray = getJsonArray(jsonObject, "subject");
         if (subjectArray != null) {
             for (int i = 0; i < subjectArray.size(); i++) {
+                if (subjectArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + subjectArray.get(i).getValueType() + " for element: subject");
+                }
                 builder.subject(parseContractTermActionSubject("subject", subjectArray.getJsonObject(i), i));
             }
         }
@@ -6596,6 +7709,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray requesterArray = getJsonArray(jsonObject, "requester");
         if (requesterArray != null) {
             for (int i = 0; i < requesterArray.size(); i++) {
+                if (requesterArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + requesterArray.get(i).getValueType() + " for element: requester");
+                }
                 builder.requester(parseReference("requester", requesterArray.getJsonObject(i), i));
             }
         }
@@ -6609,6 +7725,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray performerTypeArray = getJsonArray(jsonObject, "performerType");
         if (performerTypeArray != null) {
             for (int i = 0; i < performerTypeArray.size(); i++) {
+                if (performerTypeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + performerTypeArray.get(i).getValueType() + " for element: performerType");
+                }
                 builder.performerType(parseCodeableConcept("performerType", performerTypeArray.getJsonObject(i), i));
             }
         }
@@ -6624,12 +7743,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray reasonCodeArray = getJsonArray(jsonObject, "reasonCode");
         if (reasonCodeArray != null) {
             for (int i = 0; i < reasonCodeArray.size(); i++) {
+                if (reasonCodeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reasonCodeArray.get(i).getValueType() + " for element: reasonCode");
+                }
                 builder.reasonCode(parseCodeableConcept("reasonCode", reasonCodeArray.getJsonObject(i), i));
             }
         }
         JsonArray reasonReferenceArray = getJsonArray(jsonObject, "reasonReference");
         if (reasonReferenceArray != null) {
             for (int i = 0; i < reasonReferenceArray.size(); i++) {
+                if (reasonReferenceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reasonReferenceArray.get(i).getValueType() + " for element: reasonReference");
+                }
                 builder.reasonReference(parseReference("reasonReference", reasonReferenceArray.getJsonObject(i), i));
             }
         }
@@ -6650,6 +7775,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
@@ -6678,6 +7806,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray referenceArray = getJsonArray(jsonObject, "reference");
         if (referenceArray != null) {
             for (int i = 0; i < referenceArray.size(); i++) {
+                if (referenceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + referenceArray.get(i).getValueType() + " for element: reference");
+                }
                 builder.reference(parseReference("reference", referenceArray.getJsonObject(i), i));
             }
         }
@@ -6701,18 +7832,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray typeArray = getJsonArray(jsonObject, "type");
         if (typeArray != null) {
             for (int i = 0; i < typeArray.size(); i++) {
+                if (typeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + typeArray.get(i).getValueType() + " for element: type");
+                }
                 builder.type(parseCodeableConcept("type", typeArray.getJsonObject(i), i));
             }
         }
         JsonArray typeReferenceArray = getJsonArray(jsonObject, "typeReference");
         if (typeReferenceArray != null) {
             for (int i = 0; i < typeReferenceArray.size(); i++) {
+                if (typeReferenceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + typeReferenceArray.get(i).getValueType() + " for element: typeReference");
+                }
                 builder.typeReference(parseReference("typeReference", typeReferenceArray.getJsonObject(i), i));
             }
         }
         JsonArray subtypeArray = getJsonArray(jsonObject, "subtype");
         if (subtypeArray != null) {
             for (int i = 0; i < subtypeArray.size(); i++) {
+                if (subtypeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + subtypeArray.get(i).getValueType() + " for element: subtype");
+                }
                 builder.subtype(parseCodeableConcept("subtype", subtypeArray.getJsonObject(i), i));
             }
         }
@@ -6720,6 +7860,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray contextArray = getJsonArray(jsonObject, "context");
         if (contextArray != null) {
             for (int i = 0; i < contextArray.size(); i++) {
+                if (contextArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contextArray.get(i).getValueType() + " for element: context");
+                }
                 builder.context(parseContractTermAssetContext("context", contextArray.getJsonObject(i), i));
             }
         }
@@ -6727,18 +7870,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray periodTypeArray = getJsonArray(jsonObject, "periodType");
         if (periodTypeArray != null) {
             for (int i = 0; i < periodTypeArray.size(); i++) {
+                if (periodTypeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + periodTypeArray.get(i).getValueType() + " for element: periodType");
+                }
                 builder.periodType(parseCodeableConcept("periodType", periodTypeArray.getJsonObject(i), i));
             }
         }
         JsonArray periodArray = getJsonArray(jsonObject, "period");
         if (periodArray != null) {
             for (int i = 0; i < periodArray.size(); i++) {
+                if (periodArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + periodArray.get(i).getValueType() + " for element: period");
+                }
                 builder.period(parsePeriod("period", periodArray.getJsonObject(i), i));
             }
         }
         JsonArray usePeriodArray = getJsonArray(jsonObject, "usePeriod");
         if (usePeriodArray != null) {
             for (int i = 0; i < usePeriodArray.size(); i++) {
+                if (usePeriodArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + usePeriodArray.get(i).getValueType() + " for element: usePeriod");
+                }
                 builder.usePeriod(parsePeriod("usePeriod", usePeriodArray.getJsonObject(i), i));
             }
         }
@@ -6753,6 +7905,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray answerArray = getJsonArray(jsonObject, "answer");
         if (answerArray != null) {
             for (int i = 0; i < answerArray.size(); i++) {
+                if (answerArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + answerArray.get(i).getValueType() + " for element: answer");
+                }
                 builder.answer(parseContractTermOfferAnswer("answer", answerArray.getJsonObject(i), i));
             }
         }
@@ -6766,6 +7921,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray valuedItemArray = getJsonArray(jsonObject, "valuedItem");
         if (valuedItemArray != null) {
             for (int i = 0; i < valuedItemArray.size(); i++) {
+                if (valuedItemArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + valuedItemArray.get(i).getValueType() + " for element: valuedItem");
+                }
                 builder.valuedItem(parseContractTermAssetValuedItem("valuedItem", valuedItemArray.getJsonObject(i), i));
             }
         }
@@ -6788,6 +7946,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray codeArray = getJsonArray(jsonObject, "code");
         if (codeArray != null) {
             for (int i = 0; i < codeArray.size(); i++) {
+                if (codeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + codeArray.get(i).getValueType() + " for element: code");
+                }
                 builder.code(parseCodeableConcept("code", codeArray.getJsonObject(i), i));
             }
         }
@@ -6851,12 +8012,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
         JsonArray partyArray = getJsonArray(jsonObject, "party");
         if (partyArray != null) {
             for (int i = 0; i < partyArray.size(); i++) {
+                if (partyArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + partyArray.get(i).getValueType() + " for element: party");
+                }
                 builder.party(parseContractTermOfferParty("party", partyArray.getJsonObject(i), i));
             }
         }
@@ -6866,12 +8033,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray decisionModeArray = getJsonArray(jsonObject, "decisionMode");
         if (decisionModeArray != null) {
             for (int i = 0; i < decisionModeArray.size(); i++) {
+                if (decisionModeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + decisionModeArray.get(i).getValueType() + " for element: decisionMode");
+                }
                 builder.decisionMode(parseCodeableConcept("decisionMode", decisionModeArray.getJsonObject(i), i));
             }
         }
         JsonArray answerArray = getJsonArray(jsonObject, "answer");
         if (answerArray != null) {
             for (int i = 0; i < answerArray.size(); i++) {
+                if (answerArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + answerArray.get(i).getValueType() + " for element: answer");
+                }
                 builder.answer(parseContractTermOfferAnswer("answer", answerArray.getJsonObject(i), i));
             }
         }
@@ -6924,6 +8097,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray referenceArray = getJsonArray(jsonObject, "reference");
         if (referenceArray != null) {
             for (int i = 0; i < referenceArray.size(); i++) {
+                if (referenceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + referenceArray.get(i).getValueType() + " for element: reference");
+                }
                 builder.reference(parseReference("reference", referenceArray.getJsonObject(i), i));
             }
         }
@@ -6954,12 +8130,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray categoryArray = getJsonArray(jsonObject, "category");
         if (categoryArray != null) {
             for (int i = 0; i < categoryArray.size(); i++) {
+                if (categoryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + categoryArray.get(i).getValueType() + " for element: category");
+                }
                 builder.category(parseCoding("category", categoryArray.getJsonObject(i), i));
             }
         }
         JsonArray controlArray = getJsonArray(jsonObject, "control");
         if (controlArray != null) {
             for (int i = 0; i < controlArray.size(); i++) {
+                if (controlArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + controlArray.get(i).getValueType() + " for element: control");
+                }
                 builder.control(parseCoding("control", controlArray.getJsonObject(i), i));
             }
         }
@@ -6983,6 +8165,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray contactArray = getJsonArray(jsonObject, "contact");
         if (contactArray != null) {
             for (int i = 0; i < contactArray.size(); i++) {
+                if (contactArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contactArray.get(i).getValueType() + " for element: contact");
+                }
                 builder.contact(parseContactDetail("contact", contactArray.getJsonObject(i), i));
             }
         }
@@ -7004,6 +8189,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -7019,12 +8207,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray payorArray = getJsonArray(jsonObject, "payor");
         if (payorArray != null) {
             for (int i = 0; i < payorArray.size(); i++) {
+                if (payorArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + payorArray.get(i).getValueType() + " for element: payor");
+                }
                 builder.payor(parseReference("payor", payorArray.getJsonObject(i), i));
             }
         }
         JsonArray classArray = getJsonArray(jsonObject, "class");
         if (classArray != null) {
             for (int i = 0; i < classArray.size(); i++) {
+                if (classArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + classArray.get(i).getValueType() + " for element: class");
+                }
                 builder.clazz(parseCoverageClass("class", classArray.getJsonObject(i), i));
             }
         }
@@ -7033,6 +8227,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray costToBeneficiaryArray = getJsonArray(jsonObject, "costToBeneficiary");
         if (costToBeneficiaryArray != null) {
             for (int i = 0; i < costToBeneficiaryArray.size(); i++) {
+                if (costToBeneficiaryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + costToBeneficiaryArray.get(i).getValueType() + " for element: costToBeneficiary");
+                }
                 builder.costToBeneficiary(parseCoverageCostToBeneficiary("costToBeneficiary", costToBeneficiaryArray.getJsonObject(i), i));
             }
         }
@@ -7040,6 +8237,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray contractArray = getJsonArray(jsonObject, "contract");
         if (contractArray != null) {
             for (int i = 0; i < contractArray.size(); i++) {
+                if (contractArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contractArray.get(i).getValueType() + " for element: contract");
+                }
                 builder.contract(parseReference("contract", contractArray.getJsonObject(i), i));
             }
         }
@@ -7081,6 +8281,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray exceptionArray = getJsonArray(jsonObject, "exception");
         if (exceptionArray != null) {
             for (int i = 0; i < exceptionArray.size(); i++) {
+                if (exceptionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + exceptionArray.get(i).getValueType() + " for element: exception");
+                }
                 builder.exception(parseCoverageCostToBeneficiaryException("exception", exceptionArray.getJsonObject(i), i));
             }
         }
@@ -7119,6 +8322,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -7128,6 +8334,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (purposeArray != null) {
             JsonArray _purposeArray = jsonObject.getJsonArray("_purpose");
             for (int i = 0; i < purposeArray.size(); i++) {
+                if (purposeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + purposeArray.get(i).getValueType() + " for element: purpose");
+                }
                 builder.purpose((EligibilityRequestPurpose) parseString(EligibilityRequestPurpose.builder(), "purpose", purposeArray.get(i), getJsonValue(_purposeArray, i), i));
             }
         }
@@ -7141,18 +8350,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray supportingInfoArray = getJsonArray(jsonObject, "supportingInfo");
         if (supportingInfoArray != null) {
             for (int i = 0; i < supportingInfoArray.size(); i++) {
+                if (supportingInfoArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + supportingInfoArray.get(i).getValueType() + " for element: supportingInfo");
+                }
                 builder.supportingInfo(parseCoverageEligibilityRequestSupportingInfo("supportingInfo", supportingInfoArray.getJsonObject(i), i));
             }
         }
         JsonArray insuranceArray = getJsonArray(jsonObject, "insurance");
         if (insuranceArray != null) {
             for (int i = 0; i < insuranceArray.size(); i++) {
+                if (insuranceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + insuranceArray.get(i).getValueType() + " for element: insurance");
+                }
                 builder.insurance(parseCoverageEligibilityRequestInsurance("insurance", insuranceArray.getJsonObject(i), i));
             }
         }
         JsonArray itemArray = getJsonArray(jsonObject, "item");
         if (itemArray != null) {
             for (int i = 0; i < itemArray.size(); i++) {
+                if (itemArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + itemArray.get(i).getValueType() + " for element: item");
+                }
                 builder.item(parseCoverageEligibilityRequestItem("item", itemArray.getJsonObject(i), i));
             }
         }
@@ -7201,6 +8419,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray modifierArray = getJsonArray(jsonObject, "modifier");
         if (modifierArray != null) {
             for (int i = 0; i < modifierArray.size(); i++) {
+                if (modifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + modifierArray.get(i).getValueType() + " for element: modifier");
+                }
                 builder.modifier(parseCodeableConcept("modifier", modifierArray.getJsonObject(i), i));
             }
         }
@@ -7211,12 +8432,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray diagnosisArray = getJsonArray(jsonObject, "diagnosis");
         if (diagnosisArray != null) {
             for (int i = 0; i < diagnosisArray.size(); i++) {
+                if (diagnosisArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + diagnosisArray.get(i).getValueType() + " for element: diagnosis");
+                }
                 builder.diagnosis(parseCoverageEligibilityRequestItemDiagnosis("diagnosis", diagnosisArray.getJsonObject(i), i));
             }
         }
         JsonArray detailArray = getJsonArray(jsonObject, "detail");
         if (detailArray != null) {
             for (int i = 0; i < detailArray.size(); i++) {
+                if (detailArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + detailArray.get(i).getValueType() + " for element: detail");
+                }
                 builder.detail(parseReference("detail", detailArray.getJsonObject(i), i));
             }
         }
@@ -7272,6 +8499,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -7280,6 +8510,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (purposeArray != null) {
             JsonArray _purposeArray = jsonObject.getJsonArray("_purpose");
             for (int i = 0; i < purposeArray.size(); i++) {
+                if (purposeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + purposeArray.get(i).getValueType() + " for element: purpose");
+                }
                 builder.purpose((EligibilityResponsePurpose) parseString(EligibilityResponsePurpose.builder(), "purpose", purposeArray.get(i), getJsonValue(_purposeArray, i), i));
             }
         }
@@ -7294,6 +8527,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray insuranceArray = getJsonArray(jsonObject, "insurance");
         if (insuranceArray != null) {
             for (int i = 0; i < insuranceArray.size(); i++) {
+                if (insuranceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + insuranceArray.get(i).getValueType() + " for element: insurance");
+                }
                 builder.insurance(parseCoverageEligibilityResponseInsurance("insurance", insuranceArray.getJsonObject(i), i));
             }
         }
@@ -7302,6 +8538,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray errorArray = getJsonArray(jsonObject, "error");
         if (errorArray != null) {
             for (int i = 0; i < errorArray.size(); i++) {
+                if (errorArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + errorArray.get(i).getValueType() + " for element: error");
+                }
                 builder.error(parseCoverageEligibilityResponseError("error", errorArray.getJsonObject(i), i));
             }
         }
@@ -7342,6 +8581,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray itemArray = getJsonArray(jsonObject, "item");
         if (itemArray != null) {
             for (int i = 0; i < itemArray.size(); i++) {
+                if (itemArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + itemArray.get(i).getValueType() + " for element: item");
+                }
                 builder.item(parseCoverageEligibilityResponseInsuranceItem("item", itemArray.getJsonObject(i), i));
             }
         }
@@ -7365,6 +8607,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray modifierArray = getJsonArray(jsonObject, "modifier");
         if (modifierArray != null) {
             for (int i = 0; i < modifierArray.size(); i++) {
+                if (modifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + modifierArray.get(i).getValueType() + " for element: modifier");
+                }
                 builder.modifier(parseCodeableConcept("modifier", modifierArray.getJsonObject(i), i));
             }
         }
@@ -7378,6 +8623,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray benefitArray = getJsonArray(jsonObject, "benefit");
         if (benefitArray != null) {
             for (int i = 0; i < benefitArray.size(); i++) {
+                if (benefitArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + benefitArray.get(i).getValueType() + " for element: benefit");
+                }
                 builder.benefit(parseCoverageEligibilityResponseInsuranceItemBenefit("benefit", benefitArray.getJsonObject(i), i));
             }
         }
@@ -7385,6 +8633,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray authorizationSupportingArray = getJsonArray(jsonObject, "authorizationSupporting");
         if (authorizationSupportingArray != null) {
             for (int i = 0; i < authorizationSupportingArray.size(); i++) {
+                if (authorizationSupportingArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + authorizationSupportingArray.get(i).getValueType() + " for element: authorizationSupporting");
+                }
                 builder.authorizationSupporting(parseCodeableConcept("authorizationSupporting", authorizationSupportingArray.getJsonObject(i), i));
             }
         }
@@ -7441,12 +8692,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray codeFilterArray = getJsonArray(jsonObject, "codeFilter");
         if (codeFilterArray != null) {
             for (int i = 0; i < codeFilterArray.size(); i++) {
+                if (codeFilterArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + codeFilterArray.get(i).getValueType() + " for element: codeFilter");
+                }
                 builder.codeFilter(parseDataRequirementCodeFilter("codeFilter", codeFilterArray.getJsonObject(i), i));
             }
         }
         JsonArray dateFilterArray = getJsonArray(jsonObject, "dateFilter");
         if (dateFilterArray != null) {
             for (int i = 0; i < dateFilterArray.size(); i++) {
+                if (dateFilterArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + dateFilterArray.get(i).getValueType() + " for element: dateFilter");
+                }
                 builder.dateFilter(parseDataRequirementDateFilter("dateFilter", dateFilterArray.getJsonObject(i), i));
             }
         }
@@ -7454,6 +8711,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray sortArray = getJsonArray(jsonObject, "sort");
         if (sortArray != null) {
             for (int i = 0; i < sortArray.size(); i++) {
+                if (sortArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + sortArray.get(i).getValueType() + " for element: sort");
+                }
                 builder.sort(parseDataRequirementSort("sort", sortArray.getJsonObject(i), i));
             }
         }
@@ -7478,6 +8738,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray codeArray = getJsonArray(jsonObject, "code");
         if (codeArray != null) {
             for (int i = 0; i < codeArray.size(); i++) {
+                if (codeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + codeArray.get(i).getValueType() + " for element: code");
+                }
                 builder.code(parseCoding("code", codeArray.getJsonObject(i), i));
             }
         }
@@ -7617,6 +8880,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -7629,12 +8895,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray implicatedArray = getJsonArray(jsonObject, "implicated");
         if (implicatedArray != null) {
             for (int i = 0; i < implicatedArray.size(); i++) {
+                if (implicatedArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + implicatedArray.get(i).getValueType() + " for element: implicated");
+                }
                 builder.implicated(parseReference("implicated", implicatedArray.getJsonObject(i), i));
             }
         }
         JsonArray evidenceArray = getJsonArray(jsonObject, "evidence");
         if (evidenceArray != null) {
             for (int i = 0; i < evidenceArray.size(); i++) {
+                if (evidenceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + evidenceArray.get(i).getValueType() + " for element: evidence");
+                }
                 builder.evidence(parseDetectedIssueEvidence("evidence", evidenceArray.getJsonObject(i), i));
             }
         }
@@ -7643,6 +8915,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray mitigationArray = getJsonArray(jsonObject, "mitigation");
         if (mitigationArray != null) {
             for (int i = 0; i < mitigationArray.size(); i++) {
+                if (mitigationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + mitigationArray.get(i).getValueType() + " for element: mitigation");
+                }
                 builder.mitigation(parseDetectedIssueMitigation("mitigation", mitigationArray.getJsonObject(i), i));
             }
         }
@@ -7664,12 +8939,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray codeArray = getJsonArray(jsonObject, "code");
         if (codeArray != null) {
             for (int i = 0; i < codeArray.size(); i++) {
+                if (codeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + codeArray.get(i).getValueType() + " for element: code");
+                }
                 builder.code(parseCodeableConcept("code", codeArray.getJsonObject(i), i));
             }
         }
         JsonArray detailArray = getJsonArray(jsonObject, "detail");
         if (detailArray != null) {
             for (int i = 0; i < detailArray.size(); i++) {
+                if (detailArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + detailArray.get(i).getValueType() + " for element: detail");
+                }
                 builder.detail(parseReference("detail", detailArray.getJsonObject(i), i));
             }
         }
@@ -7709,6 +8990,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -7716,6 +9000,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray udiCarrierArray = getJsonArray(jsonObject, "udiCarrier");
         if (udiCarrierArray != null) {
             for (int i = 0; i < udiCarrierArray.size(); i++) {
+                if (udiCarrierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + udiCarrierArray.get(i).getValueType() + " for element: udiCarrier");
+                }
                 builder.udiCarrier(parseDeviceUdiCarrier("udiCarrier", udiCarrierArray.getJsonObject(i), i));
             }
         }
@@ -7723,6 +9010,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray statusReasonArray = getJsonArray(jsonObject, "statusReason");
         if (statusReasonArray != null) {
             for (int i = 0; i < statusReasonArray.size(); i++) {
+                if (statusReasonArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + statusReasonArray.get(i).getValueType() + " for element: statusReason");
+                }
                 builder.statusReason(parseCodeableConcept("statusReason", statusReasonArray.getJsonObject(i), i));
             }
         }
@@ -7735,6 +9025,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray deviceNameArray = getJsonArray(jsonObject, "deviceName");
         if (deviceNameArray != null) {
             for (int i = 0; i < deviceNameArray.size(); i++) {
+                if (deviceNameArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + deviceNameArray.get(i).getValueType() + " for element: deviceName");
+                }
                 builder.deviceName(parseDeviceDeviceName("deviceName", deviceNameArray.getJsonObject(i), i));
             }
         }
@@ -7744,18 +9037,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray specializationArray = getJsonArray(jsonObject, "specialization");
         if (specializationArray != null) {
             for (int i = 0; i < specializationArray.size(); i++) {
+                if (specializationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + specializationArray.get(i).getValueType() + " for element: specialization");
+                }
                 builder.specialization(parseDeviceSpecialization("specialization", specializationArray.getJsonObject(i), i));
             }
         }
         JsonArray versionArray = getJsonArray(jsonObject, "version");
         if (versionArray != null) {
             for (int i = 0; i < versionArray.size(); i++) {
+                if (versionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + versionArray.get(i).getValueType() + " for element: version");
+                }
                 builder.version(parseDeviceVersion("version", versionArray.getJsonObject(i), i));
             }
         }
         JsonArray propertyArray = getJsonArray(jsonObject, "property");
         if (propertyArray != null) {
             for (int i = 0; i < propertyArray.size(); i++) {
+                if (propertyArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + propertyArray.get(i).getValueType() + " for element: property");
+                }
                 builder.property(parseDeviceProperty("property", propertyArray.getJsonObject(i), i));
             }
         }
@@ -7764,6 +9066,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray contactArray = getJsonArray(jsonObject, "contact");
         if (contactArray != null) {
             for (int i = 0; i < contactArray.size(); i++) {
+                if (contactArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contactArray.get(i).getValueType() + " for element: contact");
+                }
                 builder.contact(parseContactPoint("contact", contactArray.getJsonObject(i), i));
             }
         }
@@ -7772,12 +9077,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
         JsonArray safetyArray = getJsonArray(jsonObject, "safety");
         if (safetyArray != null) {
             for (int i = 0; i < safetyArray.size(); i++) {
+                if (safetyArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + safetyArray.get(i).getValueType() + " for element: safety");
+                }
                 builder.safety(parseCodeableConcept("safety", safetyArray.getJsonObject(i), i));
             }
         }
@@ -7818,12 +9129,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray valueQuantityArray = getJsonArray(jsonObject, "valueQuantity");
         if (valueQuantityArray != null) {
             for (int i = 0; i < valueQuantityArray.size(); i++) {
+                if (valueQuantityArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + valueQuantityArray.get(i).getValueType() + " for element: valueQuantity");
+                }
                 builder.valueQuantity(parseQuantity("valueQuantity", valueQuantityArray.getJsonObject(i), i));
             }
         }
         JsonArray valueCodeArray = getJsonArray(jsonObject, "valueCode");
         if (valueCodeArray != null) {
             for (int i = 0; i < valueCodeArray.size(); i++) {
+                if (valueCodeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + valueCodeArray.get(i).getValueType() + " for element: valueCode");
+                }
                 builder.valueCode(parseCodeableConcept("valueCode", valueCodeArray.getJsonObject(i), i));
             }
         }
@@ -7901,12 +9218,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
         JsonArray udiDeviceIdentifierArray = getJsonArray(jsonObject, "udiDeviceIdentifier");
         if (udiDeviceIdentifierArray != null) {
             for (int i = 0; i < udiDeviceIdentifierArray.size(); i++) {
+                if (udiDeviceIdentifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + udiDeviceIdentifierArray.get(i).getValueType() + " for element: udiDeviceIdentifier");
+                }
                 builder.udiDeviceIdentifier(parseDeviceDefinitionUdiDeviceIdentifier("udiDeviceIdentifier", udiDeviceIdentifierArray.getJsonObject(i), i));
             }
         }
@@ -7914,6 +9237,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray deviceNameArray = getJsonArray(jsonObject, "deviceName");
         if (deviceNameArray != null) {
             for (int i = 0; i < deviceNameArray.size(); i++) {
+                if (deviceNameArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + deviceNameArray.get(i).getValueType() + " for element: deviceName");
+                }
                 builder.deviceName(parseDeviceDefinitionDeviceName("deviceName", deviceNameArray.getJsonObject(i), i));
             }
         }
@@ -7922,6 +9248,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray specializationArray = getJsonArray(jsonObject, "specialization");
         if (specializationArray != null) {
             for (int i = 0; i < specializationArray.size(); i++) {
+                if (specializationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + specializationArray.get(i).getValueType() + " for element: specialization");
+                }
                 builder.specialization(parseDeviceDefinitionSpecialization("specialization", specializationArray.getJsonObject(i), i));
             }
         }
@@ -7935,12 +9264,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray safetyArray = getJsonArray(jsonObject, "safety");
         if (safetyArray != null) {
             for (int i = 0; i < safetyArray.size(); i++) {
+                if (safetyArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + safetyArray.get(i).getValueType() + " for element: safety");
+                }
                 builder.safety(parseCodeableConcept("safety", safetyArray.getJsonObject(i), i));
             }
         }
         JsonArray shelfLifeStorageArray = getJsonArray(jsonObject, "shelfLifeStorage");
         if (shelfLifeStorageArray != null) {
             for (int i = 0; i < shelfLifeStorageArray.size(); i++) {
+                if (shelfLifeStorageArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + shelfLifeStorageArray.get(i).getValueType() + " for element: shelfLifeStorage");
+                }
                 builder.shelfLifeStorage(parseProductShelfLife("shelfLifeStorage", shelfLifeStorageArray.getJsonObject(i), i));
             }
         }
@@ -7948,18 +9283,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray languageCodeArray = getJsonArray(jsonObject, "languageCode");
         if (languageCodeArray != null) {
             for (int i = 0; i < languageCodeArray.size(); i++) {
+                if (languageCodeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + languageCodeArray.get(i).getValueType() + " for element: languageCode");
+                }
                 builder.languageCode(parseCodeableConcept("languageCode", languageCodeArray.getJsonObject(i), i));
             }
         }
         JsonArray capabilityArray = getJsonArray(jsonObject, "capability");
         if (capabilityArray != null) {
             for (int i = 0; i < capabilityArray.size(); i++) {
+                if (capabilityArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + capabilityArray.get(i).getValueType() + " for element: capability");
+                }
                 builder.capability(parseDeviceDefinitionCapability("capability", capabilityArray.getJsonObject(i), i));
             }
         }
         JsonArray propertyArray = getJsonArray(jsonObject, "property");
         if (propertyArray != null) {
             for (int i = 0; i < propertyArray.size(); i++) {
+                if (propertyArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + propertyArray.get(i).getValueType() + " for element: property");
+                }
                 builder.property(parseDeviceDefinitionProperty("property", propertyArray.getJsonObject(i), i));
             }
         }
@@ -7967,6 +9311,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray contactArray = getJsonArray(jsonObject, "contact");
         if (contactArray != null) {
             for (int i = 0; i < contactArray.size(); i++) {
+                if (contactArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contactArray.get(i).getValueType() + " for element: contact");
+                }
                 builder.contact(parseContactPoint("contact", contactArray.getJsonObject(i), i));
             }
         }
@@ -7975,6 +9322,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
@@ -7983,6 +9333,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray materialArray = getJsonArray(jsonObject, "material");
         if (materialArray != null) {
             for (int i = 0; i < materialArray.size(); i++) {
+                if (materialArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + materialArray.get(i).getValueType() + " for element: material");
+                }
                 builder.material(parseDeviceDefinitionMaterial("material", materialArray.getJsonObject(i), i));
             }
         }
@@ -8005,6 +9358,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray descriptionArray = getJsonArray(jsonObject, "description");
         if (descriptionArray != null) {
             for (int i = 0; i < descriptionArray.size(); i++) {
+                if (descriptionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + descriptionArray.get(i).getValueType() + " for element: description");
+                }
                 builder.description(parseCodeableConcept("description", descriptionArray.getJsonObject(i), i));
             }
         }
@@ -8062,12 +9418,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray valueQuantityArray = getJsonArray(jsonObject, "valueQuantity");
         if (valueQuantityArray != null) {
             for (int i = 0; i < valueQuantityArray.size(); i++) {
+                if (valueQuantityArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + valueQuantityArray.get(i).getValueType() + " for element: valueQuantity");
+                }
                 builder.valueQuantity(parseQuantity("valueQuantity", valueQuantityArray.getJsonObject(i), i));
             }
         }
         JsonArray valueCodeArray = getJsonArray(jsonObject, "valueCode");
         if (valueCodeArray != null) {
             for (int i = 0; i < valueCodeArray.size(); i++) {
+                if (valueCodeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + valueCodeArray.get(i).getValueType() + " for element: valueCode");
+                }
                 builder.valueCode(parseCodeableConcept("valueCode", valueCodeArray.getJsonObject(i), i));
             }
         }
@@ -8124,6 +9486,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -8138,6 +9503,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray calibrationArray = getJsonArray(jsonObject, "calibration");
         if (calibrationArray != null) {
             for (int i = 0; i < calibrationArray.size(); i++) {
+                if (calibrationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + calibrationArray.get(i).getValueType() + " for element: calibration");
+                }
                 builder.calibration(parseDeviceMetricCalibration("calibration", calibrationArray.getJsonObject(i), i));
             }
         }
@@ -8177,6 +9545,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -8197,12 +9568,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray basedOnArray = getJsonArray(jsonObject, "basedOn");
         if (basedOnArray != null) {
             for (int i = 0; i < basedOnArray.size(); i++) {
+                if (basedOnArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + basedOnArray.get(i).getValueType() + " for element: basedOn");
+                }
                 builder.basedOn(parseReference("basedOn", basedOnArray.getJsonObject(i), i));
             }
         }
         JsonArray priorRequestArray = getJsonArray(jsonObject, "priorRequest");
         if (priorRequestArray != null) {
             for (int i = 0; i < priorRequestArray.size(); i++) {
+                if (priorRequestArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + priorRequestArray.get(i).getValueType() + " for element: priorRequest");
+                }
                 builder.priorRequest(parseReference("priorRequest", priorRequestArray.getJsonObject(i), i));
             }
         }
@@ -8214,6 +9591,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray parameterArray = getJsonArray(jsonObject, "parameter");
         if (parameterArray != null) {
             for (int i = 0; i < parameterArray.size(); i++) {
+                if (parameterArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + parameterArray.get(i).getValueType() + " for element: parameter");
+                }
                 builder.parameter(parseDeviceRequestParameter("parameter", parameterArray.getJsonObject(i), i));
             }
         }
@@ -8227,36 +9607,54 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray reasonCodeArray = getJsonArray(jsonObject, "reasonCode");
         if (reasonCodeArray != null) {
             for (int i = 0; i < reasonCodeArray.size(); i++) {
+                if (reasonCodeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reasonCodeArray.get(i).getValueType() + " for element: reasonCode");
+                }
                 builder.reasonCode(parseCodeableConcept("reasonCode", reasonCodeArray.getJsonObject(i), i));
             }
         }
         JsonArray reasonReferenceArray = getJsonArray(jsonObject, "reasonReference");
         if (reasonReferenceArray != null) {
             for (int i = 0; i < reasonReferenceArray.size(); i++) {
+                if (reasonReferenceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reasonReferenceArray.get(i).getValueType() + " for element: reasonReference");
+                }
                 builder.reasonReference(parseReference("reasonReference", reasonReferenceArray.getJsonObject(i), i));
             }
         }
         JsonArray insuranceArray = getJsonArray(jsonObject, "insurance");
         if (insuranceArray != null) {
             for (int i = 0; i < insuranceArray.size(); i++) {
+                if (insuranceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + insuranceArray.get(i).getValueType() + " for element: insurance");
+                }
                 builder.insurance(parseReference("insurance", insuranceArray.getJsonObject(i), i));
             }
         }
         JsonArray supportingInfoArray = getJsonArray(jsonObject, "supportingInfo");
         if (supportingInfoArray != null) {
             for (int i = 0; i < supportingInfoArray.size(); i++) {
+                if (supportingInfoArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + supportingInfoArray.get(i).getValueType() + " for element: supportingInfo");
+                }
                 builder.supportingInfo(parseReference("supportingInfo", supportingInfoArray.getJsonObject(i), i));
             }
         }
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
         JsonArray relevantHistoryArray = getJsonArray(jsonObject, "relevantHistory");
         if (relevantHistoryArray != null) {
             for (int i = 0; i < relevantHistoryArray.size(); i++) {
+                if (relevantHistoryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + relevantHistoryArray.get(i).getValueType() + " for element: relevantHistory");
+                }
                 builder.relevantHistory(parseReference("relevantHistory", relevantHistoryArray.getJsonObject(i), i));
             }
         }
@@ -8295,12 +9693,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
         JsonArray basedOnArray = getJsonArray(jsonObject, "basedOn");
         if (basedOnArray != null) {
             for (int i = 0; i < basedOnArray.size(); i++) {
+                if (basedOnArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + basedOnArray.get(i).getValueType() + " for element: basedOn");
+                }
                 builder.basedOn(parseReference("basedOn", basedOnArray.getJsonObject(i), i));
             }
         }
@@ -8309,6 +9713,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray derivedFromArray = getJsonArray(jsonObject, "derivedFrom");
         if (derivedFromArray != null) {
             for (int i = 0; i < derivedFromArray.size(); i++) {
+                if (derivedFromArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + derivedFromArray.get(i).getValueType() + " for element: derivedFrom");
+                }
                 builder.derivedFrom(parseReference("derivedFrom", derivedFromArray.getJsonObject(i), i));
             }
         }
@@ -8319,12 +9726,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray reasonCodeArray = getJsonArray(jsonObject, "reasonCode");
         if (reasonCodeArray != null) {
             for (int i = 0; i < reasonCodeArray.size(); i++) {
+                if (reasonCodeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reasonCodeArray.get(i).getValueType() + " for element: reasonCode");
+                }
                 builder.reasonCode(parseCodeableConcept("reasonCode", reasonCodeArray.getJsonObject(i), i));
             }
         }
         JsonArray reasonReferenceArray = getJsonArray(jsonObject, "reasonReference");
         if (reasonReferenceArray != null) {
             for (int i = 0; i < reasonReferenceArray.size(); i++) {
+                if (reasonReferenceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reasonReferenceArray.get(i).getValueType() + " for element: reasonReference");
+                }
                 builder.reasonReference(parseReference("reasonReference", reasonReferenceArray.getJsonObject(i), i));
             }
         }
@@ -8332,6 +9745,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
@@ -8353,12 +9769,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
         JsonArray basedOnArray = getJsonArray(jsonObject, "basedOn");
         if (basedOnArray != null) {
             for (int i = 0; i < basedOnArray.size(); i++) {
+                if (basedOnArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + basedOnArray.get(i).getValueType() + " for element: basedOn");
+                }
                 builder.basedOn(parseReference("basedOn", basedOnArray.getJsonObject(i), i));
             }
         }
@@ -8366,6 +9788,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray categoryArray = getJsonArray(jsonObject, "category");
         if (categoryArray != null) {
             for (int i = 0; i < categoryArray.size(); i++) {
+                if (categoryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + categoryArray.get(i).getValueType() + " for element: category");
+                }
                 builder.category(parseCodeableConcept("category", categoryArray.getJsonObject(i), i));
             }
         }
@@ -8377,36 +9802,54 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray performerArray = getJsonArray(jsonObject, "performer");
         if (performerArray != null) {
             for (int i = 0; i < performerArray.size(); i++) {
+                if (performerArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + performerArray.get(i).getValueType() + " for element: performer");
+                }
                 builder.performer(parseReference("performer", performerArray.getJsonObject(i), i));
             }
         }
         JsonArray resultsInterpreterArray = getJsonArray(jsonObject, "resultsInterpreter");
         if (resultsInterpreterArray != null) {
             for (int i = 0; i < resultsInterpreterArray.size(); i++) {
+                if (resultsInterpreterArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + resultsInterpreterArray.get(i).getValueType() + " for element: resultsInterpreter");
+                }
                 builder.resultsInterpreter(parseReference("resultsInterpreter", resultsInterpreterArray.getJsonObject(i), i));
             }
         }
         JsonArray specimenArray = getJsonArray(jsonObject, "specimen");
         if (specimenArray != null) {
             for (int i = 0; i < specimenArray.size(); i++) {
+                if (specimenArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + specimenArray.get(i).getValueType() + " for element: specimen");
+                }
                 builder.specimen(parseReference("specimen", specimenArray.getJsonObject(i), i));
             }
         }
         JsonArray resultArray = getJsonArray(jsonObject, "result");
         if (resultArray != null) {
             for (int i = 0; i < resultArray.size(); i++) {
+                if (resultArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + resultArray.get(i).getValueType() + " for element: result");
+                }
                 builder.result(parseReference("result", resultArray.getJsonObject(i), i));
             }
         }
         JsonArray imagingStudyArray = getJsonArray(jsonObject, "imagingStudy");
         if (imagingStudyArray != null) {
             for (int i = 0; i < imagingStudyArray.size(); i++) {
+                if (imagingStudyArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + imagingStudyArray.get(i).getValueType() + " for element: imagingStudy");
+                }
                 builder.imagingStudy(parseReference("imagingStudy", imagingStudyArray.getJsonObject(i), i));
             }
         }
         JsonArray mediaArray = getJsonArray(jsonObject, "media");
         if (mediaArray != null) {
             for (int i = 0; i < mediaArray.size(); i++) {
+                if (mediaArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + mediaArray.get(i).getValueType() + " for element: media");
+                }
                 builder.media(parseDiagnosticReportMedia("media", mediaArray.getJsonObject(i), i));
             }
         }
@@ -8414,12 +9857,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray conclusionCodeArray = getJsonArray(jsonObject, "conclusionCode");
         if (conclusionCodeArray != null) {
             for (int i = 0; i < conclusionCodeArray.size(); i++) {
+                if (conclusionCodeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + conclusionCodeArray.get(i).getValueType() + " for element: conclusionCode");
+                }
                 builder.conclusionCode(parseCodeableConcept("conclusionCode", conclusionCodeArray.getJsonObject(i), i));
             }
         }
         JsonArray presentedFormArray = getJsonArray(jsonObject, "presentedForm");
         if (presentedFormArray != null) {
             for (int i = 0; i < presentedFormArray.size(); i++) {
+                if (presentedFormArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + presentedFormArray.get(i).getValueType() + " for element: presentedForm");
+                }
                 builder.presentedForm(parseAttachment("presentedForm", presentedFormArray.getJsonObject(i), i));
             }
         }
@@ -8459,6 +9908,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -8469,12 +9921,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray authorArray = getJsonArray(jsonObject, "author");
         if (authorArray != null) {
             for (int i = 0; i < authorArray.size(); i++) {
+                if (authorArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + authorArray.get(i).getValueType() + " for element: author");
+                }
                 builder.author(parseReference("author", authorArray.getJsonObject(i), i));
             }
         }
         JsonArray recipientArray = getJsonArray(jsonObject, "recipient");
         if (recipientArray != null) {
             for (int i = 0; i < recipientArray.size(); i++) {
+                if (recipientArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + recipientArray.get(i).getValueType() + " for element: recipient");
+                }
                 builder.recipient(parseReference("recipient", recipientArray.getJsonObject(i), i));
             }
         }
@@ -8483,12 +9941,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray contentArray = getJsonArray(jsonObject, "content");
         if (contentArray != null) {
             for (int i = 0; i < contentArray.size(); i++) {
+                if (contentArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contentArray.get(i).getValueType() + " for element: content");
+                }
                 builder.content(parseReference("content", contentArray.getJsonObject(i), i));
             }
         }
         JsonArray relatedArray = getJsonArray(jsonObject, "related");
         if (relatedArray != null) {
             for (int i = 0; i < relatedArray.size(); i++) {
+                if (relatedArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + relatedArray.get(i).getValueType() + " for element: related");
+                }
                 builder.related(parseDocumentManifestRelated("related", relatedArray.getJsonObject(i), i));
             }
         }
@@ -8528,6 +9992,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -8537,6 +10004,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray categoryArray = getJsonArray(jsonObject, "category");
         if (categoryArray != null) {
             for (int i = 0; i < categoryArray.size(); i++) {
+                if (categoryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + categoryArray.get(i).getValueType() + " for element: category");
+                }
                 builder.category(parseCodeableConcept("category", categoryArray.getJsonObject(i), i));
             }
         }
@@ -8545,6 +10015,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray authorArray = getJsonArray(jsonObject, "author");
         if (authorArray != null) {
             for (int i = 0; i < authorArray.size(); i++) {
+                if (authorArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + authorArray.get(i).getValueType() + " for element: author");
+                }
                 builder.author(parseReference("author", authorArray.getJsonObject(i), i));
             }
         }
@@ -8553,6 +10026,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray relatesToArray = getJsonArray(jsonObject, "relatesTo");
         if (relatesToArray != null) {
             for (int i = 0; i < relatesToArray.size(); i++) {
+                if (relatesToArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + relatesToArray.get(i).getValueType() + " for element: relatesTo");
+                }
                 builder.relatesTo(parseDocumentReferenceRelatesTo("relatesTo", relatesToArray.getJsonObject(i), i));
             }
         }
@@ -8560,12 +10036,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray securityLabelArray = getJsonArray(jsonObject, "securityLabel");
         if (securityLabelArray != null) {
             for (int i = 0; i < securityLabelArray.size(); i++) {
+                if (securityLabelArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + securityLabelArray.get(i).getValueType() + " for element: securityLabel");
+                }
                 builder.securityLabel(parseCodeableConcept("securityLabel", securityLabelArray.getJsonObject(i), i));
             }
         }
         JsonArray contentArray = getJsonArray(jsonObject, "content");
         if (contentArray != null) {
             for (int i = 0; i < contentArray.size(); i++) {
+                if (contentArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contentArray.get(i).getValueType() + " for element: content");
+                }
                 builder.content(parseDocumentReferenceContent("content", contentArray.getJsonObject(i), i));
             }
         }
@@ -8605,12 +10087,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray encounterArray = getJsonArray(jsonObject, "encounter");
         if (encounterArray != null) {
             for (int i = 0; i < encounterArray.size(); i++) {
+                if (encounterArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + encounterArray.get(i).getValueType() + " for element: encounter");
+                }
                 builder.encounter(parseReference("encounter", encounterArray.getJsonObject(i), i));
             }
         }
         JsonArray eventArray = getJsonArray(jsonObject, "event");
         if (eventArray != null) {
             for (int i = 0; i < eventArray.size(); i++) {
+                if (eventArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + eventArray.get(i).getValueType() + " for element: event");
+                }
                 builder.event(parseCodeableConcept("event", eventArray.getJsonObject(i), i));
             }
         }
@@ -8621,6 +10109,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray relatedArray = getJsonArray(jsonObject, "related");
         if (relatedArray != null) {
             for (int i = 0; i < relatedArray.size(); i++) {
+                if (relatedArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + relatedArray.get(i).getValueType() + " for element: related");
+                }
                 builder.related(parseReference("related", relatedArray.getJsonObject(i), i));
             }
         }
@@ -8652,18 +10143,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray containedArray = getJsonArray(jsonObject, "contained");
         if (containedArray != null) {
             for (int i = 0; i < containedArray.size(); i++) {
+                if (containedArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + containedArray.get(i).getValueType() + " for element: contained");
+                }
                 builder.contained(parseResource("contained", containedArray.getJsonObject(i), i));
             }
         }
         JsonArray extensionArray = getJsonArray(jsonObject, "extension");
         if (extensionArray != null) {
             for (int i = 0; i < extensionArray.size(); i++) {
+                if (extensionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + extensionArray.get(i).getValueType() + " for element: extension");
+                }
                 builder.extension(parseExtension("extension", extensionArray.getJsonObject(i), i));
             }
         }
         JsonArray modifierExtensionArray = getJsonArray(jsonObject, "modifierExtension");
         if (modifierExtensionArray != null) {
             for (int i = 0; i < modifierExtensionArray.size(); i++) {
+                if (modifierExtensionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + modifierExtensionArray.get(i).getValueType() + " for element: modifierExtension");
+                }
                 builder.modifierExtension(parseExtension("modifierExtension", modifierExtensionArray.getJsonObject(i), i));
             }
         }
@@ -8685,6 +10185,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray additionalInstructionArray = getJsonArray(jsonObject, "additionalInstruction");
         if (additionalInstructionArray != null) {
             for (int i = 0; i < additionalInstructionArray.size(); i++) {
+                if (additionalInstructionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + additionalInstructionArray.get(i).getValueType() + " for element: additionalInstruction");
+                }
                 builder.additionalInstruction(parseCodeableConcept("additionalInstruction", additionalInstructionArray.getJsonObject(i), i));
             }
         }
@@ -8697,6 +10200,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray doseAndRateArray = getJsonArray(jsonObject, "doseAndRate");
         if (doseAndRateArray != null) {
             for (int i = 0; i < doseAndRateArray.size(); i++) {
+                if (doseAndRateArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + doseAndRateArray.get(i).getValueType() + " for element: doseAndRate");
+                }
                 builder.doseAndRate(parseDosageDoseAndRate("doseAndRate", doseAndRateArray.getJsonObject(i), i));
             }
         }
@@ -8731,6 +10237,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray extensionArray = getJsonArray(jsonObject, "extension");
         if (extensionArray != null) {
             for (int i = 0; i < extensionArray.size(); i++) {
+                if (extensionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + extensionArray.get(i).getValueType() + " for element: extension");
+                }
                 builder.extension(parseExtension("extension", extensionArray.getJsonObject(i), i));
             }
         }
@@ -8752,6 +10261,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (representationArray != null) {
             JsonArray _representationArray = jsonObject.getJsonArray("_representation");
             for (int i = 0; i < representationArray.size(); i++) {
+                if (representationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + representationArray.get(i).getValueType() + " for element: representation");
+                }
                 builder.representation((PropertyRepresentation) parseString(PropertyRepresentation.builder(), "representation", representationArray.get(i), getJsonValue(_representationArray, i), i));
             }
         }
@@ -8761,6 +10273,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray codeArray = getJsonArray(jsonObject, "code");
         if (codeArray != null) {
             for (int i = 0; i < codeArray.size(); i++) {
+                if (codeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + codeArray.get(i).getValueType() + " for element: code");
+                }
                 builder.code(parseCoding("code", codeArray.getJsonObject(i), i));
             }
         }
@@ -8783,6 +10298,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray typeArray = getJsonArray(jsonObject, "type");
         if (typeArray != null) {
             for (int i = 0; i < typeArray.size(); i++) {
+                if (typeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + typeArray.get(i).getValueType() + " for element: type");
+                }
                 builder.type(parseElementDefinitionType("type", typeArray.getJsonObject(i), i));
             }
         }
@@ -8794,6 +10312,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray exampleArray = getJsonArray(jsonObject, "example");
         if (exampleArray != null) {
             for (int i = 0; i < exampleArray.size(); i++) {
+                if (exampleArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + exampleArray.get(i).getValueType() + " for element: example");
+                }
                 builder.example(parseElementDefinitionExample("example", exampleArray.getJsonObject(i), i));
             }
         }
@@ -8810,6 +10331,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray constraintArray = getJsonArray(jsonObject, "constraint");
         if (constraintArray != null) {
             for (int i = 0; i < constraintArray.size(); i++) {
+                if (constraintArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + constraintArray.get(i).getValueType() + " for element: constraint");
+                }
                 builder.constraint(parseElementDefinitionConstraint("constraint", constraintArray.getJsonObject(i), i));
             }
         }
@@ -8821,6 +10345,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray mappingArray = getJsonArray(jsonObject, "mapping");
         if (mappingArray != null) {
             for (int i = 0; i < mappingArray.size(); i++) {
+                if (mappingArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + mappingArray.get(i).getValueType() + " for element: mapping");
+                }
                 builder.mapping(parseElementDefinitionMapping("mapping", mappingArray.getJsonObject(i), i));
             }
         }
@@ -8936,6 +10463,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray discriminatorArray = getJsonArray(jsonObject, "discriminator");
         if (discriminatorArray != null) {
             for (int i = 0; i < discriminatorArray.size(); i++) {
+                if (discriminatorArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + discriminatorArray.get(i).getValueType() + " for element: discriminator");
+                }
                 builder.discriminator(parseElementDefinitionSlicingDiscriminator("discriminator", discriminatorArray.getJsonObject(i), i));
             }
         }
@@ -8993,6 +10523,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (aggregationArray != null) {
             JsonArray _aggregationArray = jsonObject.getJsonArray("_aggregation");
             for (int i = 0; i < aggregationArray.size(); i++) {
+                if (aggregationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + aggregationArray.get(i).getValueType() + " for element: aggregation");
+                }
                 builder.aggregation((AggregationMode) parseString(AggregationMode.builder(), "aggregation", aggregationArray.get(i), getJsonValue(_aggregationArray, i), i));
             }
         }
@@ -9015,6 +10548,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -9022,6 +10558,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray statusHistoryArray = getJsonArray(jsonObject, "statusHistory");
         if (statusHistoryArray != null) {
             for (int i = 0; i < statusHistoryArray.size(); i++) {
+                if (statusHistoryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + statusHistoryArray.get(i).getValueType() + " for element: statusHistory");
+                }
                 builder.statusHistory(parseEncounterStatusHistory("statusHistory", statusHistoryArray.getJsonObject(i), i));
             }
         }
@@ -9029,12 +10568,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray classHistoryArray = getJsonArray(jsonObject, "classHistory");
         if (classHistoryArray != null) {
             for (int i = 0; i < classHistoryArray.size(); i++) {
+                if (classHistoryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + classHistoryArray.get(i).getValueType() + " for element: classHistory");
+                }
                 builder.classHistory(parseEncounterClassHistory("classHistory", classHistoryArray.getJsonObject(i), i));
             }
         }
         JsonArray typeArray = getJsonArray(jsonObject, "type");
         if (typeArray != null) {
             for (int i = 0; i < typeArray.size(); i++) {
+                if (typeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + typeArray.get(i).getValueType() + " for element: type");
+                }
                 builder.type(parseCodeableConcept("type", typeArray.getJsonObject(i), i));
             }
         }
@@ -9044,24 +10589,36 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray episodeOfCareArray = getJsonArray(jsonObject, "episodeOfCare");
         if (episodeOfCareArray != null) {
             for (int i = 0; i < episodeOfCareArray.size(); i++) {
+                if (episodeOfCareArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + episodeOfCareArray.get(i).getValueType() + " for element: episodeOfCare");
+                }
                 builder.episodeOfCare(parseReference("episodeOfCare", episodeOfCareArray.getJsonObject(i), i));
             }
         }
         JsonArray basedOnArray = getJsonArray(jsonObject, "basedOn");
         if (basedOnArray != null) {
             for (int i = 0; i < basedOnArray.size(); i++) {
+                if (basedOnArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + basedOnArray.get(i).getValueType() + " for element: basedOn");
+                }
                 builder.basedOn(parseReference("basedOn", basedOnArray.getJsonObject(i), i));
             }
         }
         JsonArray participantArray = getJsonArray(jsonObject, "participant");
         if (participantArray != null) {
             for (int i = 0; i < participantArray.size(); i++) {
+                if (participantArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + participantArray.get(i).getValueType() + " for element: participant");
+                }
                 builder.participant(parseEncounterParticipant("participant", participantArray.getJsonObject(i), i));
             }
         }
         JsonArray appointmentArray = getJsonArray(jsonObject, "appointment");
         if (appointmentArray != null) {
             for (int i = 0; i < appointmentArray.size(); i++) {
+                if (appointmentArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + appointmentArray.get(i).getValueType() + " for element: appointment");
+                }
                 builder.appointment(parseReference("appointment", appointmentArray.getJsonObject(i), i));
             }
         }
@@ -9070,24 +10627,36 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray reasonCodeArray = getJsonArray(jsonObject, "reasonCode");
         if (reasonCodeArray != null) {
             for (int i = 0; i < reasonCodeArray.size(); i++) {
+                if (reasonCodeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reasonCodeArray.get(i).getValueType() + " for element: reasonCode");
+                }
                 builder.reasonCode(parseCodeableConcept("reasonCode", reasonCodeArray.getJsonObject(i), i));
             }
         }
         JsonArray reasonReferenceArray = getJsonArray(jsonObject, "reasonReference");
         if (reasonReferenceArray != null) {
             for (int i = 0; i < reasonReferenceArray.size(); i++) {
+                if (reasonReferenceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reasonReferenceArray.get(i).getValueType() + " for element: reasonReference");
+                }
                 builder.reasonReference(parseReference("reasonReference", reasonReferenceArray.getJsonObject(i), i));
             }
         }
         JsonArray diagnosisArray = getJsonArray(jsonObject, "diagnosis");
         if (diagnosisArray != null) {
             for (int i = 0; i < diagnosisArray.size(); i++) {
+                if (diagnosisArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + diagnosisArray.get(i).getValueType() + " for element: diagnosis");
+                }
                 builder.diagnosis(parseEncounterDiagnosis("diagnosis", diagnosisArray.getJsonObject(i), i));
             }
         }
         JsonArray accountArray = getJsonArray(jsonObject, "account");
         if (accountArray != null) {
             for (int i = 0; i < accountArray.size(); i++) {
+                if (accountArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + accountArray.get(i).getValueType() + " for element: account");
+                }
                 builder.account(parseReference("account", accountArray.getJsonObject(i), i));
             }
         }
@@ -9095,6 +10664,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray locationArray = getJsonArray(jsonObject, "location");
         if (locationArray != null) {
             for (int i = 0; i < locationArray.size(); i++) {
+                if (locationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + locationArray.get(i).getValueType() + " for element: location");
+                }
                 builder.location(parseEncounterLocation("location", locationArray.getJsonObject(i), i));
             }
         }
@@ -9157,18 +10729,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray dietPreferenceArray = getJsonArray(jsonObject, "dietPreference");
         if (dietPreferenceArray != null) {
             for (int i = 0; i < dietPreferenceArray.size(); i++) {
+                if (dietPreferenceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + dietPreferenceArray.get(i).getValueType() + " for element: dietPreference");
+                }
                 builder.dietPreference(parseCodeableConcept("dietPreference", dietPreferenceArray.getJsonObject(i), i));
             }
         }
         JsonArray specialCourtesyArray = getJsonArray(jsonObject, "specialCourtesy");
         if (specialCourtesyArray != null) {
             for (int i = 0; i < specialCourtesyArray.size(); i++) {
+                if (specialCourtesyArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + specialCourtesyArray.get(i).getValueType() + " for element: specialCourtesy");
+                }
                 builder.specialCourtesy(parseCodeableConcept("specialCourtesy", specialCourtesyArray.getJsonObject(i), i));
             }
         }
         JsonArray specialArrangementArray = getJsonArray(jsonObject, "specialArrangement");
         if (specialArrangementArray != null) {
             for (int i = 0; i < specialArrangementArray.size(); i++) {
+                if (specialArrangementArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + specialArrangementArray.get(i).getValueType() + " for element: specialArrangement");
+                }
                 builder.specialArrangement(parseCodeableConcept("specialArrangement", specialArrangementArray.getJsonObject(i), i));
             }
         }
@@ -9211,6 +10792,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray typeArray = getJsonArray(jsonObject, "type");
         if (typeArray != null) {
             for (int i = 0; i < typeArray.size(); i++) {
+                if (typeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + typeArray.get(i).getValueType() + " for element: type");
+                }
                 builder.type(parseCodeableConcept("type", typeArray.getJsonObject(i), i));
             }
         }
@@ -9251,6 +10835,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -9261,6 +10848,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray contactArray = getJsonArray(jsonObject, "contact");
         if (contactArray != null) {
             for (int i = 0; i < contactArray.size(); i++) {
+                if (contactArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contactArray.get(i).getValueType() + " for element: contact");
+                }
                 builder.contact(parseContactPoint("contact", contactArray.getJsonObject(i), i));
             }
         }
@@ -9268,6 +10858,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray payloadTypeArray = getJsonArray(jsonObject, "payloadType");
         if (payloadTypeArray != null) {
             for (int i = 0; i < payloadTypeArray.size(); i++) {
+                if (payloadTypeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + payloadTypeArray.get(i).getValueType() + " for element: payloadType");
+                }
                 builder.payloadType(parseCodeableConcept("payloadType", payloadTypeArray.getJsonObject(i), i));
             }
         }
@@ -9304,6 +10897,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -9331,6 +10927,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -9359,6 +10958,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -9366,18 +10968,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray statusHistoryArray = getJsonArray(jsonObject, "statusHistory");
         if (statusHistoryArray != null) {
             for (int i = 0; i < statusHistoryArray.size(); i++) {
+                if (statusHistoryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + statusHistoryArray.get(i).getValueType() + " for element: statusHistory");
+                }
                 builder.statusHistory(parseEpisodeOfCareStatusHistory("statusHistory", statusHistoryArray.getJsonObject(i), i));
             }
         }
         JsonArray typeArray = getJsonArray(jsonObject, "type");
         if (typeArray != null) {
             for (int i = 0; i < typeArray.size(); i++) {
+                if (typeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + typeArray.get(i).getValueType() + " for element: type");
+                }
                 builder.type(parseCodeableConcept("type", typeArray.getJsonObject(i), i));
             }
         }
         JsonArray diagnosisArray = getJsonArray(jsonObject, "diagnosis");
         if (diagnosisArray != null) {
             for (int i = 0; i < diagnosisArray.size(); i++) {
+                if (diagnosisArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + diagnosisArray.get(i).getValueType() + " for element: diagnosis");
+                }
                 builder.diagnosis(parseEpisodeOfCareDiagnosis("diagnosis", diagnosisArray.getJsonObject(i), i));
             }
         }
@@ -9387,6 +10998,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray referralRequestArray = getJsonArray(jsonObject, "referralRequest");
         if (referralRequestArray != null) {
             for (int i = 0; i < referralRequestArray.size(); i++) {
+                if (referralRequestArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + referralRequestArray.get(i).getValueType() + " for element: referralRequest");
+                }
                 builder.referralRequest(parseReference("referralRequest", referralRequestArray.getJsonObject(i), i));
             }
         }
@@ -9394,12 +11008,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray teamArray = getJsonArray(jsonObject, "team");
         if (teamArray != null) {
             for (int i = 0; i < teamArray.size(); i++) {
+                if (teamArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + teamArray.get(i).getValueType() + " for element: team");
+                }
                 builder.team(parseReference("team", teamArray.getJsonObject(i), i));
             }
         }
         JsonArray accountArray = getJsonArray(jsonObject, "account");
         if (accountArray != null) {
             for (int i = 0; i < accountArray.size(); i++) {
+                if (accountArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + accountArray.get(i).getValueType() + " for element: account");
+                }
                 builder.account(parseReference("account", accountArray.getJsonObject(i), i));
             }
         }
@@ -9457,6 +11077,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -9472,6 +11095,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray contactArray = getJsonArray(jsonObject, "contact");
         if (contactArray != null) {
             for (int i = 0; i < contactArray.size(); i++) {
+                if (contactArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contactArray.get(i).getValueType() + " for element: contact");
+                }
                 builder.contact(parseContactDetail("contact", contactArray.getJsonObject(i), i));
             }
         }
@@ -9479,12 +11105,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray useContextArray = getJsonArray(jsonObject, "useContext");
         if (useContextArray != null) {
             for (int i = 0; i < useContextArray.size(); i++) {
+                if (useContextArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + useContextArray.get(i).getValueType() + " for element: useContext");
+                }
                 builder.useContext(parseUsageContext("useContext", useContextArray.getJsonObject(i), i));
             }
         }
         JsonArray jurisdictionArray = getJsonArray(jsonObject, "jurisdiction");
         if (jurisdictionArray != null) {
             for (int i = 0; i < jurisdictionArray.size(); i++) {
+                if (jurisdictionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + jurisdictionArray.get(i).getValueType() + " for element: jurisdiction");
+                }
                 builder.jurisdiction(parseCodeableConcept("jurisdiction", jurisdictionArray.getJsonObject(i), i));
             }
         }
@@ -9497,42 +11129,63 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray topicArray = getJsonArray(jsonObject, "topic");
         if (topicArray != null) {
             for (int i = 0; i < topicArray.size(); i++) {
+                if (topicArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + topicArray.get(i).getValueType() + " for element: topic");
+                }
                 builder.topic(parseCodeableConcept("topic", topicArray.getJsonObject(i), i));
             }
         }
         JsonArray authorArray = getJsonArray(jsonObject, "author");
         if (authorArray != null) {
             for (int i = 0; i < authorArray.size(); i++) {
+                if (authorArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + authorArray.get(i).getValueType() + " for element: author");
+                }
                 builder.author(parseContactDetail("author", authorArray.getJsonObject(i), i));
             }
         }
         JsonArray editorArray = getJsonArray(jsonObject, "editor");
         if (editorArray != null) {
             for (int i = 0; i < editorArray.size(); i++) {
+                if (editorArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + editorArray.get(i).getValueType() + " for element: editor");
+                }
                 builder.editor(parseContactDetail("editor", editorArray.getJsonObject(i), i));
             }
         }
         JsonArray reviewerArray = getJsonArray(jsonObject, "reviewer");
         if (reviewerArray != null) {
             for (int i = 0; i < reviewerArray.size(); i++) {
+                if (reviewerArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reviewerArray.get(i).getValueType() + " for element: reviewer");
+                }
                 builder.reviewer(parseContactDetail("reviewer", reviewerArray.getJsonObject(i), i));
             }
         }
         JsonArray endorserArray = getJsonArray(jsonObject, "endorser");
         if (endorserArray != null) {
             for (int i = 0; i < endorserArray.size(); i++) {
+                if (endorserArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + endorserArray.get(i).getValueType() + " for element: endorser");
+                }
                 builder.endorser(parseContactDetail("endorser", endorserArray.getJsonObject(i), i));
             }
         }
         JsonArray relatedArtifactArray = getJsonArray(jsonObject, "relatedArtifact");
         if (relatedArtifactArray != null) {
             for (int i = 0; i < relatedArtifactArray.size(); i++) {
+                if (relatedArtifactArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + relatedArtifactArray.get(i).getValueType() + " for element: relatedArtifact");
+                }
                 builder.relatedArtifact(parseRelatedArtifact("relatedArtifact", relatedArtifactArray.getJsonObject(i), i));
             }
         }
         JsonArray triggerArray = getJsonArray(jsonObject, "trigger");
         if (triggerArray != null) {
             for (int i = 0; i < triggerArray.size(); i++) {
+                if (triggerArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + triggerArray.get(i).getValueType() + " for element: trigger");
+                }
                 builder.trigger(parseTriggerDefinition("trigger", triggerArray.getJsonObject(i), i));
             }
         }
@@ -9555,6 +11208,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -9566,6 +11222,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray useContextArray = getJsonArray(jsonObject, "useContext");
         if (useContextArray != null) {
             for (int i = 0; i < useContextArray.size(); i++) {
+                if (useContextArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + useContextArray.get(i).getValueType() + " for element: useContext");
+                }
                 builder.useContext(parseUsageContext("useContext", useContextArray.getJsonObject(i), i));
             }
         }
@@ -9575,36 +11234,54 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray contactArray = getJsonArray(jsonObject, "contact");
         if (contactArray != null) {
             for (int i = 0; i < contactArray.size(); i++) {
+                if (contactArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contactArray.get(i).getValueType() + " for element: contact");
+                }
                 builder.contact(parseContactDetail("contact", contactArray.getJsonObject(i), i));
             }
         }
         JsonArray authorArray = getJsonArray(jsonObject, "author");
         if (authorArray != null) {
             for (int i = 0; i < authorArray.size(); i++) {
+                if (authorArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + authorArray.get(i).getValueType() + " for element: author");
+                }
                 builder.author(parseContactDetail("author", authorArray.getJsonObject(i), i));
             }
         }
         JsonArray editorArray = getJsonArray(jsonObject, "editor");
         if (editorArray != null) {
             for (int i = 0; i < editorArray.size(); i++) {
+                if (editorArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + editorArray.get(i).getValueType() + " for element: editor");
+                }
                 builder.editor(parseContactDetail("editor", editorArray.getJsonObject(i), i));
             }
         }
         JsonArray reviewerArray = getJsonArray(jsonObject, "reviewer");
         if (reviewerArray != null) {
             for (int i = 0; i < reviewerArray.size(); i++) {
+                if (reviewerArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reviewerArray.get(i).getValueType() + " for element: reviewer");
+                }
                 builder.reviewer(parseContactDetail("reviewer", reviewerArray.getJsonObject(i), i));
             }
         }
         JsonArray endorserArray = getJsonArray(jsonObject, "endorser");
         if (endorserArray != null) {
             for (int i = 0; i < endorserArray.size(); i++) {
+                if (endorserArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + endorserArray.get(i).getValueType() + " for element: endorser");
+                }
                 builder.endorser(parseContactDetail("endorser", endorserArray.getJsonObject(i), i));
             }
         }
         JsonArray relatedArtifactArray = getJsonArray(jsonObject, "relatedArtifact");
         if (relatedArtifactArray != null) {
             for (int i = 0; i < relatedArtifactArray.size(); i++) {
+                if (relatedArtifactArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + relatedArtifactArray.get(i).getValueType() + " for element: relatedArtifact");
+                }
                 builder.relatedArtifact(parseRelatedArtifact("relatedArtifact", relatedArtifactArray.getJsonObject(i), i));
             }
         }
@@ -9613,12 +11290,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
         JsonArray variableDefinitionArray = getJsonArray(jsonObject, "variableDefinition");
         if (variableDefinitionArray != null) {
             for (int i = 0; i < variableDefinitionArray.size(); i++) {
+                if (variableDefinitionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + variableDefinitionArray.get(i).getValueType() + " for element: variableDefinition");
+                }
                 builder.variableDefinition(parseEvidenceVariableDefinition("variableDefinition", variableDefinitionArray.getJsonObject(i), i));
             }
         }
@@ -9627,12 +11310,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray statisticArray = getJsonArray(jsonObject, "statistic");
         if (statisticArray != null) {
             for (int i = 0; i < statisticArray.size(); i++) {
+                if (statisticArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + statisticArray.get(i).getValueType() + " for element: statistic");
+                }
                 builder.statistic(parseEvidenceStatistic("statistic", statisticArray.getJsonObject(i), i));
             }
         }
         JsonArray certaintyArray = getJsonArray(jsonObject, "certainty");
         if (certaintyArray != null) {
             for (int i = 0; i < certaintyArray.size(); i++) {
+                if (certaintyArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + certaintyArray.get(i).getValueType() + " for element: certainty");
+                }
                 builder.certainty(parseEvidenceCertainty("certainty", certaintyArray.getJsonObject(i), i));
             }
         }
@@ -9655,6 +11344,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
@@ -9664,6 +11356,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray subcomponentArray = getJsonArray(jsonObject, "subcomponent");
         if (subcomponentArray != null) {
             for (int i = 0; i < subcomponentArray.size(); i++) {
+                if (subcomponentArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + subcomponentArray.get(i).getValueType() + " for element: subcomponent");
+                }
                 builder.subcomponent(parseEvidenceCertainty("subcomponent", subcomponentArray.getJsonObject(i), i));
             }
         }
@@ -9686,6 +11381,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
@@ -9698,12 +11396,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray attributeEstimateArray = getJsonArray(jsonObject, "attributeEstimate");
         if (attributeEstimateArray != null) {
             for (int i = 0; i < attributeEstimateArray.size(); i++) {
+                if (attributeEstimateArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + attributeEstimateArray.get(i).getValueType() + " for element: attributeEstimate");
+                }
                 builder.attributeEstimate(parseEvidenceStatisticAttributeEstimate("attributeEstimate", attributeEstimateArray.getJsonObject(i), i));
             }
         }
         JsonArray modelCharacteristicArray = getJsonArray(jsonObject, "modelCharacteristic");
         if (modelCharacteristicArray != null) {
             for (int i = 0; i < modelCharacteristicArray.size(); i++) {
+                if (modelCharacteristicArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + modelCharacteristicArray.get(i).getValueType() + " for element: modelCharacteristic");
+                }
                 builder.modelCharacteristic(parseEvidenceStatisticModelCharacteristic("modelCharacteristic", modelCharacteristicArray.getJsonObject(i), i));
             }
         }
@@ -9726,6 +11430,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
@@ -9736,6 +11443,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray attributeEstimateArray = getJsonArray(jsonObject, "attributeEstimate");
         if (attributeEstimateArray != null) {
             for (int i = 0; i < attributeEstimateArray.size(); i++) {
+                if (attributeEstimateArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + attributeEstimateArray.get(i).getValueType() + " for element: attributeEstimate");
+                }
                 builder.attributeEstimate(parseEvidenceStatisticAttributeEstimate("attributeEstimate", attributeEstimateArray.getJsonObject(i), i));
             }
         }
@@ -9759,12 +11469,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray variableArray = getJsonArray(jsonObject, "variable");
         if (variableArray != null) {
             for (int i = 0; i < variableArray.size(); i++) {
+                if (variableArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + variableArray.get(i).getValueType() + " for element: variable");
+                }
                 builder.variable(parseEvidenceStatisticModelCharacteristicVariable("variable", variableArray.getJsonObject(i), i));
             }
         }
         JsonArray attributeEstimateArray = getJsonArray(jsonObject, "attributeEstimate");
         if (attributeEstimateArray != null) {
             for (int i = 0; i < attributeEstimateArray.size(); i++) {
+                if (attributeEstimateArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + attributeEstimateArray.get(i).getValueType() + " for element: attributeEstimate");
+                }
                 builder.attributeEstimate(parseEvidenceStatisticAttributeEstimate("attributeEstimate", attributeEstimateArray.getJsonObject(i), i));
             }
         }
@@ -9788,18 +11504,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray valueCategoryArray = getJsonArray(jsonObject, "valueCategory");
         if (valueCategoryArray != null) {
             for (int i = 0; i < valueCategoryArray.size(); i++) {
+                if (valueCategoryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + valueCategoryArray.get(i).getValueType() + " for element: valueCategory");
+                }
                 builder.valueCategory(parseCodeableConcept("valueCategory", valueCategoryArray.getJsonObject(i), i));
             }
         }
         JsonArray valueQuantityArray = getJsonArray(jsonObject, "valueQuantity");
         if (valueQuantityArray != null) {
             for (int i = 0; i < valueQuantityArray.size(); i++) {
+                if (valueQuantityArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + valueQuantityArray.get(i).getValueType() + " for element: valueQuantity");
+                }
                 builder.valueQuantity(parseQuantity("valueQuantity", valueQuantityArray.getJsonObject(i), i));
             }
         }
         JsonArray valueRangeArray = getJsonArray(jsonObject, "valueRange");
         if (valueRangeArray != null) {
             for (int i = 0; i < valueRangeArray.size(); i++) {
+                if (valueRangeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + valueRangeArray.get(i).getValueType() + " for element: valueRange");
+                }
                 builder.valueRange(parseRange("valueRange", valueRangeArray.getJsonObject(i), i));
             }
         }
@@ -9822,6 +11547,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
@@ -9847,6 +11575,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
@@ -9874,18 +11605,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray useContextArray = getJsonArray(jsonObject, "useContext");
         if (useContextArray != null) {
             for (int i = 0; i < useContextArray.size(); i++) {
+                if (useContextArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + useContextArray.get(i).getValueType() + " for element: useContext");
+                }
                 builder.useContext(parseUsageContext("useContext", useContextArray.getJsonObject(i), i));
             }
         }
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
         JsonArray relatedIdentifierArray = getJsonArray(jsonObject, "relatedIdentifier");
         if (relatedIdentifierArray != null) {
             for (int i = 0; i < relatedIdentifierArray.size(); i++) {
+                if (relatedIdentifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + relatedIdentifierArray.get(i).getValueType() + " for element: relatedIdentifier");
+                }
                 builder.relatedIdentifier(parseIdentifier("relatedIdentifier", relatedIdentifierArray.getJsonObject(i), i));
             }
         }
@@ -9894,12 +11634,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
         JsonArray relatedArtifactArray = getJsonArray(jsonObject, "relatedArtifact");
         if (relatedArtifactArray != null) {
             for (int i = 0; i < relatedArtifactArray.size(); i++) {
+                if (relatedArtifactArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + relatedArtifactArray.get(i).getValueType() + " for element: relatedArtifact");
+                }
                 builder.relatedArtifact(parseRelatedArtifact("relatedArtifact", relatedArtifactArray.getJsonObject(i), i));
             }
         }
@@ -9908,42 +11654,63 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray contactArray = getJsonArray(jsonObject, "contact");
         if (contactArray != null) {
             for (int i = 0; i < contactArray.size(); i++) {
+                if (contactArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contactArray.get(i).getValueType() + " for element: contact");
+                }
                 builder.contact(parseContactDetail("contact", contactArray.getJsonObject(i), i));
             }
         }
         JsonArray authorArray = getJsonArray(jsonObject, "author");
         if (authorArray != null) {
             for (int i = 0; i < authorArray.size(); i++) {
+                if (authorArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + authorArray.get(i).getValueType() + " for element: author");
+                }
                 builder.author(parseContactDetail("author", authorArray.getJsonObject(i), i));
             }
         }
         JsonArray editorArray = getJsonArray(jsonObject, "editor");
         if (editorArray != null) {
             for (int i = 0; i < editorArray.size(); i++) {
+                if (editorArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + editorArray.get(i).getValueType() + " for element: editor");
+                }
                 builder.editor(parseContactDetail("editor", editorArray.getJsonObject(i), i));
             }
         }
         JsonArray reviewerArray = getJsonArray(jsonObject, "reviewer");
         if (reviewerArray != null) {
             for (int i = 0; i < reviewerArray.size(); i++) {
+                if (reviewerArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reviewerArray.get(i).getValueType() + " for element: reviewer");
+                }
                 builder.reviewer(parseContactDetail("reviewer", reviewerArray.getJsonObject(i), i));
             }
         }
         JsonArray endorserArray = getJsonArray(jsonObject, "endorser");
         if (endorserArray != null) {
             for (int i = 0; i < endorserArray.size(); i++) {
+                if (endorserArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + endorserArray.get(i).getValueType() + " for element: endorser");
+                }
                 builder.endorser(parseContactDetail("endorser", endorserArray.getJsonObject(i), i));
             }
         }
         JsonArray relatesToArray = getJsonArray(jsonObject, "relatesTo");
         if (relatesToArray != null) {
             for (int i = 0; i < relatesToArray.size(); i++) {
+                if (relatesToArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + relatesToArray.get(i).getValueType() + " for element: relatesTo");
+                }
                 builder.relatesTo(parseEvidenceReportRelatesTo("relatesTo", relatesToArray.getJsonObject(i), i));
             }
         }
         JsonArray sectionArray = getJsonArray(jsonObject, "section");
         if (sectionArray != null) {
             for (int i = 0; i < sectionArray.size(); i++) {
+                if (sectionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + sectionArray.get(i).getValueType() + " for element: section");
+                }
                 builder.section(parseEvidenceReportSection("section", sectionArray.getJsonObject(i), i));
             }
         }
@@ -9985,6 +11752,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray authorArray = getJsonArray(jsonObject, "author");
         if (authorArray != null) {
             for (int i = 0; i < authorArray.size(); i++) {
+                if (authorArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + authorArray.get(i).getValueType() + " for element: author");
+                }
                 builder.author(parseReference("author", authorArray.getJsonObject(i), i));
             }
         }
@@ -9994,18 +11764,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray entryClassifierArray = getJsonArray(jsonObject, "entryClassifier");
         if (entryClassifierArray != null) {
             for (int i = 0; i < entryClassifierArray.size(); i++) {
+                if (entryClassifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + entryClassifierArray.get(i).getValueType() + " for element: entryClassifier");
+                }
                 builder.entryClassifier(parseCodeableConcept("entryClassifier", entryClassifierArray.getJsonObject(i), i));
             }
         }
         JsonArray entryReferenceArray = getJsonArray(jsonObject, "entryReference");
         if (entryReferenceArray != null) {
             for (int i = 0; i < entryReferenceArray.size(); i++) {
+                if (entryReferenceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + entryReferenceArray.get(i).getValueType() + " for element: entryReference");
+                }
                 builder.entryReference(parseReference("entryReference", entryReferenceArray.getJsonObject(i), i));
             }
         }
         JsonArray entryQuantityArray = getJsonArray(jsonObject, "entryQuantity");
         if (entryQuantityArray != null) {
             for (int i = 0; i < entryQuantityArray.size(); i++) {
+                if (entryQuantityArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + entryQuantityArray.get(i).getValueType() + " for element: entryQuantity");
+                }
                 builder.entryQuantity(parseQuantity("entryQuantity", entryQuantityArray.getJsonObject(i), i));
             }
         }
@@ -10013,6 +11792,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray sectionArray = getJsonArray(jsonObject, "section");
         if (sectionArray != null) {
             for (int i = 0; i < sectionArray.size(); i++) {
+                if (sectionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + sectionArray.get(i).getValueType() + " for element: section");
+                }
                 builder.section(parseEvidenceReportSection("section", sectionArray.getJsonObject(i), i));
             }
         }
@@ -10034,12 +11816,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray characteristicArray = getJsonArray(jsonObject, "characteristic");
         if (characteristicArray != null) {
             for (int i = 0; i < characteristicArray.size(); i++) {
+                if (characteristicArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + characteristicArray.get(i).getValueType() + " for element: characteristic");
+                }
                 builder.characteristic(parseEvidenceReportSubjectCharacteristic("characteristic", characteristicArray.getJsonObject(i), i));
             }
         }
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
@@ -10081,6 +11869,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -10095,12 +11886,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
         JsonArray useContextArray = getJsonArray(jsonObject, "useContext");
         if (useContextArray != null) {
             for (int i = 0; i < useContextArray.size(); i++) {
+                if (useContextArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + useContextArray.get(i).getValueType() + " for element: useContext");
+                }
                 builder.useContext(parseUsageContext("useContext", useContextArray.getJsonObject(i), i));
             }
         }
@@ -10108,36 +11905,54 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray contactArray = getJsonArray(jsonObject, "contact");
         if (contactArray != null) {
             for (int i = 0; i < contactArray.size(); i++) {
+                if (contactArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contactArray.get(i).getValueType() + " for element: contact");
+                }
                 builder.contact(parseContactDetail("contact", contactArray.getJsonObject(i), i));
             }
         }
         JsonArray authorArray = getJsonArray(jsonObject, "author");
         if (authorArray != null) {
             for (int i = 0; i < authorArray.size(); i++) {
+                if (authorArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + authorArray.get(i).getValueType() + " for element: author");
+                }
                 builder.author(parseContactDetail("author", authorArray.getJsonObject(i), i));
             }
         }
         JsonArray editorArray = getJsonArray(jsonObject, "editor");
         if (editorArray != null) {
             for (int i = 0; i < editorArray.size(); i++) {
+                if (editorArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + editorArray.get(i).getValueType() + " for element: editor");
+                }
                 builder.editor(parseContactDetail("editor", editorArray.getJsonObject(i), i));
             }
         }
         JsonArray reviewerArray = getJsonArray(jsonObject, "reviewer");
         if (reviewerArray != null) {
             for (int i = 0; i < reviewerArray.size(); i++) {
+                if (reviewerArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reviewerArray.get(i).getValueType() + " for element: reviewer");
+                }
                 builder.reviewer(parseContactDetail("reviewer", reviewerArray.getJsonObject(i), i));
             }
         }
         JsonArray endorserArray = getJsonArray(jsonObject, "endorser");
         if (endorserArray != null) {
             for (int i = 0; i < endorserArray.size(); i++) {
+                if (endorserArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + endorserArray.get(i).getValueType() + " for element: endorser");
+                }
                 builder.endorser(parseContactDetail("endorser", endorserArray.getJsonObject(i), i));
             }
         }
         JsonArray relatedArtifactArray = getJsonArray(jsonObject, "relatedArtifact");
         if (relatedArtifactArray != null) {
             for (int i = 0; i < relatedArtifactArray.size(); i++) {
+                if (relatedArtifactArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + relatedArtifactArray.get(i).getValueType() + " for element: relatedArtifact");
+                }
                 builder.relatedArtifact(parseRelatedArtifact("relatedArtifact", relatedArtifactArray.getJsonObject(i), i));
             }
         }
@@ -10146,6 +11961,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray characteristicArray = getJsonArray(jsonObject, "characteristic");
         if (characteristicArray != null) {
             for (int i = 0; i < characteristicArray.size(); i++) {
+                if (characteristicArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + characteristicArray.get(i).getValueType() + " for element: characteristic");
+                }
                 builder.characteristic(parseEvidenceVariableCharacteristic("characteristic", characteristicArray.getJsonObject(i), i));
             }
         }
@@ -10153,6 +11971,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray categoryArray = getJsonArray(jsonObject, "category");
         if (categoryArray != null) {
             for (int i = 0; i < categoryArray.size(); i++) {
+                if (categoryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + categoryArray.get(i).getValueType() + " for element: category");
+                }
                 builder.category(parseEvidenceVariableCategory("category", categoryArray.getJsonObject(i), i));
             }
         }
@@ -10216,6 +12037,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
@@ -10238,6 +12062,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -10250,18 +12077,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray contactArray = getJsonArray(jsonObject, "contact");
         if (contactArray != null) {
             for (int i = 0; i < contactArray.size(); i++) {
+                if (contactArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contactArray.get(i).getValueType() + " for element: contact");
+                }
                 builder.contact(parseContactDetail("contact", contactArray.getJsonObject(i), i));
             }
         }
         JsonArray useContextArray = getJsonArray(jsonObject, "useContext");
         if (useContextArray != null) {
             for (int i = 0; i < useContextArray.size(); i++) {
+                if (useContextArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + useContextArray.get(i).getValueType() + " for element: useContext");
+                }
                 builder.useContext(parseUsageContext("useContext", useContextArray.getJsonObject(i), i));
             }
         }
         JsonArray jurisdictionArray = getJsonArray(jsonObject, "jurisdiction");
         if (jurisdictionArray != null) {
             for (int i = 0; i < jurisdictionArray.size(); i++) {
+                if (jurisdictionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + jurisdictionArray.get(i).getValueType() + " for element: jurisdiction");
+                }
                 builder.jurisdiction(parseCodeableConcept("jurisdiction", jurisdictionArray.getJsonObject(i), i));
             }
         }
@@ -10270,18 +12106,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray actorArray = getJsonArray(jsonObject, "actor");
         if (actorArray != null) {
             for (int i = 0; i < actorArray.size(); i++) {
+                if (actorArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + actorArray.get(i).getValueType() + " for element: actor");
+                }
                 builder.actor(parseExampleScenarioActor("actor", actorArray.getJsonObject(i), i));
             }
         }
         JsonArray instanceArray = getJsonArray(jsonObject, "instance");
         if (instanceArray != null) {
             for (int i = 0; i < instanceArray.size(); i++) {
+                if (instanceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + instanceArray.get(i).getValueType() + " for element: instance");
+                }
                 builder.instance(parseExampleScenarioInstance("instance", instanceArray.getJsonObject(i), i));
             }
         }
         JsonArray processArray = getJsonArray(jsonObject, "process");
         if (processArray != null) {
             for (int i = 0; i < processArray.size(); i++) {
+                if (processArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + processArray.get(i).getValueType() + " for element: process");
+                }
                 builder.process(parseExampleScenarioProcess("process", processArray.getJsonObject(i), i));
             }
         }
@@ -10333,12 +12178,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray versionArray = getJsonArray(jsonObject, "version");
         if (versionArray != null) {
             for (int i = 0; i < versionArray.size(); i++) {
+                if (versionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + versionArray.get(i).getValueType() + " for element: version");
+                }
                 builder.version(parseExampleScenarioInstanceVersion("version", versionArray.getJsonObject(i), i));
             }
         }
         JsonArray containedInstanceArray = getJsonArray(jsonObject, "containedInstance");
         if (containedInstanceArray != null) {
             for (int i = 0; i < containedInstanceArray.size(); i++) {
+                if (containedInstanceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + containedInstanceArray.get(i).getValueType() + " for element: containedInstance");
+                }
                 builder.containedInstance(parseExampleScenarioInstanceContainedInstance("containedInstance", containedInstanceArray.getJsonObject(i), i));
             }
         }
@@ -10398,6 +12249,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray stepArray = getJsonArray(jsonObject, "step");
         if (stepArray != null) {
             for (int i = 0; i < stepArray.size(); i++) {
+                if (stepArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + stepArray.get(i).getValueType() + " for element: step");
+                }
                 builder.step(parseExampleScenarioProcessStep("step", stepArray.getJsonObject(i), i));
             }
         }
@@ -10419,6 +12273,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray processArray = getJsonArray(jsonObject, "process");
         if (processArray != null) {
             for (int i = 0; i < processArray.size(); i++) {
+                if (processArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + processArray.get(i).getValueType() + " for element: process");
+                }
                 builder.process(parseExampleScenarioProcess("process", processArray.getJsonObject(i), i));
             }
         }
@@ -10427,6 +12284,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray alternativeArray = getJsonArray(jsonObject, "alternative");
         if (alternativeArray != null) {
             for (int i = 0; i < alternativeArray.size(); i++) {
+                if (alternativeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + alternativeArray.get(i).getValueType() + " for element: alternative");
+                }
                 builder.alternative(parseExampleScenarioProcessStepAlternative("alternative", alternativeArray.getJsonObject(i), i));
             }
         }
@@ -10450,6 +12310,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray stepArray = getJsonArray(jsonObject, "step");
         if (stepArray != null) {
             for (int i = 0; i < stepArray.size(); i++) {
+                if (stepArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + stepArray.get(i).getValueType() + " for element: step");
+                }
                 builder.step(parseExampleScenarioProcessStep("step", stepArray.getJsonObject(i), i));
             }
         }
@@ -10496,6 +12359,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -10515,6 +12381,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray relatedArray = getJsonArray(jsonObject, "related");
         if (relatedArray != null) {
             for (int i = 0; i < relatedArray.size(); i++) {
+                if (relatedArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + relatedArray.get(i).getValueType() + " for element: related");
+                }
                 builder.related(parseExplanationOfBenefitRelated("related", relatedArray.getJsonObject(i), i));
             }
         }
@@ -10537,30 +12406,45 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray preAuthRefPeriodArray = getJsonArray(jsonObject, "preAuthRefPeriod");
         if (preAuthRefPeriodArray != null) {
             for (int i = 0; i < preAuthRefPeriodArray.size(); i++) {
+                if (preAuthRefPeriodArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + preAuthRefPeriodArray.get(i).getValueType() + " for element: preAuthRefPeriod");
+                }
                 builder.preAuthRefPeriod(parsePeriod("preAuthRefPeriod", preAuthRefPeriodArray.getJsonObject(i), i));
             }
         }
         JsonArray careTeamArray = getJsonArray(jsonObject, "careTeam");
         if (careTeamArray != null) {
             for (int i = 0; i < careTeamArray.size(); i++) {
+                if (careTeamArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + careTeamArray.get(i).getValueType() + " for element: careTeam");
+                }
                 builder.careTeam(parseExplanationOfBenefitCareTeam("careTeam", careTeamArray.getJsonObject(i), i));
             }
         }
         JsonArray supportingInfoArray = getJsonArray(jsonObject, "supportingInfo");
         if (supportingInfoArray != null) {
             for (int i = 0; i < supportingInfoArray.size(); i++) {
+                if (supportingInfoArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + supportingInfoArray.get(i).getValueType() + " for element: supportingInfo");
+                }
                 builder.supportingInfo(parseExplanationOfBenefitSupportingInfo("supportingInfo", supportingInfoArray.getJsonObject(i), i));
             }
         }
         JsonArray diagnosisArray = getJsonArray(jsonObject, "diagnosis");
         if (diagnosisArray != null) {
             for (int i = 0; i < diagnosisArray.size(); i++) {
+                if (diagnosisArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + diagnosisArray.get(i).getValueType() + " for element: diagnosis");
+                }
                 builder.diagnosis(parseExplanationOfBenefitDiagnosis("diagnosis", diagnosisArray.getJsonObject(i), i));
             }
         }
         JsonArray procedureArray = getJsonArray(jsonObject, "procedure");
         if (procedureArray != null) {
             for (int i = 0; i < procedureArray.size(); i++) {
+                if (procedureArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + procedureArray.get(i).getValueType() + " for element: procedure");
+                }
                 builder.procedure(parseExplanationOfBenefitProcedure("procedure", procedureArray.getJsonObject(i), i));
             }
         }
@@ -10568,6 +12452,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray insuranceArray = getJsonArray(jsonObject, "insurance");
         if (insuranceArray != null) {
             for (int i = 0; i < insuranceArray.size(); i++) {
+                if (insuranceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + insuranceArray.get(i).getValueType() + " for element: insurance");
+                }
                 builder.insurance(parseExplanationOfBenefitInsurance("insurance", insuranceArray.getJsonObject(i), i));
             }
         }
@@ -10575,24 +12462,36 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray itemArray = getJsonArray(jsonObject, "item");
         if (itemArray != null) {
             for (int i = 0; i < itemArray.size(); i++) {
+                if (itemArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + itemArray.get(i).getValueType() + " for element: item");
+                }
                 builder.item(parseExplanationOfBenefitItem("item", itemArray.getJsonObject(i), i));
             }
         }
         JsonArray addItemArray = getJsonArray(jsonObject, "addItem");
         if (addItemArray != null) {
             for (int i = 0; i < addItemArray.size(); i++) {
+                if (addItemArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + addItemArray.get(i).getValueType() + " for element: addItem");
+                }
                 builder.addItem(parseExplanationOfBenefitAddItem("addItem", addItemArray.getJsonObject(i), i));
             }
         }
         JsonArray adjudicationArray = getJsonArray(jsonObject, "adjudication");
         if (adjudicationArray != null) {
             for (int i = 0; i < adjudicationArray.size(); i++) {
+                if (adjudicationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + adjudicationArray.get(i).getValueType() + " for element: adjudication");
+                }
                 builder.adjudication(parseExplanationOfBenefitItemAdjudication("adjudication", adjudicationArray.getJsonObject(i), i));
             }
         }
         JsonArray totalArray = getJsonArray(jsonObject, "total");
         if (totalArray != null) {
             for (int i = 0; i < totalArray.size(); i++) {
+                if (totalArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + totalArray.get(i).getValueType() + " for element: total");
+                }
                 builder.total(parseExplanationOfBenefitTotal("total", totalArray.getJsonObject(i), i));
             }
         }
@@ -10602,6 +12501,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray processNoteArray = getJsonArray(jsonObject, "processNote");
         if (processNoteArray != null) {
             for (int i = 0; i < processNoteArray.size(); i++) {
+                if (processNoteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + processNoteArray.get(i).getValueType() + " for element: processNote");
+                }
                 builder.processNote(parseExplanationOfBenefitProcessNote("processNote", processNoteArray.getJsonObject(i), i));
             }
         }
@@ -10609,6 +12511,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray benefitBalanceArray = getJsonArray(jsonObject, "benefitBalance");
         if (benefitBalanceArray != null) {
             for (int i = 0; i < benefitBalanceArray.size(); i++) {
+                if (benefitBalanceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + benefitBalanceArray.get(i).getValueType() + " for element: benefitBalance");
+                }
                 builder.benefitBalance(parseExplanationOfBenefitBenefitBalance("benefitBalance", benefitBalanceArray.getJsonObject(i), i));
             }
         }
@@ -10669,6 +12574,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray providerArray = getJsonArray(jsonObject, "provider");
         if (providerArray != null) {
             for (int i = 0; i < providerArray.size(); i++) {
+                if (providerArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + providerArray.get(i).getValueType() + " for element: provider");
+                }
                 builder.provider(parseReference("provider", providerArray.getJsonObject(i), i));
             }
         }
@@ -10676,12 +12584,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray modifierArray = getJsonArray(jsonObject, "modifier");
         if (modifierArray != null) {
             for (int i = 0; i < modifierArray.size(); i++) {
+                if (modifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + modifierArray.get(i).getValueType() + " for element: modifier");
+                }
                 builder.modifier(parseCodeableConcept("modifier", modifierArray.getJsonObject(i), i));
             }
         }
         JsonArray programCodeArray = getJsonArray(jsonObject, "programCode");
         if (programCodeArray != null) {
             for (int i = 0; i < programCodeArray.size(); i++) {
+                if (programCodeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + programCodeArray.get(i).getValueType() + " for element: programCode");
+                }
                 builder.programCode(parseCodeableConcept("programCode", programCodeArray.getJsonObject(i), i));
             }
         }
@@ -10695,6 +12609,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray subSiteArray = getJsonArray(jsonObject, "subSite");
         if (subSiteArray != null) {
             for (int i = 0; i < subSiteArray.size(); i++) {
+                if (subSiteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + subSiteArray.get(i).getValueType() + " for element: subSite");
+                }
                 builder.subSite(parseCodeableConcept("subSite", subSiteArray.getJsonObject(i), i));
             }
         }
@@ -10708,12 +12625,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray adjudicationArray = getJsonArray(jsonObject, "adjudication");
         if (adjudicationArray != null) {
             for (int i = 0; i < adjudicationArray.size(); i++) {
+                if (adjudicationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + adjudicationArray.get(i).getValueType() + " for element: adjudication");
+                }
                 builder.adjudication(parseExplanationOfBenefitItemAdjudication("adjudication", adjudicationArray.getJsonObject(i), i));
             }
         }
         JsonArray detailArray = getJsonArray(jsonObject, "detail");
         if (detailArray != null) {
             for (int i = 0; i < detailArray.size(); i++) {
+                if (detailArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + detailArray.get(i).getValueType() + " for element: detail");
+                }
                 builder.detail(parseExplanationOfBenefitAddItemDetail("detail", detailArray.getJsonObject(i), i));
             }
         }
@@ -10736,6 +12659,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray modifierArray = getJsonArray(jsonObject, "modifier");
         if (modifierArray != null) {
             for (int i = 0; i < modifierArray.size(); i++) {
+                if (modifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + modifierArray.get(i).getValueType() + " for element: modifier");
+                }
                 builder.modifier(parseCodeableConcept("modifier", modifierArray.getJsonObject(i), i));
             }
         }
@@ -10753,12 +12679,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray adjudicationArray = getJsonArray(jsonObject, "adjudication");
         if (adjudicationArray != null) {
             for (int i = 0; i < adjudicationArray.size(); i++) {
+                if (adjudicationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + adjudicationArray.get(i).getValueType() + " for element: adjudication");
+                }
                 builder.adjudication(parseExplanationOfBenefitItemAdjudication("adjudication", adjudicationArray.getJsonObject(i), i));
             }
         }
         JsonArray subDetailArray = getJsonArray(jsonObject, "subDetail");
         if (subDetailArray != null) {
             for (int i = 0; i < subDetailArray.size(); i++) {
+                if (subDetailArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + subDetailArray.get(i).getValueType() + " for element: subDetail");
+                }
                 builder.subDetail(parseExplanationOfBenefitAddItemDetailSubDetail("subDetail", subDetailArray.getJsonObject(i), i));
             }
         }
@@ -10781,6 +12713,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray modifierArray = getJsonArray(jsonObject, "modifier");
         if (modifierArray != null) {
             for (int i = 0; i < modifierArray.size(); i++) {
+                if (modifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + modifierArray.get(i).getValueType() + " for element: modifier");
+                }
                 builder.modifier(parseCodeableConcept("modifier", modifierArray.getJsonObject(i), i));
             }
         }
@@ -10798,6 +12733,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray adjudicationArray = getJsonArray(jsonObject, "adjudication");
         if (adjudicationArray != null) {
             for (int i = 0; i < adjudicationArray.size(); i++) {
+                if (adjudicationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + adjudicationArray.get(i).getValueType() + " for element: adjudication");
+                }
                 builder.adjudication(parseExplanationOfBenefitItemAdjudication("adjudication", adjudicationArray.getJsonObject(i), i));
             }
         }
@@ -10826,6 +12764,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray financialArray = getJsonArray(jsonObject, "financial");
         if (financialArray != null) {
             for (int i = 0; i < financialArray.size(); i++) {
+                if (financialArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + financialArray.get(i).getValueType() + " for element: financial");
+                }
                 builder.financial(parseExplanationOfBenefitBenefitBalanceFinancial("financial", financialArray.getJsonObject(i), i));
             }
         }
@@ -10887,6 +12828,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray typeArray = getJsonArray(jsonObject, "type");
         if (typeArray != null) {
             for (int i = 0; i < typeArray.size(); i++) {
+                if (typeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + typeArray.get(i).getValueType() + " for element: type");
+                }
                 builder.type(parseCodeableConcept("type", typeArray.getJsonObject(i), i));
             }
         }
@@ -10966,12 +12910,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray modifierArray = getJsonArray(jsonObject, "modifier");
         if (modifierArray != null) {
             for (int i = 0; i < modifierArray.size(); i++) {
+                if (modifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + modifierArray.get(i).getValueType() + " for element: modifier");
+                }
                 builder.modifier(parseCodeableConcept("modifier", modifierArray.getJsonObject(i), i));
             }
         }
         JsonArray programCodeArray = getJsonArray(jsonObject, "programCode");
         if (programCodeArray != null) {
             for (int i = 0; i < programCodeArray.size(); i++) {
+                if (programCodeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + programCodeArray.get(i).getValueType() + " for element: programCode");
+                }
                 builder.programCode(parseCodeableConcept("programCode", programCodeArray.getJsonObject(i), i));
             }
         }
@@ -10984,6 +12934,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray udiArray = getJsonArray(jsonObject, "udi");
         if (udiArray != null) {
             for (int i = 0; i < udiArray.size(); i++) {
+                if (udiArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + udiArray.get(i).getValueType() + " for element: udi");
+                }
                 builder.udi(parseReference("udi", udiArray.getJsonObject(i), i));
             }
         }
@@ -10991,12 +12944,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray subSiteArray = getJsonArray(jsonObject, "subSite");
         if (subSiteArray != null) {
             for (int i = 0; i < subSiteArray.size(); i++) {
+                if (subSiteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + subSiteArray.get(i).getValueType() + " for element: subSite");
+                }
                 builder.subSite(parseCodeableConcept("subSite", subSiteArray.getJsonObject(i), i));
             }
         }
         JsonArray encounterArray = getJsonArray(jsonObject, "encounter");
         if (encounterArray != null) {
             for (int i = 0; i < encounterArray.size(); i++) {
+                if (encounterArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + encounterArray.get(i).getValueType() + " for element: encounter");
+                }
                 builder.encounter(parseReference("encounter", encounterArray.getJsonObject(i), i));
             }
         }
@@ -11010,12 +12969,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray adjudicationArray = getJsonArray(jsonObject, "adjudication");
         if (adjudicationArray != null) {
             for (int i = 0; i < adjudicationArray.size(); i++) {
+                if (adjudicationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + adjudicationArray.get(i).getValueType() + " for element: adjudication");
+                }
                 builder.adjudication(parseExplanationOfBenefitItemAdjudication("adjudication", adjudicationArray.getJsonObject(i), i));
             }
         }
         JsonArray detailArray = getJsonArray(jsonObject, "detail");
         if (detailArray != null) {
             for (int i = 0; i < detailArray.size(); i++) {
+                if (detailArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + detailArray.get(i).getValueType() + " for element: detail");
+                }
                 builder.detail(parseExplanationOfBenefitItemDetail("detail", detailArray.getJsonObject(i), i));
             }
         }
@@ -11060,12 +13025,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray modifierArray = getJsonArray(jsonObject, "modifier");
         if (modifierArray != null) {
             for (int i = 0; i < modifierArray.size(); i++) {
+                if (modifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + modifierArray.get(i).getValueType() + " for element: modifier");
+                }
                 builder.modifier(parseCodeableConcept("modifier", modifierArray.getJsonObject(i), i));
             }
         }
         JsonArray programCodeArray = getJsonArray(jsonObject, "programCode");
         if (programCodeArray != null) {
             for (int i = 0; i < programCodeArray.size(); i++) {
+                if (programCodeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + programCodeArray.get(i).getValueType() + " for element: programCode");
+                }
                 builder.programCode(parseCodeableConcept("programCode", programCodeArray.getJsonObject(i), i));
             }
         }
@@ -11076,6 +13047,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray udiArray = getJsonArray(jsonObject, "udi");
         if (udiArray != null) {
             for (int i = 0; i < udiArray.size(); i++) {
+                if (udiArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + udiArray.get(i).getValueType() + " for element: udi");
+                }
                 builder.udi(parseReference("udi", udiArray.getJsonObject(i), i));
             }
         }
@@ -11089,12 +13063,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray adjudicationArray = getJsonArray(jsonObject, "adjudication");
         if (adjudicationArray != null) {
             for (int i = 0; i < adjudicationArray.size(); i++) {
+                if (adjudicationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + adjudicationArray.get(i).getValueType() + " for element: adjudication");
+                }
                 builder.adjudication(parseExplanationOfBenefitItemAdjudication("adjudication", adjudicationArray.getJsonObject(i), i));
             }
         }
         JsonArray subDetailArray = getJsonArray(jsonObject, "subDetail");
         if (subDetailArray != null) {
             for (int i = 0; i < subDetailArray.size(); i++) {
+                if (subDetailArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + subDetailArray.get(i).getValueType() + " for element: subDetail");
+                }
                 builder.subDetail(parseExplanationOfBenefitItemDetailSubDetail("subDetail", subDetailArray.getJsonObject(i), i));
             }
         }
@@ -11120,12 +13100,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray modifierArray = getJsonArray(jsonObject, "modifier");
         if (modifierArray != null) {
             for (int i = 0; i < modifierArray.size(); i++) {
+                if (modifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + modifierArray.get(i).getValueType() + " for element: modifier");
+                }
                 builder.modifier(parseCodeableConcept("modifier", modifierArray.getJsonObject(i), i));
             }
         }
         JsonArray programCodeArray = getJsonArray(jsonObject, "programCode");
         if (programCodeArray != null) {
             for (int i = 0; i < programCodeArray.size(); i++) {
+                if (programCodeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + programCodeArray.get(i).getValueType() + " for element: programCode");
+                }
                 builder.programCode(parseCodeableConcept("programCode", programCodeArray.getJsonObject(i), i));
             }
         }
@@ -11136,6 +13122,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray udiArray = getJsonArray(jsonObject, "udi");
         if (udiArray != null) {
             for (int i = 0; i < udiArray.size(); i++) {
+                if (udiArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + udiArray.get(i).getValueType() + " for element: udi");
+                }
                 builder.udi(parseReference("udi", udiArray.getJsonObject(i), i));
             }
         }
@@ -11149,6 +13138,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray adjudicationArray = getJsonArray(jsonObject, "adjudication");
         if (adjudicationArray != null) {
             for (int i = 0; i < adjudicationArray.size(); i++) {
+                if (adjudicationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + adjudicationArray.get(i).getValueType() + " for element: adjudication");
+                }
                 builder.adjudication(parseExplanationOfBenefitItemAdjudication("adjudication", adjudicationArray.getJsonObject(i), i));
             }
         }
@@ -11209,6 +13201,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray typeArray = getJsonArray(jsonObject, "type");
         if (typeArray != null) {
             for (int i = 0; i < typeArray.size(); i++) {
+                if (typeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + typeArray.get(i).getValueType() + " for element: type");
+                }
                 builder.type(parseCodeableConcept("type", typeArray.getJsonObject(i), i));
             }
         }
@@ -11217,6 +13212,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray udiArray = getJsonArray(jsonObject, "udi");
         if (udiArray != null) {
             for (int i = 0; i < udiArray.size(); i++) {
+                if (udiArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + udiArray.get(i).getValueType() + " for element: udi");
+                }
                 builder.udi(parseReference("udi", udiArray.getJsonObject(i), i));
             }
         }
@@ -11350,6 +13348,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -11381,24 +13382,36 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray reasonCodeArray = getJsonArray(jsonObject, "reasonCode");
         if (reasonCodeArray != null) {
             for (int i = 0; i < reasonCodeArray.size(); i++) {
+                if (reasonCodeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reasonCodeArray.get(i).getValueType() + " for element: reasonCode");
+                }
                 builder.reasonCode(parseCodeableConcept("reasonCode", reasonCodeArray.getJsonObject(i), i));
             }
         }
         JsonArray reasonReferenceArray = getJsonArray(jsonObject, "reasonReference");
         if (reasonReferenceArray != null) {
             for (int i = 0; i < reasonReferenceArray.size(); i++) {
+                if (reasonReferenceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reasonReferenceArray.get(i).getValueType() + " for element: reasonReference");
+                }
                 builder.reasonReference(parseReference("reasonReference", reasonReferenceArray.getJsonObject(i), i));
             }
         }
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
         JsonArray conditionArray = getJsonArray(jsonObject, "condition");
         if (conditionArray != null) {
             for (int i = 0; i < conditionArray.size(); i++) {
+                if (conditionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + conditionArray.get(i).getValueType() + " for element: condition");
+                }
                 builder.condition(parseFamilyMemberHistoryCondition("condition", conditionArray.getJsonObject(i), i));
             }
         }
@@ -11424,6 +13437,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
@@ -11445,6 +13461,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -11452,6 +13471,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray categoryArray = getJsonArray(jsonObject, "category");
         if (categoryArray != null) {
             for (int i = 0; i < categoryArray.size(); i++) {
+                if (categoryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + categoryArray.get(i).getValueType() + " for element: category");
+                }
                 builder.category(parseCodeableConcept("category", categoryArray.getJsonObject(i), i));
             }
         }
@@ -11478,6 +13500,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -11486,6 +13511,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray categoryArray = getJsonArray(jsonObject, "category");
         if (categoryArray != null) {
             for (int i = 0; i < categoryArray.size(); i++) {
+                if (categoryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + categoryArray.get(i).getValueType() + " for element: category");
+                }
                 builder.category(parseCodeableConcept("category", categoryArray.getJsonObject(i), i));
             }
         }
@@ -11496,6 +13524,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray targetArray = getJsonArray(jsonObject, "target");
         if (targetArray != null) {
             for (int i = 0; i < targetArray.size(); i++) {
+                if (targetArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + targetArray.get(i).getValueType() + " for element: target");
+                }
                 builder.target(parseGoalTarget("target", targetArray.getJsonObject(i), i));
             }
         }
@@ -11505,24 +13536,36 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray addressesArray = getJsonArray(jsonObject, "addresses");
         if (addressesArray != null) {
             for (int i = 0; i < addressesArray.size(); i++) {
+                if (addressesArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + addressesArray.get(i).getValueType() + " for element: addresses");
+                }
                 builder.addresses(parseReference("addresses", addressesArray.getJsonObject(i), i));
             }
         }
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
         JsonArray outcomeCodeArray = getJsonArray(jsonObject, "outcomeCode");
         if (outcomeCodeArray != null) {
             for (int i = 0; i < outcomeCodeArray.size(); i++) {
+                if (outcomeCodeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + outcomeCodeArray.get(i).getValueType() + " for element: outcomeCode");
+                }
                 builder.outcomeCode(parseCodeableConcept("outcomeCode", outcomeCodeArray.getJsonObject(i), i));
             }
         }
         JsonArray outcomeReferenceArray = getJsonArray(jsonObject, "outcomeReference");
         if (outcomeReferenceArray != null) {
             for (int i = 0; i < outcomeReferenceArray.size(); i++) {
+                if (outcomeReferenceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + outcomeReferenceArray.get(i).getValueType() + " for element: outcomeReference");
+                }
                 builder.outcomeReference(parseReference("outcomeReference", outcomeReferenceArray.getJsonObject(i), i));
             }
         }
@@ -11569,6 +13612,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray contactArray = getJsonArray(jsonObject, "contact");
         if (contactArray != null) {
             for (int i = 0; i < contactArray.size(); i++) {
+                if (contactArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contactArray.get(i).getValueType() + " for element: contact");
+                }
                 builder.contact(parseContactDetail("contact", contactArray.getJsonObject(i), i));
             }
         }
@@ -11576,12 +13622,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray useContextArray = getJsonArray(jsonObject, "useContext");
         if (useContextArray != null) {
             for (int i = 0; i < useContextArray.size(); i++) {
+                if (useContextArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + useContextArray.get(i).getValueType() + " for element: useContext");
+                }
                 builder.useContext(parseUsageContext("useContext", useContextArray.getJsonObject(i), i));
             }
         }
         JsonArray jurisdictionArray = getJsonArray(jsonObject, "jurisdiction");
         if (jurisdictionArray != null) {
             for (int i = 0; i < jurisdictionArray.size(); i++) {
+                if (jurisdictionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + jurisdictionArray.get(i).getValueType() + " for element: jurisdiction");
+                }
                 builder.jurisdiction(parseCodeableConcept("jurisdiction", jurisdictionArray.getJsonObject(i), i));
             }
         }
@@ -11591,6 +13643,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray linkArray = getJsonArray(jsonObject, "link");
         if (linkArray != null) {
             for (int i = 0; i < linkArray.size(); i++) {
+                if (linkArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + linkArray.get(i).getValueType() + " for element: link");
+                }
                 builder.link(parseGraphDefinitionLink("link", linkArray.getJsonObject(i), i));
             }
         }
@@ -11617,6 +13672,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray targetArray = getJsonArray(jsonObject, "target");
         if (targetArray != null) {
             for (int i = 0; i < targetArray.size(); i++) {
+                if (targetArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + targetArray.get(i).getValueType() + " for element: target");
+                }
                 builder.target(parseGraphDefinitionLinkTarget("target", targetArray.getJsonObject(i), i));
             }
         }
@@ -11641,12 +13699,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray compartmentArray = getJsonArray(jsonObject, "compartment");
         if (compartmentArray != null) {
             for (int i = 0; i < compartmentArray.size(); i++) {
+                if (compartmentArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + compartmentArray.get(i).getValueType() + " for element: compartment");
+                }
                 builder.compartment(parseGraphDefinitionLinkTargetCompartment("compartment", compartmentArray.getJsonObject(i), i));
             }
         }
         JsonArray linkArray = getJsonArray(jsonObject, "link");
         if (linkArray != null) {
             for (int i = 0; i < linkArray.size(); i++) {
+                if (linkArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + linkArray.get(i).getValueType() + " for element: link");
+                }
                 builder.link(parseGraphDefinitionLink("link", linkArray.getJsonObject(i), i));
             }
         }
@@ -11688,6 +13752,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -11701,12 +13768,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray characteristicArray = getJsonArray(jsonObject, "characteristic");
         if (characteristicArray != null) {
             for (int i = 0; i < characteristicArray.size(); i++) {
+                if (characteristicArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + characteristicArray.get(i).getValueType() + " for element: characteristic");
+                }
                 builder.characteristic(parseGroupCharacteristic("characteristic", characteristicArray.getJsonObject(i), i));
             }
         }
         JsonArray memberArray = getJsonArray(jsonObject, "member");
         if (memberArray != null) {
             for (int i = 0; i < memberArray.size(); i++) {
+                if (memberArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + memberArray.get(i).getValueType() + " for element: member");
+                }
                 builder.member(parseGroupMember("member", memberArray.getJsonObject(i), i));
             }
         }
@@ -11766,6 +13839,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -11778,24 +13854,36 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray reasonCodeArray = getJsonArray(jsonObject, "reasonCode");
         if (reasonCodeArray != null) {
             for (int i = 0; i < reasonCodeArray.size(); i++) {
+                if (reasonCodeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reasonCodeArray.get(i).getValueType() + " for element: reasonCode");
+                }
                 builder.reasonCode(parseCodeableConcept("reasonCode", reasonCodeArray.getJsonObject(i), i));
             }
         }
         JsonArray reasonReferenceArray = getJsonArray(jsonObject, "reasonReference");
         if (reasonReferenceArray != null) {
             for (int i = 0; i < reasonReferenceArray.size(); i++) {
+                if (reasonReferenceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reasonReferenceArray.get(i).getValueType() + " for element: reasonReference");
+                }
                 builder.reasonReference(parseReference("reasonReference", reasonReferenceArray.getJsonObject(i), i));
             }
         }
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
         JsonArray evaluationMessageArray = getJsonArray(jsonObject, "evaluationMessage");
         if (evaluationMessageArray != null) {
             for (int i = 0; i < evaluationMessageArray.size(); i++) {
+                if (evaluationMessageArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + evaluationMessageArray.get(i).getValueType() + " for element: evaluationMessage");
+                }
                 builder.evaluationMessage(parseReference("evaluationMessage", evaluationMessageArray.getJsonObject(i), i));
             }
         }
@@ -11804,6 +13892,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray dataRequirementArray = getJsonArray(jsonObject, "dataRequirement");
         if (dataRequirementArray != null) {
             for (int i = 0; i < dataRequirementArray.size(); i++) {
+                if (dataRequirementArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + dataRequirementArray.get(i).getValueType() + " for element: dataRequirement");
+                }
                 builder.dataRequirement(parseDataRequirement("dataRequirement", dataRequirementArray.getJsonObject(i), i));
             }
         }
@@ -11825,6 +13916,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -11833,24 +13927,36 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray categoryArray = getJsonArray(jsonObject, "category");
         if (categoryArray != null) {
             for (int i = 0; i < categoryArray.size(); i++) {
+                if (categoryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + categoryArray.get(i).getValueType() + " for element: category");
+                }
                 builder.category(parseCodeableConcept("category", categoryArray.getJsonObject(i), i));
             }
         }
         JsonArray typeArray = getJsonArray(jsonObject, "type");
         if (typeArray != null) {
             for (int i = 0; i < typeArray.size(); i++) {
+                if (typeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + typeArray.get(i).getValueType() + " for element: type");
+                }
                 builder.type(parseCodeableConcept("type", typeArray.getJsonObject(i), i));
             }
         }
         JsonArray specialtyArray = getJsonArray(jsonObject, "specialty");
         if (specialtyArray != null) {
             for (int i = 0; i < specialtyArray.size(); i++) {
+                if (specialtyArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + specialtyArray.get(i).getValueType() + " for element: specialty");
+                }
                 builder.specialty(parseCodeableConcept("specialty", specialtyArray.getJsonObject(i), i));
             }
         }
         JsonArray locationArray = getJsonArray(jsonObject, "location");
         if (locationArray != null) {
             for (int i = 0; i < locationArray.size(); i++) {
+                if (locationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + locationArray.get(i).getValueType() + " for element: location");
+                }
                 builder.location(parseReference("location", locationArray.getJsonObject(i), i));
             }
         }
@@ -11861,48 +13967,72 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray telecomArray = getJsonArray(jsonObject, "telecom");
         if (telecomArray != null) {
             for (int i = 0; i < telecomArray.size(); i++) {
+                if (telecomArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + telecomArray.get(i).getValueType() + " for element: telecom");
+                }
                 builder.telecom(parseContactPoint("telecom", telecomArray.getJsonObject(i), i));
             }
         }
         JsonArray coverageAreaArray = getJsonArray(jsonObject, "coverageArea");
         if (coverageAreaArray != null) {
             for (int i = 0; i < coverageAreaArray.size(); i++) {
+                if (coverageAreaArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + coverageAreaArray.get(i).getValueType() + " for element: coverageArea");
+                }
                 builder.coverageArea(parseReference("coverageArea", coverageAreaArray.getJsonObject(i), i));
             }
         }
         JsonArray serviceProvisionCodeArray = getJsonArray(jsonObject, "serviceProvisionCode");
         if (serviceProvisionCodeArray != null) {
             for (int i = 0; i < serviceProvisionCodeArray.size(); i++) {
+                if (serviceProvisionCodeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + serviceProvisionCodeArray.get(i).getValueType() + " for element: serviceProvisionCode");
+                }
                 builder.serviceProvisionCode(parseCodeableConcept("serviceProvisionCode", serviceProvisionCodeArray.getJsonObject(i), i));
             }
         }
         JsonArray eligibilityArray = getJsonArray(jsonObject, "eligibility");
         if (eligibilityArray != null) {
             for (int i = 0; i < eligibilityArray.size(); i++) {
+                if (eligibilityArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + eligibilityArray.get(i).getValueType() + " for element: eligibility");
+                }
                 builder.eligibility(parseHealthcareServiceEligibility("eligibility", eligibilityArray.getJsonObject(i), i));
             }
         }
         JsonArray programArray = getJsonArray(jsonObject, "program");
         if (programArray != null) {
             for (int i = 0; i < programArray.size(); i++) {
+                if (programArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + programArray.get(i).getValueType() + " for element: program");
+                }
                 builder.program(parseCodeableConcept("program", programArray.getJsonObject(i), i));
             }
         }
         JsonArray characteristicArray = getJsonArray(jsonObject, "characteristic");
         if (characteristicArray != null) {
             for (int i = 0; i < characteristicArray.size(); i++) {
+                if (characteristicArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + characteristicArray.get(i).getValueType() + " for element: characteristic");
+                }
                 builder.characteristic(parseCodeableConcept("characteristic", characteristicArray.getJsonObject(i), i));
             }
         }
         JsonArray communicationArray = getJsonArray(jsonObject, "communication");
         if (communicationArray != null) {
             for (int i = 0; i < communicationArray.size(); i++) {
+                if (communicationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + communicationArray.get(i).getValueType() + " for element: communication");
+                }
                 builder.communication(parseCodeableConcept("communication", communicationArray.getJsonObject(i), i));
             }
         }
         JsonArray referralMethodArray = getJsonArray(jsonObject, "referralMethod");
         if (referralMethodArray != null) {
             for (int i = 0; i < referralMethodArray.size(); i++) {
+                if (referralMethodArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + referralMethodArray.get(i).getValueType() + " for element: referralMethod");
+                }
                 builder.referralMethod(parseCodeableConcept("referralMethod", referralMethodArray.getJsonObject(i), i));
             }
         }
@@ -11910,12 +14040,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray availableTimeArray = getJsonArray(jsonObject, "availableTime");
         if (availableTimeArray != null) {
             for (int i = 0; i < availableTimeArray.size(); i++) {
+                if (availableTimeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + availableTimeArray.get(i).getValueType() + " for element: availableTime");
+                }
                 builder.availableTime(parseHealthcareServiceAvailableTime("availableTime", availableTimeArray.getJsonObject(i), i));
             }
         }
         JsonArray notAvailableArray = getJsonArray(jsonObject, "notAvailable");
         if (notAvailableArray != null) {
             for (int i = 0; i < notAvailableArray.size(); i++) {
+                if (notAvailableArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + notAvailableArray.get(i).getValueType() + " for element: notAvailable");
+                }
                 builder.notAvailable(parseHealthcareServiceNotAvailable("notAvailable", notAvailableArray.getJsonObject(i), i));
             }
         }
@@ -11923,6 +14059,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray endpointArray = getJsonArray(jsonObject, "endpoint");
         if (endpointArray != null) {
             for (int i = 0; i < endpointArray.size(); i++) {
+                if (endpointArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + endpointArray.get(i).getValueType() + " for element: endpoint");
+                }
                 builder.endpoint(parseReference("endpoint", endpointArray.getJsonObject(i), i));
             }
         }
@@ -11945,6 +14084,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (daysOfWeekArray != null) {
             JsonArray _daysOfWeekArray = jsonObject.getJsonArray("_daysOfWeek");
             for (int i = 0; i < daysOfWeekArray.size(); i++) {
+                if (daysOfWeekArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + daysOfWeekArray.get(i).getValueType() + " for element: daysOfWeek");
+                }
                 builder.daysOfWeek((DaysOfWeek) parseString(DaysOfWeek.builder(), "daysOfWeek", daysOfWeekArray.get(i), getJsonValue(_daysOfWeekArray, i), i));
             }
         }
@@ -12064,6 +14206,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -12071,6 +14216,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray modalityArray = getJsonArray(jsonObject, "modality");
         if (modalityArray != null) {
             for (int i = 0; i < modalityArray.size(); i++) {
+                if (modalityArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + modalityArray.get(i).getValueType() + " for element: modality");
+                }
                 builder.modality(parseCoding("modality", modalityArray.getJsonObject(i), i));
             }
         }
@@ -12080,6 +14228,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray basedOnArray = getJsonArray(jsonObject, "basedOn");
         if (basedOnArray != null) {
             for (int i = 0; i < basedOnArray.size(); i++) {
+                if (basedOnArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + basedOnArray.get(i).getValueType() + " for element: basedOn");
+                }
                 builder.basedOn(parseReference("basedOn", basedOnArray.getJsonObject(i), i));
             }
         }
@@ -12087,12 +14238,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray interpreterArray = getJsonArray(jsonObject, "interpreter");
         if (interpreterArray != null) {
             for (int i = 0; i < interpreterArray.size(); i++) {
+                if (interpreterArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + interpreterArray.get(i).getValueType() + " for element: interpreter");
+                }
                 builder.interpreter(parseReference("interpreter", interpreterArray.getJsonObject(i), i));
             }
         }
         JsonArray endpointArray = getJsonArray(jsonObject, "endpoint");
         if (endpointArray != null) {
             for (int i = 0; i < endpointArray.size(); i++) {
+                if (endpointArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + endpointArray.get(i).getValueType() + " for element: endpoint");
+                }
                 builder.endpoint(parseReference("endpoint", endpointArray.getJsonObject(i), i));
             }
         }
@@ -12102,6 +14259,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray procedureCodeArray = getJsonArray(jsonObject, "procedureCode");
         if (procedureCodeArray != null) {
             for (int i = 0; i < procedureCodeArray.size(); i++) {
+                if (procedureCodeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + procedureCodeArray.get(i).getValueType() + " for element: procedureCode");
+                }
                 builder.procedureCode(parseCodeableConcept("procedureCode", procedureCodeArray.getJsonObject(i), i));
             }
         }
@@ -12109,18 +14269,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray reasonCodeArray = getJsonArray(jsonObject, "reasonCode");
         if (reasonCodeArray != null) {
             for (int i = 0; i < reasonCodeArray.size(); i++) {
+                if (reasonCodeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reasonCodeArray.get(i).getValueType() + " for element: reasonCode");
+                }
                 builder.reasonCode(parseCodeableConcept("reasonCode", reasonCodeArray.getJsonObject(i), i));
             }
         }
         JsonArray reasonReferenceArray = getJsonArray(jsonObject, "reasonReference");
         if (reasonReferenceArray != null) {
             for (int i = 0; i < reasonReferenceArray.size(); i++) {
+                if (reasonReferenceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reasonReferenceArray.get(i).getValueType() + " for element: reasonReference");
+                }
                 builder.reasonReference(parseReference("reasonReference", reasonReferenceArray.getJsonObject(i), i));
             }
         }
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
@@ -12128,6 +14297,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray seriesArray = getJsonArray(jsonObject, "series");
         if (seriesArray != null) {
             for (int i = 0; i < seriesArray.size(); i++) {
+                if (seriesArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + seriesArray.get(i).getValueType() + " for element: series");
+                }
                 builder.series(parseImagingStudySeries("series", seriesArray.getJsonObject(i), i));
             }
         }
@@ -12154,6 +14326,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray endpointArray = getJsonArray(jsonObject, "endpoint");
         if (endpointArray != null) {
             for (int i = 0; i < endpointArray.size(); i++) {
+                if (endpointArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + endpointArray.get(i).getValueType() + " for element: endpoint");
+                }
                 builder.endpoint(parseReference("endpoint", endpointArray.getJsonObject(i), i));
             }
         }
@@ -12162,6 +14337,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray specimenArray = getJsonArray(jsonObject, "specimen");
         if (specimenArray != null) {
             for (int i = 0; i < specimenArray.size(); i++) {
+                if (specimenArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + specimenArray.get(i).getValueType() + " for element: specimen");
+                }
                 builder.specimen(parseReference("specimen", specimenArray.getJsonObject(i), i));
             }
         }
@@ -12169,12 +14347,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray performerArray = getJsonArray(jsonObject, "performer");
         if (performerArray != null) {
             for (int i = 0; i < performerArray.size(); i++) {
+                if (performerArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + performerArray.get(i).getValueType() + " for element: performer");
+                }
                 builder.performer(parseImagingStudySeriesPerformer("performer", performerArray.getJsonObject(i), i));
             }
         }
         JsonArray instanceArray = getJsonArray(jsonObject, "instance");
         if (instanceArray != null) {
             for (int i = 0; i < instanceArray.size(); i++) {
+                if (instanceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + instanceArray.get(i).getValueType() + " for element: instance");
+                }
                 builder.instance(parseImagingStudySeriesInstance("instance", instanceArray.getJsonObject(i), i));
             }
         }
@@ -12232,6 +14416,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -12254,24 +14441,36 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray performerArray = getJsonArray(jsonObject, "performer");
         if (performerArray != null) {
             for (int i = 0; i < performerArray.size(); i++) {
+                if (performerArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + performerArray.get(i).getValueType() + " for element: performer");
+                }
                 builder.performer(parseImmunizationPerformer("performer", performerArray.getJsonObject(i), i));
             }
         }
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
         JsonArray reasonCodeArray = getJsonArray(jsonObject, "reasonCode");
         if (reasonCodeArray != null) {
             for (int i = 0; i < reasonCodeArray.size(); i++) {
+                if (reasonCodeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reasonCodeArray.get(i).getValueType() + " for element: reasonCode");
+                }
                 builder.reasonCode(parseCodeableConcept("reasonCode", reasonCodeArray.getJsonObject(i), i));
             }
         }
         JsonArray reasonReferenceArray = getJsonArray(jsonObject, "reasonReference");
         if (reasonReferenceArray != null) {
             for (int i = 0; i < reasonReferenceArray.size(); i++) {
+                if (reasonReferenceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reasonReferenceArray.get(i).getValueType() + " for element: reasonReference");
+                }
                 builder.reasonReference(parseReference("reasonReference", reasonReferenceArray.getJsonObject(i), i));
             }
         }
@@ -12279,18 +14478,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray subpotentReasonArray = getJsonArray(jsonObject, "subpotentReason");
         if (subpotentReasonArray != null) {
             for (int i = 0; i < subpotentReasonArray.size(); i++) {
+                if (subpotentReasonArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + subpotentReasonArray.get(i).getValueType() + " for element: subpotentReason");
+                }
                 builder.subpotentReason(parseCodeableConcept("subpotentReason", subpotentReasonArray.getJsonObject(i), i));
             }
         }
         JsonArray educationArray = getJsonArray(jsonObject, "education");
         if (educationArray != null) {
             for (int i = 0; i < educationArray.size(); i++) {
+                if (educationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + educationArray.get(i).getValueType() + " for element: education");
+                }
                 builder.education(parseImmunizationEducation("education", educationArray.getJsonObject(i), i));
             }
         }
         JsonArray programEligibilityArray = getJsonArray(jsonObject, "programEligibility");
         if (programEligibilityArray != null) {
             for (int i = 0; i < programEligibilityArray.size(); i++) {
+                if (programEligibilityArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + programEligibilityArray.get(i).getValueType() + " for element: programEligibility");
+                }
                 builder.programEligibility(parseCodeableConcept("programEligibility", programEligibilityArray.getJsonObject(i), i));
             }
         }
@@ -12298,12 +14506,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray reactionArray = getJsonArray(jsonObject, "reaction");
         if (reactionArray != null) {
             for (int i = 0; i < reactionArray.size(); i++) {
+                if (reactionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reactionArray.get(i).getValueType() + " for element: reaction");
+                }
                 builder.reaction(parseImmunizationReaction("reaction", reactionArray.getJsonObject(i), i));
             }
         }
         JsonArray protocolAppliedArray = getJsonArray(jsonObject, "protocolApplied");
         if (protocolAppliedArray != null) {
             for (int i = 0; i < protocolAppliedArray.size(); i++) {
+                if (protocolAppliedArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + protocolAppliedArray.get(i).getValueType() + " for element: protocolApplied");
+                }
                 builder.protocolApplied(parseImmunizationProtocolApplied("protocolApplied", protocolAppliedArray.getJsonObject(i), i));
             }
         }
@@ -12363,6 +14577,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray targetDiseaseArray = getJsonArray(jsonObject, "targetDisease");
         if (targetDiseaseArray != null) {
             for (int i = 0; i < targetDiseaseArray.size(); i++) {
+                if (targetDiseaseArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + targetDiseaseArray.get(i).getValueType() + " for element: targetDisease");
+                }
                 builder.targetDisease(parseCodeableConcept("targetDisease", targetDiseaseArray.getJsonObject(i), i));
             }
         }
@@ -12404,6 +14621,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -12417,6 +14637,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray doseStatusReasonArray = getJsonArray(jsonObject, "doseStatusReason");
         if (doseStatusReasonArray != null) {
             for (int i = 0; i < doseStatusReasonArray.size(); i++) {
+                if (doseStatusReasonArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + doseStatusReasonArray.get(i).getValueType() + " for element: doseStatusReason");
+                }
                 builder.doseStatusReason(parseCodeableConcept("doseStatusReason", doseStatusReasonArray.getJsonObject(i), i));
             }
         }
@@ -12442,6 +14665,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -12451,6 +14677,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray recommendationArray = getJsonArray(jsonObject, "recommendation");
         if (recommendationArray != null) {
             for (int i = 0; i < recommendationArray.size(); i++) {
+                if (recommendationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + recommendationArray.get(i).getValueType() + " for element: recommendation");
+                }
                 builder.recommendation(parseImmunizationRecommendationRecommendation("recommendation", recommendationArray.getJsonObject(i), i));
             }
         }
@@ -12472,6 +14701,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray vaccineCodeArray = getJsonArray(jsonObject, "vaccineCode");
         if (vaccineCodeArray != null) {
             for (int i = 0; i < vaccineCodeArray.size(); i++) {
+                if (vaccineCodeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + vaccineCodeArray.get(i).getValueType() + " for element: vaccineCode");
+                }
                 builder.vaccineCode(parseCodeableConcept("vaccineCode", vaccineCodeArray.getJsonObject(i), i));
             }
         }
@@ -12479,6 +14711,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray contraindicatedVaccineCodeArray = getJsonArray(jsonObject, "contraindicatedVaccineCode");
         if (contraindicatedVaccineCodeArray != null) {
             for (int i = 0; i < contraindicatedVaccineCodeArray.size(); i++) {
+                if (contraindicatedVaccineCodeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contraindicatedVaccineCodeArray.get(i).getValueType() + " for element: contraindicatedVaccineCode");
+                }
                 builder.contraindicatedVaccineCode(parseCodeableConcept("contraindicatedVaccineCode", contraindicatedVaccineCodeArray.getJsonObject(i), i));
             }
         }
@@ -12486,12 +14721,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray forecastReasonArray = getJsonArray(jsonObject, "forecastReason");
         if (forecastReasonArray != null) {
             for (int i = 0; i < forecastReasonArray.size(); i++) {
+                if (forecastReasonArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + forecastReasonArray.get(i).getValueType() + " for element: forecastReason");
+                }
                 builder.forecastReason(parseCodeableConcept("forecastReason", forecastReasonArray.getJsonObject(i), i));
             }
         }
         JsonArray dateCriterionArray = getJsonArray(jsonObject, "dateCriterion");
         if (dateCriterionArray != null) {
             for (int i = 0; i < dateCriterionArray.size(); i++) {
+                if (dateCriterionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + dateCriterionArray.get(i).getValueType() + " for element: dateCriterion");
+                }
                 builder.dateCriterion(parseImmunizationRecommendationRecommendationDateCriterion("dateCriterion", dateCriterionArray.getJsonObject(i), i));
             }
         }
@@ -12502,12 +14743,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray supportingImmunizationArray = getJsonArray(jsonObject, "supportingImmunization");
         if (supportingImmunizationArray != null) {
             for (int i = 0; i < supportingImmunizationArray.size(); i++) {
+                if (supportingImmunizationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + supportingImmunizationArray.get(i).getValueType() + " for element: supportingImmunization");
+                }
                 builder.supportingImmunization(parseReference("supportingImmunization", supportingImmunizationArray.getJsonObject(i), i));
             }
         }
         JsonArray supportingPatientInformationArray = getJsonArray(jsonObject, "supportingPatientInformation");
         if (supportingPatientInformationArray != null) {
             for (int i = 0; i < supportingPatientInformationArray.size(); i++) {
+                if (supportingPatientInformationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + supportingPatientInformationArray.get(i).getValueType() + " for element: supportingPatientInformation");
+                }
                 builder.supportingPatientInformation(parseReference("supportingPatientInformation", supportingPatientInformationArray.getJsonObject(i), i));
             }
         }
@@ -12554,6 +14801,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray contactArray = getJsonArray(jsonObject, "contact");
         if (contactArray != null) {
             for (int i = 0; i < contactArray.size(); i++) {
+                if (contactArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contactArray.get(i).getValueType() + " for element: contact");
+                }
                 builder.contact(parseContactDetail("contact", contactArray.getJsonObject(i), i));
             }
         }
@@ -12561,12 +14811,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray useContextArray = getJsonArray(jsonObject, "useContext");
         if (useContextArray != null) {
             for (int i = 0; i < useContextArray.size(); i++) {
+                if (useContextArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + useContextArray.get(i).getValueType() + " for element: useContext");
+                }
                 builder.useContext(parseUsageContext("useContext", useContextArray.getJsonObject(i), i));
             }
         }
         JsonArray jurisdictionArray = getJsonArray(jsonObject, "jurisdiction");
         if (jurisdictionArray != null) {
             for (int i = 0; i < jurisdictionArray.size(); i++) {
+                if (jurisdictionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + jurisdictionArray.get(i).getValueType() + " for element: jurisdiction");
+                }
                 builder.jurisdiction(parseCodeableConcept("jurisdiction", jurisdictionArray.getJsonObject(i), i));
             }
         }
@@ -12577,18 +14833,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (fhirVersionArray != null) {
             JsonArray _fhirVersionArray = jsonObject.getJsonArray("_fhirVersion");
             for (int i = 0; i < fhirVersionArray.size(); i++) {
+                if (fhirVersionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + fhirVersionArray.get(i).getValueType() + " for element: fhirVersion");
+                }
                 builder.fhirVersion((FHIRVersion) parseString(FHIRVersion.builder(), "fhirVersion", fhirVersionArray.get(i), getJsonValue(_fhirVersionArray, i), i));
             }
         }
         JsonArray dependsOnArray = getJsonArray(jsonObject, "dependsOn");
         if (dependsOnArray != null) {
             for (int i = 0; i < dependsOnArray.size(); i++) {
+                if (dependsOnArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + dependsOnArray.get(i).getValueType() + " for element: dependsOn");
+                }
                 builder.dependsOn(parseImplementationGuideDependsOn("dependsOn", dependsOnArray.getJsonObject(i), i));
             }
         }
         JsonArray globalArray = getJsonArray(jsonObject, "global");
         if (globalArray != null) {
             for (int i = 0; i < globalArray.size(); i++) {
+                if (globalArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + globalArray.get(i).getValueType() + " for element: global");
+                }
                 builder.global(parseImplementationGuideGlobal("global", globalArray.getJsonObject(i), i));
             }
         }
@@ -12612,12 +14877,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray groupingArray = getJsonArray(jsonObject, "grouping");
         if (groupingArray != null) {
             for (int i = 0; i < groupingArray.size(); i++) {
+                if (groupingArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + groupingArray.get(i).getValueType() + " for element: grouping");
+                }
                 builder.grouping(parseImplementationGuideDefinitionGrouping("grouping", groupingArray.getJsonObject(i), i));
             }
         }
         JsonArray resourceArray = getJsonArray(jsonObject, "resource");
         if (resourceArray != null) {
             for (int i = 0; i < resourceArray.size(); i++) {
+                if (resourceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + resourceArray.get(i).getValueType() + " for element: resource");
+                }
                 builder.resource(parseImplementationGuideDefinitionResource("resource", resourceArray.getJsonObject(i), i));
             }
         }
@@ -12625,12 +14896,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray parameterArray = getJsonArray(jsonObject, "parameter");
         if (parameterArray != null) {
             for (int i = 0; i < parameterArray.size(); i++) {
+                if (parameterArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + parameterArray.get(i).getValueType() + " for element: parameter");
+                }
                 builder.parameter(parseImplementationGuideDefinitionParameter("parameter", parameterArray.getJsonObject(i), i));
             }
         }
         JsonArray templateArray = getJsonArray(jsonObject, "template");
         if (templateArray != null) {
             for (int i = 0; i < templateArray.size(); i++) {
+                if (templateArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + templateArray.get(i).getValueType() + " for element: template");
+                }
                 builder.template(parseImplementationGuideDefinitionTemplate("template", templateArray.getJsonObject(i), i));
             }
         }
@@ -12672,6 +14949,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray pageArray = getJsonArray(jsonObject, "page");
         if (pageArray != null) {
             for (int i = 0; i < pageArray.size(); i++) {
+                if (pageArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + pageArray.get(i).getValueType() + " for element: page");
+                }
                 builder.page(parseImplementationGuideDefinitionPage("page", pageArray.getJsonObject(i), i));
             }
         }
@@ -12712,6 +14992,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (fhirVersionArray != null) {
             JsonArray _fhirVersionArray = jsonObject.getJsonArray("_fhirVersion");
             for (int i = 0; i < fhirVersionArray.size(); i++) {
+                if (fhirVersionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + fhirVersionArray.get(i).getValueType() + " for element: fhirVersion");
+                }
                 builder.fhirVersion((FHIRVersion) parseString(FHIRVersion.builder(), "fhirVersion", fhirVersionArray.get(i), getJsonValue(_fhirVersionArray, i), i));
             }
         }
@@ -12791,12 +15074,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray resourceArray = getJsonArray(jsonObject, "resource");
         if (resourceArray != null) {
             for (int i = 0; i < resourceArray.size(); i++) {
+                if (resourceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + resourceArray.get(i).getValueType() + " for element: resource");
+                }
                 builder.resource(parseImplementationGuideManifestResource("resource", resourceArray.getJsonObject(i), i));
             }
         }
         JsonArray pageArray = getJsonArray(jsonObject, "page");
         if (pageArray != null) {
             for (int i = 0; i < pageArray.size(); i++) {
+                if (pageArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + pageArray.get(i).getValueType() + " for element: page");
+                }
                 builder.page(parseImplementationGuideManifestPage("page", pageArray.getJsonObject(i), i));
             }
         }
@@ -12876,6 +15165,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray forArray = getJsonArray(jsonObject, "for");
         if (forArray != null) {
             for (int i = 0; i < forArray.size(); i++) {
+                if (forArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + forArray.get(i).getValueType() + " for element: for");
+                }
                 builder._for(parseReference("for", forArray.getJsonObject(i), i));
             }
         }
@@ -12883,6 +15175,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray functionArray = getJsonArray(jsonObject, "function");
         if (functionArray != null) {
             for (int i = 0; i < functionArray.size(); i++) {
+                if (functionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + functionArray.get(i).getValueType() + " for element: function");
+                }
                 builder.function(parseCodeableConcept("function", functionArray.getJsonObject(i), i));
             }
         }
@@ -12890,6 +15185,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray manufacturerArray = getJsonArray(jsonObject, "manufacturer");
         if (manufacturerArray != null) {
             for (int i = 0; i < manufacturerArray.size(); i++) {
+                if (manufacturerArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + manufacturerArray.get(i).getValueType() + " for element: manufacturer");
+                }
                 builder.manufacturer(parseIngredientManufacturer("manufacturer", manufacturerArray.getJsonObject(i), i));
             }
         }
@@ -12930,6 +15228,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray strengthArray = getJsonArray(jsonObject, "strength");
         if (strengthArray != null) {
             for (int i = 0; i < strengthArray.size(); i++) {
+                if (strengthArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + strengthArray.get(i).getValueType() + " for element: strength");
+                }
                 builder.strength(parseIngredientSubstanceStrength("strength", strengthArray.getJsonObject(i), i));
             }
         }
@@ -12956,12 +15257,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray countryArray = getJsonArray(jsonObject, "country");
         if (countryArray != null) {
             for (int i = 0; i < countryArray.size(); i++) {
+                if (countryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + countryArray.get(i).getValueType() + " for element: country");
+                }
                 builder.country(parseCodeableConcept("country", countryArray.getJsonObject(i), i));
             }
         }
         JsonArray referenceStrengthArray = getJsonArray(jsonObject, "referenceStrength");
         if (referenceStrengthArray != null) {
             for (int i = 0; i < referenceStrengthArray.size(); i++) {
+                if (referenceStrengthArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + referenceStrengthArray.get(i).getValueType() + " for element: referenceStrength");
+                }
                 builder.referenceStrength(parseIngredientSubstanceStrengthReferenceStrength("referenceStrength", referenceStrengthArray.getJsonObject(i), i));
             }
         }
@@ -12986,6 +15293,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray countryArray = getJsonArray(jsonObject, "country");
         if (countryArray != null) {
             for (int i = 0; i < countryArray.size(); i++) {
+                if (countryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + countryArray.get(i).getValueType() + " for element: country");
+                }
                 builder.country(parseCodeableConcept("country", countryArray.getJsonObject(i), i));
             }
         }
@@ -13033,6 +15343,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -13040,6 +15353,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray typeArray = getJsonArray(jsonObject, "type");
         if (typeArray != null) {
             for (int i = 0; i < typeArray.size(); i++) {
+                if (typeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + typeArray.get(i).getValueType() + " for element: type");
+                }
                 builder.type(parseCodeableConcept("type", typeArray.getJsonObject(i), i));
             }
         }
@@ -13057,36 +15373,54 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray coverageAreaArray = getJsonArray(jsonObject, "coverageArea");
         if (coverageAreaArray != null) {
             for (int i = 0; i < coverageAreaArray.size(); i++) {
+                if (coverageAreaArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + coverageAreaArray.get(i).getValueType() + " for element: coverageArea");
+                }
                 builder.coverageArea(parseReference("coverageArea", coverageAreaArray.getJsonObject(i), i));
             }
         }
         JsonArray contactArray = getJsonArray(jsonObject, "contact");
         if (contactArray != null) {
             for (int i = 0; i < contactArray.size(); i++) {
+                if (contactArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contactArray.get(i).getValueType() + " for element: contact");
+                }
                 builder.contact(parseInsurancePlanContact("contact", contactArray.getJsonObject(i), i));
             }
         }
         JsonArray endpointArray = getJsonArray(jsonObject, "endpoint");
         if (endpointArray != null) {
             for (int i = 0; i < endpointArray.size(); i++) {
+                if (endpointArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + endpointArray.get(i).getValueType() + " for element: endpoint");
+                }
                 builder.endpoint(parseReference("endpoint", endpointArray.getJsonObject(i), i));
             }
         }
         JsonArray networkArray = getJsonArray(jsonObject, "network");
         if (networkArray != null) {
             for (int i = 0; i < networkArray.size(); i++) {
+                if (networkArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + networkArray.get(i).getValueType() + " for element: network");
+                }
                 builder.network(parseReference("network", networkArray.getJsonObject(i), i));
             }
         }
         JsonArray coverageArray = getJsonArray(jsonObject, "coverage");
         if (coverageArray != null) {
             for (int i = 0; i < coverageArray.size(); i++) {
+                if (coverageArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + coverageArray.get(i).getValueType() + " for element: coverage");
+                }
                 builder.coverage(parseInsurancePlanCoverage("coverage", coverageArray.getJsonObject(i), i));
             }
         }
         JsonArray planArray = getJsonArray(jsonObject, "plan");
         if (planArray != null) {
             for (int i = 0; i < planArray.size(); i++) {
+                if (planArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + planArray.get(i).getValueType() + " for element: plan");
+                }
                 builder.plan(parseInsurancePlanPlan("plan", planArray.getJsonObject(i), i));
             }
         }
@@ -13110,6 +15444,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray telecomArray = getJsonArray(jsonObject, "telecom");
         if (telecomArray != null) {
             for (int i = 0; i < telecomArray.size(); i++) {
+                if (telecomArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + telecomArray.get(i).getValueType() + " for element: telecom");
+                }
                 builder.telecom(parseContactPoint("telecom", telecomArray.getJsonObject(i), i));
             }
         }
@@ -13133,12 +15470,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray networkArray = getJsonArray(jsonObject, "network");
         if (networkArray != null) {
             for (int i = 0; i < networkArray.size(); i++) {
+                if (networkArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + networkArray.get(i).getValueType() + " for element: network");
+                }
                 builder.network(parseReference("network", networkArray.getJsonObject(i), i));
             }
         }
         JsonArray benefitArray = getJsonArray(jsonObject, "benefit");
         if (benefitArray != null) {
             for (int i = 0; i < benefitArray.size(); i++) {
+                if (benefitArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + benefitArray.get(i).getValueType() + " for element: benefit");
+                }
                 builder.benefit(parseInsurancePlanCoverageBenefit("benefit", benefitArray.getJsonObject(i), i));
             }
         }
@@ -13162,6 +15505,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray limitArray = getJsonArray(jsonObject, "limit");
         if (limitArray != null) {
             for (int i = 0; i < limitArray.size(); i++) {
+                if (limitArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + limitArray.get(i).getValueType() + " for element: limit");
+                }
                 builder.limit(parseInsurancePlanCoverageBenefitLimit("limit", limitArray.getJsonObject(i), i));
             }
         }
@@ -13200,6 +15546,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -13207,24 +15556,36 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray coverageAreaArray = getJsonArray(jsonObject, "coverageArea");
         if (coverageAreaArray != null) {
             for (int i = 0; i < coverageAreaArray.size(); i++) {
+                if (coverageAreaArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + coverageAreaArray.get(i).getValueType() + " for element: coverageArea");
+                }
                 builder.coverageArea(parseReference("coverageArea", coverageAreaArray.getJsonObject(i), i));
             }
         }
         JsonArray networkArray = getJsonArray(jsonObject, "network");
         if (networkArray != null) {
             for (int i = 0; i < networkArray.size(); i++) {
+                if (networkArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + networkArray.get(i).getValueType() + " for element: network");
+                }
                 builder.network(parseReference("network", networkArray.getJsonObject(i), i));
             }
         }
         JsonArray generalCostArray = getJsonArray(jsonObject, "generalCost");
         if (generalCostArray != null) {
             for (int i = 0; i < generalCostArray.size(); i++) {
+                if (generalCostArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + generalCostArray.get(i).getValueType() + " for element: generalCost");
+                }
                 builder.generalCost(parseInsurancePlanPlanGeneralCost("generalCost", generalCostArray.getJsonObject(i), i));
             }
         }
         JsonArray specificCostArray = getJsonArray(jsonObject, "specificCost");
         if (specificCostArray != null) {
             for (int i = 0; i < specificCostArray.size(); i++) {
+                if (specificCostArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + specificCostArray.get(i).getValueType() + " for element: specificCost");
+                }
                 builder.specificCost(parseInsurancePlanPlanSpecificCost("specificCost", specificCostArray.getJsonObject(i), i));
             }
         }
@@ -13266,6 +15627,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray benefitArray = getJsonArray(jsonObject, "benefit");
         if (benefitArray != null) {
             for (int i = 0; i < benefitArray.size(); i++) {
+                if (benefitArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + benefitArray.get(i).getValueType() + " for element: benefit");
+                }
                 builder.benefit(parseInsurancePlanPlanSpecificCostBenefit("benefit", benefitArray.getJsonObject(i), i));
             }
         }
@@ -13288,6 +15652,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray costArray = getJsonArray(jsonObject, "cost");
         if (costArray != null) {
             for (int i = 0; i < costArray.size(); i++) {
+                if (costArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + costArray.get(i).getValueType() + " for element: cost");
+                }
                 builder.cost(parseInsurancePlanPlanSpecificCostBenefitCost("cost", costArray.getJsonObject(i), i));
             }
         }
@@ -13311,6 +15678,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray qualifiersArray = getJsonArray(jsonObject, "qualifiers");
         if (qualifiersArray != null) {
             for (int i = 0; i < qualifiersArray.size(); i++) {
+                if (qualifiersArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + qualifiersArray.get(i).getValueType() + " for element: qualifiers");
+                }
                 builder.qualifiers(parseCodeableConcept("qualifiers", qualifiersArray.getJsonObject(i), i));
             }
         }
@@ -13362,6 +15732,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -13374,6 +15747,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray participantArray = getJsonArray(jsonObject, "participant");
         if (participantArray != null) {
             for (int i = 0; i < participantArray.size(); i++) {
+                if (participantArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + participantArray.get(i).getValueType() + " for element: participant");
+                }
                 builder.participant(parseInvoiceParticipant("participant", participantArray.getJsonObject(i), i));
             }
         }
@@ -13382,12 +15758,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray lineItemArray = getJsonArray(jsonObject, "lineItem");
         if (lineItemArray != null) {
             for (int i = 0; i < lineItemArray.size(); i++) {
+                if (lineItemArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + lineItemArray.get(i).getValueType() + " for element: lineItem");
+                }
                 builder.lineItem(parseInvoiceLineItem("lineItem", lineItemArray.getJsonObject(i), i));
             }
         }
         JsonArray totalPriceComponentArray = getJsonArray(jsonObject, "totalPriceComponent");
         if (totalPriceComponentArray != null) {
             for (int i = 0; i < totalPriceComponentArray.size(); i++) {
+                if (totalPriceComponentArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + totalPriceComponentArray.get(i).getValueType() + " for element: totalPriceComponent");
+                }
                 builder.totalPriceComponent(parseInvoiceLineItemPriceComponent("totalPriceComponent", totalPriceComponentArray.getJsonObject(i), i));
             }
         }
@@ -13397,6 +15779,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
@@ -13420,6 +15805,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray priceComponentArray = getJsonArray(jsonObject, "priceComponent");
         if (priceComponentArray != null) {
             for (int i = 0; i < priceComponentArray.size(); i++) {
+                if (priceComponentArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + priceComponentArray.get(i).getValueType() + " for element: priceComponent");
+                }
                 builder.priceComponent(parseInvoiceLineItemPriceComponent("priceComponent", priceComponentArray.getJsonObject(i), i));
             }
         }
@@ -13478,6 +15866,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -13494,6 +15885,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray contactArray = getJsonArray(jsonObject, "contact");
         if (contactArray != null) {
             for (int i = 0; i < contactArray.size(); i++) {
+                if (contactArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contactArray.get(i).getValueType() + " for element: contact");
+                }
                 builder.contact(parseContactDetail("contact", contactArray.getJsonObject(i), i));
             }
         }
@@ -13501,12 +15895,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray useContextArray = getJsonArray(jsonObject, "useContext");
         if (useContextArray != null) {
             for (int i = 0; i < useContextArray.size(); i++) {
+                if (useContextArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + useContextArray.get(i).getValueType() + " for element: useContext");
+                }
                 builder.useContext(parseUsageContext("useContext", useContextArray.getJsonObject(i), i));
             }
         }
         JsonArray jurisdictionArray = getJsonArray(jsonObject, "jurisdiction");
         if (jurisdictionArray != null) {
             for (int i = 0; i < jurisdictionArray.size(); i++) {
+                if (jurisdictionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + jurisdictionArray.get(i).getValueType() + " for element: jurisdiction");
+                }
                 builder.jurisdiction(parseCodeableConcept("jurisdiction", jurisdictionArray.getJsonObject(i), i));
             }
         }
@@ -13519,54 +15919,81 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray topicArray = getJsonArray(jsonObject, "topic");
         if (topicArray != null) {
             for (int i = 0; i < topicArray.size(); i++) {
+                if (topicArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + topicArray.get(i).getValueType() + " for element: topic");
+                }
                 builder.topic(parseCodeableConcept("topic", topicArray.getJsonObject(i), i));
             }
         }
         JsonArray authorArray = getJsonArray(jsonObject, "author");
         if (authorArray != null) {
             for (int i = 0; i < authorArray.size(); i++) {
+                if (authorArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + authorArray.get(i).getValueType() + " for element: author");
+                }
                 builder.author(parseContactDetail("author", authorArray.getJsonObject(i), i));
             }
         }
         JsonArray editorArray = getJsonArray(jsonObject, "editor");
         if (editorArray != null) {
             for (int i = 0; i < editorArray.size(); i++) {
+                if (editorArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + editorArray.get(i).getValueType() + " for element: editor");
+                }
                 builder.editor(parseContactDetail("editor", editorArray.getJsonObject(i), i));
             }
         }
         JsonArray reviewerArray = getJsonArray(jsonObject, "reviewer");
         if (reviewerArray != null) {
             for (int i = 0; i < reviewerArray.size(); i++) {
+                if (reviewerArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reviewerArray.get(i).getValueType() + " for element: reviewer");
+                }
                 builder.reviewer(parseContactDetail("reviewer", reviewerArray.getJsonObject(i), i));
             }
         }
         JsonArray endorserArray = getJsonArray(jsonObject, "endorser");
         if (endorserArray != null) {
             for (int i = 0; i < endorserArray.size(); i++) {
+                if (endorserArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + endorserArray.get(i).getValueType() + " for element: endorser");
+                }
                 builder.endorser(parseContactDetail("endorser", endorserArray.getJsonObject(i), i));
             }
         }
         JsonArray relatedArtifactArray = getJsonArray(jsonObject, "relatedArtifact");
         if (relatedArtifactArray != null) {
             for (int i = 0; i < relatedArtifactArray.size(); i++) {
+                if (relatedArtifactArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + relatedArtifactArray.get(i).getValueType() + " for element: relatedArtifact");
+                }
                 builder.relatedArtifact(parseRelatedArtifact("relatedArtifact", relatedArtifactArray.getJsonObject(i), i));
             }
         }
         JsonArray parameterArray = getJsonArray(jsonObject, "parameter");
         if (parameterArray != null) {
             for (int i = 0; i < parameterArray.size(); i++) {
+                if (parameterArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + parameterArray.get(i).getValueType() + " for element: parameter");
+                }
                 builder.parameter(parseParameterDefinition("parameter", parameterArray.getJsonObject(i), i));
             }
         }
         JsonArray dataRequirementArray = getJsonArray(jsonObject, "dataRequirement");
         if (dataRequirementArray != null) {
             for (int i = 0; i < dataRequirementArray.size(); i++) {
+                if (dataRequirementArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + dataRequirementArray.get(i).getValueType() + " for element: dataRequirement");
+                }
                 builder.dataRequirement(parseDataRequirement("dataRequirement", dataRequirementArray.getJsonObject(i), i));
             }
         }
         JsonArray contentArray = getJsonArray(jsonObject, "content");
         if (contentArray != null) {
             for (int i = 0; i < contentArray.size(); i++) {
+                if (contentArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contentArray.get(i).getValueType() + " for element: content");
+                }
                 builder.content(parseAttachment("content", contentArray.getJsonObject(i), i));
             }
         }
@@ -13590,6 +16017,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray itemArray = getJsonArray(jsonObject, "item");
         if (itemArray != null) {
             for (int i = 0; i < itemArray.size(); i++) {
+                if (itemArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + itemArray.get(i).getValueType() + " for element: item");
+                }
                 builder.item(parseLinkageItem("item", itemArray.getJsonObject(i), i));
             }
         }
@@ -13628,6 +16058,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -13643,12 +16076,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
         JsonArray entryArray = getJsonArray(jsonObject, "entry");
         if (entryArray != null) {
             for (int i = 0; i < entryArray.size(); i++) {
+                if (entryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + entryArray.get(i).getValueType() + " for element: entry");
+                }
                 builder.entry(parseListEntry("entry", entryArray.getJsonObject(i), i));
             }
         }
@@ -13690,6 +16129,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -13708,12 +16150,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray typeArray = getJsonArray(jsonObject, "type");
         if (typeArray != null) {
             for (int i = 0; i < typeArray.size(); i++) {
+                if (typeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + typeArray.get(i).getValueType() + " for element: type");
+                }
                 builder.type(parseCodeableConcept("type", typeArray.getJsonObject(i), i));
             }
         }
         JsonArray telecomArray = getJsonArray(jsonObject, "telecom");
         if (telecomArray != null) {
             for (int i = 0; i < telecomArray.size(); i++) {
+                if (telecomArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + telecomArray.get(i).getValueType() + " for element: telecom");
+                }
                 builder.telecom(parseContactPoint("telecom", telecomArray.getJsonObject(i), i));
             }
         }
@@ -13725,6 +16173,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray hoursOfOperationArray = getJsonArray(jsonObject, "hoursOfOperation");
         if (hoursOfOperationArray != null) {
             for (int i = 0; i < hoursOfOperationArray.size(); i++) {
+                if (hoursOfOperationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + hoursOfOperationArray.get(i).getValueType() + " for element: hoursOfOperation");
+                }
                 builder.hoursOfOperation(parseLocationHoursOfOperation("hoursOfOperation", hoursOfOperationArray.getJsonObject(i), i));
             }
         }
@@ -13732,6 +16183,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray endpointArray = getJsonArray(jsonObject, "endpoint");
         if (endpointArray != null) {
             for (int i = 0; i < endpointArray.size(); i++) {
+                if (endpointArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + endpointArray.get(i).getValueType() + " for element: endpoint");
+                }
                 builder.endpoint(parseReference("endpoint", endpointArray.getJsonObject(i), i));
             }
         }
@@ -13754,6 +16208,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (daysOfWeekArray != null) {
             JsonArray _daysOfWeekArray = jsonObject.getJsonArray("_daysOfWeek");
             for (int i = 0; i < daysOfWeekArray.size(); i++) {
+                if (daysOfWeekArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + daysOfWeekArray.get(i).getValueType() + " for element: daysOfWeek");
+                }
                 builder.daysOfWeek((DaysOfWeek) parseString(DaysOfWeek.builder(), "daysOfWeek", daysOfWeekArray.get(i), getJsonValue(_daysOfWeekArray, i), i));
             }
         }
@@ -13796,6 +16253,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -13805,18 +16265,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray manufacturerArray = getJsonArray(jsonObject, "manufacturer");
         if (manufacturerArray != null) {
             for (int i = 0; i < manufacturerArray.size(); i++) {
+                if (manufacturerArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + manufacturerArray.get(i).getValueType() + " for element: manufacturer");
+                }
                 builder.manufacturer(parseReference("manufacturer", manufacturerArray.getJsonObject(i), i));
             }
         }
         JsonArray ingredientArray = getJsonArray(jsonObject, "ingredient");
         if (ingredientArray != null) {
             for (int i = 0; i < ingredientArray.size(); i++) {
+                if (ingredientArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + ingredientArray.get(i).getValueType() + " for element: ingredient");
+                }
                 builder.ingredient(parseCodeableConcept("ingredient", ingredientArray.getJsonObject(i), i));
             }
         }
         JsonArray propertyArray = getJsonArray(jsonObject, "property");
         if (propertyArray != null) {
             for (int i = 0; i < propertyArray.size(); i++) {
+                if (propertyArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + propertyArray.get(i).getValueType() + " for element: property");
+                }
                 builder.property(parseManufacturedItemDefinitionProperty("property", propertyArray.getJsonObject(i), i));
             }
         }
@@ -13876,6 +16345,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -13891,6 +16363,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray contactArray = getJsonArray(jsonObject, "contact");
         if (contactArray != null) {
             for (int i = 0; i < contactArray.size(); i++) {
+                if (contactArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contactArray.get(i).getValueType() + " for element: contact");
+                }
                 builder.contact(parseContactDetail("contact", contactArray.getJsonObject(i), i));
             }
         }
@@ -13898,12 +16373,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray useContextArray = getJsonArray(jsonObject, "useContext");
         if (useContextArray != null) {
             for (int i = 0; i < useContextArray.size(); i++) {
+                if (useContextArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + useContextArray.get(i).getValueType() + " for element: useContext");
+                }
                 builder.useContext(parseUsageContext("useContext", useContextArray.getJsonObject(i), i));
             }
         }
         JsonArray jurisdictionArray = getJsonArray(jsonObject, "jurisdiction");
         if (jurisdictionArray != null) {
             for (int i = 0; i < jurisdictionArray.size(); i++) {
+                if (jurisdictionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + jurisdictionArray.get(i).getValueType() + " for element: jurisdiction");
+                }
                 builder.jurisdiction(parseCodeableConcept("jurisdiction", jurisdictionArray.getJsonObject(i), i));
             }
         }
@@ -13916,36 +16397,54 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray topicArray = getJsonArray(jsonObject, "topic");
         if (topicArray != null) {
             for (int i = 0; i < topicArray.size(); i++) {
+                if (topicArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + topicArray.get(i).getValueType() + " for element: topic");
+                }
                 builder.topic(parseCodeableConcept("topic", topicArray.getJsonObject(i), i));
             }
         }
         JsonArray authorArray = getJsonArray(jsonObject, "author");
         if (authorArray != null) {
             for (int i = 0; i < authorArray.size(); i++) {
+                if (authorArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + authorArray.get(i).getValueType() + " for element: author");
+                }
                 builder.author(parseContactDetail("author", authorArray.getJsonObject(i), i));
             }
         }
         JsonArray editorArray = getJsonArray(jsonObject, "editor");
         if (editorArray != null) {
             for (int i = 0; i < editorArray.size(); i++) {
+                if (editorArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + editorArray.get(i).getValueType() + " for element: editor");
+                }
                 builder.editor(parseContactDetail("editor", editorArray.getJsonObject(i), i));
             }
         }
         JsonArray reviewerArray = getJsonArray(jsonObject, "reviewer");
         if (reviewerArray != null) {
             for (int i = 0; i < reviewerArray.size(); i++) {
+                if (reviewerArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reviewerArray.get(i).getValueType() + " for element: reviewer");
+                }
                 builder.reviewer(parseContactDetail("reviewer", reviewerArray.getJsonObject(i), i));
             }
         }
         JsonArray endorserArray = getJsonArray(jsonObject, "endorser");
         if (endorserArray != null) {
             for (int i = 0; i < endorserArray.size(); i++) {
+                if (endorserArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + endorserArray.get(i).getValueType() + " for element: endorser");
+                }
                 builder.endorser(parseContactDetail("endorser", endorserArray.getJsonObject(i), i));
             }
         }
         JsonArray relatedArtifactArray = getJsonArray(jsonObject, "relatedArtifact");
         if (relatedArtifactArray != null) {
             for (int i = 0; i < relatedArtifactArray.size(); i++) {
+                if (relatedArtifactArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + relatedArtifactArray.get(i).getValueType() + " for element: relatedArtifact");
+                }
                 builder.relatedArtifact(parseRelatedArtifact("relatedArtifact", relatedArtifactArray.getJsonObject(i), i));
             }
         }
@@ -13962,6 +16461,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray typeArray = getJsonArray(jsonObject, "type");
         if (typeArray != null) {
             for (int i = 0; i < typeArray.size(); i++) {
+                if (typeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + typeArray.get(i).getValueType() + " for element: type");
+                }
                 builder.type(parseCodeableConcept("type", typeArray.getJsonObject(i), i));
             }
         }
@@ -13981,12 +16483,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray groupArray = getJsonArray(jsonObject, "group");
         if (groupArray != null) {
             for (int i = 0; i < groupArray.size(); i++) {
+                if (groupArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + groupArray.get(i).getValueType() + " for element: group");
+                }
                 builder.group(parseMeasureGroup("group", groupArray.getJsonObject(i), i));
             }
         }
         JsonArray supplementalDataArray = getJsonArray(jsonObject, "supplementalData");
         if (supplementalDataArray != null) {
             for (int i = 0; i < supplementalDataArray.size(); i++) {
+                if (supplementalDataArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + supplementalDataArray.get(i).getValueType() + " for element: supplementalData");
+                }
                 builder.supplementalData(parseMeasureSupplementalData("supplementalData", supplementalDataArray.getJsonObject(i), i));
             }
         }
@@ -14010,12 +16518,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray populationArray = getJsonArray(jsonObject, "population");
         if (populationArray != null) {
             for (int i = 0; i < populationArray.size(); i++) {
+                if (populationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + populationArray.get(i).getValueType() + " for element: population");
+                }
                 builder.population(parseMeasureGroupPopulation("population", populationArray.getJsonObject(i), i));
             }
         }
         JsonArray stratifierArray = getJsonArray(jsonObject, "stratifier");
         if (stratifierArray != null) {
             for (int i = 0; i < stratifierArray.size(); i++) {
+                if (stratifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + stratifierArray.get(i).getValueType() + " for element: stratifier");
+                }
                 builder.stratifier(parseMeasureGroupStratifier("stratifier", stratifierArray.getJsonObject(i), i));
             }
         }
@@ -14058,6 +16572,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray componentArray = getJsonArray(jsonObject, "component");
         if (componentArray != null) {
             for (int i = 0; i < componentArray.size(); i++) {
+                if (componentArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + componentArray.get(i).getValueType() + " for element: component");
+                }
                 builder.component(parseMeasureGroupStratifierComponent("component", componentArray.getJsonObject(i), i));
             }
         }
@@ -14098,6 +16615,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray usageArray = getJsonArray(jsonObject, "usage");
         if (usageArray != null) {
             for (int i = 0; i < usageArray.size(); i++) {
+                if (usageArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + usageArray.get(i).getValueType() + " for element: usage");
+                }
                 builder.usage(parseCodeableConcept("usage", usageArray.getJsonObject(i), i));
             }
         }
@@ -14121,6 +16641,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -14135,12 +16658,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray groupArray = getJsonArray(jsonObject, "group");
         if (groupArray != null) {
             for (int i = 0; i < groupArray.size(); i++) {
+                if (groupArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + groupArray.get(i).getValueType() + " for element: group");
+                }
                 builder.group(parseMeasureReportGroup("group", groupArray.getJsonObject(i), i));
             }
         }
         JsonArray evaluatedResourceArray = getJsonArray(jsonObject, "evaluatedResource");
         if (evaluatedResourceArray != null) {
             for (int i = 0; i < evaluatedResourceArray.size(); i++) {
+                if (evaluatedResourceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + evaluatedResourceArray.get(i).getValueType() + " for element: evaluatedResource");
+                }
                 builder.evaluatedResource(parseReference("evaluatedResource", evaluatedResourceArray.getJsonObject(i), i));
             }
         }
@@ -14163,6 +16692,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray populationArray = getJsonArray(jsonObject, "population");
         if (populationArray != null) {
             for (int i = 0; i < populationArray.size(); i++) {
+                if (populationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + populationArray.get(i).getValueType() + " for element: population");
+                }
                 builder.population(parseMeasureReportGroupPopulation("population", populationArray.getJsonObject(i), i));
             }
         }
@@ -14170,6 +16702,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray stratifierArray = getJsonArray(jsonObject, "stratifier");
         if (stratifierArray != null) {
             for (int i = 0; i < stratifierArray.size(); i++) {
+                if (stratifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + stratifierArray.get(i).getValueType() + " for element: stratifier");
+                }
                 builder.stratifier(parseMeasureReportGroupStratifier("stratifier", stratifierArray.getJsonObject(i), i));
             }
         }
@@ -14209,12 +16744,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray codeArray = getJsonArray(jsonObject, "code");
         if (codeArray != null) {
             for (int i = 0; i < codeArray.size(); i++) {
+                if (codeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + codeArray.get(i).getValueType() + " for element: code");
+                }
                 builder.code(parseCodeableConcept("code", codeArray.getJsonObject(i), i));
             }
         }
         JsonArray stratumArray = getJsonArray(jsonObject, "stratum");
         if (stratumArray != null) {
             for (int i = 0; i < stratumArray.size(); i++) {
+                if (stratumArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + stratumArray.get(i).getValueType() + " for element: stratum");
+                }
                 builder.stratum(parseMeasureReportGroupStratifierStratum("stratum", stratumArray.getJsonObject(i), i));
             }
         }
@@ -14237,12 +16778,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray componentArray = getJsonArray(jsonObject, "component");
         if (componentArray != null) {
             for (int i = 0; i < componentArray.size(); i++) {
+                if (componentArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + componentArray.get(i).getValueType() + " for element: component");
+                }
                 builder.component(parseMeasureReportGroupStratifierStratumComponent("component", componentArray.getJsonObject(i), i));
             }
         }
         JsonArray populationArray = getJsonArray(jsonObject, "population");
         if (populationArray != null) {
             for (int i = 0; i < populationArray.size(); i++) {
+                if (populationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + populationArray.get(i).getValueType() + " for element: population");
+                }
                 builder.population(parseMeasureReportGroupStratifierStratumPopulation("population", populationArray.getJsonObject(i), i));
             }
         }
@@ -14300,18 +16847,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
         JsonArray basedOnArray = getJsonArray(jsonObject, "basedOn");
         if (basedOnArray != null) {
             for (int i = 0; i < basedOnArray.size(); i++) {
+                if (basedOnArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + basedOnArray.get(i).getValueType() + " for element: basedOn");
+                }
                 builder.basedOn(parseReference("basedOn", basedOnArray.getJsonObject(i), i));
             }
         }
         JsonArray partOfArray = getJsonArray(jsonObject, "partOf");
         if (partOfArray != null) {
             for (int i = 0; i < partOfArray.size(); i++) {
+                if (partOfArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + partOfArray.get(i).getValueType() + " for element: partOf");
+                }
                 builder.partOf(parseReference("partOf", partOfArray.getJsonObject(i), i));
             }
         }
@@ -14327,6 +16883,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray reasonCodeArray = getJsonArray(jsonObject, "reasonCode");
         if (reasonCodeArray != null) {
             for (int i = 0; i < reasonCodeArray.size(); i++) {
+                if (reasonCodeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reasonCodeArray.get(i).getValueType() + " for element: reasonCode");
+                }
                 builder.reasonCode(parseCodeableConcept("reasonCode", reasonCodeArray.getJsonObject(i), i));
             }
         }
@@ -14341,6 +16900,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
@@ -14362,6 +16924,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -14373,6 +16938,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray ingredientArray = getJsonArray(jsonObject, "ingredient");
         if (ingredientArray != null) {
             for (int i = 0; i < ingredientArray.size(); i++) {
+                if (ingredientArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + ingredientArray.get(i).getValueType() + " for element: ingredient");
+                }
                 builder.ingredient(parseMedicationIngredient("ingredient", ingredientArray.getJsonObject(i), i));
             }
         }
@@ -14430,6 +16998,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -14443,6 +17014,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray partOfArray = getJsonArray(jsonObject, "partOf");
         if (partOfArray != null) {
             for (int i = 0; i < partOfArray.size(); i++) {
+                if (partOfArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + partOfArray.get(i).getValueType() + " for element: partOf");
+                }
                 builder.partOf(parseReference("partOf", partOfArray.getJsonObject(i), i));
             }
         }
@@ -14450,6 +17024,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray statusReasonArray = getJsonArray(jsonObject, "statusReason");
         if (statusReasonArray != null) {
             for (int i = 0; i < statusReasonArray.size(); i++) {
+                if (statusReasonArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + statusReasonArray.get(i).getValueType() + " for element: statusReason");
+                }
                 builder.statusReason(parseCodeableConcept("statusReason", statusReasonArray.getJsonObject(i), i));
             }
         }
@@ -14460,6 +17037,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray supportingInformationArray = getJsonArray(jsonObject, "supportingInformation");
         if (supportingInformationArray != null) {
             for (int i = 0; i < supportingInformationArray.size(); i++) {
+                if (supportingInformationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + supportingInformationArray.get(i).getValueType() + " for element: supportingInformation");
+                }
                 builder.supportingInformation(parseReference("supportingInformation", supportingInformationArray.getJsonObject(i), i));
             }
         }
@@ -14467,18 +17047,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray performerArray = getJsonArray(jsonObject, "performer");
         if (performerArray != null) {
             for (int i = 0; i < performerArray.size(); i++) {
+                if (performerArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + performerArray.get(i).getValueType() + " for element: performer");
+                }
                 builder.performer(parseMedicationAdministrationPerformer("performer", performerArray.getJsonObject(i), i));
             }
         }
         JsonArray reasonCodeArray = getJsonArray(jsonObject, "reasonCode");
         if (reasonCodeArray != null) {
             for (int i = 0; i < reasonCodeArray.size(); i++) {
+                if (reasonCodeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reasonCodeArray.get(i).getValueType() + " for element: reasonCode");
+                }
                 builder.reasonCode(parseCodeableConcept("reasonCode", reasonCodeArray.getJsonObject(i), i));
             }
         }
         JsonArray reasonReferenceArray = getJsonArray(jsonObject, "reasonReference");
         if (reasonReferenceArray != null) {
             for (int i = 0; i < reasonReferenceArray.size(); i++) {
+                if (reasonReferenceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reasonReferenceArray.get(i).getValueType() + " for element: reasonReference");
+                }
                 builder.reasonReference(parseReference("reasonReference", reasonReferenceArray.getJsonObject(i), i));
             }
         }
@@ -14486,12 +17075,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray deviceArray = getJsonArray(jsonObject, "device");
         if (deviceArray != null) {
             for (int i = 0; i < deviceArray.size(); i++) {
+                if (deviceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + deviceArray.get(i).getValueType() + " for element: device");
+                }
                 builder.device(parseReference("device", deviceArray.getJsonObject(i), i));
             }
         }
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
@@ -14499,6 +17094,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray eventHistoryArray = getJsonArray(jsonObject, "eventHistory");
         if (eventHistoryArray != null) {
             for (int i = 0; i < eventHistoryArray.size(); i++) {
+                if (eventHistoryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + eventHistoryArray.get(i).getValueType() + " for element: eventHistory");
+                }
                 builder.eventHistory(parseReference("eventHistory", eventHistoryArray.getJsonObject(i), i));
             }
         }
@@ -14558,12 +17156,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
         JsonArray partOfArray = getJsonArray(jsonObject, "partOf");
         if (partOfArray != null) {
             for (int i = 0; i < partOfArray.size(); i++) {
+                if (partOfArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + partOfArray.get(i).getValueType() + " for element: partOf");
+                }
                 builder.partOf(parseReference("partOf", partOfArray.getJsonObject(i), i));
             }
         }
@@ -14576,12 +17180,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray supportingInformationArray = getJsonArray(jsonObject, "supportingInformation");
         if (supportingInformationArray != null) {
             for (int i = 0; i < supportingInformationArray.size(); i++) {
+                if (supportingInformationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + supportingInformationArray.get(i).getValueType() + " for element: supportingInformation");
+                }
                 builder.supportingInformation(parseReference("supportingInformation", supportingInformationArray.getJsonObject(i), i));
             }
         }
         JsonArray performerArray = getJsonArray(jsonObject, "performer");
         if (performerArray != null) {
             for (int i = 0; i < performerArray.size(); i++) {
+                if (performerArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + performerArray.get(i).getValueType() + " for element: performer");
+                }
                 builder.performer(parseMedicationDispensePerformer("performer", performerArray.getJsonObject(i), i));
             }
         }
@@ -14589,6 +17199,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray authorizingPrescriptionArray = getJsonArray(jsonObject, "authorizingPrescription");
         if (authorizingPrescriptionArray != null) {
             for (int i = 0; i < authorizingPrescriptionArray.size(); i++) {
+                if (authorizingPrescriptionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + authorizingPrescriptionArray.get(i).getValueType() + " for element: authorizingPrescription");
+                }
                 builder.authorizingPrescription(parseReference("authorizingPrescription", authorizingPrescriptionArray.getJsonObject(i), i));
             }
         }
@@ -14601,18 +17214,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray receiverArray = getJsonArray(jsonObject, "receiver");
         if (receiverArray != null) {
             for (int i = 0; i < receiverArray.size(); i++) {
+                if (receiverArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + receiverArray.get(i).getValueType() + " for element: receiver");
+                }
                 builder.receiver(parseReference("receiver", receiverArray.getJsonObject(i), i));
             }
         }
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
         JsonArray dosageInstructionArray = getJsonArray(jsonObject, "dosageInstruction");
         if (dosageInstructionArray != null) {
             for (int i = 0; i < dosageInstructionArray.size(); i++) {
+                if (dosageInstructionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + dosageInstructionArray.get(i).getValueType() + " for element: dosageInstruction");
+                }
                 builder.dosageInstruction(parseDosage("dosageInstruction", dosageInstructionArray.getJsonObject(i), i));
             }
         }
@@ -14620,12 +17242,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray detectedIssueArray = getJsonArray(jsonObject, "detectedIssue");
         if (detectedIssueArray != null) {
             for (int i = 0; i < detectedIssueArray.size(); i++) {
+                if (detectedIssueArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + detectedIssueArray.get(i).getValueType() + " for element: detectedIssue");
+                }
                 builder.detectedIssue(parseReference("detectedIssue", detectedIssueArray.getJsonObject(i), i));
             }
         }
         JsonArray eventHistoryArray = getJsonArray(jsonObject, "eventHistory");
         if (eventHistoryArray != null) {
             for (int i = 0; i < eventHistoryArray.size(); i++) {
+                if (eventHistoryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + eventHistoryArray.get(i).getValueType() + " for element: eventHistory");
+                }
                 builder.eventHistory(parseReference("eventHistory", eventHistoryArray.getJsonObject(i), i));
             }
         }
@@ -14666,12 +17294,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray reasonArray = getJsonArray(jsonObject, "reason");
         if (reasonArray != null) {
             for (int i = 0; i < reasonArray.size(); i++) {
+                if (reasonArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reasonArray.get(i).getValueType() + " for element: reason");
+                }
                 builder.reason(parseCodeableConcept("reason", reasonArray.getJsonObject(i), i));
             }
         }
         JsonArray responsiblePartyArray = getJsonArray(jsonObject, "responsibleParty");
         if (responsiblePartyArray != null) {
             for (int i = 0; i < responsiblePartyArray.size(); i++) {
+                if (responsiblePartyArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + responsiblePartyArray.get(i).getValueType() + " for element: responsibleParty");
+                }
                 builder.responsibleParty(parseReference("responsibleParty", responsiblePartyArray.getJsonObject(i), i));
             }
         }
@@ -14705,30 +17339,45 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray relatedMedicationKnowledgeArray = getJsonArray(jsonObject, "relatedMedicationKnowledge");
         if (relatedMedicationKnowledgeArray != null) {
             for (int i = 0; i < relatedMedicationKnowledgeArray.size(); i++) {
+                if (relatedMedicationKnowledgeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + relatedMedicationKnowledgeArray.get(i).getValueType() + " for element: relatedMedicationKnowledge");
+                }
                 builder.relatedMedicationKnowledge(parseMedicationKnowledgeRelatedMedicationKnowledge("relatedMedicationKnowledge", relatedMedicationKnowledgeArray.getJsonObject(i), i));
             }
         }
         JsonArray associatedMedicationArray = getJsonArray(jsonObject, "associatedMedication");
         if (associatedMedicationArray != null) {
             for (int i = 0; i < associatedMedicationArray.size(); i++) {
+                if (associatedMedicationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + associatedMedicationArray.get(i).getValueType() + " for element: associatedMedication");
+                }
                 builder.associatedMedication(parseReference("associatedMedication", associatedMedicationArray.getJsonObject(i), i));
             }
         }
         JsonArray productTypeArray = getJsonArray(jsonObject, "productType");
         if (productTypeArray != null) {
             for (int i = 0; i < productTypeArray.size(); i++) {
+                if (productTypeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + productTypeArray.get(i).getValueType() + " for element: productType");
+                }
                 builder.productType(parseCodeableConcept("productType", productTypeArray.getJsonObject(i), i));
             }
         }
         JsonArray monographArray = getJsonArray(jsonObject, "monograph");
         if (monographArray != null) {
             for (int i = 0; i < monographArray.size(); i++) {
+                if (monographArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + monographArray.get(i).getValueType() + " for element: monograph");
+                }
                 builder.monograph(parseMedicationKnowledgeMonograph("monograph", monographArray.getJsonObject(i), i));
             }
         }
         JsonArray ingredientArray = getJsonArray(jsonObject, "ingredient");
         if (ingredientArray != null) {
             for (int i = 0; i < ingredientArray.size(); i++) {
+                if (ingredientArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + ingredientArray.get(i).getValueType() + " for element: ingredient");
+                }
                 builder.ingredient(parseMedicationKnowledgeIngredient("ingredient", ingredientArray.getJsonObject(i), i));
             }
         }
@@ -14736,30 +17385,45 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray intendedRouteArray = getJsonArray(jsonObject, "intendedRoute");
         if (intendedRouteArray != null) {
             for (int i = 0; i < intendedRouteArray.size(); i++) {
+                if (intendedRouteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + intendedRouteArray.get(i).getValueType() + " for element: intendedRoute");
+                }
                 builder.intendedRoute(parseCodeableConcept("intendedRoute", intendedRouteArray.getJsonObject(i), i));
             }
         }
         JsonArray costArray = getJsonArray(jsonObject, "cost");
         if (costArray != null) {
             for (int i = 0; i < costArray.size(); i++) {
+                if (costArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + costArray.get(i).getValueType() + " for element: cost");
+                }
                 builder.cost(parseMedicationKnowledgeCost("cost", costArray.getJsonObject(i), i));
             }
         }
         JsonArray monitoringProgramArray = getJsonArray(jsonObject, "monitoringProgram");
         if (monitoringProgramArray != null) {
             for (int i = 0; i < monitoringProgramArray.size(); i++) {
+                if (monitoringProgramArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + monitoringProgramArray.get(i).getValueType() + " for element: monitoringProgram");
+                }
                 builder.monitoringProgram(parseMedicationKnowledgeMonitoringProgram("monitoringProgram", monitoringProgramArray.getJsonObject(i), i));
             }
         }
         JsonArray administrationGuidelinesArray = getJsonArray(jsonObject, "administrationGuidelines");
         if (administrationGuidelinesArray != null) {
             for (int i = 0; i < administrationGuidelinesArray.size(); i++) {
+                if (administrationGuidelinesArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + administrationGuidelinesArray.get(i).getValueType() + " for element: administrationGuidelines");
+                }
                 builder.administrationGuidelines(parseMedicationKnowledgeAdministrationGuidelines("administrationGuidelines", administrationGuidelinesArray.getJsonObject(i), i));
             }
         }
         JsonArray medicineClassificationArray = getJsonArray(jsonObject, "medicineClassification");
         if (medicineClassificationArray != null) {
             for (int i = 0; i < medicineClassificationArray.size(); i++) {
+                if (medicineClassificationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + medicineClassificationArray.get(i).getValueType() + " for element: medicineClassification");
+                }
                 builder.medicineClassification(parseMedicationKnowledgeMedicineClassification("medicineClassification", medicineClassificationArray.getJsonObject(i), i));
             }
         }
@@ -14767,24 +17431,36 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray drugCharacteristicArray = getJsonArray(jsonObject, "drugCharacteristic");
         if (drugCharacteristicArray != null) {
             for (int i = 0; i < drugCharacteristicArray.size(); i++) {
+                if (drugCharacteristicArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + drugCharacteristicArray.get(i).getValueType() + " for element: drugCharacteristic");
+                }
                 builder.drugCharacteristic(parseMedicationKnowledgeDrugCharacteristic("drugCharacteristic", drugCharacteristicArray.getJsonObject(i), i));
             }
         }
         JsonArray contraindicationArray = getJsonArray(jsonObject, "contraindication");
         if (contraindicationArray != null) {
             for (int i = 0; i < contraindicationArray.size(); i++) {
+                if (contraindicationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contraindicationArray.get(i).getValueType() + " for element: contraindication");
+                }
                 builder.contraindication(parseReference("contraindication", contraindicationArray.getJsonObject(i), i));
             }
         }
         JsonArray regulatoryArray = getJsonArray(jsonObject, "regulatory");
         if (regulatoryArray != null) {
             for (int i = 0; i < regulatoryArray.size(); i++) {
+                if (regulatoryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + regulatoryArray.get(i).getValueType() + " for element: regulatory");
+                }
                 builder.regulatory(parseMedicationKnowledgeRegulatory("regulatory", regulatoryArray.getJsonObject(i), i));
             }
         }
         JsonArray kineticsArray = getJsonArray(jsonObject, "kinetics");
         if (kineticsArray != null) {
             for (int i = 0; i < kineticsArray.size(); i++) {
+                if (kineticsArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + kineticsArray.get(i).getValueType() + " for element: kinetics");
+                }
                 builder.kinetics(parseMedicationKnowledgeKinetics("kinetics", kineticsArray.getJsonObject(i), i));
             }
         }
@@ -14806,6 +17482,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray dosageArray = getJsonArray(jsonObject, "dosage");
         if (dosageArray != null) {
             for (int i = 0; i < dosageArray.size(); i++) {
+                if (dosageArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + dosageArray.get(i).getValueType() + " for element: dosage");
+                }
                 builder.dosage(parseMedicationKnowledgeAdministrationGuidelinesDosage("dosage", dosageArray.getJsonObject(i), i));
             }
         }
@@ -14813,6 +17492,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray patientCharacteristicsArray = getJsonArray(jsonObject, "patientCharacteristics");
         if (patientCharacteristicsArray != null) {
             for (int i = 0; i < patientCharacteristicsArray.size(); i++) {
+                if (patientCharacteristicsArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + patientCharacteristicsArray.get(i).getValueType() + " for element: patientCharacteristics");
+                }
                 builder.patientCharacteristics(parseMedicationKnowledgeAdministrationGuidelinesPatientCharacteristics("patientCharacteristics", patientCharacteristicsArray.getJsonObject(i), i));
             }
         }
@@ -14835,6 +17517,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray dosageArray = getJsonArray(jsonObject, "dosage");
         if (dosageArray != null) {
             for (int i = 0; i < dosageArray.size(); i++) {
+                if (dosageArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + dosageArray.get(i).getValueType() + " for element: dosage");
+                }
                 builder.dosage(parseDosage("dosage", dosageArray.getJsonObject(i), i));
             }
         }
@@ -14932,12 +17617,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray areaUnderCurveArray = getJsonArray(jsonObject, "areaUnderCurve");
         if (areaUnderCurveArray != null) {
             for (int i = 0; i < areaUnderCurveArray.size(); i++) {
+                if (areaUnderCurveArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + areaUnderCurveArray.get(i).getValueType() + " for element: areaUnderCurve");
+                }
                 builder.areaUnderCurve((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "areaUnderCurve", areaUnderCurveArray.getJsonObject(i), i));
             }
         }
         JsonArray lethalDose50Array = getJsonArray(jsonObject, "lethalDose50");
         if (lethalDose50Array != null) {
             for (int i = 0; i < lethalDose50Array.size(); i++) {
+                if (lethalDose50Array.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + lethalDose50Array.get(i).getValueType() + " for element: lethalDose50");
+                }
                 builder.lethalDose50((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "lethalDose50", lethalDose50Array.getJsonObject(i), i));
             }
         }
@@ -14961,6 +17652,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray classificationArray = getJsonArray(jsonObject, "classification");
         if (classificationArray != null) {
             for (int i = 0; i < classificationArray.size(); i++) {
+                if (classificationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + classificationArray.get(i).getValueType() + " for element: classification");
+                }
                 builder.classification(parseCodeableConcept("classification", classificationArray.getJsonObject(i), i));
             }
         }
@@ -15034,12 +17728,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray substitutionArray = getJsonArray(jsonObject, "substitution");
         if (substitutionArray != null) {
             for (int i = 0; i < substitutionArray.size(); i++) {
+                if (substitutionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + substitutionArray.get(i).getValueType() + " for element: substitution");
+                }
                 builder.substitution(parseMedicationKnowledgeRegulatorySubstitution("substitution", substitutionArray.getJsonObject(i), i));
             }
         }
         JsonArray scheduleArray = getJsonArray(jsonObject, "schedule");
         if (scheduleArray != null) {
             for (int i = 0; i < scheduleArray.size(); i++) {
+                if (scheduleArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + scheduleArray.get(i).getValueType() + " for element: schedule");
+                }
                 builder.schedule(parseMedicationKnowledgeRegulatorySchedule("schedule", scheduleArray.getJsonObject(i), i));
             }
         }
@@ -15113,6 +17813,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray referenceArray = getJsonArray(jsonObject, "reference");
         if (referenceArray != null) {
             for (int i = 0; i < referenceArray.size(); i++) {
+                if (referenceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + referenceArray.get(i).getValueType() + " for element: reference");
+                }
                 builder.reference(parseReference("reference", referenceArray.getJsonObject(i), i));
             }
         }
@@ -15134,6 +17837,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -15143,6 +17849,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray categoryArray = getJsonArray(jsonObject, "category");
         if (categoryArray != null) {
             for (int i = 0; i < categoryArray.size(); i++) {
+                if (categoryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + categoryArray.get(i).getValueType() + " for element: category");
+                }
                 builder.category(parseCodeableConcept("category", categoryArray.getJsonObject(i), i));
             }
         }
@@ -15155,6 +17864,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray supportingInformationArray = getJsonArray(jsonObject, "supportingInformation");
         if (supportingInformationArray != null) {
             for (int i = 0; i < supportingInformationArray.size(); i++) {
+                if (supportingInformationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + supportingInformationArray.get(i).getValueType() + " for element: supportingInformation");
+                }
                 builder.supportingInformation(parseReference("supportingInformation", supportingInformationArray.getJsonObject(i), i));
             }
         }
@@ -15166,12 +17878,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray reasonCodeArray = getJsonArray(jsonObject, "reasonCode");
         if (reasonCodeArray != null) {
             for (int i = 0; i < reasonCodeArray.size(); i++) {
+                if (reasonCodeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reasonCodeArray.get(i).getValueType() + " for element: reasonCode");
+                }
                 builder.reasonCode(parseCodeableConcept("reasonCode", reasonCodeArray.getJsonObject(i), i));
             }
         }
         JsonArray reasonReferenceArray = getJsonArray(jsonObject, "reasonReference");
         if (reasonReferenceArray != null) {
             for (int i = 0; i < reasonReferenceArray.size(); i++) {
+                if (reasonReferenceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reasonReferenceArray.get(i).getValueType() + " for element: reasonReference");
+                }
                 builder.reasonReference(parseReference("reasonReference", reasonReferenceArray.getJsonObject(i), i));
             }
         }
@@ -15192,6 +17910,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray basedOnArray = getJsonArray(jsonObject, "basedOn");
         if (basedOnArray != null) {
             for (int i = 0; i < basedOnArray.size(); i++) {
+                if (basedOnArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + basedOnArray.get(i).getValueType() + " for element: basedOn");
+                }
                 builder.basedOn(parseReference("basedOn", basedOnArray.getJsonObject(i), i));
             }
         }
@@ -15200,18 +17921,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray insuranceArray = getJsonArray(jsonObject, "insurance");
         if (insuranceArray != null) {
             for (int i = 0; i < insuranceArray.size(); i++) {
+                if (insuranceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + insuranceArray.get(i).getValueType() + " for element: insurance");
+                }
                 builder.insurance(parseReference("insurance", insuranceArray.getJsonObject(i), i));
             }
         }
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
         JsonArray dosageInstructionArray = getJsonArray(jsonObject, "dosageInstruction");
         if (dosageInstructionArray != null) {
             for (int i = 0; i < dosageInstructionArray.size(); i++) {
+                if (dosageInstructionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + dosageInstructionArray.get(i).getValueType() + " for element: dosageInstruction");
+                }
                 builder.dosageInstruction(parseDosage("dosageInstruction", dosageInstructionArray.getJsonObject(i), i));
             }
         }
@@ -15221,12 +17951,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray detectedIssueArray = getJsonArray(jsonObject, "detectedIssue");
         if (detectedIssueArray != null) {
             for (int i = 0; i < detectedIssueArray.size(); i++) {
+                if (detectedIssueArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + detectedIssueArray.get(i).getValueType() + " for element: detectedIssue");
+                }
                 builder.detectedIssue(parseReference("detectedIssue", detectedIssueArray.getJsonObject(i), i));
             }
         }
         JsonArray eventHistoryArray = getJsonArray(jsonObject, "eventHistory");
         if (eventHistoryArray != null) {
             for (int i = 0; i < eventHistoryArray.size(); i++) {
+                if (eventHistoryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + eventHistoryArray.get(i).getValueType() + " for element: eventHistory");
+                }
                 builder.eventHistory(parseReference("eventHistory", eventHistoryArray.getJsonObject(i), i));
             }
         }
@@ -15304,18 +18040,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
         JsonArray basedOnArray = getJsonArray(jsonObject, "basedOn");
         if (basedOnArray != null) {
             for (int i = 0; i < basedOnArray.size(); i++) {
+                if (basedOnArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + basedOnArray.get(i).getValueType() + " for element: basedOn");
+                }
                 builder.basedOn(parseReference("basedOn", basedOnArray.getJsonObject(i), i));
             }
         }
         JsonArray partOfArray = getJsonArray(jsonObject, "partOf");
         if (partOfArray != null) {
             for (int i = 0; i < partOfArray.size(); i++) {
+                if (partOfArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + partOfArray.get(i).getValueType() + " for element: partOf");
+                }
                 builder.partOf(parseReference("partOf", partOfArray.getJsonObject(i), i));
             }
         }
@@ -15323,6 +18068,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray statusReasonArray = getJsonArray(jsonObject, "statusReason");
         if (statusReasonArray != null) {
             for (int i = 0; i < statusReasonArray.size(); i++) {
+                if (statusReasonArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + statusReasonArray.get(i).getValueType() + " for element: statusReason");
+                }
                 builder.statusReason(parseCodeableConcept("statusReason", statusReasonArray.getJsonObject(i), i));
             }
         }
@@ -15336,30 +18084,45 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray derivedFromArray = getJsonArray(jsonObject, "derivedFrom");
         if (derivedFromArray != null) {
             for (int i = 0; i < derivedFromArray.size(); i++) {
+                if (derivedFromArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + derivedFromArray.get(i).getValueType() + " for element: derivedFrom");
+                }
                 builder.derivedFrom(parseReference("derivedFrom", derivedFromArray.getJsonObject(i), i));
             }
         }
         JsonArray reasonCodeArray = getJsonArray(jsonObject, "reasonCode");
         if (reasonCodeArray != null) {
             for (int i = 0; i < reasonCodeArray.size(); i++) {
+                if (reasonCodeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reasonCodeArray.get(i).getValueType() + " for element: reasonCode");
+                }
                 builder.reasonCode(parseCodeableConcept("reasonCode", reasonCodeArray.getJsonObject(i), i));
             }
         }
         JsonArray reasonReferenceArray = getJsonArray(jsonObject, "reasonReference");
         if (reasonReferenceArray != null) {
             for (int i = 0; i < reasonReferenceArray.size(); i++) {
+                if (reasonReferenceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reasonReferenceArray.get(i).getValueType() + " for element: reasonReference");
+                }
                 builder.reasonReference(parseReference("reasonReference", reasonReferenceArray.getJsonObject(i), i));
             }
         }
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
         JsonArray dosageArray = getJsonArray(jsonObject, "dosage");
         if (dosageArray != null) {
             for (int i = 0; i < dosageArray.size(); i++) {
+                if (dosageArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + dosageArray.get(i).getValueType() + " for element: dosage");
+                }
                 builder.dosage(parseDosage("dosage", dosageArray.getJsonObject(i), i));
             }
         }
@@ -15381,6 +18144,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -15394,6 +18160,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray routeArray = getJsonArray(jsonObject, "route");
         if (routeArray != null) {
             for (int i = 0; i < routeArray.size(); i++) {
+                if (routeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + routeArray.get(i).getValueType() + " for element: route");
+                }
                 builder.route(parseCodeableConcept("route", routeArray.getJsonObject(i), i));
             }
         }
@@ -15403,6 +18172,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray specialMeasuresArray = getJsonArray(jsonObject, "specialMeasures");
         if (specialMeasuresArray != null) {
             for (int i = 0; i < specialMeasuresArray.size(); i++) {
+                if (specialMeasuresArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + specialMeasuresArray.get(i).getValueType() + " for element: specialMeasures");
+                }
                 builder.specialMeasures(parseCodeableConcept("specialMeasures", specialMeasuresArray.getJsonObject(i), i));
             }
         }
@@ -15410,84 +18182,126 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray classificationArray = getJsonArray(jsonObject, "classification");
         if (classificationArray != null) {
             for (int i = 0; i < classificationArray.size(); i++) {
+                if (classificationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + classificationArray.get(i).getValueType() + " for element: classification");
+                }
                 builder.classification(parseCodeableConcept("classification", classificationArray.getJsonObject(i), i));
             }
         }
         JsonArray marketingStatusArray = getJsonArray(jsonObject, "marketingStatus");
         if (marketingStatusArray != null) {
             for (int i = 0; i < marketingStatusArray.size(); i++) {
+                if (marketingStatusArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + marketingStatusArray.get(i).getValueType() + " for element: marketingStatus");
+                }
                 builder.marketingStatus(parseMarketingStatus("marketingStatus", marketingStatusArray.getJsonObject(i), i));
             }
         }
         JsonArray packagedMedicinalProductArray = getJsonArray(jsonObject, "packagedMedicinalProduct");
         if (packagedMedicinalProductArray != null) {
             for (int i = 0; i < packagedMedicinalProductArray.size(); i++) {
+                if (packagedMedicinalProductArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + packagedMedicinalProductArray.get(i).getValueType() + " for element: packagedMedicinalProduct");
+                }
                 builder.packagedMedicinalProduct(parseCodeableConcept("packagedMedicinalProduct", packagedMedicinalProductArray.getJsonObject(i), i));
             }
         }
         JsonArray ingredientArray = getJsonArray(jsonObject, "ingredient");
         if (ingredientArray != null) {
             for (int i = 0; i < ingredientArray.size(); i++) {
+                if (ingredientArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + ingredientArray.get(i).getValueType() + " for element: ingredient");
+                }
                 builder.ingredient(parseCodeableConcept("ingredient", ingredientArray.getJsonObject(i), i));
             }
         }
         JsonArray impurityArray = getJsonArray(jsonObject, "impurity");
         if (impurityArray != null) {
             for (int i = 0; i < impurityArray.size(); i++) {
+                if (impurityArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + impurityArray.get(i).getValueType() + " for element: impurity");
+                }
                 builder.impurity(parseCodeableReference("impurity", impurityArray.getJsonObject(i), i));
             }
         }
         JsonArray attachedDocumentArray = getJsonArray(jsonObject, "attachedDocument");
         if (attachedDocumentArray != null) {
             for (int i = 0; i < attachedDocumentArray.size(); i++) {
+                if (attachedDocumentArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + attachedDocumentArray.get(i).getValueType() + " for element: attachedDocument");
+                }
                 builder.attachedDocument(parseReference("attachedDocument", attachedDocumentArray.getJsonObject(i), i));
             }
         }
         JsonArray masterFileArray = getJsonArray(jsonObject, "masterFile");
         if (masterFileArray != null) {
             for (int i = 0; i < masterFileArray.size(); i++) {
+                if (masterFileArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + masterFileArray.get(i).getValueType() + " for element: masterFile");
+                }
                 builder.masterFile(parseReference("masterFile", masterFileArray.getJsonObject(i), i));
             }
         }
         JsonArray contactArray = getJsonArray(jsonObject, "contact");
         if (contactArray != null) {
             for (int i = 0; i < contactArray.size(); i++) {
+                if (contactArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contactArray.get(i).getValueType() + " for element: contact");
+                }
                 builder.contact(parseMedicinalProductDefinitionContact("contact", contactArray.getJsonObject(i), i));
             }
         }
         JsonArray clinicalTrialArray = getJsonArray(jsonObject, "clinicalTrial");
         if (clinicalTrialArray != null) {
             for (int i = 0; i < clinicalTrialArray.size(); i++) {
+                if (clinicalTrialArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + clinicalTrialArray.get(i).getValueType() + " for element: clinicalTrial");
+                }
                 builder.clinicalTrial(parseReference("clinicalTrial", clinicalTrialArray.getJsonObject(i), i));
             }
         }
         JsonArray codeArray = getJsonArray(jsonObject, "code");
         if (codeArray != null) {
             for (int i = 0; i < codeArray.size(); i++) {
+                if (codeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + codeArray.get(i).getValueType() + " for element: code");
+                }
                 builder.code(parseCoding("code", codeArray.getJsonObject(i), i));
             }
         }
         JsonArray nameArray = getJsonArray(jsonObject, "name");
         if (nameArray != null) {
             for (int i = 0; i < nameArray.size(); i++) {
+                if (nameArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + nameArray.get(i).getValueType() + " for element: name");
+                }
                 builder.name(parseMedicinalProductDefinitionName("name", nameArray.getJsonObject(i), i));
             }
         }
         JsonArray crossReferenceArray = getJsonArray(jsonObject, "crossReference");
         if (crossReferenceArray != null) {
             for (int i = 0; i < crossReferenceArray.size(); i++) {
+                if (crossReferenceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + crossReferenceArray.get(i).getValueType() + " for element: crossReference");
+                }
                 builder.crossReference(parseMedicinalProductDefinitionCrossReference("crossReference", crossReferenceArray.getJsonObject(i), i));
             }
         }
         JsonArray operationArray = getJsonArray(jsonObject, "operation");
         if (operationArray != null) {
             for (int i = 0; i < operationArray.size(); i++) {
+                if (operationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + operationArray.get(i).getValueType() + " for element: operation");
+                }
                 builder.operation(parseMedicinalProductDefinitionOperation("operation", operationArray.getJsonObject(i), i));
             }
         }
         JsonArray characteristicArray = getJsonArray(jsonObject, "characteristic");
         if (characteristicArray != null) {
             for (int i = 0; i < characteristicArray.size(); i++) {
+                if (characteristicArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + characteristicArray.get(i).getValueType() + " for element: characteristic");
+                }
                 builder.characteristic(parseMedicinalProductDefinitionCharacteristic("characteristic", characteristicArray.getJsonObject(i), i));
             }
         }
@@ -15562,12 +18376,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray namePartArray = getJsonArray(jsonObject, "namePart");
         if (namePartArray != null) {
             for (int i = 0; i < namePartArray.size(); i++) {
+                if (namePartArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + namePartArray.get(i).getValueType() + " for element: namePart");
+                }
                 builder.namePart(parseMedicinalProductDefinitionNameNamePart("namePart", namePartArray.getJsonObject(i), i));
             }
         }
         JsonArray countryLanguageArray = getJsonArray(jsonObject, "countryLanguage");
         if (countryLanguageArray != null) {
             for (int i = 0; i < countryLanguageArray.size(); i++) {
+                if (countryLanguageArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + countryLanguageArray.get(i).getValueType() + " for element: countryLanguage");
+                }
                 builder.countryLanguage(parseMedicinalProductDefinitionNameCountryLanguage("countryLanguage", countryLanguageArray.getJsonObject(i), i));
             }
         }
@@ -15626,6 +18446,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray organizationArray = getJsonArray(jsonObject, "organization");
         if (organizationArray != null) {
             for (int i = 0; i < organizationArray.size(); i++) {
+                if (organizationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + organizationArray.get(i).getValueType() + " for element: organization");
+                }
                 builder.organization(parseReference("organization", organizationArray.getJsonObject(i), i));
             }
         }
@@ -15649,6 +18472,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -15669,6 +18495,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray contactArray = getJsonArray(jsonObject, "contact");
         if (contactArray != null) {
             for (int i = 0; i < contactArray.size(); i++) {
+                if (contactArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contactArray.get(i).getValueType() + " for element: contact");
+                }
                 builder.contact(parseContactDetail("contact", contactArray.getJsonObject(i), i));
             }
         }
@@ -15676,12 +18505,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray useContextArray = getJsonArray(jsonObject, "useContext");
         if (useContextArray != null) {
             for (int i = 0; i < useContextArray.size(); i++) {
+                if (useContextArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + useContextArray.get(i).getValueType() + " for element: useContext");
+                }
                 builder.useContext(parseUsageContext("useContext", useContextArray.getJsonObject(i), i));
             }
         }
         JsonArray jurisdictionArray = getJsonArray(jsonObject, "jurisdiction");
         if (jurisdictionArray != null) {
             for (int i = 0; i < jurisdictionArray.size(); i++) {
+                if (jurisdictionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + jurisdictionArray.get(i).getValueType() + " for element: jurisdiction");
+                }
                 builder.jurisdiction(parseCodeableConcept("jurisdiction", jurisdictionArray.getJsonObject(i), i));
             }
         }
@@ -15700,6 +18535,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray focusArray = getJsonArray(jsonObject, "focus");
         if (focusArray != null) {
             for (int i = 0; i < focusArray.size(); i++) {
+                if (focusArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + focusArray.get(i).getValueType() + " for element: focus");
+                }
                 builder.focus(parseMessageDefinitionFocus("focus", focusArray.getJsonObject(i), i));
             }
         }
@@ -15707,6 +18545,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray allowedResponseArray = getJsonArray(jsonObject, "allowedResponse");
         if (allowedResponseArray != null) {
             for (int i = 0; i < allowedResponseArray.size(); i++) {
+                if (allowedResponseArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + allowedResponseArray.get(i).getValueType() + " for element: allowedResponse");
+                }
                 builder.allowedResponse(parseMessageDefinitionAllowedResponse("allowedResponse", allowedResponseArray.getJsonObject(i), i));
             }
         }
@@ -15772,6 +18613,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray destinationArray = getJsonArray(jsonObject, "destination");
         if (destinationArray != null) {
             for (int i = 0; i < destinationArray.size(); i++) {
+                if (destinationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + destinationArray.get(i).getValueType() + " for element: destination");
+                }
                 builder.destination(parseMessageHeaderDestination("destination", destinationArray.getJsonObject(i), i));
             }
         }
@@ -15785,6 +18629,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray focusArray = getJsonArray(jsonObject, "focus");
         if (focusArray != null) {
             for (int i = 0; i < focusArray.size(); i++) {
+                if (focusArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + focusArray.get(i).getValueType() + " for element: focus");
+                }
                 builder.focus(parseReference("focus", focusArray.getJsonObject(i), i));
             }
         }
@@ -15874,12 +18721,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray securityArray = getJsonArray(jsonObject, "security");
         if (securityArray != null) {
             for (int i = 0; i < securityArray.size(); i++) {
+                if (securityArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + securityArray.get(i).getValueType() + " for element: security");
+                }
                 builder.security(parseCoding("security", securityArray.getJsonObject(i), i));
             }
         }
         JsonArray tagArray = getJsonArray(jsonObject, "tag");
         if (tagArray != null) {
             for (int i = 0; i < tagArray.size(); i++) {
+                if (tagArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + tagArray.get(i).getValueType() + " for element: tag");
+                }
                 builder.tag(parseCoding("tag", tagArray.getJsonObject(i), i));
             }
         }
@@ -15901,6 +18754,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -15915,6 +18771,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray variantArray = getJsonArray(jsonObject, "variant");
         if (variantArray != null) {
             for (int i = 0; i < variantArray.size(); i++) {
+                if (variantArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + variantArray.get(i).getValueType() + " for element: variant");
+                }
                 builder.variant(parseMolecularSequenceVariant("variant", variantArray.getJsonObject(i), i));
             }
         }
@@ -15922,6 +18781,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray qualityArray = getJsonArray(jsonObject, "quality");
         if (qualityArray != null) {
             for (int i = 0; i < qualityArray.size(); i++) {
+                if (qualityArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + qualityArray.get(i).getValueType() + " for element: quality");
+                }
                 builder.quality(parseMolecularSequenceQuality("quality", qualityArray.getJsonObject(i), i));
             }
         }
@@ -15929,18 +18791,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray repositoryArray = getJsonArray(jsonObject, "repository");
         if (repositoryArray != null) {
             for (int i = 0; i < repositoryArray.size(); i++) {
+                if (repositoryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + repositoryArray.get(i).getValueType() + " for element: repository");
+                }
                 builder.repository(parseMolecularSequenceRepository("repository", repositoryArray.getJsonObject(i), i));
             }
         }
         JsonArray pointerArray = getJsonArray(jsonObject, "pointer");
         if (pointerArray != null) {
             for (int i = 0; i < pointerArray.size(); i++) {
+                if (pointerArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + pointerArray.get(i).getValueType() + " for element: pointer");
+                }
                 builder.pointer(parseReference("pointer", pointerArray.getJsonObject(i), i));
             }
         }
         JsonArray structureVariantArray = getJsonArray(jsonObject, "structureVariant");
         if (structureVariantArray != null) {
             for (int i = 0; i < structureVariantArray.size(); i++) {
+                if (structureVariantArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + structureVariantArray.get(i).getValueType() + " for element: structureVariant");
+                }
                 builder.structureVariant(parseMolecularSequenceStructureVariant("structureVariant", structureVariantArray.getJsonObject(i), i));
             }
         }
@@ -16198,6 +19069,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray contactArray = getJsonArray(jsonObject, "contact");
         if (contactArray != null) {
             for (int i = 0; i < contactArray.size(); i++) {
+                if (contactArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contactArray.get(i).getValueType() + " for element: contact");
+                }
                 builder.contact(parseContactDetail("contact", contactArray.getJsonObject(i), i));
             }
         }
@@ -16207,12 +19081,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray useContextArray = getJsonArray(jsonObject, "useContext");
         if (useContextArray != null) {
             for (int i = 0; i < useContextArray.size(); i++) {
+                if (useContextArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + useContextArray.get(i).getValueType() + " for element: useContext");
+                }
                 builder.useContext(parseUsageContext("useContext", useContextArray.getJsonObject(i), i));
             }
         }
         JsonArray jurisdictionArray = getJsonArray(jsonObject, "jurisdiction");
         if (jurisdictionArray != null) {
             for (int i = 0; i < jurisdictionArray.size(); i++) {
+                if (jurisdictionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + jurisdictionArray.get(i).getValueType() + " for element: jurisdiction");
+                }
                 builder.jurisdiction(parseCodeableConcept("jurisdiction", jurisdictionArray.getJsonObject(i), i));
             }
         }
@@ -16220,6 +19100,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray uniqueIdArray = getJsonArray(jsonObject, "uniqueId");
         if (uniqueIdArray != null) {
             for (int i = 0; i < uniqueIdArray.size(); i++) {
+                if (uniqueIdArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + uniqueIdArray.get(i).getValueType() + " for element: uniqueId");
+                }
                 builder.uniqueId(parseNamingSystemUniqueId("uniqueId", uniqueIdArray.getJsonObject(i), i));
             }
         }
@@ -16278,6 +19161,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -16311,18 +19197,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray allergyIntoleranceArray = getJsonArray(jsonObject, "allergyIntolerance");
         if (allergyIntoleranceArray != null) {
             for (int i = 0; i < allergyIntoleranceArray.size(); i++) {
+                if (allergyIntoleranceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + allergyIntoleranceArray.get(i).getValueType() + " for element: allergyIntolerance");
+                }
                 builder.allergyIntolerance(parseReference("allergyIntolerance", allergyIntoleranceArray.getJsonObject(i), i));
             }
         }
         JsonArray foodPreferenceModifierArray = getJsonArray(jsonObject, "foodPreferenceModifier");
         if (foodPreferenceModifierArray != null) {
             for (int i = 0; i < foodPreferenceModifierArray.size(); i++) {
+                if (foodPreferenceModifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + foodPreferenceModifierArray.get(i).getValueType() + " for element: foodPreferenceModifier");
+                }
                 builder.foodPreferenceModifier(parseCodeableConcept("foodPreferenceModifier", foodPreferenceModifierArray.getJsonObject(i), i));
             }
         }
         JsonArray excludeFoodModifierArray = getJsonArray(jsonObject, "excludeFoodModifier");
         if (excludeFoodModifierArray != null) {
             for (int i = 0; i < excludeFoodModifierArray.size(); i++) {
+                if (excludeFoodModifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + excludeFoodModifierArray.get(i).getValueType() + " for element: excludeFoodModifier");
+                }
                 builder.excludeFoodModifier(parseCodeableConcept("excludeFoodModifier", excludeFoodModifierArray.getJsonObject(i), i));
             }
         }
@@ -16330,6 +19225,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray supplementArray = getJsonArray(jsonObject, "supplement");
         if (supplementArray != null) {
             for (int i = 0; i < supplementArray.size(); i++) {
+                if (supplementArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + supplementArray.get(i).getValueType() + " for element: supplement");
+                }
                 builder.supplement(parseNutritionOrderSupplement("supplement", supplementArray.getJsonObject(i), i));
             }
         }
@@ -16337,6 +19235,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
@@ -16364,6 +19265,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray administrationArray = getJsonArray(jsonObject, "administration");
         if (administrationArray != null) {
             for (int i = 0; i < administrationArray.size(); i++) {
+                if (administrationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + administrationArray.get(i).getValueType() + " for element: administration");
+                }
                 builder.administration(parseNutritionOrderEnteralFormulaAdministration("administration", administrationArray.getJsonObject(i), i));
             }
         }
@@ -16405,30 +19309,45 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray typeArray = getJsonArray(jsonObject, "type");
         if (typeArray != null) {
             for (int i = 0; i < typeArray.size(); i++) {
+                if (typeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + typeArray.get(i).getValueType() + " for element: type");
+                }
                 builder.type(parseCodeableConcept("type", typeArray.getJsonObject(i), i));
             }
         }
         JsonArray scheduleArray = getJsonArray(jsonObject, "schedule");
         if (scheduleArray != null) {
             for (int i = 0; i < scheduleArray.size(); i++) {
+                if (scheduleArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + scheduleArray.get(i).getValueType() + " for element: schedule");
+                }
                 builder.schedule(parseTiming("schedule", scheduleArray.getJsonObject(i), i));
             }
         }
         JsonArray nutrientArray = getJsonArray(jsonObject, "nutrient");
         if (nutrientArray != null) {
             for (int i = 0; i < nutrientArray.size(); i++) {
+                if (nutrientArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + nutrientArray.get(i).getValueType() + " for element: nutrient");
+                }
                 builder.nutrient(parseNutritionOrderOralDietNutrient("nutrient", nutrientArray.getJsonObject(i), i));
             }
         }
         JsonArray textureArray = getJsonArray(jsonObject, "texture");
         if (textureArray != null) {
             for (int i = 0; i < textureArray.size(); i++) {
+                if (textureArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + textureArray.get(i).getValueType() + " for element: texture");
+                }
                 builder.texture(parseNutritionOrderOralDietTexture("texture", textureArray.getJsonObject(i), i));
             }
         }
         JsonArray fluidConsistencyTypeArray = getJsonArray(jsonObject, "fluidConsistencyType");
         if (fluidConsistencyTypeArray != null) {
             for (int i = 0; i < fluidConsistencyTypeArray.size(); i++) {
+                if (fluidConsistencyTypeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + fluidConsistencyTypeArray.get(i).getValueType() + " for element: fluidConsistencyType");
+                }
                 builder.fluidConsistencyType(parseCodeableConcept("fluidConsistencyType", fluidConsistencyTypeArray.getJsonObject(i), i));
             }
         }
@@ -16487,6 +19406,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray scheduleArray = getJsonArray(jsonObject, "schedule");
         if (scheduleArray != null) {
             for (int i = 0; i < scheduleArray.size(); i++) {
+                if (scheduleArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + scheduleArray.get(i).getValueType() + " for element: schedule");
+                }
                 builder.schedule(parseTiming("schedule", scheduleArray.getJsonObject(i), i));
             }
         }
@@ -16511,6 +19433,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray categoryArray = getJsonArray(jsonObject, "category");
         if (categoryArray != null) {
             for (int i = 0; i < categoryArray.size(); i++) {
+                if (categoryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + categoryArray.get(i).getValueType() + " for element: category");
+                }
                 builder.category(parseCodeableConcept("category", categoryArray.getJsonObject(i), i));
             }
         }
@@ -16518,30 +19443,45 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray manufacturerArray = getJsonArray(jsonObject, "manufacturer");
         if (manufacturerArray != null) {
             for (int i = 0; i < manufacturerArray.size(); i++) {
+                if (manufacturerArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + manufacturerArray.get(i).getValueType() + " for element: manufacturer");
+                }
                 builder.manufacturer(parseReference("manufacturer", manufacturerArray.getJsonObject(i), i));
             }
         }
         JsonArray nutrientArray = getJsonArray(jsonObject, "nutrient");
         if (nutrientArray != null) {
             for (int i = 0; i < nutrientArray.size(); i++) {
+                if (nutrientArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + nutrientArray.get(i).getValueType() + " for element: nutrient");
+                }
                 builder.nutrient(parseNutritionProductNutrient("nutrient", nutrientArray.getJsonObject(i), i));
             }
         }
         JsonArray ingredientArray = getJsonArray(jsonObject, "ingredient");
         if (ingredientArray != null) {
             for (int i = 0; i < ingredientArray.size(); i++) {
+                if (ingredientArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + ingredientArray.get(i).getValueType() + " for element: ingredient");
+                }
                 builder.ingredient(parseNutritionProductIngredient("ingredient", ingredientArray.getJsonObject(i), i));
             }
         }
         JsonArray knownAllergenArray = getJsonArray(jsonObject, "knownAllergen");
         if (knownAllergenArray != null) {
             for (int i = 0; i < knownAllergenArray.size(); i++) {
+                if (knownAllergenArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + knownAllergenArray.get(i).getValueType() + " for element: knownAllergen");
+                }
                 builder.knownAllergen(parseCodeableReference("knownAllergen", knownAllergenArray.getJsonObject(i), i));
             }
         }
         JsonArray productCharacteristicArray = getJsonArray(jsonObject, "productCharacteristic");
         if (productCharacteristicArray != null) {
             for (int i = 0; i < productCharacteristicArray.size(); i++) {
+                if (productCharacteristicArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + productCharacteristicArray.get(i).getValueType() + " for element: productCharacteristic");
+                }
                 builder.productCharacteristic(parseNutritionProductProductCharacteristic("productCharacteristic", productCharacteristicArray.getJsonObject(i), i));
             }
         }
@@ -16549,6 +19489,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
@@ -16571,6 +19514,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray amountArray = getJsonArray(jsonObject, "amount");
         if (amountArray != null) {
             for (int i = 0; i < amountArray.size(); i++) {
+                if (amountArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + amountArray.get(i).getValueType() + " for element: amount");
+                }
                 builder.amount(parseRatio("amount", amountArray.getJsonObject(i), i));
             }
         }
@@ -16593,6 +19539,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -16618,6 +19567,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray amountArray = getJsonArray(jsonObject, "amount");
         if (amountArray != null) {
             for (int i = 0; i < amountArray.size(); i++) {
+                if (amountArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + amountArray.get(i).getValueType() + " for element: amount");
+                }
                 builder.amount(parseRatio("amount", amountArray.getJsonObject(i), i));
             }
         }
@@ -16656,18 +19608,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
         JsonArray basedOnArray = getJsonArray(jsonObject, "basedOn");
         if (basedOnArray != null) {
             for (int i = 0; i < basedOnArray.size(); i++) {
+                if (basedOnArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + basedOnArray.get(i).getValueType() + " for element: basedOn");
+                }
                 builder.basedOn(parseReference("basedOn", basedOnArray.getJsonObject(i), i));
             }
         }
         JsonArray partOfArray = getJsonArray(jsonObject, "partOf");
         if (partOfArray != null) {
             for (int i = 0; i < partOfArray.size(); i++) {
+                if (partOfArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + partOfArray.get(i).getValueType() + " for element: partOf");
+                }
                 builder.partOf(parseReference("partOf", partOfArray.getJsonObject(i), i));
             }
         }
@@ -16675,6 +19636,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray categoryArray = getJsonArray(jsonObject, "category");
         if (categoryArray != null) {
             for (int i = 0; i < categoryArray.size(); i++) {
+                if (categoryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + categoryArray.get(i).getValueType() + " for element: category");
+                }
                 builder.category(parseCodeableConcept("category", categoryArray.getJsonObject(i), i));
             }
         }
@@ -16683,6 +19647,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray focusArray = getJsonArray(jsonObject, "focus");
         if (focusArray != null) {
             for (int i = 0; i < focusArray.size(); i++) {
+                if (focusArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + focusArray.get(i).getValueType() + " for element: focus");
+                }
                 builder.focus(parseReference("focus", focusArray.getJsonObject(i), i));
             }
         }
@@ -16692,6 +19659,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray performerArray = getJsonArray(jsonObject, "performer");
         if (performerArray != null) {
             for (int i = 0; i < performerArray.size(); i++) {
+                if (performerArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + performerArray.get(i).getValueType() + " for element: performer");
+                }
                 builder.performer(parseReference("performer", performerArray.getJsonObject(i), i));
             }
         }
@@ -16700,12 +19670,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray interpretationArray = getJsonArray(jsonObject, "interpretation");
         if (interpretationArray != null) {
             for (int i = 0; i < interpretationArray.size(); i++) {
+                if (interpretationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + interpretationArray.get(i).getValueType() + " for element: interpretation");
+                }
                 builder.interpretation(parseCodeableConcept("interpretation", interpretationArray.getJsonObject(i), i));
             }
         }
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
@@ -16716,24 +19692,36 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray referenceRangeArray = getJsonArray(jsonObject, "referenceRange");
         if (referenceRangeArray != null) {
             for (int i = 0; i < referenceRangeArray.size(); i++) {
+                if (referenceRangeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + referenceRangeArray.get(i).getValueType() + " for element: referenceRange");
+                }
                 builder.referenceRange(parseObservationReferenceRange("referenceRange", referenceRangeArray.getJsonObject(i), i));
             }
         }
         JsonArray hasMemberArray = getJsonArray(jsonObject, "hasMember");
         if (hasMemberArray != null) {
             for (int i = 0; i < hasMemberArray.size(); i++) {
+                if (hasMemberArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + hasMemberArray.get(i).getValueType() + " for element: hasMember");
+                }
                 builder.hasMember(parseReference("hasMember", hasMemberArray.getJsonObject(i), i));
             }
         }
         JsonArray derivedFromArray = getJsonArray(jsonObject, "derivedFrom");
         if (derivedFromArray != null) {
             for (int i = 0; i < derivedFromArray.size(); i++) {
+                if (derivedFromArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + derivedFromArray.get(i).getValueType() + " for element: derivedFrom");
+                }
                 builder.derivedFrom(parseReference("derivedFrom", derivedFromArray.getJsonObject(i), i));
             }
         }
         JsonArray componentArray = getJsonArray(jsonObject, "component");
         if (componentArray != null) {
             for (int i = 0; i < componentArray.size(); i++) {
+                if (componentArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + componentArray.get(i).getValueType() + " for element: component");
+                }
                 builder.component(parseObservationComponent("component", componentArray.getJsonObject(i), i));
             }
         }
@@ -16758,12 +19746,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray interpretationArray = getJsonArray(jsonObject, "interpretation");
         if (interpretationArray != null) {
             for (int i = 0; i < interpretationArray.size(); i++) {
+                if (interpretationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + interpretationArray.get(i).getValueType() + " for element: interpretation");
+                }
                 builder.interpretation(parseCodeableConcept("interpretation", interpretationArray.getJsonObject(i), i));
             }
         }
         JsonArray referenceRangeArray = getJsonArray(jsonObject, "referenceRange");
         if (referenceRangeArray != null) {
             for (int i = 0; i < referenceRangeArray.size(); i++) {
+                if (referenceRangeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + referenceRangeArray.get(i).getValueType() + " for element: referenceRange");
+                }
                 builder.referenceRange(parseObservationReferenceRange("referenceRange", referenceRangeArray.getJsonObject(i), i));
             }
         }
@@ -16788,6 +19782,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray appliesToArray = getJsonArray(jsonObject, "appliesTo");
         if (appliesToArray != null) {
             for (int i = 0; i < appliesToArray.size(); i++) {
+                if (appliesToArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + appliesToArray.get(i).getValueType() + " for element: appliesTo");
+                }
                 builder.appliesTo(parseCodeableConcept("appliesTo", appliesToArray.getJsonObject(i), i));
             }
         }
@@ -16811,6 +19808,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray categoryArray = getJsonArray(jsonObject, "category");
         if (categoryArray != null) {
             for (int i = 0; i < categoryArray.size(); i++) {
+                if (categoryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + categoryArray.get(i).getValueType() + " for element: category");
+                }
                 builder.category(parseCodeableConcept("category", categoryArray.getJsonObject(i), i));
             }
         }
@@ -16818,6 +19818,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -16825,6 +19828,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (permittedDataTypeArray != null) {
             JsonArray _permittedDataTypeArray = jsonObject.getJsonArray("_permittedDataType");
             for (int i = 0; i < permittedDataTypeArray.size(); i++) {
+                if (permittedDataTypeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + permittedDataTypeArray.get(i).getValueType() + " for element: permittedDataType");
+                }
                 builder.permittedDataType((ObservationDataType) parseString(ObservationDataType.builder(), "permittedDataType", permittedDataTypeArray.get(i), getJsonValue(_permittedDataTypeArray, i), i));
             }
         }
@@ -16835,6 +19841,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray qualifiedIntervalArray = getJsonArray(jsonObject, "qualifiedInterval");
         if (qualifiedIntervalArray != null) {
             for (int i = 0; i < qualifiedIntervalArray.size(); i++) {
+                if (qualifiedIntervalArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + qualifiedIntervalArray.get(i).getValueType() + " for element: qualifiedInterval");
+                }
                 builder.qualifiedInterval(parseObservationDefinitionQualifiedInterval("qualifiedInterval", qualifiedIntervalArray.getJsonObject(i), i));
             }
         }
@@ -16863,6 +19872,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray appliesToArray = getJsonArray(jsonObject, "appliesTo");
         if (appliesToArray != null) {
             for (int i = 0; i < appliesToArray.size(); i++) {
+                if (appliesToArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + appliesToArray.get(i).getValueType() + " for element: appliesTo");
+                }
                 builder.appliesTo(parseCodeableConcept("appliesTo", appliesToArray.getJsonObject(i), i));
             }
         }
@@ -16916,6 +19928,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray contactArray = getJsonArray(jsonObject, "contact");
         if (contactArray != null) {
             for (int i = 0; i < contactArray.size(); i++) {
+                if (contactArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contactArray.get(i).getValueType() + " for element: contact");
+                }
                 builder.contact(parseContactDetail("contact", contactArray.getJsonObject(i), i));
             }
         }
@@ -16923,12 +19938,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray useContextArray = getJsonArray(jsonObject, "useContext");
         if (useContextArray != null) {
             for (int i = 0; i < useContextArray.size(); i++) {
+                if (useContextArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + useContextArray.get(i).getValueType() + " for element: useContext");
+                }
                 builder.useContext(parseUsageContext("useContext", useContextArray.getJsonObject(i), i));
             }
         }
         JsonArray jurisdictionArray = getJsonArray(jsonObject, "jurisdiction");
         if (jurisdictionArray != null) {
             for (int i = 0; i < jurisdictionArray.size(); i++) {
+                if (jurisdictionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + jurisdictionArray.get(i).getValueType() + " for element: jurisdiction");
+                }
                 builder.jurisdiction(parseCodeableConcept("jurisdiction", jurisdictionArray.getJsonObject(i), i));
             }
         }
@@ -16941,6 +19962,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (resourceArray != null) {
             JsonArray _resourceArray = jsonObject.getJsonArray("_resource");
             for (int i = 0; i < resourceArray.size(); i++) {
+                if (resourceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + resourceArray.get(i).getValueType() + " for element: resource");
+                }
                 builder.resource((ResourceType) parseString(ResourceType.builder(), "resource", resourceArray.get(i), getJsonValue(_resourceArray, i), i));
             }
         }
@@ -16952,12 +19976,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray parameterArray = getJsonArray(jsonObject, "parameter");
         if (parameterArray != null) {
             for (int i = 0; i < parameterArray.size(); i++) {
+                if (parameterArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + parameterArray.get(i).getValueType() + " for element: parameter");
+                }
                 builder.parameter(parseOperationDefinitionParameter("parameter", parameterArray.getJsonObject(i), i));
             }
         }
         JsonArray overloadArray = getJsonArray(jsonObject, "overload");
         if (overloadArray != null) {
             for (int i = 0; i < overloadArray.size(); i++) {
+                if (overloadArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + overloadArray.get(i).getValueType() + " for element: overload");
+                }
                 builder.overload(parseOperationDefinitionOverload("overload", overloadArray.getJsonObject(i), i));
             }
         }
@@ -17017,12 +20047,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray referencedFromArray = getJsonArray(jsonObject, "referencedFrom");
         if (referencedFromArray != null) {
             for (int i = 0; i < referencedFromArray.size(); i++) {
+                if (referencedFromArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + referencedFromArray.get(i).getValueType() + " for element: referencedFrom");
+                }
                 builder.referencedFrom(parseOperationDefinitionParameterReferencedFrom("referencedFrom", referencedFromArray.getJsonObject(i), i));
             }
         }
         JsonArray partArray = getJsonArray(jsonObject, "part");
         if (partArray != null) {
             for (int i = 0; i < partArray.size(); i++) {
+                if (partArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + partArray.get(i).getValueType() + " for element: part");
+                }
                 builder.part(parseOperationDefinitionParameter("part", partArray.getJsonObject(i), i));
             }
         }
@@ -17078,6 +20114,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray issueArray = getJsonArray(jsonObject, "issue");
         if (issueArray != null) {
             for (int i = 0; i < issueArray.size(); i++) {
+                if (issueArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + issueArray.get(i).getValueType() + " for element: issue");
+                }
                 builder.issue(parseOperationOutcomeIssue("issue", issueArray.getJsonObject(i), i));
             }
         }
@@ -17132,6 +20171,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -17139,6 +20181,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray typeArray = getJsonArray(jsonObject, "type");
         if (typeArray != null) {
             for (int i = 0; i < typeArray.size(); i++) {
+                if (typeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + typeArray.get(i).getValueType() + " for element: type");
+                }
                 builder.type(parseCodeableConcept("type", typeArray.getJsonObject(i), i));
             }
         }
@@ -17153,12 +20198,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray telecomArray = getJsonArray(jsonObject, "telecom");
         if (telecomArray != null) {
             for (int i = 0; i < telecomArray.size(); i++) {
+                if (telecomArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + telecomArray.get(i).getValueType() + " for element: telecom");
+                }
                 builder.telecom(parseContactPoint("telecom", telecomArray.getJsonObject(i), i));
             }
         }
         JsonArray addressArray = getJsonArray(jsonObject, "address");
         if (addressArray != null) {
             for (int i = 0; i < addressArray.size(); i++) {
+                if (addressArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + addressArray.get(i).getValueType() + " for element: address");
+                }
                 builder.address(parseAddress("address", addressArray.getJsonObject(i), i));
             }
         }
@@ -17166,12 +20217,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray contactArray = getJsonArray(jsonObject, "contact");
         if (contactArray != null) {
             for (int i = 0; i < contactArray.size(); i++) {
+                if (contactArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contactArray.get(i).getValueType() + " for element: contact");
+                }
                 builder.contact(parseOrganizationContact("contact", contactArray.getJsonObject(i), i));
             }
         }
         JsonArray endpointArray = getJsonArray(jsonObject, "endpoint");
         if (endpointArray != null) {
             for (int i = 0; i < endpointArray.size(); i++) {
+                if (endpointArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + endpointArray.get(i).getValueType() + " for element: endpoint");
+                }
                 builder.endpoint(parseReference("endpoint", endpointArray.getJsonObject(i), i));
             }
         }
@@ -17195,6 +20252,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray telecomArray = getJsonArray(jsonObject, "telecom");
         if (telecomArray != null) {
             for (int i = 0; i < telecomArray.size(); i++) {
+                if (telecomArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + telecomArray.get(i).getValueType() + " for element: telecom");
+                }
                 builder.telecom(parseContactPoint("telecom", telecomArray.getJsonObject(i), i));
             }
         }
@@ -17217,6 +20277,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -17227,42 +20290,63 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray networkArray = getJsonArray(jsonObject, "network");
         if (networkArray != null) {
             for (int i = 0; i < networkArray.size(); i++) {
+                if (networkArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + networkArray.get(i).getValueType() + " for element: network");
+                }
                 builder.network(parseReference("network", networkArray.getJsonObject(i), i));
             }
         }
         JsonArray codeArray = getJsonArray(jsonObject, "code");
         if (codeArray != null) {
             for (int i = 0; i < codeArray.size(); i++) {
+                if (codeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + codeArray.get(i).getValueType() + " for element: code");
+                }
                 builder.code(parseCodeableConcept("code", codeArray.getJsonObject(i), i));
             }
         }
         JsonArray specialtyArray = getJsonArray(jsonObject, "specialty");
         if (specialtyArray != null) {
             for (int i = 0; i < specialtyArray.size(); i++) {
+                if (specialtyArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + specialtyArray.get(i).getValueType() + " for element: specialty");
+                }
                 builder.specialty(parseCodeableConcept("specialty", specialtyArray.getJsonObject(i), i));
             }
         }
         JsonArray locationArray = getJsonArray(jsonObject, "location");
         if (locationArray != null) {
             for (int i = 0; i < locationArray.size(); i++) {
+                if (locationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + locationArray.get(i).getValueType() + " for element: location");
+                }
                 builder.location(parseReference("location", locationArray.getJsonObject(i), i));
             }
         }
         JsonArray healthcareServiceArray = getJsonArray(jsonObject, "healthcareService");
         if (healthcareServiceArray != null) {
             for (int i = 0; i < healthcareServiceArray.size(); i++) {
+                if (healthcareServiceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + healthcareServiceArray.get(i).getValueType() + " for element: healthcareService");
+                }
                 builder.healthcareService(parseReference("healthcareService", healthcareServiceArray.getJsonObject(i), i));
             }
         }
         JsonArray telecomArray = getJsonArray(jsonObject, "telecom");
         if (telecomArray != null) {
             for (int i = 0; i < telecomArray.size(); i++) {
+                if (telecomArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + telecomArray.get(i).getValueType() + " for element: telecom");
+                }
                 builder.telecom(parseContactPoint("telecom", telecomArray.getJsonObject(i), i));
             }
         }
         JsonArray endpointArray = getJsonArray(jsonObject, "endpoint");
         if (endpointArray != null) {
             for (int i = 0; i < endpointArray.size(); i++) {
+                if (endpointArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + endpointArray.get(i).getValueType() + " for element: endpoint");
+                }
                 builder.endpoint(parseReference("endpoint", endpointArray.getJsonObject(i), i));
             }
         }
@@ -17284,6 +20368,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -17292,6 +20379,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray packageForArray = getJsonArray(jsonObject, "packageFor");
         if (packageForArray != null) {
             for (int i = 0; i < packageForArray.size(); i++) {
+                if (packageForArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + packageForArray.get(i).getValueType() + " for element: packageFor");
+                }
                 builder.packageFor(parseReference("packageFor", packageForArray.getJsonObject(i), i));
             }
         }
@@ -17300,6 +20390,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray containedItemQuantityArray = getJsonArray(jsonObject, "containedItemQuantity");
         if (containedItemQuantityArray != null) {
             for (int i = 0; i < containedItemQuantityArray.size(); i++) {
+                if (containedItemQuantityArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + containedItemQuantityArray.get(i).getValueType() + " for element: containedItemQuantity");
+                }
                 builder.containedItemQuantity(parseQuantity("containedItemQuantity", containedItemQuantityArray.getJsonObject(i), i));
             }
         }
@@ -17307,18 +20400,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray legalStatusOfSupplyArray = getJsonArray(jsonObject, "legalStatusOfSupply");
         if (legalStatusOfSupplyArray != null) {
             for (int i = 0; i < legalStatusOfSupplyArray.size(); i++) {
+                if (legalStatusOfSupplyArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + legalStatusOfSupplyArray.get(i).getValueType() + " for element: legalStatusOfSupply");
+                }
                 builder.legalStatusOfSupply(parsePackagedProductDefinitionLegalStatusOfSupply("legalStatusOfSupply", legalStatusOfSupplyArray.getJsonObject(i), i));
             }
         }
         JsonArray marketingStatusArray = getJsonArray(jsonObject, "marketingStatus");
         if (marketingStatusArray != null) {
             for (int i = 0; i < marketingStatusArray.size(); i++) {
+                if (marketingStatusArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + marketingStatusArray.get(i).getValueType() + " for element: marketingStatus");
+                }
                 builder.marketingStatus(parseMarketingStatus("marketingStatus", marketingStatusArray.getJsonObject(i), i));
             }
         }
         JsonArray characteristicArray = getJsonArray(jsonObject, "characteristic");
         if (characteristicArray != null) {
             for (int i = 0; i < characteristicArray.size(); i++) {
+                if (characteristicArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + characteristicArray.get(i).getValueType() + " for element: characteristic");
+                }
                 builder.characteristic(parseCodeableConcept("characteristic", characteristicArray.getJsonObject(i), i));
             }
         }
@@ -17326,6 +20428,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray manufacturerArray = getJsonArray(jsonObject, "manufacturer");
         if (manufacturerArray != null) {
             for (int i = 0; i < manufacturerArray.size(); i++) {
+                if (manufacturerArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + manufacturerArray.get(i).getValueType() + " for element: manufacturer");
+                }
                 builder.manufacturer(parseReference("manufacturer", manufacturerArray.getJsonObject(i), i));
             }
         }
@@ -17365,6 +20470,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -17373,42 +20481,63 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray materialArray = getJsonArray(jsonObject, "material");
         if (materialArray != null) {
             for (int i = 0; i < materialArray.size(); i++) {
+                if (materialArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + materialArray.get(i).getValueType() + " for element: material");
+                }
                 builder.material(parseCodeableConcept("material", materialArray.getJsonObject(i), i));
             }
         }
         JsonArray alternateMaterialArray = getJsonArray(jsonObject, "alternateMaterial");
         if (alternateMaterialArray != null) {
             for (int i = 0; i < alternateMaterialArray.size(); i++) {
+                if (alternateMaterialArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + alternateMaterialArray.get(i).getValueType() + " for element: alternateMaterial");
+                }
                 builder.alternateMaterial(parseCodeableConcept("alternateMaterial", alternateMaterialArray.getJsonObject(i), i));
             }
         }
         JsonArray shelfLifeStorageArray = getJsonArray(jsonObject, "shelfLifeStorage");
         if (shelfLifeStorageArray != null) {
             for (int i = 0; i < shelfLifeStorageArray.size(); i++) {
+                if (shelfLifeStorageArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + shelfLifeStorageArray.get(i).getValueType() + " for element: shelfLifeStorage");
+                }
                 builder.shelfLifeStorage(parseProductShelfLife("shelfLifeStorage", shelfLifeStorageArray.getJsonObject(i), i));
             }
         }
         JsonArray manufacturerArray = getJsonArray(jsonObject, "manufacturer");
         if (manufacturerArray != null) {
             for (int i = 0; i < manufacturerArray.size(); i++) {
+                if (manufacturerArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + manufacturerArray.get(i).getValueType() + " for element: manufacturer");
+                }
                 builder.manufacturer(parseReference("manufacturer", manufacturerArray.getJsonObject(i), i));
             }
         }
         JsonArray propertyArray = getJsonArray(jsonObject, "property");
         if (propertyArray != null) {
             for (int i = 0; i < propertyArray.size(); i++) {
+                if (propertyArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + propertyArray.get(i).getValueType() + " for element: property");
+                }
                 builder.property(parsePackagedProductDefinitionPackageProperty("property", propertyArray.getJsonObject(i), i));
             }
         }
         JsonArray containedItemArray = getJsonArray(jsonObject, "containedItem");
         if (containedItemArray != null) {
             for (int i = 0; i < containedItemArray.size(); i++) {
+                if (containedItemArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + containedItemArray.get(i).getValueType() + " for element: containedItem");
+                }
                 builder.containedItem(parsePackagedProductDefinitionPackageContainedItem("containedItem", containedItemArray.getJsonObject(i), i));
             }
         }
         JsonArray packageArray = getJsonArray(jsonObject, "package");
         if (packageArray != null) {
             for (int i = 0; i < packageArray.size(); i++) {
+                if (packageArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + packageArray.get(i).getValueType() + " for element: package");
+                }
                 builder._package(parsePackagedProductDefinitionPackage("package", packageArray.getJsonObject(i), i));
             }
         }
@@ -17486,6 +20615,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray parameterArray = getJsonArray(jsonObject, "parameter");
         if (parameterArray != null) {
             for (int i = 0; i < parameterArray.size(); i++) {
+                if (parameterArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + parameterArray.get(i).getValueType() + " for element: parameter");
+                }
                 builder.parameter(parseParametersParameter("parameter", parameterArray.getJsonObject(i), i));
             }
         }
@@ -17510,6 +20642,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray partArray = getJsonArray(jsonObject, "part");
         if (partArray != null) {
             for (int i = 0; i < partArray.size(); i++) {
+                if (partArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + partArray.get(i).getValueType() + " for element: part");
+                }
                 builder.part(parseParametersParameter("part", partArray.getJsonObject(i), i));
             }
         }
@@ -17531,6 +20666,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -17538,12 +20676,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray nameArray = getJsonArray(jsonObject, "name");
         if (nameArray != null) {
             for (int i = 0; i < nameArray.size(); i++) {
+                if (nameArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + nameArray.get(i).getValueType() + " for element: name");
+                }
                 builder.name(parseHumanName("name", nameArray.getJsonObject(i), i));
             }
         }
         JsonArray telecomArray = getJsonArray(jsonObject, "telecom");
         if (telecomArray != null) {
             for (int i = 0; i < telecomArray.size(); i++) {
+                if (telecomArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + telecomArray.get(i).getValueType() + " for element: telecom");
+                }
                 builder.telecom(parseContactPoint("telecom", telecomArray.getJsonObject(i), i));
             }
         }
@@ -17553,6 +20697,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray addressArray = getJsonArray(jsonObject, "address");
         if (addressArray != null) {
             for (int i = 0; i < addressArray.size(); i++) {
+                if (addressArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + addressArray.get(i).getValueType() + " for element: address");
+                }
                 builder.address(parseAddress("address", addressArray.getJsonObject(i), i));
             }
         }
@@ -17561,24 +20708,36 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray photoArray = getJsonArray(jsonObject, "photo");
         if (photoArray != null) {
             for (int i = 0; i < photoArray.size(); i++) {
+                if (photoArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + photoArray.get(i).getValueType() + " for element: photo");
+                }
                 builder.photo(parseAttachment("photo", photoArray.getJsonObject(i), i));
             }
         }
         JsonArray contactArray = getJsonArray(jsonObject, "contact");
         if (contactArray != null) {
             for (int i = 0; i < contactArray.size(); i++) {
+                if (contactArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contactArray.get(i).getValueType() + " for element: contact");
+                }
                 builder.contact(parsePatientContact("contact", contactArray.getJsonObject(i), i));
             }
         }
         JsonArray communicationArray = getJsonArray(jsonObject, "communication");
         if (communicationArray != null) {
             for (int i = 0; i < communicationArray.size(); i++) {
+                if (communicationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + communicationArray.get(i).getValueType() + " for element: communication");
+                }
                 builder.communication(parsePatientCommunication("communication", communicationArray.getJsonObject(i), i));
             }
         }
         JsonArray generalPractitionerArray = getJsonArray(jsonObject, "generalPractitioner");
         if (generalPractitionerArray != null) {
             for (int i = 0; i < generalPractitionerArray.size(); i++) {
+                if (generalPractitionerArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + generalPractitionerArray.get(i).getValueType() + " for element: generalPractitioner");
+                }
                 builder.generalPractitioner(parseReference("generalPractitioner", generalPractitionerArray.getJsonObject(i), i));
             }
         }
@@ -17586,6 +20745,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray linkArray = getJsonArray(jsonObject, "link");
         if (linkArray != null) {
             for (int i = 0; i < linkArray.size(); i++) {
+                if (linkArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + linkArray.get(i).getValueType() + " for element: link");
+                }
                 builder.link(parsePatientLink("link", linkArray.getJsonObject(i), i));
             }
         }
@@ -17624,6 +20786,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray relationshipArray = getJsonArray(jsonObject, "relationship");
         if (relationshipArray != null) {
             for (int i = 0; i < relationshipArray.size(); i++) {
+                if (relationshipArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + relationshipArray.get(i).getValueType() + " for element: relationship");
+                }
                 builder.relationship(parseCodeableConcept("relationship", relationshipArray.getJsonObject(i), i));
             }
         }
@@ -17631,6 +20796,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray telecomArray = getJsonArray(jsonObject, "telecom");
         if (telecomArray != null) {
             for (int i = 0; i < telecomArray.size(); i++) {
+                if (telecomArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + telecomArray.get(i).getValueType() + " for element: telecom");
+                }
                 builder.telecom(parseContactPoint("telecom", telecomArray.getJsonObject(i), i));
             }
         }
@@ -17673,6 +20841,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -17705,6 +20876,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -17722,6 +20896,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray detailArray = getJsonArray(jsonObject, "detail");
         if (detailArray != null) {
             for (int i = 0; i < detailArray.size(); i++) {
+                if (detailArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + detailArray.get(i).getValueType() + " for element: detail");
+                }
                 builder.detail(parsePaymentReconciliationDetail("detail", detailArray.getJsonObject(i), i));
             }
         }
@@ -17729,6 +20906,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray processNoteArray = getJsonArray(jsonObject, "processNote");
         if (processNoteArray != null) {
             for (int i = 0; i < processNoteArray.size(); i++) {
+                if (processNoteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + processNoteArray.get(i).getValueType() + " for element: processNote");
+                }
                 builder.processNote(parsePaymentReconciliationProcessNote("processNote", processNoteArray.getJsonObject(i), i));
             }
         }
@@ -17809,18 +20989,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
         JsonArray nameArray = getJsonArray(jsonObject, "name");
         if (nameArray != null) {
             for (int i = 0; i < nameArray.size(); i++) {
+                if (nameArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + nameArray.get(i).getValueType() + " for element: name");
+                }
                 builder.name(parseHumanName("name", nameArray.getJsonObject(i), i));
             }
         }
         JsonArray telecomArray = getJsonArray(jsonObject, "telecom");
         if (telecomArray != null) {
             for (int i = 0; i < telecomArray.size(); i++) {
+                if (telecomArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + telecomArray.get(i).getValueType() + " for element: telecom");
+                }
                 builder.telecom(parseContactPoint("telecom", telecomArray.getJsonObject(i), i));
             }
         }
@@ -17829,6 +21018,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray addressArray = getJsonArray(jsonObject, "address");
         if (addressArray != null) {
             for (int i = 0; i < addressArray.size(); i++) {
+                if (addressArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + addressArray.get(i).getValueType() + " for element: address");
+                }
                 builder.address(parseAddress("address", addressArray.getJsonObject(i), i));
             }
         }
@@ -17838,6 +21030,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray linkArray = getJsonArray(jsonObject, "link");
         if (linkArray != null) {
             for (int i = 0; i < linkArray.size(); i++) {
+                if (linkArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + linkArray.get(i).getValueType() + " for element: link");
+                }
                 builder.link(parsePersonLink("link", linkArray.getJsonObject(i), i));
             }
         }
@@ -17877,6 +21072,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -17893,6 +21091,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray contactArray = getJsonArray(jsonObject, "contact");
         if (contactArray != null) {
             for (int i = 0; i < contactArray.size(); i++) {
+                if (contactArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contactArray.get(i).getValueType() + " for element: contact");
+                }
                 builder.contact(parseContactDetail("contact", contactArray.getJsonObject(i), i));
             }
         }
@@ -17900,12 +21101,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray useContextArray = getJsonArray(jsonObject, "useContext");
         if (useContextArray != null) {
             for (int i = 0; i < useContextArray.size(); i++) {
+                if (useContextArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + useContextArray.get(i).getValueType() + " for element: useContext");
+                }
                 builder.useContext(parseUsageContext("useContext", useContextArray.getJsonObject(i), i));
             }
         }
         JsonArray jurisdictionArray = getJsonArray(jsonObject, "jurisdiction");
         if (jurisdictionArray != null) {
             for (int i = 0; i < jurisdictionArray.size(); i++) {
+                if (jurisdictionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + jurisdictionArray.get(i).getValueType() + " for element: jurisdiction");
+                }
                 builder.jurisdiction(parseCodeableConcept("jurisdiction", jurisdictionArray.getJsonObject(i), i));
             }
         }
@@ -17918,36 +21125,54 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray topicArray = getJsonArray(jsonObject, "topic");
         if (topicArray != null) {
             for (int i = 0; i < topicArray.size(); i++) {
+                if (topicArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + topicArray.get(i).getValueType() + " for element: topic");
+                }
                 builder.topic(parseCodeableConcept("topic", topicArray.getJsonObject(i), i));
             }
         }
         JsonArray authorArray = getJsonArray(jsonObject, "author");
         if (authorArray != null) {
             for (int i = 0; i < authorArray.size(); i++) {
+                if (authorArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + authorArray.get(i).getValueType() + " for element: author");
+                }
                 builder.author(parseContactDetail("author", authorArray.getJsonObject(i), i));
             }
         }
         JsonArray editorArray = getJsonArray(jsonObject, "editor");
         if (editorArray != null) {
             for (int i = 0; i < editorArray.size(); i++) {
+                if (editorArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + editorArray.get(i).getValueType() + " for element: editor");
+                }
                 builder.editor(parseContactDetail("editor", editorArray.getJsonObject(i), i));
             }
         }
         JsonArray reviewerArray = getJsonArray(jsonObject, "reviewer");
         if (reviewerArray != null) {
             for (int i = 0; i < reviewerArray.size(); i++) {
+                if (reviewerArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reviewerArray.get(i).getValueType() + " for element: reviewer");
+                }
                 builder.reviewer(parseContactDetail("reviewer", reviewerArray.getJsonObject(i), i));
             }
         }
         JsonArray endorserArray = getJsonArray(jsonObject, "endorser");
         if (endorserArray != null) {
             for (int i = 0; i < endorserArray.size(); i++) {
+                if (endorserArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + endorserArray.get(i).getValueType() + " for element: endorser");
+                }
                 builder.endorser(parseContactDetail("endorser", endorserArray.getJsonObject(i), i));
             }
         }
         JsonArray relatedArtifactArray = getJsonArray(jsonObject, "relatedArtifact");
         if (relatedArtifactArray != null) {
             for (int i = 0; i < relatedArtifactArray.size(); i++) {
+                if (relatedArtifactArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + relatedArtifactArray.get(i).getValueType() + " for element: relatedArtifact");
+                }
                 builder.relatedArtifact(parseRelatedArtifact("relatedArtifact", relatedArtifactArray.getJsonObject(i), i));
             }
         }
@@ -17961,12 +21186,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray goalArray = getJsonArray(jsonObject, "goal");
         if (goalArray != null) {
             for (int i = 0; i < goalArray.size(); i++) {
+                if (goalArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + goalArray.get(i).getValueType() + " for element: goal");
+                }
                 builder.goal(parsePlanDefinitionGoal("goal", goalArray.getJsonObject(i), i));
             }
         }
         JsonArray actionArray = getJsonArray(jsonObject, "action");
         if (actionArray != null) {
             for (int i = 0; i < actionArray.size(); i++) {
+                if (actionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + actionArray.get(i).getValueType() + " for element: action");
+                }
                 builder.action(parsePlanDefinitionAction("action", actionArray.getJsonObject(i), i));
             }
         }
@@ -17993,18 +21224,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray codeArray = getJsonArray(jsonObject, "code");
         if (codeArray != null) {
             for (int i = 0; i < codeArray.size(); i++) {
+                if (codeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + codeArray.get(i).getValueType() + " for element: code");
+                }
                 builder.code(parseCodeableConcept("code", codeArray.getJsonObject(i), i));
             }
         }
         JsonArray reasonArray = getJsonArray(jsonObject, "reason");
         if (reasonArray != null) {
             for (int i = 0; i < reasonArray.size(); i++) {
+                if (reasonArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reasonArray.get(i).getValueType() + " for element: reason");
+                }
                 builder.reason(parseCodeableConcept("reason", reasonArray.getJsonObject(i), i));
             }
         }
         JsonArray documentationArray = getJsonArray(jsonObject, "documentation");
         if (documentationArray != null) {
             for (int i = 0; i < documentationArray.size(); i++) {
+                if (documentationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + documentationArray.get(i).getValueType() + " for element: documentation");
+                }
                 builder.documentation(parseRelatedArtifact("documentation", documentationArray.getJsonObject(i), i));
             }
         }
@@ -18019,30 +21259,45 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray triggerArray = getJsonArray(jsonObject, "trigger");
         if (triggerArray != null) {
             for (int i = 0; i < triggerArray.size(); i++) {
+                if (triggerArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + triggerArray.get(i).getValueType() + " for element: trigger");
+                }
                 builder.trigger(parseTriggerDefinition("trigger", triggerArray.getJsonObject(i), i));
             }
         }
         JsonArray conditionArray = getJsonArray(jsonObject, "condition");
         if (conditionArray != null) {
             for (int i = 0; i < conditionArray.size(); i++) {
+                if (conditionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + conditionArray.get(i).getValueType() + " for element: condition");
+                }
                 builder.condition(parsePlanDefinitionActionCondition("condition", conditionArray.getJsonObject(i), i));
             }
         }
         JsonArray inputArray = getJsonArray(jsonObject, "input");
         if (inputArray != null) {
             for (int i = 0; i < inputArray.size(); i++) {
+                if (inputArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + inputArray.get(i).getValueType() + " for element: input");
+                }
                 builder.input(parseDataRequirement("input", inputArray.getJsonObject(i), i));
             }
         }
         JsonArray outputArray = getJsonArray(jsonObject, "output");
         if (outputArray != null) {
             for (int i = 0; i < outputArray.size(); i++) {
+                if (outputArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + outputArray.get(i).getValueType() + " for element: output");
+                }
                 builder.output(parseDataRequirement("output", outputArray.getJsonObject(i), i));
             }
         }
         JsonArray relatedActionArray = getJsonArray(jsonObject, "relatedAction");
         if (relatedActionArray != null) {
             for (int i = 0; i < relatedActionArray.size(); i++) {
+                if (relatedActionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + relatedActionArray.get(i).getValueType() + " for element: relatedAction");
+                }
                 builder.relatedAction(parsePlanDefinitionActionRelatedAction("relatedAction", relatedActionArray.getJsonObject(i), i));
             }
         }
@@ -18050,6 +21305,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray participantArray = getJsonArray(jsonObject, "participant");
         if (participantArray != null) {
             for (int i = 0; i < participantArray.size(); i++) {
+                if (participantArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + participantArray.get(i).getValueType() + " for element: participant");
+                }
                 builder.participant(parsePlanDefinitionActionParticipant("participant", participantArray.getJsonObject(i), i));
             }
         }
@@ -18064,12 +21322,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray dynamicValueArray = getJsonArray(jsonObject, "dynamicValue");
         if (dynamicValueArray != null) {
             for (int i = 0; i < dynamicValueArray.size(); i++) {
+                if (dynamicValueArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + dynamicValueArray.get(i).getValueType() + " for element: dynamicValue");
+                }
                 builder.dynamicValue(parsePlanDefinitionActionDynamicValue("dynamicValue", dynamicValueArray.getJsonObject(i), i));
             }
         }
         JsonArray actionArray = getJsonArray(jsonObject, "action");
         if (actionArray != null) {
             for (int i = 0; i < actionArray.size(); i++) {
+                if (actionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + actionArray.get(i).getValueType() + " for element: action");
+                }
                 builder.action(parsePlanDefinitionAction("action", actionArray.getJsonObject(i), i));
             }
         }
@@ -18164,18 +21428,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray addressesArray = getJsonArray(jsonObject, "addresses");
         if (addressesArray != null) {
             for (int i = 0; i < addressesArray.size(); i++) {
+                if (addressesArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + addressesArray.get(i).getValueType() + " for element: addresses");
+                }
                 builder.addresses(parseCodeableConcept("addresses", addressesArray.getJsonObject(i), i));
             }
         }
         JsonArray documentationArray = getJsonArray(jsonObject, "documentation");
         if (documentationArray != null) {
             for (int i = 0; i < documentationArray.size(); i++) {
+                if (documentationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + documentationArray.get(i).getValueType() + " for element: documentation");
+                }
                 builder.documentation(parseRelatedArtifact("documentation", documentationArray.getJsonObject(i), i));
             }
         }
         JsonArray targetArray = getJsonArray(jsonObject, "target");
         if (targetArray != null) {
             for (int i = 0; i < targetArray.size(); i++) {
+                if (targetArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + targetArray.get(i).getValueType() + " for element: target");
+                }
                 builder.target(parsePlanDefinitionGoalTarget("target", targetArray.getJsonObject(i), i));
             }
         }
@@ -18234,6 +21507,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -18241,18 +21517,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray nameArray = getJsonArray(jsonObject, "name");
         if (nameArray != null) {
             for (int i = 0; i < nameArray.size(); i++) {
+                if (nameArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + nameArray.get(i).getValueType() + " for element: name");
+                }
                 builder.name(parseHumanName("name", nameArray.getJsonObject(i), i));
             }
         }
         JsonArray telecomArray = getJsonArray(jsonObject, "telecom");
         if (telecomArray != null) {
             for (int i = 0; i < telecomArray.size(); i++) {
+                if (telecomArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + telecomArray.get(i).getValueType() + " for element: telecom");
+                }
                 builder.telecom(parseContactPoint("telecom", telecomArray.getJsonObject(i), i));
             }
         }
         JsonArray addressArray = getJsonArray(jsonObject, "address");
         if (addressArray != null) {
             for (int i = 0; i < addressArray.size(); i++) {
+                if (addressArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + addressArray.get(i).getValueType() + " for element: address");
+                }
                 builder.address(parseAddress("address", addressArray.getJsonObject(i), i));
             }
         }
@@ -18261,18 +21546,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray photoArray = getJsonArray(jsonObject, "photo");
         if (photoArray != null) {
             for (int i = 0; i < photoArray.size(); i++) {
+                if (photoArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + photoArray.get(i).getValueType() + " for element: photo");
+                }
                 builder.photo(parseAttachment("photo", photoArray.getJsonObject(i), i));
             }
         }
         JsonArray qualificationArray = getJsonArray(jsonObject, "qualification");
         if (qualificationArray != null) {
             for (int i = 0; i < qualificationArray.size(); i++) {
+                if (qualificationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + qualificationArray.get(i).getValueType() + " for element: qualification");
+                }
                 builder.qualification(parsePractitionerQualification("qualification", qualificationArray.getJsonObject(i), i));
             }
         }
         JsonArray communicationArray = getJsonArray(jsonObject, "communication");
         if (communicationArray != null) {
             for (int i = 0; i < communicationArray.size(); i++) {
+                if (communicationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + communicationArray.get(i).getValueType() + " for element: communication");
+                }
                 builder.communication(parseCodeableConcept("communication", communicationArray.getJsonObject(i), i));
             }
         }
@@ -18294,6 +21588,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -18318,6 +21615,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -18328,42 +21628,63 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray codeArray = getJsonArray(jsonObject, "code");
         if (codeArray != null) {
             for (int i = 0; i < codeArray.size(); i++) {
+                if (codeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + codeArray.get(i).getValueType() + " for element: code");
+                }
                 builder.code(parseCodeableConcept("code", codeArray.getJsonObject(i), i));
             }
         }
         JsonArray specialtyArray = getJsonArray(jsonObject, "specialty");
         if (specialtyArray != null) {
             for (int i = 0; i < specialtyArray.size(); i++) {
+                if (specialtyArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + specialtyArray.get(i).getValueType() + " for element: specialty");
+                }
                 builder.specialty(parseCodeableConcept("specialty", specialtyArray.getJsonObject(i), i));
             }
         }
         JsonArray locationArray = getJsonArray(jsonObject, "location");
         if (locationArray != null) {
             for (int i = 0; i < locationArray.size(); i++) {
+                if (locationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + locationArray.get(i).getValueType() + " for element: location");
+                }
                 builder.location(parseReference("location", locationArray.getJsonObject(i), i));
             }
         }
         JsonArray healthcareServiceArray = getJsonArray(jsonObject, "healthcareService");
         if (healthcareServiceArray != null) {
             for (int i = 0; i < healthcareServiceArray.size(); i++) {
+                if (healthcareServiceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + healthcareServiceArray.get(i).getValueType() + " for element: healthcareService");
+                }
                 builder.healthcareService(parseReference("healthcareService", healthcareServiceArray.getJsonObject(i), i));
             }
         }
         JsonArray telecomArray = getJsonArray(jsonObject, "telecom");
         if (telecomArray != null) {
             for (int i = 0; i < telecomArray.size(); i++) {
+                if (telecomArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + telecomArray.get(i).getValueType() + " for element: telecom");
+                }
                 builder.telecom(parseContactPoint("telecom", telecomArray.getJsonObject(i), i));
             }
         }
         JsonArray availableTimeArray = getJsonArray(jsonObject, "availableTime");
         if (availableTimeArray != null) {
             for (int i = 0; i < availableTimeArray.size(); i++) {
+                if (availableTimeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + availableTimeArray.get(i).getValueType() + " for element: availableTime");
+                }
                 builder.availableTime(parsePractitionerRoleAvailableTime("availableTime", availableTimeArray.getJsonObject(i), i));
             }
         }
         JsonArray notAvailableArray = getJsonArray(jsonObject, "notAvailable");
         if (notAvailableArray != null) {
             for (int i = 0; i < notAvailableArray.size(); i++) {
+                if (notAvailableArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + notAvailableArray.get(i).getValueType() + " for element: notAvailable");
+                }
                 builder.notAvailable(parsePractitionerRoleNotAvailable("notAvailable", notAvailableArray.getJsonObject(i), i));
             }
         }
@@ -18371,6 +21692,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray endpointArray = getJsonArray(jsonObject, "endpoint");
         if (endpointArray != null) {
             for (int i = 0; i < endpointArray.size(); i++) {
+                if (endpointArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + endpointArray.get(i).getValueType() + " for element: endpoint");
+                }
                 builder.endpoint(parseReference("endpoint", endpointArray.getJsonObject(i), i));
             }
         }
@@ -18393,6 +21717,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (daysOfWeekArray != null) {
             JsonArray _daysOfWeekArray = jsonObject.getJsonArray("_daysOfWeek");
             for (int i = 0; i < daysOfWeekArray.size(); i++) {
+                if (daysOfWeekArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + daysOfWeekArray.get(i).getValueType() + " for element: daysOfWeek");
+                }
                 builder.daysOfWeek((DaysOfWeek) parseString(DaysOfWeek.builder(), "daysOfWeek", daysOfWeekArray.get(i), getJsonValue(_daysOfWeekArray, i), i));
             }
         }
@@ -18434,6 +21761,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -18454,12 +21784,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray basedOnArray = getJsonArray(jsonObject, "basedOn");
         if (basedOnArray != null) {
             for (int i = 0; i < basedOnArray.size(); i++) {
+                if (basedOnArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + basedOnArray.get(i).getValueType() + " for element: basedOn");
+                }
                 builder.basedOn(parseReference("basedOn", basedOnArray.getJsonObject(i), i));
             }
         }
         JsonArray partOfArray = getJsonArray(jsonObject, "partOf");
         if (partOfArray != null) {
             for (int i = 0; i < partOfArray.size(); i++) {
+                if (partOfArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + partOfArray.get(i).getValueType() + " for element: partOf");
+                }
                 builder.partOf(parseReference("partOf", partOfArray.getJsonObject(i), i));
             }
         }
@@ -18475,6 +21811,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray performerArray = getJsonArray(jsonObject, "performer");
         if (performerArray != null) {
             for (int i = 0; i < performerArray.size(); i++) {
+                if (performerArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + performerArray.get(i).getValueType() + " for element: performer");
+                }
                 builder.performer(parseProcedurePerformer("performer", performerArray.getJsonObject(i), i));
             }
         }
@@ -18482,18 +21821,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray reasonCodeArray = getJsonArray(jsonObject, "reasonCode");
         if (reasonCodeArray != null) {
             for (int i = 0; i < reasonCodeArray.size(); i++) {
+                if (reasonCodeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reasonCodeArray.get(i).getValueType() + " for element: reasonCode");
+                }
                 builder.reasonCode(parseCodeableConcept("reasonCode", reasonCodeArray.getJsonObject(i), i));
             }
         }
         JsonArray reasonReferenceArray = getJsonArray(jsonObject, "reasonReference");
         if (reasonReferenceArray != null) {
             for (int i = 0; i < reasonReferenceArray.size(); i++) {
+                if (reasonReferenceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reasonReferenceArray.get(i).getValueType() + " for element: reasonReference");
+                }
                 builder.reasonReference(parseReference("reasonReference", reasonReferenceArray.getJsonObject(i), i));
             }
         }
         JsonArray bodySiteArray = getJsonArray(jsonObject, "bodySite");
         if (bodySiteArray != null) {
             for (int i = 0; i < bodySiteArray.size(); i++) {
+                if (bodySiteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + bodySiteArray.get(i).getValueType() + " for element: bodySite");
+                }
                 builder.bodySite(parseCodeableConcept("bodySite", bodySiteArray.getJsonObject(i), i));
             }
         }
@@ -18501,48 +21849,72 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray reportArray = getJsonArray(jsonObject, "report");
         if (reportArray != null) {
             for (int i = 0; i < reportArray.size(); i++) {
+                if (reportArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reportArray.get(i).getValueType() + " for element: report");
+                }
                 builder.report(parseReference("report", reportArray.getJsonObject(i), i));
             }
         }
         JsonArray complicationArray = getJsonArray(jsonObject, "complication");
         if (complicationArray != null) {
             for (int i = 0; i < complicationArray.size(); i++) {
+                if (complicationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + complicationArray.get(i).getValueType() + " for element: complication");
+                }
                 builder.complication(parseCodeableConcept("complication", complicationArray.getJsonObject(i), i));
             }
         }
         JsonArray complicationDetailArray = getJsonArray(jsonObject, "complicationDetail");
         if (complicationDetailArray != null) {
             for (int i = 0; i < complicationDetailArray.size(); i++) {
+                if (complicationDetailArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + complicationDetailArray.get(i).getValueType() + " for element: complicationDetail");
+                }
                 builder.complicationDetail(parseReference("complicationDetail", complicationDetailArray.getJsonObject(i), i));
             }
         }
         JsonArray followUpArray = getJsonArray(jsonObject, "followUp");
         if (followUpArray != null) {
             for (int i = 0; i < followUpArray.size(); i++) {
+                if (followUpArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + followUpArray.get(i).getValueType() + " for element: followUp");
+                }
                 builder.followUp(parseCodeableConcept("followUp", followUpArray.getJsonObject(i), i));
             }
         }
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
         JsonArray focalDeviceArray = getJsonArray(jsonObject, "focalDevice");
         if (focalDeviceArray != null) {
             for (int i = 0; i < focalDeviceArray.size(); i++) {
+                if (focalDeviceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + focalDeviceArray.get(i).getValueType() + " for element: focalDevice");
+                }
                 builder.focalDevice(parseProcedureFocalDevice("focalDevice", focalDeviceArray.getJsonObject(i), i));
             }
         }
         JsonArray usedReferenceArray = getJsonArray(jsonObject, "usedReference");
         if (usedReferenceArray != null) {
             for (int i = 0; i < usedReferenceArray.size(); i++) {
+                if (usedReferenceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + usedReferenceArray.get(i).getValueType() + " for element: usedReference");
+                }
                 builder.usedReference(parseReference("usedReference", usedReferenceArray.getJsonObject(i), i));
             }
         }
         JsonArray usedCodeArray = getJsonArray(jsonObject, "usedCode");
         if (usedCodeArray != null) {
             for (int i = 0; i < usedCodeArray.size(); i++) {
+                if (usedCodeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + usedCodeArray.get(i).getValueType() + " for element: usedCode");
+                }
                 builder.usedCode(parseCodeableConcept("usedCode", usedCodeArray.getJsonObject(i), i));
             }
         }
@@ -18620,6 +21992,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray imageArray = getJsonArray(jsonObject, "image");
         if (imageArray != null) {
             for (int i = 0; i < imageArray.size(); i++) {
+                if (imageArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + imageArray.get(i).getValueType() + " for element: image");
+                }
                 builder.image(parseAttachment("image", imageArray.getJsonObject(i), i));
             }
         }
@@ -18644,6 +22019,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray specialPrecautionsForStorageArray = getJsonArray(jsonObject, "specialPrecautionsForStorage");
         if (specialPrecautionsForStorageArray != null) {
             for (int i = 0; i < specialPrecautionsForStorageArray.size(); i++) {
+                if (specialPrecautionsForStorageArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + specialPrecautionsForStorageArray.get(i).getValueType() + " for element: specialPrecautionsForStorage");
+                }
                 builder.specialPrecautionsForStorage(parseCodeableConcept("specialPrecautionsForStorage", specialPrecautionsForStorageArray.getJsonObject(i), i));
             }
         }
@@ -18665,6 +22043,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray targetArray = getJsonArray(jsonObject, "target");
         if (targetArray != null) {
             for (int i = 0; i < targetArray.size(); i++) {
+                if (targetArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + targetArray.get(i).getValueType() + " for element: target");
+                }
                 builder.target(parseReference("target", targetArray.getJsonObject(i), i));
             }
         }
@@ -18681,6 +22062,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray reasonArray = getJsonArray(jsonObject, "reason");
         if (reasonArray != null) {
             for (int i = 0; i < reasonArray.size(); i++) {
+                if (reasonArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reasonArray.get(i).getValueType() + " for element: reason");
+                }
                 builder.reason(parseCodeableConcept("reason", reasonArray.getJsonObject(i), i));
             }
         }
@@ -18688,18 +22072,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray agentArray = getJsonArray(jsonObject, "agent");
         if (agentArray != null) {
             for (int i = 0; i < agentArray.size(); i++) {
+                if (agentArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + agentArray.get(i).getValueType() + " for element: agent");
+                }
                 builder.agent(parseProvenanceAgent("agent", agentArray.getJsonObject(i), i));
             }
         }
         JsonArray entityArray = getJsonArray(jsonObject, "entity");
         if (entityArray != null) {
             for (int i = 0; i < entityArray.size(); i++) {
+                if (entityArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + entityArray.get(i).getValueType() + " for element: entity");
+                }
                 builder.entity(parseProvenanceEntity("entity", entityArray.getJsonObject(i), i));
             }
         }
         JsonArray signatureArray = getJsonArray(jsonObject, "signature");
         if (signatureArray != null) {
             for (int i = 0; i < signatureArray.size(); i++) {
+                if (signatureArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + signatureArray.get(i).getValueType() + " for element: signature");
+                }
                 builder.signature(parseSignature("signature", signatureArray.getJsonObject(i), i));
             }
         }
@@ -18722,6 +22115,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray roleArray = getJsonArray(jsonObject, "role");
         if (roleArray != null) {
             for (int i = 0; i < roleArray.size(); i++) {
+                if (roleArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + roleArray.get(i).getValueType() + " for element: role");
+                }
                 builder.role(parseCodeableConcept("role", roleArray.getJsonObject(i), i));
             }
         }
@@ -18747,6 +22143,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray agentArray = getJsonArray(jsonObject, "agent");
         if (agentArray != null) {
             for (int i = 0; i < agentArray.size(); i++) {
+                if (agentArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + agentArray.get(i).getValueType() + " for element: agent");
+                }
                 builder.agent(parseProvenanceAgent("agent", agentArray.getJsonObject(i), i));
             }
         }
@@ -18792,6 +22191,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -18811,6 +22213,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (subjectTypeArray != null) {
             JsonArray _subjectTypeArray = jsonObject.getJsonArray("_subjectType");
             for (int i = 0; i < subjectTypeArray.size(); i++) {
+                if (subjectTypeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + subjectTypeArray.get(i).getValueType() + " for element: subjectType");
+                }
                 builder.subjectType((ResourceType) parseString(ResourceType.builder(), "subjectType", subjectTypeArray.get(i), getJsonValue(_subjectTypeArray, i), i));
             }
         }
@@ -18819,6 +22224,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray contactArray = getJsonArray(jsonObject, "contact");
         if (contactArray != null) {
             for (int i = 0; i < contactArray.size(); i++) {
+                if (contactArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contactArray.get(i).getValueType() + " for element: contact");
+                }
                 builder.contact(parseContactDetail("contact", contactArray.getJsonObject(i), i));
             }
         }
@@ -18826,12 +22234,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray useContextArray = getJsonArray(jsonObject, "useContext");
         if (useContextArray != null) {
             for (int i = 0; i < useContextArray.size(); i++) {
+                if (useContextArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + useContextArray.get(i).getValueType() + " for element: useContext");
+                }
                 builder.useContext(parseUsageContext("useContext", useContextArray.getJsonObject(i), i));
             }
         }
         JsonArray jurisdictionArray = getJsonArray(jsonObject, "jurisdiction");
         if (jurisdictionArray != null) {
             for (int i = 0; i < jurisdictionArray.size(); i++) {
+                if (jurisdictionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + jurisdictionArray.get(i).getValueType() + " for element: jurisdiction");
+                }
                 builder.jurisdiction(parseCodeableConcept("jurisdiction", jurisdictionArray.getJsonObject(i), i));
             }
         }
@@ -18843,12 +22257,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray codeArray = getJsonArray(jsonObject, "code");
         if (codeArray != null) {
             for (int i = 0; i < codeArray.size(); i++) {
+                if (codeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + codeArray.get(i).getValueType() + " for element: code");
+                }
                 builder.code(parseCoding("code", codeArray.getJsonObject(i), i));
             }
         }
         JsonArray itemArray = getJsonArray(jsonObject, "item");
         if (itemArray != null) {
             for (int i = 0; i < itemArray.size(); i++) {
+                if (itemArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + itemArray.get(i).getValueType() + " for element: item");
+                }
                 builder.item(parseQuestionnaireItem("item", itemArray.getJsonObject(i), i));
             }
         }
@@ -18872,6 +22292,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray codeArray = getJsonArray(jsonObject, "code");
         if (codeArray != null) {
             for (int i = 0; i < codeArray.size(); i++) {
+                if (codeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + codeArray.get(i).getValueType() + " for element: code");
+                }
                 builder.code(parseCoding("code", codeArray.getJsonObject(i), i));
             }
         }
@@ -18881,6 +22304,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray enableWhenArray = getJsonArray(jsonObject, "enableWhen");
         if (enableWhenArray != null) {
             for (int i = 0; i < enableWhenArray.size(); i++) {
+                if (enableWhenArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + enableWhenArray.get(i).getValueType() + " for element: enableWhen");
+                }
                 builder.enableWhen(parseQuestionnaireItemEnableWhen("enableWhen", enableWhenArray.getJsonObject(i), i));
             }
         }
@@ -18893,18 +22319,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray answerOptionArray = getJsonArray(jsonObject, "answerOption");
         if (answerOptionArray != null) {
             for (int i = 0; i < answerOptionArray.size(); i++) {
+                if (answerOptionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + answerOptionArray.get(i).getValueType() + " for element: answerOption");
+                }
                 builder.answerOption(parseQuestionnaireItemAnswerOption("answerOption", answerOptionArray.getJsonObject(i), i));
             }
         }
         JsonArray initialArray = getJsonArray(jsonObject, "initial");
         if (initialArray != null) {
             for (int i = 0; i < initialArray.size(); i++) {
+                if (initialArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + initialArray.get(i).getValueType() + " for element: initial");
+                }
                 builder.initial(parseQuestionnaireItemInitial("initial", initialArray.getJsonObject(i), i));
             }
         }
         JsonArray itemArray = getJsonArray(jsonObject, "item");
         if (itemArray != null) {
             for (int i = 0; i < itemArray.size(); i++) {
+                if (itemArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + itemArray.get(i).getValueType() + " for element: item");
+                }
                 builder.item(parseQuestionnaireItem("item", itemArray.getJsonObject(i), i));
             }
         }
@@ -18978,12 +22413,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray basedOnArray = getJsonArray(jsonObject, "basedOn");
         if (basedOnArray != null) {
             for (int i = 0; i < basedOnArray.size(); i++) {
+                if (basedOnArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + basedOnArray.get(i).getValueType() + " for element: basedOn");
+                }
                 builder.basedOn(parseReference("basedOn", basedOnArray.getJsonObject(i), i));
             }
         }
         JsonArray partOfArray = getJsonArray(jsonObject, "partOf");
         if (partOfArray != null) {
             for (int i = 0; i < partOfArray.size(); i++) {
+                if (partOfArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + partOfArray.get(i).getValueType() + " for element: partOf");
+                }
                 builder.partOf(parseReference("partOf", partOfArray.getJsonObject(i), i));
             }
         }
@@ -18997,6 +22438,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray itemArray = getJsonArray(jsonObject, "item");
         if (itemArray != null) {
             for (int i = 0; i < itemArray.size(); i++) {
+                if (itemArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + itemArray.get(i).getValueType() + " for element: item");
+                }
                 builder.item(parseQuestionnaireResponseItem("item", itemArray.getJsonObject(i), i));
             }
         }
@@ -19021,12 +22465,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray answerArray = getJsonArray(jsonObject, "answer");
         if (answerArray != null) {
             for (int i = 0; i < answerArray.size(); i++) {
+                if (answerArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + answerArray.get(i).getValueType() + " for element: answer");
+                }
                 builder.answer(parseQuestionnaireResponseItemAnswer("answer", answerArray.getJsonObject(i), i));
             }
         }
         JsonArray itemArray = getJsonArray(jsonObject, "item");
         if (itemArray != null) {
             for (int i = 0; i < itemArray.size(); i++) {
+                if (itemArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + itemArray.get(i).getValueType() + " for element: item");
+                }
                 builder.item(parseQuestionnaireResponseItem("item", itemArray.getJsonObject(i), i));
             }
         }
@@ -19049,6 +22499,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray itemArray = getJsonArray(jsonObject, "item");
         if (itemArray != null) {
             for (int i = 0; i < itemArray.size(); i++) {
+                if (itemArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + itemArray.get(i).getValueType() + " for element: item");
+                }
                 builder.item(parseQuestionnaireResponseItem("item", itemArray.getJsonObject(i), i));
             }
         }
@@ -19141,12 +22594,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
         JsonArray subjectArray = getJsonArray(jsonObject, "subject");
         if (subjectArray != null) {
             for (int i = 0; i < subjectArray.size(); i++) {
+                if (subjectArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + subjectArray.get(i).getValueType() + " for element: subject");
+                }
                 builder.subject(parseReference("subject", subjectArray.getJsonObject(i), i));
             }
         }
@@ -19155,6 +22614,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray regionArray = getJsonArray(jsonObject, "region");
         if (regionArray != null) {
             for (int i = 0; i < regionArray.size(); i++) {
+                if (regionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + regionArray.get(i).getValueType() + " for element: region");
+                }
                 builder.region(parseCodeableConcept("region", regionArray.getJsonObject(i), i));
             }
         }
@@ -19166,6 +22628,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray basisArray = getJsonArray(jsonObject, "basis");
         if (basisArray != null) {
             for (int i = 0; i < basisArray.size(); i++) {
+                if (basisArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + basisArray.get(i).getValueType() + " for element: basis");
+                }
                 builder.basis(parseCodeableConcept("basis", basisArray.getJsonObject(i), i));
             }
         }
@@ -19194,6 +22659,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray applicationArray = getJsonArray(jsonObject, "application");
         if (applicationArray != null) {
             for (int i = 0; i < applicationArray.size(); i++) {
+                if (applicationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + applicationArray.get(i).getValueType() + " for element: application");
+                }
                 builder.application(parseRegulatedAuthorizationCase("application", applicationArray.getJsonObject(i), i));
             }
         }
@@ -19237,6 +22705,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -19245,18 +22716,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray relationshipArray = getJsonArray(jsonObject, "relationship");
         if (relationshipArray != null) {
             for (int i = 0; i < relationshipArray.size(); i++) {
+                if (relationshipArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + relationshipArray.get(i).getValueType() + " for element: relationship");
+                }
                 builder.relationship(parseCodeableConcept("relationship", relationshipArray.getJsonObject(i), i));
             }
         }
         JsonArray nameArray = getJsonArray(jsonObject, "name");
         if (nameArray != null) {
             for (int i = 0; i < nameArray.size(); i++) {
+                if (nameArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + nameArray.get(i).getValueType() + " for element: name");
+                }
                 builder.name(parseHumanName("name", nameArray.getJsonObject(i), i));
             }
         }
         JsonArray telecomArray = getJsonArray(jsonObject, "telecom");
         if (telecomArray != null) {
             for (int i = 0; i < telecomArray.size(); i++) {
+                if (telecomArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + telecomArray.get(i).getValueType() + " for element: telecom");
+                }
                 builder.telecom(parseContactPoint("telecom", telecomArray.getJsonObject(i), i));
             }
         }
@@ -19265,12 +22745,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray addressArray = getJsonArray(jsonObject, "address");
         if (addressArray != null) {
             for (int i = 0; i < addressArray.size(); i++) {
+                if (addressArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + addressArray.get(i).getValueType() + " for element: address");
+                }
                 builder.address(parseAddress("address", addressArray.getJsonObject(i), i));
             }
         }
         JsonArray photoArray = getJsonArray(jsonObject, "photo");
         if (photoArray != null) {
             for (int i = 0; i < photoArray.size(); i++) {
+                if (photoArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + photoArray.get(i).getValueType() + " for element: photo");
+                }
                 builder.photo(parseAttachment("photo", photoArray.getJsonObject(i), i));
             }
         }
@@ -19278,6 +22764,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray communicationArray = getJsonArray(jsonObject, "communication");
         if (communicationArray != null) {
             for (int i = 0; i < communicationArray.size(); i++) {
+                if (communicationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + communicationArray.get(i).getValueType() + " for element: communication");
+                }
                 builder.communication(parseRelatedPersonCommunication("communication", communicationArray.getJsonObject(i), i));
             }
         }
@@ -19316,6 +22805,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -19336,12 +22828,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray basedOnArray = getJsonArray(jsonObject, "basedOn");
         if (basedOnArray != null) {
             for (int i = 0; i < basedOnArray.size(); i++) {
+                if (basedOnArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + basedOnArray.get(i).getValueType() + " for element: basedOn");
+                }
                 builder.basedOn(parseReference("basedOn", basedOnArray.getJsonObject(i), i));
             }
         }
         JsonArray replacesArray = getJsonArray(jsonObject, "replaces");
         if (replacesArray != null) {
             for (int i = 0; i < replacesArray.size(); i++) {
+                if (replacesArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + replacesArray.get(i).getValueType() + " for element: replaces");
+                }
                 builder.replaces(parseReference("replaces", replacesArray.getJsonObject(i), i));
             }
         }
@@ -19357,24 +22855,36 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray reasonCodeArray = getJsonArray(jsonObject, "reasonCode");
         if (reasonCodeArray != null) {
             for (int i = 0; i < reasonCodeArray.size(); i++) {
+                if (reasonCodeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reasonCodeArray.get(i).getValueType() + " for element: reasonCode");
+                }
                 builder.reasonCode(parseCodeableConcept("reasonCode", reasonCodeArray.getJsonObject(i), i));
             }
         }
         JsonArray reasonReferenceArray = getJsonArray(jsonObject, "reasonReference");
         if (reasonReferenceArray != null) {
             for (int i = 0; i < reasonReferenceArray.size(); i++) {
+                if (reasonReferenceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reasonReferenceArray.get(i).getValueType() + " for element: reasonReference");
+                }
                 builder.reasonReference(parseReference("reasonReference", reasonReferenceArray.getJsonObject(i), i));
             }
         }
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
         JsonArray actionArray = getJsonArray(jsonObject, "action");
         if (actionArray != null) {
             for (int i = 0; i < actionArray.size(); i++) {
+                if (actionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + actionArray.get(i).getValueType() + " for element: action");
+                }
                 builder.action(parseRequestGroupAction("action", actionArray.getJsonObject(i), i));
             }
         }
@@ -19401,24 +22911,36 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray codeArray = getJsonArray(jsonObject, "code");
         if (codeArray != null) {
             for (int i = 0; i < codeArray.size(); i++) {
+                if (codeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + codeArray.get(i).getValueType() + " for element: code");
+                }
                 builder.code(parseCodeableConcept("code", codeArray.getJsonObject(i), i));
             }
         }
         JsonArray documentationArray = getJsonArray(jsonObject, "documentation");
         if (documentationArray != null) {
             for (int i = 0; i < documentationArray.size(); i++) {
+                if (documentationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + documentationArray.get(i).getValueType() + " for element: documentation");
+                }
                 builder.documentation(parseRelatedArtifact("documentation", documentationArray.getJsonObject(i), i));
             }
         }
         JsonArray conditionArray = getJsonArray(jsonObject, "condition");
         if (conditionArray != null) {
             for (int i = 0; i < conditionArray.size(); i++) {
+                if (conditionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + conditionArray.get(i).getValueType() + " for element: condition");
+                }
                 builder.condition(parseRequestGroupActionCondition("condition", conditionArray.getJsonObject(i), i));
             }
         }
         JsonArray relatedActionArray = getJsonArray(jsonObject, "relatedAction");
         if (relatedActionArray != null) {
             for (int i = 0; i < relatedActionArray.size(); i++) {
+                if (relatedActionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + relatedActionArray.get(i).getValueType() + " for element: relatedAction");
+                }
                 builder.relatedAction(parseRequestGroupActionRelatedAction("relatedAction", relatedActionArray.getJsonObject(i), i));
             }
         }
@@ -19426,6 +22948,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray participantArray = getJsonArray(jsonObject, "participant");
         if (participantArray != null) {
             for (int i = 0; i < participantArray.size(); i++) {
+                if (participantArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + participantArray.get(i).getValueType() + " for element: participant");
+                }
                 builder.participant(parseReference("participant", participantArray.getJsonObject(i), i));
             }
         }
@@ -19439,6 +22964,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray actionArray = getJsonArray(jsonObject, "action");
         if (actionArray != null) {
             for (int i = 0; i < actionArray.size(); i++) {
+                if (actionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + actionArray.get(i).getValueType() + " for element: action");
+                }
                 builder.action(parseRequestGroupAction("action", actionArray.getJsonObject(i), i));
             }
         }
@@ -19496,6 +23024,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -19512,6 +23043,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray contactArray = getJsonArray(jsonObject, "contact");
         if (contactArray != null) {
             for (int i = 0; i < contactArray.size(); i++) {
+                if (contactArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contactArray.get(i).getValueType() + " for element: contact");
+                }
                 builder.contact(parseContactDetail("contact", contactArray.getJsonObject(i), i));
             }
         }
@@ -19526,12 +23060,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray useContextArray = getJsonArray(jsonObject, "useContext");
         if (useContextArray != null) {
             for (int i = 0; i < useContextArray.size(); i++) {
+                if (useContextArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + useContextArray.get(i).getValueType() + " for element: useContext");
+                }
                 builder.useContext(parseUsageContext("useContext", useContextArray.getJsonObject(i), i));
             }
         }
         JsonArray jurisdictionArray = getJsonArray(jsonObject, "jurisdiction");
         if (jurisdictionArray != null) {
             for (int i = 0; i < jurisdictionArray.size(); i++) {
+                if (jurisdictionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + jurisdictionArray.get(i).getValueType() + " for element: jurisdiction");
+                }
                 builder.jurisdiction(parseCodeableConcept("jurisdiction", jurisdictionArray.getJsonObject(i), i));
             }
         }
@@ -19544,36 +23084,54 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray topicArray = getJsonArray(jsonObject, "topic");
         if (topicArray != null) {
             for (int i = 0; i < topicArray.size(); i++) {
+                if (topicArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + topicArray.get(i).getValueType() + " for element: topic");
+                }
                 builder.topic(parseCodeableConcept("topic", topicArray.getJsonObject(i), i));
             }
         }
         JsonArray authorArray = getJsonArray(jsonObject, "author");
         if (authorArray != null) {
             for (int i = 0; i < authorArray.size(); i++) {
+                if (authorArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + authorArray.get(i).getValueType() + " for element: author");
+                }
                 builder.author(parseContactDetail("author", authorArray.getJsonObject(i), i));
             }
         }
         JsonArray editorArray = getJsonArray(jsonObject, "editor");
         if (editorArray != null) {
             for (int i = 0; i < editorArray.size(); i++) {
+                if (editorArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + editorArray.get(i).getValueType() + " for element: editor");
+                }
                 builder.editor(parseContactDetail("editor", editorArray.getJsonObject(i), i));
             }
         }
         JsonArray reviewerArray = getJsonArray(jsonObject, "reviewer");
         if (reviewerArray != null) {
             for (int i = 0; i < reviewerArray.size(); i++) {
+                if (reviewerArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reviewerArray.get(i).getValueType() + " for element: reviewer");
+                }
                 builder.reviewer(parseContactDetail("reviewer", reviewerArray.getJsonObject(i), i));
             }
         }
         JsonArray endorserArray = getJsonArray(jsonObject, "endorser");
         if (endorserArray != null) {
             for (int i = 0; i < endorserArray.size(); i++) {
+                if (endorserArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + endorserArray.get(i).getValueType() + " for element: endorser");
+                }
                 builder.endorser(parseContactDetail("endorser", endorserArray.getJsonObject(i), i));
             }
         }
         JsonArray relatedArtifactArray = getJsonArray(jsonObject, "relatedArtifact");
         if (relatedArtifactArray != null) {
             for (int i = 0; i < relatedArtifactArray.size(); i++) {
+                if (relatedArtifactArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + relatedArtifactArray.get(i).getValueType() + " for element: relatedArtifact");
+                }
                 builder.relatedArtifact(parseRelatedArtifact("relatedArtifact", relatedArtifactArray.getJsonObject(i), i));
             }
         }
@@ -19607,6 +23165,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -19623,6 +23184,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray contactArray = getJsonArray(jsonObject, "contact");
         if (contactArray != null) {
             for (int i = 0; i < contactArray.size(); i++) {
+                if (contactArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contactArray.get(i).getValueType() + " for element: contact");
+                }
                 builder.contact(parseContactDetail("contact", contactArray.getJsonObject(i), i));
             }
         }
@@ -19637,12 +23201,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray useContextArray = getJsonArray(jsonObject, "useContext");
         if (useContextArray != null) {
             for (int i = 0; i < useContextArray.size(); i++) {
+                if (useContextArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + useContextArray.get(i).getValueType() + " for element: useContext");
+                }
                 builder.useContext(parseUsageContext("useContext", useContextArray.getJsonObject(i), i));
             }
         }
         JsonArray jurisdictionArray = getJsonArray(jsonObject, "jurisdiction");
         if (jurisdictionArray != null) {
             for (int i = 0; i < jurisdictionArray.size(); i++) {
+                if (jurisdictionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + jurisdictionArray.get(i).getValueType() + " for element: jurisdiction");
+                }
                 builder.jurisdiction(parseCodeableConcept("jurisdiction", jurisdictionArray.getJsonObject(i), i));
             }
         }
@@ -19655,36 +23225,54 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray topicArray = getJsonArray(jsonObject, "topic");
         if (topicArray != null) {
             for (int i = 0; i < topicArray.size(); i++) {
+                if (topicArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + topicArray.get(i).getValueType() + " for element: topic");
+                }
                 builder.topic(parseCodeableConcept("topic", topicArray.getJsonObject(i), i));
             }
         }
         JsonArray authorArray = getJsonArray(jsonObject, "author");
         if (authorArray != null) {
             for (int i = 0; i < authorArray.size(); i++) {
+                if (authorArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + authorArray.get(i).getValueType() + " for element: author");
+                }
                 builder.author(parseContactDetail("author", authorArray.getJsonObject(i), i));
             }
         }
         JsonArray editorArray = getJsonArray(jsonObject, "editor");
         if (editorArray != null) {
             for (int i = 0; i < editorArray.size(); i++) {
+                if (editorArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + editorArray.get(i).getValueType() + " for element: editor");
+                }
                 builder.editor(parseContactDetail("editor", editorArray.getJsonObject(i), i));
             }
         }
         JsonArray reviewerArray = getJsonArray(jsonObject, "reviewer");
         if (reviewerArray != null) {
             for (int i = 0; i < reviewerArray.size(); i++) {
+                if (reviewerArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reviewerArray.get(i).getValueType() + " for element: reviewer");
+                }
                 builder.reviewer(parseContactDetail("reviewer", reviewerArray.getJsonObject(i), i));
             }
         }
         JsonArray endorserArray = getJsonArray(jsonObject, "endorser");
         if (endorserArray != null) {
             for (int i = 0; i < endorserArray.size(); i++) {
+                if (endorserArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + endorserArray.get(i).getValueType() + " for element: endorser");
+                }
                 builder.endorser(parseContactDetail("endorser", endorserArray.getJsonObject(i), i));
             }
         }
         JsonArray relatedArtifactArray = getJsonArray(jsonObject, "relatedArtifact");
         if (relatedArtifactArray != null) {
             for (int i = 0; i < relatedArtifactArray.size(); i++) {
+                if (relatedArtifactArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + relatedArtifactArray.get(i).getValueType() + " for element: relatedArtifact");
+                }
                 builder.relatedArtifact(parseRelatedArtifact("relatedArtifact", relatedArtifactArray.getJsonObject(i), i));
             }
         }
@@ -19700,6 +23288,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray characteristicArray = getJsonArray(jsonObject, "characteristic");
         if (characteristicArray != null) {
             for (int i = 0; i < characteristicArray.size(); i++) {
+                if (characteristicArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + characteristicArray.get(i).getValueType() + " for element: characteristic");
+                }
                 builder.characteristic(parseResearchElementDefinitionCharacteristic("characteristic", characteristicArray.getJsonObject(i), i));
             }
         }
@@ -19722,6 +23313,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray usageContextArray = getJsonArray(jsonObject, "usageContext");
         if (usageContextArray != null) {
             for (int i = 0; i < usageContextArray.size(); i++) {
+                if (usageContextArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + usageContextArray.get(i).getValueType() + " for element: usageContext");
+                }
                 builder.usageContext(parseUsageContext("usageContext", usageContextArray.getJsonObject(i), i));
             }
         }
@@ -19753,6 +23347,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -19760,12 +23357,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray protocolArray = getJsonArray(jsonObject, "protocol");
         if (protocolArray != null) {
             for (int i = 0; i < protocolArray.size(); i++) {
+                if (protocolArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + protocolArray.get(i).getValueType() + " for element: protocol");
+                }
                 builder.protocol(parseReference("protocol", protocolArray.getJsonObject(i), i));
             }
         }
         JsonArray partOfArray = getJsonArray(jsonObject, "partOf");
         if (partOfArray != null) {
             for (int i = 0; i < partOfArray.size(); i++) {
+                if (partOfArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + partOfArray.get(i).getValueType() + " for element: partOf");
+                }
                 builder.partOf(parseReference("partOf", partOfArray.getJsonObject(i), i));
             }
         }
@@ -19775,42 +23378,63 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray categoryArray = getJsonArray(jsonObject, "category");
         if (categoryArray != null) {
             for (int i = 0; i < categoryArray.size(); i++) {
+                if (categoryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + categoryArray.get(i).getValueType() + " for element: category");
+                }
                 builder.category(parseCodeableConcept("category", categoryArray.getJsonObject(i), i));
             }
         }
         JsonArray focusArray = getJsonArray(jsonObject, "focus");
         if (focusArray != null) {
             for (int i = 0; i < focusArray.size(); i++) {
+                if (focusArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + focusArray.get(i).getValueType() + " for element: focus");
+                }
                 builder.focus(parseCodeableConcept("focus", focusArray.getJsonObject(i), i));
             }
         }
         JsonArray conditionArray = getJsonArray(jsonObject, "condition");
         if (conditionArray != null) {
             for (int i = 0; i < conditionArray.size(); i++) {
+                if (conditionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + conditionArray.get(i).getValueType() + " for element: condition");
+                }
                 builder.condition(parseCodeableConcept("condition", conditionArray.getJsonObject(i), i));
             }
         }
         JsonArray contactArray = getJsonArray(jsonObject, "contact");
         if (contactArray != null) {
             for (int i = 0; i < contactArray.size(); i++) {
+                if (contactArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contactArray.get(i).getValueType() + " for element: contact");
+                }
                 builder.contact(parseContactDetail("contact", contactArray.getJsonObject(i), i));
             }
         }
         JsonArray relatedArtifactArray = getJsonArray(jsonObject, "relatedArtifact");
         if (relatedArtifactArray != null) {
             for (int i = 0; i < relatedArtifactArray.size(); i++) {
+                if (relatedArtifactArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + relatedArtifactArray.get(i).getValueType() + " for element: relatedArtifact");
+                }
                 builder.relatedArtifact(parseRelatedArtifact("relatedArtifact", relatedArtifactArray.getJsonObject(i), i));
             }
         }
         JsonArray keywordArray = getJsonArray(jsonObject, "keyword");
         if (keywordArray != null) {
             for (int i = 0; i < keywordArray.size(); i++) {
+                if (keywordArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + keywordArray.get(i).getValueType() + " for element: keyword");
+                }
                 builder.keyword(parseCodeableConcept("keyword", keywordArray.getJsonObject(i), i));
             }
         }
         JsonArray locationArray = getJsonArray(jsonObject, "location");
         if (locationArray != null) {
             for (int i = 0; i < locationArray.size(); i++) {
+                if (locationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + locationArray.get(i).getValueType() + " for element: location");
+                }
                 builder.location(parseCodeableConcept("location", locationArray.getJsonObject(i), i));
             }
         }
@@ -19818,6 +23442,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray enrollmentArray = getJsonArray(jsonObject, "enrollment");
         if (enrollmentArray != null) {
             for (int i = 0; i < enrollmentArray.size(); i++) {
+                if (enrollmentArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + enrollmentArray.get(i).getValueType() + " for element: enrollment");
+                }
                 builder.enrollment(parseReference("enrollment", enrollmentArray.getJsonObject(i), i));
             }
         }
@@ -19827,6 +23454,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray siteArray = getJsonArray(jsonObject, "site");
         if (siteArray != null) {
             for (int i = 0; i < siteArray.size(); i++) {
+                if (siteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + siteArray.get(i).getValueType() + " for element: site");
+                }
                 builder.site(parseReference("site", siteArray.getJsonObject(i), i));
             }
         }
@@ -19834,18 +23464,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
         JsonArray armArray = getJsonArray(jsonObject, "arm");
         if (armArray != null) {
             for (int i = 0; i < armArray.size(); i++) {
+                if (armArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + armArray.get(i).getValueType() + " for element: arm");
+                }
                 builder.arm(parseResearchStudyArm("arm", armArray.getJsonObject(i), i));
             }
         }
         JsonArray objectiveArray = getJsonArray(jsonObject, "objective");
         if (objectiveArray != null) {
             for (int i = 0; i < objectiveArray.size(); i++) {
+                if (objectiveArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + objectiveArray.get(i).getValueType() + " for element: objective");
+                }
                 builder.objective(parseResearchStudyObjective("objective", objectiveArray.getJsonObject(i), i));
             }
         }
@@ -19902,6 +23541,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -19938,6 +23580,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -19954,24 +23599,36 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray reasonCodeArray = getJsonArray(jsonObject, "reasonCode");
         if (reasonCodeArray != null) {
             for (int i = 0; i < reasonCodeArray.size(); i++) {
+                if (reasonCodeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reasonCodeArray.get(i).getValueType() + " for element: reasonCode");
+                }
                 builder.reasonCode(parseCodeableConcept("reasonCode", reasonCodeArray.getJsonObject(i), i));
             }
         }
         JsonArray reasonReferenceArray = getJsonArray(jsonObject, "reasonReference");
         if (reasonReferenceArray != null) {
             for (int i = 0; i < reasonReferenceArray.size(); i++) {
+                if (reasonReferenceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reasonReferenceArray.get(i).getValueType() + " for element: reasonReference");
+                }
                 builder.reasonReference(parseReference("reasonReference", reasonReferenceArray.getJsonObject(i), i));
             }
         }
         JsonArray basisArray = getJsonArray(jsonObject, "basis");
         if (basisArray != null) {
             for (int i = 0; i < basisArray.size(); i++) {
+                if (basisArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + basisArray.get(i).getValueType() + " for element: basis");
+                }
                 builder.basis(parseReference("basis", basisArray.getJsonObject(i), i));
             }
         }
         JsonArray predictionArray = getJsonArray(jsonObject, "prediction");
         if (predictionArray != null) {
             for (int i = 0; i < predictionArray.size(); i++) {
+                if (predictionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + predictionArray.get(i).getValueType() + " for element: prediction");
+                }
                 builder.prediction(parseRiskAssessmentPrediction("prediction", predictionArray.getJsonObject(i), i));
             }
         }
@@ -19979,6 +23636,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
@@ -20043,6 +23703,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -20050,24 +23713,36 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray serviceCategoryArray = getJsonArray(jsonObject, "serviceCategory");
         if (serviceCategoryArray != null) {
             for (int i = 0; i < serviceCategoryArray.size(); i++) {
+                if (serviceCategoryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + serviceCategoryArray.get(i).getValueType() + " for element: serviceCategory");
+                }
                 builder.serviceCategory(parseCodeableConcept("serviceCategory", serviceCategoryArray.getJsonObject(i), i));
             }
         }
         JsonArray serviceTypeArray = getJsonArray(jsonObject, "serviceType");
         if (serviceTypeArray != null) {
             for (int i = 0; i < serviceTypeArray.size(); i++) {
+                if (serviceTypeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + serviceTypeArray.get(i).getValueType() + " for element: serviceType");
+                }
                 builder.serviceType(parseCodeableConcept("serviceType", serviceTypeArray.getJsonObject(i), i));
             }
         }
         JsonArray specialtyArray = getJsonArray(jsonObject, "specialty");
         if (specialtyArray != null) {
             for (int i = 0; i < specialtyArray.size(); i++) {
+                if (specialtyArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + specialtyArray.get(i).getValueType() + " for element: specialty");
+                }
                 builder.specialty(parseCodeableConcept("specialty", specialtyArray.getJsonObject(i), i));
             }
         }
         JsonArray actorArray = getJsonArray(jsonObject, "actor");
         if (actorArray != null) {
             for (int i = 0; i < actorArray.size(); i++) {
+                if (actorArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + actorArray.get(i).getValueType() + " for element: actor");
+                }
                 builder.actor(parseReference("actor", actorArray.getJsonObject(i), i));
             }
         }
@@ -20099,6 +23774,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray contactArray = getJsonArray(jsonObject, "contact");
         if (contactArray != null) {
             for (int i = 0; i < contactArray.size(); i++) {
+                if (contactArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contactArray.get(i).getValueType() + " for element: contact");
+                }
                 builder.contact(parseContactDetail("contact", contactArray.getJsonObject(i), i));
             }
         }
@@ -20106,12 +23784,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray useContextArray = getJsonArray(jsonObject, "useContext");
         if (useContextArray != null) {
             for (int i = 0; i < useContextArray.size(); i++) {
+                if (useContextArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + useContextArray.get(i).getValueType() + " for element: useContext");
+                }
                 builder.useContext(parseUsageContext("useContext", useContextArray.getJsonObject(i), i));
             }
         }
         JsonArray jurisdictionArray = getJsonArray(jsonObject, "jurisdiction");
         if (jurisdictionArray != null) {
             for (int i = 0; i < jurisdictionArray.size(); i++) {
+                if (jurisdictionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + jurisdictionArray.get(i).getValueType() + " for element: jurisdiction");
+                }
                 builder.jurisdiction(parseCodeableConcept("jurisdiction", jurisdictionArray.getJsonObject(i), i));
             }
         }
@@ -20121,6 +23805,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (baseArray != null) {
             JsonArray _baseArray = jsonObject.getJsonArray("_base");
             for (int i = 0; i < baseArray.size(); i++) {
+                if (baseArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + baseArray.get(i).getValueType() + " for element: base");
+                }
                 builder.base((ResourceType) parseString(ResourceType.builder(), "base", baseArray.get(i), getJsonValue(_baseArray, i), i));
             }
         }
@@ -20132,6 +23819,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (targetArray != null) {
             JsonArray _targetArray = jsonObject.getJsonArray("_target");
             for (int i = 0; i < targetArray.size(); i++) {
+                if (targetArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + targetArray.get(i).getValueType() + " for element: target");
+                }
                 builder.target((ResourceType) parseString(ResourceType.builder(), "target", targetArray.get(i), getJsonValue(_targetArray, i), i));
             }
         }
@@ -20141,6 +23831,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (comparatorArray != null) {
             JsonArray _comparatorArray = jsonObject.getJsonArray("_comparator");
             for (int i = 0; i < comparatorArray.size(); i++) {
+                if (comparatorArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + comparatorArray.get(i).getValueType() + " for element: comparator");
+                }
                 builder.comparator((SearchComparator) parseString(SearchComparator.builder(), "comparator", comparatorArray.get(i), getJsonValue(_comparatorArray, i), i));
             }
         }
@@ -20148,6 +23841,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (modifierArray != null) {
             JsonArray _modifierArray = jsonObject.getJsonArray("_modifier");
             for (int i = 0; i < modifierArray.size(); i++) {
+                if (modifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + modifierArray.get(i).getValueType() + " for element: modifier");
+                }
                 builder.modifier((SearchModifierCode) parseString(SearchModifierCode.builder(), "modifier", modifierArray.get(i), getJsonValue(_modifierArray, i), i));
             }
         }
@@ -20161,6 +23857,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray componentArray = getJsonArray(jsonObject, "component");
         if (componentArray != null) {
             for (int i = 0; i < componentArray.size(); i++) {
+                if (componentArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + componentArray.get(i).getValueType() + " for element: component");
+                }
                 builder.component(parseSearchParameterComponent("component", componentArray.getJsonObject(i), i));
             }
         }
@@ -20199,6 +23898,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -20219,12 +23921,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray basedOnArray = getJsonArray(jsonObject, "basedOn");
         if (basedOnArray != null) {
             for (int i = 0; i < basedOnArray.size(); i++) {
+                if (basedOnArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + basedOnArray.get(i).getValueType() + " for element: basedOn");
+                }
                 builder.basedOn(parseReference("basedOn", basedOnArray.getJsonObject(i), i));
             }
         }
         JsonArray replacesArray = getJsonArray(jsonObject, "replaces");
         if (replacesArray != null) {
             for (int i = 0; i < replacesArray.size(); i++) {
+                if (replacesArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + replacesArray.get(i).getValueType() + " for element: replaces");
+                }
                 builder.replaces(parseReference("replaces", replacesArray.getJsonObject(i), i));
             }
         }
@@ -20234,6 +23942,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray categoryArray = getJsonArray(jsonObject, "category");
         if (categoryArray != null) {
             for (int i = 0; i < categoryArray.size(); i++) {
+                if (categoryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + categoryArray.get(i).getValueType() + " for element: category");
+                }
                 builder.category(parseCodeableConcept("category", categoryArray.getJsonObject(i), i));
             }
         }
@@ -20243,6 +23954,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray orderDetailArray = getJsonArray(jsonObject, "orderDetail");
         if (orderDetailArray != null) {
             for (int i = 0; i < orderDetailArray.size(); i++) {
+                if (orderDetailArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + orderDetailArray.get(i).getValueType() + " for element: orderDetail");
+                }
                 builder.orderDetail(parseCodeableConcept("orderDetail", orderDetailArray.getJsonObject(i), i));
             }
         }
@@ -20257,60 +23971,90 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray performerArray = getJsonArray(jsonObject, "performer");
         if (performerArray != null) {
             for (int i = 0; i < performerArray.size(); i++) {
+                if (performerArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + performerArray.get(i).getValueType() + " for element: performer");
+                }
                 builder.performer(parseReference("performer", performerArray.getJsonObject(i), i));
             }
         }
         JsonArray locationCodeArray = getJsonArray(jsonObject, "locationCode");
         if (locationCodeArray != null) {
             for (int i = 0; i < locationCodeArray.size(); i++) {
+                if (locationCodeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + locationCodeArray.get(i).getValueType() + " for element: locationCode");
+                }
                 builder.locationCode(parseCodeableConcept("locationCode", locationCodeArray.getJsonObject(i), i));
             }
         }
         JsonArray locationReferenceArray = getJsonArray(jsonObject, "locationReference");
         if (locationReferenceArray != null) {
             for (int i = 0; i < locationReferenceArray.size(); i++) {
+                if (locationReferenceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + locationReferenceArray.get(i).getValueType() + " for element: locationReference");
+                }
                 builder.locationReference(parseReference("locationReference", locationReferenceArray.getJsonObject(i), i));
             }
         }
         JsonArray reasonCodeArray = getJsonArray(jsonObject, "reasonCode");
         if (reasonCodeArray != null) {
             for (int i = 0; i < reasonCodeArray.size(); i++) {
+                if (reasonCodeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reasonCodeArray.get(i).getValueType() + " for element: reasonCode");
+                }
                 builder.reasonCode(parseCodeableConcept("reasonCode", reasonCodeArray.getJsonObject(i), i));
             }
         }
         JsonArray reasonReferenceArray = getJsonArray(jsonObject, "reasonReference");
         if (reasonReferenceArray != null) {
             for (int i = 0; i < reasonReferenceArray.size(); i++) {
+                if (reasonReferenceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reasonReferenceArray.get(i).getValueType() + " for element: reasonReference");
+                }
                 builder.reasonReference(parseReference("reasonReference", reasonReferenceArray.getJsonObject(i), i));
             }
         }
         JsonArray insuranceArray = getJsonArray(jsonObject, "insurance");
         if (insuranceArray != null) {
             for (int i = 0; i < insuranceArray.size(); i++) {
+                if (insuranceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + insuranceArray.get(i).getValueType() + " for element: insurance");
+                }
                 builder.insurance(parseReference("insurance", insuranceArray.getJsonObject(i), i));
             }
         }
         JsonArray supportingInfoArray = getJsonArray(jsonObject, "supportingInfo");
         if (supportingInfoArray != null) {
             for (int i = 0; i < supportingInfoArray.size(); i++) {
+                if (supportingInfoArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + supportingInfoArray.get(i).getValueType() + " for element: supportingInfo");
+                }
                 builder.supportingInfo(parseReference("supportingInfo", supportingInfoArray.getJsonObject(i), i));
             }
         }
         JsonArray specimenArray = getJsonArray(jsonObject, "specimen");
         if (specimenArray != null) {
             for (int i = 0; i < specimenArray.size(); i++) {
+                if (specimenArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + specimenArray.get(i).getValueType() + " for element: specimen");
+                }
                 builder.specimen(parseReference("specimen", specimenArray.getJsonObject(i), i));
             }
         }
         JsonArray bodySiteArray = getJsonArray(jsonObject, "bodySite");
         if (bodySiteArray != null) {
             for (int i = 0; i < bodySiteArray.size(); i++) {
+                if (bodySiteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + bodySiteArray.get(i).getValueType() + " for element: bodySite");
+                }
                 builder.bodySite(parseCodeableConcept("bodySite", bodySiteArray.getJsonObject(i), i));
             }
         }
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
@@ -20318,6 +24062,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray relevantHistoryArray = getJsonArray(jsonObject, "relevantHistory");
         if (relevantHistoryArray != null) {
             for (int i = 0; i < relevantHistoryArray.size(); i++) {
+                if (relevantHistoryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + relevantHistoryArray.get(i).getValueType() + " for element: relevantHistory");
+                }
                 builder.relevantHistory(parseReference("relevantHistory", relevantHistoryArray.getJsonObject(i), i));
             }
         }
@@ -20339,6 +24086,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray typeArray = getJsonArray(jsonObject, "type");
         if (typeArray != null) {
             for (int i = 0; i < typeArray.size(); i++) {
+                if (typeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + typeArray.get(i).getValueType() + " for element: type");
+                }
                 builder.type(parseCoding("type", typeArray.getJsonObject(i), i));
             }
         }
@@ -20366,24 +24116,36 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
         JsonArray serviceCategoryArray = getJsonArray(jsonObject, "serviceCategory");
         if (serviceCategoryArray != null) {
             for (int i = 0; i < serviceCategoryArray.size(); i++) {
+                if (serviceCategoryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + serviceCategoryArray.get(i).getValueType() + " for element: serviceCategory");
+                }
                 builder.serviceCategory(parseCodeableConcept("serviceCategory", serviceCategoryArray.getJsonObject(i), i));
             }
         }
         JsonArray serviceTypeArray = getJsonArray(jsonObject, "serviceType");
         if (serviceTypeArray != null) {
             for (int i = 0; i < serviceTypeArray.size(); i++) {
+                if (serviceTypeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + serviceTypeArray.get(i).getValueType() + " for element: serviceType");
+                }
                 builder.serviceType(parseCodeableConcept("serviceType", serviceTypeArray.getJsonObject(i), i));
             }
         }
         JsonArray specialtyArray = getJsonArray(jsonObject, "specialty");
         if (specialtyArray != null) {
             for (int i = 0; i < specialtyArray.size(); i++) {
+                if (specialtyArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + specialtyArray.get(i).getValueType() + " for element: specialty");
+                }
                 builder.specialty(parseCodeableConcept("specialty", specialtyArray.getJsonObject(i), i));
             }
         }
@@ -20412,6 +24174,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -20423,12 +24188,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray parentArray = getJsonArray(jsonObject, "parent");
         if (parentArray != null) {
             for (int i = 0; i < parentArray.size(); i++) {
+                if (parentArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + parentArray.get(i).getValueType() + " for element: parent");
+                }
                 builder.parent(parseReference("parent", parentArray.getJsonObject(i), i));
             }
         }
         JsonArray requestArray = getJsonArray(jsonObject, "request");
         if (requestArray != null) {
             for (int i = 0; i < requestArray.size(); i++) {
+                if (requestArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + requestArray.get(i).getValueType() + " for element: request");
+                }
                 builder.request(parseReference("request", requestArray.getJsonObject(i), i));
             }
         }
@@ -20436,24 +24207,36 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray processingArray = getJsonArray(jsonObject, "processing");
         if (processingArray != null) {
             for (int i = 0; i < processingArray.size(); i++) {
+                if (processingArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + processingArray.get(i).getValueType() + " for element: processing");
+                }
                 builder.processing(parseSpecimenProcessing("processing", processingArray.getJsonObject(i), i));
             }
         }
         JsonArray containerArray = getJsonArray(jsonObject, "container");
         if (containerArray != null) {
             for (int i = 0; i < containerArray.size(); i++) {
+                if (containerArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + containerArray.get(i).getValueType() + " for element: container");
+                }
                 builder.container(parseSpecimenContainer("container", containerArray.getJsonObject(i), i));
             }
         }
         JsonArray conditionArray = getJsonArray(jsonObject, "condition");
         if (conditionArray != null) {
             for (int i = 0; i < conditionArray.size(); i++) {
+                if (conditionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + conditionArray.get(i).getValueType() + " for element: condition");
+                }
                 builder.condition(parseCodeableConcept("condition", conditionArray.getJsonObject(i), i));
             }
         }
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
@@ -20497,6 +24280,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -20525,6 +24311,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray additiveArray = getJsonArray(jsonObject, "additive");
         if (additiveArray != null) {
             for (int i = 0; i < additiveArray.size(); i++) {
+                if (additiveArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + additiveArray.get(i).getValueType() + " for element: additive");
+                }
                 builder.additive(parseReference("additive", additiveArray.getJsonObject(i), i));
             }
         }
@@ -20549,6 +24338,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray patientPreparationArray = getJsonArray(jsonObject, "patientPreparation");
         if (patientPreparationArray != null) {
             for (int i = 0; i < patientPreparationArray.size(); i++) {
+                if (patientPreparationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + patientPreparationArray.get(i).getValueType() + " for element: patientPreparation");
+                }
                 builder.patientPreparation(parseCodeableConcept("patientPreparation", patientPreparationArray.getJsonObject(i), i));
             }
         }
@@ -20556,12 +24348,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray collectionArray = getJsonArray(jsonObject, "collection");
         if (collectionArray != null) {
             for (int i = 0; i < collectionArray.size(); i++) {
+                if (collectionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + collectionArray.get(i).getValueType() + " for element: collection");
+                }
                 builder.collection(parseCodeableConcept("collection", collectionArray.getJsonObject(i), i));
             }
         }
         JsonArray typeTestedArray = getJsonArray(jsonObject, "typeTested");
         if (typeTestedArray != null) {
             for (int i = 0; i < typeTestedArray.size(); i++) {
+                if (typeTestedArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + typeTestedArray.get(i).getValueType() + " for element: typeTested");
+                }
                 builder.typeTested(parseSpecimenDefinitionTypeTested("typeTested", typeTestedArray.getJsonObject(i), i));
             }
         }
@@ -20589,12 +24387,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray rejectionCriterionArray = getJsonArray(jsonObject, "rejectionCriterion");
         if (rejectionCriterionArray != null) {
             for (int i = 0; i < rejectionCriterionArray.size(); i++) {
+                if (rejectionCriterionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + rejectionCriterionArray.get(i).getValueType() + " for element: rejectionCriterion");
+                }
                 builder.rejectionCriterion(parseCodeableConcept("rejectionCriterion", rejectionCriterionArray.getJsonObject(i), i));
             }
         }
         JsonArray handlingArray = getJsonArray(jsonObject, "handling");
         if (handlingArray != null) {
             for (int i = 0; i < handlingArray.size(); i++) {
+                if (handlingArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + handlingArray.get(i).getValueType() + " for element: handling");
+                }
                 builder.handling(parseSpecimenDefinitionTypeTestedHandling("handling", handlingArray.getJsonObject(i), i));
             }
         }
@@ -20622,6 +24426,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray additiveArray = getJsonArray(jsonObject, "additive");
         if (additiveArray != null) {
             for (int i = 0; i < additiveArray.size(); i++) {
+                if (additiveArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + additiveArray.get(i).getValueType() + " for element: additive");
+                }
                 builder.additive(parseSpecimenDefinitionTypeTestedContainerAdditive("additive", additiveArray.getJsonObject(i), i));
             }
         }
@@ -20709,6 +24516,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -20722,6 +24532,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray contactArray = getJsonArray(jsonObject, "contact");
         if (contactArray != null) {
             for (int i = 0; i < contactArray.size(); i++) {
+                if (contactArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contactArray.get(i).getValueType() + " for element: contact");
+                }
                 builder.contact(parseContactDetail("contact", contactArray.getJsonObject(i), i));
             }
         }
@@ -20729,12 +24542,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray useContextArray = getJsonArray(jsonObject, "useContext");
         if (useContextArray != null) {
             for (int i = 0; i < useContextArray.size(); i++) {
+                if (useContextArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + useContextArray.get(i).getValueType() + " for element: useContext");
+                }
                 builder.useContext(parseUsageContext("useContext", useContextArray.getJsonObject(i), i));
             }
         }
         JsonArray jurisdictionArray = getJsonArray(jsonObject, "jurisdiction");
         if (jurisdictionArray != null) {
             for (int i = 0; i < jurisdictionArray.size(); i++) {
+                if (jurisdictionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + jurisdictionArray.get(i).getValueType() + " for element: jurisdiction");
+                }
                 builder.jurisdiction(parseCodeableConcept("jurisdiction", jurisdictionArray.getJsonObject(i), i));
             }
         }
@@ -20743,6 +24562,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray keywordArray = getJsonArray(jsonObject, "keyword");
         if (keywordArray != null) {
             for (int i = 0; i < keywordArray.size(); i++) {
+                if (keywordArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + keywordArray.get(i).getValueType() + " for element: keyword");
+                }
                 builder.keyword(parseCoding("keyword", keywordArray.getJsonObject(i), i));
             }
         }
@@ -20750,6 +24572,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray mappingArray = getJsonArray(jsonObject, "mapping");
         if (mappingArray != null) {
             for (int i = 0; i < mappingArray.size(); i++) {
+                if (mappingArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + mappingArray.get(i).getValueType() + " for element: mapping");
+                }
                 builder.mapping(parseStructureDefinitionMapping("mapping", mappingArray.getJsonObject(i), i));
             }
         }
@@ -20758,6 +24583,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray contextArray = getJsonArray(jsonObject, "context");
         if (contextArray != null) {
             for (int i = 0; i < contextArray.size(); i++) {
+                if (contextArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contextArray.get(i).getValueType() + " for element: context");
+                }
                 builder.context(parseStructureDefinitionContext("context", contextArray.getJsonObject(i), i));
             }
         }
@@ -20808,6 +24636,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray elementArray = getJsonArray(jsonObject, "element");
         if (elementArray != null) {
             for (int i = 0; i < elementArray.size(); i++) {
+                if (elementArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + elementArray.get(i).getValueType() + " for element: element");
+                }
                 builder.element(parseElementDefinition("element", elementArray.getJsonObject(i), i));
             }
         }
@@ -20848,6 +24679,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray elementArray = getJsonArray(jsonObject, "element");
         if (elementArray != null) {
             for (int i = 0; i < elementArray.size(); i++) {
+                if (elementArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + elementArray.get(i).getValueType() + " for element: element");
+                }
                 builder.element(parseElementDefinition("element", elementArray.getJsonObject(i), i));
             }
         }
@@ -20870,6 +24704,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -20883,6 +24720,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray contactArray = getJsonArray(jsonObject, "contact");
         if (contactArray != null) {
             for (int i = 0; i < contactArray.size(); i++) {
+                if (contactArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contactArray.get(i).getValueType() + " for element: contact");
+                }
                 builder.contact(parseContactDetail("contact", contactArray.getJsonObject(i), i));
             }
         }
@@ -20890,12 +24730,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray useContextArray = getJsonArray(jsonObject, "useContext");
         if (useContextArray != null) {
             for (int i = 0; i < useContextArray.size(); i++) {
+                if (useContextArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + useContextArray.get(i).getValueType() + " for element: useContext");
+                }
                 builder.useContext(parseUsageContext("useContext", useContextArray.getJsonObject(i), i));
             }
         }
         JsonArray jurisdictionArray = getJsonArray(jsonObject, "jurisdiction");
         if (jurisdictionArray != null) {
             for (int i = 0; i < jurisdictionArray.size(); i++) {
+                if (jurisdictionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + jurisdictionArray.get(i).getValueType() + " for element: jurisdiction");
+                }
                 builder.jurisdiction(parseCodeableConcept("jurisdiction", jurisdictionArray.getJsonObject(i), i));
             }
         }
@@ -20904,6 +24750,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray structureArray = getJsonArray(jsonObject, "structure");
         if (structureArray != null) {
             for (int i = 0; i < structureArray.size(); i++) {
+                if (structureArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + structureArray.get(i).getValueType() + " for element: structure");
+                }
                 builder.structure(parseStructureMapStructure("structure", structureArray.getJsonObject(i), i));
             }
         }
@@ -20917,6 +24766,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray groupArray = getJsonArray(jsonObject, "group");
         if (groupArray != null) {
             for (int i = 0; i < groupArray.size(); i++) {
+                if (groupArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + groupArray.get(i).getValueType() + " for element: group");
+                }
                 builder.group(parseStructureMapGroup("group", groupArray.getJsonObject(i), i));
             }
         }
@@ -20942,12 +24794,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray inputArray = getJsonArray(jsonObject, "input");
         if (inputArray != null) {
             for (int i = 0; i < inputArray.size(); i++) {
+                if (inputArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + inputArray.get(i).getValueType() + " for element: input");
+                }
                 builder.input(parseStructureMapGroupInput("input", inputArray.getJsonObject(i), i));
             }
         }
         JsonArray ruleArray = getJsonArray(jsonObject, "rule");
         if (ruleArray != null) {
             for (int i = 0; i < ruleArray.size(); i++) {
+                if (ruleArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + ruleArray.get(i).getValueType() + " for element: rule");
+                }
                 builder.rule(parseStructureMapGroupRule("rule", ruleArray.getJsonObject(i), i));
             }
         }
@@ -20989,24 +24847,36 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray sourceArray = getJsonArray(jsonObject, "source");
         if (sourceArray != null) {
             for (int i = 0; i < sourceArray.size(); i++) {
+                if (sourceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + sourceArray.get(i).getValueType() + " for element: source");
+                }
                 builder.source(parseStructureMapGroupRuleSource("source", sourceArray.getJsonObject(i), i));
             }
         }
         JsonArray targetArray = getJsonArray(jsonObject, "target");
         if (targetArray != null) {
             for (int i = 0; i < targetArray.size(); i++) {
+                if (targetArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + targetArray.get(i).getValueType() + " for element: target");
+                }
                 builder.target(parseStructureMapGroupRuleTarget("target", targetArray.getJsonObject(i), i));
             }
         }
         JsonArray ruleArray = getJsonArray(jsonObject, "rule");
         if (ruleArray != null) {
             for (int i = 0; i < ruleArray.size(); i++) {
+                if (ruleArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + ruleArray.get(i).getValueType() + " for element: rule");
+                }
                 builder.rule(parseStructureMapGroupRule("rule", ruleArray.getJsonObject(i), i));
             }
         }
         JsonArray dependentArray = getJsonArray(jsonObject, "dependent");
         if (dependentArray != null) {
             for (int i = 0; i < dependentArray.size(); i++) {
+                if (dependentArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + dependentArray.get(i).getValueType() + " for element: dependent");
+                }
                 builder.dependent(parseStructureMapGroupRuleDependent("dependent", dependentArray.getJsonObject(i), i));
             }
         }
@@ -21083,6 +24953,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (listModeArray != null) {
             JsonArray _listModeArray = jsonObject.getJsonArray("_listMode");
             for (int i = 0; i < listModeArray.size(); i++) {
+                if (listModeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + listModeArray.get(i).getValueType() + " for element: listMode");
+                }
                 builder.listMode((StructureMapTargetListMode) parseString(StructureMapTargetListMode.builder(), "listMode", listModeArray.get(i), getJsonValue(_listModeArray, i), i));
             }
         }
@@ -21091,6 +24964,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray parameterArray = getJsonArray(jsonObject, "parameter");
         if (parameterArray != null) {
             for (int i = 0; i < parameterArray.size(); i++) {
+                if (parameterArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + parameterArray.get(i).getValueType() + " for element: parameter");
+                }
                 builder.parameter(parseStructureMapGroupRuleTargetParameter("parameter", parameterArray.getJsonObject(i), i));
             }
         }
@@ -21148,6 +25024,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray contactArray = getJsonArray(jsonObject, "contact");
         if (contactArray != null) {
             for (int i = 0; i < contactArray.size(); i++) {
+                if (contactArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contactArray.get(i).getValueType() + " for element: contact");
+                }
                 builder.contact(parseContactPoint("contact", contactArray.getJsonObject(i), i));
             }
         }
@@ -21203,6 +25082,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray notificationEventArray = getJsonArray(jsonObject, "notificationEvent");
         if (notificationEventArray != null) {
             for (int i = 0; i < notificationEventArray.size(); i++) {
+                if (notificationEventArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + notificationEventArray.get(i).getValueType() + " for element: notificationEvent");
+                }
                 builder.notificationEvent(parseSubscriptionStatusNotificationEvent("notificationEvent", notificationEventArray.getJsonObject(i), i));
             }
         }
@@ -21211,6 +25093,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray errorArray = getJsonArray(jsonObject, "error");
         if (errorArray != null) {
             for (int i = 0; i < errorArray.size(); i++) {
+                if (errorArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + errorArray.get(i).getValueType() + " for element: error");
+                }
                 builder.error(parseCodeableConcept("error", errorArray.getJsonObject(i), i));
             }
         }
@@ -21235,6 +25120,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray additionalContextArray = getJsonArray(jsonObject, "additionalContext");
         if (additionalContextArray != null) {
             for (int i = 0; i < additionalContextArray.size(); i++) {
+                if (additionalContextArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + additionalContextArray.get(i).getValueType() + " for element: additionalContext");
+                }
                 builder.additionalContext(parseReference("additionalContext", additionalContextArray.getJsonObject(i), i));
             }
         }
@@ -21257,6 +25145,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -21276,6 +25167,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray contactArray = getJsonArray(jsonObject, "contact");
         if (contactArray != null) {
             for (int i = 0; i < contactArray.size(); i++) {
+                if (contactArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contactArray.get(i).getValueType() + " for element: contact");
+                }
                 builder.contact(parseContactDetail("contact", contactArray.getJsonObject(i), i));
             }
         }
@@ -21283,12 +25177,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray useContextArray = getJsonArray(jsonObject, "useContext");
         if (useContextArray != null) {
             for (int i = 0; i < useContextArray.size(); i++) {
+                if (useContextArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + useContextArray.get(i).getValueType() + " for element: useContext");
+                }
                 builder.useContext(parseUsageContext("useContext", useContextArray.getJsonObject(i), i));
             }
         }
         JsonArray jurisdictionArray = getJsonArray(jsonObject, "jurisdiction");
         if (jurisdictionArray != null) {
             for (int i = 0; i < jurisdictionArray.size(); i++) {
+                if (jurisdictionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + jurisdictionArray.get(i).getValueType() + " for element: jurisdiction");
+                }
                 builder.jurisdiction(parseCodeableConcept("jurisdiction", jurisdictionArray.getJsonObject(i), i));
             }
         }
@@ -21300,24 +25200,36 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray resourceTriggerArray = getJsonArray(jsonObject, "resourceTrigger");
         if (resourceTriggerArray != null) {
             for (int i = 0; i < resourceTriggerArray.size(); i++) {
+                if (resourceTriggerArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + resourceTriggerArray.get(i).getValueType() + " for element: resourceTrigger");
+                }
                 builder.resourceTrigger(parseSubscriptionTopicResourceTrigger("resourceTrigger", resourceTriggerArray.getJsonObject(i), i));
             }
         }
         JsonArray eventTriggerArray = getJsonArray(jsonObject, "eventTrigger");
         if (eventTriggerArray != null) {
             for (int i = 0; i < eventTriggerArray.size(); i++) {
+                if (eventTriggerArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + eventTriggerArray.get(i).getValueType() + " for element: eventTrigger");
+                }
                 builder.eventTrigger(parseSubscriptionTopicEventTrigger("eventTrigger", eventTriggerArray.getJsonObject(i), i));
             }
         }
         JsonArray canFilterByArray = getJsonArray(jsonObject, "canFilterBy");
         if (canFilterByArray != null) {
             for (int i = 0; i < canFilterByArray.size(); i++) {
+                if (canFilterByArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + canFilterByArray.get(i).getValueType() + " for element: canFilterBy");
+                }
                 builder.canFilterBy(parseSubscriptionTopicCanFilterBy("canFilterBy", canFilterByArray.getJsonObject(i), i));
             }
         }
         JsonArray notificationShapeArray = getJsonArray(jsonObject, "notificationShape");
         if (notificationShapeArray != null) {
             for (int i = 0; i < notificationShapeArray.size(); i++) {
+                if (notificationShapeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + notificationShapeArray.get(i).getValueType() + " for element: notificationShape");
+                }
                 builder.notificationShape(parseSubscriptionTopicNotificationShape("notificationShape", notificationShapeArray.getJsonObject(i), i));
             }
         }
@@ -21343,6 +25255,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (modifierArray != null) {
             JsonArray _modifierArray = jsonObject.getJsonArray("_modifier");
             for (int i = 0; i < modifierArray.size(); i++) {
+                if (modifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + modifierArray.get(i).getValueType() + " for element: modifier");
+                }
                 builder.modifier((SubscriptionTopicFilterBySearchModifier) parseString(SubscriptionTopicFilterBySearchModifier.builder(), "modifier", modifierArray.get(i), getJsonValue(_modifierArray, i), i));
             }
         }
@@ -21415,6 +25330,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (supportedInteractionArray != null) {
             JsonArray _supportedInteractionArray = jsonObject.getJsonArray("_supportedInteraction");
             for (int i = 0; i < supportedInteractionArray.size(); i++) {
+                if (supportedInteractionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + supportedInteractionArray.get(i).getValueType() + " for element: supportedInteraction");
+                }
                 builder.supportedInteraction((MethodCode) parseString(MethodCode.builder(), "supportedInteraction", supportedInteractionArray.get(i), getJsonValue(_supportedInteractionArray, i), i));
             }
         }
@@ -21458,6 +25376,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -21465,6 +25386,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray categoryArray = getJsonArray(jsonObject, "category");
         if (categoryArray != null) {
             for (int i = 0; i < categoryArray.size(); i++) {
+                if (categoryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + categoryArray.get(i).getValueType() + " for element: category");
+                }
                 builder.category(parseCodeableConcept("category", categoryArray.getJsonObject(i), i));
             }
         }
@@ -21473,12 +25397,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray instanceArray = getJsonArray(jsonObject, "instance");
         if (instanceArray != null) {
             for (int i = 0; i < instanceArray.size(); i++) {
+                if (instanceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + instanceArray.get(i).getValueType() + " for element: instance");
+                }
                 builder.instance(parseSubstanceInstance("instance", instanceArray.getJsonObject(i), i));
             }
         }
         JsonArray ingredientArray = getJsonArray(jsonObject, "ingredient");
         if (ingredientArray != null) {
             for (int i = 0; i < ingredientArray.size(); i++) {
+                if (ingredientArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + ingredientArray.get(i).getValueType() + " for element: ingredient");
+                }
                 builder.ingredient(parseSubstanceIngredient("ingredient", ingredientArray.getJsonObject(i), i));
             }
         }
@@ -21535,6 +25465,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -21543,6 +25476,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray classificationArray = getJsonArray(jsonObject, "classification");
         if (classificationArray != null) {
             for (int i = 0; i < classificationArray.size(); i++) {
+                if (classificationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + classificationArray.get(i).getValueType() + " for element: classification");
+                }
                 builder.classification(parseCodeableConcept("classification", classificationArray.getJsonObject(i), i));
             }
         }
@@ -21550,6 +25486,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray gradeArray = getJsonArray(jsonObject, "grade");
         if (gradeArray != null) {
             for (int i = 0; i < gradeArray.size(); i++) {
+                if (gradeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + gradeArray.get(i).getValueType() + " for element: grade");
+                }
                 builder.grade(parseCodeableConcept("grade", gradeArray.getJsonObject(i), i));
             }
         }
@@ -21557,42 +25496,63 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray informationSourceArray = getJsonArray(jsonObject, "informationSource");
         if (informationSourceArray != null) {
             for (int i = 0; i < informationSourceArray.size(); i++) {
+                if (informationSourceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + informationSourceArray.get(i).getValueType() + " for element: informationSource");
+                }
                 builder.informationSource(parseReference("informationSource", informationSourceArray.getJsonObject(i), i));
             }
         }
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
         JsonArray manufacturerArray = getJsonArray(jsonObject, "manufacturer");
         if (manufacturerArray != null) {
             for (int i = 0; i < manufacturerArray.size(); i++) {
+                if (manufacturerArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + manufacturerArray.get(i).getValueType() + " for element: manufacturer");
+                }
                 builder.manufacturer(parseReference("manufacturer", manufacturerArray.getJsonObject(i), i));
             }
         }
         JsonArray supplierArray = getJsonArray(jsonObject, "supplier");
         if (supplierArray != null) {
             for (int i = 0; i < supplierArray.size(); i++) {
+                if (supplierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + supplierArray.get(i).getValueType() + " for element: supplier");
+                }
                 builder.supplier(parseReference("supplier", supplierArray.getJsonObject(i), i));
             }
         }
         JsonArray moietyArray = getJsonArray(jsonObject, "moiety");
         if (moietyArray != null) {
             for (int i = 0; i < moietyArray.size(); i++) {
+                if (moietyArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + moietyArray.get(i).getValueType() + " for element: moiety");
+                }
                 builder.moiety(parseSubstanceDefinitionMoiety("moiety", moietyArray.getJsonObject(i), i));
             }
         }
         JsonArray propertyArray = getJsonArray(jsonObject, "property");
         if (propertyArray != null) {
             for (int i = 0; i < propertyArray.size(); i++) {
+                if (propertyArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + propertyArray.get(i).getValueType() + " for element: property");
+                }
                 builder.property(parseSubstanceDefinitionProperty("property", propertyArray.getJsonObject(i), i));
             }
         }
         JsonArray molecularWeightArray = getJsonArray(jsonObject, "molecularWeight");
         if (molecularWeightArray != null) {
             for (int i = 0; i < molecularWeightArray.size(); i++) {
+                if (molecularWeightArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + molecularWeightArray.get(i).getValueType() + " for element: molecularWeight");
+                }
                 builder.molecularWeight(parseSubstanceDefinitionMolecularWeight("molecularWeight", molecularWeightArray.getJsonObject(i), i));
             }
         }
@@ -21600,18 +25560,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray codeArray = getJsonArray(jsonObject, "code");
         if (codeArray != null) {
             for (int i = 0; i < codeArray.size(); i++) {
+                if (codeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + codeArray.get(i).getValueType() + " for element: code");
+                }
                 builder.code(parseSubstanceDefinitionCode("code", codeArray.getJsonObject(i), i));
             }
         }
         JsonArray nameArray = getJsonArray(jsonObject, "name");
         if (nameArray != null) {
             for (int i = 0; i < nameArray.size(); i++) {
+                if (nameArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + nameArray.get(i).getValueType() + " for element: name");
+                }
                 builder.name(parseSubstanceDefinitionName("name", nameArray.getJsonObject(i), i));
             }
         }
         JsonArray relationshipArray = getJsonArray(jsonObject, "relationship");
         if (relationshipArray != null) {
             for (int i = 0; i < relationshipArray.size(); i++) {
+                if (relationshipArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + relationshipArray.get(i).getValueType() + " for element: relationship");
+                }
                 builder.relationship(parseSubstanceDefinitionRelationship("relationship", relationshipArray.getJsonObject(i), i));
             }
         }
@@ -21637,12 +25606,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
         JsonArray sourceArray = getJsonArray(jsonObject, "source");
         if (sourceArray != null) {
             for (int i = 0; i < sourceArray.size(); i++) {
+                if (sourceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + sourceArray.get(i).getValueType() + " for element: source");
+                }
                 builder.source(parseReference("source", sourceArray.getJsonObject(i), i));
             }
         }
@@ -21709,42 +25684,63 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray languageArray = getJsonArray(jsonObject, "language");
         if (languageArray != null) {
             for (int i = 0; i < languageArray.size(); i++) {
+                if (languageArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + languageArray.get(i).getValueType() + " for element: language");
+                }
                 builder.language(parseCodeableConcept("language", languageArray.getJsonObject(i), i));
             }
         }
         JsonArray domainArray = getJsonArray(jsonObject, "domain");
         if (domainArray != null) {
             for (int i = 0; i < domainArray.size(); i++) {
+                if (domainArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + domainArray.get(i).getValueType() + " for element: domain");
+                }
                 builder.domain(parseCodeableConcept("domain", domainArray.getJsonObject(i), i));
             }
         }
         JsonArray jurisdictionArray = getJsonArray(jsonObject, "jurisdiction");
         if (jurisdictionArray != null) {
             for (int i = 0; i < jurisdictionArray.size(); i++) {
+                if (jurisdictionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + jurisdictionArray.get(i).getValueType() + " for element: jurisdiction");
+                }
                 builder.jurisdiction(parseCodeableConcept("jurisdiction", jurisdictionArray.getJsonObject(i), i));
             }
         }
         JsonArray synonymArray = getJsonArray(jsonObject, "synonym");
         if (synonymArray != null) {
             for (int i = 0; i < synonymArray.size(); i++) {
+                if (synonymArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + synonymArray.get(i).getValueType() + " for element: synonym");
+                }
                 builder.synonym(parseSubstanceDefinitionName("synonym", synonymArray.getJsonObject(i), i));
             }
         }
         JsonArray translationArray = getJsonArray(jsonObject, "translation");
         if (translationArray != null) {
             for (int i = 0; i < translationArray.size(); i++) {
+                if (translationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + translationArray.get(i).getValueType() + " for element: translation");
+                }
                 builder.translation(parseSubstanceDefinitionName("translation", translationArray.getJsonObject(i), i));
             }
         }
         JsonArray officialArray = getJsonArray(jsonObject, "official");
         if (officialArray != null) {
             for (int i = 0; i < officialArray.size(); i++) {
+                if (officialArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + officialArray.get(i).getValueType() + " for element: official");
+                }
                 builder.official(parseSubstanceDefinitionNameOfficial("official", officialArray.getJsonObject(i), i));
             }
         }
         JsonArray sourceArray = getJsonArray(jsonObject, "source");
         if (sourceArray != null) {
             for (int i = 0; i < sourceArray.size(); i++) {
+                if (sourceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + sourceArray.get(i).getValueType() + " for element: source");
+                }
                 builder.source(parseReference("source", sourceArray.getJsonObject(i), i));
             }
         }
@@ -21807,6 +25803,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray sourceArray = getJsonArray(jsonObject, "source");
         if (sourceArray != null) {
             for (int i = 0; i < sourceArray.size(); i++) {
+                if (sourceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + sourceArray.get(i).getValueType() + " for element: source");
+                }
                 builder.source(parseReference("source", sourceArray.getJsonObject(i), i));
             }
         }
@@ -21832,6 +25831,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray countryOfOriginArray = getJsonArray(jsonObject, "countryOfOrigin");
         if (countryOfOriginArray != null) {
             for (int i = 0; i < countryOfOriginArray.size(); i++) {
+                if (countryOfOriginArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + countryOfOriginArray.get(i).getValueType() + " for element: countryOfOrigin");
+                }
                 builder.countryOfOrigin(parseCodeableConcept("countryOfOrigin", countryOfOriginArray.getJsonObject(i), i));
             }
         }
@@ -21858,18 +25860,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray techniqueArray = getJsonArray(jsonObject, "technique");
         if (techniqueArray != null) {
             for (int i = 0; i < techniqueArray.size(); i++) {
+                if (techniqueArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + techniqueArray.get(i).getValueType() + " for element: technique");
+                }
                 builder.technique(parseCodeableConcept("technique", techniqueArray.getJsonObject(i), i));
             }
         }
         JsonArray sourceDocumentArray = getJsonArray(jsonObject, "sourceDocument");
         if (sourceDocumentArray != null) {
             for (int i = 0; i < sourceDocumentArray.size(); i++) {
+                if (sourceDocumentArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + sourceDocumentArray.get(i).getValueType() + " for element: sourceDocument");
+                }
                 builder.sourceDocument(parseReference("sourceDocument", sourceDocumentArray.getJsonObject(i), i));
             }
         }
         JsonArray representationArray = getJsonArray(jsonObject, "representation");
         if (representationArray != null) {
             for (int i = 0; i < representationArray.size(); i++) {
+                if (representationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + representationArray.get(i).getValueType() + " for element: representation");
+                }
                 builder.representation(parseSubstanceDefinitionStructureRepresentation("representation", representationArray.getJsonObject(i), i));
             }
         }
@@ -21910,18 +25921,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
         JsonArray basedOnArray = getJsonArray(jsonObject, "basedOn");
         if (basedOnArray != null) {
             for (int i = 0; i < basedOnArray.size(); i++) {
+                if (basedOnArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + basedOnArray.get(i).getValueType() + " for element: basedOn");
+                }
                 builder.basedOn(parseReference("basedOn", basedOnArray.getJsonObject(i), i));
             }
         }
         JsonArray partOfArray = getJsonArray(jsonObject, "partOf");
         if (partOfArray != null) {
             for (int i = 0; i < partOfArray.size(); i++) {
+                if (partOfArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + partOfArray.get(i).getValueType() + " for element: partOf");
+                }
                 builder.partOf(parseReference("partOf", partOfArray.getJsonObject(i), i));
             }
         }
@@ -21935,6 +25955,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray receiverArray = getJsonArray(jsonObject, "receiver");
         if (receiverArray != null) {
             for (int i = 0; i < receiverArray.size(); i++) {
+                if (receiverArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + receiverArray.get(i).getValueType() + " for element: receiver");
+                }
                 builder.receiver(parseReference("receiver", receiverArray.getJsonObject(i), i));
             }
         }
@@ -21973,6 +25996,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -21984,6 +26010,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray parameterArray = getJsonArray(jsonObject, "parameter");
         if (parameterArray != null) {
             for (int i = 0; i < parameterArray.size(); i++) {
+                if (parameterArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + parameterArray.get(i).getValueType() + " for element: parameter");
+                }
                 builder.parameter(parseSupplyRequestParameter("parameter", parameterArray.getJsonObject(i), i));
             }
         }
@@ -21993,18 +26022,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray supplierArray = getJsonArray(jsonObject, "supplier");
         if (supplierArray != null) {
             for (int i = 0; i < supplierArray.size(); i++) {
+                if (supplierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + supplierArray.get(i).getValueType() + " for element: supplier");
+                }
                 builder.supplier(parseReference("supplier", supplierArray.getJsonObject(i), i));
             }
         }
         JsonArray reasonCodeArray = getJsonArray(jsonObject, "reasonCode");
         if (reasonCodeArray != null) {
             for (int i = 0; i < reasonCodeArray.size(); i++) {
+                if (reasonCodeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reasonCodeArray.get(i).getValueType() + " for element: reasonCode");
+                }
                 builder.reasonCode(parseCodeableConcept("reasonCode", reasonCodeArray.getJsonObject(i), i));
             }
         }
         JsonArray reasonReferenceArray = getJsonArray(jsonObject, "reasonReference");
         if (reasonReferenceArray != null) {
             for (int i = 0; i < reasonReferenceArray.size(); i++) {
+                if (reasonReferenceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + reasonReferenceArray.get(i).getValueType() + " for element: reasonReference");
+                }
                 builder.reasonReference(parseReference("reasonReference", reasonReferenceArray.getJsonObject(i), i));
             }
         }
@@ -22045,6 +26083,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -22053,6 +26094,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray basedOnArray = getJsonArray(jsonObject, "basedOn");
         if (basedOnArray != null) {
             for (int i = 0; i < basedOnArray.size(); i++) {
+                if (basedOnArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + basedOnArray.get(i).getValueType() + " for element: basedOn");
+                }
                 builder.basedOn(parseReference("basedOn", basedOnArray.getJsonObject(i), i));
             }
         }
@@ -22060,6 +26104,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray partOfArray = getJsonArray(jsonObject, "partOf");
         if (partOfArray != null) {
             for (int i = 0; i < partOfArray.size(); i++) {
+                if (partOfArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + partOfArray.get(i).getValueType() + " for element: partOf");
+                }
                 builder.partOf(parseReference("partOf", partOfArray.getJsonObject(i), i));
             }
         }
@@ -22080,6 +26127,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray performerTypeArray = getJsonArray(jsonObject, "performerType");
         if (performerTypeArray != null) {
             for (int i = 0; i < performerTypeArray.size(); i++) {
+                if (performerTypeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + performerTypeArray.get(i).getValueType() + " for element: performerType");
+                }
                 builder.performerType(parseCodeableConcept("performerType", performerTypeArray.getJsonObject(i), i));
             }
         }
@@ -22090,18 +26140,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray insuranceArray = getJsonArray(jsonObject, "insurance");
         if (insuranceArray != null) {
             for (int i = 0; i < insuranceArray.size(); i++) {
+                if (insuranceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + insuranceArray.get(i).getValueType() + " for element: insurance");
+                }
                 builder.insurance(parseReference("insurance", insuranceArray.getJsonObject(i), i));
             }
         }
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }
         JsonArray relevantHistoryArray = getJsonArray(jsonObject, "relevantHistory");
         if (relevantHistoryArray != null) {
             for (int i = 0; i < relevantHistoryArray.size(); i++) {
+                if (relevantHistoryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + relevantHistoryArray.get(i).getValueType() + " for element: relevantHistory");
+                }
                 builder.relevantHistory(parseReference("relevantHistory", relevantHistoryArray.getJsonObject(i), i));
             }
         }
@@ -22109,12 +26168,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray inputArray = getJsonArray(jsonObject, "input");
         if (inputArray != null) {
             for (int i = 0; i < inputArray.size(); i++) {
+                if (inputArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + inputArray.get(i).getValueType() + " for element: input");
+                }
                 builder.input(parseTaskInput("input", inputArray.getJsonObject(i), i));
             }
         }
         JsonArray outputArray = getJsonArray(jsonObject, "output");
         if (outputArray != null) {
             for (int i = 0; i < outputArray.size(); i++) {
+                if (outputArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + outputArray.get(i).getValueType() + " for element: output");
+                }
                 builder.output(parseTaskOutput("output", outputArray.getJsonObject(i), i));
             }
         }
@@ -22172,6 +26237,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray recipientArray = getJsonArray(jsonObject, "recipient");
         if (recipientArray != null) {
             for (int i = 0; i < recipientArray.size(); i++) {
+                if (recipientArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + recipientArray.get(i).getValueType() + " for element: recipient");
+                }
                 builder.recipient(parseReference("recipient", recipientArray.getJsonObject(i), i));
             }
         }
@@ -22201,6 +26269,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray contactArray = getJsonArray(jsonObject, "contact");
         if (contactArray != null) {
             for (int i = 0; i < contactArray.size(); i++) {
+                if (contactArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contactArray.get(i).getValueType() + " for element: contact");
+                }
                 builder.contact(parseContactDetail("contact", contactArray.getJsonObject(i), i));
             }
         }
@@ -22208,12 +26279,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray useContextArray = getJsonArray(jsonObject, "useContext");
         if (useContextArray != null) {
             for (int i = 0; i < useContextArray.size(); i++) {
+                if (useContextArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + useContextArray.get(i).getValueType() + " for element: useContext");
+                }
                 builder.useContext(parseUsageContext("useContext", useContextArray.getJsonObject(i), i));
             }
         }
         JsonArray jurisdictionArray = getJsonArray(jsonObject, "jurisdiction");
         if (jurisdictionArray != null) {
             for (int i = 0; i < jurisdictionArray.size(); i++) {
+                if (jurisdictionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + jurisdictionArray.get(i).getValueType() + " for element: jurisdiction");
+                }
                 builder.jurisdiction(parseCodeableConcept("jurisdiction", jurisdictionArray.getJsonObject(i), i));
             }
         }
@@ -22226,6 +26303,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray codeSystemArray = getJsonArray(jsonObject, "codeSystem");
         if (codeSystemArray != null) {
             for (int i = 0; i < codeSystemArray.size(); i++) {
+                if (codeSystemArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + codeSystemArray.get(i).getValueType() + " for element: codeSystem");
+                }
                 builder.codeSystem(parseTerminologyCapabilitiesCodeSystem("codeSystem", codeSystemArray.getJsonObject(i), i));
             }
         }
@@ -22269,6 +26349,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray versionArray = getJsonArray(jsonObject, "version");
         if (versionArray != null) {
             for (int i = 0; i < versionArray.size(); i++) {
+                if (versionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + versionArray.get(i).getValueType() + " for element: version");
+                }
                 builder.version(parseTerminologyCapabilitiesCodeSystemVersion("version", versionArray.getJsonObject(i), i));
             }
         }
@@ -22301,6 +26384,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray filterArray = getJsonArray(jsonObject, "filter");
         if (filterArray != null) {
             for (int i = 0; i < filterArray.size(); i++) {
+                if (filterArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + filterArray.get(i).getValueType() + " for element: filter");
+                }
                 builder.filter(parseTerminologyCapabilitiesCodeSystemVersionFilter("filter", filterArray.getJsonObject(i), i));
             }
         }
@@ -22355,6 +26441,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray parameterArray = getJsonArray(jsonObject, "parameter");
         if (parameterArray != null) {
             for (int i = 0; i < parameterArray.size(); i++) {
+                if (parameterArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + parameterArray.get(i).getValueType() + " for element: parameter");
+                }
                 builder.parameter(parseTerminologyCapabilitiesExpansionParameter("parameter", parameterArray.getJsonObject(i), i));
             }
         }
@@ -22468,6 +26557,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray participantArray = getJsonArray(jsonObject, "participant");
         if (participantArray != null) {
             for (int i = 0; i < participantArray.size(); i++) {
+                if (participantArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + participantArray.get(i).getValueType() + " for element: participant");
+                }
                 builder.participant(parseTestReportParticipant("participant", participantArray.getJsonObject(i), i));
             }
         }
@@ -22475,6 +26567,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray testArray = getJsonArray(jsonObject, "test");
         if (testArray != null) {
             for (int i = 0; i < testArray.size(); i++) {
+                if (testArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + testArray.get(i).getValueType() + " for element: test");
+                }
                 builder.test(parseTestReportTest("test", testArray.getJsonObject(i), i));
             }
         }
@@ -22515,6 +26610,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray actionArray = getJsonArray(jsonObject, "action");
         if (actionArray != null) {
             for (int i = 0; i < actionArray.size(); i++) {
+                if (actionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + actionArray.get(i).getValueType() + " for element: action");
+                }
                 builder.action(parseTestReportSetupAction("action", actionArray.getJsonObject(i), i));
             }
         }
@@ -22589,6 +26687,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray actionArray = getJsonArray(jsonObject, "action");
         if (actionArray != null) {
             for (int i = 0; i < actionArray.size(); i++) {
+                if (actionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + actionArray.get(i).getValueType() + " for element: action");
+                }
                 builder.action(parseTestReportTeardownAction("action", actionArray.getJsonObject(i), i));
             }
         }
@@ -22628,6 +26729,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray actionArray = getJsonArray(jsonObject, "action");
         if (actionArray != null) {
             for (int i = 0; i < actionArray.size(); i++) {
+                if (actionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + actionArray.get(i).getValueType() + " for element: action");
+                }
                 builder.action(parseTestReportTestAction("action", actionArray.getJsonObject(i), i));
             }
         }
@@ -22675,6 +26779,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray contactArray = getJsonArray(jsonObject, "contact");
         if (contactArray != null) {
             for (int i = 0; i < contactArray.size(); i++) {
+                if (contactArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contactArray.get(i).getValueType() + " for element: contact");
+                }
                 builder.contact(parseContactDetail("contact", contactArray.getJsonObject(i), i));
             }
         }
@@ -22682,12 +26789,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray useContextArray = getJsonArray(jsonObject, "useContext");
         if (useContextArray != null) {
             for (int i = 0; i < useContextArray.size(); i++) {
+                if (useContextArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + useContextArray.get(i).getValueType() + " for element: useContext");
+                }
                 builder.useContext(parseUsageContext("useContext", useContextArray.getJsonObject(i), i));
             }
         }
         JsonArray jurisdictionArray = getJsonArray(jsonObject, "jurisdiction");
         if (jurisdictionArray != null) {
             for (int i = 0; i < jurisdictionArray.size(); i++) {
+                if (jurisdictionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + jurisdictionArray.get(i).getValueType() + " for element: jurisdiction");
+                }
                 builder.jurisdiction(parseCodeableConcept("jurisdiction", jurisdictionArray.getJsonObject(i), i));
             }
         }
@@ -22696,12 +26809,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray originArray = getJsonArray(jsonObject, "origin");
         if (originArray != null) {
             for (int i = 0; i < originArray.size(); i++) {
+                if (originArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + originArray.get(i).getValueType() + " for element: origin");
+                }
                 builder.origin(parseTestScriptOrigin("origin", originArray.getJsonObject(i), i));
             }
         }
         JsonArray destinationArray = getJsonArray(jsonObject, "destination");
         if (destinationArray != null) {
             for (int i = 0; i < destinationArray.size(); i++) {
+                if (destinationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + destinationArray.get(i).getValueType() + " for element: destination");
+                }
                 builder.destination(parseTestScriptDestination("destination", destinationArray.getJsonObject(i), i));
             }
         }
@@ -22709,18 +26828,27 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray fixtureArray = getJsonArray(jsonObject, "fixture");
         if (fixtureArray != null) {
             for (int i = 0; i < fixtureArray.size(); i++) {
+                if (fixtureArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + fixtureArray.get(i).getValueType() + " for element: fixture");
+                }
                 builder.fixture(parseTestScriptFixture("fixture", fixtureArray.getJsonObject(i), i));
             }
         }
         JsonArray profileArray = getJsonArray(jsonObject, "profile");
         if (profileArray != null) {
             for (int i = 0; i < profileArray.size(); i++) {
+                if (profileArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + profileArray.get(i).getValueType() + " for element: profile");
+                }
                 builder.profile(parseReference("profile", profileArray.getJsonObject(i), i));
             }
         }
         JsonArray variableArray = getJsonArray(jsonObject, "variable");
         if (variableArray != null) {
             for (int i = 0; i < variableArray.size(); i++) {
+                if (variableArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + variableArray.get(i).getValueType() + " for element: variable");
+                }
                 builder.variable(parseTestScriptVariable("variable", variableArray.getJsonObject(i), i));
             }
         }
@@ -22728,6 +26856,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray testArray = getJsonArray(jsonObject, "test");
         if (testArray != null) {
             for (int i = 0; i < testArray.size(); i++) {
+                if (testArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + testArray.get(i).getValueType() + " for element: test");
+                }
                 builder.test(parseTestScriptTest("test", testArray.getJsonObject(i), i));
             }
         }
@@ -22785,12 +26916,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray linkArray = getJsonArray(jsonObject, "link");
         if (linkArray != null) {
             for (int i = 0; i < linkArray.size(); i++) {
+                if (linkArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + linkArray.get(i).getValueType() + " for element: link");
+                }
                 builder.link(parseTestScriptMetadataLink("link", linkArray.getJsonObject(i), i));
             }
         }
         JsonArray capabilityArray = getJsonArray(jsonObject, "capability");
         if (capabilityArray != null) {
             for (int i = 0; i < capabilityArray.size(); i++) {
+                if (capabilityArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + capabilityArray.get(i).getValueType() + " for element: capability");
+                }
                 builder.capability(parseTestScriptMetadataCapability("capability", capabilityArray.getJsonObject(i), i));
             }
         }
@@ -22880,6 +27017,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray actionArray = getJsonArray(jsonObject, "action");
         if (actionArray != null) {
             for (int i = 0; i < actionArray.size(); i++) {
+                if (actionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + actionArray.get(i).getValueType() + " for element: action");
+                }
                 builder.action(parseTestScriptSetupAction("action", actionArray.getJsonObject(i), i));
             }
         }
@@ -22966,6 +27106,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray requestHeaderArray = getJsonArray(jsonObject, "requestHeader");
         if (requestHeaderArray != null) {
             for (int i = 0; i < requestHeaderArray.size(); i++) {
+                if (requestHeaderArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + requestHeaderArray.get(i).getValueType() + " for element: requestHeader");
+                }
                 builder.requestHeader(parseTestScriptSetupActionOperationRequestHeader("requestHeader", requestHeaderArray.getJsonObject(i), i));
             }
         }
@@ -23009,6 +27152,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray actionArray = getJsonArray(jsonObject, "action");
         if (actionArray != null) {
             for (int i = 0; i < actionArray.size(); i++) {
+                if (actionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + actionArray.get(i).getValueType() + " for element: action");
+                }
                 builder.action(parseTestScriptTeardownAction("action", actionArray.getJsonObject(i), i));
             }
         }
@@ -23048,6 +27194,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray actionArray = getJsonArray(jsonObject, "action");
         if (actionArray != null) {
             for (int i = 0; i < actionArray.size(); i++) {
+                if (actionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + actionArray.get(i).getValueType() + " for element: action");
+                }
                 builder.action(parseTestScriptTestAction("action", actionArray.getJsonObject(i), i));
             }
         }
@@ -23171,6 +27320,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (dayOfWeekArray != null) {
             JsonArray _dayOfWeekArray = jsonObject.getJsonArray("_dayOfWeek");
             for (int i = 0; i < dayOfWeekArray.size(); i++) {
+                if (dayOfWeekArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + dayOfWeekArray.get(i).getValueType() + " for element: dayOfWeek");
+                }
                 builder.dayOfWeek((DayOfWeek) parseString(DayOfWeek.builder(), "dayOfWeek", dayOfWeekArray.get(i), getJsonValue(_dayOfWeekArray, i), i));
             }
         }
@@ -23185,6 +27337,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (whenArray != null) {
             JsonArray _whenArray = jsonObject.getJsonArray("_when");
             for (int i = 0; i < whenArray.size(); i++) {
+                if (whenArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + whenArray.get(i).getValueType() + " for element: when");
+                }
                 builder.when((EventTiming) parseString(EventTiming.builder(), "when", whenArray.get(i), getJsonValue(_whenArray, i), i));
             }
         }
@@ -23210,6 +27365,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray dataArray = getJsonArray(jsonObject, "data");
         if (dataArray != null) {
             for (int i = 0; i < dataArray.size(); i++) {
+                if (dataArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + dataArray.get(i).getValueType() + " for element: data");
+                }
                 builder.data(parseDataRequirement("data", dataArray.getJsonObject(i), i));
             }
         }
@@ -23279,6 +27437,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -23292,6 +27453,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray contactArray = getJsonArray(jsonObject, "contact");
         if (contactArray != null) {
             for (int i = 0; i < contactArray.size(); i++) {
+                if (contactArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + contactArray.get(i).getValueType() + " for element: contact");
+                }
                 builder.contact(parseContactDetail("contact", contactArray.getJsonObject(i), i));
             }
         }
@@ -23299,12 +27463,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray useContextArray = getJsonArray(jsonObject, "useContext");
         if (useContextArray != null) {
             for (int i = 0; i < useContextArray.size(); i++) {
+                if (useContextArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + useContextArray.get(i).getValueType() + " for element: useContext");
+                }
                 builder.useContext(parseUsageContext("useContext", useContextArray.getJsonObject(i), i));
             }
         }
         JsonArray jurisdictionArray = getJsonArray(jsonObject, "jurisdiction");
         if (jurisdictionArray != null) {
             for (int i = 0; i < jurisdictionArray.size(); i++) {
+                if (jurisdictionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + jurisdictionArray.get(i).getValueType() + " for element: jurisdiction");
+                }
                 builder.jurisdiction(parseCodeableConcept("jurisdiction", jurisdictionArray.getJsonObject(i), i));
             }
         }
@@ -23333,12 +27503,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray includeArray = getJsonArray(jsonObject, "include");
         if (includeArray != null) {
             for (int i = 0; i < includeArray.size(); i++) {
+                if (includeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + includeArray.get(i).getValueType() + " for element: include");
+                }
                 builder.include(parseValueSetComposeInclude("include", includeArray.getJsonObject(i), i));
             }
         }
         JsonArray excludeArray = getJsonArray(jsonObject, "exclude");
         if (excludeArray != null) {
             for (int i = 0; i < excludeArray.size(); i++) {
+                if (excludeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + excludeArray.get(i).getValueType() + " for element: exclude");
+                }
                 builder.exclude(parseValueSetComposeInclude("exclude", excludeArray.getJsonObject(i), i));
             }
         }
@@ -23362,12 +27538,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray conceptArray = getJsonArray(jsonObject, "concept");
         if (conceptArray != null) {
             for (int i = 0; i < conceptArray.size(); i++) {
+                if (conceptArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + conceptArray.get(i).getValueType() + " for element: concept");
+                }
                 builder.concept(parseValueSetComposeIncludeConcept("concept", conceptArray.getJsonObject(i), i));
             }
         }
         JsonArray filterArray = getJsonArray(jsonObject, "filter");
         if (filterArray != null) {
             for (int i = 0; i < filterArray.size(); i++) {
+                if (filterArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + filterArray.get(i).getValueType() + " for element: filter");
+                }
                 builder.filter(parseValueSetComposeIncludeFilter("filter", filterArray.getJsonObject(i), i));
             }
         }
@@ -23398,6 +27580,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray designationArray = getJsonArray(jsonObject, "designation");
         if (designationArray != null) {
             for (int i = 0; i < designationArray.size(); i++) {
+                if (designationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + designationArray.get(i).getValueType() + " for element: designation");
+                }
                 builder.designation(parseValueSetComposeIncludeConceptDesignation("designation", designationArray.getJsonObject(i), i));
             }
         }
@@ -23459,12 +27644,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray parameterArray = getJsonArray(jsonObject, "parameter");
         if (parameterArray != null) {
             for (int i = 0; i < parameterArray.size(); i++) {
+                if (parameterArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + parameterArray.get(i).getValueType() + " for element: parameter");
+                }
                 builder.parameter(parseValueSetExpansionParameter("parameter", parameterArray.getJsonObject(i), i));
             }
         }
         JsonArray containsArray = getJsonArray(jsonObject, "contains");
         if (containsArray != null) {
             for (int i = 0; i < containsArray.size(); i++) {
+                if (containsArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + containsArray.get(i).getValueType() + " for element: contains");
+                }
                 builder.contains(parseValueSetExpansionContains("contains", containsArray.getJsonObject(i), i));
             }
         }
@@ -23492,12 +27683,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray designationArray = getJsonArray(jsonObject, "designation");
         if (designationArray != null) {
             for (int i = 0; i < designationArray.size(); i++) {
+                if (designationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + designationArray.get(i).getValueType() + " for element: designation");
+                }
                 builder.designation(parseValueSetComposeIncludeConceptDesignation("designation", designationArray.getJsonObject(i), i));
             }
         }
         JsonArray containsArray = getJsonArray(jsonObject, "contains");
         if (containsArray != null) {
             for (int i = 0; i < containsArray.size(); i++) {
+                if (containsArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + containsArray.get(i).getValueType() + " for element: contains");
+                }
                 builder.contains(parseValueSetExpansionContains("contains", containsArray.getJsonObject(i), i));
             }
         }
@@ -23536,6 +27733,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray targetArray = getJsonArray(jsonObject, "target");
         if (targetArray != null) {
             for (int i = 0; i < targetArray.size(); i++) {
+                if (targetArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + targetArray.get(i).getValueType() + " for element: target");
+                }
                 builder.target(parseReference("target", targetArray.getJsonObject(i), i));
             }
         }
@@ -23553,6 +27753,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray validationProcessArray = getJsonArray(jsonObject, "validationProcess");
         if (validationProcessArray != null) {
             for (int i = 0; i < validationProcessArray.size(); i++) {
+                if (validationProcessArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + validationProcessArray.get(i).getValueType() + " for element: validationProcess");
+                }
                 builder.validationProcess(parseCodeableConcept("validationProcess", validationProcessArray.getJsonObject(i), i));
             }
         }
@@ -23563,6 +27766,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray primarySourceArray = getJsonArray(jsonObject, "primarySource");
         if (primarySourceArray != null) {
             for (int i = 0; i < primarySourceArray.size(); i++) {
+                if (primarySourceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + primarySourceArray.get(i).getValueType() + " for element: primarySource");
+                }
                 builder.primarySource(parseVerificationResultPrimarySource("primarySource", primarySourceArray.getJsonObject(i), i));
             }
         }
@@ -23570,6 +27776,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray validatorArray = getJsonArray(jsonObject, "validator");
         if (validatorArray != null) {
             for (int i = 0; i < validatorArray.size(); i++) {
+                if (validatorArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + validatorArray.get(i).getValueType() + " for element: validator");
+                }
                 builder.validator(parseVerificationResultValidator("validator", validatorArray.getJsonObject(i), i));
             }
         }
@@ -23615,12 +27824,18 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray typeArray = getJsonArray(jsonObject, "type");
         if (typeArray != null) {
             for (int i = 0; i < typeArray.size(); i++) {
+                if (typeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + typeArray.get(i).getValueType() + " for element: type");
+                }
                 builder.type(parseCodeableConcept("type", typeArray.getJsonObject(i), i));
             }
         }
         JsonArray communicationMethodArray = getJsonArray(jsonObject, "communicationMethod");
         if (communicationMethodArray != null) {
             for (int i = 0; i < communicationMethodArray.size(); i++) {
+                if (communicationMethodArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + communicationMethodArray.get(i).getValueType() + " for element: communicationMethod");
+                }
                 builder.communicationMethod(parseCodeableConcept("communicationMethod", communicationMethodArray.getJsonObject(i), i));
             }
         }
@@ -23630,6 +27845,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray pushTypeAvailableArray = getJsonArray(jsonObject, "pushTypeAvailable");
         if (pushTypeAvailableArray != null) {
             for (int i = 0; i < pushTypeAvailableArray.size(); i++) {
+                if (pushTypeAvailableArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + pushTypeAvailableArray.get(i).getValueType() + " for element: pushTypeAvailable");
+                }
                 builder.pushTypeAvailable(parseCodeableConcept("pushTypeAvailable", pushTypeAvailableArray.getJsonObject(i), i));
             }
         }
@@ -23669,6 +27887,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             for (int i = 0; i < identifierArray.size(); i++) {
+                if (identifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + identifierArray.get(i).getValueType() + " for element: identifier");
+                }
                 builder.identifier(parseIdentifier("identifier", identifierArray.getJsonObject(i), i));
             }
         }
@@ -23681,6 +27902,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray lensSpecificationArray = getJsonArray(jsonObject, "lensSpecification");
         if (lensSpecificationArray != null) {
             for (int i = 0; i < lensSpecificationArray.size(); i++) {
+                if (lensSpecificationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + lensSpecificationArray.get(i).getValueType() + " for element: lensSpecification");
+                }
                 builder.lensSpecification(parseVisionPrescriptionLensSpecification("lensSpecification", lensSpecificationArray.getJsonObject(i), i));
             }
         }
@@ -23707,6 +27931,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray prismArray = getJsonArray(jsonObject, "prism");
         if (prismArray != null) {
             for (int i = 0; i < prismArray.size(); i++) {
+                if (prismArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + prismArray.get(i).getValueType() + " for element: prism");
+                }
                 builder.prism(parseVisionPrescriptionLensSpecificationPrism("prism", prismArray.getJsonObject(i), i));
             }
         }
@@ -23720,6 +27947,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         JsonArray noteArray = getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             for (int i = 0; i < noteArray.size(); i++) {
+                if (noteArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + noteArray.get(i).getValueType() + " for element: note");
+                }
                 builder.note(parseAnnotation("note", noteArray.getJsonObject(i), i));
             }
         }

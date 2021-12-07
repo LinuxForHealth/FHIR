@@ -26,7 +26,7 @@
   "software": {
     "name": "ACME Knowledge Repository Service"
   },
-  "fhirVersion": "4.0.1",
+  "fhirVersion": "4.1.0",
   "format": [
     "json",
     "xml"
@@ -51,7 +51,7 @@
       "resource": [
         {
           "type": "Library",
-          "profile": "StructureDefinition/Library",
+          "profile": "http://hl7.org/fhir/StructureDefinition/Library",
           "interaction": [
             {
               "code": "read",
@@ -91,7 +91,7 @@
             {
               "name": "version",
               "definition": "http://hl7.org/fhir/SearchParameter/Library-version",
-              "type": "string"
+              "type": "token"
             },
             {
               "name": "composed-of",
@@ -122,7 +122,7 @@
         },
         {
           "type": "PlanDefinition",
-          "profile": "StructureDefinition/PlanDefinition",
+          "profile": "http://hl7.org/fhir/StructureDefinition/PlanDefinition",
           "interaction": [
             {
               "code": "read",
@@ -162,7 +162,7 @@
             {
               "name": "version",
               "definition": "http://hl7.org/fhir/SearchParameter/PlanDefinition-version",
-              "type": "string"
+              "type": "token"
             },
             {
               "name": "composed-of",
@@ -193,7 +193,7 @@
         },
         {
           "type": "ActivityDefinition",
-          "profile": "StructureDefinition/ActivityDefinition",
+          "profile": "http://hl7.org/fhir/StructureDefinition/ActivityDefinition",
           "interaction": [
             {
               "code": "read",
@@ -233,7 +233,7 @@
             {
               "name": "version",
               "definition": "http://hl7.org/fhir/SearchParameter/ActivityDefinition-version",
-              "type": "string"
+              "type": "token"
             },
             {
               "name": "composed-of",
@@ -264,7 +264,7 @@
         },
         {
           "type": "Measure",
-          "profile": "StructureDefinition/Measure",
+          "profile": "http://hl7.org/fhir/StructureDefinition/Measure",
           "interaction": [
             {
               "code": "read",
@@ -304,7 +304,7 @@
             {
               "name": "version",
               "definition": "http://hl7.org/fhir/SearchParameter/Measure-version",
-              "type": "string"
+              "type": "token"
             },
             {
               "name": "composed-of",
@@ -335,7 +335,7 @@
         },
         {
           "type": "Questionnaire",
-          "profile": "StructureDefinition/Questionnaire",
+          "profile": "http://hl7.org/fhir/StructureDefinition/Questionnaire",
           "interaction": [
             {
               "code": "read",
@@ -385,7 +385,7 @@
             {
               "name": "version",
               "definition": "http://hl7.org/fhir/SearchParameter/Questionnaire-version",
-              "type": "string"
+              "type": "token"
             }
           ]
         }
@@ -393,7 +393,7 @@
       "operation": [
         {
           "name": "data-requirements",
-          "definition": "OperationDefinition/Library-data-requirements"
+          "definition": "http://hl7.org/fhir/OperationDefinition/Library-data-requirements"
         }
       ]
     }

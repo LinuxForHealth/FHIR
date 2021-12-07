@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for PlanDefinition.subject[x]",
       "expansion": {
-        "identifier": "urn:uuid:2db44632-fda1-4af5-aff9-d74448885644",
-        "timestamp": "2019-11-01T09:36:32+11:00",
+        "identifier": "urn:uuid:19fec346-1980-4242-8050-62d9e4e71b3e",
+        "timestamp": "2021-12-06T19:04:15+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -21,6 +21,31 @@
             "system": "http://hl7.org/fhir/resource-types",
             "code": "Group",
             "display": "Group"
+          },
+          {
+            "system": "http://hl7.org/fhir/resource-types",
+            "code": "MedicinalProductDefinition",
+            "display": "MedicinalProductDefinition"
+          },
+          {
+            "system": "http://hl7.org/fhir/resource-types",
+            "code": "SubstanceDefinition",
+            "display": "SubstanceDefinition"
+          },
+          {
+            "system": "http://hl7.org/fhir/resource-types",
+            "code": "AdministrableProductDefinition",
+            "display": "AdministrableProductDefinition"
+          },
+          {
+            "system": "http://hl7.org/fhir/resource-types",
+            "code": "ManufacturedItemDefinition",
+            "display": "ManufacturedItemDefinition"
+          },
+          {
+            "system": "http://hl7.org/fhir/resource-types",
+            "code": "PackagedProductDefinition",
+            "display": "PackagedProductDefinition"
           }
         ]
       }
@@ -32,8 +57,8 @@
       "status": "active",
       "description": "Type options for PlanDefinition.goal.target.detail[x]",
       "expansion": {
-        "identifier": "urn:uuid:77854ae7-694d-4a9d-b7c8-f3ae8a797eda",
-        "timestamp": "2019-11-01T09:36:32+11:00",
+        "identifier": "urn:uuid:653fb9d2-e252-4a26-938d-1d0d91343af0",
+        "timestamp": "2021-12-06T19:04:15+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -60,8 +85,8 @@
       "status": "active",
       "description": "Type options for PlanDefinition.action.subject[x]",
       "expansion": {
-        "identifier": "urn:uuid:5e58997c-19bd-486d-bd2f-ff41b60af5ba",
-        "timestamp": "2019-11-01T09:36:32+11:00",
+        "identifier": "urn:uuid:20f6c9f7-de03-46c2-b1fa-1fd8388f5b6c",
+        "timestamp": "2021-12-06T19:04:15+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -83,8 +108,8 @@
       "status": "active",
       "description": "Type options for PlanDefinition.action.relatedAction.offset[x]",
       "expansion": {
-        "identifier": "urn:uuid:e8ce5bfd-ccab-4f90-9b10-6533379eff01",
-        "timestamp": "2019-11-01T09:36:32+11:00",
+        "identifier": "urn:uuid:f8634c0f-6f34-4cce-85af-efc9a9fdabc0",
+        "timestamp": "2021-12-06T19:04:15+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -106,8 +131,8 @@
       "status": "active",
       "description": "Type options for PlanDefinition.action.timing[x]",
       "expansion": {
-        "identifier": "urn:uuid:d0fe18f5-bde6-4596-9641-e3f841ee1a5f",
-        "timestamp": "2019-11-01T09:36:32+11:00",
+        "identifier": "urn:uuid:2a25c7f3-2231-4392-bcde-b5caab74bca2",
+        "timestamp": "2021-12-06T19:04:15+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -149,8 +174,8 @@
       "status": "active",
       "description": "Type options for PlanDefinition.action.definition[x]",
       "expansion": {
-        "identifier": "urn:uuid:ad97c2bb-c0e6-4d2a-8dc7-b2206f5190c9",
-        "timestamp": "2019-11-01T09:36:32+11:00",
+        "identifier": "urn:uuid:0aa5a99d-af0c-45f9-bf76-bee7b1f142ac",
+        "timestamp": "2021-12-06T19:04:15+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/resource-types",
@@ -181,9 +206,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-12-06T18:53:36+00:00",
   "publisher": "Health Level Seven International (Clinical Decision Support)",
   "item": [
     {
@@ -208,7 +233,7 @@
               }
             }
           ],
-          "text": "This resource allows for the definition of various types of plans as a sharable, consumable, and executable artifact. The resource is general enough to support the description of a broad range of clinical artifacts such as clinical decision support rules, order sets and protocols.",
+          "text": "This resource allows for the definition of various types of plans as a sharable, consumable, and executable artifact. The resource is general enough to support the description of a broad range of clinical and non-clinical artifacts such as clinical decision support rules, order sets, protocols, and drug quality specifications.",
           "type": "display"
         },
         {
@@ -367,9 +392,10 @@
             {
               "linkId": "PlanDefinition.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -794,9 +820,10 @@
             {
               "linkId": "PlanDefinition.type.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "PlanDefinition.type.text",
@@ -848,9 +875,10 @@
             {
               "linkId": "PlanDefinition.status.value",
               "text": "status",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -925,15 +953,16 @@
                   }
                 }
               ],
-              "text": "A code or group definition that describes the intended subject of the plan definition.",
+              "text": "A code, group definition, or canonical reference that describes  or identifies the intended subject of the plan definition. Canonical references are allowed to support the definition of protocols for drug and substance quality specifications, and is allowed to reference a MedicinalProductDefinition, SubstanceDefinition, AdministrableProductDefinition, ManufacturedItemDefinition, or PackagedProductDefinition resource.",
               "type": "display"
             },
             {
               "linkId": "PlanDefinition.subject[x]._type",
               "text": "type",
-              "type": "choice",
+              "type": "coding",
               "required": false,
               "repeats": false,
+              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs2",
               "item": [
                 {
@@ -949,9 +978,10 @@
                     {
                       "linkId": "PlanDefinition.subject[x]._null.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "PlanDefinition.subject[x]._null.text",
@@ -985,6 +1015,24 @@
                       ],
                       "linkId": "PlanDefinition.subject[x]._null.value",
                       "type": "reference",
+                      "required": false,
+                      "repeats": false
+                    }
+                  ]
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                      "valueString": "uri"
+                    }
+                  ],
+                  "linkId": "PlanDefinition.subject[x]._null",
+                  "type": "group",
+                  "item": [
+                    {
+                      "linkId": "PlanDefinition.subject[x]._null.value",
+                      "type": "string",
                       "required": false,
                       "repeats": false
                     }
@@ -1219,9 +1267,10 @@
             {
               "linkId": "PlanDefinition.jurisdiction.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "PlanDefinition.jurisdiction.text",
@@ -1532,9 +1581,10 @@
             {
               "linkId": "PlanDefinition.topic.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "PlanDefinition.topic.text",
@@ -1745,7 +1795,7 @@
                   }
                 }
               ],
-              "text": "Goals that describe what the activities within the plan are intended to achieve. For example, weight loss, restoring an activity of daily living, obtaining herd immunity via immunization, meeting a process improvement objective, etc.",
+              "text": "A goal describes an expected outcome that activities within the plan are intended to achieve. For example, weight loss, restoring an activity of daily living, obtaining herd immunity via immunization, meeting a process improvement objective, meeting the acceptance criteria for a test as specified by a quality specification, etc.",
               "type": "display"
             },
             {
@@ -1883,9 +1933,10 @@
                 {
                   "linkId": "PlanDefinition.goal.category.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "PlanDefinition.goal.category.text",
@@ -1938,9 +1989,10 @@
                 {
                   "linkId": "PlanDefinition.goal.description.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "PlanDefinition.goal.description.text",
@@ -1989,9 +2041,10 @@
                 {
                   "linkId": "PlanDefinition.goal.priority.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "PlanDefinition.goal.priority.text",
@@ -2040,9 +2093,10 @@
                 {
                   "linkId": "PlanDefinition.goal.start.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "PlanDefinition.goal.start.text",
@@ -2087,9 +2141,10 @@
                 {
                   "linkId": "PlanDefinition.goal.addresses.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "PlanDefinition.goal.addresses.text",
@@ -2287,9 +2342,10 @@
                     {
                       "linkId": "PlanDefinition.goal.target.measure.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "PlanDefinition.goal.target.measure.text",
@@ -2328,15 +2384,16 @@
                           }
                         }
                       ],
-                      "text": "The target value of the measure to be achieved to signify fulfillment of the goal, e.g. 150 pounds or 7.0%. Either the high or low or both values of the range can be specified. When a low value is missing, it indicates that the goal is achieved at any value at or below the high value. Similarly, if the high value is missing, it indicates that the goal is achieved at any value at or above the low value.",
+                      "text": "The target value of the measure to be achieved to signify fulfillment of the goal, e.g. 150 pounds or 7.0%, or in the case of pharmaceutical quality - NMT 0.6%, Clear solution, etc. Either the high or low or both values of the range can be specified. When a low value is missing, it indicates that the goal is achieved at any value at or below the high value. Similarly, if the high value is missing, it indicates that the goal is achieved at any value at or above the low value.",
                       "type": "display"
                     },
                     {
                       "linkId": "PlanDefinition.goal.target.detail[x]._type",
                       "text": "type",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
                       "repeats": false,
+                      "answerConstraint": "optionsOnly",
                       "answerValueSet": "#vs3",
                       "item": [
                         {
@@ -2352,9 +2409,10 @@
                             {
                               "linkId": "PlanDefinition.goal.target.detail[x]._null.comparator",
                               "text": "comp:",
-                              "type": "choice",
+                              "type": "coding",
                               "required": false,
-                              "repeats": false
+                              "repeats": false,
+                              "answerConstraint": "optionsOnly"
                             },
                             {
                               "linkId": "PlanDefinition.goal.target.detail[x]._null.value",
@@ -2432,9 +2490,10 @@
                             {
                               "linkId": "PlanDefinition.goal.target.detail[x]._null.coding",
                               "text": "code:",
-                              "type": "open-choice",
+                              "type": "coding",
                               "required": false,
-                              "repeats": false
+                              "repeats": false,
+                              "answerConstraint": "optionsOnly"
                             },
                             {
                               "linkId": "PlanDefinition.goal.target.detail[x]._null.text",
@@ -2487,9 +2546,10 @@
                     {
                       "linkId": "PlanDefinition.goal.target.due.comparator",
                       "text": "comp:",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "PlanDefinition.goal.target.due.value",
@@ -2551,7 +2611,7 @@
                   }
                 }
               ],
-              "text": "An action or group of actions to be taken as part of the plan.",
+              "text": "An action or group of actions to be taken as part of the plan. For example, in clinical care, an action would be to prescribe a particular indicated medication, or perform a particular test as appropriate. In pharmaceutical quality, an action would be the test that needs to be performed on a drug product as defined in the quality specification.",
               "type": "display"
             },
             {
@@ -2725,7 +2785,7 @@
                       }
                     }
                   ],
-                  "text": "The title of the action displayed to a user.",
+                  "text": "The textual description of the action displayed to a user. For example, when the action is a test to be performed, the title would be the title of the test such as Assay by HPLC.",
                   "type": "display"
                 },
                 {
@@ -2860,9 +2920,10 @@
                 {
                   "linkId": "PlanDefinition.action.priority.value",
                   "text": "priority",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOrType"
                 }
               ]
             },
@@ -2894,15 +2955,16 @@
                       }
                     }
                   ],
-                  "text": "A code that provides meaning for the action or action group. For example, a section may have a LOINC code for the section of a documentation template.",
+                  "text": "A code that provides a meaning, grouping, or classification for the action or action group. For example, a section may have a LOINC code for the section of a documentation template. In pharmaceutical quality, an action (Test) such as pH could be classified as a physical property.",
                   "type": "display"
                 },
                 {
                   "linkId": "PlanDefinition.action.code.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "PlanDefinition.action.code.text",
@@ -2947,9 +3009,10 @@
                 {
                   "linkId": "PlanDefinition.action.reason.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "PlanDefinition.action.reason.text",
@@ -3014,7 +3077,7 @@
                       }
                     }
                   ],
-                  "text": "Identifies goals that this action supports. The reference must be to a goal element defined within this plan definition.",
+                  "text": "Identifies goals that this action supports. The reference must be to a goal element defined within this plan definition. In pharmaceutical quality, a goal represents acceptance criteria (Goal) for a given action (Test), so the goalId would be the unique id of a defined goal element establishing the acceptance criteria for the action.",
                   "type": "display"
                 },
                 {
@@ -3054,15 +3117,16 @@
                       }
                     }
                   ],
-                  "text": "A code or group definition that describes the intended subject of the action and its children, if any. The subject of an action overrides the subject at a parent action or on the root of the PlanDefinition if specified.\n\nIn addition, because the subject needs to be resolved during realization, use of subjects in actions (or in the ActivityDefinition referenced by the action) resolves based on the set of subjects supplied in context and by type (i.e. the patient subject would resolve to a resource of type Patient).",
+                  "text": "A code, group definition, or canonical reference that describes the intended subject of the action and its children, if any. Canonical references are allowed to support the definition of protocols for drug and substance quality specifications, and is allowed to reference a MedicinalProductDefinition, SubstanceDefinition, AdministrableProductDefinition, ManufacturedItemDefinition, or PackagedProductDefinition resource. The subject of an action overrides the subject at a parent action or on the root of the PlanDefinition if specified.\n\nIn addition, because the subject needs to be resolved during realization, use of subjects in actions (or in the ActivityDefinition referenced by the action) resolves based on the set of subjects supplied in context and by type (i.e. the patient subject would resolve to a resource of type Patient).",
                   "type": "display"
                 },
                 {
                   "linkId": "PlanDefinition.action.subject[x]._type",
                   "text": "type",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
                   "repeats": false,
+                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs4",
                   "item": [
                     {
@@ -3078,9 +3142,10 @@
                         {
                           "linkId": "PlanDefinition.action.subject[x]._null.coding",
                           "text": "code:",
-                          "type": "open-choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOnly"
                         },
                         {
                           "linkId": "PlanDefinition.action.subject[x]._null.text",
@@ -3114,6 +3179,24 @@
                           ],
                           "linkId": "PlanDefinition.action.subject[x]._null.value",
                           "type": "reference",
+                          "required": false,
+                          "repeats": false
+                        }
+                      ]
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                          "valueString": "uri"
+                        }
+                      ],
+                      "linkId": "PlanDefinition.action.subject[x]._null",
+                      "type": "group",
+                      "item": [
+                        {
+                          "linkId": "PlanDefinition.action.subject[x]._null.value",
+                          "type": "string",
                           "required": false,
                           "repeats": false
                         }
@@ -3317,9 +3400,10 @@
                     {
                       "linkId": "PlanDefinition.action.condition.kind.value",
                       "text": "kind",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOrType"
                     }
                   ]
                 },
@@ -3630,9 +3714,10 @@
                     {
                       "linkId": "PlanDefinition.action.relatedAction.relationship.value",
                       "text": "relationship",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOrType"
                     }
                   ]
                 },
@@ -3670,9 +3755,10 @@
                     {
                       "linkId": "PlanDefinition.action.relatedAction.offset[x]._type",
                       "text": "type",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
                       "repeats": false,
+                      "answerConstraint": "optionsOnly",
                       "answerValueSet": "#vs5",
                       "item": [
                         {
@@ -3688,9 +3774,10 @@
                             {
                               "linkId": "PlanDefinition.action.relatedAction.offset[x]._null.comparator",
                               "text": "comp:",
-                              "type": "choice",
+                              "type": "coding",
                               "required": false,
-                              "repeats": false
+                              "repeats": false,
+                              "answerConstraint": "optionsOnly"
                             },
                             {
                               "linkId": "PlanDefinition.action.relatedAction.offset[x]._null.value",
@@ -3795,9 +3882,10 @@
                 {
                   "linkId": "PlanDefinition.action.timing[x]._type",
                   "text": "type",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
                   "repeats": false,
+                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs6",
                   "item": [
                     {
@@ -3831,9 +3919,10 @@
                         {
                           "linkId": "PlanDefinition.action.timing[x]._null.comparator",
                           "text": "comp:",
-                          "type": "choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOnly"
                         },
                         {
                           "linkId": "PlanDefinition.action.timing[x]._null.value",
@@ -3904,9 +3993,10 @@
                         {
                           "linkId": "PlanDefinition.action.timing[x]._null.comparator",
                           "text": "comp:",
-                          "type": "choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOnly"
                         },
                         {
                           "linkId": "PlanDefinition.action.timing[x]._null.value",
@@ -4185,9 +4275,10 @@
                     {
                       "linkId": "PlanDefinition.action.participant.type.value",
                       "text": "type",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOrType"
                     }
                   ]
                 },
@@ -4229,9 +4320,10 @@
                     {
                       "linkId": "PlanDefinition.action.participant.role.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "PlanDefinition.action.participant.role.text",
@@ -4282,9 +4374,10 @@
                 {
                   "linkId": "PlanDefinition.action.type.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "PlanDefinition.action.type.text",
@@ -4332,9 +4425,10 @@
                 {
                   "linkId": "PlanDefinition.action.groupingBehavior.value",
                   "text": "grouping behavior",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOrType"
                 }
               ]
             },
@@ -4375,9 +4469,10 @@
                 {
                   "linkId": "PlanDefinition.action.selectionBehavior.value",
                   "text": "selection behavior",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOrType"
                 }
               ]
             },
@@ -4418,9 +4513,10 @@
                 {
                   "linkId": "PlanDefinition.action.requiredBehavior.value",
                   "text": "required behavior",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOrType"
                 }
               ]
             },
@@ -4461,9 +4557,10 @@
                 {
                   "linkId": "PlanDefinition.action.precheckBehavior.value",
                   "text": "precheck behavior",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOrType"
                 }
               ]
             },
@@ -4504,9 +4601,10 @@
                 {
                   "linkId": "PlanDefinition.action.cardinalityBehavior.value",
                   "text": "cardinality behavior",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOrType"
                 }
               ]
             },
@@ -4544,9 +4642,10 @@
                 {
                   "linkId": "PlanDefinition.action.definition[x]._type",
                   "text": "type",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
                   "repeats": false,
+                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs7",
                   "item": [
                     {

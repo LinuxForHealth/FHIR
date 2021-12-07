@@ -26,7 +26,7 @@
   "software": {
     "name": "ACME Measure Processor Service"
   },
-  "fhirVersion": "4.0.1",
+  "fhirVersion": "4.1.0",
   "format": [
     "json",
     "xml"
@@ -51,7 +51,7 @@
       "resource": [
         {
           "type": "Measure",
-          "profile": "StructureDefinition/Measure",
+          "profile": "http://hl7.org/fhir/StructureDefinition/Measure",
           "interaction": [
             {
               "code": "read",
@@ -76,7 +76,7 @@
             {
               "name": "version",
               "definition": "http://hl7.org/fhir/SearchParameter/Measure-version",
-              "type": "string"
+              "type": "token"
             }
           ]
         }
@@ -84,11 +84,11 @@
       "operation": [
         {
           "name": "evaluate-measure",
-          "definition": "OperationDefinition/Measure-evaluate-measure"
+          "definition": "http://hl7.org/fhir/OperationDefinition/Measure-evaluate-measure"
         },
         {
           "name": "data-requirements",
-          "definition": "OperationDefinition/Measure-data-requirements"
+          "definition": "http://hl7.org/fhir/OperationDefinition/Measure-data-requirements"
         }
       ]
     }
