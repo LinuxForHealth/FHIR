@@ -25,7 +25,7 @@
         <meta>
           <lastUpdated value="2013-05-28T22:12:21Z"/>
         </meta>
-        <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: 180f219f-97a8-486d-99d9-ed631fe4fc57</p><p><b>meta</b>: </p><p><b>status</b>: final</p><p><b>type</b>: Discharge Summary from Responsible Clinician <span>(Details : {LOINC code '28655-9' = 'Physician attending Discharge summary)</span></p><p><b>encounter</b>: <a>http://fhir.healthintersections.com.au/open/Encounter/doc-example</a></p><p><b>date</b>: 01/02/2013 12:30:02 PM</p><p><b>author</b>: <a>Doctor Dave</a></p><p><b>title</b>: Discharge Summary</p><p><b>confidentiality</b>: N</p></div></text><status value="final"/>
+        <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "180f219f-97a8-486d-99d9-ed631fe4fc57" Updated "2013-05-28T22:12:21Z" </p></div><p><b>status</b>: final</p><p><b>type</b>: Discharge Summary from Responsible Clinician <span> (<a>LOINC</a>#28655-9)</span></p><p><b>encounter</b>: <a>http://fhir.healthintersections.com.au/open/Encounter/doc-example</a></p><p><b>date</b>: 2013-02-01T12:30:02Z</p><p><b>author</b>: <a>Practitioner/example: Doctor Dave</a> "Adam CAREFUL"</p><p><b>title</b>: Discharge Summary</p><p><b>confidentiality</b>: N</p></div></text><status value="final"/>
         <type>
           <coding>
             <system value="http://loinc.org"/>
@@ -422,8 +422,8 @@
                  <doseQuantity>
                    <value value="1"/>
                    <unit value="tablet"/>
-                   <system value="http://unitsofmeasure.org"/>
-                   <code value="tbl"/>
+                   <system value="http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm"/>
+                   <code value="TAB"/>
                  </doseQuantity>
                </doseAndRate>
 

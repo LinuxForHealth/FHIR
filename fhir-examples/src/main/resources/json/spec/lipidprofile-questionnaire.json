@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for DiagnosticReport.effective[x]",
       "expansion": {
-        "identifier": "urn:uuid:8d45898c-de5b-4c50-bcde-353dd08d9d95",
-        "timestamp": "2019-11-01T09:35:05+11:00",
+        "identifier": "urn:uuid:a6910f98-81a6-4512-8036-3958a5111593",
+        "timestamp": "2021-12-06T19:03:03+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -31,9 +31,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "draft",
-  "date": "2012-05-12T00:00:00+10:00",
+  "date": "2012-05-12T00:00:00+00:00",
   "publisher": "Grahame Grieve",
   "item": [
     {
@@ -231,9 +231,10 @@
             {
               "linkId": "DiagnosticReport.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -495,9 +496,10 @@
             {
               "linkId": "DiagnosticReport.status.value",
               "text": "status",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -535,9 +537,10 @@
             {
               "linkId": "DiagnosticReport.category.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "DiagnosticReport.category.text",
@@ -590,9 +593,10 @@
             {
               "linkId": "DiagnosticReport.code.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "DiagnosticReport.code.text",
@@ -641,7 +645,7 @@
               "extension": [
                 {
                   "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-allowedResource",
-                  "valueCode": "Patient, Group, Device, Location"
+                  "valueCode": "Patient, Group, Device, Location, Organization, Procedure, Practitioner, Medication, Substance"
                 },
                 {
                   "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-referenceFilter",
@@ -743,9 +747,10 @@
             {
               "linkId": "DiagnosticReport.effective[x]._type",
               "text": "type",
-              "type": "choice",
+              "type": "coding",
               "required": false,
               "repeats": false,
+              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs2",
               "item": [
                 {
@@ -1021,7 +1026,7 @@
                   }
                 }
               ],
-              "text": "[Observations](http://hl7.org/fhir/observation.html)  that are part of this diagnostic report. Observations can contain observations.",
+              "text": "[Observations](http://hl7.org/fhir/2021Mar/observation.html)  that are part of this diagnostic report. Observations can contain observations.",
               "type": "display"
             },
             {
@@ -1621,9 +1626,10 @@
             {
               "linkId": "DiagnosticReport.conclusionCode.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "DiagnosticReport.conclusionCode.text",

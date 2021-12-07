@@ -3,10 +3,10 @@
 <OperationDefinition xmlns="http://hl7.org/fhir">
   <id value="CodeSystem-subsumes"/>
   <text>
-    <status value="generated"/>
+    <status value="extensions"/>
     <div xmlns="http://www.w3.org/1999/xhtml">
-      <h2>Subsumption Testing</h2>
-      <p>OPERATION: Subsumption Testing</p>
+      <h2>subsumes</h2>
+      <p>OPERATION: subsumes</p>
       <p>The official URL for this operation definition is: </p>
       <pre>http://hl7.org/fhir/OperationDefinition/CodeSystem-subsumes</pre>
       <div>
@@ -138,9 +138,7 @@
           <td>
             <a href="datatypes.html#code">code</a>
           </td>
-          <td>
-            <a href="valueset-concept-subsumption-outcome.html">http://hl7.org/fhir/ValueSet/concept-subsumption-outcome|4.0.1</a> (Required)
-          </td>
+          <td>http://hl7.org/fhir/ValueSet/concept-subsumption-outcome|4.1.0 (Required)</td>
           <td>
             <div>
               <p>The subsumption relationship between code/Coding &quot;A&quot; and code/Coding &quot;B&quot;. There are 4 possible codes to be returned (equivalent, subsumes, subsumed-by, and not-subsumed) as defined in the concept-subsumption-outcome value set.  If the server is unable to determine the relationship between the codes/Codings, then it returns an error response with an OperationOutcome.</p>
@@ -158,15 +156,13 @@
   <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
     <valueCode value="normative"/>
   </extension>
-  <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-normative-version">
-    <valueCode value="4.0.1"/>
-  </extension>
   <url value="http://hl7.org/fhir/OperationDefinition/CodeSystem-subsumes"/>
-  <version value="4.0.1"/>
-  <name value="Subsumption Testing"/>
-  <status value="draft"/>
+  <version value="4.1.0"/>
+  <name value="subsumes"/>
+  <title value="Subsumption Testing"/>
+  <status value="active"/>
   <kind value="operation"/>
-  <date value="2019-11-01T09:29:23+11:00"/>
+  <date value="2021-12-06T18:53:36+00:00"/>
   <publisher value="HL7 (FHIR Project)"/>
   <contact>
     <telecom>
@@ -179,6 +175,7 @@
     </telecom>
   </contact>
   <description value="Test the subsumption relationship between code/Coding A and code/Coding B given the semantics of subsumption in the underlying code system (see [hierarchyMeaning](codesystem-definitions.html#CodeSystem.hierarchyMeaning)).&#xA;&#xA;When invoking this operation, a client SHALL provide both a and codes, either as code or Coding parameters. The system parameter is required unless the operation is invoked on an instance of a code system resource. Other parameters are optional"/>
+  <affectsState value="false"/>
   <code value="subsumes"/>
   <resource value="CodeSystem"/>
   <system value="false"/>
@@ -240,8 +237,11 @@
     <documentation value="The subsumption relationship between code/Coding &quot;A&quot; and code/Coding &quot;B&quot;. There are 4 possible codes to be returned (equivalent, subsumes, subsumed-by, and not-subsumed) as defined in the concept-subsumption-outcome value set.  If the server is unable to determine the relationship between the codes/Codings, then it returns an error response with an OperationOutcome."/>
     <type value="code"/>
     <binding>
+      <extension url="http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName">
+        <valueString value="ConceptSubsumptionOutcome"/>
+      </extension>
       <strength value="required"/>
-      <valueSet value="http://hl7.org/fhir/ValueSet/concept-subsumption-outcome|4.0.1"/>
+      <valueSet value="http://hl7.org/fhir/ValueSet/concept-subsumption-outcome|4.1.0"/>
     </binding>
   </parameter>
 </OperationDefinition>

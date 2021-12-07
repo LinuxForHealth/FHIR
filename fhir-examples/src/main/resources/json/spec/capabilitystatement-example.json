@@ -67,7 +67,7 @@
     "description": "main EHR at ACME",
     "url": "http://10.2.3.4/fhir"
   },
-  "fhirVersion": "4.0.1",
+  "fhirVersion": "4.1.0",
   "format": [
     "xml",
     "json"
@@ -183,7 +183,7 @@
       "supportedMessage": [
         {
           "mode": "receiver",
-          "definition": "MessageDefinition/example"
+          "definition": "http://hl7.org/fhir/MessageDefinition/example"
         }
       ]
     }

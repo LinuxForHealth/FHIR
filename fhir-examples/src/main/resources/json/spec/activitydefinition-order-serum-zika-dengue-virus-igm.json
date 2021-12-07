@@ -16,11 +16,11 @@
     },
     {
       "type": "derived-from",
-      "resource": "ActivityDefinition/serum-dengue-virus-igm"
+      "resource": "http://example.org/fhir/ActivityDefinition/serum-dengue-virus-igm"
     }
   ],
   "library": [
-    "Library/zika-virus-intervention-logic"
+    "http://example.org/fhir/Library/zika-virus-intervention-logic"
   ],
   "kind": "ServiceRequest",
   "code": {

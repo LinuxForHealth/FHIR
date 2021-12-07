@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for CarePlan.activity.detail.scheduled[x]",
       "expansion": {
-        "identifier": "urn:uuid:e1a5208a-e0fc-4cc0-8ec4-c4dc5ae1b624",
-        "timestamp": "2019-11-01T09:34:37+11:00",
+        "identifier": "urn:uuid:f15197e1-b36e-4153-8988-1c32b945aa5e",
+        "timestamp": "2021-12-06T19:02:31+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -37,8 +37,8 @@
       "status": "active",
       "description": "Type options for CarePlan.activity.detail.product[x]",
       "expansion": {
-        "identifier": "urn:uuid:46cee3c1-86be-4672-b975-f373f97a29ee",
-        "timestamp": "2019-11-01T09:34:37+11:00",
+        "identifier": "urn:uuid:55b09056-0898-4397-a773-5799a5abefda",
+        "timestamp": "2021-12-06T19:02:31+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -64,9 +64,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-12-06T18:53:36+00:00",
   "publisher": "Health Level Seven International (Patient Care)",
   "item": [
     {
@@ -250,9 +250,10 @@
             {
               "linkId": "CarePlan.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -690,9 +691,10 @@
             {
               "linkId": "CarePlan.status.value",
               "text": "status",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -737,9 +739,10 @@
             {
               "linkId": "CarePlan.intent.value",
               "text": "intent",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -777,9 +780,10 @@
             {
               "linkId": "CarePlan.category.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "CarePlan.category.text",
@@ -1534,9 +1538,10 @@
                 {
                   "linkId": "CarePlan.activity.outcomeCodeableConcept.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "CarePlan.activity.outcomeCodeableConcept.text",
@@ -1847,9 +1852,10 @@
                     {
                       "linkId": "CarePlan.activity.detail.kind.value",
                       "text": "kind",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOrType"
                     }
                   ]
                 },
@@ -1969,9 +1975,10 @@
                     {
                       "linkId": "CarePlan.activity.detail.code.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "CarePlan.activity.detail.code.text",
@@ -2016,9 +2023,10 @@
                     {
                       "linkId": "CarePlan.activity.detail.reasonCode.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "CarePlan.activity.detail.reasonCode.text",
@@ -2168,9 +2176,10 @@
                     {
                       "linkId": "CarePlan.activity.detail.status.value",
                       "text": "status",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOrType"
                     }
                   ]
                 },
@@ -2212,9 +2221,10 @@
                     {
                       "linkId": "CarePlan.activity.detail.statusReason.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "CarePlan.activity.detail.statusReason.text",
@@ -2302,9 +2312,10 @@
                     {
                       "linkId": "CarePlan.activity.detail.scheduled[x]._type",
                       "text": "type",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
                       "repeats": false,
+                      "answerConstraint": "optionsOnly",
                       "answerValueSet": "#vs2",
                       "item": [
                         {
@@ -2538,9 +2549,10 @@
                     {
                       "linkId": "CarePlan.activity.detail.product[x]._type",
                       "text": "type",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
                       "repeats": false,
+                      "answerConstraint": "optionsOnly",
                       "answerValueSet": "#vs3",
                       "item": [
                         {
@@ -2556,9 +2568,10 @@
                             {
                               "linkId": "CarePlan.activity.detail.product[x]._null.coding",
                               "text": "code:",
-                              "type": "open-choice",
+                              "type": "coding",
                               "required": false,
-                              "repeats": false
+                              "repeats": false,
+                              "answerConstraint": "optionsOnly"
                             },
                             {
                               "linkId": "CarePlan.activity.detail.product[x]._null.text",
@@ -2639,9 +2652,10 @@
                     {
                       "linkId": "CarePlan.activity.detail.dailyAmount.comparator",
                       "text": "comp:",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "CarePlan.activity.detail.dailyAmount.value",
@@ -2711,9 +2725,10 @@
                     {
                       "linkId": "CarePlan.activity.detail.quantity.comparator",
                       "text": "comp:",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "CarePlan.activity.detail.quantity.value",

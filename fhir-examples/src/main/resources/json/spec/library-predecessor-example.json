@@ -32,11 +32,11 @@
   "relatedArtifact": [
     {
       "type": "depends-on",
-      "resource": "Library/fhir-model-definition"
+      "resource": "http://example.org/fhir/Library/fhir-model-definition"
     },
     {
       "type": "successor",
-      "resource": "Library/library-fhir-helpers"
+      "resource": "http://example.org/fhir/Library/library-fhir-helpers"
     }
   ],
   "content": [

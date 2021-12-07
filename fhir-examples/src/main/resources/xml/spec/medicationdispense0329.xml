@@ -7,7 +7,7 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: meddisp0329</p><p><b>contained</b>: </p><p><b>status</b>: completed</p><p><b>medication</b>: id: med0319; Ointment <span>(Details : {SNOMED CT code '385101003' = 'Ointment', given as 'Ointment'})</span></p><p><b>subject</b>: <a>Donald Duck</a></p><h3>Performers</h3><table><tr><td>-</td><td><b>Actor</b></td></tr><tr><td>*</td><td><a>Practitioner/f006</a></td></tr></table><p><b>authorizingPrescription</b>: <a>MedicationRequest/medrx0329</a></p><p><b>type</b>: Refill - Part Fill <span>(Details : {http://terminology.hl7.org/CodeSystem/v3-ActCode code 'RFP' = 'Refill - Part Fill', given as 'Refill - Part Fill'})</span></p><p><b>quantity</b>: 30 g<span> (Details: UCUM code g = 'g')</span></p><p><b>daysSupply</b>: 10 Day<span> (Details: UCUM code d = 'd')</span></p><p><b>whenPrepared</b>: 15/01/2015 10:20:00 AM</p><p><b>whenHandedOver</b>: 15/01/2015 4:20:00 PM</p><p><b>dosageInstruction</b>: </p></div></text><contained>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "meddisp0329" </p></div><p><b>status</b>: completed</p><p><b>medication</b>: <a> </a></p><blockquote><div><p>Resource "med0319" </p></div><p><b>form</b>: Ointment <span> (<a>SNOMED CT</a>#385101003)</span></p><blockquote><p><b>ingredient</b></p><p><b>item</b>: Salicyclic Acid (substance) <span> (<a>SNOMED CT</a>#387253001)</span></p><p><b>strength</b>: 5 g<span> (Details: UCUM code g = 'g')</span>/100 g<span> (Details: UCUM code g = 'g')</span></p></blockquote><blockquote><p><b>ingredient</b></p><p><b>item</b>: Hydrocortisone (substance) <span> (<a>SNOMED CT</a>#396458002)</span></p><p><b>strength</b>: 1 g<span> (Details: UCUM code g = 'g')</span>/100 g<span> (Details: UCUM code g = 'g')</span></p></blockquote><blockquote><p><b>ingredient</b></p><p><b>item</b>: White Petrolatum (substance) <span> (<a>SNOMED CT</a>#126066007)</span></p><p><b>strength</b>: 94 g<span> (Details: UCUM code g = 'g')</span>/100 g<span> (Details: UCUM code g = 'g')</span></p></blockquote></blockquote><p><b>subject</b>: <a>Patient/pat1: Donald Duck</a> "Duck DONALD"</p><h3>Performers</h3><table><tr><td>-</td><td><b>Actor</b></td></tr><tr><td>*</td><td><a>Practitioner/f006</a> "Rob VAN DEN BERK"</td></tr></table><p><b>authorizingPrescription</b>: <a>MedicationRequest/medrx0329</a></p><p><b>type</b>: Refill - Part Fill <span> (<a>ActCode</a>#RFP)</span></p><p><b>quantity</b>: 30 g<span> (Details: UCUM code g = 'g')</span></p><p><b>daysSupply</b>: 10 Day<span> (Details: UCUM code d = 'd')</span></p><p><b>whenPrepared</b>: 2015-01-15T10:20:00Z</p><p><b>whenHandedOver</b>: 2015-01-15T16:20:00Z</p></div></text><contained>
         <Medication>
             <id value="med0319"/>
             <form>
@@ -158,8 +158,8 @@
             <doseQuantity>
                 <value value="1"/>
                 <unit value="ea"/>
-                <system value="http://unitsofmeasure.org"/>
-                <code value="ea"/>
+                <system value="http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm"/>
+                <code value="OINT"/>
             </doseQuantity>
         </doseAndRate>
 

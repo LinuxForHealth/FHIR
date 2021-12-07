@@ -2,7 +2,7 @@
   "resourceType": "ValueSet",
   "id": "provenance-activity-type",
   "meta": {
-    "lastUpdated": "2019-11-01T09:29:23.356+11:00",
+    "lastUpdated": "2021-12-06T18:53:36.888+00:00",
     "profile": [
       "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
     ]
@@ -36,9 +36,8 @@
       "value": "urn:oid:2.16.840.1.113883.4.642.3.438"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "name": "ProvenanceActivityType",
-  "title": "Provenance activity type",
   "status": "draft",
   "experimental": false,
   "date": "2017-01-30T18:00:00+01:00",

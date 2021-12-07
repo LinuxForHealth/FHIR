@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for EventDefinition.subject[x]",
       "expansion": {
-        "identifier": "urn:uuid:015d339d-1dea-4044-8ee8-8272be8e7ae0",
-        "timestamp": "2019-11-01T09:35:13+11:00",
+        "identifier": "urn:uuid:c9f84b86-93ca-4d2c-ab60-1b20eccb290d",
+        "timestamp": "2021-12-06T19:03:11+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -31,9 +31,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-12-06T18:53:36+00:00",
   "publisher": "Health Level Seven International (Clinical Decision Support)",
   "item": [
     {
@@ -217,9 +217,10 @@
             {
               "linkId": "EventDefinition.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -647,9 +648,10 @@
             {
               "linkId": "EventDefinition.status.value",
               "text": "status",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -730,9 +732,10 @@
             {
               "linkId": "EventDefinition.subject[x]._type",
               "text": "type",
-              "type": "choice",
+              "type": "coding",
               "required": false,
               "repeats": false,
+              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs2",
               "item": [
                 {
@@ -748,9 +751,10 @@
                     {
                       "linkId": "EventDefinition.subject[x]._null.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "EventDefinition.subject[x]._null.text",
@@ -1018,9 +1022,10 @@
             {
               "linkId": "EventDefinition.jurisdiction.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "EventDefinition.jurisdiction.text",
@@ -1331,9 +1336,10 @@
             {
               "linkId": "EventDefinition.topic.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "EventDefinition.topic.text",

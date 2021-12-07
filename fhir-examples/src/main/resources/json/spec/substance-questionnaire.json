@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for Substance.ingredient.substance[x]",
       "expansion": {
-        "identifier": "urn:uuid:7d9779aa-7ad3-4375-96a5-3f1cc7a50d03",
-        "timestamp": "2019-11-01T09:36:59+11:00",
+        "identifier": "urn:uuid:aa30dd00-bd5e-4c2a-9a7b-bbe1b6470235",
+        "timestamp": "2021-12-06T19:04:40+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -31,9 +31,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-12-06T18:53:36+00:00",
   "publisher": "Health Level Seven International (Orders and Observations)",
   "item": [
     {
@@ -217,9 +217,10 @@
             {
               "linkId": "Substance.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -365,7 +366,7 @@
                   }
                 }
               ],
-              "text": "Unique identifier for the substance. This identifier is associated with the kind of substance in contrast to the  Substance.instance.identifier which is associated with the package/container.",
+              "text": "Unique identifier for the substance. This identifier is associated with the kind of substance in contrast to the Substance.instance.identifier which is associated with the package/container.",
               "type": "display"
             },
             {
@@ -428,9 +429,10 @@
             {
               "linkId": "Substance.status.value",
               "text": "status",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -468,9 +470,10 @@
             {
               "linkId": "Substance.category.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Substance.category.text",
@@ -523,9 +526,10 @@
             {
               "linkId": "Substance.code.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Substance.code.text",
@@ -840,9 +844,10 @@
                 {
                   "linkId": "Substance.instance.quantity.comparator",
                   "text": "comp:",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "Substance.instance.quantity.value",
@@ -1094,9 +1099,10 @@
                 {
                   "linkId": "Substance.ingredient.substance[x]._type",
                   "text": "type",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
                   "repeats": false,
+                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs2",
                   "item": [
                     {
@@ -1112,9 +1118,10 @@
                         {
                           "linkId": "Substance.ingredient.substance[x]._null.coding",
                           "text": "code:",
-                          "type": "open-choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOnly"
                         },
                         {
                           "linkId": "Substance.ingredient.substance[x]._null.text",
