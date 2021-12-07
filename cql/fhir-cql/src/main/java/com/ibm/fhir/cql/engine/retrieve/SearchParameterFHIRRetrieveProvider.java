@@ -165,7 +165,7 @@ public abstract class SearchParameterFHIRRetrieveProvider extends TerminologyAwa
         if (datePath != null) {
             SearchParameter dateParam = this.searchParameterResolver.getSearchParameterDefinition(resourceType, datePath, SearchParamType.DATE);
             if (dateParam != null) {
-                String name = dateParam.getName().getValue();
+                String name = dateParam.getCode().getValue();
 
                 DateParameter low = null;
                 DateParameter high = null;
@@ -202,7 +202,7 @@ public abstract class SearchParameterFHIRRetrieveProvider extends TerminologyAwa
         if (codePath != null) {
             SearchParameter searchParam = searchParameterResolver.getSearchParameterDefinition(resourceType, codePath, SearchParamType.TOKEN);
             if (searchParam != null) {
-                String name = searchParam.getName().getValue();
+                String name = searchParam.getCode().getValue();
                 result = Pair.of(name, getCodeParams(name, codes, valueSet));
             } else {
                 throw new IllegalArgumentException(String.format("Could not resolve search parameter for resourceType '%s' and codePath '%s'", resourceType, codePath));
