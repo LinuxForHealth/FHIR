@@ -26,8 +26,8 @@ import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.core.HTTPReturnPreference;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.Bundle.Entry;
-import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.OperationOutcome;
+import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.util.ModelSupport;
@@ -95,12 +95,6 @@ public abstract class FHIRRestInteractionVisitorBase implements FHIRRestInteract
         final String msg = String.format("Completed bundle request took:[%7.3f secs]: %s status:[%s]", 
             elapsedSecs, requestDescription, httpStatus);
         log.info(msg);
-//        StringBuffer msg = new StringBuffer();
-//        msg.append("Completed bundle request took:[");
-//        msg.append(elapsedSecs);
-//        msg.append(" secs]: ");
-//        msg.append(requestDescription);
-//        msg.append(" status:[" + httpStatus + "]");
     }
 
     /**

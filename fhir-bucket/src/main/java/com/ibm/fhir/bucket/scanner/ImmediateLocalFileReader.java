@@ -6,7 +6,6 @@
 package com.ibm.fhir.bucket.scanner;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -34,7 +33,6 @@ import java.util.stream.Stream;
 
 import com.ibm.fhir.bucket.api.BucketLoaderJob;
 import com.ibm.fhir.bucket.api.FileType;
-import com.ibm.fhir.bucket.api.ResourceBundleError;
 import com.ibm.fhir.bucket.api.ResourceEntry;
 import com.ibm.fhir.database.utils.thread.ThreadHandler;
 import com.ibm.fhir.exception.FHIROperationException;
@@ -62,7 +60,7 @@ public class ImmediateLocalFileReader {
     // The base directory we scan for content to load
     private final String baseDirectory;
 
-    // The handler which processes resources we've read from COS
+    // The handler which processes resources we've read
     private final Consumer<ResourceEntry> resourceHandler;
 
     // The pool used to parallelize loading
@@ -79,7 +77,7 @@ public class ImmediateLocalFileReader {
     // never allow more than this number of items to be allocated to this instance
     private int maxInflight;
 
-    // ask the database to allocate more items when the current inflight drops below this threshold
+    // allocate more items when the current inflight drops below this threshold
     private int rescanThreshold;
 
     // active object running flag
@@ -157,7 +155,7 @@ public class ImmediateLocalFileReader {
                 logger.warning("CosReader loop did not terminate in 5000ms");
             }
         }
-        logger.info("COS reader stopped");
+        logger.info("LocalFileReader stopped");
     }
 
     /**
@@ -363,7 +361,7 @@ public class ImmediateLocalFileReader {
      * @param job
      */
     private void processThr(final BucketLoaderJob job) {
-        // Ask the COS client to open the stream for the object and pass it to
+        // open the stream for the object and pass it to
         // our process method for reading
         try {
             logger.info("Processing job: " + job.toString());
@@ -481,7 +479,11 @@ public class ImmediateLocalFileReader {
 
 
     /**
-     * Process the resource parsed from the input stream
+     * Process the resource parsed from the input stream. When processing 
+     * NDJSON the lineNumber and line are logged when an error occurs to
+     * help locate the corresponding entry in the file. When processing
+     * JSON files, lineNumber doesn't but should be set to 0. The line
+     * value can be blank.
      * @param details of the job being processed
      * @param resource parsed from the resource_bundle being processed
      * @param lineNumber the line number of this resource in the source

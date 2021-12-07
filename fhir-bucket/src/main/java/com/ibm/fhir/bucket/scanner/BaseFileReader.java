@@ -6,12 +6,9 @@
 package com.ibm.fhir.bucket.scanner;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -107,7 +104,7 @@ public abstract class BaseFileReader {
      * @param bucketPaths
      */
     public BaseFileReader(ExecutorService commonPool, FileType fileType, Consumer<ResourceEntry> resourceHandler, int maxInflight, DataAccess da, boolean incremental, int recycleSeconds, boolean incrementalExact,
-        double bundleCostFactor, Collection<BucketPath> bucketPaths) {
+            double bundleCostFactor, Collection<BucketPath> bucketPaths) {
         this.pool = commonPool;
         this.fileType = fileType;
         this.resourceHandler = resourceHandler;
@@ -491,6 +488,7 @@ public abstract class BaseFileReader {
     /**
      * Get the last processed line for the bundle and version described by the
      * {@link BucketLoaderJob} record
+     * 
      * @param job
      * @return
      */
@@ -500,8 +498,8 @@ public abstract class BaseFileReader {
 
     /**
      * Find the set of logicalIds have been created for the given line
-     * of the bundle/version described in the given BucketLoaderJob. This
-     * can be useful
+     * of the bundle/version described in the given BucketLoaderJob.
+     * 
      * @param job
      * @param lineNumber
      * @return

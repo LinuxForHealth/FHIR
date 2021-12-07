@@ -188,7 +188,7 @@ The name of the Derby database can be anything (without spaces) but must be cont
 
 ### Schema Deployment
 
-As a one-time activity, create the schema objects using the following command:
+As a one-time activity, create the schema objects can be created using the following command:
 
 ```
 #!/usr/bin/env bash
@@ -229,6 +229,8 @@ java -jar "${JAR}"                    \
 
 This tracking database can be shared with the instance used by FHIR, but for proper performance testing it should be on a separate host. The standard schema for the tables is FHIRBUCKET.
 
+The preferred approach is to use the new `--bootstrap-schema` option when running the main workload, in which case the `--create-schema` activity isn't required.
+
 
 ### Running
 
@@ -240,6 +242,7 @@ The following script can be used to run the bucket loader from a local build:
 JAR="~/git/FHIR/fhir-bucket/target/fhir-bucket-*-SNAPSHOT-cli.jar"
 
 java -jar "${JAR}"                  \
+  --bootstrap-schema                \
   --db-type db2                     \
   --db-properties db2.properties    \
   --cos-properties cos.properties   \
@@ -274,6 +277,7 @@ To run using PostgreSQL, change the relevant arguments to:
 
 | Property Name | Description |
 | -------------------- | -----|
+| `--bootstrap-schema` | Creates/updates the schema as an initial step before starting the main workload. Simplifies cloud deployment scenarios by avoiding the need for a separate job. Ensures only one instance will try to update the schema at a time. Do not specify `--create-schema` when using this option. |
 | `--db-type type` | where `type` is one of: db2, derby, postgresql. Specifies the type of database to use for the FHIRBUCKET tracking data. |
 | `--create-schema` | Creates a new or updates an existing database schema. The program will exit after the schema operations have completed.|
 | `--schema-name` | The custom schema used for FHIRBUCKET tracking data. The default is `FHIRBUCKET`.|
@@ -286,6 +290,7 @@ To run using PostgreSQL, change the relevant arguments to:
 | `--bucket-path` | The path to use in the bucket in COS|
 | `--file-type file-type` | One of: JSON, NDJSON. Used to limit the discovery scan to a particular type of file/entry |
 | `--cos-scan-interval-ms millis` | The number of milliseconds to wait before scanning the COS bucket again to discover new entries. Default is 300000|
+| `--immediate-local` | Load a directory hierarchy containing JSON/NDJSON files. Does not use a FHIRBUCKET database and therefore does not record generated ids. Requires `--scan-local-dir` to specify the directory to be used. |
 | `--incremental` | If the loader is stopped or fails before a bundle completes, the bundle will be reclaimed by another loader instance after the heartbeat timeout expires (60s). If the `--incremental` option is specified, the loader skips lines already processed in the NDJSON file. This is reasonably quick but is approximate, and may end up skipping rows due to threaded processing when the loader terminated. |
 | `--incremental-exact` | the FHIRBUCKET tracking schema in the database is checked for every line in the NDJSON to see if any resources have been recorded for it, and if so, processing will be skipped. |
 | `--max-concurrent-ndjson-files pool-size` | The maximum number of NDJSON files to read in parallel. Typically a small number, like the default which is 1. |
@@ -295,6 +300,7 @@ To run using PostgreSQL, change the relevant arguments to:
 | `--recycle-seconds seconds` | Artificially force discovered entries to be reloaded some time after they have been loaded successfully. This permits the loader to be set up in a continuous mode of operation, where the resource bundles are loaded over and over again, generating new resources to fill the target system with lots of data. The processing times for each load is tracked, so this can be used to look for regression. |
 | `--path-prefix prefix` | Limit the discovery scan to keys with the given prefix. |
 | `--pool-shutdown-timeout-seconds seconds` | How many seconds to wait for the resource pool to shutdown when the loader has been asked to terminate. This value should be slightly longer than the Liberty transaction timeout.|
+| `--scan-local-dir` | Scan a local directory instead of a COS bucket. Can work with a FHIRBUCKET database if tracking is required, or just a simple scan-and-load if `--immediate-local` is given. |
 | `--concurrent-payer-requests` | The number of concurrent requests for the workload. Default is 40.|
 | `--bundle-cost-factor` | Cost to processing bundles to reduce concurrency and avoid overload/timeouts|
 | `--target-bucket` | The break bundles into bite-sized pieces to avoid tx timeouts. Store new bundles under this bucket.|

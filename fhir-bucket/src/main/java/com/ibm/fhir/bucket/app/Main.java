@@ -1089,9 +1089,9 @@ public class Main {
      */
     private void startScanner(DataAccess dataAccess) {
         if (baseDirectory != null) {
-            // Use a local file scanner, instead of a COS scanner
-            // Data may be null here, which is OK because we're not using the database
-            // to track anything
+            // Use a local file scanner, instead of a COS scanner. Records files in
+            // the FHIRBUCKET tracking database. For loading local files directly
+            // without using a tracking database, see isImmediateLocal
             List<String> localDirList = Collections.singletonList(this.baseDirectory);
             this.scanner = new LocalFileScanner(localDirList, dataAccess, this.fileTypes, pathPrefix, cosScanIntervalMs);
         } else if (cosProperties != null && cosProperties.size() > 0) {
