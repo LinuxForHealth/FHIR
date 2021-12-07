@@ -8,7 +8,7 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: example-implant</p><p><b>status</b>: completed</p><p><b>intent</b>: order</p><p><b>code</b>: Implant Pacemaker <span>(Details : {SNOMED CT code '25267002' = 'Insertion of intracardiac pacemaker', given as 'Insertion of intracardiac pacemaker (procedure)'})</span></p><p><b>subject</b>: <a>Patient/example</a></p><p><b>authoredOn</b>: 30/03/2015</p><p><b>requester</b>: <a>Dr. Beverly Crusher</a></p><p><b>performer</b>: <a>Dr Cecil Surgeon</a></p><p><b>reasonCode</b>: Bradycardia <span>(Details )</span></p></div></text><status value="completed"/>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "example-implant" </p></div><p><b>status</b>: completed</p><p><b>intent</b>: order</p><p><b>code</b>: Implant Pacemaker <span> (<a>SNOMED CT</a>#25267002 "Insertion of intracardiac pacemaker (procedure)")</span></p><p><b>subject</b>: <a>Patient/example</a> "Peter CHALMERS"</p><p><b>authoredOn</b>: 2015-03-30</p><p><b>requester</b>: <a>Practitioner/3ad0687e-f477-468c-afd5-fcc2bf897809: Dr. Beverly Crusher</a></p><p><b>performer</b>: <a>Practitioner/example: Dr Cecil Surgeon</a> "Adam CAREFUL"</p><p><b>reasonCode</b>: Bradycardia <span> ()</span></p></div></text><status value="completed"/>
 	<intent value="order"/>
 	<code>
 		<coding>

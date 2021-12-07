@@ -58,11 +58,11 @@
     },
     {
       "type": "predecessor",
-      "resource": "PlanDefinition/zika-virus-intervention-initial"
+      "resource": "http://example.org/fhir/PlanDefinition/zika-virus-intervention-initial"
     }
   ],
   "library": [
-    "Library/zika-virus-intervention-logic"
+    "http://example.org/fhir/Library/zika-virus-intervention-logic"
   ],
   "action": [
     {
@@ -93,7 +93,7 @@
               }
             }
           ],
-          "definitionCanonical": "ActivityDefinition/administer-zika-virus-exposure-assessment"
+          "definitionCanonical": "http://example.org/fhir/ActivityDefinition/administer-zika-virus-exposure-assessment"
         },
         {
           "condition": [
@@ -105,7 +105,7 @@
               }
             }
           ],
-          "definitionCanonical": "ActivityDefinition/order-serum-urine-rrt-pcr-test"
+          "definitionCanonical": "http://example.org/fhir/ActivityDefinition/order-serum-urine-rrt-pcr-test"
         },
         {
           "condition": [
@@ -117,7 +117,7 @@
               }
             }
           ],
-          "definitionCanonical": "ActivityDefinition/order-serum-zika-dengue-virus-igm"
+          "definitionCanonical": "http://example.org/fhir/ActivityDefinition/order-serum-zika-dengue-virus-igm"
         },
         {
           "condition": [
@@ -129,7 +129,7 @@
               }
             }
           ],
-          "definitionCanonical": "ActivityDefinition/consider-igm-antibody-testing"
+          "definitionCanonical": "http://example.org/fhir/ActivityDefinition/consider-igm-antibody-testing"
         },
         {
           "condition": [
@@ -143,10 +143,10 @@
           ],
           "action": [
             {
-              "definitionCanonical": "ActivityDefinition/provide-mosquito-prevention-advice"
+              "definitionCanonical": "http://example.org/fhir/ActivityDefinition/provide-mosquito-prevention-advice"
             },
             {
-              "definitionCanonical": "ActivityDefinition/provide-contraception-advice"
+              "definitionCanonical": "http://example.org/fhir/ActivityDefinition/provide-contraception-advice"
             }
           ]
         }

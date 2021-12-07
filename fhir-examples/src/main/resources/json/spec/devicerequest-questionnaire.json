@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for DeviceRequest.code[x]",
       "expansion": {
-        "identifier": "urn:uuid:62c4ee0e-cc99-4fe1-aa17-980c8f494e65",
-        "timestamp": "2019-11-01T09:35:00+11:00",
+        "identifier": "urn:uuid:59bb7d43-66e8-4b81-a564-171e37a060d3",
+        "timestamp": "2021-12-06T19:02:58+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/resource-types",
@@ -32,8 +32,8 @@
       "status": "active",
       "description": "Type options for DeviceRequest.parameter.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:d95091b3-26cf-431c-86a0-85c1f08e09fd",
-        "timestamp": "2019-11-01T09:35:00+11:00",
+        "identifier": "urn:uuid:5892658b-4264-4149-a6c4-b5352ebc6ded",
+        "timestamp": "2021-12-06T19:02:58+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -65,8 +65,8 @@
       "status": "active",
       "description": "Type options for DeviceRequest.occurrence[x]",
       "expansion": {
-        "identifier": "urn:uuid:885baa7f-8486-473a-8b0c-08753ec1d22a",
-        "timestamp": "2019-11-01T09:35:00+11:00",
+        "identifier": "urn:uuid:22a94e38-0aab-404a-81c8-fa981c6c151a",
+        "timestamp": "2021-12-06T19:02:58+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -92,9 +92,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-12-06T18:53:36+00:00",
   "publisher": "Health Level Seven International (Orders and Observations)",
   "item": [
     {
@@ -278,9 +278,10 @@
             {
               "linkId": "DeviceRequest.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -723,9 +724,10 @@
             {
               "linkId": "DeviceRequest.status.value",
               "text": "status",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -770,9 +772,10 @@
             {
               "linkId": "DeviceRequest.intent.value",
               "text": "intent",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -813,9 +816,10 @@
             {
               "linkId": "DeviceRequest.priority.value",
               "text": "priority",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -857,9 +861,10 @@
             {
               "linkId": "DeviceRequest.code[x]._type",
               "text": "type",
-              "type": "choice",
+              "type": "coding",
               "required": false,
               "repeats": false,
+              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs2",
               "item": [
                 {
@@ -903,9 +908,10 @@
                     {
                       "linkId": "DeviceRequest.code[x]._null.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "DeviceRequest.code[x]._null.text",
@@ -1080,9 +1086,10 @@
                 {
                   "linkId": "DeviceRequest.parameter.code.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "DeviceRequest.parameter.code.text",
@@ -1127,9 +1134,10 @@
                 {
                   "linkId": "DeviceRequest.parameter.value[x]._type",
                   "text": "type",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
                   "repeats": false,
+                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs3",
                   "item": [
                     {
@@ -1145,9 +1153,10 @@
                         {
                           "linkId": "DeviceRequest.parameter.value[x]._null.coding",
                           "text": "code:",
-                          "type": "open-choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOnly"
                         },
                         {
                           "linkId": "DeviceRequest.parameter.value[x]._null.text",
@@ -1171,9 +1180,10 @@
                         {
                           "linkId": "DeviceRequest.parameter.value[x]._null.comparator",
                           "text": "comp:",
-                          "type": "choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOnly"
                         },
                         {
                           "linkId": "DeviceRequest.parameter.value[x]._null.value",
@@ -1406,9 +1416,10 @@
             {
               "linkId": "DeviceRequest.occurrence[x]._type",
               "text": "type",
-              "type": "choice",
+              "type": "coding",
               "required": false,
               "repeats": false,
+              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs4",
               "item": [
                 {
@@ -1640,9 +1651,10 @@
             {
               "linkId": "DeviceRequest.performerType.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "DeviceRequest.performerType.text",
@@ -1740,9 +1752,10 @@
             {
               "linkId": "DeviceRequest.reasonCode.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "DeviceRequest.reasonCode.text",

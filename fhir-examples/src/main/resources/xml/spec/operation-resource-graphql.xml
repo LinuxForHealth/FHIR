@@ -3,10 +3,10 @@
 <OperationDefinition xmlns="http://hl7.org/fhir">
   <id value="Resource-graphql"/>
   <text>
-    <status value="generated"/>
+    <status value="extensions"/>
     <div xmlns="http://www.w3.org/1999/xhtml">
-      <h2>Execute a graphql statement</h2>
-      <p>OPERATION: Execute a graphql statement</p>
+      <h2>graphql</h2>
+      <p>OPERATION: graphql</p>
       <p>The official URL for this operation definition is: </p>
       <pre>http://hl7.org/fhir/OperationDefinition/Resource-graphql</pre>
       <div>
@@ -79,11 +79,12 @@
     <valueCode value="trial-use"/>
   </extension>
   <url value="http://hl7.org/fhir/OperationDefinition/Resource-graphql"/>
-  <version value="4.0.1"/>
-  <name value="Execute a graphql statement"/>
+  <version value="4.1.0"/>
+  <name value="graphql"/>
+  <title value="Execute a graphql statement"/>
   <status value="draft"/>
   <kind value="operation"/>
-  <date value="2019-11-01T09:29:23+11:00"/>
+  <date value="2021-12-06T18:53:36+00:00"/>
   <publisher value="HL7 (FHIR Project)"/>
   <contact>
     <telecom>
@@ -96,6 +97,7 @@
     </telecom>
   </contact>
   <description value="Execute a graphql statement on a since resource or against the entire system. See the [Using GraphQL with FHIR](graphql.html) page for further details.&#xA;&#xA;For the purposes of graphQL compatibility, this operation can also be invoked using a POST with the graphQL as the body, or a JSON body (see [graphQL spec](http://graphql.org/) for details)"/>
+  <affectsState value="false"/>
   <code value="graphql"/>
   <resource value="Resource"/>
   <system value="true"/>

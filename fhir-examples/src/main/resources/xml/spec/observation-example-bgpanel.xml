@@ -7,7 +7,7 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: bgpanel</p><p><b>status</b>: final</p><p><b>category</b>: Laboratory <span>(Details : {http://terminology.hl7.org/CodeSystem/observation-category code 'laboratory' = 'Laboratory', given as 'Laboratory'})</span></p><p><b>code</b>: Blood Group Panel <span>(Details : {LOINC code '34532-2' = 'Blood type and Indirect antibody screen panel - Blood', given as ' Blood type and Indirect antibody screen panel - Blood'})</span></p><p><b>subject</b>: <a>Patient/infant</a></p><p><b>effective</b>: 11/03/2018 4:07:54 PM</p><p><b>hasMember</b>: </p><ul><li><a>Observation/bloodgroup</a></li><li><a>Observation/rhstatus</a></li></ul></div></text><status value="final"/>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "bgpanel" </p></div><p><b>status</b>: final</p><p><b>category</b>: Laboratory <span> (<a>Observation Category Codes</a>#laboratory)</span></p><p><b>code</b>: Blood Group Panel <span> (<a>LOINC</a>#34532-2 " Blood type and Indirect antibody screen panel - Blood")</span></p><p><b>subject</b>: <a>Patient/infant</a></p><p><b>effective</b>: 2018-03-11T16:07:54Z</p><p><b>hasMember</b>: </p><ul><li><a>Observation/bloodgroup</a></li><li><a>Observation/rhstatus</a></li></ul></div></text><status value="final"/>
 	<category>
 		<coding>
 			<system value="http://terminology.hl7.org/CodeSystem/observation-category"/>

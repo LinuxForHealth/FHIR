@@ -10,11 +10,11 @@
   "relatedArtifact": [
     {
       "type": "composed-of",
-      "resource": "Measure/component-a-example"
+      "resource": "http://example.org/fhir/Measure/component-a-example"
     },
     {
       "type": "composed-of",
-      "resource": "Measure/component-b-example"
+      "resource": "http://example.org/fhir/Measure/component-b-example"
     }
   ],
   "scoring": {

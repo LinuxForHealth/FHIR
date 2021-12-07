@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for SupplyDelivery.suppliedItem.item[x]",
       "expansion": {
-        "identifier": "urn:uuid:e09097fd-0ec4-43bd-803e-da07c5821f08",
-        "timestamp": "2019-11-01T09:37:02+11:00",
+        "identifier": "urn:uuid:f3255280-389b-47af-ae13-3557591d18be",
+        "timestamp": "2021-12-06T19:04:42+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -42,8 +42,8 @@
       "status": "active",
       "description": "Type options for SupplyDelivery.occurrence[x]",
       "expansion": {
-        "identifier": "urn:uuid:62c90824-29e9-4f7d-bc58-881c7dcff088",
-        "timestamp": "2019-11-01T09:37:02+11:00",
+        "identifier": "urn:uuid:59febd44-6ba1-4fad-9f2a-67871b19d340",
+        "timestamp": "2021-12-06T19:04:42+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -69,9 +69,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-12-06T18:53:36+00:00",
   "publisher": "Health Level Seven International (Orders and Observations)",
   "item": [
     {
@@ -255,9 +255,10 @@
             {
               "linkId": "SupplyDelivery.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -564,9 +565,10 @@
             {
               "linkId": "SupplyDelivery.status.value",
               "text": "status",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -661,9 +663,10 @@
             {
               "linkId": "SupplyDelivery.type.coding",
               "text": "code:",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             },
             {
               "linkId": "SupplyDelivery.type.text",
@@ -840,9 +843,10 @@
                 {
                   "linkId": "SupplyDelivery.suppliedItem.quantity.comparator",
                   "text": "comp:",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "SupplyDelivery.suppliedItem.quantity.value",
@@ -908,9 +912,10 @@
                 {
                   "linkId": "SupplyDelivery.suppliedItem.item[x]._type",
                   "text": "type",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
                   "repeats": false,
+                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs2",
                   "item": [
                     {
@@ -926,9 +931,10 @@
                         {
                           "linkId": "SupplyDelivery.suppliedItem.item[x]._null.coding",
                           "text": "code:",
-                          "type": "open-choice",
+                          "type": "coding",
                           "required": false,
-                          "repeats": false
+                          "repeats": false,
+                          "answerConstraint": "optionsOnly"
                         },
                         {
                           "linkId": "SupplyDelivery.suppliedItem.item[x]._null.text",
@@ -1007,9 +1013,10 @@
             {
               "linkId": "SupplyDelivery.occurrence[x]._type",
               "text": "type",
-              "type": "choice",
+              "type": "coding",
               "required": false,
               "repeats": false,
+              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs3",
               "item": [
                 {

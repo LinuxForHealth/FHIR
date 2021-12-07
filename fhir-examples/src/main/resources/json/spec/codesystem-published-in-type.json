@@ -1,0 +1,82 @@
+{
+  "resourceType": "CodeSystem",
+  "id": "published-in-type",
+  "meta": {
+    "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+    "profile": [
+      "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\n      \n      \u003cp\u003eThis code system http://terminology.hl7.org/CodeSystem/published-in-type defines the following codes:\u003c/p\u003e\n      \n      \u003ctable class\u003d\"codes\"\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003e\n            \n            \u003cb\u003eCode\u003c/b\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003e\n            \n            \u003cb\u003eDisplay\u003c/b\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003e\n            \n            \u003cb\u003eDefinition\u003c/b\u003e\n          \n          \u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eD020492\n            \n            \u003ca name\u003d\"published-in-type-D020492\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003ePeriodical\u003c/td\u003e\n          \n          \u003ctd\u003ePublication intended to be issued on an ongoing basis, generally more frequently than annually, containing separate articles, stories, or writings.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eD019991\n            \n            \u003ca name\u003d\"published-in-type-D019991\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eDatabase\u003c/td\u003e\n          \n          \u003ctd\u003eA structured file of information or a set of logically related data stored and retrieved using computer-based means.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eD001877\n            \n            \u003ca name\u003d\"published-in-type-D001877\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eBook\u003c/td\u003e\n          \n          \u003ctd\u003eNon-periodical written or printed works consisting of sheets of pages fastened or bound together within covers.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eD064886\n            \n            \u003ca name\u003d\"published-in-type-D064886\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eDataset\u003c/td\u003e\n          \n          \u003ctd\u003eWorks consisting of organized collections of data, which have been stored permanently in a formalized manner suitable for communication, interpretation, or processing.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n      \n      \u003c/table\u003e\n    \n    \u003c/div\u003e"
+  },
+  "extension": [
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+      "valueCode": "cds"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+      "valueCode": "trial-use"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+      "valueInteger": 0
+    }
+  ],
+  "url": "http://terminology.hl7.org/CodeSystem/published-in-type",
+  "identifier": [
+    {
+      "system": "urn:ietf:rfc:3986",
+      "value": "urn:oid:2.16.840.1.113883.4.642.1.0"
+    }
+  ],
+  "version": "4.1.0",
+  "name": "PublishedInType",
+  "title": "PublishedInType",
+  "status": "draft",
+  "experimental": false,
+  "date": "2020-12-28T16:55:11+11:00",
+  "publisher": "HL7 (FHIR Project)",
+  "contact": [
+    {
+      "telecom": [
+        {
+          "system": "url",
+          "value": "http://hl7.org/fhir"
+        },
+        {
+          "system": "email",
+          "value": "fhir@lists.hl7.org"
+        }
+      ]
+    }
+  ],
+  "description": "The type of publication such as book, database, or journal.",
+  "caseSensitive": true,
+  "valueSet": "http://hl7.org/fhir/ValueSet/published-in-type",
+  "content": "complete",
+  "concept": [
+    {
+      "code": "D020492",
+      "display": "Periodical",
+      "definition": "Publication intended to be issued on an ongoing basis, generally more frequently than annually, containing separate articles, stories, or writings."
+    },
+    {
+      "code": "D019991",
+      "display": "Database",
+      "definition": "A structured file of information or a set of logically related data stored and retrieved using computer-based means."
+    },
+    {
+      "code": "D001877",
+      "display": "Book",
+      "definition": "Non-periodical written or printed works consisting of sheets of pages fastened or bound together within covers."
+    },
+    {
+      "code": "D064886",
+      "display": "Dataset",
+      "definition": "Works consisting of organized collections of data, which have been stored permanently in a formalized manner suitable for communication, interpretation, or processing."
+    }
+  ]
+}

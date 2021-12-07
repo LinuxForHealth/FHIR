@@ -11,7 +11,7 @@
       "value": "exclusive-breastfeeding-measure"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "title": "Exclusive Breastfeeding Measure",
   "status": "active",
   "date": "2015-03-08",
@@ -73,15 +73,15 @@
     },
     {
       "type": "predecessor",
-      "resource": "Measure/measure-predecessor-example"
+      "resource": "http://example.org/fhir/Measure/measure-predecessor-example"
     },
     {
       "type": "derived-from",
-      "resource": "Measure/measure-predecessor-example"
+      "resource": "http://example.org/fhir/Measure/measure-predecessor-example"
     }
   ],
   "library": [
-    "Library/library-exclusive-breastfeeding-cqm-logic"
+    "http://example.org/fhir/Library/library-exclusive-breastfeeding-cqm-logic"
   ],
   "disclaimer": "These performance measures are not clinical guidelines and do not establish a standard of medical care, and have not been tested for all potential applications. The measures and specifications are provided without warranty.",
   "scoring": {

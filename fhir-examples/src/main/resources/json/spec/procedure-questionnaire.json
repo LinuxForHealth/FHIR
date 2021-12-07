@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for Procedure.performed[x]",
       "expansion": {
-        "identifier": "urn:uuid:ac385393-a600-4f08-bdfb-df532d69d966",
-        "timestamp": "2019-11-01T09:36:39+11:00",
+        "identifier": "urn:uuid:a22fbb29-79bd-41a0-80f1-eee64c4bc313",
+        "timestamp": "2021-12-06T19:04:20+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -46,9 +46,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-12-06T18:53:36+00:00",
   "publisher": "Health Level Seven International (Patient Care)",
   "item": [
     {
@@ -232,9 +232,10 @@
             {
               "linkId": "Procedure.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -623,9 +624,10 @@
             {
               "linkId": "Procedure.status.value",
               "text": "status",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -667,9 +669,10 @@
             {
               "linkId": "Procedure.statusReason.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Procedure.statusReason.text",
@@ -718,9 +721,10 @@
             {
               "linkId": "Procedure.category.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Procedure.category.text",
@@ -769,9 +773,10 @@
             {
               "linkId": "Procedure.code.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Procedure.code.text",
@@ -926,9 +931,10 @@
             {
               "linkId": "Procedure.performed[x]._type",
               "text": "type",
-              "type": "choice",
+              "type": "coding",
               "required": false,
               "repeats": false,
+              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs2",
               "item": [
                 {
@@ -1006,9 +1012,10 @@
                     {
                       "linkId": "Procedure.performed[x]._null.comparator",
                       "text": "comp:",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     },
                     {
                       "linkId": "Procedure.performed[x]._null.value",
@@ -1343,9 +1350,10 @@
                 {
                   "linkId": "Procedure.performer.function.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "Procedure.performer.function.text",
@@ -1555,9 +1563,10 @@
             {
               "linkId": "Procedure.reasonCode.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Procedure.reasonCode.text",
@@ -1651,9 +1660,10 @@
             {
               "linkId": "Procedure.bodySite.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Procedure.bodySite.text",
@@ -1702,9 +1712,10 @@
             {
               "linkId": "Procedure.outcome.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Procedure.outcome.text",
@@ -1798,9 +1809,10 @@
             {
               "linkId": "Procedure.complication.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Procedure.complication.text",
@@ -1894,9 +1906,10 @@
             {
               "linkId": "Procedure.followUp.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Procedure.followUp.text",
@@ -2100,9 +2113,10 @@
                 {
                   "linkId": "Procedure.focalDevice.action.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 },
                 {
                   "linkId": "Procedure.focalDevice.action.text",
@@ -2255,9 +2269,10 @@
             {
               "linkId": "Procedure.usedCode.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "Procedure.usedCode.text",

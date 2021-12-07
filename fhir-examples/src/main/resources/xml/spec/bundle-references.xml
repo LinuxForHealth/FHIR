@@ -15,7 +15,7 @@
     <resource>
       <Patient>
          <id value="23"/>
-				 <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: 23</p><p><b>identifier</b>: 1234567</p></div></text><identifier>
+				 <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "23" </p></div><p><b>identifier</b>: id: 1234567</p></div></text><identifier>
 				   <system value="http://example.org/ids"/>
 					 <value value="1234567"/>
 				 </identifier>
@@ -29,7 +29,7 @@
     <fullUrl value="urn:uuid:04121321-4af5-424c-a0e1-ed3aab1c349d"/>
     <resource>
       <Patient>
-      <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p></div></text></Patient>
+      <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div/></div></text></Patient>
     </resource>
   </entry>
   
@@ -39,7 +39,7 @@
     <resource>
       <Observation>
         <id value="123"/>
- 				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: 123</p><p><b>status</b>: final</p><p><b>code</b>: Glucose [Moles/volume] in Blood <span>(Details : {LOINC code '15074-8' = 'Glucose [Moles/volume] in Blood', given as 'Glucose [Moles/volume] in Blood'})</span></p><p><b>subject</b>: <a>Patient/23</a></p></div></text><status value="final"/> 
+ 				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "123" </p></div><p><b>status</b>: final</p><p><b>code</b>: Glucose [Moles/volume] in Blood <span> (<a>LOINC</a>#15074-8)</span></p><p><b>subject</b>: <a>Patient/23</a></p></div></text><status value="final"/> 
 	 			<code> 
 					<coding> 
 						<system value="http://loinc.org"/> 
@@ -61,7 +61,7 @@
     <resource>
       <Observation>
         <id value="124"/>
-				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: 124</p><p><b>status</b>: final</p><p><b>code</b>: Glucose [Moles/volume] in Blood <span>(Details : {LOINC code '15074-8' = 'Glucose [Moles/volume] in Blood', given as 'Glucose [Moles/volume] in Blood'})</span></p><p><b>subject</b>: <a>http://example.org/fhir/Patient/23</a></p></div></text><status value="final"/> 
+				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "124" </p></div><p><b>status</b>: final</p><p><b>code</b>: Glucose [Moles/volume] in Blood <span> (<a>LOINC</a>#15074-8)</span></p><p><b>subject</b>: <a>http://example.org/fhir/Patient/23</a></p></div></text><status value="final"/> 
 	 			<code> 
 					<coding> 
 						<system value="http://loinc.org"/> 
@@ -83,7 +83,7 @@
     <resource>
       <Observation>
         <id value="12"/>
- 				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: 12</p><p><b>status</b>: final</p><p><b>code</b>: Glucose [Moles/volume] in Blood <span>(Details : {LOINC code '15074-8' = 'Glucose [Moles/volume] in Blood', given as 'Glucose [Moles/volume] in Blood'})</span></p><p><b>subject</b>: <a>urn:uuid:04121321-4af5-424c-a0e1-ed3aab1c349d</a></p></div></text><status value="final"/> 
+ 				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "12" </p></div><p><b>status</b>: final</p><p><b>code</b>: Glucose [Moles/volume] in Blood <span> (<a>LOINC</a>#15074-8)</span></p><p><b>subject</b>: <a>urn:uuid:04121321-4af5-424c-a0e1-ed3aab1c349d</a></p></div></text><status value="final"/> 
 	 			<code> 
 					<coding> 
 						<system value="http://loinc.org"/> 
@@ -105,7 +105,7 @@
     <resource>
       <Observation>
         <id value="14"/>
- 				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: 14</p><p><b>status</b>: final</p><p><b>code</b>: Glucose [Moles/volume] in Blood <span>(Details : {LOINC code '15074-8' = 'Glucose [Moles/volume] in Blood', given as 'Glucose [Moles/volume] in Blood'})</span></p><p><b>subject</b>: <a>http://example.org/fhir-2/Patient/1</a></p></div></text><status value="final"/> 
+ 				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "14" </p></div><p><b>status</b>: final</p><p><b>code</b>: Glucose [Moles/volume] in Blood <span> (<a>LOINC</a>#15074-8)</span></p><p><b>subject</b>: <a>http://example.org/fhir-2/Patient/1</a></p></div></text><status value="final"/> 
 	 			<code> 
 					<coding> 
 						<system value="http://loinc.org"/> 
@@ -128,7 +128,7 @@
     <resource>
       <Observation>
         <id value="14"/>
- 				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: 14</p><p><b>status</b>: final</p><p><b>code</b>: Glucose [Moles/volume] in Blood <span>(Details : {LOINC code '15074-8' = 'Glucose [Moles/volume] in Blood', given as 'Glucose [Moles/volume] in Blood'})</span></p><p><b>subject</b>: <a>Patient/23</a></p></div></text><status value="final"/> 
+ 				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "14" </p></div><p><b>status</b>: final</p><p><b>code</b>: Glucose [Moles/volume] in Blood <span> (<a>LOINC</a>#15074-8)</span></p><p><b>subject</b>: <a>Patient/23</a></p></div></text><status value="final"/> 
 	 			<code> 
 					<coding> 
 						<system value="http://loinc.org"/> 
@@ -153,7 +153,7 @@
 				 <meta>
 				   <versionId value="1"/>
 				 </meta>
-				 <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: 45</p><p><b>meta</b>: </p><p><b>name</b>: Name 1</p></div></text><name>
+				 <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "45" Version "1" </p></div><p><b>name</b>: Name 1</p></div></text><name>
 				   <text value="Name 1"/>
 				 </name>
       </Patient>
@@ -169,7 +169,7 @@
 				 <meta>
 				   <versionId value="2"/>
 				 </meta>
-				 <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: 45</p><p><b>meta</b>: </p><p><b>name</b>: Name 2</p></div></text><name>
+				 <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "45" Version "2" </p></div><p><b>name</b>: Name 2</p></div></text><name>
 				   <text value="Name 2"/>
 				 </name>
       </Patient>
@@ -204,7 +204,7 @@
     <resource>
       <Observation>
         <id value="47"/>
- 				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: 47</p><p><b>status</b>: final</p><p><b>code</b>: Glucose [Moles/volume] in Blood <span>(Details : {LOINC code '15074-8' = 'Glucose [Moles/volume] in Blood', given as 'Glucose [Moles/volume] in Blood'})</span></p><p><b>subject</b>: <a>Patient/45/_history/2</a></p></div></text><status value="final"/> 
+ 				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "47" </p></div><p><b>status</b>: final</p><p><b>code</b>: Glucose [Moles/volume] in Blood <span> (<a>LOINC</a>#15074-8)</span></p><p><b>subject</b>: <a>Patient/45/_history/2</a></p></div></text><status value="final"/> 
 	 			<code> 
 					<coding> 
 						<system value="http://loinc.org"/> 
@@ -225,7 +225,7 @@
     <resource>
       <Observation>
         <id value="48"/>
- 				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: 48</p><p><b>status</b>: final</p><p><b>code</b>: Glucose [Moles/volume] in Blood <span>(Details : {LOINC code '15074-8' = 'Glucose [Moles/volume] in Blood', given as 'Glucose [Moles/volume] in Blood'})</span></p><p><b>subject</b>: </p></div></text><status value="final"/> 
+ 				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "48" </p></div><p><b>status</b>: final</p><p><b>code</b>: Glucose [Moles/volume] in Blood <span> (<a>LOINC</a>#15074-8)</span></p><p><b>subject</b>: <span/></p></div></text><status value="final"/> 
 	 			<code> 
 					<coding> 
 						<system value="http://loinc.org"/> 

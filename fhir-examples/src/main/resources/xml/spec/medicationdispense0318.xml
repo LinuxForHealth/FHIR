@@ -7,7 +7,7 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: meddisp0318</p><p><b>identifier</b>: 12345689 (OFFICIAL)</p><p><b>status</b>: in-progress</p><p><b>medication</b>: Levothyroxine Sodium Tablets, USP (75mcg) <span>(Details : {http://hl7.org/fhir/sid/ndc code '0378-1805-01' = 'n/a', given as 'Levothyroxine Sodium Tablets, USP (75mcg)'})</span></p><p><b>subject</b>: <a>Donald Duck</a></p><h3>Performers</h3><table><tr><td>-</td><td><b>Actor</b></td></tr><tr><td>*</td><td><a>Practitioner/f006</a></td></tr></table><p><b>authorizingPrescription</b>: <a>MedicationRequest/medrx0314</a></p><p><b>type</b>: Refill - Part Fill <span>(Details : {http://terminology.hl7.org/CodeSystem/v3-ActCode code 'RFP' = 'Refill - Part Fill', given as 'Refill - Part Fill'})</span></p><p><b>quantity</b>: 100 TAB<span> (Details: http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm code TAB = 'Tablet')</span></p><p><b>daysSupply</b>: 30 Day<span> (Details: UCUM code d = 'd')</span></p><p><b>whenPrepared</b>: 16/03/2015 5:13:00 PM</p><p><b>dosageInstruction</b>: </p><h3>Substitutions</h3><table><tr><td>-</td><td><b>WasSubstituted</b></td><td><b>Type</b></td><td><b>Reason</b></td><td><b>ResponsibleParty</b></td></tr><tr><td>*</td><td>true</td><td>formulary <span>(Details : {http://terminology.hl7.org/CodeSystem/v3-substanceAdminSubstitution code 'F' = 'formulary', given as 'formulary'})</span></td><td>Formulary Policy <span>(Details : {http://terminology.hl7.org/CodeSystem/v3-ActReason code 'FP' = 'formulary policy', given as 'Formulary Policy'})</span></td><td><a>Practitioner/f006</a></td></tr></table></div></text><identifier>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "meddisp0318" </p></div><p><b>identifier</b>: id: 12345689 (OFFICIAL)</p><p><b>status</b>: in-progress</p><p><b>medication</b>: Levothyroxine Sodium Tablets, USP (75mcg) <span> (<a>National drug codes</a>#0378-1800-10)</span></p><p><b>subject</b>: <a>Patient/pat1: Donald Duck</a> "Duck DONALD"</p><h3>Performers</h3><table><tr><td>-</td><td><b>Actor</b></td></tr><tr><td>*</td><td><a>Practitioner/f006</a> "Rob VAN DEN BERK"</td></tr></table><p><b>authorizingPrescription</b>: <a>MedicationRequest/medrx0314</a></p><p><b>type</b>: Refill - Part Fill <span> (<a>ActCode</a>#RFP)</span></p><p><b>quantity</b>: 100 TAB<span> (Details: http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm code TAB = 'Tablet')</span></p><p><b>daysSupply</b>: 30 Day<span> (Details: UCUM code d = 'd')</span></p><p><b>whenPrepared</b>: 2015-03-16T17:13:00+05:00</p><h3>Substitutions</h3><table><tr><td>-</td><td><b>WasSubstituted</b></td><td><b>Type</b></td><td><b>Reason</b></td><td><b>ResponsibleParty</b></td></tr><tr><td>*</td><td>true</td><td>formulary <span> (<a>Substance Admin Substitution</a>#F)</span></td><td>Formulary Policy <span> (<a>ActReason</a>#FP)</span></td><td><a>Practitioner/f006</a> "Rob VAN DEN BERK"</td></tr></table></div></text><identifier>
         <use value="official"/>
         <system value="http://www.bmc.nl/portal/dispenses"/>
         <value value="12345689"/>
@@ -16,7 +16,7 @@
     <medicationCodeableConcept>
         <coding>
             <system value="http://hl7.org/fhir/sid/ndc"/>
-            <code value="0378-1805-01"/>
+            <code value="0378-1800-10"/>
             <display value="Levothyroxine Sodium Tablets, USP (75mcg)"/>
         </coding>
     </medicationCodeableConcept>
@@ -80,7 +80,7 @@
                 <value value="75"/>
                 <unit value="mcg"/>
                 <system value="http://unitsofmeasure.org"/>
-                <code value="mcg"/>
+                <code value="ug"/>
             </doseQuantity>
         </doseAndRate>
 

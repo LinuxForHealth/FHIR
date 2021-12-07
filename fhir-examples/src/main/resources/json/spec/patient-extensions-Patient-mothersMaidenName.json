@@ -2,7 +2,7 @@
   "resourceType": "SearchParameter",
   "id": "patient-extensions-Patient-mothersMaidenName",
   "url": "http://hl7.org/fhir/SearchParameter/patient-extensions-Patient-mothersMaidenName",
-  "version": "4.0.1",
+  "version": "4.1.0",
   "name": "mothersMaidenName",
   "status": "draft",
   "experimental": true,
@@ -12,6 +12,6 @@
     "Patient"
   ],
   "type": "string",
-  "expression": "Patient.extension(\u0027http://hl7.org/fhir/StructureDefinition/patient-extensions-Patient-mothersMaidenName\u0027)",
+  "expression": "Patient.extension(\u0027http://hl7.org/fhir/StructureDefinition/patient-mothersMaidenName\u0027)",
   "xpathUsage": "normal"
 }

@@ -1,0 +1,25 @@
+{
+  "resourceType": "SubscriptionStatus",
+  "id": "example",
+  "text": {
+    "status": "generated",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cp\u003e\u003cb\u003eGenerated Narrative\u003c/b\u003e\u003c/p\u003e\u003cdiv\u003e\u003cp\u003eResource \u0026quot;example\u0026quot; \u003c/p\u003e\u003c/div\u003e\u003cp\u003e\u003cb\u003estatus\u003c/b\u003e: active\u003c/p\u003e\u003cp\u003e\u003cb\u003etype\u003c/b\u003e: event-notification\u003c/p\u003e\u003cp\u003e\u003cb\u003eeventsSinceSubscriptionStart\u003c/b\u003e: 1000\u003c/p\u003e\u003cp\u003e\u003cb\u003eeventsInNotification\u003c/b\u003e: 1\u003c/p\u003e\u003cp\u003e\u003cb\u003esubscription\u003c/b\u003e: \u003ca\u003ehttp://example.org/FHIR/R4/Subscription/123\u003c/a\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003etopic\u003c/b\u003e: \u003ca\u003ehttp://example.org/FHIR/R4/SubscriptionTopic/admission\u003c/a\u003e\u003c/p\u003e\u003c/div\u003e"
+  },
+  "status": "active",
+  "type": "event-notification",
+  "eventsSinceSubscriptionStart": "1000",
+  "eventsInNotification": 1,
+  "subscription": {
+    "reference": "http://example.org/FHIR/R4/Subscription/123"
+  },
+  "topic": "http://example.org/FHIR/R4/SubscriptionTopic/admission",
+  "meta": {
+    "tag": [
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+        "code": "HTEST",
+        "display": "test health data"
+      }
+    ]
+  }
+}

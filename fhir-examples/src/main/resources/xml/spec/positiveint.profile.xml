@@ -13,10 +13,10 @@
     <valueCode value="4.0.0"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/positiveInt"/>
-  <version value="4.0.1"/>
+  <version value="4.1.0"/>
   <name value="positiveInt"/>
   <status value="active"/>
-  <date value="2019-11-01T09:29:23+11:00"/>
+  <date value="2021-12-06T18:53:36+00:00"/>
   <publisher value="HL7 FHIR Standard"/>
   <contact>
     <telecom>
@@ -25,7 +25,7 @@
     </telecom>
   </contact>
   <description value="Base StructureDefinition for positiveInt type: An integer with a value that is positive (e.g. &gt;0)"/>
-  <fhirVersion value="4.0.1"/>
+  <fhirVersion value="4.1.0"/>
   <kind value="primitive-type"/>
   <abstract value="false"/>
   <type value="positiveInt"/>
@@ -46,9 +46,9 @@
       <constraint>
         <key value="ele-1"/>
         <severity value="error"/>
-        <human value="All FHIR elements must have a @value or children"/>
-        <expression value="hasValue() or (children().count() &gt; id.count())"/>
-        <xpath value="@value|f:*|h:div"/>
+        <human value="All FHIR elements must have a @value or children unless an empty Parameters resource"/>
+        <expression value="hasValue() or (children().count() &gt; id.count()) or $this is Parameters"/>
+        <xpath value="@value|f:*|h:div|self::f:Parameters"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
       <isModifier value="false"/>
@@ -69,7 +69,7 @@
     <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (h) -->
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
-          <valueUrl value="string"/>
+          <valueUri value="string"/>
         </extension>
         <code value="http://hl7.org/fhirpath/System.String"/>
       </type>
@@ -127,7 +127,7 @@
     <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (i) -->
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
-          <valueUrl value="string"/>
+          <valueUri value="string"/>
         </extension>
         <extension url="http://hl7.org/fhir/StructureDefinition/regex">
           <valueString value="[1-9][0-9]*"/>
@@ -156,12 +156,12 @@
     <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (g) -->
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
-          <valueUrl value="positiveInt"/>
+          <valueUri value="positiveInt"/>
         </extension>
         <extension url="http://hl7.org/fhir/StructureDefinition/regex">
           <valueString value="[1-9][0-9]*"/>
         </extension>
-        <code value="http://hl7.org/fhirpath/System.String"/>
+        <code value="http://hl7.org/fhirpath/System.Integer"/>
       </type>
     </element>
   </differential>

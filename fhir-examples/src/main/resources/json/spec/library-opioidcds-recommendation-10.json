@@ -1,10 +1,6 @@
 {
   "resourceType": "Library",
   "id": "opioidcds-recommendation-10",
-  "text": {
-    "status": "generated",
-    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cp\u003e\u003cb\u003eGenerated Narrative with Details\u003c/b\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003eid\u003c/b\u003e: opioidcds-recommendation-10\u003c/p\u003e\u003cp\u003e\u003cb\u003eidentifier\u003c/b\u003e: OpioidCDS_REC_10 (OFFICIAL)\u003c/p\u003e\u003cp\u003e\u003cb\u003eversion\u003c/b\u003e: 0.1.0\u003c/p\u003e\u003cp\u003e\u003cb\u003etitle\u003c/b\u003e: Opioid CDS Logic for recommendation #10\u003c/p\u003e\u003cp\u003e\u003cb\u003estatus\u003c/b\u003e: active\u003c/p\u003e\u003cp\u003e\u003cb\u003eexperimental\u003c/b\u003e: false\u003c/p\u003e\u003cp\u003e\u003cb\u003etype\u003c/b\u003e: Logic Library \u003cspan\u003e(Details : {http://terminology.hl7.org/CodeSystem/library-type code \u0027logic-library\u0027 \u003d \u0027Logic Library\u0027, given as \u0027Logic Library\u0027})\u003c/span\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003edate\u003c/b\u003e: 25/03/2018 1:49:09 PM\u003c/p\u003e\u003cp\u003e\u003cb\u003epublisher\u003c/b\u003e: Centers for Disease Control and Prevention (CDC)\u003c/p\u003e\u003cp\u003e\u003cb\u003edescription\u003c/b\u003e: Opioid decision support logic to evaluate whether the patient has had a urine screening in the past 12 months and provide analysis.\u003c/p\u003e\u003cp\u003e\u003cb\u003euseContext\u003c/b\u003e: , \u003c/p\u003e\u003cp\u003e\u003cb\u003ejurisdiction\u003c/b\u003e: United States of America \u003cspan\u003e(Details : {urn:iso:std:iso:3166 code \u0027US\u0027 \u003d \u0027United States of America\u0027, given as \u0027United States of America\u0027})\u003c/span\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003epurpose\u003c/b\u003e: The purpose of this library is to determine whether the patient has had a urine screening in the past 12 months. Is so, then check the results for missing opioids that are prescribed, present opioids that aren\u0027t prescribed or present illicit drugs.\u003c/p\u003e\u003cp\u003e\u003cb\u003eusage\u003c/b\u003e: This library is used to notify the prescriber/user whether the patient has had a urine screening in the past 12 months and to provide analysis if true.\u003c/p\u003e\u003cp\u003e\u003cb\u003ecopyright\u003c/b\u003e: © CDC 2016+.\u003c/p\u003e\u003cp\u003e\u003cb\u003etopic\u003c/b\u003e: Opioid Prescribing \u003cspan\u003e(Details )\u003c/span\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003eauthor\u003c/b\u003e: , , , \u003c/p\u003e\u003cp\u003e\u003cb\u003erelatedArtifact\u003c/b\u003e: , \u003c/p\u003e\u003cp\u003e\u003cb\u003edataRequirement\u003c/b\u003e: , , , \u003c/p\u003e\u003cp\u003e\u003cb\u003econtent\u003c/b\u003e: \u003c/p\u003e\u003c/div\u003e"
-  },
   "identifier": [
     {
       "use": "official",
@@ -102,7 +98,7 @@
     },
     {
       "type": "depends-on",
-      "resource": "Library/opioidcds-common"
+      "resource": "http://example.org/fhir/Library/opioidcds-common"
     }
   ],
   "dataRequirement": [

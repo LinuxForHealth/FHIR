@@ -7,7 +7,7 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: med0308</p><p><b>contained</b>: </p><p><b>code</b>: Percocet tablet <span>(Details : {http://hl7.org/fhir/sid/ndc code '16590-619-30' = 'n/a', given as 'Percocet tablet'})</span></p><p><b>manufacturer</b>: id: org1; name: Stat Rx USA LLC</p><p><b>form</b>: Tablet dose form (qualifier value) <span>(Details : {SNOMED CT code '385055001' = 'Tablet', given as 'Tablet dose form (qualifier value)'})</span></p><blockquote><p><b>ingredient</b></p><p><b>item</b>: Oxycodone HCl <span>(Details : {RxNorm code '82063' = 'Oxycodone Hydrochloride', given as 'Oxycodone HCl'})</span></p><p><b>strength</b>: 5 mg<span> (Details: UCUM code mg = 'mg')</span>/1 TAB<span> (Details: http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm code TAB = 'Tablet')</span></p></blockquote><blockquote><p><b>ingredient</b></p><p><b>item</b>: Acetaminophen <span>(Details : {RxNorm code '161' = 'Acetaminophen', given as 'Acetaminophen'})</span></p><p><b>strength</b>: 325 mg<span> (Details: UCUM code mg = 'mg')</span>/1 TAB<span> (Details: http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm code TAB = 'Tablet')</span></p></blockquote><h3>Batches</h3><table><tr><td>-</td><td><b>LotNumber</b></td><td><b>ExpirationDate</b></td></tr><tr><td>*</td><td>658484</td><td>31/07/2020</td></tr></table></div></text><contained>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "med0308" </p></div><p><b>code</b>: Percocet tablet <span> (<a>National drug codes</a>#63481-623-70)</span></p><p><b>manufacturer</b>: <a> </a></p><blockquote><div><p>Resource "org1" </p></div><p><b>name</b>: Stat Rx USA LLC</p></blockquote><p><b>form</b>: Tablet dose form (qualifier value) <span> (<a>SNOMED CT</a>#385055001)</span></p><blockquote><p><b>ingredient</b></p><p><b>item</b>: Oxycodone HCl <span> (<a>RxNorm</a>#82063)</span></p><p><b>strength</b>: 5 mg<span> (Details: UCUM code mg = 'mg')</span>/1 TAB<span> (Details: http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm code TAB = 'Tablet')</span></p></blockquote><blockquote><p><b>ingredient</b></p><p><b>item</b>: Acetaminophen <span> (<a>RxNorm</a>#161)</span></p><p><b>strength</b>: 325 mg<span> (Details: UCUM code mg = 'mg')</span>/1 TAB<span> (Details: http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm code TAB = 'Tablet')</span></p></blockquote><h3>Batches</h3><table><tr><td>-</td><td><b>LotNumber</b></td><td><b>ExpirationDate</b></td></tr><tr><td>*</td><td>658484</td><td>2020-07-31</td></tr></table></div></text><contained>
     <Organization>
       <id value="org1"/>
       <name value="Stat Rx USA LLC"/>
@@ -16,7 +16,7 @@
   <code>
     <coding>
       <system value="http://hl7.org/fhir/sid/ndc"/>
-      <code value="16590-619-30"/>
+      <code value="63481-623-70"/>
       <display value="Percocet tablet"/>
     </coding>
   </code>

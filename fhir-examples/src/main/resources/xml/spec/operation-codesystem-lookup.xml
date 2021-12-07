@@ -3,10 +3,10 @@
 <OperationDefinition xmlns="http://hl7.org/fhir">
   <id value="CodeSystem-lookup"/>
   <text>
-    <status value="generated"/>
+    <status value="extensions"/>
     <div xmlns="http://www.w3.org/1999/xhtml">
-      <h2>Concept Look Up &amp; Decomposition</h2>
-      <p>OPERATION: Concept Look Up &amp; Decomposition</p>
+      <h2>lookup</h2>
+      <p>OPERATION: lookup</p>
       <p>The official URL for this operation definition is: </p>
       <pre>http://hl7.org/fhir/OperationDefinition/CodeSystem-lookup</pre>
       <div>
@@ -387,15 +387,13 @@
   <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
     <valueCode value="normative"/>
   </extension>
-  <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-normative-version">
-    <valueCode value="4.0.1"/>
-  </extension>
   <url value="http://hl7.org/fhir/OperationDefinition/CodeSystem-lookup"/>
-  <version value="4.0.1"/>
-  <name value="Concept Look Up &amp; Decomposition"/>
-  <status value="draft"/>
+  <version value="4.1.0"/>
+  <name value="lookup"/>
+  <title value="Concept Look Up &amp; Decomposition"/>
+  <status value="active"/>
   <kind value="operation"/>
-  <date value="2019-11-01T09:29:23+11:00"/>
+  <date value="2021-12-06T18:53:36+00:00"/>
   <publisher value="HL7 (FHIR Project)"/>
   <contact>
     <telecom>
@@ -408,6 +406,7 @@
     </telecom>
   </contact>
   <description value="Given a code/system, or a Coding, get additional details about the concept, including definition, status, designations, and properties. One of the products of this operation is a full decomposition of a code from a structured terminology.&#xA;&#xA;When invoking this operation, a client SHALL provide both a system and a code, either using the system+code parameters, or in the coding parameter. Other parameters are optional"/>
+  <affectsState value="false"/>
   <code value="lookup"/>
   <comment value="Note that the $lookup operation is more than just a code system search  - the server finds the concept, and gathers the return information from the underlying code system definitions."/>
   <resource value="CodeSystem"/>

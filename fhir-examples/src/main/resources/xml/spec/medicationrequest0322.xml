@@ -7,7 +7,7 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: medrx0322</p><p><b>contained</b>: </p><p><b>identifier</b>: 12345689 (OFFICIAL)</p><p><b>status</b>: completed</p><p><b>intent</b>: order</p><p><b>medication</b>: Potassium Chloride 20mEq in 1L Normal Saline. Generated Summary: id: med0317; Injection Solution (qualifier value) <span>(Details : {SNOMED CT code '385219001' = 'Injection solution', given as 'Injection Solution (qualifier value)'})</span></p><p><b>subject</b>: <a>Donald Duck</a></p><p><b>authoredOn</b>: 15/01/2015</p><p><b>requester</b>: <a>Patrick Pump</a></p><p><b>reasonCode</b>: Disorder of Electrolytes (disorder) <span>(Details : {SNOMED CT code '237840007' = 'Disorder of electrolytes', given as 'Disorder of Electrolytes (disorder)'})</span></p><p><b>dosageInstruction</b>: </p></div></text><contained>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "medrx0322" </p></div><p><b>identifier</b>: id: 12345689 (OFFICIAL)</p><p><b>status</b>: completed</p><p><b>intent</b>: order</p><p><b>medication</b>: <a> </a></p><blockquote><div><p>Resource "med0317" </p></div><p><b>form</b>: Injection Solution (qualifier value) <span> (<a>SNOMED CT</a>#385219001)</span></p><blockquote><p><b>ingredient</b></p><p><b>item</b>: Potassium Chloride <span> (<a>RxNorm</a>#204520)</span></p><p><b>strength</b>: 2 meq<span> (Details: UCUM code meq = 'meq')</span>/1 mL<span> (Details: UCUM code mL = 'mL')</span></p></blockquote><blockquote><p><b>ingredient</b></p><p><b>item</b>: Sodium Chloride 0.9% injectable solution <span> (<a>RxNorm</a>#313002)</span></p><p><b>strength</b>: 0.9 g<span> (Details: UCUM code g = 'g')</span>/100 mL<span> (Details: UCUM code mL = 'mL')</span></p></blockquote></blockquote><p><b>subject</b>: <a>Patient/pat1: Donald Duck</a> "Duck DONALD"</p><p><b>authoredOn</b>: 2015-01-15</p><p><b>requester</b>: <a>Practitioner/f007: Patrick Pump</a> "Simone HEPS"</p><p><b>reasonCode</b>: Disorder of Electrolytes (disorder) <span> (<a>SNOMED CT</a>#237840007)</span></p></div></text><contained>
         <Medication>
             <id value="med0317"/>
                 <form>
@@ -30,7 +30,7 @@
                         <numerator>
                             <value value="2"/>
                             <system value="http://unitsofmeasure.org"/>
-                            <code value="mEq"/>
+                            <code value="meq"/>
                         </numerator>
                         <denominator>
                             <value value="1"/>
@@ -117,9 +117,9 @@
             </type>
             <doseQuantity>
                 <value value="20"/>
-                <unit value="mEq"/>
+                <unit value="meq"/>
                 <system value="http://unitsofmeasure.org"/>
-                <code value="mEq"/>
+                <code value="meq"/>
             </doseQuantity>
             <rateRatio>
                 <numerator>

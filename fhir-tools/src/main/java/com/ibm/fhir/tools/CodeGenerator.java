@@ -3497,6 +3497,12 @@ public class CodeGenerator {
                         cb.assign("JsonArray _" + elementName + "Array", "jsonObject.getJsonArray(" + quote("_" + elementName) + ")");
                     }
                     cb._for("int i = 0", "i < " + elementName + "Array.size()", "i++");
+                    if (!isPrimitiveType(fieldType)) {
+                        cb._if(elementName + "Array.get(i).getValueType() != JsonValue.ValueType.OBJECT");
+                        cb._throw("new IllegalArgumentException(\"Expected: OBJECT but found: \" + " + 
+                            elementName + "Array.get(i).getValueType() + \" for element: " + elementName + "\")");
+                        cb._end();
+                    }
                     parseMethodInvocation = buildParseMethodInvocation(elementDefinition, elementName, fieldType, true);
                     cb.invoke("builder", fieldName, args(parseMethodInvocation));
                     cb._end();

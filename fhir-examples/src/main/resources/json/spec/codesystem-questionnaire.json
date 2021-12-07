@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for CodeSystem.concept.property.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:129e3638-33ab-4a67-b9a2-a247bd016ace",
-        "timestamp": "2019-11-01T09:32:12+11:00",
+        "identifier": "urn:uuid:1333e352-388a-40d3-a97c-f0771806fa89",
+        "timestamp": "2021-12-06T18:55:34+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -56,9 +56,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "status": "active",
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-12-06T18:53:36+00:00",
   "publisher": "Health Level Seven International (Vocabulary)",
   "item": [
     {
@@ -242,9 +242,10 @@
             {
               "linkId": "CodeSystem.language.value",
               "text": "language",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             }
           ]
         },
@@ -629,9 +630,10 @@
             {
               "linkId": "CodeSystem.status.value",
               "text": "status",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -903,9 +905,10 @@
             {
               "linkId": "CodeSystem.jurisdiction.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOnly"
             },
             {
               "linkId": "CodeSystem.jurisdiction.text",
@@ -1125,9 +1128,10 @@
             {
               "linkId": "CodeSystem.hierarchyMeaning.value",
               "text": "hierarchy meaning",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -1258,9 +1262,10 @@
             {
               "linkId": "CodeSystem.content.value",
               "text": "content",
-              "type": "choice",
+              "type": "coding",
               "required": false,
-              "repeats": false
+              "repeats": false,
+              "answerConstraint": "optionsOrType"
             }
           ]
         },
@@ -1517,9 +1522,10 @@
                 {
                   "linkId": "CodeSystem.filter.code.value",
                   "text": "code",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 }
               ]
             },
@@ -1603,9 +1609,10 @@
                 {
                   "linkId": "CodeSystem.filter.operator.value",
                   "text": "operator",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOrType"
                 }
               ]
             },
@@ -1821,9 +1828,10 @@
                 {
                   "linkId": "CodeSystem.property.code.value",
                   "text": "code",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 }
               ]
             },
@@ -1954,9 +1962,10 @@
                 {
                   "linkId": "CodeSystem.property.type.value",
                   "text": "type",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOrType"
                 }
               ]
             }
@@ -2129,9 +2138,10 @@
                 {
                   "linkId": "CodeSystem.concept.code.value",
                   "text": "code",
-                  "type": "choice",
+                  "type": "coding",
                   "required": false,
-                  "repeats": false
+                  "repeats": false,
+                  "answerConstraint": "optionsOnly"
                 }
               ]
             },
@@ -2384,9 +2394,10 @@
                     {
                       "linkId": "CodeSystem.concept.designation.language.value",
                       "text": "language",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     }
                   ]
                 },
@@ -2427,9 +2438,10 @@
                     {
                       "linkId": "CodeSystem.concept.designation.use.value",
                       "text": "Details how this designation would be used",
-                      "type": "open-choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     }
                   ]
                 },
@@ -2645,9 +2657,10 @@
                     {
                       "linkId": "CodeSystem.concept.property.code.value",
                       "text": "code",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
-                      "repeats": false
+                      "repeats": false,
+                      "answerConstraint": "optionsOnly"
                     }
                   ]
                 },
@@ -2689,9 +2702,10 @@
                     {
                       "linkId": "CodeSystem.concept.property.value[x]._type",
                       "text": "type",
-                      "type": "choice",
+                      "type": "coding",
                       "required": false,
                       "repeats": false,
+                      "answerConstraint": "optionsOnly",
                       "answerValueSet": "#vs2",
                       "item": [
                         {
@@ -2707,9 +2721,10 @@
                             {
                               "linkId": "CodeSystem.concept.property.value[x]._null.value",
                               "text": "value[x]",
-                              "type": "choice",
+                              "type": "coding",
                               "required": false,
-                              "repeats": false
+                              "repeats": false,
+                              "answerConstraint": "optionsOnly"
                             }
                           ]
                         },
@@ -2725,9 +2740,10 @@
                           "item": [
                             {
                               "linkId": "CodeSystem.concept.property.value[x]._null.value",
-                              "type": "open-choice",
+                              "type": "coding",
                               "required": false,
-                              "repeats": false
+                              "repeats": false,
+                              "answerConstraint": "optionsOnly"
                             }
                           ]
                         },

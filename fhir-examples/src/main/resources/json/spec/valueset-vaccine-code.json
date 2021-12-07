@@ -2,14 +2,14 @@
   "resourceType": "ValueSet",
   "id": "vaccine-code",
   "meta": {
-    "lastUpdated": "2019-11-01T09:29:23.356+11:00",
+    "lastUpdated": "2021-12-06T18:53:36.888+00:00",
     "profile": [
       "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
     ]
   },
   "text": {
     "status": "additional",
-    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\n      \u003cp\u003eAround the world, various different coding systems are used for immunizations:\u003c/p\u003e\n      \u003cul\u003e \n        \u003cli\u003eUSA: CVX (\n          \u003ca href\u003d\"http://hl7.org/fhir/sid/cvx\"\u003ehttp://hl7.org/fhir/sid/cvx\u003c/a\u003e)\n        \u003c/li\u003e\n        \u003cli\u003eAustralia: ACIR (\n          \u003ca href\u003d\"http://www.medicareaustralia.gov.au/provider/vendors/files/9560-1301-acir-idi-vaccine-codes.pdf\"\u003eurn:oid:1.2.36.1.2001.1005.17\u003c/a\u003e)\n        \u003c/li\u003e\n      \u003c/ul\u003e\n    \u003c/div\u003e"
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\n      \n      \u003cp\u003eAround the world, various different coding systems are used for immunizations:\u003c/p\u003e\n      \n      \u003cul\u003e \n        \n        \u003cli\u003eUSA: CVX (\n          \n          \u003ca href\u003d\"http://hl7.org/fhir/sid/cvx\"\u003ehttp://hl7.org/fhir/sid/cvx\u003c/a\u003e)\n        \n        \u003c/li\u003e\n        \n        \u003cli\u003eAustralia: ACIR (\n          \n          \u003ca href\u003d\"http://www.medicareaustralia.gov.au/provider/vendors/files/9560-1301-acir-idi-vaccine-codes.pdf\"\u003eurn:oid:1.2.36.1.2001.1005.17\u003c/a\u003e)\n        \n        \u003c/li\u003e\n      \n      \u003c/ul\u003e\n    \n    \u003c/div\u003e"
   },
   "extension": [
     {
@@ -32,12 +32,10 @@
       "value": "urn:oid:2.16.840.1.113883.3.88.12.80.22"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.1.0",
   "name": "VaccineAdministeredValueSet",
   "title": "Vaccine Administered Value Set",
   "status": "active",
-  "experimental": false,
-  "date": "2019-11-01T09:29:23+11:00",
   "publisher": "HL7 FHIR",
   "contact": [
     {

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?><Ingredient xmlns="http://hl7.org/fhir">
+	<id value="example"/>
+	<!--   note this doesn't indicate an "active ingredient" as opposed to an excipient (for which see ingredient.role)   -->
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "example" </p></div><p><b>status</b>: active</p><p><b>role</b>: ActiveBase <span> (ingredientRole#ActiveBase)</span></p><h3>Manufacturers</h3><table><tr><td>-</td><td><b>Manufacturer</b></td></tr><tr><td>*</td><td><a>Organization/example</a></td></tr></table><blockquote><p><b>substance</b></p></blockquote><p><b>Exception generating Narrative: Unknown type </b></p></div></text><status value="active"/> 
+	<role>
+		<coding>
+			<system value="http://ema.europa.eu/example/ingredientRole"/>
+			<code value="ActiveBase"/>
+		</coding>
+	</role>
+	<manufacturer>
+		<manufacturer>
+			<reference value="Organization/example"/>
+		</manufacturer>
+	</manufacturer>
+	<substance>
+		<code>
+			<coding>
+				<system value="http://ema.europa.eu/example/substance"/>
+				<code value="EQUIXABAN"/>
+			</coding>
+		</code>
+		<strength>
+			<presentation>
+				<numerator>
+					<value value="2.5"/>
+					<unit value="mg"/>
+				</numerator>
+				<denominator>
+					<value value="1"/>
+					<unit value="{tablet}"/>
+				</denominator>
+			</presentation>
+		</strength>
+	</substance>
+</Ingredient>
