@@ -1,0 +1,52 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "goal-priority",
+    "meta": {
+        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "pc"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/goal-priority",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1096"
+        }
+    ],
+    "version": "4.1.0",
+    "name": "GoalPriority",
+    "status": "draft",
+    "experimental": false,
+    "description": "Indicates the level of importance associated with reaching or sustaining a goal.",
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/goal-priority",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "high-priority",
+            "display": "High Priority",
+            "definition": "Indicates that the goal is of considerable importance and should be a primary focus of care delivery."
+        },
+        {
+            "code": "medium-priority",
+            "display": "Medium Priority",
+            "definition": "Indicates that the goal has a reasonable degree of importance and that concrete action should be taken towards the goal.  Attainment is not as critical as high-priority goals."
+        },
+        {
+            "code": "low-priority",
+            "display": "Low Priority",
+            "definition": "The goal is desirable but is not sufficiently important to devote significant resources to.  Achievement of the goal may be sought when incidental to achieving other goals."
+        }
+    ]
+}

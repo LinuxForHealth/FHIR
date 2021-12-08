@@ -1,0 +1,70 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-CodeableReference.concept",
+    "meta": {
+        "lastUpdated": "2021-12-06T18:53:36.888Z"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-CodeableReference.concept",
+    "version": "4.1.0",
+    "name": "CodeableReference.concept",
+    "title": "CodeableReference.concept",
+    "status": "draft",
+    "experimental": true,
+    "date": "2021-12-06T18:53:36Z",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for CodeableReference.concept",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.1.0",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "CodeableReference.concept",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "CodeableReference.concept",
+                "path": "CodeableReference.concept",
+                "short": "Reference to a concept (by class)",
+                "definition": "A reference to a concept - e.g. the information is identified by it's general classto the degree of precision found in the terminology.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "CodeableReference.concept",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "N/A"
+                    }
+                ]
+            }
+        ]
+    }
+}

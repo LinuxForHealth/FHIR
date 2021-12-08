@@ -1,0 +1,78 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "adjudication",
+    "meta": {
+        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fm"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/adjudication",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1171"
+        }
+    ],
+    "version": "4.1.0",
+    "name": "AdjudicationCodes",
+    "title": "Adjudication Codes",
+    "status": "draft",
+    "experimental": false,
+    "description": "This value set includes a smattering of Adjudication codes.",
+    "copyright": "This is an example set.",
+    "caseSensitive": true,
+    "content": "complete",
+    "concept": [
+        {
+            "code": "submitted",
+            "display": "Submitted Amount",
+            "definition": "The total submitted amount for the claim or group or line item."
+        },
+        {
+            "code": "copay",
+            "display": "CoPay",
+            "definition": "Patient Co-Payment"
+        },
+        {
+            "code": "eligible",
+            "display": "Eligible Amount",
+            "definition": "Amount of the change which is considered for adjudication."
+        },
+        {
+            "code": "deductible",
+            "display": "Deductible",
+            "definition": "Amount deducted from the eligible amount prior to adjudication."
+        },
+        {
+            "code": "unallocdeduct",
+            "display": "Unallocated Deductible",
+            "definition": "The amount of deductible which could not allocated to other line items."
+        },
+        {
+            "code": "eligpercent",
+            "display": "Eligible %",
+            "definition": "Eligible Percentage."
+        },
+        {
+            "code": "tax",
+            "display": "Tax",
+            "definition": "The amount of tax."
+        },
+        {
+            "code": "benefit",
+            "display": "Benefit Amount",
+            "definition": "Amount payable under the coverage"
+        }
+    ]
+}

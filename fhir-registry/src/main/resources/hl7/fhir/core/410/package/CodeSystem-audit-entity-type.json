@@ -1,0 +1,73 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "audit-entity-type",
+    "meta": {
+        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "sec"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/audit-entity-type",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1134"
+        }
+    ],
+    "version": "4.1.0",
+    "name": "AuditEventEntityType",
+    "status": "draft",
+    "experimental": false,
+    "date": "2017-03-10T09:44:54+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Code for the entity type involved in the audit event (derived from ATNA).",
+    "copyright": "These codes are excerpted from Digital Imaging and Communications in Medicine (DICOM) Standard, Part 16: Content Mapping Resource, Copyright © 2011 by the National Electrical Manufacturers Association.",
+    "caseSensitive": true,
+    "content": "complete",
+    "concept": [
+        {
+            "code": "1",
+            "display": "Person",
+            "definition": "Person"
+        },
+        {
+            "code": "2",
+            "display": "System Object",
+            "definition": "System Object"
+        },
+        {
+            "code": "3",
+            "display": "Organization",
+            "definition": "Organization"
+        },
+        {
+            "code": "4",
+            "display": "Other",
+            "definition": "Other"
+        }
+    ]
+}

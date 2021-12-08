@@ -1,0 +1,142 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "certainty-rating",
+    "meta": {
+        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "cds"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/certainty-rating",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1415"
+        }
+    ],
+    "version": "4.1.0",
+    "name": "EvidenceCertaintyRating",
+    "title": "EvidenceCertaintyRating",
+    "status": "draft",
+    "experimental": false,
+    "date": "2020-12-28T16:55:11+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "The assessment of quality, confidence, or certainty.",
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/certainty-rating",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "high",
+            "display": "High quality",
+            "definition": "High quality evidence."
+        },
+        {
+            "code": "moderate",
+            "display": "Moderate quality",
+            "definition": "Moderate quality evidence."
+        },
+        {
+            "code": "low",
+            "display": "Low quality",
+            "definition": "Low quality evidence."
+        },
+        {
+            "code": "very-low",
+            "display": "Very low quality",
+            "definition": "Very low quality evidence."
+        },
+        {
+            "code": "no-concern",
+            "display": "no serious concern",
+            "definition": "no serious concern."
+        },
+        {
+            "code": "serious-concern",
+            "display": "serious concern",
+            "definition": "serious concern."
+        },
+        {
+            "code": "very-serious-concern",
+            "display": "very serious concern",
+            "definition": "very serious concern."
+        },
+        {
+            "code": "extremely-serious-concern",
+            "display": "extremely serious concern",
+            "definition": "extremely serious concern."
+        },
+        {
+            "code": "present",
+            "display": "present",
+            "definition": "possible reason for increasing quality rating was checked and found to be present."
+        },
+        {
+            "code": "absent",
+            "display": "absent",
+            "definition": "possible reason for increasing quality rating was checked and found to be absent."
+        },
+        {
+            "code": "no-change",
+            "display": "no change to rating",
+            "definition": "no change to quality rating."
+        },
+        {
+            "code": "downcode1",
+            "display": "reduce rating: -1",
+            "definition": "reduce quality rating by 1."
+        },
+        {
+            "code": "downcode2",
+            "display": "reduce rating: -2",
+            "definition": "reduce quality rating by 2."
+        },
+        {
+            "code": "downcode3",
+            "display": "reduce rating: -3",
+            "definition": "reduce quality rating by 3."
+        },
+        {
+            "code": "upcode1",
+            "display": "increase rating: +1",
+            "definition": "increase quality rating by 1."
+        },
+        {
+            "code": "upcode2",
+            "display": "increase rating: +2",
+            "definition": "increase quality rating by 2."
+        }
+    ]
+}
