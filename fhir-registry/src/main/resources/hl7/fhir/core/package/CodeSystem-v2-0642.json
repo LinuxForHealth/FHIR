@@ -8,8 +8,8 @@
     },
     "language": "en",
     "text": {
-        "status": "additional",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Reorder Theory Codes</p>\r\n<table class=\"grid\"><tr><td><b>Code</b></td><td><b>Description</b></td><td><b>Comment</b></td><td><b>Version</b></td></tr><tr><td>D<a name=\"D\"> </a></td><td>DOP/DOQ</td><td>Corresponds to the theory that calculates the appropriate order point and recommends the quantity to order based on system parameters and historical trends.  DOP stands for Dynamic Order Point, and DOQ stands for Dynamic Order Quantity.</td><td>added v2.6</td></tr><tr><td>M<a name=\"M\"> </a></td><td>MIN/MAX</td><td>Corresponds to theory - the quantity recommended is the Order Quantity, less the On Hand Quantity, and less the On Order Quantity.  The Order Amount is the desired Maximum On Hand Quantity.</td><td>added v2.6</td></tr><tr><td>O<a name=\"O\"> </a></td><td>Override</td><td>The quantity recommended is the Order Quantity, less the On Order Quantity.  The Order Amount is the amount to order when the On Hand reaches the Order Point.</td><td>added v2.6</td></tr></table>\r\n</div>"
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
         {

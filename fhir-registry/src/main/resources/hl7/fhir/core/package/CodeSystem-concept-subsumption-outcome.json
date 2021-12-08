@@ -5,8 +5,8 @@
         "lastUpdated": "2019-11-01T09:29:23.356+11:00"
     },
     "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>ConceptSubsumptionOutcome</h2><div><p>The subsumption relationship between code/Coding &quot;A&quot; and code/Coding &quot;B&quot;. There are 4 possible codes to be returned: equivalent, subsumes, subsumed-by, and not-subsumed. If the server is unable to determine the relationship between the codes/Codings, then it returns an error (i.e. an OperationOutcome).</p>\n</div><p>This code system http://hl7.org/fhir/concept-subsumption-outcome defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">equivalent<a name=\"concept-subsumption-outcome-equivalent\"> </a></td><td>Equivalent</td><td>The two concepts are equivalent (have the same properties).</td></tr><tr><td style=\"white-space:nowrap\">subsumes<a name=\"concept-subsumption-outcome-subsumes\"> </a></td><td>Subsumes</td><td>Coding/code &quot;A&quot; subsumes Coding/code &quot;B&quot; (e.g. B has all the properties A has, and some of it's own).</td></tr><tr><td style=\"white-space:nowrap\">subsumed-by<a name=\"concept-subsumption-outcome-subsumed-by\"> </a></td><td>Subsumed-By</td><td>Coding/code &quot;A&quot; is subsumed by Coding/code &quot;B&quot; (e.g. A has all the properties B has, and some of it's own).</td></tr><tr><td style=\"white-space:nowrap\">not-subsumed<a name=\"concept-subsumption-outcome-not-subsumed\"> </a></td><td>Not-Subsumed</td><td>Coding/code &quot;A&quot; and Coding/code &quot;B&quot; are disjoint (e.g. each has propeties that the other doesn't have).</td></tr></table></div>"
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "url": "http://hl7.org/fhir/concept-subsumption-outcome",
     "identifier": [

@@ -5,8 +5,8 @@
         "lastUpdated": "2019-11-01T09:29:23.356+11:00"
     },
     "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>ResourceValidationMode</h2><div><p>Codes indicating the type of validation to perform.</p>\n</div><p>This code system http://hl7.org/fhir/resource-validation-mode defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">create<a name=\"resource-validation-mode-create\"> </a></td><td>Validate for Create</td><td>The server checks the content, and then checks that the content would be acceptable as a create (e.g. that the content would not violate any uniqueness constraints).</td></tr><tr><td style=\"white-space:nowrap\">update<a name=\"resource-validation-mode-update\"> </a></td><td>Validate for Update</td><td>The server checks the content, and then checks that it would accept it as an update against the nominated specific resource (e.g. that there are no changes to immutable fields the server does not allow to change and checking version integrity if appropriate).</td></tr><tr><td style=\"white-space:nowrap\">delete<a name=\"resource-validation-mode-delete\"> </a></td><td>Validate for Delete</td><td>The server ignores the content and checks that the nominated resource is allowed to be deleted (e.g. checking referential integrity rules).</td></tr><tr><td style=\"white-space:nowrap\">profile<a name=\"resource-validation-mode-profile\"> </a></td><td>Validate Against a Profile</td><td>The server checks an existing resource (must be nominated by id, not provided as a parameter) as valid against the nominated profile.</td></tr></table></div>"
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "url": "http://hl7.org/fhir/resource-validation-mode",
     "identifier": [

@@ -8,8 +8,8 @@
         ]
     },
     "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>V3 Value SetActInvoiceGroupCode</h2><div><p>Type of invoice element that is used to assist in describing an Invoice that is either submitted for adjudication or for which is returned on adjudication results. Invoice elements of this type signify a grouping of one or more children (detail) invoice elements.  They do not have intrinsic costing associated with them, but merely reflect the sum of all costing for it's immediate children invoice elements.</p>\n</div><p>This value set includes codes from the following code systems:</p><ul><li>Include codes from <a href=\"../../v3/ActCode/cs.html\"><code>http://terminology.hl7.org/CodeSystem/v3-ActCode</code></a> where concept  is-a  <a href=\"../../v3/ActCode/cs.html#v3-ActCode-_ActInvoiceGroupCode\">_ActInvoiceGroupCode</a></li><li>Exclude these codes as defined in <a href=\"../../v3/ActCode/cs.html\"><code>http://terminology.hl7.org/CodeSystem/v3-ActCode</code></a><table class=\"none\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td></tr><tr><td><a href=\"../../v3/ActCode/cs.html#v3-ActCode-_ActInvoiceGroupCode\">_ActInvoiceGroupCode</a></td><td>ActInvoiceGroupCode</td><td>Type of invoice element that is used to assist in describing an Invoice that is either submitted for adjudication or for which is returned on adjudication results.<br/>\n                        Invoice elements of this type signify a grouping of one or more children (detail) invoice elements.  They do not have intrinsic costing associated with them, but merely reflect the sum of all costing for it's immediate children invoice elements.</td></tr></table></li></ul></div>"
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
         {

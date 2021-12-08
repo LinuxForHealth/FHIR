@@ -5,8 +5,8 @@
         "lastUpdated": "2018-08-12T00:00:00+10:00"
     },
     "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Release Date: 2018-08-12</p>\r\n<table class=\"grid\">\r\n <tr><td><b>Level</b></td><td><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr>\r\n <tr><td>1</td><td>C<a name=\"v3-HL7ContextConductionStyle-C\"> </a></td><td>conduction-indicator-based</td><td>\n                        \n                           Definition: Context conduction is defined using the contextConductionCode and contextConductionInd attributes on ActRelationship and Participation.<br/>\r\n\n                        \n                           UsageNotes: This approach is deprecated as of March, 2010.<br/>\r\n\n                     </td></tr>\r\n <tr><td>1</td><td>I<a name=\"v3-HL7ContextConductionStyle-I\"> </a></td><td>inferred</td><td>\n                        \n                           Definition: Context conduction is not explicitly defined.  The recipient of an instance must infer conduction based on the semantics of the model and what is deemed &quot;reasonable&quot;.<br/>\r\n\n                        \n                           UsageNotes: Because this approach can lead to variation in instance interpretation, its use is discouraged.<br/>\r\n\n                     </td></tr>\r\n <tr><td>1</td><td>V<a name=\"v3-HL7ContextConductionStyle-V\"> </a></td><td>vocabulary-based</td><td>\n                        \n                           Definition: Context conduction is defined using the ActRelationship.blockedContextActRelationshipType and blockedContextParticipationType attributes and the &quot;conductible&quot; property on the ActRelationshipType and ParticipationType code systems.<br/>\r\n\n                     </td></tr>\r\n</table>\r\n</div>"
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
         {
