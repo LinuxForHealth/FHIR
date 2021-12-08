@@ -5,8 +5,8 @@
         "lastUpdated": "2019-11-01T09:29:23.356+11:00"
     },
     "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>DeviceMetricOperationalStatus</h2><div><p>Describes the operational status of the DeviceMetric.</p>\n</div><p>This code system http://hl7.org/fhir/metric-operational-status defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">on<a name=\"metric-operational-status-on\"> </a></td><td>On</td><td>The DeviceMetric is operating and will generate DeviceObservations.</td></tr><tr><td style=\"white-space:nowrap\">off<a name=\"metric-operational-status-off\"> </a></td><td>Off</td><td>The DeviceMetric is not operating.</td></tr><tr><td style=\"white-space:nowrap\">standby<a name=\"metric-operational-status-standby\"> </a></td><td>Standby</td><td>The DeviceMetric is operating, but will not generate any DeviceObservations.</td></tr><tr><td style=\"white-space:nowrap\">entered-in-error<a name=\"metric-operational-status-entered-in-error\"> </a></td><td>Entered In Error</td><td>The DeviceMetric was entered in error.</td></tr></table></div>"
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
         {

@@ -5,8 +5,8 @@
         "lastUpdated": "2018-08-12T00:00:00+10:00"
     },
     "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Release Date: 2018-08-12</p>\r\n<table class=\"grid\">\r\n <tr><td><b>Level</b></td><td><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr>\r\n <tr><td>1</td><td>D<a name=\"v3-ActRelationshipJoin-D\"> </a></td><td>detached</td><td>\n                        Detach this branch from the other branches so it will not be resynchronized with the other branches.<br/>\r\n\n                     </td></tr>\r\n <tr><td>1</td><td>K<a name=\"v3-ActRelationshipJoin-K\"> </a></td><td>kill</td><td>\n                        When all other concurrent branches are terminated, interrupt and discontinue this branch.<br/>\r\n\n                     </td></tr>\r\n <tr><td>1</td><td>W<a name=\"v3-ActRelationshipJoin-W\"> </a></td><td>wait</td><td>\n                        Wait for this branch to terminate.<br/>\r\n\n                     </td></tr>\r\n <tr><td>1</td><td>X<a name=\"v3-ActRelationshipJoin-X\"> </a></td><td>exclusive wait</td><td>\n                        Wait for any one of the branches in the set of exclusive wait branches to terminate, then discontinue all the other exclusive wait branches.<br/>\r\n\n                     </td></tr>\r\n</table>\r\n</div>"
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
         {

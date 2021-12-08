@@ -5,8 +5,8 @@
         "lastUpdated": "2019-11-01T09:29:23.356+11:00"
     },
     "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>ListStatus</h2><div><p>The current state of the list.</p>\n</div><p>This code system http://hl7.org/fhir/list-status defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">current<a name=\"list-status-current\"> </a></td><td>Current</td><td>The list is considered to be an active part of the patient's record.</td></tr><tr><td style=\"white-space:nowrap\">retired<a name=\"list-status-retired\"> </a></td><td>Retired</td><td>The list is &quot;old&quot; and should no longer be considered accurate or relevant.</td></tr><tr><td style=\"white-space:nowrap\">entered-in-error<a name=\"list-status-entered-in-error\"> </a></td><td>Entered In Error</td><td>The list was never accurate.  It is retained for medico-legal purposes only.</td></tr></table></div>"
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
         {

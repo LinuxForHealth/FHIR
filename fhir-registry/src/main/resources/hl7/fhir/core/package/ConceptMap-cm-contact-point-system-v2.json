@@ -2,8 +2,8 @@
     "resourceType": "ConceptMap",
     "id": "cm-contact-point-system-v2",
     "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>v2.ContactPointSystem (http://hl7.org/fhir/ConceptMap/cm-contact-point-system-v2)</h2><p>Mapping from <a href=\"valueset-contact-point-system.html\">http://hl7.org/fhir/ValueSet/contact-point-system</a> to <a href=\"v2/0202/index.html\">http://terminology.hl7.org/ValueSet/v2-0202</a></p><p>DRAFT. Published on 01/11/2019 9:29:23 AM by HL7 (FHIR Project) (<a href=\"http://hl7.org/fhir\">http://hl7.org/fhir</a>, <a href=\"mailto:fhir@lists.hl7.org\">fhir@lists.hl7.org</a>). </p><br/><table class=\"grid\"><tr><td><b>Source Code</b></td><td><b>Equivalence</b></td><td><b>Destination Code</b></td><td><b>Comment</b></td></tr><tr><td>phone</td><td>equivalent</td><td>PH (Telephone)</td><td/></tr><tr><td>fax</td><td>equivalent</td><td>FX (Fax)</td><td/></tr><tr><td>email</td><td>narrower</td><td>Internet (Internet Address)</td><td>for email addresses</td></tr><tr><td>pager</td><td>equivalent</td><td>BP (Beeper)</td><td/></tr><tr><td>url</td><td>narrower</td><td>Internet (Internet Address)</td><td>for non-email kinds of addresses</td></tr></table></div>"
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "url": "http://hl7.org/fhir/ConceptMap/cm-contact-point-system-v2",
     "version": "4.0.1",

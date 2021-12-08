@@ -8,8 +8,8 @@
         ]
     },
     "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Release Date: 2018-08-12</p>\r\n<table class=\"grid\">\r\n <tr><td><b>Level</b></td><td><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr>\r\n <tr><td>1</td><td>normal<a name=\"v3-ManagedParticipationStatus-normal\"> </a></td><td>normal</td><td>\n                        The 'typical' state. Excludes &quot;nullified&quot; which represents the termination state of a participation instance that was created in error.<br/>\r\n\n                     </td></tr>\r\n <tr><td>2</td><td>  active<a name=\"v3-ManagedParticipationStatus-active\"> </a></td><td>active</td><td>\n                        The state representing the fact that the Participation is in progress.<br/>\r\n\n                     </td></tr>\r\n <tr><td>2</td><td>  cancelled<a name=\"v3-ManagedParticipationStatus-cancelled\"> </a></td><td>cancelled</td><td>\n                        The terminal state resulting from cancellation of the Participation prior to activation.<br/>\r\n\n                     </td></tr>\r\n <tr><td>2</td><td>  completed<a name=\"v3-ManagedParticipationStatus-completed\"> </a></td><td>completed</td><td>\n                        The terminal state representing the successful completion of the Participation.<br/>\r\n\n                     </td></tr>\r\n <tr><td>2</td><td>  pending<a name=\"v3-ManagedParticipationStatus-pending\"> </a></td><td>pending</td><td>\n                        The state representing that fact that the Participation has not yet become active.<br/>\r\n\n                     </td></tr>\r\n <tr><td>1</td><td>nullified<a name=\"v3-ManagedParticipationStatus-nullified\"> </a></td><td>nullified</td><td>\n                        The state representing the termination of a Participation instance that was created in error.<br/>\r\n\n                     </td></tr>\r\n</table>\r\n</div>"
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
         {

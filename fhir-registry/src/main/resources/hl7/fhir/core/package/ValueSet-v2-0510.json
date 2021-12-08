@@ -8,8 +8,8 @@
     },
     "language": "en",
     "text": {
-        "status": "additional",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Blood Product Dispense Status</p>\r\n<table class=\"grid\"><tr><td><b>Code</b></td><td><b>Description</b></td><td><b>Comment</b></td><td><b>Version</b></td></tr><tr><td>CR<a name=\"CR\"> </a></td><td>Released into inventory for general availability</td><td>Status determined by Filler</td><td>added v2.5</td></tr><tr><td>DS<a name=\"DS\"> </a></td><td>Dispensed to patient location</td><td>Status determined by Filler</td><td>added v2.5</td></tr><tr><td>PT<a name=\"PT\"> </a></td><td>Presumed transfused (dispensed and not returned)</td><td>Status determined by Filler</td><td>added v2.5</td></tr><tr><td>RA<a name=\"RA\"> </a></td><td>Returned unused/no longer needed</td><td>Status determined by Filler</td><td>added v2.5</td></tr><tr><td>RD<a name=\"RD\"> </a></td><td>Reserved and ready to dispense</td><td>Status determined by Filler</td><td>added v2.5</td></tr><tr><td>RE<a name=\"RE\"> </a></td><td>Released (no longer allocated for the patient)</td><td>Status determined by Placer or Filler</td><td>added v2.5</td></tr><tr><td>RI<a name=\"RI\"> </a></td><td>Received into inventory (for specified patient)</td><td>Status determined by Filler</td><td>added v2.5</td></tr><tr><td>RL<a name=\"RL\"> </a></td><td>Returned unused/keep linked to patient for possible use later</td><td>Status determined by Filler</td><td>added v2.5</td></tr><tr><td>RQ<a name=\"RQ\"> </a></td><td>Request to dispense blood product</td><td>Status determined by Placer</td><td>added v2.5</td></tr><tr><td>RS<a name=\"RS\"> </a></td><td>Reserved (ordered and product allocated for the patient)</td><td>Status determined by Filler</td><td>added v2.5</td></tr><tr><td>WA<a name=\"WA\"> </a></td><td>Wasted (product no longer viable)</td><td>Status determined by Filler</td><td>added v2.5</td></tr></table>\r\n</div>"
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
         {

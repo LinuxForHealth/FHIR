@@ -8,8 +8,8 @@
     },
     "language": "en",
     "text": {
-        "status": "additional",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Response Level</p>\r\n<table class=\"grid\"><tr><td><b>Code</b></td><td><b>Description</b></td><td><b>Comment</b></td><td><b>Version</b></td></tr><tr><td>AL<a name=\"AL\"> </a></td><td>Always.  All MFA segments (whether denoting errors or not) must be returned via the application-level acknowledgment message</td><td/><td>added v2.2</td></tr><tr><td>ER<a name=\"ER\"> </a></td><td>Error/Reject conditions only.  Only MFA segments denoting errors must be returned via the application-level acknowledgment for this message</td><td/><td>added v2.2</td></tr><tr><td>NE<a name=\"NE\"> </a></td><td>Never.  No application-level response needed</td><td/><td>added v2.2</td></tr><tr><td>SU<a name=\"SU\"> </a></td><td>Success.  Only MFA segments denoting success must be returned via the application-level acknowledgment for this message</td><td/><td>added v2.2</td></tr></table>\r\n</div>"
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
         {
