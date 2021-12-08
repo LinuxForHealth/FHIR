@@ -5,8 +5,8 @@
         "lastUpdated": "2019-11-01T09:29:23.356+11:00"
     },
     "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>ConsentState</h2><div><p>Indicates the state of the consent.</p>\n</div><p>This code system http://hl7.org/fhir/consent-state-codes defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">draft<a name=\"consent-state-codes-draft\"> </a></td><td>Pending</td><td>The consent is in development or awaiting use but is not yet intended to be acted upon.</td></tr><tr><td style=\"white-space:nowrap\">proposed<a name=\"consent-state-codes-proposed\"> </a></td><td>Proposed</td><td>The consent has been proposed but not yet agreed to by all parties. The negotiation stage.</td></tr><tr><td style=\"white-space:nowrap\">active<a name=\"consent-state-codes-active\"> </a></td><td>Active</td><td>The consent is to be followed and enforced.</td></tr><tr><td style=\"white-space:nowrap\">rejected<a name=\"consent-state-codes-rejected\"> </a></td><td>Rejected</td><td>The consent has been rejected by one or more of the parties.</td></tr><tr><td style=\"white-space:nowrap\">inactive<a name=\"consent-state-codes-inactive\"> </a></td><td>Inactive</td><td>The consent is terminated or replaced.</td></tr><tr><td style=\"white-space:nowrap\">entered-in-error<a name=\"consent-state-codes-entered-in-error\"> </a></td><td>Entered in Error</td><td>The consent was created wrongly (e.g. wrong patient) and should be ignored.</td></tr></table></div>"
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
         {

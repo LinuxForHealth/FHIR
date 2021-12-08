@@ -5,8 +5,8 @@
         "lastUpdated": "2019-11-01T09:29:23.356+11:00"
     },
     "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>FHIRDeviceStatus</h2><div><p>The availability status of the device.</p>\n</div><p>This code system http://hl7.org/fhir/device-status defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">active<a name=\"device-status-active\"> </a></td><td>Active</td><td>The device is available for use.  Note: For *implanted devices*  this means that the device is implanted in the patient.</td></tr><tr><td style=\"white-space:nowrap\">inactive<a name=\"device-status-inactive\"> </a></td><td>Inactive</td><td>The device is no longer available for use (e.g. lost, expired, damaged).  Note: For *implanted devices*  this means that the device has been removed from the patient.</td></tr><tr><td style=\"white-space:nowrap\">entered-in-error<a name=\"device-status-entered-in-error\"> </a></td><td>Entered in Error</td><td>The device was entered in error and voided.</td></tr><tr><td style=\"white-space:nowrap\">unknown<a name=\"device-status-unknown\"> </a></td><td>Unknown</td><td>The status of the device has not been determined.</td></tr></table></div>"
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
         {

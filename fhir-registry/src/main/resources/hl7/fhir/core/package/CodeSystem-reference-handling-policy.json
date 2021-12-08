@@ -5,8 +5,8 @@
         "lastUpdated": "2019-11-01T09:29:23.356+11:00"
     },
     "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>ReferenceHandlingPolicy</h2><div><p>A set of flags that defines how references are supported.</p>\n</div><p>This code system http://hl7.org/fhir/reference-handling-policy defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">literal<a name=\"reference-handling-policy-literal\"> </a></td><td>Literal References</td><td>The server supports and populates Literal references (i.e. using Reference.reference) where they are known (this code does not guarantee that all references are literal; see 'enforced').</td></tr><tr><td style=\"white-space:nowrap\">logical<a name=\"reference-handling-policy-logical\"> </a></td><td>Logical References</td><td>The server allows logical references (i.e. using Reference.identifier).</td></tr><tr><td style=\"white-space:nowrap\">resolves<a name=\"reference-handling-policy-resolves\"> </a></td><td>Resolves References</td><td>The server will attempt to resolve logical references to literal references - i.e. converting Reference.identifier to Reference.reference (if resolution fails, the server may still accept resources; see logical).</td></tr><tr><td style=\"white-space:nowrap\">enforced<a name=\"reference-handling-policy-enforced\"> </a></td><td>Reference Integrity Enforced</td><td>The server enforces that references have integrity - e.g. it ensures that references can always be resolved. This is typically the case for clinical record systems, but often not the case for middleware/proxy systems.</td></tr><tr><td style=\"white-space:nowrap\">local<a name=\"reference-handling-policy-local\"> </a></td><td>Local References Only</td><td>The server does not support references that point to other servers.</td></tr></table></div>"
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
         {
