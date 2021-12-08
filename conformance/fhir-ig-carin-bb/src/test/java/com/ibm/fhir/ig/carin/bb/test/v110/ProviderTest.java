@@ -95,4 +95,25 @@ public class ProviderTest {
         assertEquals(exceptions.size(), 0);
         assertFalse(issues.stream().anyMatch(issue -> IssueSeverity.ERROR.equals(issue.getSeverity())));
     }
+
+    @Test
+    public static void testConstraintGenerator() throws Exception {
+        FHIRRegistryResourceProvider provider = new C4BB110ResourceProvider();
+        for (FHIRRegistryResource registryResource : provider.getRegistryResources()) {
+            if (StructureDefinition.class.equals(registryResource.getResourceType())) {
+                String url = registryResource.getUrl() + "|1.1.0";
+                System.out.println(url);
+                Class<?> type =
+                        ModelSupport.isResourceType(registryResource.getType()) ? ModelSupport.getResourceType(registryResource.getType()) : Extension.class;
+                for (Constraint constraint : ProfileSupport.getConstraints(url, type)) {
+                    System.out.println("    " + constraint);
+                    if (!Constraint.LOCATION_BASE.equals(constraint.location())) {
+                        compile(constraint.location());
+                    }
+                    compile(constraint.expression());
+                }
+            }
+        }
+    }
+
 }
