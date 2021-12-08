@@ -1,0 +1,44 @@
+{
+    "resourceType": "SearchParameter",
+    "id": "SubscriptionTopic-resource",
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "normative"
+        }
+    ],
+    "url": "http://hl7.org/fhir/SearchParameter/SubscriptionTopic-resource",
+    "version": "4.1.0",
+    "name": "resource",
+    "status": "active",
+    "experimental": false,
+    "date": "2021-12-06T18:53:36Z",
+    "publisher": "Health Level Seven International (FHIR Infrastructure)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        },
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/fiwg/index.cfm"
+                }
+            ]
+        }
+    ],
+    "description": "Allowed Data type or Resource (reference to definition) for this definition, searches resourceTrigger, eventTrigger, and notificationShape for matches.",
+    "code": "resource",
+    "base": [
+        "SubscriptionTopic"
+    ],
+    "type": "uri",
+    "expression": "SubscriptionTopic.resourceTrigger.resource",
+    "xpath": "f:SubscriptionTopic/f:resourceTrigger/f:resource",
+    "xpathUsage": "normal"
+}

@@ -1,0 +1,47 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "supplydelivery-type",
+    "meta": {
+        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/supply-item-type",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1194"
+        }
+    ],
+    "version": "4.1.0",
+    "name": "SupplyItemType",
+    "title": "Supply Item Type",
+    "status": "draft",
+    "experimental": false,
+    "description": "This value sets refers to a specific supply item.",
+    "caseSensitive": true,
+    "content": "complete",
+    "concept": [
+        {
+            "code": "medication",
+            "display": "Medication",
+            "definition": "Supply is a kind of medication."
+        },
+        {
+            "code": "device",
+            "display": "Device",
+            "definition": "What is supplied (or requested) is a device."
+        }
+    ]
+}

@@ -1,0 +1,44 @@
+{
+    "resourceType": "SearchParameter",
+    "id": "PackagedProductDefinition-name",
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "normative"
+        }
+    ],
+    "url": "http://hl7.org/fhir/SearchParameter/PackagedProductDefinition-name",
+    "version": "4.1.0",
+    "name": "name",
+    "status": "active",
+    "experimental": false,
+    "date": "2021-12-06T18:53:36Z",
+    "publisher": "Health Level Seven International (Biomedical Research and Regulation)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        },
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/rcrim/index.cfm"
+                }
+            ]
+        }
+    ],
+    "description": "A name for this package. Typically what it would be listed as in a drug formulary or catalogue, inventory etc",
+    "code": "name",
+    "base": [
+        "PackagedProductDefinition"
+    ],
+    "type": "token",
+    "expression": "PackagedProductDefinition.name",
+    "xpath": "f:PackagedProductDefinition/f:name",
+    "xpathUsage": "normal"
+}

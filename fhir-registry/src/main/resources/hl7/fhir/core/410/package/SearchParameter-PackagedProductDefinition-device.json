@@ -1,0 +1,44 @@
+{
+    "resourceType": "SearchParameter",
+    "id": "PackagedProductDefinition-device",
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "draft"
+        }
+    ],
+    "url": "http://hl7.org/fhir/SearchParameter/PackagedProductDefinition-device",
+    "version": "4.1.0",
+    "name": "device",
+    "status": "draft",
+    "experimental": false,
+    "date": "2021-12-06T18:53:36Z",
+    "publisher": "Health Level Seven International (Biomedical Research and Regulation)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        },
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/rcrim/index.cfm"
+                }
+            ]
+        }
+    ],
+    "description": "A device within this packaged product",
+    "code": "device",
+    "base": [
+        "PackagedProductDefinition"
+    ],
+    "type": "reference",
+    "expression": "PackagedProductDefinition.package.containedItem.item.reference",
+    "xpath": "f:PackagedProductDefinition/f:package/f:containedItem/f:item/f:reference",
+    "xpathUsage": "normal"
+}

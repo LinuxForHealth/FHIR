@@ -1,0 +1,46 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "testscript-profile-origin-types",
+    "meta": {
+        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/testscript-profile-origin-types",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1196"
+        }
+    ],
+    "version": "4.1.0",
+    "name": "TestScriptProfileOriginTypes",
+    "status": "draft",
+    "experimental": false,
+    "description": "This value set defines a set of codes that are used to indicate the profile type of a test system when acting as the origin within a TestScript.",
+    "caseSensitive": true,
+    "content": "complete",
+    "concept": [
+        {
+            "code": "FHIR-Client",
+            "display": "FHIR Client",
+            "definition": "General FHIR client used to initiate operations against a FHIR server."
+        },
+        {
+            "code": "FHIR-SDC-FormFiller",
+            "display": "FHIR SDC FormFiller",
+            "definition": "A FHIR client acting as a Structured Data Capture Form Filler."
+        }
+    ]
+}

@@ -1,0 +1,97 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "synthesis-type",
+    "meta": {
+        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "cds"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/synthesis-type",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1348"
+        }
+    ],
+    "version": "4.1.0",
+    "name": "SynthesisType",
+    "title": "SynthesisType",
+    "status": "draft",
+    "experimental": false,
+    "date": "2020-12-28T16:55:11+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Types of combining results from a body of evidence (eg. summary data meta-analysis).",
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/synthesis-type",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "std-MA",
+            "display": "summary data meta-analysis",
+            "definition": "A meta-analysis of the summary data of estimates from individual studies or data sets."
+        },
+        {
+            "code": "IPD-MA",
+            "display": "individual patient data meta-analysis",
+            "definition": "A meta-analysis of the individual participant data from individual studies or data sets."
+        },
+        {
+            "code": "indirect-NMA",
+            "display": "indirect network meta-analysis",
+            "definition": "An indirect meta-analysis derived from 2 or more direct comparisons in a network meta-analysis."
+        },
+        {
+            "code": "combined-NMA",
+            "display": "combined direct plus indirect network meta-analysis",
+            "definition": "An composite meta-analysis derived from direct comparisons and indirect comparisons in a network meta-analysis."
+        },
+        {
+            "code": "range",
+            "display": "range of results",
+            "definition": "A range of results across a body of evidence."
+        },
+        {
+            "code": "classification",
+            "display": "classifcation of results",
+            "definition": "An approach describing a body of evidence by categorically classifying individual studies (eg 3 studies showed beneft and 2 studied found no effect)."
+        },
+        {
+            "code": "NotApplicable",
+            "display": "not applicable",
+            "definition": "Not applicable because the evidence is not from a synthesis but from a single study. Used fo explicitly state that it's not a synthesis."
+        }
+    ]
+}

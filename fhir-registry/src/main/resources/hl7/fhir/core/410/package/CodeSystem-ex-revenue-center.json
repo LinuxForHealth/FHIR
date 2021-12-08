@@ -1,0 +1,83 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "ex-revenue-center",
+    "meta": {
+        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fm"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/ex-revenue-center",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1168"
+        }
+    ],
+    "version": "4.1.0",
+    "name": "ExampleRevenueCenterCodes",
+    "title": "Example Revenue Center Codes",
+    "status": "draft",
+    "experimental": false,
+    "description": "This value set includes sample Revenue Center codes.",
+    "copyright": "These codes have been appropriated from the [UB04 code set](http://www.nubc.org/) owned and managed by the [AHA](http://www.aha.org/). Users require a [license from the AHA](http://www.nubc.org/licensing/index.dhtml) in order to use these codes. **Note: the codes have been withdrawn in a later version**",
+    "caseSensitive": true,
+    "content": "complete",
+    "concept": [
+        {
+            "code": "0370",
+            "display": "Anaesthesia",
+            "definition": "Anaesthesia."
+        },
+        {
+            "code": "0420",
+            "display": "Physical Therapy",
+            "definition": "Physical Therapy."
+        },
+        {
+            "code": "0421",
+            "display": "Physical Therapy - ",
+            "definition": "Physical Therapy - visit charge."
+        },
+        {
+            "code": "0440",
+            "display": "Speech-Language Pathology",
+            "definition": "Speech-Language Pathology."
+        },
+        {
+            "code": "0441",
+            "display": "Speech-Language Pathology - Visit",
+            "definition": "Speech-Language Pathology- visit charge"
+        },
+        {
+            "code": "0450",
+            "display": "Emergency Room",
+            "definition": "Emergency Room"
+        },
+        {
+            "code": "0451",
+            "display": "Emergency Room - EM/EMTALA",
+            "definition": "Emergency Room - EM/EMTALA"
+        },
+        {
+            "code": "0452",
+            "display": "Emergency Room - beyond EMTALA",
+            "definition": "Emergency Room - beyond EMTALA"
+        },
+        {
+            "code": "0010",
+            "display": "Vision Clinic",
+            "definition": "Vision Clinic"
+        }
+    ]
+}
