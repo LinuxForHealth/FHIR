@@ -1,0 +1,61 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "goal-category",
+    "meta": {
+        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "pc"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/goal-category",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1097"
+        }
+    ],
+    "version": "4.1.0",
+    "name": "GoalCategory",
+    "status": "draft",
+    "experimental": false,
+    "description": "Example codes for grouping goals to use for filtering or presentation.",
+    "caseSensitive": true,
+    "content": "complete",
+    "concept": [
+        {
+            "code": "dietary",
+            "display": "Dietary",
+            "definition": "Goals related to the consumption of food and/or beverages."
+        },
+        {
+            "code": "safety",
+            "display": "Safety",
+            "definition": "Goals related to the personal protection of the subject."
+        },
+        {
+            "code": "behavioral",
+            "display": "Behavioral",
+            "definition": "Goals related to the manner in which the subject acts."
+        },
+        {
+            "code": "nursing",
+            "display": "Nursing",
+            "definition": "Goals related to the practice of nursing or established by nurses."
+        },
+        {
+            "code": "physiotherapy",
+            "display": "Physiotherapy",
+            "definition": "Goals related to the mobility and/or motor capability of the subject."
+        }
+    ]
+}

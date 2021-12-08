@@ -1,0 +1,71 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "medication-admin-status",
+    "meta": {
+        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "phx"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/medication-admin-status",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1311"
+        }
+    ],
+    "version": "4.1.0",
+    "name": "MedicationAdministration Status Codes",
+    "status": "draft",
+    "experimental": false,
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/medication-admin-status",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "in-progress",
+            "display": "In Progress",
+            "definition": "The administration has started but has not yet completed."
+        },
+        {
+            "code": "not-done",
+            "display": "Not Done",
+            "definition": "The administration was terminated prior to any impact on the subject (though preparatory actions may have been taken)"
+        },
+        {
+            "code": "on-hold",
+            "display": "On Hold",
+            "definition": "Actions implied by the administration have been temporarily halted, but are expected to continue later. May also be called 'suspended'."
+        },
+        {
+            "code": "completed",
+            "display": "Completed",
+            "definition": "All actions that are implied by the administration have occurred."
+        },
+        {
+            "code": "entered-in-error",
+            "display": "Entered in Error",
+            "definition": "The administration was entered in error and therefore nullified."
+        },
+        {
+            "code": "stopped",
+            "display": "Stopped",
+            "definition": "Actions implied by the administration have been permanently halted, before all of them occurred."
+        },
+        {
+            "code": "unknown",
+            "display": "Unknown",
+            "definition": "The authoring system does not know which of the status values currently applies for this request. Note: This concept is not to be used for 'other' - one of the listed statuses is presumed to apply, it's just not known which one."
+        }
+    ]
+}

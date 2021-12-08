@@ -1,0 +1,55 @@
+{
+    "resourceType": "SearchParameter",
+    "id": "NamingSystem-period",
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        }
+    ],
+    "url": "http://hl7.org/fhir/SearchParameter/NamingSystem-period",
+    "version": "4.1.0",
+    "name": "period",
+    "status": "draft",
+    "experimental": false,
+    "date": "2021-12-06T18:53:36Z",
+    "publisher": "Health Level Seven International (Vocabulary)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        },
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/Vocab/index.cfm"
+                }
+            ]
+        }
+    ],
+    "description": "When is identifier valid?",
+    "code": "period",
+    "base": [
+        "NamingSystem"
+    ],
+    "type": "date",
+    "expression": "NamingSystem.uniqueId.period",
+    "xpath": "f:NamingSystem/f:uniqueId/f:period",
+    "xpathUsage": "normal",
+    "comparator": [
+        "eq",
+        "ne",
+        "gt",
+        "ge",
+        "lt",
+        "le",
+        "sa",
+        "eb",
+        "ap"
+    ]
+}

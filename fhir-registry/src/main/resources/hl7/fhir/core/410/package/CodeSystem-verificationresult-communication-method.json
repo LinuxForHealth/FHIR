@@ -1,0 +1,68 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "verificationresult-communication-method",
+    "meta": {
+        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "pa"
+        }
+    ],
+    "url": "http://hl7.org/fhir/verificationresult-communication-method",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.0"
+        }
+    ],
+    "version": "4.1.0",
+    "name": "verificationresult-communication-method",
+    "title": "VerificationResult Communication Method Code System",
+    "status": "active",
+    "date": "2018-10-31",
+    "publisher": "HL7 International",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "other",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "This code system defines the methods by which entities participating in a validation process share information (e.g. submission/retrieval of attested information, or exchange of validated information).",
+    "caseSensitive": true,
+    "content": "complete",
+    "concept": [
+        {
+            "code": "manual",
+            "display": "Manual",
+            "definition": "The information is submitted/retrieved manually (e.g. by phone, fax, paper-based)"
+        },
+        {
+            "code": "portal",
+            "display": "Portal",
+            "definition": "The information is submitted/retrieved via a portal"
+        },
+        {
+            "code": "pull",
+            "display": "Pull",
+            "definition": "The information is retrieved (i.e. pulled) from a source (e.g. over an API)"
+        },
+        {
+            "code": "push",
+            "display": "Push",
+            "definition": "The information is sent (i.e. pushed) from a source (e.g. over an API, asynchronously, secure messaging)"
+        }
+    ]
+}

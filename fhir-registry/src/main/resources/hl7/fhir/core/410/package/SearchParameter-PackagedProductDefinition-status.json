@@ -1,0 +1,44 @@
+{
+    "resourceType": "SearchParameter",
+    "id": "PackagedProductDefinition-status",
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        }
+    ],
+    "url": "http://hl7.org/fhir/SearchParameter/PackagedProductDefinition-status",
+    "version": "4.1.0",
+    "name": "status",
+    "status": "draft",
+    "experimental": false,
+    "date": "2021-12-06T18:53:36Z",
+    "publisher": "Health Level Seven International (Biomedical Research and Regulation)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        },
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/rcrim/index.cfm"
+                }
+            ]
+        }
+    ],
+    "description": "The status within the lifecycle of this item. A high level status, this is not intended to duplicate details carried elsewhere such as legal status, or authorization or marketing status",
+    "code": "status",
+    "base": [
+        "PackagedProductDefinition"
+    ],
+    "type": "token",
+    "expression": "PackagedProductDefinition.status",
+    "xpath": "f:PackagedProductDefinition/f:status",
+    "xpathUsage": "normal"
+}
