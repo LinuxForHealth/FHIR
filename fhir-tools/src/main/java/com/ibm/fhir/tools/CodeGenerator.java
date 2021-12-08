@@ -85,6 +85,7 @@ public class CodeGenerator {
         "Annotation",
         "Attachment",
         "CodeableConcept",
+        "CodeableReference",
         "Coding",
         "ContactPoint",
         "Count",
@@ -98,6 +99,7 @@ public class CodeGenerator {
         "Quantity",
         "Range",
         "Ratio",
+        "RatioRange",
         "Reference",
         "SampledData",
         "SimpleQuantity", // profiled type
@@ -111,7 +113,8 @@ public class CodeGenerator {
         "RelatedArtifact",
         "TriggerDefinition",
         "UsageContext",
-        "Dosage");
+        "Dosage",
+        "Meta");
     private static final List<String> PROFILED_TYPES = Arrays.asList("SimpleQuantity", "MoneyQuantity");
     private static final List<String> MODEL_CHECKED_CONSTRAINTS = Arrays.asList("ele-1", "sqty-1");
     private static final List<String> HEADER = readHeader();
@@ -3497,7 +3500,7 @@ public class CodeGenerator {
                         cb.assign("JsonArray _" + elementName + "Array", "jsonObject.getJsonArray(" + quote("_" + elementName) + ")");
                     }
                     cb._for("int i = 0", "i < " + elementName + "Array.size()", "i++");
-                    if (!isPrimitiveType(fieldType)) {
+                    if (!isPrimitiveType(fieldType) && !isPrimitiveSubtype(fieldType)) {
                         cb._if(elementName + "Array.get(i).getValueType() != JsonValue.ValueType.OBJECT");
                         cb._throw("new IllegalArgumentException(\"Expected: OBJECT but found: \" + " + 
                             elementName + "Array.get(i).getValueType() + \" for element: " + elementName + "\")");
@@ -4227,7 +4230,6 @@ public class CodeGenerator {
                         "ElementDefinition.constraint.extension".equals(path) ||
                         "ElementDefinition.binding.extension".equals(path) ||
                         "ElementDefinition.mapping.extension".equals(path) ||
-                        "SubstanceAmount.referenceRange.extension".equals(path) ||
                         "Timing.repeat.extension".equals(path)) {
                     elementDefinitions.add(getModifierExtensionDefinition(path.replace(".extension", "")));
                 }
@@ -4652,7 +4654,6 @@ public class CodeGenerator {
             "ElementDefinition.constraint".equals(path) ||
             "ElementDefinition.binding".equals(path) ||
             "ElementDefinition.mapping".equals(path) ||
-            "SubstanceAmount.referenceRange".equals(path) ||
             "Timing.repeat".equals(path)) {
             return true;
         }
