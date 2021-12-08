@@ -1528,7 +1528,7 @@ OK         json/spec/medicationexample0306.json
 OK         json/spec/medicationexample0307.json
 OK         json/spec/medicationexample0308.json
 OK         json/spec/medicationexample0309.json
-OK         json/spec/medicationexample0310.json
+PARSE      json/spec/medicationexample0310.json
 OK         json/spec/medicationexample0311.json
 OK         json/spec/medicationexample0312.json
 OK         json/spec/medicationexample0313.json
@@ -1775,7 +1775,7 @@ OK         json/spec/operation-resource-meta-add.json
 OK         json/spec/operation-resource-meta-delete.json
 OK         json/spec/operation-resource-meta.json
 OK         json/spec/operation-resource-validate.json
-PARSE      json/spec/operation-structuredefinition-questionnaire.json
+OK         json/spec/operation-structuredefinition-questionnaire.json
 OK         json/spec/operation-structuredefinition-snapshot.json
 OK         json/spec/operation-structuremap-transform.json
 OK         json/spec/operation-valueset-expand.json
@@ -1813,7 +1813,7 @@ OK         json/spec/orgrole-example-hie.json
 OK         json/spec/orgrole-example-services.json
 PARSE      json/spec/oxygensat-questionnaire.json
 OK         json/spec/oxygensat.profile.json
-OK         json/spec/package-min-ver.json
+PARSE      json/spec/package-min-ver.json
 OK         json/spec/packagedproductdefinition-example-co-packaged-liquid-and-syringe.json
 OK         json/spec/packagedproductdefinition-example.json
 PARSE      json/spec/packagedproductdefinition-questionnaire.json

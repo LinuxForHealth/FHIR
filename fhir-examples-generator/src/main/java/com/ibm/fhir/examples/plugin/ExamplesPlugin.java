@@ -79,7 +79,7 @@ public class ExamplesPlugin extends AbstractMojo {
                 getLog().error("An error ocurred while generating examples", e);
             }
 
-            getLog().info("[Finished] generating the examples for fhir-model");
+            getLog().info("[Finished] generating the examples for fhir-examples");
         } else {
             getLog().info("This plugin only works for the fhir-examples project, not " + mavenProject.getArtifactId());
         }
