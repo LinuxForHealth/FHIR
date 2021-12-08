@@ -859,6 +859,7 @@ public final class ModelSupport {
             Annotation.class,
             Attachment.class,
             CodeableConcept.class,
+            CodeableReference.class,
             Coding.class,
             ContactPoint.class,
             Count.class,
@@ -872,6 +873,7 @@ public final class ModelSupport {
             Quantity.class,
             Range.class,
             Ratio.class,
+            RatioRange.class,
             Reference.class,
             SampledData.class,
             SimpleQuantity.class, // profiled type
@@ -899,8 +901,6 @@ public final class ModelSupport {
         dataTypes.add(Population.class);
         dataTypes.add(ProductShelfLife.class);
         dataTypes.add(ProdCharacteristic.class);
-        dataTypes.add(CodeableReference.class);
-        dataTypes.add(RatioRange.class);
         DATA_TYPES = Collections.unmodifiableSet(dataTypes);
     }
     private static final Map<String, Class<?>> DATA_TYPE_MAP = buildDataTypeMap();
