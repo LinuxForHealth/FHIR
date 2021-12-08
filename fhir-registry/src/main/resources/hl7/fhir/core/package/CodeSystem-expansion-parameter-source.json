@@ -5,8 +5,8 @@
         "lastUpdated": "2019-11-01T09:29:23.356+11:00"
     },
     "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>ExpansionParameterSource</h2><div><p>Declares what the source of a parameter is.</p>\n</div><p>This code system http://terminology.hl7.org/CodeSystem/expansion-parameter-source defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">input<a name=\"expansion-parameter-source-input\"> </a></td><td>Client Input</td><td>The parameter was supplied by the client in the $expand request.</td></tr><tr><td style=\"white-space:nowrap\">server<a name=\"expansion-parameter-source-server\"> </a></td><td>Server Engine</td><td>The parameter was added by the expansion engine on the server.</td></tr><tr><td style=\"white-space:nowrap\">codesystem<a name=\"expansion-parameter-source-codesystem\"> </a></td><td>Code System</td><td>The parameter was added from one the code systems used in the $expand operation.</td></tr></table></div>"
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "url": "http://terminology.hl7.org/CodeSystem/expansion-parameter-source",
     "identifier": [

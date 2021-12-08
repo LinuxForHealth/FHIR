@@ -5,8 +5,8 @@
         "lastUpdated": "2019-11-01T09:29:23.356+11:00"
     },
     "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>ParticipationStatus</h2><div><p>The Participation status of an appointment.</p>\n</div><p>This code system http://hl7.org/fhir/participationstatus defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">accepted<a name=\"participationstatus-accepted\"> </a></td><td>Accepted</td><td>The participant has accepted the appointment.</td></tr><tr><td style=\"white-space:nowrap\">declined<a name=\"participationstatus-declined\"> </a></td><td>Declined</td><td>The participant has declined the appointment and will not participate in the appointment.</td></tr><tr><td style=\"white-space:nowrap\">tentative<a name=\"participationstatus-tentative\"> </a></td><td>Tentative</td><td>The participant has  tentatively accepted the appointment. This could be automatically created by a system and requires further processing before it can be accepted. There is no commitment that attendance will occur.</td></tr><tr><td style=\"white-space:nowrap\">needs-action<a name=\"participationstatus-needs-action\"> </a></td><td>Needs Action</td><td>The participant needs to indicate if they accept the appointment by changing this status to one of the other statuses.</td></tr></table></div>"
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
         {

@@ -8,8 +8,8 @@
         ]
     },
     "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>Financial Task Codes</h2><div><p>This value set includes Financial Task codes.</p>\n</div><p><b>Copyright Statement:</b></p><div><p>This is an example set.</p>\n</div><p>This code system http://terminology.hl7.org/CodeSystem/financialtaskcode defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">cancel<a name=\"financial-taskcode-cancel\"> </a></td><td>Cancel</td><td>Cancel or reverse a resource, such as a claim or preauthorization, which is in-process or complete.</td></tr><tr><td style=\"white-space:nowrap\">poll<a name=\"financial-taskcode-poll\"> </a></td><td>Poll</td><td>Retrieve selected or all queued resources or messages.</td></tr><tr><td style=\"white-space:nowrap\">release<a name=\"financial-taskcode-release\"> </a></td><td>Release</td><td>Release any reserved funds or material obligations associated with a resource. For example, any unused but reserved funds or treatment allowance associated with a preauthorization once treatment is complete.</td></tr><tr><td style=\"white-space:nowrap\">reprocess<a name=\"financial-taskcode-reprocess\"> </a></td><td>Reprocess</td><td>Indication that the processing of a resource, such as a claim, for some or all of the required work is now being requested.</td></tr><tr><td style=\"white-space:nowrap\">status<a name=\"financial-taskcode-status\"> </a></td><td>Status check</td><td>Check on the processing status of a resource such as the adjudication of a claim.</td></tr></table></div>"
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "url": "http://terminology.hl7.org/CodeSystem/financialtaskcode",
     "identifier": [

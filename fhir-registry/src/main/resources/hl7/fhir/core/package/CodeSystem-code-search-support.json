@@ -5,8 +5,8 @@
         "lastUpdated": "2019-11-01T09:29:23.356+11:00"
     },
     "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>CodeSearchSupport</h2><div><p>The degree to which the server supports the code search parameter on ValueSet, if it is supported.</p>\n</div><p>This code system http://hl7.org/fhir/code-search-support defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">explicit<a name=\"code-search-support-explicit\"> </a></td><td>Explicit Codes</td><td>The search for code on ValueSet only includes codes explicitly detailed on includes or expansions.</td></tr><tr><td style=\"white-space:nowrap\">all<a name=\"code-search-support-all\"> </a></td><td>Implicit Codes</td><td>The search for code on ValueSet only includes all codes based on the expansion of the value set.</td></tr></table></div>"
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
         {

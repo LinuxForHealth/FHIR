@@ -5,8 +5,8 @@
         "lastUpdated": "2019-11-01T09:29:23.356+11:00"
     },
     "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>LocationMode</h2><div><p>Indicates whether a resource instance represents a specific location or a class of locations.</p>\n</div><p>This code system http://hl7.org/fhir/location-mode defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">instance<a name=\"location-mode-instance\"> </a></td><td>Instance</td><td>The Location resource represents a specific instance of a location (e.g. Operating Theatre 1A).</td></tr><tr><td style=\"white-space:nowrap\">kind<a name=\"location-mode-kind\"> </a></td><td>Kind</td><td>The Location represents a class of locations (e.g. Any Operating Theatre) although this class of locations could be constrained within a specific boundary (such as organization, or parent location, address etc.).</td></tr></table></div>"
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
         {

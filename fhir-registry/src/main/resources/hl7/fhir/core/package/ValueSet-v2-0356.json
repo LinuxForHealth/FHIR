@@ -8,8 +8,8 @@
     },
     "language": "en",
     "text": {
-        "status": "additional",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Alternate Character Set Handling Scheme</p>\r\n<table class=\"grid\"><tr><td><b>Code</b></td><td><b>Description</b></td><td><b>Comment</b></td><td><b>Version</b></td></tr><tr><td>2.3<a name=\"2.463\"> </a></td><td>The character set switching mode specified in HL7 2.5, section 2.7.2 and section 2.A.46, &quot;XPN - extended person name&quot;.</td><td>Note that the escape sequences used in this mode do not use the ASCII “esc” character, as defined in ISO 2022-1994. They are “HL7 escape sequences” as first defined in HL7 2.3, sec. 2.9.2. (Also, note that sections 2.8.28.6.1and 2.9.2 in HL7 2.3 correspond to sections 2.16.93 and 2.7.2 in HL7 2. 5.)</td><td>added v2.3.1</td></tr><tr><td>&lt;null&gt;<a name=\".60null.62\"> </a></td><td>This is the default, indicating that there is no character set switching occurring in this message.</td><td>This is the default.</td><td>added v2.3.1</td></tr><tr><td>ISO 2022-1994<a name=\"ISO2022-1994\"> </a></td><td>This standard is titled &quot;Information Technology - Character Code Structure and Extension Technique&quot;. .</td><td>Note that the escape sequences used in this mode do not use the ASCII “esc” character, as defined in ISO 2022-1994. They are “HL7 escape sequences” as first defined in HL7 2.3, sec. 2.9.2. (Also, note that sections 2.8.28.6.1and 2.9.2 in HL7 2.3 correspond to sections 2.16.93 and 2.7.2 in HL7 2. 5.)</td><td>added v2.3.1</td></tr></table>\r\n</div>"
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
         {

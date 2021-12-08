@@ -5,8 +5,8 @@
         "lastUpdated": "2019-11-01T09:29:23.356+11:00"
     },
     "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>AggregationMode</h2><div><p>How resource references can be aggregated.</p>\n</div><p>This code system http://hl7.org/fhir/resource-aggregation-mode defines the following codes:</p><table class=\"codes\"><tr><td><b>Lvl</b></td><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td>1</td><td style=\"white-space:nowrap\">contained<a name=\"resource-aggregation-mode-contained\"> </a></td><td>Contained</td><td>The reference is a local reference to a contained resource.</td></tr><tr><td>1</td><td style=\"white-space:nowrap\">referenced<a name=\"resource-aggregation-mode-referenced\"> </a></td><td>Referenced</td><td>The reference to a resource that has to be resolved externally to the resource that includes the reference.</td></tr><tr><td>2</td><td style=\"white-space:nowrap\">  bundled<a name=\"resource-aggregation-mode-bundled\"> </a></td><td>Bundled</td><td>The resource the reference points to will be found in the same bundle as the resource that includes the reference.</td></tr></table></div>"
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
         {
