@@ -8,8 +8,8 @@
         ]
     },
     "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Release Date: 2018-08-12</p>\r\n<table class=\"grid\">\r\n <tr><td><b>Level</b></td><td><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr>\r\n <tr><td>1</td><td>C<a name=\"v3-ResponseLevel-C\"> </a></td><td>completion</td><td>\n                        Respond with exceptions and a notification of completion<br/>\r\n\n                     </td></tr>\r\n <tr><td>1</td><td>D<a name=\"v3-ResponseLevel-D\"> </a></td><td>detail</td><td>\n                        Respond with exceptions, completion, modifications and include more detail information (if applicable)<br/>\r\n\n                     </td></tr>\r\n <tr><td>1</td><td>E<a name=\"v3-ResponseLevel-E\"> </a></td><td>exception</td><td>\n                        Respond with exceptions only<br/>\r\n\n                     </td></tr>\r\n <tr><td>1</td><td>F<a name=\"v3-ResponseLevel-F\"> </a></td><td>confirmation</td><td>\n                        Respond with exceptions, completion, and modification with detail (as above), and send positive confirmations even if no modifications are being made.<br/>\r\n\n                     </td></tr>\r\n <tr><td>1</td><td>N<a name=\"v3-ResponseLevel-N\"> </a></td><td>message-control</td><td>\n                        Respond only with message level acknowledgements, i.e., only notify acceptance or rejection of the message, do not include any application-level detail<br/>\r\n\n                     </td></tr>\r\n <tr><td>1</td><td>R<a name=\"v3-ResponseLevel-R\"> </a></td><td>modification</td><td>\n                        Respond with exceptions, completions and modifications or revisions done before completion<br/>\r\n\n                     </td></tr>\r\n <tr><td>1</td><td>X<a name=\"v3-ResponseLevel-X\"> </a></td><td>none</td><td>\n                        Do not send any kind of response<br/>\r\n\n                     </td></tr>\r\n</table>\r\n</div>"
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
         {

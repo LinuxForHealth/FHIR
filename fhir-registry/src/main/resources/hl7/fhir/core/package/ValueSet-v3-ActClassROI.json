@@ -8,8 +8,8 @@
         ]
     },
     "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>V3 Value SetActClassROI</h2><div><p>Regions of Interest (ROI) within a subject Act. Primarily used for making secondary observations on a subset of a subject observation. The relationship between a ROI and its referenced Act is specified through an ActRelationship of type &quot;subject&quot; (SUBJ), which must always be present.</p>\n</div><p>This value set includes codes from the following code systems:</p><ul><li>Include codes from <a href=\"../../v3/ActClass/cs.html\"><code>http://terminology.hl7.org/CodeSystem/v3-ActClass</code></a> where concept  is-a  <a href=\"../../v3/ActClass/cs.html#v3-ActClass-_ActClassROI\">_ActClassROI</a></li><li>Exclude these codes as defined in <a href=\"../../v3/ActClass/cs.html\"><code>http://terminology.hl7.org/CodeSystem/v3-ActClass</code></a><table class=\"none\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td></tr><tr><td><a href=\"../../v3/ActClass/cs.html#v3-ActClass-_ActClassROI\">_ActClassROI</a></td><td>ActClassROI</td><td>Regions of Interest (ROI) within a subject Act. Primarily used for making secondary observations on a subset of a subject observation. The relationship between a ROI and its referenced Act is specified through an ActRelationship of type &quot;subject&quot; (SUBJ), which must always be present.</td></tr></table></li></ul></div>"
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
         {

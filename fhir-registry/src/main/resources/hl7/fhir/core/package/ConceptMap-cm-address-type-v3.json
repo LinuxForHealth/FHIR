@@ -2,8 +2,8 @@
     "resourceType": "ConceptMap",
     "id": "cm-address-type-v3",
     "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>v3.AddressType (http://hl7.org/fhir/ConceptMap/cm-address-type-v3)</h2><p>Mapping from <a href=\"valueset-address-type.html\">http://hl7.org/fhir/ValueSet/address-type</a> to <a href=\"v3/AddressUse/vs.html\">http://terminology.hl7.org/ValueSet/v3-AddressUse</a></p><p>DRAFT. Published on 01/11/2019 9:29:23 AM by HL7 (FHIR Project) (<a href=\"http://hl7.org/fhir\">http://hl7.org/fhir</a>, <a href=\"mailto:fhir@lists.hl7.org\">fhir@lists.hl7.org</a>). </p><br/><table class=\"grid\"><tr><td><b>Source Code</b></td><td><b>Equivalence</b></td><td><b>Destination Code</b></td></tr><tr><td>postal</td><td>equal</td><td>PST (postal address)</td></tr><tr><td>physical</td><td>equal</td><td>PHYS (physical visit address)</td></tr></table></div>"
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "url": "http://hl7.org/fhir/ConceptMap/cm-address-type-v3",
     "version": "4.0.1",

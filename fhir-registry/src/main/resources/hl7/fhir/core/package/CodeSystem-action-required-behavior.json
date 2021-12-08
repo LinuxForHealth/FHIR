@@ -5,8 +5,8 @@
         "lastUpdated": "2019-11-01T09:29:23.356+11:00"
     },
     "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>ActionRequiredBehavior</h2><div><p>Defines expectations around whether an action or action group is required.</p>\n</div><p>This code system http://hl7.org/fhir/action-required-behavior defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">must<a name=\"action-required-behavior-must\"> </a></td><td>Must</td><td>An action with this behavior must be included in the actions processed by the end user; the end user SHALL NOT choose not to include this action.</td></tr><tr><td style=\"white-space:nowrap\">could<a name=\"action-required-behavior-could\"> </a></td><td>Could</td><td>An action with this behavior may be included in the set of actions processed by the end user.</td></tr><tr><td style=\"white-space:nowrap\">must-unless-documented<a name=\"action-required-behavior-must-unless-documented\"> </a></td><td>Must Unless Documented</td><td>An action with this behavior must be included in the set of actions processed by the end user, unless the end user provides documentation as to why the action was not included.</td></tr></table></div>"
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
         {

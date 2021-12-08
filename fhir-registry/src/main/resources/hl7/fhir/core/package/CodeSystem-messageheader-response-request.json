@@ -5,8 +5,8 @@
         "lastUpdated": "2019-11-01T09:29:23.356+11:00"
     },
     "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>messageheader-response-request</h2><div><p>HL7-defined table of codes which identify conditions under which acknowledgments are required to be returned in response to a message.</p>\n</div><p>This code system http://hl7.org/fhir/messageheader-response-request defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">always<a name=\"messageheader-response-request-always\"> </a></td><td>Always</td><td>initiator expects a response for this message.</td></tr><tr><td style=\"white-space:nowrap\">on-error<a name=\"messageheader-response-request-on-error\"> </a></td><td>Error/reject conditions only</td><td>initiator expects a response only if in error.</td></tr><tr><td style=\"white-space:nowrap\">never<a name=\"messageheader-response-request-never\"> </a></td><td>Never</td><td>initiator does not expect a response.</td></tr><tr><td style=\"white-space:nowrap\">on-success<a name=\"messageheader-response-request-on-success\"> </a></td><td>Successful completion only</td><td>initiator expects a response only if successful.</td></tr></table></div>"
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
         {

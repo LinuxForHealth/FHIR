@@ -5,8 +5,8 @@
         "lastUpdated": "2019-11-01T09:29:23.356+11:00"
     },
     "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>TestReportStatus</h2><div><p>The current status of the test report.</p>\n</div><p>This code system http://hl7.org/fhir/report-status-codes defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">completed<a name=\"report-status-codes-completed\"> </a></td><td>Completed</td><td>All test operations have completed.</td></tr><tr><td style=\"white-space:nowrap\">in-progress<a name=\"report-status-codes-in-progress\"> </a></td><td>In Progress</td><td>A test operations is currently executing.</td></tr><tr><td style=\"white-space:nowrap\">waiting<a name=\"report-status-codes-waiting\"> </a></td><td>Waiting</td><td>A test operation is waiting for an external client request.</td></tr><tr><td style=\"white-space:nowrap\">stopped<a name=\"report-status-codes-stopped\"> </a></td><td>Stopped</td><td>The test script execution was manually stopped.</td></tr><tr><td style=\"white-space:nowrap\">entered-in-error<a name=\"report-status-codes-entered-in-error\"> </a></td><td>Entered In Error</td><td>This test report was entered or created in error.</td></tr></table></div>"
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
         {

@@ -5,8 +5,8 @@
         "lastUpdated": "2019-11-01T09:29:23.356+11:00"
     },
     "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>SpecimenStatus</h2><div><p>Codes providing the status/availability of a specimen.</p>\n</div><p>This code system http://hl7.org/fhir/specimen-status defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">available<a name=\"specimen-status-available\"> </a></td><td>Available</td><td>The physical specimen is present and in good condition.</td></tr><tr><td style=\"white-space:nowrap\">unavailable<a name=\"specimen-status-unavailable\"> </a></td><td>Unavailable</td><td>There is no physical specimen because it is either lost, destroyed or consumed.</td></tr><tr><td style=\"white-space:nowrap\">unsatisfactory<a name=\"specimen-status-unsatisfactory\"> </a></td><td>Unsatisfactory</td><td>The specimen cannot be used because of a quality issue such as a broken container, contamination, or too old.</td></tr><tr><td style=\"white-space:nowrap\">entered-in-error<a name=\"specimen-status-entered-in-error\"> </a></td><td>Entered in Error</td><td>The specimen was entered in error and therefore nullified.</td></tr></table></div>"
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
         {

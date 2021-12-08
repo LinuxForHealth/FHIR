@@ -5,8 +5,8 @@
         "lastUpdated": "2019-11-01T09:29:23.356+11:00"
     },
     "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>UDIEntryType</h2><div><p>Codes to identify how UDI data was entered.</p>\n</div><p>This code system http://hl7.org/fhir/udi-entry-type defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">barcode<a name=\"udi-entry-type-barcode\"> </a></td><td>Barcode</td><td>a barcodescanner captured the data from the device label.</td></tr><tr><td style=\"white-space:nowrap\">rfid<a name=\"udi-entry-type-rfid\"> </a></td><td>RFID</td><td>An RFID chip reader captured the data from the device label.</td></tr><tr><td style=\"white-space:nowrap\">manual<a name=\"udi-entry-type-manual\"> </a></td><td>Manual</td><td>The data was read from the label by a person and manually entered. (e.g.  via a keyboard).</td></tr><tr><td style=\"white-space:nowrap\">card<a name=\"udi-entry-type-card\"> </a></td><td>Card</td><td>The data originated from a patient's implant card and was read by an operator.</td></tr><tr><td style=\"white-space:nowrap\">self-reported<a name=\"udi-entry-type-self-reported\"> </a></td><td>Self Reported</td><td>The data originated from a patient source and was not directly scanned or read from a label or card.</td></tr><tr><td style=\"white-space:nowrap\">unknown<a name=\"udi-entry-type-unknown\"> </a></td><td>Unknown</td><td>The method of data capture has not been determined.</td></tr></table></div>"
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
         {

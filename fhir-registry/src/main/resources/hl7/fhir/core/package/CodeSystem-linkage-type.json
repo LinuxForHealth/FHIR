@@ -5,8 +5,8 @@
         "lastUpdated": "2019-11-01T09:29:23.356+11:00"
     },
     "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>LinkageType</h2><div><p>Used to distinguish different roles a resource can play within a set of linked resources.</p>\n</div><p>This code system http://hl7.org/fhir/linkage-type defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">source<a name=\"linkage-type-source\"> </a></td><td>Source of Truth</td><td>The resource represents the &quot;source of truth&quot; (from the perspective of this Linkage resource) for the underlying event/condition/etc.</td></tr><tr><td style=\"white-space:nowrap\">alternate<a name=\"linkage-type-alternate\"> </a></td><td>Alternate Record</td><td>The resource represents an alternative view of the underlying event/condition/etc.  The resource may still be actively maintained, even though it is not considered to be the source of truth.</td></tr><tr><td style=\"white-space:nowrap\">historical<a name=\"linkage-type-historical\"> </a></td><td>Historical/Obsolete Record</td><td>The resource represents an obsolete record of the underlying event/condition/etc.  It is not expected to be actively maintained.</td></tr></table></div>"
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
         {
