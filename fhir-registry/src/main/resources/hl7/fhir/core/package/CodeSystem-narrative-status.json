@@ -5,8 +5,8 @@
         "lastUpdated": "2019-11-01T09:29:23.356+11:00"
     },
     "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>NarrativeStatus</h2><div><p>The status of a resource narrative.</p>\n</div><p>This code system http://hl7.org/fhir/narrative-status defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">generated<a name=\"narrative-status-generated\"> </a></td><td>Generated</td><td>The contents of the narrative are entirely generated from the core elements in the content.</td></tr><tr><td style=\"white-space:nowrap\">extensions<a name=\"narrative-status-extensions\"> </a></td><td>Extensions</td><td>The contents of the narrative are entirely generated from the core elements in the content and some of the content is generated from extensions. The narrative SHALL reflect the impact of all modifier extensions.</td></tr><tr><td style=\"white-space:nowrap\">additional<a name=\"narrative-status-additional\"> </a></td><td>Additional</td><td>The contents of the narrative may contain additional information not found in the structured data. Note that there is no computable way to determine what the extra information is, other than by human inspection.</td></tr><tr><td style=\"white-space:nowrap\">empty<a name=\"narrative-status-empty\"> </a></td><td>Empty</td><td>The contents of the narrative are some equivalent of &quot;No human-readable text provided in this case&quot;.</td></tr></table></div>"
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "url": "http://hl7.org/fhir/narrative-status",
     "identifier": [

@@ -5,8 +5,8 @@
         "lastUpdated": "2019-11-01T09:29:23.356+11:00"
     },
     "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>Delete profiles, tags, and security labels for a resource</h2><p>OPERATION: Delete profiles, tags, and security labels for a resource</p><p>The official URL for this operation definition is: </p><pre>http://hl7.org/fhir/OperationDefinition/Resource-meta-delete</pre><div><p>This operation takes a meta, and deletes the profiles, tags, and security labels found in it from the nominated resource</p>\n</div><p>URL: [base]/Resource/[id]/$meta-delete</p><p>Parameters</p><table class=\"grid\"><tr><td><b>Use</b></td><td><b>Name</b></td><td><b>Cardinality</b></td><td><b>Type</b></td><td><b>Binding</b></td><td><b>Documentation</b></td></tr><tr><td>IN</td><td>meta</td><td>1..1</td><td><a href=\"resource.html#Meta\">Meta</a></td><td/><td><div><p>Profiles, tags, and security labels to delete from the existing resource. It is not an error if these tags, profiles, and labels do not exist.  The identity of a tag or security label is the system+code. When matching existing tags during deletion, version and display are ignored. For profiles, matching is based on the full URL</p>\n</div></td></tr><tr><td>OUT</td><td>return</td><td>1..1</td><td><a href=\"resource.html#Meta\">Meta</a></td><td/><td><div><p>Resulting meta for the resource</p>\n</div></td></tr></table><div/></div>"
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
         {

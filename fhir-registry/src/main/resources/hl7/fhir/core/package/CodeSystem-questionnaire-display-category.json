@@ -8,8 +8,8 @@
         ]
     },
     "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>Questionnaire Text Categories</h2><div><p>Codes defining the purpose of a Questionnaire item of type 'text'.</p>\n</div><p>This code system http://hl7.org/fhir/questionnaire-display-category defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">instructions<a name=\"questionnaire-display-category-instructions\"> </a></td><td>Instructions</td><td>The text provides guidance on how to populate or use a portion of the questionnaire (or the questionnaire as a whole).</td></tr><tr><td style=\"white-space:nowrap\">security<a name=\"questionnaire-display-category-security\"> </a></td><td>Security</td><td>The text provides guidance on how the information should be or will be handled from a security/confidentiality/access control perspective when completed</td></tr><tr><td style=\"white-space:nowrap\">help<a name=\"questionnaire-display-category-help\"> </a></td><td>Help</td><td>The text provides additional guidance on populating the containing item.  Help text isn't necessarily expected to be rendered as part of the form, but may instead be made available through fly-over, pop-up button, link to a &quot;help&quot; page, etc.</td></tr></table></div>"
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "url": "http://hl7.org/fhir/questionnaire-display-category",
     "identifier": [

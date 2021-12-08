@@ -5,8 +5,8 @@
         "lastUpdated": "2019-11-01T09:29:23.356+11:00"
     },
     "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>Data Requirements</h2><p>OPERATION: Data Requirements</p><p>The official URL for this operation definition is: </p><pre>http://hl7.org/fhir/OperationDefinition/ActivityDefinition-data-requirements</pre><div><p>The data-requirements operation aggregates and returns the parameters and data requirements for the activity definition and all its dependencies as a single module definition library</p>\n</div><p>URL: [base]/ActivityDefinition/[id]/$data-requirements</p><p>Parameters</p><table class=\"grid\"><tr><td><b>Use</b></td><td><b>Name</b></td><td><b>Cardinality</b></td><td><b>Type</b></td><td><b>Binding</b></td><td><b>Documentation</b></td></tr><tr><td>OUT</td><td>return</td><td>1..1</td><td><a href=\"library.html\">Library</a></td><td/><td><div><p>The result of the requirements gathering represented as a module-definition Library that describes the aggregate parameters, data requirements, and dependencies of the activity definition</p>\n</div></td></tr></table><div><p>The effect of invoking this operation is to determine the aggregate set of data requirements and dependencies for the activity definition. The result is a Library resource with a type of module-definition that contains all the parameter definitions and data requirements of the activity definition and any libraries referenced by it. Implementations SHOULD aggregate data requirements intelligently (i.e. by collapsing overlapping data requirements)</p>\n</div></div>"
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
         {

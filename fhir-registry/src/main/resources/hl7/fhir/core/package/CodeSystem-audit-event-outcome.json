@@ -5,8 +5,8 @@
         "lastUpdated": "2019-11-01T09:29:23.356+11:00"
     },
     "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>AuditEventOutcome</h2><div><p>Indicates whether the event succeeded or failed.</p>\n</div><p>This code system http://hl7.org/fhir/audit-event-outcome defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">0<a name=\"audit-event-outcome-0\"> </a></td><td>Success</td><td>The operation completed successfully (whether with warnings or not).</td></tr><tr><td style=\"white-space:nowrap\">4<a name=\"audit-event-outcome-4\"> </a></td><td>Minor failure</td><td>The action was not successful due to some kind of minor failure (often equivalent to an HTTP 400 response).</td></tr><tr><td style=\"white-space:nowrap\">8<a name=\"audit-event-outcome-8\"> </a></td><td>Serious failure</td><td>The action was not successful due to some kind of unexpected error (often equivalent to an HTTP 500 response).</td></tr><tr><td style=\"white-space:nowrap\">12<a name=\"audit-event-outcome-12\"> </a></td><td>Major failure</td><td>An error of such magnitude occurred that the system is no longer available for use (i.e. the system died).</td></tr></table></div>"
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
         {
