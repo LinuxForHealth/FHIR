@@ -160,6 +160,10 @@ public final class FHIRRegistryUtil {
     public static List<Entry> readIndex(String indexPath) {
         log.info("Loading index: " + indexPath);
         try (InputStream in = FHIRRegistryUtil.class.getClassLoader().getResourceAsStream(indexPath)) {
+            if (in == null) {
+                log.log(Level.WARNING, "Index '" + indexPath + "' was not found");
+                return Collections.emptyList();
+            }
             Index index = new Index();
             index.load(in);
             return index.getEntries();
