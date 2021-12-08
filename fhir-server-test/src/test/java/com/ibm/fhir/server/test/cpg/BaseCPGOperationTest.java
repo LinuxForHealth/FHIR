@@ -27,7 +27,6 @@ public class BaseCPGOperationTest extends FHIRServerTestBase {
         EvaluationContext evaluationContext = new EvaluationContext(conf);
         Collection<FHIRPathNode> tmpResults = evaluator.evaluate(evaluationContext, "rest.resource.where(type = 'Library').operation.name");
         Collection<String> listOfOperations = tmpResults.stream().map(x -> x.getValue().asStringValue().string()).collect(Collectors.toList());
-        System.out.println(listOfOperations);
         if( !listOfOperations.contains("evaluate") ) {
             throw new SkipException("CPG Operations are not enabled");
         }
