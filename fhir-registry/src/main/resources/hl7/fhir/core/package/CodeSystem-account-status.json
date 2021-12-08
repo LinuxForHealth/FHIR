@@ -5,8 +5,8 @@
         "lastUpdated": "2019-11-01T09:29:23.356+11:00"
     },
     "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>AccountStatus</h2><div><p>Indicates whether the account is available to be used.</p>\n</div><p>This code system http://hl7.org/fhir/account-status defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">active<a name=\"account-status-active\"> </a></td><td>Active</td><td>This account is active and may be used.</td></tr><tr><td style=\"white-space:nowrap\">inactive<a name=\"account-status-inactive\"> </a></td><td>Inactive</td><td>This account is inactive and should not be used to track financial information.</td></tr><tr><td style=\"white-space:nowrap\">entered-in-error<a name=\"account-status-entered-in-error\"> </a></td><td>Entered in error</td><td>This instance should not have been part of this patient's medical record.</td></tr><tr><td style=\"white-space:nowrap\">on-hold<a name=\"account-status-on-hold\"> </a></td><td>On Hold</td><td>This account is on hold.</td></tr><tr><td style=\"white-space:nowrap\">unknown<a name=\"account-status-unknown\"> </a></td><td>Unknown</td><td>The account status is unknown.</td></tr></table></div>"
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
         {

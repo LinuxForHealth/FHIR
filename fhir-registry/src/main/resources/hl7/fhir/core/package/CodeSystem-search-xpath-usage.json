@@ -5,8 +5,8 @@
         "lastUpdated": "2019-11-01T09:29:23.356+11:00"
     },
     "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>XPathUsageType</h2><div><p>How a search parameter relates to the set of elements returned by evaluating its xpath query.</p>\n</div><p>This code system http://hl7.org/fhir/search-xpath-usage defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">normal<a name=\"search-xpath-usage-normal\"> </a></td><td>Normal</td><td>The search parameter is derived directly from the selected nodes based on the type definitions.</td></tr><tr><td style=\"white-space:nowrap\">phonetic<a name=\"search-xpath-usage-phonetic\"> </a></td><td>Phonetic</td><td>The search parameter is derived by a phonetic transform from the selected nodes.</td></tr><tr><td style=\"white-space:nowrap\">nearby<a name=\"search-xpath-usage-nearby\"> </a></td><td>Nearby</td><td>The search parameter is based on a spatial transform of the selected nodes.</td></tr><tr><td style=\"white-space:nowrap\">distance<a name=\"search-xpath-usage-distance\"> </a></td><td>Distance</td><td>The search parameter is based on a spatial transform of the selected nodes, using physical distance from the middle.</td></tr><tr><td style=\"white-space:nowrap\">other<a name=\"search-xpath-usage-other\"> </a></td><td>Other</td><td>The interpretation of the xpath statement is unknown (and can't be automated).</td></tr></table></div>"
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
         {

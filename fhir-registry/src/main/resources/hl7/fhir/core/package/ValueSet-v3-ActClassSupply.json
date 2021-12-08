@@ -8,8 +8,8 @@
         ]
     },
     "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>V3 Value SetActClassSupply</h2><div><p>Supply orders and deliveries are simple Acts that focus on the delivered product. The product is associated with the Supply Act via Participation.typeCode=&quot;product&quot;. With general Supply Acts, the precise identification of the Material (manufacturer, serial numbers, etc.) is important.  Most of the detailed information about the Supply should be represented using the Material class.  If delivery needs to be scheduled, tracked, and billed separately, one can associate a Transportation Act with the Supply Act.  Pharmacy dispense services are represented as Supply Acts, associated with a SubstanceAdministration  Act. The SubstanceAdministration class represents the administration of medication, while dispensing is supply.</p>\n</div><p>This value set includes codes from the following code systems:</p><ul><li>Include codes from <a href=\"../../v3/ActClass/cs.html\"><code>http://terminology.hl7.org/CodeSystem/v3-ActClass</code></a> where concept  is-a  <a href=\"../../v3/ActClass/cs.html#v3-ActClass-SPLY\">SPLY</a></li></ul></div>"
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
         {

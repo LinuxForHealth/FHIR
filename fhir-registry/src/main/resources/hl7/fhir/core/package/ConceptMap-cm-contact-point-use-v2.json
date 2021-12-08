@@ -2,8 +2,8 @@
     "resourceType": "ConceptMap",
     "id": "cm-contact-point-use-v2",
     "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>v2.ContactPointUse (http://hl7.org/fhir/ConceptMap/cm-contact-point-use-v2)</h2><p>Mapping from <a href=\"valueset-contact-point-use.html\">http://hl7.org/fhir/ValueSet/contact-point-use</a> to <a href=\"v2/0201/index.html\">http://terminology.hl7.org/ValueSet/v2-0201</a></p><p>DRAFT. Published on 01/11/2019 9:29:23 AM by HL7 (FHIR Project) (<a href=\"http://hl7.org/fhir\">http://hl7.org/fhir</a>, <a href=\"mailto:fhir@lists.hl7.org\">fhir@lists.hl7.org</a>). </p><br/><table class=\"grid\"><tr><td colspan=\"1\"><b>Source Concept Details</b></td><td><b>Equivalence</b></td><td colspan=\"1\"><b>Destination Concept Details</b></td></tr><tr><td><b>Code</b> from <a href=\"codesystem-contact-point-use.html\" title=\"http://hl7.org/fhir/contact-point-use\">ContactPointUse</a></td><td/><td><b>Code</b> from <a href=\"v2/0201/index.html\" title=\"http://terminology.hl7.org/CodeSystem/v2-0201\">v2 Telecommunication Use Code</a></td></tr><tr><td style=\"border-bottom-style: none\">home (Home)</td><td><a href=\"codesystem-concept-map-equivalence.html#wider\">wider</a></td><td>PRN (Primary Residence Number)</td></tr><tr><td style=\"border-top-style: none; border-bottom-style: none\"/><td><a href=\"codesystem-concept-map-equivalence.html#wider\">wider</a></td><td>ORN (Other Residence Number)</td></tr><tr><td style=\"border-top-style: none\"/><td><a href=\"codesystem-concept-map-equivalence.html#wider\">wider</a></td><td>VHN (Vacation Home Number)</td></tr><tr><td>work (Work)</td><td><a href=\"codesystem-concept-map-equivalence.html#equivalent\">equivalent</a></td><td>WPN (Work Number)</td></tr><tr><td>mobile (Mobile)</td><td><a href=\"codesystem-concept-map-equivalence.html#equivalent\">equivalent</a></td><td>PRS (Personal)</td></tr></table></div>"
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "url": "http://hl7.org/fhir/ConceptMap/cm-contact-point-use-v2",
     "version": "4.0.1",

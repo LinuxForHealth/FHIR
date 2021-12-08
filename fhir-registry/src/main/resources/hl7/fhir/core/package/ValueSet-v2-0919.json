@@ -8,8 +8,8 @@
     },
     "language": "en",
     "text": {
-        "status": "additional",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Exclusive Test</p>\r\n<table class=\"grid\"><tr><td><b>Code</b></td><td><b>Description</b></td><td><b>Comment</b></td><td><b>Version</b></td></tr><tr><td>D<a name=\"D\"> </a></td><td>In some cases, this test should be only exclusively with like tests (examples are cyto or pathology)</td><td>When  D is specified for this field, using field OM1-49 determines how tests must be grouped together.  Tests within the same Diagnostic Service Sector may be on the same requisition, and therefore in the same message</td><td>added v2.8</td></tr><tr><td>N<a name=\"N\"> </a></td><td>This test can be included with any number of other tests</td><td>Default -.will be assumed when this field is empty</td><td>added v2.8</td></tr><tr><td>Y<a name=\"Y\"> </a></td><td>This test should be exclusive</td><td/><td>added v2.8</td></tr></table>\r\n</div>"
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
         {
