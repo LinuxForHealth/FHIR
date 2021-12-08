@@ -29,21 +29,23 @@ import com.ibm.fhir.registry.util.Index;
 import com.ibm.fhir.registry.util.Index.Entry;
 
 public class IndexGenerator {
+    private static final String VERSION = "R4B";
     private static final List<String> DEFINITIONS = Arrays.asList(
-        "definitions/conceptmaps.json",
-        "definitions/dataelements.json",
-        "definitions/extension-definitions.json",
-        "definitions/profiles-others.json",
-        "definitions/profiles-resources.json",
-        "definitions/profiles-types.json",
-        "definitions/search-parameters.json",
-        "definitions/v2-tables.json",
-        "definitions/v3-codesystems.json",
-        "definitions/valuesets.json");
+        // "definitions/" + VERSION + "/conceptmaps.json",
+        "definitions/" + VERSION + "/dataelements.json",
+        "definitions/" + VERSION + "/extension-definitions.json",
+        "definitions/" + VERSION + "/profiles-others.json",
+        "definitions/" + VERSION + "/profiles-resources.json",
+        "definitions/" + VERSION + "/profiles-types.json",
+        "definitions/" + VERSION + "/search-parameters.json",
+        // "definitions/" + VERSION + "/v2-tables.json",
+        // "definitions/" + VERSION + "/v3-codesystems.json",
+        "definitions/" + VERSION + "/valuesets.json");
 
     public static void main(String[] args) throws Exception {
         Index index = new Index(1);
         for (String definition : DEFINITIONS) {
+            System.out.println("Processing " + definition + "...");
             try (FileReader reader = new FileReader(definition)) {
                 Bundle bundle = FHIRParser.parser(Format.JSON).parse(reader);
                 for (Bundle.Entry entry : bundle.getEntry()) {
@@ -73,7 +75,7 @@ public class IndexGenerator {
                     }
 
                     String fileName = resource.getClass().getSimpleName() + "-" + id + ".json";
-                    File file = new File("src/main/resources/hl7/fhir/core/package/" + fileName);
+                    File file = new File("src/main/resources/hl7/fhir/core/410/package/" + fileName);
 
                     if (!file.exists()) {
                         file.getParentFile().mkdirs();
@@ -87,7 +89,7 @@ public class IndexGenerator {
                 }
             }
         }
-        try (OutputStream out = new FileOutputStream("src/main/resources/hl7/fhir/core/package/.index.json")) {
+        try (OutputStream out = new FileOutputStream("src/main/resources/hl7/fhir/core/410/package/.index.json")) {
             index.store(out);
         }
     }

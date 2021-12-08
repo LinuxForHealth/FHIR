@@ -12,10 +12,14 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.resource.CodeSystem;
+import com.ibm.fhir.model.resource.OperationDefinition;
+import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.resource.StructureDefinition;
 import com.ibm.fhir.model.type.Canonical;
+import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.registry.FHIRRegistry;
+import com.ibm.fhir.registry.util.FHIRRegistryUtil;
 
 public class FHIRRegistryTest {
     @Test
@@ -52,6 +56,16 @@ public class FHIRRegistryTest {
     @Test
     public void testGetSearchParametersByType() {
         Collection<SearchParameter> tokenSearchParameters = FHIRRegistry.getInstance().getSearchParameters("token");
-        Assert.assertEquals(tokenSearchParameters.size(), 536);
+        Assert.assertEquals(tokenSearchParameters.size(), 514);
+    }
+
+    @Test
+    public void testLoadAllResources() {
+        // tries all resource types even though only a subset is in the registry; should be fine
+        for (Class<? extends Resource> resourceType : ModelSupport.getResourceTypes()) {
+            if (FHIRRegistryUtil.isDefinitionalResourceType(resourceType)) {
+                FHIRRegistry.getInstance().getResources(resourceType);
+            }
+        }
     }
 }

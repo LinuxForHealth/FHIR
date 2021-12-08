@@ -37,7 +37,7 @@ public class ResourceProcessor {
         JsonWriterFactory jsonWriterFactory = Json.createWriterFactory(writerConfig);
         JsonBuilderFactory jsonBuilderFactory = Json.createBuilderFactory(null);
 
-        File dir = new File("src/main/resources/hl7/fhir/core/package/");
+        File dir = new File("src/main/resources/hl7/fhir/core/410/package/");
         for (File file : dir.listFiles()) {
             String fileName = file.getName();
             if (!fileName.endsWith(".json") || file.isDirectory()
@@ -64,7 +64,7 @@ public class ResourceProcessor {
 
                 if (!jsonObject.containsKey("version")) {
                     System.out.println("file: " + file + " does not have a version");
-                    jsonObjectBuilder.add("version", "4.0.1");
+                    jsonObjectBuilder.add("version", "4.1.0");
                 }
 
                 jsonObject = jsonObjectBuilder.build();
