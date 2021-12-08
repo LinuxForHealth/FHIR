@@ -7,7 +7,6 @@
 package com.ibm.fhir.schema.app.util;
 
 import java.io.File;
-import java.io.PrintStream;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.security.SecureRandom;
@@ -38,114 +37,11 @@ public final class CommonUtil {
     // Random generator for new tenant keys and salts
     private static final SecureRandom random = new SecureRandom();
 
-    /***
-     * prints a brief menu to the standard out showing the usage.
-     */
+
     public static void printUsage() {
-        PrintStream ps = System.err;
-        ps.println("Usage: ");
 
-        // Properties File
-        ps.println("--prop-file path-to-property-file");
-        ps.println(" * loads the properties from a file");
 
-        // Schema Name
-        ps.println("--schema-name schema-name");
-        ps.println(" * uses the schema as specified, must be valid.");
 
-        // Grant Permissions to a valid username
-        ps.println("--grant-to username");
-        ps.println(" * uses the user as specified, must be valid.");
-        ps.println(" * and grants permission to the username");
-
-        // Add Tenant Key
-        ps.println("--add-tenant-key tenant-key");
-        ps.println(" * adds a tenant-key");
-
-        // Updates the Sotred Procedure for a Tenant
-        ps.println("--update-proc");
-        ps.println(" * updates the stored procedure for a specific tenant");
-
-        // Checks feature compatiblility
-        ps.println("--check-compatibility");
-        ps.println(" * checks feature compatibility ");
-
-        // Drop the Admin Schema
-        ps.println("--drop-admin");
-        ps.println(" * drops the admin schema ");
-
-        // Test Tenant
-        ps.println("--test-tenant tenantName");
-        ps.println(" * used to test with tenantName");
-
-        // Tenant Key
-        ps.println("--tenant-key tenantKey");
-        ps.println(" * uses the tenant-key in the queries");
-
-        // Tenant Key File
-        ps.println("--tenant-key-file tenant-key-file-location");
-        ps.println(" * sets the tenant key file location");
-
-        // Update Schema action
-        ps.println("--update-schema");
-        ps.println(" * deploy or update the schema set by '--schema-name'");
-
-        // Create Schema action
-        ps.println("--create-schemas");
-        ps.println(" * create the database schemas for batch, oauth, and the fhir schema set by '--schema-name'");
-
-        // Drop Schema action
-        ps.println("--drop-schema-fhir");
-        ps.println(" * drop the schema set by '--schema-name'");
-
-        // Drop Schema action
-        ps.println("--drop-schema-batch");
-        ps.println(" * drop the db schema used by liberty's java-batch feature");
-
-        // Drop Schema action
-        ps.println("--drop-schema-oauth");
-        ps.println(" * drop the db schema used by liberty's oauth/openid connect features");
-
-        // Uses a specified poolsize
-        ps.println("--pool-size poolSize");
-        ps.println(" * poolsize used with the database actions ");
-
-        // Property used to connect
-        ps.println("--prop name=value");
-        ps.println(" * name=value that is passed in on the commandline  ");
-
-        // Confirms dropping of the schema
-        ps.println("--confirm-drop");
-        ps.println(" * confirms the dropping of a schema");
-
-        // Allocates Tenant
-        ps.println("--allocate-tenant");
-        ps.println(" * allocates a tenant");
-
-        // Drops a Tenant
-        ps.println("--drop-tenant tenantName");
-        ps.println(" * (phase 1) drops the tenant given the tenantName");
-
-        // Drops detached partition tables
-        ps.println("--drop-detached tenantName");
-        ps.println(" * (phase 2) drops the detached tenant partition tables given the tenantName");
-
-        // Deletes tenant meta data
-        ps.println("--delete-tenant-meta tenantName");
-        ps.println(" * deletes tenant metadata given the tenantName");
-
-        ps.println("--list-tenants");
-        ps.println(" * fetches list of tenants and current status");
-
-        ps.println("--revoke-all-tenant-keys");
-        ps.println(" * revokes the all of the keys for the specified tenant");
-
-        ps.println("--revoke-tenant-key");
-        ps.println(" * revokes the key for the specified tenant and tenant key");
-
-        // Dry Run functionality
-        ps.println("--dry-run ");
-        ps.println(" * simulates the actions of the actions that change the datastore");
     }
 
     /**
