@@ -1,0 +1,48 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "contract-action",
+    "meta": {
+        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fm"
+        }
+    ],
+    "url": "http://hl7.org/fhir/contract-action",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.0"
+        }
+    ],
+    "version": "4.1.0",
+    "name": "ContractActionCodes",
+    "title": "Contract Action Codes",
+    "status": "draft",
+    "experimental": false,
+    "description": "This value set includes sample Contract Action codes.",
+    "copyright": "This is an example set.",
+    "caseSensitive": true,
+    "content": "complete",
+    "concept": [
+        {
+            "code": "action-a",
+            "display": "Action A",
+            "definition": "Definition for Action A"
+        },
+        {
+            "code": "action-b",
+            "display": "Action B",
+            "definition": "Definition for Action B"
+        }
+    ]
+}

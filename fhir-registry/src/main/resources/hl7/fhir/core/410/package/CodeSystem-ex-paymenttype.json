@@ -1,0 +1,48 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "ex-paymenttype",
+    "meta": {
+        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fm"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/ex-paymenttype",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1181"
+        }
+    ],
+    "version": "4.1.0",
+    "name": "PaymentTypeCodes",
+    "title": "Payment Type Codes",
+    "status": "draft",
+    "experimental": false,
+    "description": "This value set includes a smattering of Payment Type codes.",
+    "copyright": "This is an example set.",
+    "caseSensitive": true,
+    "content": "complete",
+    "concept": [
+        {
+            "code": "complete",
+            "display": "Complete",
+            "definition": "Complete (final) payment of the benefit under the Claim less any adjustments."
+        },
+        {
+            "code": "partial",
+            "display": "Partial",
+            "definition": "Partial payment of the benefit under the Claim less any adjustments."
+        }
+    ]
+}

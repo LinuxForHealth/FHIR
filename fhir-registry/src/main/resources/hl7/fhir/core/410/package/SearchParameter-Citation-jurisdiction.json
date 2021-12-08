@@ -1,0 +1,44 @@
+{
+    "resourceType": "SearchParameter",
+    "id": "Citation-jurisdiction",
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        }
+    ],
+    "url": "http://hl7.org/fhir/SearchParameter/Citation-jurisdiction",
+    "version": "4.1.0",
+    "name": "jurisdiction",
+    "status": "draft",
+    "experimental": false,
+    "date": "2021-12-06T18:53:36Z",
+    "publisher": "Health Level Seven International (Clinical Decision Support)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        },
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/dss/index.cfm"
+                }
+            ]
+        }
+    ],
+    "description": "Intended jurisdiction for the citation",
+    "code": "jurisdiction",
+    "base": [
+        "Citation"
+    ],
+    "type": "token",
+    "expression": "Citation.jurisdiction",
+    "xpath": "f:Citation/f:jurisdiction",
+    "xpathUsage": "normal"
+}

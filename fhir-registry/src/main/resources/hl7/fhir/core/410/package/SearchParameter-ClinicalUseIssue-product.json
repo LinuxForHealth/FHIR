@@ -1,0 +1,53 @@
+{
+    "resourceType": "SearchParameter",
+    "id": "ClinicalUseIssue-product",
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        }
+    ],
+    "url": "http://hl7.org/fhir/SearchParameter/ClinicalUseIssue-product",
+    "version": "4.1.0",
+    "name": "product",
+    "status": "draft",
+    "experimental": false,
+    "date": "2021-12-06T18:53:36Z",
+    "publisher": "Health Level Seven International (Biomedical Research and Regulation)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        },
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/rcrim/index.cfm"
+                }
+            ]
+        }
+    ],
+    "description": "The medicinal product for which this is a clinical usage issue",
+    "code": "product",
+    "base": [
+        "ClinicalUseIssue"
+    ],
+    "type": "reference",
+    "expression": "ClinicalUseIssue.subject.where(resolve() is MedicinalProductDefinition)",
+    "xpath": "f:ClinicalUseIssue/f:subject",
+    "xpathUsage": "normal",
+    "target": [
+        "MedicinalProductDefinition",
+        "Device",
+        "Medication",
+        "DeviceDefinition",
+        "PlanDefinition",
+        "Substance",
+        "ActivityDefinition"
+    ]
+}

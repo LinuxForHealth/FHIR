@@ -1,0 +1,107 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "action-code",
+    "meta": {
+        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "cds"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "draft"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/action-code",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.0"
+        }
+    ],
+    "version": "4.1.0",
+    "name": "ActionCode",
+    "title": "ActionCode",
+    "status": "draft",
+    "experimental": false,
+    "date": "2020-12-28T16:55:11+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Provides examples of actions to be performed.",
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/action-code",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "send-message",
+            "display": "Send a message",
+            "definition": "The action indicates that a particular message should be sent to a participant in the process."
+        },
+        {
+            "code": "collect-information",
+            "display": "Collect information",
+            "definition": "The action indicates that information should be collected from a participant in the process."
+        },
+        {
+            "code": "prescribe-medication",
+            "display": "Prescribe a medication",
+            "definition": "The action indicates that a particular medication should be prescribed to the patient."
+        },
+        {
+            "code": "recommend-immunization",
+            "display": "Recommend an immunization",
+            "definition": "The action indicates that a particular immunization should be performed."
+        },
+        {
+            "code": "order-service",
+            "display": "Order a service",
+            "definition": "The action indicates that a particular service should be provided."
+        },
+        {
+            "code": "propose-diagnosis",
+            "display": "Propose a diagnosis",
+            "definition": "The action indicates that a particular diagnosis should be proposed."
+        },
+        {
+            "code": "record-detected-issue",
+            "display": "Record a detected issue",
+            "definition": "The action indicates that a particular detected issue should be recorded."
+        },
+        {
+            "code": "record-inference",
+            "display": "Record an inference",
+            "definition": "The action indicates that a particular inference should be recorded."
+        },
+        {
+            "code": "report-flag",
+            "display": "Report a flag",
+            "definition": "The action indicates that a particular flag should be reported."
+        }
+    ]
+}

@@ -1,0 +1,132 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "artifact-contribution-type",
+    "meta": {
+        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "cds"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/artifact-contribution-type",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1505"
+        }
+    ],
+    "version": "4.1.0",
+    "name": "ArtifactContributionType",
+    "title": "ArtifactContributionType",
+    "status": "draft",
+    "experimental": false,
+    "date": "2020-12-28T16:55:11+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Citation contribution.",
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/artifact-contribution-type",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "conceptualization",
+            "display": "Conceptualization",
+            "definition": "Conceptualization (see https://jats4r.org/credit-taxonomy)."
+        },
+        {
+            "code": "data-curation",
+            "display": "Data curation",
+            "definition": "Data curation (see https://jats4r.org/credit-taxonomy)."
+        },
+        {
+            "code": "formal-analysis",
+            "display": "Formal analysis",
+            "definition": "Formal analysis (see https://jats4r.org/credit-taxonomy)."
+        },
+        {
+            "code": "funding-acquisition",
+            "display": "Funding acquisition",
+            "definition": "Funding acquisition (see https://jats4r.org/credit-taxonomy)."
+        },
+        {
+            "code": "investigation",
+            "display": "Investigation",
+            "definition": "Investigation (see https://jats4r.org/credit-taxonomy)."
+        },
+        {
+            "code": "methodology",
+            "display": "Methodology",
+            "definition": "Methodology (see https://jats4r.org/credit-taxonomy)."
+        },
+        {
+            "code": "project-administration",
+            "display": "Project administration",
+            "definition": "Project administration (see https://jats4r.org/credit-taxonomy)."
+        },
+        {
+            "code": "resources",
+            "display": "Resources",
+            "definition": "Resources (see https://jats4r.org/credit-taxonomy)."
+        },
+        {
+            "code": "software",
+            "display": "Software",
+            "definition": "Software (see https://jats4r.org/credit-taxonomy)."
+        },
+        {
+            "code": "supervision",
+            "display": "Supervision",
+            "definition": "Supervision (see https://jats4r.org/credit-taxonomy)."
+        },
+        {
+            "code": "validation",
+            "display": "Validation",
+            "definition": "Validation (see https://jats4r.org/credit-taxonomy)."
+        },
+        {
+            "code": "visualization",
+            "display": "Visualization",
+            "definition": "Visualization (see https://jats4r.org/credit-taxonomy)."
+        },
+        {
+            "code": "writing-original-draft",
+            "display": "Writing - original draft",
+            "definition": "Writing - original draft (see https://jats4r.org/credit-taxonomy)."
+        },
+        {
+            "code": "writing-review-editing",
+            "display": "Writing - review & editing",
+            "definition": "Writing - review & editing (see https://jats4r.org/credit-taxonomy)."
+        }
+    ]
+}
